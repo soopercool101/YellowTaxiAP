@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35111.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YellowTaxiAP", "YellowTaxiAP.csproj", "{3DB51540-E716-41DA-A571-6D64E42483E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3DB51540-E716-41DA-A571-6D64E42483E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB51540-E716-41DA-A571-6D64E42483E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB51540-E716-41DA-A571-6D64E42483E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB51540-E716-41DA-A571-6D64E42483E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A08EB008-7F41-4FCA-9BC8-D5F757EE82D0}
+	EndGlobalSection
+EndGlobal
