@@ -10,8 +10,8 @@ namespace YellowTaxiAP;
 [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
 public class Plugin : BaseUnityPlugin
 {
-    public const string PluginGUID = "com.yourName.projectName";
-    public const string PluginName = "projectName";
+    public const string PluginGUID = "com.soopercool101.YellowTaxiAP";
+    public const string PluginName = "YellowTaxiAP";
     public const string PluginVersion = "0.1.0";
 
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
