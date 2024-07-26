@@ -1,11 +1,16 @@
-﻿namespace YellowTaxiAP.Managers
+﻿using UnityEngine;
+
+namespace YellowTaxiAP.Managers
 {
     public class PlayerManager
     {
         public bool AP_MoveRando => true;
-        public int AP_BoostLevel => AP_MoveRando ? 0 : 2;
-        public int AP_JumpLevel => AP_MoveRando ? 0 : 2;
-        public bool AP_FlipAttackEnabled => AP_MoveRando ? false : true;
+        public int AP_BoostLevel => AP_MoveRando ? boost_level : 2;
+        private int boost_level = 0;
+        public int AP_JumpLevel => AP_MoveRando ? jump_level : 2;
+        private int jump_level = 0;
+        public bool AP_FlipAttackEnabled => AP_MoveRando ? flip_enabled : true;
+        private bool flip_enabled = false;
 
         public PlayerManager()
         {
@@ -19,7 +24,7 @@
 
         private void PlayerScript_Update_AP(On.PlayerScript.orig_Update orig, PlayerScript self)
         {
-            if (AP_BoostLevel < 1 && self.flipOWill_FlipTimer - (double)Tick.Time < 0.0)
+            if (!self.targettedFlipPowerup && AP_BoostLevel < 1 && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time < 0.0)
             {
                 self.flipOWill_FlipTimer -= Tick.Time * 10; // Prevents regular boost from working
             }
@@ -32,6 +37,31 @@
             {
                 DisableFlipOWillSpinAttack(self);
             }
+#if DEBUG
+            if (Input.GetKeyDown(KeyCode.Minus) && boost_level > 0)
+            {
+                Plugin.BepinLogger.LogMessage($"Flip-O-Will Boost Level lowered to {--boost_level}");
+            }
+            if (Input.GetKeyDown(KeyCode.Equals) && boost_level < 2)
+            {
+                Plugin.BepinLogger.LogMessage($"Flip-O-Will Boost Level increased to {++boost_level}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.KeypadMinus) && jump_level > 0)
+            {
+                Plugin.BepinLogger.LogMessage($"Flip-O-Will Jump Level lowered to {--jump_level}");
+            }
+            if (Input.GetKeyDown(KeyCode.KeypadPlus) && jump_level < 2)
+            {
+                Plugin.BepinLogger.LogMessage($"Flip-O-Will Jump Level increased to {++jump_level}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                flip_enabled = !flip_enabled;
+                Plugin.BepinLogger.LogMessage($"Flip-O-Will Spin Attack {(flip_enabled ? "enabled" : "disabled")}");
+            }
+#endif
         }
 
         private void FlipOWillBackFlip_AP(On.PlayerScript.orig_BackFlip orig, PlayerScript self)
@@ -93,7 +123,7 @@
 #endif
                 return AP_FlipAttackEnabled && AP_BoostLevel > 0 && orig(self);
             }
-            return AP_BoostLevel > 0 && orig(self);
+            return (self.targettedFlipPowerup || AP_BoostLevel > 0) && orig(self);
         }
     }
 }
