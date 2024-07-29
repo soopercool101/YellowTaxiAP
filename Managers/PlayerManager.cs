@@ -24,7 +24,7 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Update_AP(On.PlayerScript.orig_Update orig, PlayerScript self)
         {
-            if (!self.targettedFlipPowerup && AP_BoostLevel < 1 && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time < 0.0)
+            if (AP_BoostLevel < 1 && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time < 0.0)
             {
                 self.flipOWill_FlipTimer -= Tick.Time * 10; // Prevents regular boost from working
             }
@@ -36,6 +36,12 @@ namespace YellowTaxiAP.Managers
             if (!AP_FlipAttackEnabled)
             {
                 DisableFlipOWillSpinAttack(self);
+            }
+
+            if (AP_BoostLevel < 1)
+            {
+                self.targettedFlipPowerup = null;
+                self.flipTargetLineRenderer.enabled = false;
             }
 #if DEBUG
             if (Input.GetKeyDown(KeyCode.Minus) && boost_level > 0)
@@ -123,7 +129,7 @@ namespace YellowTaxiAP.Managers
 #endif
                 return AP_FlipAttackEnabled && AP_BoostLevel > 0 && orig(self);
             }
-            return (self.targettedFlipPowerup || AP_BoostLevel > 0) && orig(self);
+            return AP_BoostLevel > 0 && orig(self);
         }
     }
 }
