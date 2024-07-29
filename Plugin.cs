@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Logging;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Utils;
@@ -21,6 +21,7 @@ public class Plugin : BaseUnityPlugin
     public static Plugin Instance;
 
     public PlayerManager PlayerControlHook;
+    public MenuManager MenuHook;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class Plugin : BaseUnityPlugin
             self.ModEnableSet(true);
             orig(self);
             PlayerControlHook = new PlayerManager();
+            MenuHook = new MenuManager();
         };
     }
 
