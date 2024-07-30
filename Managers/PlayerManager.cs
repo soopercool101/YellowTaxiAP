@@ -4,13 +4,13 @@ namespace YellowTaxiAP.Managers
 {
     public class PlayerManager
     {
-        public bool AP_MoveRando => true;
-        public int AP_BoostLevel => AP_MoveRando ? boost_level : 2;
-        private int boost_level = 0;
-        public int AP_JumpLevel => AP_MoveRando ? jump_level : 2;
-        private int jump_level = 0;
-        public bool AP_FlipAttackEnabled => AP_MoveRando ? flip_enabled : true;
-        private bool flip_enabled = false;
+        public static bool AP_MoveRando => true;
+        public static int AP_BoostLevel => AP_MoveRando ? boost_level : 2;
+        public static int boost_level = 0;
+        public static int AP_JumpLevel => AP_MoveRando ? jump_level : 2;
+        public static int jump_level = 0;
+        public static bool AP_FlipAttackEnabled => AP_MoveRando ? flip_enabled : true;
+        public static bool flip_enabled = false;
 
         public PlayerManager()
         {
@@ -43,47 +43,6 @@ namespace YellowTaxiAP.Managers
                 self.targettedFlipPowerup = null;
                 self.flipTargetLineRenderer.enabled = false;
             }
-#if DEBUG
-            if (Input.GetKeyDown(KeyCode.Minus) && boost_level > 0)
-            {
-                Plugin.BepinLogger.LogMessage($"Flip-O-Will Boost Level lowered to {--boost_level}");
-            }
-            if (Input.GetKeyDown(KeyCode.Equals) && boost_level < 2)
-            {
-                Plugin.BepinLogger.LogMessage($"Flip-O-Will Boost Level increased to {++boost_level}");
-            }
-
-            if (Input.GetKeyDown(KeyCode.KeypadMinus) && jump_level > 0)
-            {
-                Plugin.BepinLogger.LogMessage($"Flip-O-Will Jump Level lowered to {--jump_level}");
-            }
-            if (Input.GetKeyDown(KeyCode.KeypadPlus) && jump_level < 2)
-            {
-                Plugin.BepinLogger.LogMessage($"Flip-O-Will Jump Level increased to {++jump_level}");
-            }
-
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-                flip_enabled = !flip_enabled;
-                Plugin.BepinLogger.LogMessage($"Flip-O-Will Spin Attack {(flip_enabled ? "enabled" : "disabled")}");
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                CollectableManager.GoldenSpringActive = !CollectableManager.GoldenSpringActive;
-                Plugin.BepinLogger.LogMessage($"Golden Spring {(CollectableManager.GoldenSpringActive ? "enabled" : "disabled")}");
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                CollectableManager.GoldenPropellerActive = !CollectableManager.GoldenPropellerActive;
-                Plugin.BepinLogger.LogMessage($"Golden Propeller {(CollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                OrangeSwitchManager.OrangeSwitchActive = !OrangeSwitchManager.OrangeSwitchActive;
-                Plugin.BepinLogger.LogMessage($"Orange Switch {(OrangeSwitchManager.OrangeSwitchActive ? "enabled" : "disabled")}");
-            }
-#endif
         }
 
         private void FlipOWillBackFlip_AP(On.PlayerScript.orig_BackFlip orig, PlayerScript self)

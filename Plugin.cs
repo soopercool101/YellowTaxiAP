@@ -45,6 +45,52 @@ public class Plugin : BaseUnityPlugin
             OrangeSwitchHook = new OrangeSwitchManager();
             MenuHook = new MenuManager();
         };
+#if DEBUG
+        On.ModMaster.Update += (orig, self) =>
+        {
+            if (Input.GetKeyDown(KeyCode.Minus) && PlayerManager.boost_level > 0)
+            {
+                BepinLogger.LogMessage($"Flip-O-Will Boost Level lowered to {--PlayerManager.boost_level}");
+            }
+            if (Input.GetKeyDown(KeyCode.Equals) && PlayerManager.boost_level < 2)
+            {
+                BepinLogger.LogMessage($"Flip-O-Will Boost Level increased to {++PlayerManager.boost_level}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.KeypadMinus) && PlayerManager.jump_level > 0)
+            {
+                BepinLogger.LogMessage($"Flip-O-Will Jump Level lowered to {--PlayerManager.jump_level}");
+            }
+            if (Input.GetKeyDown(KeyCode.KeypadPlus) && PlayerManager.jump_level < 2)
+            {
+                BepinLogger.LogMessage($"Flip-O-Will Jump Level increased to {++PlayerManager.jump_level}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                PlayerManager.flip_enabled = !PlayerManager.flip_enabled;
+                BepinLogger.LogMessage($"Flip-O-Will Spin Attack {(PlayerManager.flip_enabled ? "enabled" : "disabled")}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                CollectableManager.GoldenSpringActive = !CollectableManager.GoldenSpringActive;
+                BepinLogger.LogMessage($"Golden Spring {(CollectableManager.GoldenSpringActive ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                CollectableManager.GoldenPropellerActive = !CollectableManager.GoldenPropellerActive;
+                BepinLogger.LogMessage($"Golden Propeller {(CollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                OrangeSwitchManager.OrangeSwitchActive = !OrangeSwitchManager.OrangeSwitchActive;
+                BepinLogger.LogMessage($"Orange Switch {(OrangeSwitchManager.OrangeSwitchActive ? "enabled" : "disabled")}");
+            }
+
+            orig(self);
+        };
+#endif
     }
 
     private void OnGUI()
