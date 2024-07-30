@@ -67,6 +67,17 @@ namespace YellowTaxiAP.Managers
                 flip_enabled = !flip_enabled;
                 Plugin.BepinLogger.LogMessage($"Flip-O-Will Spin Attack {(flip_enabled ? "enabled" : "disabled")}");
             }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                CollectableManager.GoldenSpringActive = !CollectableManager.GoldenSpringActive;
+                Plugin.BepinLogger.LogMessage($"Golden Spring {(CollectableManager.GoldenSpringActive ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                CollectableManager.GoldenPropellerActive = !CollectableManager.GoldenPropellerActive;
+                Plugin.BepinLogger.LogMessage($"Golden Propeller {(CollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
+            }
 #endif
         }
 

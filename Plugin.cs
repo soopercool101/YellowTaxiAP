@@ -21,6 +21,7 @@ public class Plugin : BaseUnityPlugin
     public static Plugin Instance;
 
     public PlayerManager PlayerControlHook;
+    public CollectableManager CollectableHook;
     public MenuManager MenuHook;
 
     private void Awake()
@@ -39,6 +40,7 @@ public class Plugin : BaseUnityPlugin
             self.ModEnableSet(true);
             orig(self);
             PlayerControlHook = new PlayerManager();
+            CollectableHook = new CollectableManager();
             MenuHook = new MenuManager();
         };
     }
