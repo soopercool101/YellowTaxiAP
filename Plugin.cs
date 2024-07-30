@@ -22,6 +22,7 @@ public class Plugin : BaseUnityPlugin
 
     public PlayerManager PlayerControlHook;
     public CollectableManager CollectableHook;
+    public OrangeSwitchManager OrangeSwitchHook;
     public MenuManager MenuHook;
 
     private void Awake()
@@ -41,6 +42,7 @@ public class Plugin : BaseUnityPlugin
             orig(self);
             PlayerControlHook = new PlayerManager();
             CollectableHook = new CollectableManager();
+            OrangeSwitchHook = new OrangeSwitchManager();
             MenuHook = new MenuManager();
         };
     }

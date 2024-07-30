@@ -78,6 +78,11 @@ namespace YellowTaxiAP.Managers
                 CollectableManager.GoldenPropellerActive = !CollectableManager.GoldenPropellerActive;
                 Plugin.BepinLogger.LogMessage($"Golden Propeller {(CollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
             }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                OrangeSwitchManager.OrangeSwitchActive = !OrangeSwitchManager.OrangeSwitchActive;
+                Plugin.BepinLogger.LogMessage($"Orange Switch {(OrangeSwitchManager.OrangeSwitchActive ? "enabled" : "disabled")}");
+            }
 #endif
         }
 
