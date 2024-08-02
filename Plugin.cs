@@ -1,5 +1,6 @@
 using BepInEx;
 using BepInEx.Logging;
+using I2.Loc;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Utils;
 using UnityEngine;
@@ -44,7 +45,9 @@ public class Plugin : BaseUnityPlugin
             CollectableHook = new CollectableManager();
             OrangeSwitchHook = new OrangeSwitchManager();
             MenuHook = new MenuManager();
+            self.gameObject.AddComponent<RealTimeTranslation>(); // Hijack this unused component to render GUI
         };
+        On.I2.Loc.RealTimeTranslation.OnGUI += RealTimeTranslation_OnGUI;
 #if DEBUG
         On.ModMaster.Update += (orig, self) =>
         {
@@ -87,10 +90,19 @@ public class Plugin : BaseUnityPlugin
                 OrangeSwitchManager.OrangeSwitchActive = !OrangeSwitchManager.OrangeSwitchActive;
                 BepinLogger.LogMessage($"Orange Switch {(OrangeSwitchManager.OrangeSwitchActive ? "enabled" : "disabled")}");
             }
+            if (Input.GetKeyDown(KeyCode.BackQuote))
+            {
+                self.GetComponent<RealTimeTranslation>().enabled = !self.GetComponent<RealTimeTranslation>().enabled;
+            }
 
             orig(self);
         };
 #endif
+    }
+
+    private void RealTimeTranslation_OnGUI(On.I2.Loc.RealTimeTranslation.orig_OnGUI orig, RealTimeTranslation self)
+    {
+        OnGUI();
     }
 
     private void OnGUI()
@@ -104,7 +116,7 @@ public class Plugin : BaseUnityPlugin
         if (ArchipelagoClient.Authenticated)
         {
             // if your game doesn't usually show the cursor this line may be necessary
-            // Cursor.visible = false;
+            Cursor.visible = false;
 
             statusMessage = " Status: Connected";
             GUI.Label(new Rect(16, 50, 300, 20), APDisplayInfo + statusMessage);
@@ -112,7 +124,7 @@ public class Plugin : BaseUnityPlugin
         else
         {
             // if your game doesn't usually show the cursor this line may be necessary
-            // Cursor.visible = true;
+            Cursor.visible = true;
 
             statusMessage = " Status: Disconnected";
             GUI.Label(new Rect(16, 50, 300, 20), APDisplayInfo + statusMessage);
