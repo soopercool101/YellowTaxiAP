@@ -1,14 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net46</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>YellowTaxiAP</AssemblyName>
-        <Description>Example Archipelago Plugin</Description>
-        <Version>1.0.0</Version>
+        <Description>Yellow Taxi AP</Description>
+        <Version>0.1.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <!-- you may need this for getting the multiclient dll to output for .net 6 and netstandard 2.0 -->
-        <!--        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
@@ -54,9 +54,6 @@
       </Reference>
       <Reference Include="MMHOOK_Assembly-CSharp">
         <HintPath>S:\SteamLibrary\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
-      </Reference>
-      <Reference Include="netstandard">
-        <HintPath>S:\SteamLibrary\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\netstandard.dll</HintPath>
       </Reference>
       <Reference Include="Unity.TextMeshPro">
         <HintPath>S:\SteamLibrary\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Unity.TextMeshPro.dll</HintPath>
