@@ -1,6 +1,5 @@
 using BepInEx;
 using BepInEx.Logging;
-using I2.Loc;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Utils;
 using UnityEngine;
@@ -13,18 +12,27 @@ public class Plugin : BaseUnityPlugin
 {
     public const string PluginGUID = "com.soopercool101.YellowTaxiAP";
     public const string PluginName = "YellowTaxiAP";
-    public const string PluginVersion = "0.1.0";
+    public const string PluginVersion = "0.0.1";
 
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
-    private const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
+    public const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
     public static ManualLogSource BepinLogger;
     public static ArchipelagoClient ArchipelagoClient;
     public static Plugin Instance;
+    public static bool DeathLinkInProgress = false;
 
-    public PlayerManager PlayerControlHook;
-    public CollectableManager CollectableHook;
-    public OrangeSwitchManager OrangeSwitchHook;
-    public MenuManager MenuHook;
+    public APPlayerManager PlayerControlHook;
+    public APCollectableManager CollectableHook;
+    public APOrangeSwitchManager OrangeSwitchHook;
+    public APRatManager RatHook;
+    public APMenuManager MenuHook;
+
+    public bool AllowLaser = true;
+    public static void DoubleLog(string message)
+    {
+        BepinLogger.LogMessage(message);
+        ArchipelagoConsole.LogMessage(message);
+    }
 
     private void Awake()
     {
@@ -41,111 +49,122 @@ public class Plugin : BaseUnityPlugin
         {
             self.ModEnableSet(true);
             orig(self);
-            PlayerControlHook = new PlayerManager();
-            CollectableHook = new CollectableManager();
-            OrangeSwitchHook = new OrangeSwitchManager();
-            MenuHook = new MenuManager();
-            self.gameObject.AddComponent<RealTimeTranslation>(); // Hijack this unused component to render GUI
+            PlayerControlHook = new APPlayerManager();
+            CollectableHook = new APCollectableManager();
+            OrangeSwitchHook = new APOrangeSwitchManager();
+            RatHook = new APRatManager();
+            MenuHook = new APMenuManager();
+            self.gameObject.AddComponent<ArchipelagoRenderer>();
         };
-        On.I2.Loc.RealTimeTranslation.OnGUI += RealTimeTranslation_OnGUI;
-#if DEBUG
-        On.ModMaster.Update += (orig, self) =>
+        On.GigaMorioScript.Update += (orig, self) =>
         {
-            if (Input.GetKeyDown(KeyCode.Minus) && PlayerManager.boost_level > 0)
+            if (!AllowLaser)
             {
-                BepinLogger.LogMessage($"Flip-O-Will Boost Level lowered to {--PlayerManager.boost_level}");
+                for (int index = self.myLasers.Count - 1; index >= 0; --index)
+                {
+                    Pool.Destroy(self.myLasers[index].gameObject);
+                    self.myLasers.RemoveAt(index);
+                }
+                self.laserCD = self.laserCooldown;
+                self.myAnimator.ResetTrigger("ChargeLaser");
+                self.myAnimator.SetTrigger("LaserFireEnd");
             }
-            if (Input.GetKeyDown(KeyCode.Equals) && PlayerManager.boost_level < 2)
+            orig(self);
+        };
+
+        On.ModMaster.OnPlayerDie += (orig, self) =>
+        {
+            orig(self);
+            if (!DeathLinkInProgress)
             {
-                BepinLogger.LogMessage($"Flip-O-Will Boost Level increased to {++PlayerManager.boost_level}");
+                ArchipelagoClient.DeathLinkHandler?.KillPlayer();
+                DoubleLog("Death Link Sent");
             }
 
-            if (Input.GetKeyDown(KeyCode.KeypadMinus) && PlayerManager.jump_level > 0)
+            DeathLinkInProgress = false;
+        };
+
+        On.ModMaster.Update += (orig, self) =>
+        {
+#if DEBUG
+            if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.boost_level > 0)
             {
-                BepinLogger.LogMessage($"Flip-O-Will Jump Level lowered to {--PlayerManager.jump_level}");
+                DoubleLog($"Flip-O-Will Boost Level lowered to {--APPlayerManager.boost_level}");
             }
-            if (Input.GetKeyDown(KeyCode.KeypadPlus) && PlayerManager.jump_level < 2)
+            if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.boost_level < 2)
             {
-                BepinLogger.LogMessage($"Flip-O-Will Jump Level increased to {++PlayerManager.jump_level}");
+                DoubleLog($"Flip-O-Will Boost Level increased to {++APPlayerManager.boost_level}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.jump_level > 0)
+            {
+                DoubleLog($"Flip-O-Will Jump Level lowered to {--APPlayerManager.jump_level}");
+            }
+            if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.jump_level < 2)
+            {
+                DoubleLog($"Flip-O-Will Jump Level increased to {++APPlayerManager.jump_level}");
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                PlayerManager.flip_enabled = !PlayerManager.flip_enabled;
-                BepinLogger.LogMessage($"Flip-O-Will Spin Attack {(PlayerManager.flip_enabled ? "enabled" : "disabled")}");
+                APPlayerManager.flip_enabled = !APPlayerManager.flip_enabled;
+                DoubleLog($"Flip-O-Will Spin Attack {(APPlayerManager.flip_enabled ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
+            {
+                GameplayMaster.instance.useGameTimer = !GameplayMaster.instance.useGameTimer;
+                DoubleLog($"Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Comma))
+            {
+                AllowLaser = !AllowLaser;
+                DoubleLog($"Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}");
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
-                CollectableManager.GoldenSpringActive = !CollectableManager.GoldenSpringActive;
-                BepinLogger.LogMessage($"Golden Spring {(CollectableManager.GoldenSpringActive ? "enabled" : "disabled")}");
+                APCollectableManager.GoldenSpringActive = !APCollectableManager.GoldenSpringActive;
+                DoubleLog($"Golden Spring {(APCollectableManager.GoldenSpringActive ? "enabled" : "disabled")}");
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
-                CollectableManager.GoldenPropellerActive = !CollectableManager.GoldenPropellerActive;
-                BepinLogger.LogMessage($"Golden Propeller {(CollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
+                APCollectableManager.GoldenPropellerActive = !APCollectableManager.GoldenPropellerActive;
+                DoubleLog($"Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
             {
-                OrangeSwitchManager.OrangeSwitchActive = !OrangeSwitchManager.OrangeSwitchActive;
-                BepinLogger.LogMessage($"Orange Switch {(OrangeSwitchManager.OrangeSwitchActive ? "enabled" : "disabled")}");
+                APOrangeSwitchManager.OrangeSwitchActive = !APOrangeSwitchManager.OrangeSwitchActive;
+                DoubleLog($"Orange Switch {(APOrangeSwitchManager.OrangeSwitchActive ? "enabled" : "disabled")}");
             }
-            if (Input.GetKeyDown(KeyCode.BackQuote))
+            if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
             {
-                self.GetComponent<RealTimeTranslation>().enabled = !self.GetComponent<RealTimeTranslation>().enabled;
+                APRatManager.AP_ReceivedRat = !APRatManager.AP_ReceivedRat;
+                if (APRatManager.AP_ReceivedRat)
+                {
+                    RatPersonScript.pickedUp = false;
+                    RatPersonScript.RatPickUp();
+                }
+                else
+                {
+                    UnityEngine.Object.Destroy(RatPlayerScript.instance?.gameObject);
+                }
+                DoubleLog($"Rat {(APRatManager.AP_ReceivedRat ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
+            {
+                DeathLinkInProgress = true;
+                GameplayMaster.instance?.Die();
+                DoubleLog($"Attempting to kill player");
             }
 
+            if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))
+            {
+                ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled =
+                    !ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled;
+                DoubleLog($"Archipelago rendering {(ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled ? "enabled" : "disabled")}");
+            }
+#endif
             orig(self);
         };
-#endif
-    }
-
-    private void RealTimeTranslation_OnGUI(On.I2.Loc.RealTimeTranslation.orig_OnGUI orig, RealTimeTranslation self)
-    {
-        OnGUI();
-    }
-
-    private void OnGUI()
-    {
-        // show the mod is currently loaded in the corner
-        GUI.Label(new Rect(16, 16, 300, 20), ModDisplayInfo);
-        ArchipelagoConsole.OnGUI();
-
-        string statusMessage;
-        // show the Archipelago Version and whether we're connected or not
-        if (ArchipelagoClient.Authenticated)
-        {
-            // if your game doesn't usually show the cursor this line may be necessary
-            Cursor.visible = false;
-
-            statusMessage = " Status: Connected";
-            GUI.Label(new Rect(16, 50, 300, 20), APDisplayInfo + statusMessage);
-        }
-        else
-        {
-            // if your game doesn't usually show the cursor this line may be necessary
-            Cursor.visible = true;
-
-            statusMessage = " Status: Disconnected";
-            GUI.Label(new Rect(16, 50, 300, 20), APDisplayInfo + statusMessage);
-            GUI.Label(new Rect(16, 70, 150, 20), "Host: ");
-            GUI.Label(new Rect(16, 90, 150, 20), "Player Name: ");
-            GUI.Label(new Rect(16, 110, 150, 20), "Password: ");
-
-            ArchipelagoClient.ServerData.Uri = GUI.TextField(new Rect(150, 70, 150, 20),
-                ArchipelagoClient.ServerData.Uri);
-            ArchipelagoClient.ServerData.SlotName = GUI.TextField(new Rect(150, 90, 150, 20),
-                ArchipelagoClient.ServerData.SlotName);
-            ArchipelagoClient.ServerData.Password = GUI.TextField(new Rect(150, 110, 150, 20),
-                ArchipelagoClient.ServerData.Password);
-
-            // requires that the player at least puts *something* in the slot name
-            if (GUI.Button(new Rect(16, 130, 100, 20), "Connect") &&
-                !ArchipelagoClient.ServerData.SlotName.IsNullOrWhiteSpace())
-            {
-                ArchipelagoClient.Connect();
-            }
-        }
-        // this is a good place to create and add a bunch of debug buttons
     }
 }

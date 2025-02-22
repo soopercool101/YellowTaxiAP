@@ -19,7 +19,7 @@ public class ArchipelagoClient
     private bool attemptingConnection;
 
     public static ArchipelagoData ServerData = new();
-    private DeathLinkHandler DeathLinkHandler;
+    public static DeathLinkHandler DeathLinkHandler;
     private ArchipelagoSession session;
 
     /// <summary>

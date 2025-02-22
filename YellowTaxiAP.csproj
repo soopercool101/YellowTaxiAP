@@ -8,7 +8,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>latest</LangVersion>
         <!-- you may need this for getting the multiclient dll to output for .net 6 and netstandard 2.0 -->
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
@@ -17,7 +17,7 @@
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\$(TargetFramework)</OutputPath>
+        <OutputPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\plugins\YellowTaxiAP</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
     </PropertyGroup>
@@ -34,10 +34,11 @@
     </Target>
 
     <ItemGroup>
-        <PackageReference Include="Archipelago.MultiClient.Net" Version="6.3.0" />
+        <PackageReference Include="Archipelago.MultiClient.Net" Version="6.5.0" />
         <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
         <PackageReference Include="BepInEx.Core" Version="5.4.21" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
+        <PackageReference Include="com.alwaysintreble.Chauffeur" Version="0.2.0" />
         <PackageReference Include="UnityEngine.Modules" Version="2020.3.48" IncludeAssets="compile" />
     </ItemGroup>
 
@@ -47,16 +48,20 @@
 
     <ItemGroup>
       <Reference Include="Assembly-CSharp">
-        <HintPath>S:\SteamLibrary\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\Assembly-CSharp.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\Assembly-CSharp.dll</HintPath>
+        <Private>False</Private>
       </Reference>
       <Reference Include="Febucci.TextAnimator.Runtime">
-        <HintPath>S:\SteamLibrary\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Febucci.TextAnimator.Runtime.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Febucci.TextAnimator.Runtime.dll</HintPath>
+        <Private>False</Private>
       </Reference>
       <Reference Include="MMHOOK_Assembly-CSharp">
-        <HintPath>S:\SteamLibrary\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
+        <Private>False</Private>
       </Reference>
       <Reference Include="Unity.TextMeshPro">
-        <HintPath>S:\SteamLibrary\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+        <Private>False</Private>
       </Reference>
     </ItemGroup>
 

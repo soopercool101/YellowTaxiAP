@@ -9,7 +9,8 @@ namespace YellowTaxiAP.Utils;
 // shamelessly stolen from oc2-modding https://github.com/toasterparty/oc2-modding/blob/main/OC2Modding/GameLog.cs
 public static class ArchipelagoConsole
 {
-    public static bool Hidden = true;
+    public static bool Hidden = false;
+    public static bool Initialized = false;
 
     private static List<string> logLines = new();
     private static Vector2 scrollView;

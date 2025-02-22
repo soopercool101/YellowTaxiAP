@@ -74,8 +74,9 @@ public class DeathLinkHandler
             var deathLink = deathLinks.Dequeue();
             var cause = deathLink.Cause.IsNullOrWhiteSpace() ? GetDeathLinkCause(deathLink) : deathLink.Cause;
 
-            //TODO kill the player
             Plugin.BepinLogger.LogMessage(cause);
+            Plugin.DeathLinkInProgress = true;
+            GameplayMaster.instance.Die();
         }
         catch (Exception e)
         {
@@ -96,7 +97,7 @@ public class DeathLinkHandler
     /// <summary>
     /// called to send a death link to the multiworld
     /// </summary>
-    public void SendDeathLink()
+    public void SendDeathLink(string cause = "Time Out!")
     {
         try
         {
@@ -104,8 +105,7 @@ public class DeathLinkHandler
 
             Plugin.BepinLogger.LogMessage("sharing your death...");
 
-            // add the cause here
-            var linkToSend = new DeathLink(slotName);
+            var linkToSend = new DeathLink(slotName, cause);
 
             service.SendDeathLink(linkToSend);
         }
