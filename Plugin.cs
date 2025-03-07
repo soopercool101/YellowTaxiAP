@@ -1,9 +1,11 @@
 using BepInEx;
 using BepInEx.Logging;
-using YellowTaxiAP.Archipelago;
-using YellowTaxiAP.Utils;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
+using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Managers;
+using YellowTaxiAP.Utils;
 
 namespace YellowTaxiAP;
 
@@ -22,15 +24,21 @@ public class Plugin : BaseUnityPlugin
     public static bool DeathLinkInProgress = false;
 
     public APPlayerManager PlayerControlHook;
+    public APPortalManager PortalHook;
+    public APAreaStateManager AreaStateHook;
+    public APCheckpointManager CheckpointHook;
+    public APHatManager HatHook;
+    public APDialogueManager DialogueHook;
     public APCollectableManager CollectableHook;
     public APOrangeSwitchManager OrangeSwitchHook;
+    public APDestructableManager DestructableHook;
     public APRatManager RatHook;
     public APMenuManager MenuHook;
 
     public bool AllowLaser = true;
     public static void DoubleLog(string message)
     {
-        BepinLogger.LogMessage(message);
+        //BepinLogger.LogMessage(message);
         ArchipelagoConsole.LogMessage(message);
     }
 
@@ -44,7 +52,6 @@ public class Plugin : BaseUnityPlugin
 
         BepinLogger.LogMessage($"{ModDisplayInfo} loaded!");
         ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
-
         On.ModMaster.Start += (orig, self) =>
         {
             self.ModEnableSet(true);
@@ -52,8 +59,14 @@ public class Plugin : BaseUnityPlugin
             PlayerControlHook = new APPlayerManager();
             CollectableHook = new APCollectableManager();
             OrangeSwitchHook = new APOrangeSwitchManager();
+            PortalHook = new APPortalManager();
+            AreaStateHook = new APAreaStateManager();
+            HatHook = new APHatManager();
+            CheckpointHook = new APCheckpointManager();
+            DialogueHook = new APDialogueManager();
             RatHook = new APRatManager();
             MenuHook = new APMenuManager();
+            DestructableHook = new APDestructableManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
         };
         On.GigaMorioScript.Update += (orig, self) =>
@@ -110,6 +123,11 @@ public class Plugin : BaseUnityPlugin
                 APPlayerManager.flip_enabled = !APPlayerManager.flip_enabled;
                 DoubleLog($"Flip-O-Will Spin Attack {(APPlayerManager.flip_enabled ? "enabled" : "disabled")}");
             }
+            if (Input.GetKeyDown(KeyCode.Backslash))
+            {
+                APPlayerManager.glide_enabled = !APPlayerManager.glide_enabled;
+                DoubleLog($"Glide {(APPlayerManager.glide_enabled ? "enabled" : "disabled")}");
+            }
             if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
             {
                 GameplayMaster.instance.useGameTimer = !GameplayMaster.instance.useGameTimer;
@@ -155,6 +173,41 @@ public class Plugin : BaseUnityPlugin
                 DeathLinkInProgress = true;
                 GameplayMaster.instance?.Die();
                 DoubleLog($"Attempting to kill player");
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                ExplosionScript.SpawnNew(PlayerScript.instance.transform.position - new Vector3(0, 3, 0));
+                DoubleLog($"Spawning explosion at player");
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                PlayerScript.instance.propellerUsesLeft = 3;
+                DoubleLog($"Granting Propeller");
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (PlayerScript.instance.invincible)
+                {
+                    PlayerScript.instance.InvincibleStop();
+                    DoubleLog($"Toggling invincibility off");
+                }
+                else
+                {
+                    PlayerScript.instance.InvincibleSet(float.PositiveInfinity);
+                    DoubleLog($"Toggling invincibility on");
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                APAreaStateManager.RocketEnabled = !APAreaStateManager.RocketEnabled;
+                APAreaStateManager.UpdateRocketState();
+                DoubleLog($"Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                APAreaStateManager.MindPasswordReceived = !APAreaStateManager.MindPasswordReceived;
+                APAreaStateManager.UpdateMoriosPasswordState();
+                DoubleLog($"Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}");
             }
 
             if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))

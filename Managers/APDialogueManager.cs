@@ -1,0 +1,291 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Archipelago.MultiClient.Net.Enums;
+using IL.Steamworks.Ugc;
+using UnityEngine;
+using YellowTaxiAP.Archipelago;
+using Object = UnityEngine.Object;
+using Random = System.Random;
+
+namespace YellowTaxiAP.Managers
+{
+    public class APDialogueManager
+    {
+        public static DyslexiaFontController dyslexiaFontControllerInstance;
+        public APDialogueManager()
+        {
+            // Dyslexia Font Controller
+            On.DyslexiaFontController.Awake += (orig, self) =>
+            {
+                dyslexiaFontControllerInstance = self;
+                orig(self);
+            };
+
+            // DialogueScript hooks
+            On.DialogueScript.Start += DialogueScript_Start;
+            On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowDoubleBoostPrompt += DialogueScript_OnShowDoubleBoostPrompt;
+            On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowJumpPrompt += DialogueScript_OnShowJumpPrompt;
+            On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowFlipPrompt += DialogueScript_OnShowFlipPrompt;
+            On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowBackflipPrompt += DialogueScript_OnShowBackflipPrompt;
+            On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowGlidePrompt += DialogueScript_OnShowGlidePrompt;
+            On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowQuickTurnPrompt += DialogueScript_OnShowQuickTurnPrompt;
+            
+            // Morio Dialogue Overrides
+            On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
+            On.PersonScenziatoV2.Update += PersonScenziatoV2_Update;
+            On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
+        }
+
+        /// <summary>
+        /// Normally, Morio will hide the initial gears until he's given the first one.
+        /// This isn't very fun in a multiworld context, and results in only one check prior to an extremely early BK unless single coinsanity is on.
+        ///
+        /// Re-enable the initial gears as needed.
+        /// </summary>
+        private void PersonScenziatoV2_Update(On.PersonScenziatoV2.orig_Update orig, PersonScenziatoV2 self)
+        {
+            orig(self);
+            foreach (var initialGear in self.initialGears)
+            {
+                if (!(initialGear == null) && !initialGear.activeSelf)
+                {
+                    initialGear.SetActive(true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Normally, Morio will not give you your first gear if you already have gears.
+        /// This is bad in a multiworld context.
+        ///
+        /// Better solution later, but for now just always give the gear
+        /// </summary>
+        private void PersonScenziatoV2_ChooseDialogue(On.PersonScenziatoV2.orig_ChooseDialogue orig, PersonScenziatoV2 self)
+        {
+            // TODO: Only set this if the gear location hasn't been checked, otherwise run normal dialogue
+            self.dialoguePickup = self.dialogue_initialNoGears;
+        }
+
+        public string CurrentFont
+        {
+            get
+            {
+                try
+                {
+                    var s = Settings.dyslexiaFontEnabled
+                        ? dyslexiaFontControllerInstance.dyslexicFont.name
+                        : dyslexiaFontControllerInstance.initialFont.name;
+                    return s.Substring(0, s.IndexOf(" Black", StringComparison.Ordinal));
+                }
+                catch
+                {
+                    return "Psycho Taxi 1 SDF";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Keeps the Morio Flip O' Will tutorial in Morio's Island, rather than allowing it to despawn after Flip O' Will is unlocked.
+        /// </summary>
+        private void PersonScenziato_FlipOWillUnlock_Awake(On.PersonScenziato_FlipOWillUnlock.orig_Awake orig, PersonScenziato_FlipOWillUnlock self)
+        {
+            PersonScenziato_FlipOWillUnlock.hasSeenAPlayerDeath = true; // Normally this variable is used to ensure despawning doesn't happen after a death
+            orig(self);
+        }
+
+        private void DialogueScript_OnShowJumpPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowJumpPrompt orig, DialogueScript self)
+        {
+            if (!APPlayerManager.AP_MoveRando)
+            {
+                orig(self);
+            }
+        }
+
+        private void DialogueScript_OnShowQuickTurnPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowQuickTurnPrompt orig, DialogueScript self)
+        {
+            if (!APPlayerManager.AP_MoveRando)
+            {
+                orig(self);
+            }
+        }
+
+        private void DialogueScript_OnShowGlidePrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowGlidePrompt orig, DialogueScript self)
+        {
+            if (!APPlayerManager.AP_MoveRando)
+            {
+                orig(self);
+            }
+        }
+
+        private void DialogueScript_OnShowFlipPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowFlipPrompt orig, DialogueScript self)
+        {
+            if (!APPlayerManager.AP_MoveRando)
+            {
+                orig(self);
+            }
+        }
+
+        private void DialogueScript_OnShowDoubleBoostPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowDoubleBoostPrompt orig, DialogueScript self)
+        {
+            if (!APPlayerManager.AP_MoveRando)
+            {
+                orig(self);
+            }
+        }
+
+        private void DialogueScript_OnShowBackflipPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowBackflipPrompt orig, DialogueScript self)
+        {
+            if (!APPlayerManager.AP_MoveRando)
+            {
+                orig(self);
+            }
+        }
+
+        private void DialogueScript_Start(On.DialogueScript.orig_Start orig, DialogueScript self)
+        {
+            var dialogueCapsule = !DialogueCapsule.dictionary.ContainsKey(self.dialgoueCapsuleKey)
+                ? DialogueCapsule.dictionary["DEFAULT"]
+                : DialogueCapsule.dictionary[self.dialgoueCapsuleKey.ToUpper()];
+            if (dialogueCapsule != null)
+            {
+                Plugin.DoubleLog($"Initiating dialogue with key: {dialogueCapsule.key}");
+                //GUIUtility.systemCopyBuffer = dialogueCapsule.key;
+
+                var moveRandoID = -1;
+                switch (dialogueCapsule.key)
+                {
+                    case "DISCLAIMER_CASUAL_REFERENCES":
+                        self.names[0] = "AP Lawyer";
+                        self.dialogues[0] = new Random().Next(0, 2) == 1 ? "&legalrom" : "&eyepatch";
+                        break;
+                    case "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK": // Normally unlocks Flip O' Will
+                        if (!APPlayerManager.AP_MoveRando)
+                            break;
+                        var font = CurrentFont;
+                        self.dialogues =
+                        [
+                            $"Normally, I'd teach you how to <font=\"{font} Black\" material=\"{font} OrangeYellow\">boost</font> using your <font=\"{font} Black\" material=\"{font} OrangeYellow\">Flip O' Will</font>.",
+                            "Unfortunately, I've forgotten exactly how to do that...",
+                            "Instead, here's an item from the multiworld!"
+                        ];
+                        moveRandoID = Identifiers.BOOST_ID;
+                        break;
+                    case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH": // Normally super boost tutorial
+                        if (!APPlayerManager.AP_MoveRando)
+                            break;
+                        self.dialogues =
+                        [
+                            GetMoveDialogue("Super Boost", APPlayerManager.AP_BoostLevel > 1),
+                            "Instead, here's an item from the multiworld!"
+                        ];
+                        moveRandoID = Identifiers.SUPERBOOST_ID;
+                        break;
+                    case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT": // Normally jump tutorial
+                        if (!APPlayerManager.AP_MoveRando)
+                            break;
+                        self.dialogues =
+                        [
+                            GetMoveDialogue("Flip", APPlayerManager.AP_JumpLevel > 0),
+                            "Instead, here's an item from the multiworld!"
+                        ];
+                        moveRandoID = Identifiers.BACKFLIP_ID;
+                        break;
+                    case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP": // Normally backflip tutorial
+                        if (!APPlayerManager.AP_MoveRando)
+                            break;
+                        self.dialogues =
+                        [
+                            GetMoveDialogue("Backflip", APPlayerManager.AP_JumpLevel > 1),
+                            "Instead, here's an item from the multiworld!"
+                        ];
+                        moveRandoID = Identifiers.BACKFLIP_ID;
+                        break;
+                    case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE": // Normally glide tutorial
+                        if (!APPlayerManager.AP_MoveRando)
+                            break;
+                        self.dialogues =
+                        [
+                            GetMoveDialogue("Glide", APPlayerManager.AP_GlideEnabled, null),
+                            "Instead, here's an item from the multiworld!"
+                        ];
+                        moveRandoID = Identifiers.GLIDE_ID;
+                        break;
+                    case "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN": // Normally quick turn tutorial. Repurposed for Spin Attack
+                        if (!APPlayerManager.AP_MoveRando)
+                            break;
+                        self.dialogues =
+                        [
+                            GetMoveDialogue("Attack", APPlayerManager.AP_FlipAttackEnabled),
+                            "Instead, here's an item from the multiworld!"
+                        ];
+                        moveRandoID = Identifiers.SPIN_ID;
+                        break;
+                    case "DIALOGUE_MOON_END":
+                        // TODO: Win the game
+                        Plugin.DoubleLog("The game has been won!");
+                        break;
+                }
+
+                if (moveRandoID > 0)
+                {
+                    // TODO: SCOUT LOCATION BASED ON ID, AND SEND CHECK
+                    Tuple<string, string, ItemFlags>[] testItems = new[]
+                    {
+                        new Tuple<string, string, ItemFlags>("Power Star", "sooper_Mario_64", ItemFlags.Advancement),
+                        new Tuple<string, string, ItemFlags>("1-up", "sooper_Mario_64", ItemFlags.None),
+                        new Tuple<string, string, ItemFlags>("TM01", "sooper_Emerald", ItemFlags.NeverExclude),
+                        new Tuple<string, string, ItemFlags>("Teleport Trap", "sooper_Risk", ItemFlags.Trap),
+                        //new Tuple<string, string, ItemFlags>("Hard Mode", "sooper_Terraria", ItemFlags.Advancement | ItemFlags.Trap),
+                    };
+                    var item = testItems[new Random().Next(0, testItems.Length)];
+                    var font = CurrentFont;
+                    Plugin.DoubleLog($"Current Font: {CurrentFont}");
+                    var material = "Acqua";
+                    switch (item.Item3)
+                    {
+                        //case ItemFlags.Advancement | ItemFlags.Trap:
+                        //    material = "RedYellow";
+                        //    break;
+                        case ItemFlags.Advancement:
+                            material = "GreenYellow";
+                            break;
+                        case ItemFlags.NeverExclude:
+                            material = "RedYellow";
+                            break;
+                        case ItemFlags.Trap:
+                            material = "FullRed";
+                            break;
+                        case ItemFlags.None:
+                            material = "Yellow";
+                            break;
+                    }
+                    self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you this <font=\"{font} Black\" material=\"{font} {material}\">{item.Item1}</font>";
+
+                    if (!item.Item2.Equals(ArchipelagoClient.ServerData?.SlotName))
+                    {
+                        self.dialogues[self.dialogues.Length - 1] += $" for <font=\"{font} Black\" material=\"{font} OrangeYellow\">{item.Item2}</font>";
+                    }
+                    self.dialogues[self.dialogues.Length - 1] += "!";
+                }
+            }
+            orig(self);
+        }
+
+        private string GetMoveDialogue(string moveName, bool moveUnlocked, string flipOwillConnection = "using your")
+        {
+            var font = CurrentFont;
+            var secondHalf = moveUnlocked
+                ? "it appears you already know how."
+                : "I appear to have lost the instructions.";
+            var flipOwillText = string.Empty;
+            if (!string.IsNullOrEmpty(flipOwillConnection))
+            {
+                flipOwillText =
+                    $" {flipOwillConnection} <font=\"{font} Black\" material=\"{font} OrangeYellow\">Flip O' Will</font>";
+            }
+            return
+                $"Beep boop! I was supposed to teach you how to <font=\"{font} Black\" material=\"{font} OrangeYellow\">{moveName}</font>{flipOwillText} but {secondHalf}";
+        }
+    }
+}

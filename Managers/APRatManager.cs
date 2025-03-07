@@ -14,32 +14,40 @@ namespace YellowTaxiAP.Managers
             On.RatPersonScript.IsRatPickedUp += RatPersonScript_IsRatPickedUp;
             On.RatPersonScript.RatPickUp += RatPersonScript_RatPickUp;
             On.RatPersonScript.Awake += RatPersonScript_Awake;
+            // Rat Person Dialogue scripts
+            On.DialogueScript.SpecialMethod_OnAnswerYes_PickupRat += DialogueScript_SpecialMethod_OnAnswerYes_PickupRat;
             // Rat Player scripts
             // Cheese scripts
             On.CheeseScript.GetCheeseIdString += CheeseScript_GetCheeseIdString;
             On.CheeseScript.MarkPickedUp += CheeseScript_MarkPickedUp;
         }
 
+        private void DialogueScript_SpecialMethod_OnAnswerYes_PickupRat(On.DialogueScript.orig_SpecialMethod_OnAnswerYes_PickupRat orig, DialogueScript self)
+        {
+            if (!AP_RatRando)
+            {
+                RatPersonScript.RatPickUp();
+            }
+            else
+            {
+                // TODO: Send rat location
+            }
+            Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
+        }
+
         private void CheeseScript_MarkPickedUp(On.CheeseScript.orig_MarkPickedUp orig, CheeseScript self)
         {
-            Print_ID(self.GetCheeseIdString());
+            DebugLocationHelper.CheckLocation("cheese", self.GetCheeseIdString());
             orig(self);
         }
 
-        public void Print_ID(string id)
-        {
-            Plugin.DoubleLog($"Picked up item of type cheese. ID: {id}");
-            GUIUtility.systemCopyBuffer = id;
-        }
-
-        public const int CHEESE_ID = 21;
         /// <summary>
         /// Honestly this was shockingly close to how I formatted other item IDs anyway. Matching exactly for consistency
         /// </summary>
         private string CheeseScript_GetCheeseIdString(On.CheeseScript.orig_GetCheeseIdString orig, CheeseScript self)
         {
             return self.cheeseIdStr ?? (self.cheeseIdStr = (int)GameplayMaster.instance.levelId + "_" +
-                                                           CHEESE_ID.ToString("D2") + "_" +
+                                                           Identifiers.CHEESE_ID.ToString("D2") + "_" +
                                                            self.cheeseId.ToString("D5"));
         }
 
@@ -75,10 +83,10 @@ namespace YellowTaxiAP.Managers
             {
                 orig(self);
             }
-            else if (AP_SentRat)
-            {
-                Object.Destroy(self.gameObject);
-            }
+            //else if (AP_SentRat)
+            //{
+            //    Object.Destroy(self.gameObject);
+            //}
         }
     }
 }
