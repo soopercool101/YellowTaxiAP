@@ -30,7 +30,7 @@ namespace YellowTaxiAP.Managers
             }
             else
             {
-                // TODO: Send rat location
+                DebugLocationHelper.CheckLocation("Michele", "2_21_99999");
             }
             Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
         }

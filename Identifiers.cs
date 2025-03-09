@@ -16,6 +16,7 @@ namespace YellowTaxiAP
         public const int HAT_ID = 7;
         public const int NPC_ID = 8;
         public const int CHECKPOINT_ID = 9;
+        public const int PSYCHO_ID = 20;
         public const int CHEESE_ID = 21;
 
         // Move rando IDs

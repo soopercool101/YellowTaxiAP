@@ -27,9 +27,8 @@ namespace YellowTaxiAP.Managers
         public static string GetCheckpointID(CheckpointScript checkpoint)
         {
             // *Extremely* rudimentary hashing. Should hopefully be good enough for per-level unique ids
-            var hashedPos = Mathf.RoundToInt(Mathf.Abs(checkpoint.transform.position.x) +
-                                             Mathf.Abs(checkpoint.transform.position.y) +
-                                             Mathf.Abs(checkpoint.transform.position.z)) % 100000;
+            var hashedPos = Mathf.Abs(Mathf.RoundToInt(checkpoint.transform.position.x) +
+                                             Mathf.RoundToInt(checkpoint.transform.position.z)) % 100000;
             return $"{(int)GameplayMaster.instance.levelId}_{Identifiers.CHECKPOINT_ID:D2}_{hashedPos:D5}";
         }
     }

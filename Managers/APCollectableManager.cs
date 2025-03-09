@@ -263,7 +263,7 @@ namespace YellowTaxiAP.Managers
             orig(self, other);
         }
 
-        public string GetID(BonusScript item)
+        public static string GetID(BonusScript item)
         {
             string s = (int)GameplayMaster.instance.levelId + "_";
             switch (item.myIdentity)

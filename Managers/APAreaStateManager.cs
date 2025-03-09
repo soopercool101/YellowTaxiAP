@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -21,14 +18,23 @@ namespace YellowTaxiAP.Managers
             On.DisableAreaScript_GearsNumber.Start += DisableAreaScript_GearsNumber_Start;
         }
 
+        /// <summary>
+        /// Disables the hat wardrobe in the earlygame.
+        /// Bizarrely, also disables the coins/gear on top of the rocket. Would think that would be handled by the rocket handler.
+        ///
+        /// Override and enable everything in all contexts
+        /// </summary>
         private void DisableAreaScript_GearsNumber_Start(On.DisableAreaScript_GearsNumber.orig_Start orig, DisableAreaScript_GearsNumber self)
         {
             Plugin.DoubleLog(self.gameObject.name + $" is attempting to disable and enable areas (Expected Gears: {self.activeWhenGearsLowerThanThis})");
             orig(self);
             foreach (var toDisable in self.disableThisAreaWhenActive)
             {
-                Plugin.DoubleLog($"ToDisable: {toDisable.name}");
                 toDisable.SetActive(true);
+                //var bonus = toDisable.GetComponent<BonusScript>();
+                //Plugin.DoubleLog(bonus != null
+                //    ? $"ToDisable: {toDisable.name} | ID: {APCollectableManager.GetID(bonus)}"
+                //    : $"ToDisable: {toDisable.name}");
             }
 
             foreach (var toEnable in self.enableThisAreaWhenActive)
@@ -62,6 +68,9 @@ namespace YellowTaxiAP.Managers
             UpdateMoriosPasswordState(self);
         }
 
+        /// <summary>
+        /// I'm not convinced this one is used anywhere?
+        /// </summary>
         private void DisableAreaScript_GoldenSpring_Start(On.DisableAreaScript_GoldenSpring.orig_Start orig, DisableAreaScript_GoldenSpring self)
         {
             Plugin.DoubleLog(self.gameObject.name + " is attempting to disable and enable areas");
@@ -80,7 +89,6 @@ namespace YellowTaxiAP.Managers
             }
         }
 
-        public static DisableAreaScript_BeatedFinalBoss RocketInstance;
         /// <summary>
         /// Disables and enables final boss state. Primarily used for the Rocket.
         /// </summary>
@@ -99,8 +107,7 @@ namespace YellowTaxiAP.Managers
             if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
             {
                 Plugin.DoubleLog(self.gameObject.name + " is attempting to disable and enable areas");
-                RocketInstance = self;
-                UpdateRocketState();
+                UpdateRocketState(self);
             }
             else
             {
@@ -124,25 +131,30 @@ namespace YellowTaxiAP.Managers
 
         public static void UpdateRocketState()
         {
-            if (GameplayMaster.instance.levelId != Data.LevelId.Hub || RocketInstance == null)
+            if (GameplayMaster.instance.levelId != Data.LevelId.Hub)
                 return;
 
-            foreach (var toDisable in RocketInstance.disableThisAreaWhenActive)
+            foreach (var rocketObj in Object.FindObjectsByType<DisableAreaScript_BeatedFinalBoss>(FindObjectsSortMode.None))
             {
-                toDisable?.SetActive(!RocketEnabled || toDisable.GetComponent<BonusScript>() != null);
+                UpdateRocketState(rocketObj);
+            }
+        }
+
+        private static void UpdateRocketState(DisableAreaScript_BeatedFinalBoss rocketObj)
+        {
+            foreach (var toDisable in rocketObj.disableThisAreaWhenActive)
+            {
+                toDisable.SetActive(!RocketEnabled || toDisable.GetComponent<BonusScript>() != null);
             }
 
-            foreach (var toEnable in RocketInstance.enableThisAreaWhenActive)
+            foreach (var toEnable in rocketObj.enableThisAreaWhenActive)
             {
-                toEnable?.SetActive(RocketEnabled || toEnable.GetComponent<BonusScript>() != null);
+                toEnable.SetActive(RocketEnabled || toEnable.GetComponent<BonusScript>() != null);
             }
         }
 
         public static void UpdateMoriosPasswordState()
         {
-            if (GameplayMaster.instance.levelId != Data.LevelId.Hub)
-                return;
-
             foreach (var morioMindObj in Object.FindObjectsByType<DisableAreaScript_MorioMindPassword>(FindObjectsSortMode.None))
             {
                 UpdateMoriosPasswordState(morioMindObj);

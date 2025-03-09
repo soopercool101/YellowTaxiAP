@@ -87,7 +87,7 @@ namespace YellowTaxiAP
             { "0_03_00611", "Coin on Mountain Road #3" },
             { "0_03_00613", "Coin on Mountain Road #4" },
             { "0_03_00630", "Coin on Mountain Road #5" },
-            { "0_09_00320", "Checkpoint on Road" },
+            { "0_09_00300", "Checkpoint on Road" },
             { "0_21_00002", "Cheese Near Lab Hill" },
             { "0_03_00241", "Coin in UFO Crash Site #1" },
             { "0_03_00239", "Coin in UFO Crash Site #2" },
@@ -156,7 +156,7 @@ namespace YellowTaxiAP
             { "0_03_00047", "Coin on Pier #3" },
             { "0_03_00048", "Coin on Pier #4" },
             { "0_03_00049", "Coin on Pier #5" },
-            { "0_09_00645", "Checkpoint on Pier" },
+            { "0_09_00640", "Checkpoint on Pier" },
             { "0_21_00003", "Cheese on Pier" },
             { "0_03_00105", "Coin Bag In Construction Site #1" },
             { "0_03_00104", "Coin In Construction Site #1" },
@@ -241,7 +241,7 @@ namespace YellowTaxiAP
             { "0_03_00370", "Coin on Ramp House Towards Sewers #3" },
             { "0_03_00412", "Coin on Ramp House Towards Sewers #4" },
             { "0_03_00459", "Coin on Ramp House Towards Sewers #5" },
-            { "0_03_00115", "Chest in UFO Crash Site Near City" },
+            { "0_03_00115", "Chest in UFO Crash Site Near City" },      // Typically, this gets removed when the rocket is created. This has been fixed.
         };
 
         public static Dictionary<string, string> GrandmasIslandPipeArea = new()
@@ -282,11 +282,6 @@ namespace YellowTaxiAP
         {
             { "0_03_00270", "Coin Bag on Power Shovel" },                
             { "0_03_00300", "Coin on Roofs Behind Grandma's Statue"},
-            { "0_03_00381", "Coin on Roof Ramp Towards Gym Gears #1" },
-            { "0_03_00380", "Coin on Roof Ramp Towards Gym Gears #2" },
-            { "0_03_00393", "Coin on Roof Ramp Towards Gym Gears #3" },
-            { "0_03_00413", "Coin on Roof Ramp Towards Gym Gears #4" },
-            { "0_03_00425", "Coin on Roof Ramp Towards Gym Gears #5" },
             { "0_03_00548", "Coin Bag on Brown Cliffside Cabin" },
             { "0_03_00311", "Coin Bag on Green Cliffside Cabin" },
             { "0_03_00363", "Coin on Hill Near Lab #1" },
@@ -346,6 +341,7 @@ namespace YellowTaxiAP
             { "0_03_00628", "Coin in Cliff Face #6" },
             { "0_03_00629", "Coin in Cliff Face #7" },
             { "0_01_00008", "Gear - In Cliff Face" },
+            { "0_21_00001", "Cheese on Mountain" },
         };
 
         public static Dictionary<string, string> GrandmasIslandExpert2HighGround = new() // Region Grandma's Island Main & (EX2 | J1 | B1 | GP)
@@ -370,6 +366,23 @@ namespace YellowTaxiAP
             { "0_03_00278", "Coin on Stone Island #5" },
             { "0_03_00279", "Coin on Stone Island #6" },
             { "0_03_00276", "Coin Bag on Stone Island" },
+            { "0_03_00318", "Coin Bag on Roofs Behind Grandma's Statue" },
+            { "0_03_00396", "Chest on Roofs Behind Grandma's Statue" },
+            { "0_03_00465", "Coin on Path to Grandma's Statue #1" },
+            { "0_03_00466", "Coin on Path to Grandma's Statue #2" },
+            { "0_03_00467", "Coin on Path to Grandma's Statue #3" },
+            { "0_03_00469", "Coin on Path to Grandma's Statue #4" },
+            { "0_03_00468", "Coin on Path to Grandma's Statue #5" },
+            { "0_03_00547", "Coin on Path to Grandma's Statue #6" },
+            { "0_03_00574", "Coin on Path to Grandma's Statue #7" },
+            { "0_03_00573", "Coin Bag on Path to Grandma's Statue" },
+            { "0_01_00005", "Gear - Grandma's Statue" },
+            { "0_03_00381", "Coin on Roof Ramp Towards Gym Gears #1" },
+            { "0_03_00380", "Coin on Roof Ramp Towards Gym Gears #2" },
+            { "0_03_00393", "Coin on Roof Ramp Towards Gym Gears #3" },
+            { "0_03_00413", "Coin on Roof Ramp Towards Gym Gears #4" },
+            { "0_03_00425", "Coin on Roof Ramp Towards Gym Gears #5" },
+
         };
 
         public static Dictionary<string, string> GrandmasIslandMainSpin = new()
@@ -378,9 +391,44 @@ namespace YellowTaxiAP
             { "0_01_00014", "Grandma's Island - Gear - Inside Spin Blocks"},
         };
 
+        public static Dictionary<string, string> MoriosLabGroundFloor = new()
+        {
+            { "0_01_00000", "Gear - From Morio" },
+            { "0_03_00064", "Entrance Coin #1" },
+            { "0_03_00096", "Entrance Coin #2" },
+            { "0_03_00097", "Entrance Coin #3" },
+            { "0_03_00116", "Entrance Coin #4" },
+            { "0_03_00119", "Entrance Coin #5" },
+            { "0_03_00120", "Entrance Coin #6" },
+            { "0_01_00026", "Gear - Entrance Alcove" },
+            { "0_03_00253", "Entrance Coin #7" },
+            { "0_03_00252", "Entrance Coin #8" },
+            { "0_03_00301", "Entrance Coin #9" },
+            { "0_03_00320", "Entrance Coin #10" },
+            { "0_03_00398", "Entrance Coin #11" },
+            { "0_03_00445", "Entrance Coin #12" },
+            { "0_03_00444", "Entrance Coin #13" },
+            { "0_03_00443", "Entrance Coin #14" },
+            { "0_03_00442", "Entrance Coin #15" },
+            { "0_03_00441", "Entrance Coin #16" },
+            { "0_03_00440", "Entrance Coin #17" },
+            { "0_03_00439", "Entrance Coin #18" },
+            { "0_01_00025", "Gear - Fall off Ramp" },
+        };
+
+        public static Dictionary<string, string> MoriosLabWardrobe = new()
+        {
+            { "0_03_00069", "Wardrobe Coin #1" },
+            { "0_03_00068", "Wardrobe Coin #2" },
+            { "0_03_00067", "Wardrobe Coin #3" },
+            { "0_03_00066", "Wardrobe Coin #4" },
+            { "0_03_00065", "Wardrobe Coin #5" },
+        };
+
         public static Dictionary<string, string> HubSpecialRules = new()
         {
             { "0_03_00280", "Grandma's Island - Safe on Ocean Pillar" },        // Region Grandma's Island Main & (B2 | (B1 & GP))
+            { "0_03_00755", "Grandma's Island - Safe on Grandma's Statue" },    // Region Grandma's Island Main & (J2 | (J1 & GP))
         };
 
         public static List<Tuple<string, Dictionary<string, string>>> KnownIDs =
@@ -395,6 +443,10 @@ namespace YellowTaxiAP
             new("Grandma's Island - Expert 1 High Ground", GrandmasIslandExpert1HighGround),
             new("Grandma's Island - Expert 2 High Ground", GrandmasIslandExpert2HighGround),
             new("Grandma's Island - High Ground", GrandmasIslandHighGround),
+
+            new("Morio's Lab - Ground Floor", MoriosLabGroundFloor),
+            new("Morio's Lab - Wardrobe", MoriosLabWardrobe),
+
             new("Hub Area - Special Rules", HubSpecialRules),
         ];
 
@@ -412,6 +464,8 @@ namespace YellowTaxiAP
                     GrandmasIslandExpert1HighGround,
                     GrandmasIslandExpert2HighGround,
                     GrandmasIslandHighGround,
+                    MoriosLabGroundFloor,
+                    MoriosLabWardrobe,
                     HubSpecialRules
                 ]
             },

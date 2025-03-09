@@ -32,8 +32,10 @@ public class Plugin : BaseUnityPlugin
     public APCollectableManager CollectableHook;
     public APOrangeSwitchManager OrangeSwitchHook;
     public APDestructableManager DestructableHook;
+    public APPsychoTaxiManager PsychoTaxiHook;
     public APRatManager RatHook;
     public APMenuManager MenuHook;
+    public APDataManager DataHook;
 
     public bool AllowLaser = true;
     public static void DoubleLog(string message)
@@ -66,6 +68,8 @@ public class Plugin : BaseUnityPlugin
             DialogueHook = new APDialogueManager();
             RatHook = new APRatManager();
             MenuHook = new APMenuManager();
+            DataHook = new APDataManager();
+            PsychoTaxiHook = new APPsychoTaxiManager();
             DestructableHook = new APDestructableManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
         };
@@ -168,7 +172,7 @@ public class Plugin : BaseUnityPlugin
                 }
                 DoubleLog($"Rat {(APRatManager.AP_ReceivedRat ? "enabled" : "disabled")}");
             }
-            if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
+            if (Input.GetKeyDown(KeyCode.K))
             {
                 DeathLinkInProgress = true;
                 GameplayMaster.instance?.Die();

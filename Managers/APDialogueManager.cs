@@ -41,18 +41,12 @@ namespace YellowTaxiAP.Managers
         /// Normally, Morio will hide the initial gears until he's given the first one.
         /// This isn't very fun in a multiworld context, and results in only one check prior to an extremely early BK unless single coinsanity is on.
         ///
-        /// Re-enable the initial gears as needed.
+        /// Remove the initialgears list to ensure all these gears remain active
         /// </summary>
         private void PersonScenziatoV2_Update(On.PersonScenziatoV2.orig_Update orig, PersonScenziatoV2 self)
         {
+            self.initialGears = [];
             orig(self);
-            foreach (var initialGear in self.initialGears)
-            {
-                if (!(initialGear == null) && !initialGear.activeSelf)
-                {
-                    initialGear.SetActive(true);
-                }
-            }
         }
 
         /// <summary>
@@ -165,8 +159,10 @@ namespace YellowTaxiAP.Managers
                         var font = CurrentFont;
                         self.dialogues =
                         [
-                            $"Normally, I'd teach you how to <font=\"{font} Black\" material=\"{font} OrangeYellow\">boost</font> using your <font=\"{font} Black\" material=\"{font} OrangeYellow\">Flip O' Will</font>.",
-                            "Unfortunately, I've forgotten exactly how to do that...",
+                            $"Normally, I'd teach you how to <font=\"{font} Black\" material=\"{font} OrangeYellow\">boost</font> using your <font=\"{font} Black\" material=\"{font} OrangeYellow\">Flip O' Will</font>!",
+                            APPlayerManager.AP_BoostLevel > 0
+                                ? "It seems that's unnecessary, since you already know how."
+                                : "Unfortunately, I've forgotten how to do that...",
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.BOOST_ID;
@@ -189,7 +185,7 @@ namespace YellowTaxiAP.Managers
                             GetMoveDialogue("Flip", APPlayerManager.AP_JumpLevel > 0),
                             "Instead, here's an item from the multiworld!"
                         ];
-                        moveRandoID = Identifiers.BACKFLIP_ID;
+                        moveRandoID = Identifiers.JUMP_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP": // Normally backflip tutorial
                         if (!APPlayerManager.AP_MoveRando)
@@ -230,19 +226,19 @@ namespace YellowTaxiAP.Managers
                 if (moveRandoID > 0)
                 {
                     // TODO: SCOUT LOCATION BASED ON ID, AND SEND CHECK
-                    Tuple<string, string, ItemFlags>[] testItems = new[]
-                    {
-                        new Tuple<string, string, ItemFlags>("Power Star", "sooper_Mario_64", ItemFlags.Advancement),
-                        new Tuple<string, string, ItemFlags>("1-up", "sooper_Mario_64", ItemFlags.None),
-                        new Tuple<string, string, ItemFlags>("TM01", "sooper_Emerald", ItemFlags.NeverExclude),
-                        new Tuple<string, string, ItemFlags>("Teleport Trap", "sooper_Risk", ItemFlags.Trap),
+                    Tuple<string, string, ItemFlags>[] testItems =
+                    [
+                        new("Power Star", "sooper_Mario_64", ItemFlags.Advancement),
+                        new("1-up", "sooper_Mario_64", ItemFlags.None),
+                        new("TM01", "sooper_Emerald", ItemFlags.NeverExclude),
+                        new("Teleport Trap", "sooper_Risk", ItemFlags.Trap)
                         //new Tuple<string, string, ItemFlags>("Hard Mode", "sooper_Terraria", ItemFlags.Advancement | ItemFlags.Trap),
-                    };
+                    ];
                     var item = testItems[new Random().Next(0, testItems.Length)];
                     var font = CurrentFont;
                     Plugin.DoubleLog($"Current Font: {CurrentFont}");
                     var material = "Acqua";
-                    switch (item.Item3)
+                    switch (item.Item3) // TODO: Probably if instead of switch to handle cases of multiple types?
                     {
                         //case ItemFlags.Advancement | ItemFlags.Trap:
                         //    material = "RedYellow";
@@ -267,6 +263,7 @@ namespace YellowTaxiAP.Managers
                         self.dialogues[self.dialogues.Length - 1] += $" for <font=\"{font} Black\" material=\"{font} OrangeYellow\">{item.Item2}</font>";
                     }
                     self.dialogues[self.dialogues.Length - 1] += "!";
+                    DebugLocationHelper.CheckLocation("Move Rando", $"0_{Identifiers.NPC_ID:D2}_{moveRandoID:D5}");
                 }
             }
             orig(self);
