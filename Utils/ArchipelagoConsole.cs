@@ -60,7 +60,14 @@ public static class ArchipelagoConsole
             GUI.EndScrollView();
         }
 
-        if (GUI.Button(hideShowButton, Hidden ? "Show" : "Hide"))
+        var buttonText = Hidden ? "Show" : "Hide";
+#if DEBUG
+        if (PlayerScript.instance != null)
+        {
+            buttonText = PlayerScript.instance.transform.position.ToString();
+        }
+#endif
+        if (GUI.Button(hideShowButton, buttonText))
         {
             Hidden = !Hidden;
             UpdateWindow();

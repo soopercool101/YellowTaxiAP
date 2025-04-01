@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
 using Object = UnityEngine.Object;
@@ -18,6 +19,10 @@ namespace YellowTaxiAP.Managers
             On.BonusScript.Start += BonusScript_Start;
             On.BonusScript.Update += Update_AP;
             On.BonusScript.CoinPickedUpGet += BonusScript_CoinPickedUpGet;
+            On.BonusScript.BunnyAlreadyPickedUpRefresh += BonusScript_BunnyAlreadyPickedUpRefresh;
+            On.BonusScript.GearAlreadyPickedUpRefresh += BonusScript_GearAlreadyPickedUpRefresh;
+            On.BonusScript.Awake += BonusScript_Awake;
+
             //On.BonusScript.CoinPickedUpSet += BonusScript_CoinPickedUpSet;
             //On.BonusScript.OnDestroy += BonusScript_OnDestroy;
 
@@ -27,13 +32,50 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.OnTriggerStay += PlayerScript_OnTriggerStay;
 
             On.GearAnimationScript.Update += GearAnimationScript_Update;
+
+            On.BunnyTv.Start += (_, _) =>
+            {
+                // Do nothing instead of deleting bunny tvs prior to final boss defeated
+            };
+        }
+
+        private void BonusScript_GearAlreadyPickedUpRefresh(On.BonusScript.orig_GearAlreadyPickedUpRefresh orig, BonusScript self)
+        {
+            if (DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self))))
+            {
+                self.GetComponentInChildren<MeshRenderer>().sharedMaterial = self.gearUsedMaterial;
+                self.gearHasPickedupUpTexture = true;
+                self.gearOutlineTr.gameObject.SetActive(false);
+            }
+            else
+            {
+                self.gearHasPickedupUpTexture = false;
+                self.GearDaltonicTextureRefresh();
+            }
+        }
+
+        private void BonusScript_BunnyAlreadyPickedUpRefresh(On.BonusScript.orig_BunnyAlreadyPickedUpRefresh orig, BonusScript self)
+        {
+            self.myMeshRend.sharedMaterial = DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self))) ? self.bunnyPickedUpMaterial : self.bunnyDefaultMaterial;
+        }
+
+        /// <summary>
+        /// A small number of coins are accidentally set as children of other coins, causing them to remove themselves when the parent is collected.
+        /// Remove the parent in this instance.
+        /// </summary>
+        private void BonusScript_Awake(On.BonusScript.orig_Awake orig, BonusScript self)
+        {
+            if (self.transform.parent != null && self.transform.parent.gameObject.GetComponent<BonusScript>() != null)
+            {
+                Plugin.Log($"Warning! {self.myIdentity} ({GetID(self)}) has a parent object ({self.transform.parent.gameObject.name})! Removing parent");
+                self.transform.parent = null;
+            }
+            orig(self);
         }
 
         /// <summary>
         /// Complete reimplementation to prevent unnecessary destruction of needed objects
         /// </summary>
-        /// <param name="orig"></param>
-        /// <param name="self"></param>
         private void BonusScript_Start(On.BonusScript.orig_Start orig, BonusScript self)
         {
             if (self.doublePickupPreventionMeshRenderer != null)
@@ -176,34 +218,47 @@ namespace YellowTaxiAP.Managers
             return self.coinIndex >= 0 && DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self)));
         }
 
-        private string previousSubarea = string.Empty;
+        private string _previousSubarea = string.Empty;
 
         private void MapArea_MarkDiscovered(On.MapArea.orig_MarkDiscovered orig, MapArea self)
         {
-            if (!previousSubarea.Equals(self.areaNameKey))
+            if (!_previousSubarea.Equals(self.areaNameKey))
             {
-                previousSubarea = self.areaNameKey;
-                var trimmedName = previousSubarea;
-                if (previousSubarea.Contains("_NAME_"))
+                _previousSubarea = self.areaNameKey;
+                var trimmedName = _previousSubarea;
+                if (_previousSubarea.Contains("_NAME_"))
                 {
-                    trimmedName = previousSubarea.Substring(previousSubarea.IndexOf("_NAME_", StringComparison.Ordinal) + "_NAME_".Length);
+                    trimmedName = _previousSubarea.Substring(_previousSubarea.IndexOf("_NAME_", StringComparison.Ordinal) + "_NAME_".Length);
                 }
-                var bonuses = Object.FindObjectsByType<BonusScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Count(o =>
-                    o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.gear or BonusScript.Identity.bunny
-                        or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
-                        or BonusScript.Identity.bigCoin100);
+                var bonuses = Object.FindObjectsByType<BonusScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(o =>
+                    (o.myIdentity is BonusScript.Identity.gear or BonusScript.Identity.bunny)
+                        || ((o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
+                        or BonusScript.Identity.bigCoin100) && o.coinIndex >= 0)).ToList();
+                var unknownBonuses = bonuses.Where(o => !DebugLocationHelper.CheckLocation(string.Empty, GetID(o))).ToList();
+                if (unknownBonuses.Count < 5)
+                {
+                    foreach (var bonus in unknownBonuses)
+                    {
+                        Plugin.Log($"Unknown {bonus.myIdentity} found at {bonus.transform.position}");
+                    }
+                }
                 var cheeses = Object.FindObjectsByType<CheeseScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
-                var checkpoints = Object.FindObjectsByType<CheckpointScript>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                var checkpoints = CheckpointScript.list;
                 var checkIds = new List<string>();
                 foreach (var checkpoint in checkpoints)
                 {
                     var id = APCheckpointManager.GetCheckpointID(checkpoint);
                     if (checkIds.Contains(id))
                     {
-                        Plugin.DoubleLog("ERROR: CHECKPOINT ID NOT UNIQUE. NEW HASHING MECHANISM NEEDED.");
+                        Plugin.Log("ERROR: CHECKPOINT ID NOT UNIQUE. NEW HASHING MECHANISM NEEDED.");
                     }
+                    //var check = DebugLocationHelper.KnownIDs.FirstOrDefault(area => area.Item2.ContainsKey(id));
+                    //Plugin.Log(check == null
+                    //    ? $"Found unknown checkpoint at {self.transform.position}"
+                    //    : $"Found known checkpoint \"{check.Item2[id]}\"");
                     checkIds.Add(id);
                 }
+
                 //var activeBonuses = Object.FindObjectsOfType<BonusScript>(false).Count(o =>
                 //    o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.gear or BonusScript.Identity.bunny
                 //        or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
@@ -211,13 +266,208 @@ namespace YellowTaxiAP.Managers
                 var documentedChecks = 0;
                 if (DebugLocationHelper.PerLevelIDs.ContainsKey(GameplayMaster.instance.levelId.ToString()))
                 {
-                    documentedChecks = DebugLocationHelper.PerLevelIDs[GameplayMaster.instance.levelId.ToString()].Sum(known => known.Count);
+                    documentedChecks = DebugLocationHelper.PerLevelIDs[GameplayMaster.instance.levelId.ToString()].Sum(known => known.Count(o => !string.IsNullOrEmpty(o.Key)));
+                    if (documentedChecks >= bonuses.Count + cheeses + checkpoints.Count)
+                    {
+                        var json = "{";
+                        var i = 0;
+                        foreach (var subregion in DebugLocationHelper.PerLevelIDs[
+                                     GameplayMaster.instance.levelId.ToString()])
+                        {
+                            var regionName = DebugLocationHelper.KnownIDs.First(o => o.Item2.Equals(subregion)).Item1;
+                            if (regionName.Contains("Special Rules"))
+                            {
+                                continue;
+                            }
+
+                            var sublevelname = regionName;
+                            if (sublevelname.Contains("-"))
+                            {
+                                sublevelname = sublevelname.Substring(0, sublevelname.IndexOf("-", StringComparison.Ordinal)).TrimEnd();
+                            }
+                            var modifiedRegionName = DebugLocationHelper.GetRegionJsonName(regionName);
+                            var regionCoins = new List<KeyValuePair<string, string>>();
+                            var regionCoinbags = new List<KeyValuePair<string, string>>();
+                            var regionChests = new List<KeyValuePair<string, string>>();
+                            var regionSafes = new List<KeyValuePair<string, string>>();
+                            var regionCheeses = new List<KeyValuePair<string, string>>();
+                            var regionGears = new List<KeyValuePair<string, string>>();
+                            var regionBunnies = new List<KeyValuePair<string, string>>();
+                            var regionCheckpoints = new List<KeyValuePair<string, string>>();
+                            var regionConnections = new List<DebugLocationHelper.RegionConnection>();
+                            var regionWarps = new List<DebugLocationHelper.RegionConnection>();
+                            var regionSubwarps = new List<DebugLocationHelper.RegionConnection>();
+                            foreach (var c in subregion)
+                            {
+                                if(string.IsNullOrEmpty(c.Key))
+                                    continue; // Skip placeholders 
+                                if (c.Value.Contains("Bunny - "))
+                                {
+                                    regionBunnies.Add(c);
+                                }
+                                else if (c.Value.Contains("Gear - "))
+                                {
+                                    regionGears.Add(c);
+                                }
+                                else if (c.Value.Contains("Cheese "))
+                                {
+                                    regionCheeses.Add(c);
+                                }
+                                else if (c.Value.Contains("Chest "))
+                                {
+                                    regionChests.Add(c);
+                                }
+                                else if (c.Value.Contains("Safe "))
+                                {
+                                    regionSafes.Add(c);
+                                }
+                                else if (c.Value.Contains("Coin Bag "))
+                                {
+                                    regionCoinbags.Add(c);
+                                }
+                                else if (c.Value.Contains("Coin "))
+                                {
+                                    regionCoins.Add(c);
+                                }
+                                else if (c.Value.Contains("Checkpoint"))
+                                {
+                                    regionCheckpoints.Add(c);
+                                }
+                                else if (c.Value.EndsWith("Gear"))
+                                {
+                                    regionGears.Add(c);
+                                }
+                                else if (c.Value.EndsWith("Bunny"))
+                                {
+                                    regionBunnies.Add(c);
+                                }
+                                else
+                                {
+                                    Plugin.Log($"WARNING: COULD NOT SORT \"{c.Value}\"");
+                                }
+                            }
+
+                            if (DebugLocationHelper.RegionConnections.ContainsKey(regionName))
+                            {
+                                foreach (var connection in DebugLocationHelper.RegionConnections[regionName])
+                                {
+                                    switch (connection.ConnectingType)
+                                    {
+                                        case DebugLocationHelper.ConnectionType.Connection:
+                                            regionConnections.Add(connection);
+                                            break;
+                                        case DebugLocationHelper.ConnectionType.Subwarp:
+                                            regionSubwarps.Add(connection);
+                                            break;
+                                        case DebugLocationHelper.ConnectionType.Warp:
+                                            regionWarps.Add(connection);
+                                            break;
+                                        default:
+                                            throw new ArgumentOutOfRangeException();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Plugin.Log($"WARNING: NO CONNECTION DATA FOUND FOR \"{regionName}\"");
+                            }
+
+                            json += $"\n  \"{modifiedRegionName}\": {{";
+                            json += $"\n    \"name\": \"{regionName}\",";
+                            json += $"\n    \"level\": \"{GameplayMaster.instance.levelId.ToString()}\",";
+                            json += $"\n    \"sublevel\": \"{sublevelname}\",";
+                            json += "\n    \"gears\": {";
+                            if (regionGears.Any())
+                            {
+                                json = regionGears.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"bunnies\": {";
+                            if (regionBunnies.Any())
+                            {
+                                json = regionBunnies.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"safes\": {";
+                            if (regionSafes.Any())
+                            {
+                                json = regionSafes.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"chests\": {";
+                            if (regionChests.Any())
+                            {
+                                json = regionChests.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"coinbags\": {";
+                            if (regionCoinbags.Any())
+                            {
+                                json = regionCoinbags.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"coins\": {";
+                            if (regionCoins.Any())
+                            {
+                                json = regionCoins.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"checkpoints\": {";
+                            if (regionCheckpoints.Any())
+                            {
+                                json = regionCheckpoints.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"cheeses\": {";
+                            if (regionCheeses.Any())
+                            {
+                                json = regionCheeses.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"connections\": {";
+                            if (regionConnections.Any())
+                            {
+                                json = regionConnections.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"subwarps\": {";
+                            if (regionSubwarps.Any())
+                            {
+                                json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"warps\": {";
+                            if (regionWarps.Any())
+                            {
+                                json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "}";
+                            json += "\n  },";
+                        }
+                        json = json.TrimEnd(',');
+
+                        json += "\n}";
+                        GUIUtility.systemCopyBuffer = json;
+                        Plugin.Log($"JSON Generation successful");
+                    }
                 }
                 else
                 {
                     GUIUtility.systemCopyBuffer = GameplayMaster.instance.levelId.ToString();
                 }
-                Plugin.DoubleLog($"{GameplayMaster.instance.levelId}: {trimmedName}. There are {bonuses} AP collectables, {checkpoints.Length} checkpoints, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses + cheeses + checkpoints.Length} likely checks. Currently {documentedChecks} have been sorted into regions.");
+                Plugin.Log($"{GameplayMaster.instance.levelId}: {trimmedName}. There are {bonuses.Count} AP collectables, {checkpoints.Count} checkpoints, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses.Count + cheeses + checkpoints.Count} likely checks. Currently {documentedChecks} have been sorted into regions.");
+
             }
             orig(self);
         }

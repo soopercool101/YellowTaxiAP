@@ -143,8 +143,8 @@ namespace YellowTaxiAP.Managers
                 : DialogueCapsule.dictionary[self.dialgoueCapsuleKey.ToUpper()];
             if (dialogueCapsule != null)
             {
-                Plugin.DoubleLog($"Initiating dialogue with key: {dialogueCapsule.key}");
-                //GUIUtility.systemCopyBuffer = dialogueCapsule.key;
+                Plugin.Log($"Initiating dialogue with key: {dialogueCapsule.key}");
+                GUIUtility.systemCopyBuffer = dialogueCapsule.key;
 
                 var moveRandoID = -1;
                 switch (dialogueCapsule.key)
@@ -168,7 +168,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.BOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH": // Normally super boost tutorial
-                        if (!APPlayerManager.AP_MoveRando)
+                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
@@ -178,7 +178,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.SUPERBOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT": // Normally jump tutorial
-                        if (!APPlayerManager.AP_MoveRando)
+                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
@@ -188,7 +188,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.JUMP_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP": // Normally backflip tutorial
-                        if (!APPlayerManager.AP_MoveRando)
+                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
@@ -198,7 +198,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.BACKFLIP_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE": // Normally glide tutorial
-                        if (!APPlayerManager.AP_MoveRando)
+                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
@@ -208,7 +208,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.GLIDE_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN": // Normally quick turn tutorial. Repurposed for Spin Attack
-                        if (!APPlayerManager.AP_MoveRando)
+                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
@@ -219,7 +219,7 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_MOON_END":
                         // TODO: Win the game
-                        Plugin.DoubleLog("The game has been won!");
+                        Plugin.Log("The game has been won!");
                         break;
                 }
 
@@ -236,7 +236,7 @@ namespace YellowTaxiAP.Managers
                     ];
                     var item = testItems[new Random().Next(0, testItems.Length)];
                     var font = CurrentFont;
-                    Plugin.DoubleLog($"Current Font: {CurrentFont}");
+                    Plugin.Log($"Current Font: {CurrentFont}");
                     var material = "Acqua";
                     switch (item.Item3) // TODO: Probably if instead of switch to handle cases of multiple types?
                     {

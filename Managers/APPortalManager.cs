@@ -26,20 +26,20 @@ namespace YellowTaxiAP.Managers
                 return;
             if (self.targetLevel == Levels.Index.noone)
             {
-                Plugin.DoubleLog($"TaxiWarp to {self.moveTaxiHere} with rotation {self.rotateTaxiY}");
+                Plugin.Log($"TaxiWarp to {self.moveTaxiHere} with rotation {self.rotateTaxiY}");
             }
             orig(self, other);
         }
 
         private void PortalScript_GoToLevel(On.PortalScript.orig_GoToLevel orig, Levels.Index levelSceneIndex, Data.LevelId targetLevelId)
         {
-            Plugin.DoubleLog($"PortalWarp to {targetLevelId} with index {levelSceneIndex} ({(int)levelSceneIndex})");
+            Plugin.Log($"PortalWarp to {targetLevelId} with index {levelSceneIndex} ({(int)levelSceneIndex})");
             orig(levelSceneIndex, targetLevelId);
         }
 
         private System.Collections.IEnumerator PortalScript_CoroutineGo(On.PortalScript.orig_CoroutineGo orig, PortalScript self, int levelIndex)
         {
-            Plugin.DoubleLog($"Portal Coroutine: Warp to {self.targetLevelId} with index {levelIndex}. Portal index {self.targetLevel}");
+            Plugin.Log($"Portal Coroutine: Warp to {self.targetLevelId} with index {levelIndex}. Portal index {self.targetLevel}");
             return orig(self, levelIndex);
         }
 

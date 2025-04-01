@@ -1,4 +1,5 @@
-﻿using YellowTaxiAP.Archipelago;
+﻿using UnityEngine;
+using YellowTaxiAP.Archipelago;
 
 namespace YellowTaxiAP.Managers
 {
@@ -9,9 +10,9 @@ namespace YellowTaxiAP.Managers
         public static int boost_level = 0;
         public static int AP_JumpLevel => AP_MoveRando ? jump_level : 2;
         public static int jump_level = 0;
-        public static bool AP_FlipAttackEnabled => AP_MoveRando ? flip_enabled : true;
+        public static bool AP_FlipAttackEnabled => !AP_MoveRando || flip_enabled;
         public static bool flip_enabled = false;
-        public static bool AP_GlideEnabled => AP_MoveRando ? glide_enabled : true;
+        public static bool AP_GlideEnabled => !AP_MoveRando || glide_enabled;
         public static bool glide_enabled = false;
 
         public APPlayerManager()
@@ -38,7 +39,7 @@ namespace YellowTaxiAP.Managers
         private bool IsFlipOWillingAP(On.PlayerScript.orig_IsFlipOWilling orig, PlayerScript self)
         {
             var callingMethod = (new System.Diagnostics.StackTrace()).GetFrame(2).GetMethod().Name;
-            if (callingMethod.Equals("StateBehaviour_FollowPlayer"))
+            if (callingMethod.Equals("_RatPlayerScript::StateBehaviour_FollowPlayer"))
             {
                 return AP_FlipAttackEnabled && orig(self);
             }
@@ -50,6 +51,8 @@ namespace YellowTaxiAP.Managers
             if (AP_BoostLevel < 1 && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time <= 0.0)
             {
                 self.flipOWill_FlipTimer -= Tick.Time * 10; // Prevents regular boost from working
+                self.flipOWill_CooldownTimer = self.OnGround ? 0.2f : self.flipOWill_CooldownTimerRESET;
+                self.flipOWill_CooldownTimerLastResetValue = self.flipOWill_CooldownTimer;
             }
             if (AP_BoostLevel < 2)
             {
@@ -92,6 +95,16 @@ namespace YellowTaxiAP.Managers
             {
                 return orig(self);
             }
+
+            // Allow you to abort a Flip O' Will without jumping
+            self.freezeBooked = false;
+            self.jumpMidairTimer = -1f;
+            self.flipOWill_FlipTimer = -1f;
+            self.flipOWill_FlipExtraTimer = -1f;
+            self.flipOWill_AbortedRecently = 0.75f;
+            self.justJumpedTimer = 0.25f;
+            self.flipOWill_CooldownTimer = self.OnGround ? 0.2f : self.flipOWill_CooldownTimerRESET;
+            self.flipOWill_CooldownTimerLastResetValue = self.flipOWill_CooldownTimer;
 
             return 0;
         }

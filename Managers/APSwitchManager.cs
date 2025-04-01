@@ -6,15 +6,15 @@ namespace YellowTaxiAP.Managers
     /// THIS ONLY SUPPORTS ORANGE SWITCH, THE GAME IS SET UP TO HANDLE MORE.
     /// IF MORE ARE ADDED, THIS WILL NEED TO BE EDITED.
     /// </summary>
-    public class APOrangeSwitchManager
+    public class APSwitchManager
     {
-        private static bool _switchActive;
-        public static bool OrangeSwitchActive
+        private static bool _orangeSwitchUnlocked;
+        public static bool OrangeSwitchUnlocked
         {
-            get => _switchActive;
+            get => _orangeSwitchUnlocked;
             set
             {
-                _switchActive = value;
+                _orangeSwitchUnlocked = value;
                 foreach (var block in SwitchBlockScript.list)
                 {
                     block.ChangeState();
@@ -23,15 +23,59 @@ namespace YellowTaxiAP.Managers
         }
 
         public static bool SwitchPressed = false;
-        public APOrangeSwitchManager()
+        public APSwitchManager()
         {
+            // Orange Switch Blocks
             On.SwitchBlockScript.ChangeState += ChangeState_AP;
             On.SwitchBlockScript.SetState += SetState_AP;
+            // Orange Switch
             On.GiantSwitchScript.Start += GiantSwitchScript_Start;
             On.GiantSwitchScript.VisualSwitch += GiantSwitchScript_VisualSwitch;
             On.GiantSwitchScript.SwitchMeOn += GiantSwitchScript_SwitchMeOn;
+
+            // Panik Arcade Switches
+            On.PanikBlockScript.Switch += PanikBlockScript_Switch;
         }
 
+        private static bool _greenSwitchUnlocked = true;
+        public static bool GreenSwitchUnlocked
+        {
+            get => _greenSwitchUnlocked;
+            set
+            {
+                _greenSwitchUnlocked = value;
+                PanikBlockScript.SwitchAll(PanikSwitchScript.switchState);
+            }
+        }
+
+        private static bool _purpleSwitchUnlocked = true;
+        public static bool PurpleSwitchUnlocked
+        {
+            get => _purpleSwitchUnlocked;
+            set
+            {
+                _purpleSwitchUnlocked = value;
+                PanikBlockScript.SwitchAll(PanikSwitchScript.switchState);
+            }
+        }
+
+        /// <summary>
+        /// Prevent Blocks from being solid unless the relevant switch has been unlocked.
+        /// </summary>
+        private void PanikBlockScript_Switch(On.PanikBlockScript.orig_Switch orig, PanikBlockScript self, bool state)
+        {
+            bool enabled = self.alternativeKind ? GreenSwitchUnlocked : PurpleSwitchUnlocked;
+            if (self.alternativeKind) // alternativeKind = Green Block
+            {
+                state = !state;
+            }
+            self.myBlockHolder.SetActive(state && enabled);
+            self.myLinesHolder.SetActive(!state && enabled);
+        }
+
+        /// <summary>
+        /// Override when 
+        /// </summary>
         private void GiantSwitchScript_SwitchMeOn(On.GiantSwitchScript.orig_SwitchMeOn orig, GiantSwitchScript self)
         {
             if (self.switched)
@@ -57,13 +101,13 @@ namespace YellowTaxiAP.Managers
 
         private void SetState_AP(On.SwitchBlockScript.orig_SetState orig, SwitchBlockScript.SwitchBlockKind switchesToAffect, bool changeState)
         {
-            // Disabled. Relevant code has been moved to the OrangeSwitchActive setter
+            // Disabled. Relevant code has been moved to the OrangeSwitchUnlocked setter
         }
 
         private void ChangeState_AP(On.SwitchBlockScript.orig_ChangeState orig, SwitchBlockScript self)
         {
-            self.visibleBlockModel.SetActive(OrangeSwitchActive);
-            self.invisibleBlockModel.SetActive(!OrangeSwitchActive);
+            self.visibleBlockModel.SetActive(OrangeSwitchUnlocked);
+            self.invisibleBlockModel.SetActive(!OrangeSwitchUnlocked);
         }
     }
 }

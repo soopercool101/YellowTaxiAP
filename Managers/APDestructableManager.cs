@@ -15,7 +15,7 @@ namespace YellowTaxiAP.Managers
             On.DetailScript.DestructiveCollision += DetailScript_DestructiveCollision;
         }
 
-        public Tuple<string, HashSet<string>> GetGiftFromDestructable(string particle)
+        public Tuple<string, HashSet<string>>? GetGiftFromDestructable(string particle)
         {
             switch(particle)
             {
@@ -201,7 +201,6 @@ namespace YellowTaxiAP.Managers
             var unkStr = "gifted";
             if (self.spawnThisOnDestruction.Length > 0)
             {
-                GameObject spawnToRemove = null;
                 List<GameObject> spawns = new List<GameObject>();
                 int count = 0;
                 var distinctSpawns = self.spawnThisOnDestruction.Distinct().ToArray();
@@ -235,7 +234,7 @@ namespace YellowTaxiAP.Managers
             else
                 destructableSpawns = "(Nothing)";
             if(unkStr.Contains("new"))
-                Plugin.DoubleLog($"Destroyed {self.gameObject.name} and {unkStr}: {destructableSpawns}");
+                Plugin.Log($"Destroyed {self.gameObject.name} and {unkStr}: {destructableSpawns}");
             orig(self, velocity);
         }
     }

@@ -17,9 +17,37 @@ namespace YellowTaxiAP.Managers
             // Rat Person Dialogue scripts
             On.DialogueScript.SpecialMethod_OnAnswerYes_PickupRat += DialogueScript_SpecialMethod_OnAnswerYes_PickupRat;
             // Rat Player scripts
+            On.RatPlayerScript.StateBehaviour_FollowPlayer += RatPlayerScript_StateBehaviour_FollowPlayer;
             // Cheese scripts
             On.CheeseScript.GetCheeseIdString += CheeseScript_GetCheeseIdString;
+            On.CheeseScript.IsAlreadyPickedUp += CheeseScript_IsAlreadyPickedUp;
             On.CheeseScript.MarkPickedUp += CheeseScript_MarkPickedUp;
+        }
+
+        /// <summary>
+        /// In vanilla, the rat very often can get stuck, making Cheese pickups slightly annoying.
+        /// This code makes the rat always teleport to you when you are near a cheese for easy pickups.
+        /// </summary>
+        private void RatPlayerScript_StateBehaviour_FollowPlayer(On.RatPlayerScript.orig_StateBehaviour_FollowPlayer orig, RatPlayerScript self)
+        {
+            orig(self);
+            if (self.teleportDelay <= 0.0 && CheeseScript.IsPlayerNearAnyCheese())
+            {
+                self.transform.position = RatPlayerScript.RespawnNearPlayerPositionGet();
+                self.justTeleportedTimer = 1f;
+                if (!Sound.IsPlaying("SoundRatTeleport") && self.teleportSoundDelay <= 0.0)
+                {
+                    Sound.Play("SoundRatTeleport");
+                    self.teleportSoundDelay = 30f;
+                }
+            }
+        }
+
+        private bool CheeseScript_IsAlreadyPickedUp(On.CheeseScript.orig_IsAlreadyPickedUp orig, CheeseScript self)
+        {
+            //Plugin.Log($"Cheese {self.GetCheeseIdString()} can be found at {self.transform.position.ToString()}");
+            // TODO: Base this off the location being checked instead of the vanilla check
+            return orig(self);
         }
 
         private void DialogueScript_SpecialMethod_OnAnswerYes_PickupRat(On.DialogueScript.orig_SpecialMethod_OnAnswerYes_PickupRat orig, DialogueScript self)

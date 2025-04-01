@@ -30,18 +30,22 @@ public class Plugin : BaseUnityPlugin
     public APHatManager HatHook;
     public APDialogueManager DialogueHook;
     public APCollectableManager CollectableHook;
-    public APOrangeSwitchManager OrangeSwitchHook;
+    public APSwitchManager SwitchHook;
     public APDestructableManager DestructableHook;
     public APPsychoTaxiManager PsychoTaxiHook;
     public APRatManager RatHook;
     public APMenuManager MenuHook;
     public APDataManager DataHook;
+    public APHUDManager HudHook;
 
     public bool AllowLaser = true;
-    public static void DoubleLog(string message)
+    public static void Log(string message)
     {
-        //BepinLogger.LogMessage(message);
+#if DEBUG
         ArchipelagoConsole.LogMessage(message);
+#else
+        BepinLogger.LogMessage(message);
+#endif
     }
 
     private void Awake()
@@ -56,11 +60,16 @@ public class Plugin : BaseUnityPlugin
         ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
         On.ModMaster.Start += (orig, self) =>
         {
+#if DEBUG
+            self.ModMasterDebugLogsEnableSet(true);
+#else
+            self.ModMasterDebugLogsEnableSet(false);
+#endif
             self.ModEnableSet(true);
             orig(self);
             PlayerControlHook = new APPlayerManager();
             CollectableHook = new APCollectableManager();
-            OrangeSwitchHook = new APOrangeSwitchManager();
+            SwitchHook = new APSwitchManager();
             PortalHook = new APPortalManager();
             AreaStateHook = new APAreaStateManager();
             HatHook = new APHatManager();
@@ -71,6 +80,7 @@ public class Plugin : BaseUnityPlugin
             DataHook = new APDataManager();
             PsychoTaxiHook = new APPsychoTaxiManager();
             DestructableHook = new APDestructableManager();
+            HudHook = new APHUDManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
         };
         On.GigaMorioScript.Update += (orig, self) =>
@@ -88,6 +98,13 @@ public class Plugin : BaseUnityPlugin
             }
             orig(self);
         };
+        On.BombCarScript.Update += (orig, self) =>
+        {
+            if (AllowLaser)
+            {
+                orig(self);
+            }
+        };
 
         On.ModMaster.OnPlayerDie += (orig, self) =>
         {
@@ -95,68 +112,68 @@ public class Plugin : BaseUnityPlugin
             if (!DeathLinkInProgress)
             {
                 ArchipelagoClient.DeathLinkHandler?.KillPlayer();
-                DoubleLog("Death Link Sent");
+                Log("Death Link Sent");
             }
 
             DeathLinkInProgress = false;
         };
 
+#if DEBUG
         On.ModMaster.Update += (orig, self) =>
         {
-#if DEBUG
             if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.boost_level > 0)
             {
-                DoubleLog($"Flip-O-Will Boost Level lowered to {--APPlayerManager.boost_level}");
+                Log($"Flip-O-Will Boost Level lowered to {--APPlayerManager.boost_level}");
             }
             if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.boost_level < 2)
             {
-                DoubleLog($"Flip-O-Will Boost Level increased to {++APPlayerManager.boost_level}");
+                Log($"Flip-O-Will Boost Level increased to {++APPlayerManager.boost_level}");
             }
 
             if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.jump_level > 0)
             {
-                DoubleLog($"Flip-O-Will Jump Level lowered to {--APPlayerManager.jump_level}");
+                Log($"Flip-O-Will Jump Level lowered to {--APPlayerManager.jump_level}");
             }
             if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.jump_level < 2)
             {
-                DoubleLog($"Flip-O-Will Jump Level increased to {++APPlayerManager.jump_level}");
+                Log($"Flip-O-Will Jump Level increased to {++APPlayerManager.jump_level}");
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 APPlayerManager.flip_enabled = !APPlayerManager.flip_enabled;
-                DoubleLog($"Flip-O-Will Spin Attack {(APPlayerManager.flip_enabled ? "enabled" : "disabled")}");
+                Log($"Flip-O-Will Spin Attack {(APPlayerManager.flip_enabled ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Backslash))
             {
                 APPlayerManager.glide_enabled = !APPlayerManager.glide_enabled;
-                DoubleLog($"Glide {(APPlayerManager.glide_enabled ? "enabled" : "disabled")}");
+                Log($"Glide {(APPlayerManager.glide_enabled ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
             {
                 GameplayMaster.instance.useGameTimer = !GameplayMaster.instance.useGameTimer;
-                DoubleLog($"Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}");
+                Log($"Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Comma))
             {
                 AllowLaser = !AllowLaser;
-                DoubleLog($"Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}");
+                Log($"Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}");
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
                 APCollectableManager.GoldenSpringActive = !APCollectableManager.GoldenSpringActive;
-                DoubleLog($"Golden Spring {(APCollectableManager.GoldenSpringActive ? "enabled" : "disabled")}");
+                Log($"Golden Spring {(APCollectableManager.GoldenSpringActive ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
                 APCollectableManager.GoldenPropellerActive = !APCollectableManager.GoldenPropellerActive;
-                DoubleLog($"Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
+                Log($"Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
             {
-                APOrangeSwitchManager.OrangeSwitchActive = !APOrangeSwitchManager.OrangeSwitchActive;
-                DoubleLog($"Orange Switch {(APOrangeSwitchManager.OrangeSwitchActive ? "enabled" : "disabled")}");
+                APSwitchManager.OrangeSwitchUnlocked = !APSwitchManager.OrangeSwitchUnlocked;
+                Log($"Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
             {
@@ -170,58 +187,68 @@ public class Plugin : BaseUnityPlugin
                 {
                     UnityEngine.Object.Destroy(RatPlayerScript.instance?.gameObject);
                 }
-                DoubleLog($"Rat {(APRatManager.AP_ReceivedRat ? "enabled" : "disabled")}");
+                Log($"Rat {(APRatManager.AP_ReceivedRat ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+            {
+                APSwitchManager.PurpleSwitchUnlocked = !APSwitchManager.PurpleSwitchUnlocked;
+                Log($"Purple Switch {(APSwitchManager.PurpleSwitchUnlocked ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+            {
+                APSwitchManager.GreenSwitchUnlocked = !APSwitchManager.GreenSwitchUnlocked;
+                Log($"Green Switch {(APSwitchManager.GreenSwitchUnlocked ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.K))
             {
                 DeathLinkInProgress = true;
                 GameplayMaster.instance?.Die();
-                DoubleLog($"Attempting to kill player");
+                Log($"Attempting to kill player");
             }
             if (Input.GetKeyDown(KeyCode.B))
             {
                 ExplosionScript.SpawnNew(PlayerScript.instance.transform.position - new Vector3(0, 3, 0));
-                DoubleLog($"Spawning explosion at player");
+                Log($"Spawning explosion at player");
             }
             if (Input.GetKeyDown(KeyCode.P))
             {
                 PlayerScript.instance.propellerUsesLeft = 3;
-                DoubleLog($"Granting Propeller");
+                Log($"Granting Propeller");
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (PlayerScript.instance.invincible)
                 {
                     PlayerScript.instance.InvincibleStop();
-                    DoubleLog($"Toggling invincibility off");
+                    Log($"Toggling invincibility off");
                 }
                 else
                 {
                     PlayerScript.instance.InvincibleSet(float.PositiveInfinity);
-                    DoubleLog($"Toggling invincibility on");
+                    Log($"Toggling invincibility on");
                 }
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
                 APAreaStateManager.RocketEnabled = !APAreaStateManager.RocketEnabled;
                 APAreaStateManager.UpdateRocketState();
-                DoubleLog($"Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}");
+                Log($"Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 APAreaStateManager.MindPasswordReceived = !APAreaStateManager.MindPasswordReceived;
                 APAreaStateManager.UpdateMoriosPasswordState();
-                DoubleLog($"Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}");
+                Log($"Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}");
             }
 
             if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))
             {
                 ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled =
                     !ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled;
-                DoubleLog($"Archipelago rendering {(ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled ? "enabled" : "disabled")}");
+                Log($"Archipelago rendering {(ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled ? "enabled" : "disabled")}");
             }
-#endif
             orig(self);
         };
+#endif
     }
 }
