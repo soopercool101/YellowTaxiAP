@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Archipelago.Gifting.Net.Traits;
@@ -15,7 +15,7 @@ namespace YellowTaxiAP.Managers
             On.DetailScript.DestructiveCollision += DetailScript_DestructiveCollision;
         }
 
-        public Tuple<string, HashSet<string>>? GetGiftFromDestructable(string particle)
+        public Tuple<string, HashSet<string>> GetGiftFromDestructable(string particle)
         {
             switch(particle)
             {
@@ -47,6 +47,8 @@ namespace YellowTaxiAP.Managers
                 case "Distrutto Cartello Speed Limit 70":       // Speed Limit Sign (70)
                 case "Distrutto Cartello Up Right":             // Up Right Turn Sign
                 case "Distrutto Cartello Up Left":              // Up Left Turn Sign
+                case "Distrutto Cartello Right Left":           // Right Left Turn Sign
+                case "Distrutto Cartello No Pass":              // No Pass
                     return new Tuple<string, HashSet<string>>("Sign", [GiftFlag.Metal]);
                 case "Distrutto Semaforo":                      // Traffic Light
                     return new Tuple<string, HashSet<string>>("Traffic Light", [GiftFlag.Light, "Green", "Yellow", "Red", GiftFlag.Metal]);

@@ -25,8 +25,9 @@ namespace YellowTaxiAP.Managers
 
             //On.BonusScript.CoinPickedUpSet += BonusScript_CoinPickedUpSet;
             //On.BonusScript.OnDestroy += BonusScript_OnDestroy;
-
+#if DEBUG
             On.MapArea.MarkDiscovered += MapArea_MarkDiscovered;
+#endif
             //On.Level.StartLoadedScene += Level_StartLoadedScene;
 
             On.PlayerScript.OnTriggerStay += PlayerScript_OnTriggerStay;
@@ -270,7 +271,7 @@ namespace YellowTaxiAP.Managers
                     if (documentedChecks >= bonuses.Count + cheeses + checkpoints.Count)
                     {
                         var json = "{";
-                        var i = 0;
+                        //var i = 0;
                         foreach (var subregion in DebugLocationHelper.PerLevelIDs[
                                      GameplayMaster.instance.levelId.ToString()])
                         {
@@ -442,14 +443,14 @@ namespace YellowTaxiAP.Managers
                             json += "\n    \"subwarps\": {";
                             if (regionSubwarps.Any())
                             {
-                                json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
+                                json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
                                 json = json.TrimEnd(',') + "\n    ";
                             }
                             json += "},";
                             json += "\n    \"warps\": {";
                             if (regionWarps.Any())
                             {
-                                json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
+                                json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
                                 json = json.TrimEnd(',') + "\n    ";
                             }
                             json += "}";
@@ -459,7 +460,7 @@ namespace YellowTaxiAP.Managers
 
                         json += "\n}";
                         GUIUtility.systemCopyBuffer = json;
-                        Plugin.Log($"JSON Generation successful");
+                        Plugin.Log("JSON Generation successful");
                     }
                 }
                 else
