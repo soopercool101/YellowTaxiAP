@@ -12,7 +12,7 @@ namespace YellowTaxiAP.Archipelago;
 
 public class ArchipelagoClient
 {
-    public const string APVersion = "0.5.0";
+    public const string APVersion = "0.7.0";
     private const string Game = "Yellow Taxi Goes Vroom";
 
     public static bool Authenticated;

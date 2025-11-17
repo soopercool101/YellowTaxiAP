@@ -35,7 +35,7 @@
 
     <ItemGroup>
         <PackageReference Include="Archipelago.Gifting.Net" Version="0.4.3" />
-        <PackageReference Include="Archipelago.MultiClient.Net" Version="6.6.0" />
+        <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
         <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
         <PackageReference Include="BepInEx.Core" Version="5.4.21" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
@@ -49,24 +49,28 @@
 
     <ItemGroup>
       <Reference Include="Assembly-CSharp">
-        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\Assembly-CSharp.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\Assembly-CSharp.dll</HintPath>
         <Private>False</Private>
       </Reference>
       <Reference Include="Febucci.TextAnimator.Runtime">
-        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Febucci.TextAnimator.Runtime.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Febucci.TextAnimator.Runtime.dll</HintPath>
         <Private>False</Private>
       </Reference>
       <Reference Include="MMHOOK_Assembly-CSharp">
-        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
         <Private>False</Private>
       </Reference>
       <Reference Include="Unity.TextMeshPro">
-        <HintPath>C:\Program Files (x86)\Steam\\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+        <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Unity.TextMeshPro.dll</HintPath>
         <Private>False</Private>
       </Reference>
       <Reference Include="UnityEngine.UI">
         <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\UnityEngine.UI.dll</HintPath>
       </Reference>
     </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="&quot;C:\Program Files (x86)\Steam\steam.exe&quot; steam://launch/2011780" />
+    </Target>
 
 </Project>
