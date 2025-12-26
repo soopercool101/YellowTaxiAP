@@ -62,7 +62,7 @@ public static class ArchipelagoConsole
 
         var buttonText = Hidden ? "Show" : "Hide";
 #if DEBUG
-        if (PlayerScript.instance != null)
+        if (PlayerScript.instance)
         {
             buttonText = PlayerScript.instance.transform.position.ToString();
         }

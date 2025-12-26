@@ -16,8 +16,8 @@ namespace YellowTaxiAP.Managers
 
         private void PortalScript_OnTriggerEnter(On.PortalScript.orig_OnTriggerEnter orig, PortalScript self, UnityEngine.Collider other)
         {
-            if (self.disableTimer > 0.0 || self.disabledByExtraConditions || DialogueScript.instance != null ||
-                GameplayMaster.instance.gameOver || TransictionScript.instance != null ||
+            if (self.disableTimer > 0.0 || self.disabledByExtraConditions || DialogueScript.instance ||
+                GameplayMaster.instance.gameOver || TransictionScript.instance ||
                 !self.DemoCheck_ShouldPortalBeEnabled() ||
                 self.kaizoLevelId != Data.LevelId.noone && !self.kaizoEnabled ||
                 self.PortalIsLevelPortal && self.gearOpenTr.gameObject.activeSelf ||

@@ -72,10 +72,9 @@ namespace YellowTaxiAP.Managers
 
         public bool CanShowBunniesOverride(HudMasterScript self)
         {
-            var flag1 = GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket;
+            var flag1 = GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket || GameplayMaster.instance.levelId == Data.LevelId.L20_PsychoTaxi;
             var flag2 = Data.IsLevelIdHub(GameplayMaster.instance.levelId) && !MapArea.IsPlayerInsideLab();
-            var flag3 = HudEndGameScript.instance != null;
-            return self.CollectibleShouldBeVisible && !flag1 && !flag2 && !flag3;
+            return self.CollectibleShouldBeVisible && !flag1 && !flag2 && !HudEndGameScript.instance;
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void HudMasterScript_Update(On.HudMasterScript.orig_Update orig, HudMasterScript self)
         {
-            if (Master.instance.USE_UI_TOTAL_GEARS && GearAnimationScript.instance != null && DialogueScript.instance == null && !Master.instance.EVENT_MODE && !GameplayMaster.instance.timeAttackLevel)
+            if (Master.instance.USE_UI_TOTAL_GEARS && GearAnimationScript.instance && DialogueScript.instance == null && !Master.instance.EVENT_MODE && !GameplayMaster.instance.timeAttackLevel)
             {
                 if (!self.gearsTotalHolder.gameObject.activeSelf)
                 {
@@ -101,7 +100,7 @@ namespace YellowTaxiAP.Managers
             }
             else if (self.gearsTotalHolder.gameObject.activeSelf)
                 self.gearsTotalHolder.gameObject.SetActive(false);
-            if (MapArea.instancePlayerInside != null && (self.currentMapAreaScriptableObject == null || self.currentMapAreaScriptableObject.areaName != MapArea.instancePlayerInside.areaNameKey || self.gearsOld_ForAreaGears != Data.gearsUnlockedNumber[Data.gameDataIndex]) && GearAnimationScript.instance == null)
+            if (MapArea.instancePlayerInside && (!self.currentMapAreaScriptableObject || self.currentMapAreaScriptableObject.areaName != MapArea.instancePlayerInside.areaNameKey || self.gearsOld_ForAreaGears != Data.gearsUnlockedNumber[Data.gameDataIndex]) && !GearAnimationScript.instance)
             {
                 self.currentMapAreaScriptableObject = MapMaster.GetAreaScriptableObject_ByAreaName(MapArea.instancePlayerInside.areaNameKey);
                 self.UpdateAreaGears();

@@ -81,7 +81,7 @@ namespace YellowTaxiAP.Managers
         {
             if (self.doublePickupPreventionMeshRenderer != null)
                 self.CoinPickedUpMaterialRefresh();
-            if (GameplayMaster.instance != null && GameplayMaster.instance.levelId == Data.LevelId.L12_MoriosMind && !self.backupInstance)
+            if (GameplayMaster.instance && GameplayMaster.instance.levelId == Data.LevelId.L12_MoriosMind && !self.backupInstance)
             {
                 switch (self.myIdentity)
                 {
@@ -174,30 +174,21 @@ namespace YellowTaxiAP.Managers
                 self.bunnyDefaultMaterial = self.myMeshRend.sharedMaterial;
                 self.BunnyAlreadyPickedUpRefresh();
             }
-            // Never destroy these objects
-            //if (self.myIdentity == BonusScript.Identity.invincibilitySpring && GameplayMaster.instance.levelId != Data.LevelId.L5_ToslaOffices && GameplayMaster.instance.levelId != Data.LevelId.L14_ToslaHQ && !Data.goldenSpringUnlocked[Data.gameDataIndex])
-            //    Object.Destroy(self.gameObject);
-            //else if (self.myIdentity == BonusScript.Identity.goldenPropeller && GameplayMaster.instance.levelId != Data.LevelId.L13_StarmanCastle && GameplayMaster.instance.levelId != Data.LevelId.L14_ToslaHQ && !Data.cutscenePropellerFirstTimePickup[Data.gameDataIndex])
-            //    Object.Destroy(self.gameObject);
-            //else if (self.myIdentity == BonusScript.Identity.morioMindPassword && Data.morioMindPasswordGot[Data.gameDataIndex])
-            //    Object.Destroy(self.gameObject);
-            else
+
+            if (self.rotateMe != null)
             {
-                if (self.rotateMe != null)
-                {
-                    if (self.rortationSin)
-                        self.onUpdate += self.RotateSin;
-                    else
-                        self.onUpdate += self.RotateFully;
-                }
-                if (self.alwaysFaceCamera)
-                    self.onUpdate += self.FaceCamera;
-                if (self.myIdentity == BonusScript.Identity.gear)
-                    self.onUpdate += self.GearsCode;
-                if (self.myIdentity != BonusScript.Identity.coin)
-                    return;
-                self.onUpdate += self.CoinNearPlayer;
+                if (self.rortationSin)
+                    self.onUpdate += self.RotateSin;
+                else
+                    self.onUpdate += self.RotateFully;
             }
+            if (self.alwaysFaceCamera)
+                self.onUpdate += self.FaceCamera;
+            if (self.myIdentity == BonusScript.Identity.gear)
+                self.onUpdate += self.GearsCode;
+            if (self.myIdentity != BonusScript.Identity.coin)
+                return;
+            self.onUpdate += self.CoinNearPlayer;
         }
 
         /// <summary>

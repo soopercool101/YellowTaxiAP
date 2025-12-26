@@ -11,7 +11,7 @@ namespace YellowTaxiAP.Managers
             {
                 GameObject backroomsDoor = GameObject.Find("Poster 50 9 (3)");
 
-                if (backroomsDoor != null)
+                if (backroomsDoor)
                 {
                     Plugin.Log("Destroying " + backroomsDoor.gameObject.name);
                     Object.Destroy(backroomsDoor);

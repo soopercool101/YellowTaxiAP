@@ -1191,7 +1191,138 @@ namespace YellowTaxiAP
 
         #region Morio's Island
 
-        
+        [Description("Morio's Island - Starting Area")]
+        public static Dictionary<string, string> MoriosIslandStartingArea = new()
+        {
+            { "3_03_00094", "Morio's Island - Coin in Starting Area Arrow #1" },
+            { "3_03_00095", "Morio's Island - Coin in Starting Area Arrow #2" },
+            { "3_03_00097", "Morio's Island - Coin in Starting Area Arrow #3" },
+            { "3_03_00098", "Morio's Island - Coin in Starting Area Arrow #4" },
+            { "3_03_00109", "Morio's Island - Coin in Starting Area Arrow #5" },
+            { "3_03_00112", "Morio's Island - Coin in Starting Area Arrow #6" },
+            { "3_03_00114", "Morio's Island - Coin in Starting Area Arrow #7" },
+            { "3_03_00110", "Morio's Island - Coin in Starting Area Arrow #8" },
+            { "3_03_00113", "Morio's Island - Coin in Starting Area Arrow #9" },
+            { "3_03_00111", "Morio's Island - Coin in Starting Area Arrow #10" },
+            { "3_03_00108", "Morio's Island - Coin in Starting Area Arrow #11" },
+            { "3_03_00157", "Morio's Island - Coin in Starting Area Back Row #1" },
+            { "3_03_00158", "Morio's Island - Coin in Starting Area Back Row #2" },
+            { "3_03_00159", "Morio's Island - Coin in Starting Area Back Row #3" },
+            { "3_03_00160", "Morio's Island - Coin in Starting Area Back Row #4" },
+            { "3_03_00161", "Morio's Island - Coin in Starting Area Back Row #5" },
+            { "3_03_00175", "Morio's Island - Coin in Starting Area Left Triangle #1" },
+            { "3_03_00177", "Morio's Island - Coin in Starting Area Left Triangle #2" },
+            { "3_03_00179", "Morio's Island - Coin in Starting Area Left Triangle #3" },
+            { "3_03_00182", "Morio's Island - Coin in Starting Area Left Triangle #4" },
+            { "3_03_00189", "Morio's Island - Coin in Starting Area Left Triangle #5" },
+            { "3_03_00174", "Morio's Island - Coin in Starting Area Right Triangle #1" },
+            { "3_03_00176", "Morio's Island - Coin in Starting Area Right Triangle #2" },
+            { "3_03_00178", "Morio's Island - Coin in Starting Area Right Triangle #3" },
+            { "3_03_00181", "Morio's Island - Coin in Starting Area Right Triangle #4" },
+            { "3_03_00188", "Morio's Island - Coin in Starting Area Right Triangle #5" },
+            { "3_03_00116", "Morio's Island - Coin in Starting Area Forward Row #1" },
+            { "3_03_00117", "Morio's Island - Coin in Starting Area Forward Row #2" },
+            { "3_03_00118", "Morio's Island - Coin in Starting Area Forward Row #3" },
+            { "3_03_00119", "Morio's Island - Coin in Starting Area Forward Row #4" },
+            { "3_03_00120", "Morio's Island - Coin in Starting Area Forward Row #5" },
+            { "3_03_00124", "Morio's Island - Coin in Starting Area Forward Row #6" },
+            { "3_03_00125", "Morio's Island - Coin in Starting Area Forward Row #7" },
+            { "3_03_00126", "Morio's Island - Coin in Starting Area Forward Row #8" },
+            { "3_03_00127", "Morio's Island - Coin in Starting Area Forward Row #9" },
+            //{ "0_08_00001", "Morio's Island - Talk to Morio" },
+        };
+
+        [Description("Morio's Island - Road to Morio's House")]
+        public static Dictionary<string, string> MoriosIslandRoadToHouse = new()
+        {
+            { "3_03_00314", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #1" },
+            { "3_03_00318", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #2" },
+            { "3_03_00324", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #3" },
+            { "3_03_00328", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #4" },
+            { "3_03_00330", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #5" },
+            { "3_03_00317", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #6" },
+            { "3_03_00323", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #7" },
+            { "3_03_00327", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #8" },
+            { "3_03_00322", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #9" },
+            { "3_03_00335", "Morio's Island - Coin in Row on Starting Area Left Cliff #1" },
+            { "3_03_00337", "Morio's Island - Coin in Row on Starting Area Left Cliff #2" },
+            { "3_03_00339", "Morio's Island - Coin in Row on Starting Area Left Cliff #3" },
+            { "3_03_00341", "Morio's Island - Coin in Row on Starting Area Left Cliff #4" },
+            { "3_03_00343", "Morio's Island - Coin in Row on Starting Area Left Cliff #5" },
+            { "3_03_00345", "Morio's Island - Coin Bag on Starting Area Left Cliff" },
+            { "3_03_00313", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #1" },
+            { "3_03_00315", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #2" },
+            { "3_03_00319", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #3" },
+            { "3_03_00325", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #4" },
+            { "3_03_00329", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #5" },
+            { "3_03_00316", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #6" },
+            { "3_03_00320", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #7" },
+            { "3_03_00326", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #8" },
+            { "3_03_00321", "Morio's Island - Coin in Triangle on Starting Area Right Cliff #9" },
+            { "3_03_00334", "Morio's Island - Coin in Row on Starting Area Right Cliff #1" },
+            { "3_03_00336", "Morio's Island - Coin in Row on Starting Area Right Cliff #2" },
+            { "3_03_00338", "Morio's Island - Coin in Row on Starting Area Right Cliff #3" },
+            { "3_03_00340", "Morio's Island - Coin in Row on Starting Area Right Cliff #4" },
+            { "3_03_00342", "Morio's Island - Coin in Row on Starting Area Right Cliff #5" },
+            { "3_03_00344", "Morio's Island - Coin Bag on Starting Area Right Cliff" },
+            { "3_03_00063", "Morio's Island - Coin in Row Before First Checkpoint #1" },
+            { "3_03_00064", "Morio's Island - Coin in Row Before First Checkpoint #2" },
+            { "3_03_00065", "Morio's Island - Coin in Row Before First Checkpoint #3" },
+            { "3_09_01175", "Morio's Island - Checkpoint After First Hurdle" },
+            { "3_03_00066", "Morio's Island - Coin on First Hurdle Ramp #1" },
+            { "3_03_00067", "Morio's Island - Coin on First Hurdle Ramp #2" },
+            { "3_03_00142", "Morio's Island - Coin on First Hurdle Ramp #3" },
+            { "3_03_00146", "Morio's Island - Coin on First Hurdle Ramp #4" },
+            { "3_03_00203", "Morio's Island - Coin on First Hurdle Ramp #5" },
+            { "3_03_00046", "Morio's Island - Coin Behind First Hurdle Ramp Left #1" },
+            { "3_03_00048", "Morio's Island - Coin Behind First Hurdle Ramp Left #2" },
+            { "3_03_00050", "Morio's Island - Coin Behind First Hurdle Ramp Left #3" },
+            { "3_03_00052", "Morio's Island - Coin Behind First Hurdle Ramp Left #4" },
+            { "3_03_00056", "Morio's Island - Coin Behind First Hurdle Ramp Left #5" },
+            { "3_03_00055", "Morio's Island - Coin Behind First Hurdle Ramp Left #6" },
+            { "3_03_00045", "Morio's Island - Coin Behind First Hurdle Ramp Right #1" },
+            { "3_03_00047", "Morio's Island - Coin Behind First Hurdle Ramp Right #2" },
+            { "3_03_00049", "Morio's Island - Coin Behind First Hurdle Ramp Right #3" },
+            { "3_03_00051", "Morio's Island - Coin Behind First Hurdle Ramp Right #4" },
+            { "3_03_00053", "Morio's Island - Coin Behind First Hurdle Ramp Right #5" },
+            { "3_03_00054", "Morio's Island - Coin Behind First Hurdle Ramp Right #6" },
+            { "3_01_00004", "Morio's Island - Gear After First Ramp" },
+            { "3_03_00425", "Morio's Island - Coin on First Stone Arch #1" },
+            { "3_03_00424", "Morio's Island - Coin Bag on First Stone Arch #1" },
+            { "3_03_00423", "Morio's Island - Chest on First Stone Arch" },
+            { "3_03_00422", "Morio's Island - Coin Bag on First Stone Arch #2" },
+            { "3_03_00421", "Morio's Island - Coin on First Stone Arch #2" },
+            { "3_03_00213", "Morio's Island - Coin on First Stone Ramp #1" },
+            { "3_03_00212", "Morio's Island - Coin on First Stone Ramp #2" },
+            { "3_03_00211", "Morio's Island - Coin on First Stone Ramp #3" },
+            { "3_03_00210", "Morio's Island - Coin on First Stone Ramp #4" },
+            { "3_03_00221", "Morio's Island - Coin on First Stone Ramp #5" },
+            { "3_03_00292", "Morio's Island - Coin on First Stone Ramp #6" },
+            { "3_03_00355", "Morio's Island - Coin on First Stone Ramp #7" },
+            { "3_03_00387", "Morio's Island - Coin on First Stone Ramp #8" },
+            { "3_03_00394", "Morio's Island - Coin on First Stone Ramp #9" },
+            { "3_03_00400", "Morio's Island - Coin on First Stone Ramp #10" },
+            { "3_03_00426", "Morio's Island - Coin on First Stone Ramp #11" },
+            { "3_03_00429", "Morio's Island - Coin on First Stone Ramp #12" },
+            { "3_03_00428", "Morio's Island - Coin on First Stone Ramp #13" },
+            { "3_03_00427", "Morio's Island - Coin on First Stone Ramp #14" },
+            { "3_03_00218", "Morio's Island - Coin Behind First Stone Ramp #1" },
+            { "3_03_00216", "Morio's Island - Coin Behind First Stone Ramp #2" },
+            { "3_03_00214", "Morio's Island - Coin Behind First Stone Ramp #3" },
+            { "3_03_00209", "Morio's Island - Coin Behind First Stone Ramp #4" },
+            { "3_03_00208", "Morio's Island - Coin Behind First Stone Ramp #5" },
+            { "3_03_00206", "Morio's Island - Coin Behind First Stone Ramp #6" },
+            { "3_03_00217", "Morio's Island - Coin Behind First Stone Ramp #7" },
+            { "3_03_00215", "Morio's Island - Coin Behind First Stone Ramp #8" },
+            { "3_03_00207", "Morio's Island - Coin Behind First Stone Ramp #9" },
+            { "3_03_00205", "Morio's Island - Coin Behind First Stone Ramp #10" },
+            { "3_03_00350", "Morio's Island - Coin Before Second Checkpoint #1" },
+            { "3_03_00349", "Morio's Island - Coin Before Second Checkpoint #2" },
+            { "3_03_00348", "Morio's Island - Coin Before Second Checkpoint #3" },
+            { "3_03_00347", "Morio's Island - Coin Before Second Checkpoint #4" },
+            { "3_03_00346", "Morio's Island - Coin Before Second Checkpoint #5" },
+            { "3_01_00010", "Morio's Island - Gear On Stone Pedestal" },
+        };
 
         #endregion
 
@@ -1259,6 +1390,8 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(HubSpecialRules)), HubSpecialRules),
 
             // Morio's Island Areas
+            new(GetDescription(nameof(MoriosIslandStartingArea)), MoriosIslandStartingArea),
+            new(GetDescription(nameof(MoriosIslandRoadToHouse)), MoriosIslandRoadToHouse),
         ];
 
         public static Dictionary<string, List<Dictionary<string, string>>> PerLevelIDs = new()
@@ -1329,7 +1462,8 @@ namespace YellowTaxiAP
             {
                 nameof(Data.LevelId.L3_MoriosHome),
                 [
-
+                    MoriosIslandStartingArea,
+                    MoriosIslandRoadToHouse,
                 ]
             },
         };
@@ -1768,6 +1902,16 @@ namespace YellowTaxiAP
                     // Doesn't connect anywhere
                 ]
             },
+            #endregion
+
+            #region Morio's Island Connections
+
+            {
+                GetDescription(nameof(MoriosIslandStartingArea)),
+                [
+                    new RegionConnection(MoriosIslandRoadToHouse, "J1/B1"),
+                ]
+            }
             #endregion
         };
 

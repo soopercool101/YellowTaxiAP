@@ -81,8 +81,7 @@ namespace YellowTaxiAP.Managers
                 //toDisable.SetActive(true);
             }
 
-            foreach (var toEnable in self.enableThisAreaWhenActive.Where(o =>
-                         o.GetComponent<BonusScript>() != null))
+            foreach (var toEnable in self.enableThisAreaWhenActive)
             {
                 Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
                 //toEnable.SetActive(true);
@@ -149,7 +148,7 @@ namespace YellowTaxiAP.Managers
         {
             foreach (var toDisable in rocketObj.disableThisAreaWhenActive)
             {
-                if (toDisable != null)
+                if (toDisable)
                 {
                     if (toDisable.name.Equals("Dettaglio Albero1"))
                     {
@@ -161,7 +160,7 @@ namespace YellowTaxiAP.Managers
 
             foreach (var toEnable in rocketObj.enableThisAreaWhenActive)
             {
-                if (toEnable != null)
+                if (toEnable)
                 {
                     if (toEnable.name.Equals("Person Alien Mosk Good"))
                     {
