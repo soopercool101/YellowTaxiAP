@@ -471,7 +471,7 @@ namespace YellowTaxiAP.Managers
             if (other.gameObject.layer == 17)
             {
                 var bonusScr = other.GetComponent<BonusScript>();
-                if (bonusScr != null)
+                if (bonusScr)
                 {
                     if (bonusScr.myIdentity == BonusScript.Identity.morioMindPassword)
                     {

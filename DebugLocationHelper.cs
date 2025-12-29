@@ -16,12 +16,12 @@ namespace YellowTaxiAP
         [Description("Granny's Island - Starting Area")]
         public static Dictionary<string, string> GrannysIslandStart = new()
         {
-            { "0_03_00037", "Granny's Island - Starting Area Coin #1" },
-            { "0_03_00038", "Granny's Island - Starting Area Coin #2" },
-            { "0_03_00086", "Granny's Island - Starting Area Coin #3" },
-            { "0_03_00098", "Granny's Island - Starting Area Coin #4" },
-            { "0_03_00117", "Granny's Island - Starting Area Coin #5" },
-            { "0_03_00149", "Granny's Island - Starting Area Coin #6" },
+            { "0_03_00037", "Granny's Island - Coin in Starting Area #1" },
+            { "0_03_00038", "Granny's Island - Coin in Starting Area #2" },
+            { "0_03_00086", "Granny's Island - Coin in Starting Area #3" },
+            { "0_03_00098", "Granny's Island - Coin in Starting Area #4" },
+            { "0_03_00117", "Granny's Island - Coin in Starting Area #5" },
+            { "0_03_00149", "Granny's Island - Coin in Starting Area #6" },
         };
 
         [Description("Granny's Island - Hat World")]
@@ -1274,6 +1274,7 @@ namespace YellowTaxiAP
             { "3_03_00142", "Morio's Island - Coin on First Hurdle Ramp #3" },
             { "3_03_00146", "Morio's Island - Coin on First Hurdle Ramp #4" },
             { "3_03_00203", "Morio's Island - Coin on First Hurdle Ramp #5" },
+            { "3_21_00001", "Morio's Island - Cheese Behind First Hurdle Ramp" },
             { "3_03_00046", "Morio's Island - Coin Behind First Hurdle Ramp Left #1" },
             { "3_03_00048", "Morio's Island - Coin Behind First Hurdle Ramp Left #2" },
             { "3_03_00050", "Morio's Island - Coin Behind First Hurdle Ramp Left #3" },
@@ -1286,7 +1287,7 @@ namespace YellowTaxiAP
             { "3_03_00051", "Morio's Island - Coin Behind First Hurdle Ramp Right #4" },
             { "3_03_00053", "Morio's Island - Coin Behind First Hurdle Ramp Right #5" },
             { "3_03_00054", "Morio's Island - Coin Behind First Hurdle Ramp Right #6" },
-            { "3_01_00004", "Morio's Island - Gear After First Ramp" },
+            { "3_01_00004", "Morio's Island - Gear - After First Ramp" },
             { "3_03_00425", "Morio's Island - Coin on First Stone Arch #1" },
             { "3_03_00424", "Morio's Island - Coin Bag on First Stone Arch #1" },
             { "3_03_00423", "Morio's Island - Chest on First Stone Arch" },
@@ -1306,6 +1307,7 @@ namespace YellowTaxiAP
             { "3_03_00429", "Morio's Island - Coin on First Stone Ramp #12" },
             { "3_03_00428", "Morio's Island - Coin on First Stone Ramp #13" },
             { "3_03_00427", "Morio's Island - Coin on First Stone Ramp #14" },
+            { "3_21_00003", "Morio's Island - Cheese Behind First Stone Ramp" },
             { "3_03_00218", "Morio's Island - Coin Behind First Stone Ramp #1" },
             { "3_03_00216", "Morio's Island - Coin Behind First Stone Ramp #2" },
             { "3_03_00214", "Morio's Island - Coin Behind First Stone Ramp #3" },
@@ -1321,7 +1323,49 @@ namespace YellowTaxiAP
             { "3_03_00348", "Morio's Island - Coin Before Second Checkpoint #3" },
             { "3_03_00347", "Morio's Island - Coin Before Second Checkpoint #4" },
             { "3_03_00346", "Morio's Island - Coin Before Second Checkpoint #5" },
-            { "3_01_00010", "Morio's Island - Gear On Stone Pedestal" },
+            { "3_09_01125", "Morio's Island - Checkpoint Before Stone Section" },
+            { "3_01_00010", "Morio's Island - Gear - On Stone Pedestal" },
+            { "3_03_00384", "Morio's Island - Coin on Ramp Island #1" },
+            { "3_03_00383", "Morio's Island - Coin on Ramp Island #2" },
+            { "3_03_00386", "Morio's Island - Coin on Ramp Island #3" },
+            { "3_03_00391", "Morio's Island - Coin on Ramp Island #4" },
+            { "3_03_00289", "Morio's Island - Coin in Arrow Towards Home Island #1" },
+            { "3_03_00288", "Morio's Island - Coin in Arrow Towards Home Island #2" },
+            { "3_03_00287", "Morio's Island - Coin in Arrow Towards Home Island #3" },
+            { "3_03_00286", "Morio's Island - Coin in Arrow Towards Home Island #4" },
+            { "3_03_00283", "Morio's Island - Coin in Arrow Towards Home Island #5" },
+            { "3_03_00285", "Morio's Island - Coin in Arrow Towards Home Island #6" },
+            { "3_03_00282", "Morio's Island - Coin in Arrow Towards Home Island #7" },
+            { "3_03_00284", "Morio's Island - Coin in Arrow Towards Home Island #8" },
+            { "3_03_00281", "Morio's Island - Coin in Arrow Towards Home Island #9" },
+            { "3_03_00279", "Morio's Island - Coin in Arrow Towards Home Island #10" },
+            { "3_03_00280", "Morio's Island - Coin in Arrow Towards Home Island #11" },
+            { "3_03_00278", "Morio's Island - Coin in Arrow Towards Home Island #12" },
+            { "3_03_00277", "Morio's Island - Coin in Arrow Towards Home Island #13" },
+        };
+
+        [Description("Morio's Island - Morio's Home Island")]
+        public static Dictionary<string, string> MoriosIslandHomeIsland = new()
+        {
+            { "3_09_00436", "Morio's Island - Checkpoint Near Morio's Home" },
+            { "3_03_00043", "Morio's Island - Coin on Home Island Stone Pillar #1" },
+            { "3_03_00057", "Morio's Island - Coin on Home Island Stone Pillar #2" },
+            { "3_03_00059", "Morio's Island - Coin on Home Island Stone Pillar #3" },
+            { "3_03_00058", "Morio's Island - Coin on Home Island Stone Pillar #4" },
+            { "3_03_00044", "Morio's Island - Coin on Home Island Stone Pillar #5" },
+            { "3_03_00093", "Morio's Island - Coin Bag on Home Island Stone Pillar #1" },
+            { "3_03_00003", "Morio's Island - Coin in Ocean #1" },
+            { "3_03_00004", "Morio's Island - Coin in Ocean #2" },
+            { "3_03_00000", "Morio's Island - Coin in Ocean #3" },
+            { "3_03_00001", "Morio's Island - Coin in Ocean #4" },
+            { "3_03_00002", "Morio's Island - Coin Bag in Ocean" },
+        };
+
+        [Description("Morio's Island - Morio's Home Island High Ground")]
+        public static Dictionary<string, string> MoriosIslandHomeIslandHighGround = new()
+        {
+            { "3_01_00000", "Morio's Island - Gear - On Morio's Home"},
+            { "3_01_00009", "Morio's Island - Gear - On the Rubber Ducks" },
         };
 
         #endregion
@@ -1392,6 +1436,8 @@ namespace YellowTaxiAP
             // Morio's Island Areas
             new(GetDescription(nameof(MoriosIslandStartingArea)), MoriosIslandStartingArea),
             new(GetDescription(nameof(MoriosIslandRoadToHouse)), MoriosIslandRoadToHouse),
+            new(GetDescription(nameof(MoriosIslandHomeIsland)), MoriosIslandHomeIsland),
+            new(GetDescription(nameof(MoriosIslandHomeIslandHighGround)), MoriosIslandHomeIslandHighGround),
         ];
 
         public static Dictionary<string, List<Dictionary<string, string>>> PerLevelIDs = new()
@@ -1464,6 +1510,7 @@ namespace YellowTaxiAP
                 [
                     MoriosIslandStartingArea,
                     MoriosIslandRoadToHouse,
+                    MoriosIslandHomeIsland,
                 ]
             },
         };
@@ -1902,6 +1949,7 @@ namespace YellowTaxiAP
                     // Doesn't connect anywhere
                 ]
             },
+
             #endregion
 
             #region Morio's Island Connections
@@ -1911,7 +1959,20 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosIslandRoadToHouse, "J1/B1"),
                 ]
-            }
+            },
+            {
+                GetDescription(nameof(MoriosIslandRoadToHouse)),
+                [
+                    new RegionConnection(MoriosIslandHomeIsland),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosIslandHomeIsland)),
+                [
+                    new RegionConnection(MoriosIslandHomeIslandHighGround, "J1/B1"),
+                ]
+            },
+
             #endregion
         };
 

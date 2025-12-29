@@ -16,6 +16,96 @@ namespace YellowTaxiAP.Managers
             On.DisableAreaScript_MorioMindPassword.Start += DisableAreaScript_MorioMindPassword_Start;
             On.MorioDreamMachineScript.FixedUpdate += MorioDreamMachineScript_FixedUpdate;
             On.DisableAreaScript_GearsNumber.Start += DisableAreaScript_GearsNumber_Start;
+            On.DisableAreaScript_EventMode.Start += DisableAreaScript_EventMode_Start;
+            On.DisableAreaScript_GrannyIsland_IceCream.Start += DisableAreaScript_GrannyIsland_IceCream_Start;
+            On.DisableAreaScript_GrannyIsland_KingPizza.Start += DisableAreaScript_GrannyIsland_KingPizza_Start;
+            On.DisableAreaScript_StuckDoggoTalk.DisableEnable += DisableAreaScript_StuckDoggoTalk_DisableEnable;
+            //On.DisableAreaScript_Demo.Start += DisableAreaScript_Demo_Start;
+        }
+
+        private void DisableAreaScript_Demo_Start(On.DisableAreaScript_Demo.orig_Start orig, DisableAreaScript_Demo self)
+        {
+            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (Demo)");
+            orig(self);
+            foreach (var toDisable in self.disableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
+                //toDisable?.SetActive(true);
+            }
+
+            foreach (var toEnable in self.enableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
+                //toEnable?.SetActive(true);
+            }
+        }
+
+        private void DisableAreaScript_StuckDoggoTalk_DisableEnable(On.DisableAreaScript_StuckDoggoTalk.orig_DisableEnable orig, DisableAreaScript_StuckDoggoTalk self)
+        {
+            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (StuckDoggoTalk)");
+            orig(self);
+            foreach (var toDisable in self.disableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
+                //toDisable?.SetActive(true);
+            }
+
+            foreach (var toEnable in self.enableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
+                //toEnable?.SetActive(true);
+            }
+        }
+
+        private void DisableAreaScript_GrannyIsland_KingPizza_Start(On.DisableAreaScript_GrannyIsland_KingPizza.orig_Start orig, DisableAreaScript_GrannyIsland_KingPizza self)
+        {
+            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (GrannyIsland_KingPizza)");
+            orig(self);
+            foreach (var toDisable in self.disableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
+                //toDisable?.SetActive(true);
+            }
+
+            foreach (var toEnable in self.enableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
+                //toEnable?.SetActive(true);
+            }
+        }
+
+        private void DisableAreaScript_GrannyIsland_IceCream_Start(On.DisableAreaScript_GrannyIsland_IceCream.orig_Start orig, DisableAreaScript_GrannyIsland_IceCream self)
+        {
+            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (EventMode)");
+            orig(self);
+            foreach (var toDisable in self.disableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
+                //toDisable?.SetActive(true);
+            }
+
+            foreach (var toEnable in self.enableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
+                //toEnable?.SetActive(true);
+            }
+        }
+
+        private void DisableAreaScript_EventMode_Start(On.DisableAreaScript_EventMode.orig_Start orig, DisableAreaScript_EventMode self)
+        {
+            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (EventMode)");
+            orig(self);
+            foreach (var toDisable in self.disableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
+                //toDisable?.SetActive(true);
+            }
+
+            foreach (var toEnable in self.enableThisAreaWhenActive)
+            {
+                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
+                //toEnable?.SetActive(true);
+            }
         }
 
         /// <summary>
@@ -64,7 +154,7 @@ namespace YellowTaxiAP.Managers
 
         private void DisableAreaScript_MorioMindPassword_Start(On.DisableAreaScript_MorioMindPassword.orig_Start orig, DisableAreaScript_MorioMindPassword self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas");
+            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (MorioMindPassword)");
             UpdateMoriosPasswordState(self);
         }
 
@@ -73,7 +163,7 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void DisableAreaScript_GoldenSpring_Start(On.DisableAreaScript_GoldenSpring.orig_Start orig, DisableAreaScript_GoldenSpring self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas");
+            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (GoldenSpring)");
             orig(self);
             foreach (var toDisable in self.disableThisAreaWhenActive)
             {
@@ -105,22 +195,22 @@ namespace YellowTaxiAP.Managers
 
             if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
             {
-                Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas");
+                Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (BeatedFinalBoss)");
                 UpdateRocketState(self);
             }
             else
             {
-                Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas");
+                Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (BeatedFinalBoss)");
                 orig(self);
                 foreach (var toDisable in self.disableThisAreaWhenActive.Where(o =>
-                             o.GetComponent<BonusScript>() != null))
+                             o.GetComponent<BonusScript>()))
                 {
                     Plugin.Log($"WARNING: THIS SHOULDN'T BE TRIGGERED! MISSABLE FOUND! {toDisable?.name ?? "<null>"}");
                     toDisable?.SetActive(true);
                 }
 
                 foreach (var toEnable in self.enableThisAreaWhenActive.Where(o =>
-                             o.GetComponent<BonusScript>() != null))
+                             o.GetComponent<BonusScript>()))
                 {
                     Plugin.Log($"WARNING: THIS SHOULDN'T BE TRIGGERED! MISSABLE FOUND! {toEnable?.name ?? "<null>"}");
                     toEnable?.SetActive(true);
@@ -154,7 +244,7 @@ namespace YellowTaxiAP.Managers
                     {
                         continue;
                     }
-                    toDisable.SetActive(!RocketEnabled || toDisable.GetComponent<BonusScript>() != null);
+                    toDisable.SetActive(!RocketEnabled || toDisable.GetComponent<BonusScript>());
                 }
             }
 
@@ -168,7 +258,7 @@ namespace YellowTaxiAP.Managers
                     }
                     else
                     {
-                        toEnable.SetActive(RocketEnabled || toEnable.GetComponent<BonusScript>() != null);
+                        toEnable.SetActive(RocketEnabled || toEnable.GetComponent<BonusScript>());
                     }
                 }
             }
