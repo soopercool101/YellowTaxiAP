@@ -929,6 +929,18 @@ namespace YellowTaxiAP
             { "0_08_00003", "Morio's Lab - PICI Flip Tutorial" },
         };
 
+        [Description("Morio's Lab - Second Floor Falling From Shortcut Pipe")]
+        public static Dictionary<string, string> MoriosLabSecondFloorShortcutPipeFalling = new()
+        {
+            { string.Empty, nameof(MoriosLabSecondFloorShortcutPipeFalling) + " - !PLACEHOLDER!" }
+        };
+
+        [Description("Morio's Lab - Second Floor Access to Shortcut Pipe")]
+        public static Dictionary<string, string> MoriosLabSecondFloorShortcutPipe = new()
+        {
+            { string.Empty, nameof(MoriosLabSecondFloorShortcutPipe) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Morio's Lab - Path to Morio's Room")]
         public static Dictionary<string, string> MoriosLabPathToMoriosRoom = new()
         {
@@ -1232,8 +1244,35 @@ namespace YellowTaxiAP
             //{ "0_08_00001", "Morio's Island - Talk to Morio" },
         };
 
-        [Description("Morio's Island - Road to Morio's House")]
-        public static Dictionary<string, string> MoriosIslandRoadToHouse = new()
+        [Description("Morio's Island - First Hurdle")]
+        public static Dictionary<string, string> MoriosIslandFirstHurdle = new()
+        {
+            { "3_03_00063", "Morio's Island - Coin in Row Before First Checkpoint #1" },
+            { "3_03_00064", "Morio's Island - Coin in Row Before First Checkpoint #2" },
+            { "3_03_00065", "Morio's Island - Coin in Row Before First Checkpoint #3" },
+            { "3_09_01175", "Morio's Island - Checkpoint After First Hurdle" },
+            { "3_03_00066", "Morio's Island - Coin on First Hurdle Ramp #1" },
+            { "3_03_00067", "Morio's Island - Coin on First Hurdle Ramp #2" },
+            { "3_03_00142", "Morio's Island - Coin on First Hurdle Ramp #3" },
+            { "3_03_00146", "Morio's Island - Coin on First Hurdle Ramp #4" },
+            { "3_03_00203", "Morio's Island - Coin on First Hurdle Ramp #5" },
+            { "3_21_00001", "Morio's Island - Cheese Behind First Hurdle Ramp" },
+            { "3_03_00046", "Morio's Island - Coin Behind First Hurdle Ramp Left #1" },
+            { "3_03_00048", "Morio's Island - Coin Behind First Hurdle Ramp Left #2" },
+            { "3_03_00050", "Morio's Island - Coin Behind First Hurdle Ramp Left #3" },
+            { "3_03_00052", "Morio's Island - Coin Behind First Hurdle Ramp Left #4" },
+            { "3_03_00056", "Morio's Island - Coin Behind First Hurdle Ramp Left #5" },
+            { "3_03_00055", "Morio's Island - Coin Behind First Hurdle Ramp Left #6" },
+            { "3_03_00045", "Morio's Island - Coin Behind First Hurdle Ramp Right #1" },
+            { "3_03_00047", "Morio's Island - Coin Behind First Hurdle Ramp Right #2" },
+            { "3_03_00049", "Morio's Island - Coin Behind First Hurdle Ramp Right #3" },
+            { "3_03_00051", "Morio's Island - Coin Behind First Hurdle Ramp Right #4" },
+            { "3_03_00053", "Morio's Island - Coin Behind First Hurdle Ramp Right #5" },
+            { "3_03_00054", "Morio's Island - Coin Behind First Hurdle Ramp Right #6" },
+        };
+
+        [Description("Morio's Island - High Ground")]
+        public static Dictionary<string, string> MoriosIslandHighGround = new()
         {
             { "3_03_00314", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #1" },
             { "3_03_00318", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #2" },
@@ -1265,28 +1304,6 @@ namespace YellowTaxiAP
             { "3_03_00340", "Morio's Island - Coin in Row on Starting Area Right Cliff #4" },
             { "3_03_00342", "Morio's Island - Coin in Row on Starting Area Right Cliff #5" },
             { "3_03_00344", "Morio's Island - Coin Bag on Starting Area Right Cliff" },
-            { "3_03_00063", "Morio's Island - Coin in Row Before First Checkpoint #1" },
-            { "3_03_00064", "Morio's Island - Coin in Row Before First Checkpoint #2" },
-            { "3_03_00065", "Morio's Island - Coin in Row Before First Checkpoint #3" },
-            { "3_09_01175", "Morio's Island - Checkpoint After First Hurdle" },
-            { "3_03_00066", "Morio's Island - Coin on First Hurdle Ramp #1" },
-            { "3_03_00067", "Morio's Island - Coin on First Hurdle Ramp #2" },
-            { "3_03_00142", "Morio's Island - Coin on First Hurdle Ramp #3" },
-            { "3_03_00146", "Morio's Island - Coin on First Hurdle Ramp #4" },
-            { "3_03_00203", "Morio's Island - Coin on First Hurdle Ramp #5" },
-            { "3_21_00001", "Morio's Island - Cheese Behind First Hurdle Ramp" },
-            { "3_03_00046", "Morio's Island - Coin Behind First Hurdle Ramp Left #1" },
-            { "3_03_00048", "Morio's Island - Coin Behind First Hurdle Ramp Left #2" },
-            { "3_03_00050", "Morio's Island - Coin Behind First Hurdle Ramp Left #3" },
-            { "3_03_00052", "Morio's Island - Coin Behind First Hurdle Ramp Left #4" },
-            { "3_03_00056", "Morio's Island - Coin Behind First Hurdle Ramp Left #5" },
-            { "3_03_00055", "Morio's Island - Coin Behind First Hurdle Ramp Left #6" },
-            { "3_03_00045", "Morio's Island - Coin Behind First Hurdle Ramp Right #1" },
-            { "3_03_00047", "Morio's Island - Coin Behind First Hurdle Ramp Right #2" },
-            { "3_03_00049", "Morio's Island - Coin Behind First Hurdle Ramp Right #3" },
-            { "3_03_00051", "Morio's Island - Coin Behind First Hurdle Ramp Right #4" },
-            { "3_03_00053", "Morio's Island - Coin Behind First Hurdle Ramp Right #5" },
-            { "3_03_00054", "Morio's Island - Coin Behind First Hurdle Ramp Right #6" },
             { "3_01_00004", "Morio's Island - Gear - After First Ramp" },
             { "3_03_00425", "Morio's Island - Coin on First Stone Arch #1" },
             { "3_03_00424", "Morio's Island - Coin Bag on First Stone Arch #1" },
@@ -1342,6 +1359,14 @@ namespace YellowTaxiAP
             { "3_03_00280", "Morio's Island - Coin in Arrow Towards Home Island #11" },
             { "3_03_00278", "Morio's Island - Coin in Arrow Towards Home Island #12" },
             { "3_03_00277", "Morio's Island - Coin in Arrow Towards Home Island #13" },
+            { "3_03_00135", "Morio's Island - Coin in Zigzag Leading to Morio's Home #1" },
+            { "3_03_00132", "Morio's Island - Coin in Zigzag Leading to Morio's Home #2" },
+            { "3_03_00131", "Morio's Island - Coin in Zigzag Leading to Morio's Home #3" },
+            { "3_03_00130", "Morio's Island - Coin in Zigzag Leading to Morio's Home #4" },
+            { "3_03_00129", "Morio's Island - Coin in Zigzag Leading to Morio's Home #5" },
+            { "3_03_00128", "Morio's Island - Coin in Zigzag Leading to Morio's Home #6" },
+            { "3_01_00000", "Morio's Island - Gear - On Morio's Home"},
+            { "3_01_00009", "Morio's Island - Gear - On the Rubber Ducks" },
         };
 
         [Description("Morio's Island - Morio's Home Island")]
@@ -1364,8 +1389,6 @@ namespace YellowTaxiAP
         [Description("Morio's Island - Morio's Home Island High Ground")]
         public static Dictionary<string, string> MoriosIslandHomeIslandHighGround = new()
         {
-            { "3_01_00000", "Morio's Island - Gear - On Morio's Home"},
-            { "3_01_00009", "Morio's Island - Gear - On the Rubber Ducks" },
         };
 
         #endregion
@@ -1410,6 +1433,8 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabGroundFloorWrenches)), MoriosLabGroundFloorWrenches),
             new(GetDescription(nameof(MoriosLabGroundFloorBolts)), MoriosLabGroundFloorBolts),
             new(GetDescription(nameof(MoriosLabSecondFloor)), MoriosLabSecondFloor),
+            new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipe)), MoriosLabSecondFloorShortcutPipe),
+            new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipeFalling)), MoriosLabSecondFloorShortcutPipeFalling),
             new(GetDescription(nameof(MoriosLabPathToMoriosRoom)), MoriosLabPathToMoriosRoom),
             new(GetDescription(nameof(MoriosLabMoriosRoomJump)), MoriosLabMoriosRoomJump),
             new(GetDescription(nameof(MoriosLabThirdFloor)), MoriosLabThirdFloor),
@@ -1435,7 +1460,8 @@ namespace YellowTaxiAP
 
             // Morio's Island Areas
             new(GetDescription(nameof(MoriosIslandStartingArea)), MoriosIslandStartingArea),
-            new(GetDescription(nameof(MoriosIslandRoadToHouse)), MoriosIslandRoadToHouse),
+            new(GetDescription(nameof(MoriosIslandFirstHurdle)), MoriosIslandFirstHurdle),
+            new(GetDescription(nameof(MoriosIslandHighGround)), MoriosIslandHighGround),
             new(GetDescription(nameof(MoriosIslandHomeIsland)), MoriosIslandHomeIsland),
             new(GetDescription(nameof(MoriosIslandHomeIslandHighGround)), MoriosIslandHomeIslandHighGround),
         ];
@@ -1482,6 +1508,8 @@ namespace YellowTaxiAP
                     MoriosLabGroundFloorWrenches,
                     MoriosLabGroundFloorBolts,
                     MoriosLabSecondFloor,
+                    MoriosLabSecondFloorShortcutPipeFalling,
+                    MoriosLabSecondFloorShortcutPipe,
                     MoriosLabPathToMoriosRoom,
                     MoriosLabMoriosRoomJump,
                     MoriosLabThirdFloor,
@@ -1509,7 +1537,7 @@ namespace YellowTaxiAP
                 nameof(Data.LevelId.L3_MoriosHome),
                 [
                     MoriosIslandStartingArea,
-                    MoriosIslandRoadToHouse,
+                    MoriosIslandHighGround,
                     MoriosIslandHomeIsland,
                 ]
             },
@@ -1583,10 +1611,10 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
                     new RegionConnection(GrannysIslandHighPillarByLab, "B1 & X1/GP/J1"),
                     new RegionConnection(GrannysIslandCrashAgainIsland, "B2+GP"),
-                    new RegionConnection("Granny's Island - Law Firm Roof", HubLawFirm, ConnectionType.Subwarp),
-                    new RegionConnection("Granny's Island - Pizza Oven", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
-                    new RegionConnection("Granny's Island - Ice Cream Truck", HubPizzaOven, ConnectionType.Subwarp, "GelaToni"),
-                    new RegionConnection("Granny's Island - Hat World Front Door", HubHatWorld, ConnectionType.Subwarp),
+                    new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
+                    new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
+                    new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubPizzaOven, ConnectionType.Subwarp, "GelaToni"),
+                    new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
                     // TODO: GYM GEARS CONNECTION //new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsEntrance, )
                 ]
             },
@@ -1769,7 +1797,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Morio's Lab - Front Door", GrannysIslandStart, ConnectionType.Subwarp),
                     new RegionConnection("Morio's Lab - Back Door", GrannysIslandMoat, ConnectionType.Subwarp),
-                    new RegionConnection("Morio's Lab - Wardrobe", MoriosWardrobe, ConnectionType.Subwarp),
+                    new RegionConnection("Morio's Lab - Wardrobe Entrance", MoriosWardrobe, ConnectionType.Subwarp),
                     new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B2/X2"),
@@ -1801,7 +1829,20 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1"),
                     new RegionConnection(MoriosLabThirdFloor, "J1/B1"),
                     new RegionConnection(MoriosLabGroundFloor),
-                    new RegionConnection("Morio's Lab - Second Floor Shortcut Pipe", MoriosLabFifthFloorShortcutPipe, ConnectionType.Subwarp, "X1+B2+J1"),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+B1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabSecondFloorShortcutPipeFalling)),
+                [
+                    new RegionConnection(MoriosLabSecondFloor),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabSecondFloorShortcutPipe)),
+                [
+                    new RegionConnection("Morio's Lab - Second Floor Shortcut Pipe", MoriosLabFifthFloorShortcutPipe, ConnectionType.Subwarp),
                 ]
             },
             {
@@ -1886,19 +1927,20 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosLabFifthToSixthFloorStair),
                     new RegionConnection(MoriosLabFifthFloorHighPillars),
-                    new RegionConnection(MoriosLabFinalFloor, "B1"),
+                    new RegionConnection(MoriosLabFinalFloor),
                     new RegionConnection(MoriosLabFifthFloorShortcutPipe, "Password"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "Password"),
                     new RegionConnection(MoriosLabMoriosRoomJump, "Password+MorioHat"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "Password"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "Password"),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "Password"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabFifthFloorShortcutPipe)),
                 [
                     new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea, "Password"),
-                    new RegionConnection("Morio's Lab - Fifth Floor Shortcut Pipe", MoriosLabSecondFloor, ConnectionType.Subwarp)
+                    new RegionConnection("Morio's Lab - Fifth Floor Shortcut Pipe", MoriosLabSecondFloorShortcutPipeFalling, ConnectionType.Subwarp)
                 ]
             },
             {
@@ -1957,11 +1999,17 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosIslandStartingArea)),
                 [
-                    new RegionConnection(MoriosIslandRoadToHouse, "J1/B1"),
+                    new RegionConnection(MoriosIslandFirstHurdle, "X2 | J1/B1"),
                 ]
             },
             {
-                GetDescription(nameof(MoriosIslandRoadToHouse)),
+                GetDescription(nameof(MoriosIslandFirstHurdle)),
+                [
+                    new RegionConnection(MoriosIslandHighGround, "J1/B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosIslandHighGround)),
                 [
                     new RegionConnection(MoriosIslandHomeIsland),
                 ]
@@ -1969,7 +2017,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosIslandHomeIsland)),
                 [
-                    new RegionConnection(MoriosIslandHomeIslandHighGround, "J1/B1"),
+                    new RegionConnection(MoriosIslandStartingArea, "J1/B1"),
                 ]
             },
 

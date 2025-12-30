@@ -450,13 +450,13 @@ namespace YellowTaxiAP.Managers
                         json = json.TrimEnd(',');
 
                         json += "\n}";
-                        GUIUtility.systemCopyBuffer = json;
-                        Plugin.Log("JSON Generation successful");
+                        //GUIUtility.systemCopyBuffer = json;
+                        //Plugin.Log("JSON Generation successful");
                     }
                 }
                 else
                 {
-                    GUIUtility.systemCopyBuffer = GameplayMaster.instance.levelId.ToString();
+                    //GUIUtility.systemCopyBuffer = GameplayMaster.instance.levelId.ToString();
                 }
                 Plugin.Log($"{GameplayMaster.instance.levelId}: {trimmedName}. There are {bonuses.Count} AP collectables, {checkpoints.Count} checkpoints, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses.Count + cheeses + checkpoints.Count} likely checks. Currently {documentedChecks} have been sorted into regions.");
 
