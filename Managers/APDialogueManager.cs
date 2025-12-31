@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Archipelago.MultiClient.Net.Enums;
-using IL.Steamworks.Ugc;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
-using Object = UnityEngine.Object;
 using Random = System.Random;
 
 namespace YellowTaxiAP.Managers

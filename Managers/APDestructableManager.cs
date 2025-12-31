@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Archipelago.Gifting.Net.Traits;
 using UnityEngine;
-using Archipelago.Gifting.Net.Versioning.Gifts;
-using Archipelago.Gifting.Net.Versioning.Gifts.Current;
 
 namespace YellowTaxiAP.Managers
 {
@@ -12,7 +10,7 @@ namespace YellowTaxiAP.Managers
     {
         public APDestructableManager()
         {
-            On.DetailScript.DestructiveCollision += DetailScript_DestructiveCollision;
+            //On.DetailScript.DestructiveCollision += DetailScript_DestructiveCollision;
         }
 
         public Tuple<string, HashSet<string>> GetGiftFromDestructable(string particle)

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using I2.Loc;
+﻿using I2.Loc;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace YellowTaxiAP.Managers
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-
-namespace YellowTaxiAP.Managers
+﻿namespace YellowTaxiAP.Managers
 {
     public class APDataManager
     {
