@@ -14,7 +14,14 @@ namespace YellowTaxiAP.Managers
             On.PortalScript.CoroutineGo += PortalScript_CoroutineGo;
             On.PortalScript.GoToLevel += PortalScript_GoToLevel;
             On.PortalScript.OnTriggerEnter += PortalScript_OnTriggerEnter;
+            On.PortalScript.PortalIslandToLabCoroutine += PortalScript_PortalIslandToLabCoroutine;
             On.GameplayMaster.Awake += GameplayMaster_Awake;
+        }
+
+        private System.Collections.IEnumerator PortalScript_PortalIslandToLabCoroutine(On.PortalScript.orig_PortalIslandToLabCoroutine orig, PortalScript self)
+        {
+            Plugin.Log("Portal Coroutine: Island to Lab");
+            return orig(self);
         }
 
         public static WarpIdentifier QueuedSubwarp;
@@ -41,17 +48,20 @@ namespace YellowTaxiAP.Managers
             if (self.disableTimer > 0.0 || self.disabledByExtraConditions || DialogueScript.instance ||
                 GameplayMaster.instance.gameOver || TransictionScript.instance ||
                 !self.DemoCheck_ShouldPortalBeEnabled() ||
-                self.kaizoLevelId != LevelId.noone && !self.kaizoEnabled ||
-                self.PortalIsLevelPortal && self.gearOpenTr.gameObject.activeSelf ||
+                (self.kaizoLevelId != LevelId.noone && !self.kaizoEnabled) ||
+                (self.PortalIsLevelPortal && self.gearOpenTr.gameObject.activeSelf) ||
                 !(other.gameObject == PlayerScript.instance.gameObject) ||
-                self.targetLevel != Levels.Index.noone && !self.enableCanvas)
+                (self.targetLevel != Levels.Index.noone && !self.enableCanvas))
                 return;
 #if DEBUG
             var originalWarp = WarpIdentifier.IdentifyOriginalWarp(self);
             Plugin.Log(originalWarp);
-            if (originalWarp.StartsWith("Known Warp: "))
+            if (WarpIdentifier.RedirectWarp(self))
             {
-                WarpIdentifier.RedirectWarp(self);
+                Plugin.Log("Warp redirected");
+                // Make sure that verification doesn't fail in orig. We've already verified the warp is valid!
+                self.gearOpenTr.gameObject.SetActive(false);
+                self.enableCanvas = true;
             }
 #endif
             orig(self, other);
@@ -168,12 +178,17 @@ namespace YellowTaxiAP.Managers
             new WarpIdentifier("Granny's Island - Hat World Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(352f, 20f, 1.136496E-06f), new Vector3(-640f, 70f, 340f), 180, 1, false, false, "SoundtrackHatShop", "Background Sea and Sky"),
             new WarpIdentifier("Granny's Island - Pizza Oven Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(285f, 20f, -50f), new Vector3(-640f, 10f, 140f), 90, 3, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
             new WarpIdentifier("Granny's Island - Law Firm Roof Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(365f, 36f, 20f), new Vector3(-505f, 40f, 65f), -90, 5, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Granny's Island - Crash Again Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-250f, 55f, 0f), new Vector3(-475f, 10f, -110f), 90, 6, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
             new WarpIdentifier("Granny's Island - Gym Gears Entrance", LevelId.Hub, Levels.Index.level_Gym, LevelId.L6_Gym, new Vector3(319.4f, 15f, 101.27f), new Vector3(319.4f, 15f, 95.27f), 90, -1, true, true, "", ""),
+            new WarpIdentifier("Granny's Island - Fecal Matters House", LevelId.Hub, Levels.Index.level_PoopWorld, LevelId.L7_PoopWorld, new Vector3(250f, 20f, -95f), new Vector3(255f, 20f, -95f), 0, -1, true, true, "", ""),
+            new WarpIdentifier("Granny's Island - Flushed Away Entrance", LevelId.Hub, Levels.Index.level_Sewers, LevelId.L8_Sewers, new Vector3(175f, 10f, -709.92f), new Vector3(175f, 10f, -695f), -90, -1, true, true, "", ""),
+            new WarpIdentifier("Granny's Island - Rocket Entrance", LevelId.Hub, Levels.Index.level_Rocket, LevelId.L16_Rocket, new Vector3(190f, 45f, -58.73f), new Vector3(190f, 20f, -30f), 90, -1, true, true, "", ""),
             // Granny's Island Subarea Warps
             new WarpIdentifier("Ice Cream Truck - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-710f, 10f, -760f), new Vector3(282f, 20f, 50f), -90, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
             new WarpIdentifier("Granny's Island Hat World - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-635f, 70f, 340f), new Vector3(345f, 20f, 1.748456E-06f), 180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
             new WarpIdentifier("Pizza Oven - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-640f, 10f, 150f), new Vector3(290f, 20f, -50f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
             new WarpIdentifier("Law Firm - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-505f, 10f, 90f), new Vector3(365f, 20f, 30f), -180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Crash Again - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-475f, 10f, -105f), new Vector3(-240f, 55f, 0f), 0, 0, true, true, "default", "default"),
             // Morio's Lab Warps
             new WarpIdentifier("Morio's Lab - Front Door", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-770f, 10f, 680f), new Vector3(70f, 20f, 0f), 180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
             new WarpIdentifier("Morio's Lab - Back Door", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-630f, 10f, 680f), new Vector3(110f, 20f, 0f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
@@ -195,7 +210,9 @@ namespace YellowTaxiAP.Managers
 
         public static Dictionary<string, string> WarpRedirects = new()
         {
-            {"Granny's Island - Morio's Lab Front Door", "Weird Tunnels - Exit Door"},
+            //{"Granny's Island - Morio's Lab Front Door", "Morio's Home - Door to Weird Tunnels"},
+            //{"Weird Tunnels - Entrance Door", "Crash Again - Exit"},
+            //{"Granny's Island - Crash Again Entrance", "Granny's Island - Fecal Matters House"},
             //{"Granny's Island - Gym Gears Entrance", "Law Firm - Exit"},
             //{"Granny's Island - Law Firm Roof Entrance", "Granny's Island - Gym Gears Entrance"},
             //{"Granny's Island Hat World - Exit", "Granny's Island Hat World - Exit"},
@@ -263,10 +280,14 @@ namespace YellowTaxiAP.Managers
             return $"Unknown TaxiWarp to {warp.moveTaxiHere} with rotation {warp.rotateTaxiY}";
         }
 
+        public static WarpIdentifier GetRedirectedWarp(PortalScript warp)
+        {
+            return KnownWarps.FirstOrDefault(o => o.Equals(new WarpIdentifier(warp)));
+        }
+
         public static bool RedirectWarp(PortalScript warp)
         {
-            var warpIdentifier = new WarpIdentifier(warp);
-            var knownWarp = KnownWarps.FirstOrDefault(o => o.Equals(warpIdentifier));
+            var knownWarp = GetRedirectedWarp(warp);
             if (knownWarp != null && WarpRedirects.TryGetValue(knownWarp.Name, out var redirectedWarpName))
             {
                 var redirectedWarp = KnownWarps.FirstOrDefault(o => o.Name.Equals(redirectedWarpName));

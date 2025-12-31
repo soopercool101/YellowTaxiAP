@@ -53,18 +53,23 @@ public class Plugin : BaseUnityPlugin
         // Plugin startup logic
         BepinLogger = Logger;
         Instance = this;
-        ArchipelagoClient = new ArchipelagoClient();
-        ArchipelagoConsole.Awake();
 
         BepinLogger.LogMessage($"{ModDisplayInfo} loaded!");
         ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
         On.ModMaster.Start += (orig, self) =>
         {
+            if (Master.instance.isDemo)
+            {
+                // Disable the mod if this is the demo
+                return;
+            }
 #if DEBUG
             self.ModMasterDebugLogsEnableSet(true);
 #else
             self.ModMasterDebugLogsEnableSet(false);
 #endif
+            ArchipelagoClient = new ArchipelagoClient();
+            ArchipelagoConsole.Awake();
             self.ModEnableSet(true);
             orig(self);
             PlayerControlHook = new APPlayerManager();
@@ -82,40 +87,41 @@ public class Plugin : BaseUnityPlugin
             DestructableHook = new APDestructableManager();
             HudHook = new APHUDManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
-        };
-        On.GigaMorioScript.Update += (orig, self) =>
-        {
-            if (!AllowLaser)
+            On.GigaMorioScript.Update += (origUpdate, selfGigaMorio) =>
             {
-                for (int index = self.myLasers.Count - 1; index >= 0; --index)
+                if (!AllowLaser)
                 {
-                    Pool.Destroy(self.myLasers[index].gameObject);
-                    self.myLasers.RemoveAt(index);
+                    for (var index = selfGigaMorio.myLasers.Count - 1; index >= 0; --index)
+                    {
+                        Pool.Destroy(selfGigaMorio.myLasers[index].gameObject);
+                        selfGigaMorio.myLasers.RemoveAt(index);
+                    }
+                    selfGigaMorio.laserCD = selfGigaMorio.laserCooldown;
+                    selfGigaMorio.myAnimator.ResetTrigger("ChargeLaser");
+                    selfGigaMorio.myAnimator.SetTrigger("LaserFireEnd");
                 }
-                self.laserCD = self.laserCooldown;
-                self.myAnimator.ResetTrigger("ChargeLaser");
-                self.myAnimator.SetTrigger("LaserFireEnd");
-            }
-            orig(self);
-        };
-        On.BombCarScript.Update += (orig, self) =>
-        {
-            if (AllowLaser)
-            {
-                orig(self);
-            }
-        };
+                origUpdate(selfGigaMorio);
+            };
 
-        On.ModMaster.OnPlayerDie += (orig, self) =>
-        {
-            orig(self);
-            if (!DeathLinkInProgress)
+            On.BombCarScript.Update += (origUpdate, selfBombCar) =>
             {
-                ArchipelagoClient.DeathLinkHandler?.KillPlayer();
-                Log("Death Link Sent");
-            }
+                if (AllowLaser)
+                {
+                    origUpdate(selfBombCar);
+                }
+            };
 
-            DeathLinkInProgress = false;
+            On.ModMaster.OnPlayerDie += (origOnPlayerDie, selfModMaster) =>
+            {
+                origOnPlayerDie(selfModMaster);
+                if (!DeathLinkInProgress)
+                {
+                    ArchipelagoClient.DeathLinkHandler?.KillPlayer();
+                    Log("Death Link Sent");
+                }
+
+                DeathLinkInProgress = false;
+            };
         };
 
 #if DEBUG
