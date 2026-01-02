@@ -1,3 +1,4 @@
+using System;
 using BepInEx;
 using BepInEx.Logging;
 using UnityEngine;
@@ -59,6 +60,7 @@ public class Plugin : BaseUnityPlugin
             if (Master.instance.isDemo)
             {
                 // Disable the mod if this is the demo
+                Log("Demo detected, not enabling mod");
                 return;
             }
 #if DEBUG
@@ -243,6 +245,24 @@ public class Plugin : BaseUnityPlugin
                 APAreaStateManager.MindPasswordReceived = !APAreaStateManager.MindPasswordReceived;
                 APAreaStateManager.UpdateMoriosPasswordState();
                 Log($"Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}");
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                var rotation = (int)Math.Round(PlayerScript.instance?.transform?.GetYAngle() ?? 0);
+                if (rotation == 360)
+                    rotation = 0;
+                var zoneVals =
+                    $"new Vector3({Math.Round(PlayerScript.instance?.transform?.position.x ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.y ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.z ?? 0, 1)}f), {rotation}, {ZoneMaster.currentZoneId}, {LightDirectionalScript.instance?.myLight?.enabled.ToString().ToLower() ?? "false"}, {WaterScript.instance?.WaterEnable.ToString().ToLower() ?? "false"}, \"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\"),";
+                Log($"Copying current zone values ({zoneVals}");
+                GUIUtility.systemCopyBuffer = zoneVals;
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                var zoneVals =
+                    $"\"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\"),";
+                Log($"Copying current music/bg values ({zoneVals}");
+                GUIUtility.systemCopyBuffer = zoneVals;
             }
 
             if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))

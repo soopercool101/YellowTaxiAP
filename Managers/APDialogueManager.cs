@@ -140,7 +140,6 @@ namespace YellowTaxiAP.Managers
             if (dialogueCapsule != null)
             {
                 Plugin.Log($"Initiating dialogue with key: {dialogueCapsule.key}");
-                GUIUtility.systemCopyBuffer = dialogueCapsule.key;
 
                 var moveRandoID = -1;
                 switch (dialogueCapsule.key)
@@ -217,6 +216,14 @@ namespace YellowTaxiAP.Managers
                         // TODO: Win the game
                         Plugin.Log("The game has been won!");
                         break;
+#if DEBUG
+                    case "NARRATOR_BACK_TO_HUB_QUESTION":
+                    case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
+                        break;
+                    default:
+                        GUIUtility.systemCopyBuffer = dialogueCapsule.key;
+                        break;
+#endif
                 }
 
                 if (moveRandoID > 0)

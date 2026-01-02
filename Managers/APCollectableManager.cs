@@ -14,7 +14,6 @@ namespace YellowTaxiAP.Managers
         public APCollectableManager()
         {
             // BonusScript hooks
-            On.BonusScript.Start += BonusScript_Start;
             On.BonusScript.Update += Update_AP;
             On.BonusScript.CoinPickedUpGet += BonusScript_CoinPickedUpGet;
             On.BonusScript.BunnyAlreadyPickedUpRefresh += BonusScript_BunnyAlreadyPickedUpRefresh;
@@ -70,123 +69,6 @@ namespace YellowTaxiAP.Managers
                 self.transform.parent = null;
             }
             orig(self);
-        }
-
-        /// <summary>
-        /// Complete reimplementation to prevent unnecessary destruction of needed objects
-        /// </summary>
-        private void BonusScript_Start(On.BonusScript.orig_Start orig, BonusScript self)
-        {
-            if (self.doublePickupPreventionMeshRenderer != null)
-                self.CoinPickedUpMaterialRefresh();
-            if (GameplayMaster.instance && GameplayMaster.instance.levelId == Data.LevelId.L12_MoriosMind && !self.backupInstance)
-            {
-                switch (self.myIdentity)
-                {
-                    case BonusScript.Identity.coin:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("MeltedCoin");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        break;
-                    }
-                    case BonusScript.Identity.bigCoin10:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("Sacchetto di monete Sogno");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        break;
-                    }
-                    case BonusScript.Identity.bigCoin25:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("Forziere Sogno");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        break;
-                    }
-                    case BonusScript.Identity.bigCoin100:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("Cassaforte Sogno");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        break;
-                    }
-                    case BonusScript.Identity.gear:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("MeltedGear");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        var componentInChildren = self.gearOutlineTr.GetComponentInChildren<MeshFilter>();
-                        componentInChildren.mesh = self.gearOutlineMindMesh;
-                        double num = componentInChildren.transform.SetLocalY(0.2f);
-                        break;
-                    }
-                    case BonusScript.Identity.timer:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("MeltedTimer7");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        break;
-                    }
-                    case BonusScript.Identity.bigTimer:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("Sveglia Sciolta");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        break;
-                    }
-                    case BonusScript.Identity.bigBigTimer50:
-                    case BonusScript.Identity.bigBigTimer100:
-                    {
-                        var sharedMaterial = self.myMeshRend.sharedMaterial;
-                        self.myMeshFilter = self.GetComponentInChildren<MeshFilter>(true);
-                        self.myMeshFilter.mesh = AssetMaster.GetGeneric<Mesh>("Taximetro Sciolto");
-                        self.myMeshRend.sharedMaterial = sharedMaterial;
-                        self.myMeshFilter.transform.localScale *= 100f;
-                        break;
-                    }
-                }
-            }
-            if (self.myIdentity == BonusScript.Identity.gear)
-                self.GearAlreadyPickedUpRefresh();
-            else if (self.killCondition_GononoBombeach && !Data.gononoBombeachDelivered[Data.gameDataIndex])
-                self.KillMe();
-            if (self.myIdentity == BonusScript.Identity.bunny)
-            {
-                if (self.bunnyIndex < 0)
-                    Debug.LogError("Bunny bonus doesn't have an index defined!");
-                self.bunnyDefaultMaterial = self.myMeshRend.sharedMaterial;
-                self.BunnyAlreadyPickedUpRefresh();
-            }
-
-            if (self.rotateMe != null)
-            {
-                if (self.rortationSin)
-                    self.onUpdate += self.RotateSin;
-                else
-                    self.onUpdate += self.RotateFully;
-            }
-            if (self.alwaysFaceCamera)
-                self.onUpdate += self.FaceCamera;
-            if (self.myIdentity == BonusScript.Identity.gear)
-                self.onUpdate += self.GearsCode;
-            if (self.myIdentity != BonusScript.Identity.coin)
-                return;
-            self.onUpdate += self.CoinNearPlayer;
         }
 
         /// <summary>

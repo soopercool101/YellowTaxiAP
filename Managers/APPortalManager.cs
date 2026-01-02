@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,12 +10,58 @@ namespace YellowTaxiAP.Managers
     {
         public APPortalManager()
         {
+            On.PlayerScript.Start += PlayerScript_Start;
             On.PortalScript.Awake += PortalScript_Awake;
             On.PortalScript.CoroutineGo += PortalScript_CoroutineGo;
             On.PortalScript.GoToLevel += PortalScript_GoToLevel;
             On.PortalScript.OnTriggerEnter += PortalScript_OnTriggerEnter;
             On.PortalScript.PortalIslandToLabCoroutine += PortalScript_PortalIslandToLabCoroutine;
-            On.GameplayMaster.Awake += GameplayMaster_Awake;
+            //On.PortalScript.SetupDataForLevelComeback += PortalScript_SetupDataForLevelComeback;
+            On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
+        }
+
+        private void PlayerScript_Start(On.PlayerScript.orig_Start orig, PlayerScript self)
+        {
+            orig(self);
+            if (QueuedSubwarp == null) return;
+            Plugin.Log($"Loading Queued Subwarp ({QueuedSubwarp.Name})");
+            if (!string.IsNullOrEmpty(QueuedSubwarp.BackgroundChange) &&
+                !QueuedSubwarp.BackgroundChange.Equals("default",
+                    StringComparison.OrdinalIgnoreCase) && QueuedSubwarp.BackgroundChange !=
+                BackgroundMaster.instance.name)
+            {
+                BackgroundMaster.Change(QueuedSubwarp.BackgroundChange);
+            }
+
+            if (!string.IsNullOrEmpty(QueuedSubwarp.SongChange) &&
+                !QueuedSubwarp.SongChange.Equals("default",
+                    StringComparison.OrdinalIgnoreCase) && QueuedSubwarp.SongChange !=
+                GameplayMaster.instance.levelSoundtrack)
+            {
+                GameplayMaster.instance.levelSoundtrack = QueuedSubwarp.SongChange;
+            }
+
+            self.transform.position = QueuedSubwarp.MoveTaxiHere + new Vector3(0.0f, 0.1f, 0.0f);
+            self.transform.SetYAngle(QueuedSubwarp.Rotation);
+            LightDirectionalScript.instance.myLight.enabled = QueuedSubwarp.DesiredLightState;
+            WaterScript.instance.WaterEnable = QueuedSubwarp.DesiredWaterState;
+            self.myPausable.velBackup[0] = Vector3.zero;
+            self.InstantCameraSet(0.0f);
+            if (QueuedSubwarp.Zone >= 0)
+                ZoneMaster.currentZoneId = QueuedSubwarp.Zone;
+            self.TeleportComputeZoneMaster(self.transform);
+
+            QueuedSubwarp = null;
+        }
+
+        private void LoadingScreenScript_WelcomeSetup(On.LoadingScreenScript.orig_WelcomeSetup orig, LevelId targetLevelId, string levelName, int gearsCollected, int maxGearsInsideLevel, bool enableCameraLevelIntro)
+        {
+            orig(targetLevelId, levelName, gearsCollected, maxGearsInsideLevel, enableCameraLevelIntro && QueuedSubwarp == null);
+        }
+
+        private void PortalScript_SetupDataForLevelComeback(On.PortalScript.orig_SetupDataForLevelComeback orig, PortalScript self, bool saveToDisk, bool forcePortalDesiredWaterState)
+        {
+            // Do nothing.
         }
 
         private System.Collections.IEnumerator PortalScript_PortalIslandToLabCoroutine(On.PortalScript.orig_PortalIslandToLabCoroutine orig, PortalScript self)
@@ -24,23 +71,6 @@ namespace YellowTaxiAP.Managers
         }
 
         public static WarpIdentifier QueuedSubwarp;
-
-        private void GameplayMaster_Awake(On.GameplayMaster.orig_Awake orig, GameplayMaster self)
-        {
-            orig(self);
-            if (QueuedSubwarp != null)
-            {
-                Plugin.Log($"Loading Queued Subwarp ({QueuedSubwarp.Name})");
-                GameplayMaster.SelfRespawnClear();
-                PortalTransitionScript transitionScript = PortalTransitionScript.Spawn(QueuedSubwarp.MoveTaxiHere, QueuedSubwarp.Rotation);
-                transitionScript.songChange = QueuedSubwarp.SongChange;
-                transitionScript.backgroundChange = QueuedSubwarp.BackgroundChange;
-                transitionScript.desiredWaterState = QueuedSubwarp.DesiredWaterState;
-                transitionScript.desiredLightState = QueuedSubwarp.DesiredLightState;
-                transitionScript.desiredZoneId = QueuedSubwarp.Zone;
-                QueuedSubwarp = null;
-            }
-        }
 
         private void PortalScript_OnTriggerEnter(On.PortalScript.orig_OnTriggerEnter orig, PortalScript self, Collider other)
         {
@@ -55,12 +85,20 @@ namespace YellowTaxiAP.Managers
 #if DEBUG
             var originalWarp = WarpIdentifier.IdentifyOriginalWarp(self);
             Plugin.Log(originalWarp);
+            var skipTaxiRisucchio = self.skipTaxiRisucchio || (self.targetLevel == Levels.Index.noone && self.kaizoLevelId == LevelId.noone);
             if (WarpIdentifier.RedirectWarp(self))
             {
                 Plugin.Log("Warp redirected");
                 // Make sure that verification doesn't fail in orig. We've already verified the warp is valid!
-                self.gearOpenTr.gameObject.SetActive(false);
-                self.enableCanvas = true;
+                if(self.PortalIsLevelPortal)
+                    self.gearOpenTr.gameObject.SetActive(false);
+                if(self.targetLevel != Levels.Index.noone)
+                    self.enableCanvas = true;
+                if (self.kaizoLevelId != LevelId.noone)
+                    self.kaizoEnabled = true;
+                if (self.targetLevel == Levels.Index.level_hub) // Skip question about returning to Hub
+                    self.targetLevel += 100;
+                self.skipTaxiRisucchio = skipTaxiRisucchio; // Only do the canned shrink animation in portals
             }
 #endif
             orig(self, other);
@@ -68,6 +106,8 @@ namespace YellowTaxiAP.Managers
 
         private void PortalScript_GoToLevel(On.PortalScript.orig_GoToLevel orig, Levels.Index levelSceneIndex, LevelId targetLevelId)
         {
+            if ((int)levelSceneIndex > 100)
+                levelSceneIndex -= 100;
             Plugin.Log($"PortalWarp to {targetLevelId} with index {levelSceneIndex} ({(int)levelSceneIndex})");
             orig(levelSceneIndex, targetLevelId);
         }
@@ -122,6 +162,8 @@ namespace YellowTaxiAP.Managers
     public class WarpIdentifier
     {
         public string Name;
+        public string LinkedExit;
+        public string ExitGroup;
         public LevelId OriginalLevelId;
         public Levels.Index OriginalTargetLevel;
         public LevelId OriginalTargetLevelId;
@@ -134,6 +176,8 @@ namespace YellowTaxiAP.Managers
         public string SongChange;
         public string BackgroundChange;
 
+        public string Group => string.IsNullOrEmpty(ExitGroup) ? Name : ExitGroup;
+
         public WarpIdentifier(PortalScript warp) : this(GameplayMaster.instance.levelId, warp.targetLevel, warp.targetLevelId,
             warp.portalStartPosition, warp.moveTaxiHere,
             warp.rotateTaxiY, warp.desiredZoneId, warp.desiredLightState, warp.desiredWaterState, warp.songChange, warp.backgroundChange)
@@ -141,13 +185,13 @@ namespace YellowTaxiAP.Managers
 
         }
 
-        public WarpIdentifier(string name, LevelId levelId, Levels.Index targetLevel, LevelId targetLevelId, Vector3 startPosition,
-            Vector3 moveTaxiHere,
-            float rotation, int zone, bool desiredLightState, bool desiredWaterState, string songChange, string backgroundChange) : this(levelId, targetLevel, targetLevelId,
-            startPosition,
-            moveTaxiHere, rotation, zone, desiredLightState, desiredWaterState, songChange, backgroundChange)
+        public WarpIdentifier(string name, string linkedExit, string exitGroup, LevelId levelId, Levels.Index targetLevel, LevelId targetLevelId, Vector3 startPosition,
+            Vector3 moveTaxiHere, float rotation, int zone, bool desiredLightState, bool desiredWaterState, string songChange, string backgroundChange, LevelId kaizoLevelId = LevelId.noone)
+            : this(levelId, targetLevel, targetLevelId, startPosition, moveTaxiHere, rotation, zone, desiredLightState, desiredWaterState, songChange, backgroundChange)
         {
             Name = name;
+            LinkedExit = linkedExit;
+            ExitGroup = exitGroup;
         }
 
         public WarpIdentifier(LevelId levelId, Levels.Index targetLevel, LevelId targetLevelId, Vector3 startPosition, Vector3 moveTaxiHere,
@@ -169,47 +213,70 @@ namespace YellowTaxiAP.Managers
         public static List<WarpIdentifier> KnownWarps = new()
         {
             // Granny's Island Warps
-            new WarpIdentifier("Granny's Island - Morio's Lab Front Door", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(80f, 20f, 0f), new Vector3(-750f, 10f, 680f), 0, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
-            new WarpIdentifier("Granny's Island - Morio's Lab Back Door", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(98.35f, 20f, -0.33f), new Vector3(-645.1f, 10f, 680f), 180, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
-            new WarpIdentifier("Granny's Island - Hillside Pipe", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(10f, 40f, 75f), new Vector3(685f, 20f, -120f), 0, -1, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Granny's Island - Beach Pipe", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(665f, 20f, -120f), new Vector3(-5f, 40f, 75f), -180, -1, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Granny's Island - Ice Cream Truck Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(282f, 20f, 41f), new Vector3(-690f, 10f, -760f), 0, 4, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
-            new WarpIdentifier("Granny's Island - Hat World Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(352f, 20f, 1.136496E-06f), new Vector3(-640f, 70f, 340f), 180, 1, false, false, "SoundtrackHatShop", "Background Sea and Sky"),
-            new WarpIdentifier("Granny's Island - Pizza Oven Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(285f, 20f, -50f), new Vector3(-640f, 10f, 140f), 90, 3, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
-            new WarpIdentifier("Granny's Island - Law Firm Roof Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(365f, 36f, 20f), new Vector3(-505f, 40f, 65f), -90, 5, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Granny's Island - Crash Again Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-250f, 55f, 0f), new Vector3(-475f, 10f, -110f), 90, 6, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
-            new WarpIdentifier("Granny's Island - Gym Gears Entrance", LevelId.Hub, Levels.Index.level_Gym, LevelId.L6_Gym, new Vector3(319.4f, 15f, 101.27f), new Vector3(319.4f, 15f, 95.27f), 90, -1, true, true, "", ""),
-            new WarpIdentifier("Granny's Island - Fecal Matters House", LevelId.Hub, Levels.Index.level_PoopWorld, LevelId.L7_PoopWorld, new Vector3(250f, 20f, -95f), new Vector3(255f, 20f, -95f), 0, -1, true, true, "", ""),
-            new WarpIdentifier("Granny's Island - Flushed Away Entrance", LevelId.Hub, Levels.Index.level_Sewers, LevelId.L8_Sewers, new Vector3(175f, 10f, -709.92f), new Vector3(175f, 10f, -695f), -90, -1, true, true, "", ""),
-            new WarpIdentifier("Granny's Island - Rocket Entrance", LevelId.Hub, Levels.Index.level_Rocket, LevelId.L16_Rocket, new Vector3(190f, 45f, -58.73f), new Vector3(190f, 20f, -30f), 90, -1, true, true, "", ""),
+            new WarpIdentifier("Granny's Island - Morio's Lab Front Door", "Morio's Lab - Front Door", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(80f, 20f, 0f), new Vector3(-750f, 10f, 680f), 0, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Granny's Island - Morio's Lab Back Door", "Morio's Lab - Back Door", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(98.35f, 20f, -0.33f), new Vector3(-645.1f, 10f, 680f), 180, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Granny's Island - Hillside Pipe", "Granny's Island - Beach Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(10f, 40f, 75f), new Vector3(685f, 20f, -120f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Granny's Island - Beach Pipe", "Granny's Island - Hillside Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(665f, 20f, -120f), new Vector3(-5f, 40f, 75f), -180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Granny's Island - Ice Cream Truck Entrance", "Ice Cream Truck - Exit", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(282f, 20f, 41f), new Vector3(-690f, 10f, -760f), 0, 4, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
+            new WarpIdentifier("Granny's Island - Hat World Entrance", "Granny's Island Hat World - Exit", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(352f, 20f, 1.136496E-06f), new Vector3(-640f, 70f, 340f), 180, 1, false, false, "SoundtrackHatShop", "Background Sea and Sky"),
+            new WarpIdentifier("Granny's Island - Pizza Oven Entrance", "Pizza Oven - Exit", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(285f, 20f, -50f), new Vector3(-640f, 10f, 140f), 90, 3, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
+            new WarpIdentifier("Granny's Island - Law Firm Roof Entrance", "Law Firm - Exit", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(365f, 36f, 20f), new Vector3(-505f, 40f, 65f), -90, 5, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Granny's Island - Crash Again Entrance", "Crash Again - Exit", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-250f, 55f, 0f), new Vector3(-475f, 10f, -110f), 90, 6, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
+            new WarpIdentifier("Granny's Island - Gym Gears Entrance", "", "", LevelId.Hub, Levels.Index.level_Gym, LevelId.L6_Gym, new Vector3(319.4f, 15f, 101.27f), new Vector3(5f, 0f, 0.1f), 0, 0, false, true, "SoundtrackGym", "Background Skyline Night"),
+            new WarpIdentifier("Granny's Island - Fecal Matters House", "", "", LevelId.Hub, Levels.Index.level_PoopWorld, LevelId.L7_PoopWorld, new Vector3(250f, 20f, -95f), new Vector3(0f, 0f, 0f), 0, 0, true, true, "SoundtrackPoopWorld", "Backround Sky Poop World"),
+            new WarpIdentifier("Granny's Island - Flushed Away Entrance", "", "", LevelId.Hub, Levels.Index.level_Sewers, LevelId.L8_Sewers, new Vector3(175f, 10f, -709.92f), new Vector3(20f, 250f, 5f), 0, 0, false, true, "SoundtrackSewers", "Background Black"),
+            new WarpIdentifier("Granny's Island - Rocket Entrance", "Mosk's Rocket - Exit to Granny's Island", "", LevelId.Hub, Levels.Index.level_Rocket, LevelId.L16_Rocket, new Vector3(190f, 45f, -58.73f), new Vector3(-1140f, 0f, -1120f), 0, 0, true, true, "SoundtrackRocket", "Background Bonus Level"),
             // Granny's Island Subarea Warps
-            new WarpIdentifier("Ice Cream Truck - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-710f, 10f, -760f), new Vector3(282f, 20f, 50f), -90, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Granny's Island Hat World - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-635f, 70f, 340f), new Vector3(345f, 20f, 1.748456E-06f), 180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Pizza Oven - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-640f, 10f, 150f), new Vector3(290f, 20f, -50f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Law Firm - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-505f, 10f, 90f), new Vector3(365f, 20f, 30f), -180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Crash Again - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-475f, 10f, -105f), new Vector3(-240f, 55f, 0f), 0, 0, true, true, "default", "default"),
+            new WarpIdentifier("Ice Cream Truck - Exit", "Granny's Island - Ice Cream Truck Entrance", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-710f, 10f, -760f), new Vector3(282f, 20f, 50f), -90, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Granny's Island Hat World - Exit", "Granny's Island - Hat World Entrance", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-635f, 70f, 340f), new Vector3(345f, 20f, 1.748456E-06f), 180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Pizza Oven - Exit", "Granny's Island - Pizza Oven Entrance", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-640f, 10f, 150f), new Vector3(290f, 20f, -50f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Law Firm - Exit", "Granny's Island - Law Firm Roof Entrance", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-505f, 10f, 90f), new Vector3(365f, 20f, 30f), -180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Crash Again - Exit", "Granny's Island - Crash Again Entrance", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-475f, 10f, -105f), new Vector3(-240f, 55f, 0f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
             // Morio's Lab Warps
-            new WarpIdentifier("Morio's Lab - Front Door", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-770f, 10f, 680f), new Vector3(70f, 20f, 0f), 180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Morio's Lab - Back Door", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-630f, 10f, 680f), new Vector3(110f, 20f, 0f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Morio's Lab - Wardrobe Entrance", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-720f, 10f, 646.54f), new Vector3(-660f, 10f, 1115f), 0, 2, false, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
-            new WarpIdentifier("Morio's Wardrobe - Exit", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-670f, 10f, 1115f), new Vector3(-715f, 10f, 655f), -90, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
-            new WarpIdentifier("Morio's Lab - Second Floor Shortcut Pipe", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-750f, 90f, 630f), new Vector3(-817.1f, 160.5f, 520f), 180, -1, true, true, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
-            new WarpIdentifier("Morio's Lab - Fifth Floor Shortcut Pipe", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-800f, 165f, 520f), new Vector3(-750f, 80f, 630f), -45, -1, true, true, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
-            new WarpIdentifier("Morio's Lab - Portal to Morio's Island", LevelId.Hub, Levels.Index.level_MoriosHome, LevelId.L3_MoriosHome, new Vector3(-640f, 30f, 730f), new Vector3(-650f, 30f, 720f), 135, -1, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Morio's Lab - Front Door", "Granny's Island - Morio's Lab Front Door", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-770f, 10f, 680f), new Vector3(70f, 20f, 0f), 180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Morio's Lab - Back Door", "Granny's Island - Morio's Lab Back Door", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-630f, 10f, 680f), new Vector3(110f, 20f, 0f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Morio's Lab - Wardrobe Entrance", "Morio's Wardrobe - Exit", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-720f, 10f, 646.54f), new Vector3(-660f, 10f, 1115f), 0, 2, false, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Morio's Wardrobe - Exit", "Morio's Lab - Wardrobe Entrance", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-670f, 10f, 1115f), new Vector3(-715f, 10f, 655f), -90, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Morio's Lab - Second Floor Shortcut Pipe", "Morio's Lab - Fifth Floor Shortcut Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-750f, 90f, 630f), new Vector3(-817.1f, 160.5f, 520f), 180, 2, true, true, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Morio's Lab - Fifth Floor Shortcut Pipe", "Morio's Lab - Second Floor Shortcut Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-800f, 165f, 520f), new Vector3(-750f, 80f, 630f), -45, 2, true, true, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Morio's Lab - Portal to Morio's Island", "", "", LevelId.Hub, Levels.Index.level_MoriosHome, LevelId.L3_MoriosHome, new Vector3(-640f, 30f, 730f), new Vector3(0f, 10f, 960f), 0, 0, true, true, "SoundtrackMoriosHome", "Background Morio's Island"),
+            new WarpIdentifier("Morio's Lab - Portal to Bombeach", "Bombeach - Morio's Lab Portal Near Entrance", "", LevelId.Hub, Levels.Index.level_bombeach, LevelId.L1_Bombeach, new Vector3(-640f, 50f, 630f), new Vector3(0f, 0f, 800f), 0, 0, true, true, "SoundtrackBombeach", "Background Bombeach"),
+            new WarpIdentifier("Morio's Lab - Portal to Arcade Plaza", "", "", LevelId.Hub, Levels.Index.level_PanikArcade, LevelId.L4_ArcadePanik, new Vector3(-780f, 50f, 680f), new Vector3(-800f, 0f, 0f), 180, 3, true, false, "SoundtrackArcadePanik", "Background Sea and Sky - Sunset"),
+            new WarpIdentifier("Morio's Lab - Portal to Pizza Time", "", "", LevelId.Hub, Levels.Index.level_PizzaTime, LevelId.L2_PizzaTime, new Vector3(-720f, 50f, 810f), new Vector3(0f, 0f, 0f), 180, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+            new WarpIdentifier("Morio's Lab - Psycho Taxi Arcade Machine", "", "", LevelId.Hub, Levels.Index.level_psycho_taxi, LevelId.L20_PsychoTaxi, new Vector3(-785f, 70f, 615f), new Vector3(-400f, 60f, 20f), 0, 0, true, true, "MEGA_RAN_-_TAXI_REFERENCE", "Background Sea and Sky"),
 
             // Morio's Island Warps
-            new WarpIdentifier("Morio's Island - Morio's Garage Entrance", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-10f, 0f, 465f), new Vector3(-20f, 10f, -310f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
+            new WarpIdentifier("Morio's Island - Morio's Garage Entrance", "Morio's Home - Morio's Garage Exit", "", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-10f, 0f, 465f), new Vector3(-20f, 10f, -310f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
             // Morio's Home Warps
-            new WarpIdentifier("Morio's Home - Morio's Garage Exit", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-20f, 10f, -300f), new Vector3(-10f, 0f, 460f), 90, 0, true, true, "default", "default"),
-            new WarpIdentifier("Morio's Home - Door to Weird Tunnels", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(85.10001f, 30.41628f, -409.6847f), new Vector3(-645f, 55f, -645f), 0, 4, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
+            new WarpIdentifier("Morio's Home - Morio's Garage Exit", "Morio's Island - Morio's Garage Entrance", "", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-20f, 10f, -300f), new Vector3(-10f, 0f, 460f), 90, 0, true, true, "SoundtrackMoriosHome", "Background Morio's Island"),
+            new WarpIdentifier("Morio's Home - Door to Weird Tunnels", "Weird Tunnels - Entrance Door", "", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(85.10001f, 30.41628f, -409.6847f), new Vector3(-645f, 55f, -645f), 0, 4, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
+            new WarpIdentifier("Morio's Home - Portal to Morio's Lab", "", "", LevelId.L3_MoriosHome, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(83.79849f, 70.41628f, -847.1847f), new Vector3(-650f, 30f, 720f), 135, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
             // Weird Tunnel Warps
-            new WarpIdentifier("Weird Tunnels - Entrance Door", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-670f, 10f, -645f), new Vector3(85f, 30f, -445f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
-            new WarpIdentifier("Weird Tunnels - Exit Door", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-260f, 0f, -645f), new Vector3(85f, 30f, -445f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal")
+            new WarpIdentifier("Weird Tunnels - Entrance Door", "Morio's Home - Door to Weird Tunnels", "Weird Tunnels - Exit", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-670f, 10f, -645f), new Vector3(85f, 30f, -445f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
+            new WarpIdentifier("Weird Tunnels - Exit Door", "Morio's Home - Door to Weird Tunnels", "Weird Tunnels - Exit", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-260f, 0f, -645f), new Vector3(85f, 30f, -445f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
+
+            // Bombeach Warps
+            new WarpIdentifier("Bombeach - Cave Entrance", "Cave - Exit", "", LevelId.L1_Bombeach, Levels.Index.noone, LevelId.noone, new Vector3(838.99f, -15f, 778.99f), new Vector3(-630f, 10f, -152.5f), 90, 0, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
+            new WarpIdentifier("Bombeach - Morio's Lab Portal Near Entrance", "Morio's Lab - Portal to Bombeach", "Bombeach - Morio's Lab Portal", LevelId.L1_Bombeach, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(275f, 5f, 780f), new Vector3(-650f, 50f, 640f), -135, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Bombeach - Hat World Entrance", "Bombeach Hat World - Exit", "", LevelId.L1_Bombeach, Levels.Index.noone, LevelId.noone, new Vector3(679.8076f, 15f, 758.8076f), new Vector3(-625f, 0f, 800f), 0, 1, false, false, "SoundtrackHatShop", "Background Bombeach"),
+            new WarpIdentifier("Bombeach Hat World - Exit", "Bombeach - Hat World Entrance", "", LevelId.L1_Bombeach, Levels.Index.noone, LevelId.noone, new Vector3(-630f, 0f, 800f), new Vector3(674.8578f, 15f, 753.8578f), 135, 0, true, true, "SoundtrackBombeach", "Background Bombeach"),
+            new WarpIdentifier("Bombeach - Morio's Lab Portal on Summit", "Morio's Lab - Portal to Bombeach", "Bombeach - Morio's Lab Portal", LevelId.L1_Bombeach, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(640f, 95f, 830f), new Vector3(-650f, 50f, 640f), -135, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Cave - Exit", "Bombeach - Cave Entrance", "", LevelId.L1_Bombeach, Levels.Index.noone, LevelId.noone, new Vector3(-630f, -10f, -94.76f), new Vector3(850f, -15f, 790f), -45, 0, true, true, "SoundtrackBombeach", "Background Bombeach"),
+
+            // Rocket Warps
+            new WarpIdentifier("Mosk's Rocket - Exit to Granny's Island", "Granny's Island - Rocket Entrance", "", LevelId.L16_Rocket, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(-1150f, 0f, -1120f), new Vector3(190f, 20f, -30f), 90, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
+            new WarpIdentifier("Mosk's Rocket - Portal to Welcoming Climbs", "Welcoming Climbs - Portal to Mosk's Rocket", "", LevelId.L16_Rocket, Levels.Index.noone, LevelId.noone, new Vector3(-1045f, 30f, -1135f), new Vector3(-490f, 10f, -1120f), 0, 4, true, true, "SoundtrackRocket", "Background Bonus Level", LevelId.L3_MoriosHome),
+            new WarpIdentifier("Welcoming Climbs - Portal to Mosk's Rocket", "Mosk's Rocket - Portal to Welcoming Climbs", "", LevelId.L16_Rocket, Levels.Index.noone, LevelId.noone, new Vector3(-500f, 10f, -1120f), new Vector3(-1045f, 30f, -1120f), -90, 0, true, true, "SoundtrackRocket", "Background Bonus Level", LevelId.L16_Rocket),
         };
 
         public static Dictionary<string, string> WarpRedirects = new()
         {
-            //{"Granny's Island - Morio's Lab Front Door", "Morio's Home - Door to Weird Tunnels"},
+            //{"Granny's Island - Morio's Lab Front Door", "Bombeach - Hat World Entrance"},
+            //{"Cave - Exit", "Morio's Lab - Portal to Bombeach"},
+            //{"Bombeach - Morio's Lab Portal", "Cave - Exit"},
+            //{"Bombeach - Hat World Entrance", "Morio's Home - Portal to Morio's Lab"},
+            //{"Morio's Lab - Portal to Morio's Island", "Bombeach - Morio's Lab Portal Near Entrance"},
+            //{"Mosk's Rocket - Portal to Welcoming Climbs", "Morio's Home - Door to Weird Tunnels"},
             //{"Weird Tunnels - Entrance Door", "Crash Again - Exit"},
             //{"Granny's Island - Crash Again Entrance", "Granny's Island - Fecal Matters House"},
             //{"Granny's Island - Gym Gears Entrance", "Law Firm - Exit"},
@@ -219,7 +286,7 @@ namespace YellowTaxiAP.Managers
             //{"Granny's Island - Hat World Entrance", "Morio's Home - Door to Weird Tunnels"},
             //{"Morio's Home - Door to Weird Tunnels", "Granny's Island - Gym Gears Entrance"},
             //{"Morio's Lab - Portal to Morio's Island", "Morio's Home - Morio's Garage Exit"},
-            //{"Morio's Island - Morio's Garage Entrance", "Granny's Island - Law Firm Roof Entrance"},
+            //{"Morio's Island - Morio's Garage Entrance", "Morio's Lab - Portal to Morio's Island"},
         };
 
         public override bool Equals(object obj)
@@ -244,28 +311,48 @@ namespace YellowTaxiAP.Managers
             return OriginalLevelId == otherWarp.OriginalLevelId &&
                    OriginalTargetLevel == otherWarp.OriginalTargetLevel &&
                    OriginalTargetLevelId == otherWarp.OriginalTargetLevelId &&
+                   (OriginalTargetLevelId != LevelId.noone || ( // The following only matter for in-level warps normally
                    Mathf.Approximately(MoveTaxiHere.x, otherWarp.MoveTaxiHere.x) &&
                    Mathf.Approximately(MoveTaxiHere.y, otherWarp.MoveTaxiHere.y) &&
                    Mathf.Approximately(MoveTaxiHere.z, otherWarp.MoveTaxiHere.z) &&
                    Mathf.Approximately(Rotation, otherWarp.Rotation) &&
-                   Zone == otherWarp.Zone &&
+                   (otherWarp.Zone == -1 || Zone == -1 || Zone == otherWarp.Zone) &&
                    DesiredLightState == otherWarp.DesiredLightState &&
-                   DesiredWaterState == otherWarp.DesiredWaterState;
+                   DesiredWaterState == otherWarp.DesiredWaterState));
         }
 
         public static string IdentifyOriginalWarp(PortalScript warp)
         {
             var warpIdentifier = new WarpIdentifier(warp);
             var knownWarp = KnownWarps.FirstOrDefault(o => o.Equals(warpIdentifier));
-            if (knownWarp != null)
+            if (knownWarp != null && knownWarp.Zone != -1 && !string.IsNullOrEmpty(knownWarp.SongChange) && !string.IsNullOrEmpty(knownWarp.BackgroundChange))
             {
-                return $"Known Warp: {knownWarp.Name}";
+                return $"Known Warp: {knownWarp.Name}" + (string.IsNullOrEmpty(knownWarp.ExitGroup)
+                        ? string.Empty
+                        : $" (Group: {knownWarp.ExitGroup})");
             }
 
             knownWarp = KnownWarps.FirstOrDefault(o => o.ProbablyEquals(warpIdentifier));
-            var warpName = knownWarp?.Name ?? string.Empty;
 #if DEBUG
-            GUIUtility.systemCopyBuffer = $"new WarpIdentifier(\"{warpName}\", LevelId.{GameplayMaster.instance.levelId}, Levels.Index.{warp.targetLevel}, LevelId.{warp.targetLevelId}, new Vector3({warp.portalStartPosition.x}f, {warp.portalStartPosition.y}f, {warp.portalStartPosition.z}f), new Vector3({warp.moveTaxiHere.x}f, {warp.moveTaxiHere.y}f, {warp.moveTaxiHere.z}f), {warp.rotateTaxiY}, {warp.desiredZoneId}, {warp.desiredLightState.ToString().ToLower()}, {warp.desiredWaterState.ToString().ToLower()}, \"{warp.songChange}\", \"{warp.backgroundChange}\"),";
+            var warpName = knownWarp?.Name ?? string.Empty;
+            var linkedExit = knownWarp?.LinkedExit ?? string.Empty;
+            var groupName = knownWarp?.ExitGroup ?? string.Empty;
+            var moveTaxiHere = warp.targetLevelId != LevelId.Hub ? warp.moveTaxiHere : PortalScript.latestPortalHub_Pos;
+            var rotateTaxiY = warp.targetLevelId != LevelId.Hub ? warp.rotateTaxiY : PortalScript.latestPortalHub_RotationY;
+            var zone = warp.targetLevelId != LevelId.Hub ? (warp.desiredZoneId != -1 ? warp.desiredZoneId : (warp.targetLevelId == LevelId.noone ? ZoneMaster.currentZoneId : 0)) : PortalScript.latestHubZoneId;
+            var water = warp.targetLevelId != LevelId.Hub ? warp.desiredWaterState : PortalScript.latestHubWaterState;
+            var light = warp.targetLevelId != LevelId.Hub ? warp.desiredLightState : PortalScript.latestHubLightState;
+            var song = warp.targetLevelId != LevelId.Hub ? warp.songChange : PortalScript.latestHubSoundtrack;
+            if (string.IsNullOrEmpty(song))
+            {
+                song = warp.targetLevelId == LevelId.noone ? GameplayMaster.instance.levelSoundtrack : "default";
+            }
+            var bg = warp.targetLevelId != LevelId.Hub ? warp.backgroundChange : PortalScript.latestHubBackground;
+            if (string.IsNullOrEmpty(bg))
+            {
+                bg = warp.targetLevelId == LevelId.noone ? BackgroundMaster.instance.name : "default";
+            }
+            GUIUtility.systemCopyBuffer = $"new WarpIdentifier(\"{warpName}\", \"{linkedExit}\", \"{groupName}\", LevelId.{GameplayMaster.instance.levelId}, Levels.Index.{warp.targetLevel}, LevelId.{warp.targetLevelId}, new Vector3({warp.portalStartPosition.x}f, {warp.portalStartPosition.y}f, {warp.portalStartPosition.z}f), new Vector3({moveTaxiHere?.x ?? 0}f, {moveTaxiHere?.y ?? 0}f, {moveTaxiHere?.z ?? 0}f), {rotateTaxiY ?? 0}, {zone}, {light.ToString().ToLower()}, {water.ToString().ToLower()}, \"{song}\", \"{bg}\""+(warp.kaizoLevelId != LevelId.noone ? $", LevelId.{warp.kaizoLevelId}" : string.Empty)+"),";
 #endif
 
             if (knownWarp != null)
@@ -274,20 +361,26 @@ namespace YellowTaxiAP.Managers
             }
 
             if (warp.targetLevel != Levels.Index.noone)
-                return $"Portal to {warp.targetLevelId}";
+                return $"Unknown Portal to {warp.targetLevelId}";
 
             return $"Unknown TaxiWarp to {warp.moveTaxiHere} with rotation {warp.rotateTaxiY}";
         }
 
         public static WarpIdentifier GetRedirectedWarp(PortalScript warp)
         {
-            return KnownWarps.FirstOrDefault(o => o.Equals(new WarpIdentifier(warp)));
+            var warpId = new WarpIdentifier(warp);
+            return KnownWarps.FirstOrDefault(o => o.Equals(warpId));
         }
 
+        public static bool GroupExits = false;
         public static bool RedirectWarp(PortalScript warp)
         {
             var knownWarp = GetRedirectedWarp(warp);
-            if (knownWarp != null && WarpRedirects.TryGetValue(knownWarp.Name, out var redirectedWarpName))
+            if (knownWarp == null)
+                return false;
+            WarpRedirects.TryGetValue(GroupExits ? knownWarp.Group : knownWarp.Name, out var redirectedWarpName);
+
+            if (!string.IsNullOrEmpty(redirectedWarpName))
             {
                 var redirectedWarp = KnownWarps.FirstOrDefault(o => o.Name.Equals(redirectedWarpName));
                 if (redirectedWarp == null)
@@ -298,15 +391,23 @@ namespace YellowTaxiAP.Managers
 
                 warp.targetLevel = redirectedWarp.OriginalTargetLevel;
                 warp.targetLevelId = redirectedWarp.OriginalTargetLevelId;
-                warp.islandToLabPortal = true;
-                warp.skipTaxiRisucchio = false;
 
-                if (redirectedWarp.OriginalTargetLevelId == LevelId.noone &&
+                if (redirectedWarp.OriginalTargetLevelId == LevelId.Hub &&
+                    GameplayMaster.instance.levelId != LevelId.Hub)
+                {
+                    APPortalManager.QueuedSubwarp = redirectedWarp;
+                }
+                else if (redirectedWarp.OriginalTargetLevelId == LevelId.noone &&
                     GameplayMaster.instance.levelId != redirectedWarp.OriginalLevelId)
                 {
                     APPortalManager.QueuedSubwarp = redirectedWarp;
                     warp.targetLevel = LevelConverter.GetLevelIndex(redirectedWarp.OriginalLevelId);
                     warp.targetLevelId = redirectedWarp.OriginalLevelId;
+                }
+                else if (redirectedWarp.OriginalTargetLevelId == GameplayMaster.instance.levelId)
+                {
+                    warp.targetLevel = Levels.Index.noone;
+                    warp.targetLevelId = LevelId.noone;
                 }
 
                 warp.moveTaxiHere = redirectedWarp.MoveTaxiHere;
