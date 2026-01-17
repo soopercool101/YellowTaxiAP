@@ -16,8 +16,15 @@ namespace YellowTaxiAP.Managers
             On.PortalScript.GoToLevel += PortalScript_GoToLevel;
             On.PortalScript.OnTriggerEnter += PortalScript_OnTriggerEnter;
             On.PortalScript.PortalIslandToLabCoroutine += PortalScript_PortalIslandToLabCoroutine;
+            //On.PortalScript.DemoCheck_ShouldPortalBeEnabled += PortalScript_DemoCheck_ShouldPortalBeEnabled;
             //On.PortalScript.SetupDataForLevelComeback += PortalScript_SetupDataForLevelComeback;
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
+        }
+
+        private bool PortalScript_DemoCheck_ShouldPortalBeEnabled(On.PortalScript.orig_DemoCheck_ShouldPortalBeEnabled orig, PortalScript self)
+        {
+            Plugin.Log($"{self.gameObject.name}: {self.USE_IN_DEMO_} | {self.USE_IN_DEMO_EXTRA} | {self.USE_IN_DEMO_EXTRA_INFLUENCERS}");
+            return self.USE_IN_DEMO_;
         }
 
         private void PlayerScript_Start(On.PlayerScript.orig_Start orig, PlayerScript self)
@@ -239,10 +246,10 @@ namespace YellowTaxiAP.Managers
             new WarpIdentifier("Morio's Wardrobe - Exit", "Morio's Lab - Wardrobe Entrance", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-670f, 10f, 1115f), new Vector3(-715f, 10f, 655f), -90, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
             new WarpIdentifier("Morio's Lab - Second Floor Shortcut Pipe", "Morio's Lab - Fifth Floor Shortcut Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-750f, 90f, 630f), new Vector3(-817.1f, 160.5f, 520f), 180, 2, true, true, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
             new WarpIdentifier("Morio's Lab - Fifth Floor Shortcut Pipe", "Morio's Lab - Second Floor Shortcut Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(-800f, 165f, 520f), new Vector3(-750f, 80f, 630f), -45, 2, true, true, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
-            new WarpIdentifier("Morio's Lab - Portal to Morio's Island", "", "", LevelId.Hub, Levels.Index.level_MoriosHome, LevelId.L3_MoriosHome, new Vector3(-640f, 30f, 730f), new Vector3(0f, 10f, 960f), 0, 0, true, true, "SoundtrackMoriosHome", "Background Morio's Island"),
-            new WarpIdentifier("Morio's Lab - Portal to Bombeach", "Bombeach - Morio's Lab Portal Near Entrance", "", LevelId.Hub, Levels.Index.level_bombeach, LevelId.L1_Bombeach, new Vector3(-640f, 50f, 630f), new Vector3(0f, 0f, 800f), 0, 0, true, true, "SoundtrackBombeach", "Background Bombeach"),
-            new WarpIdentifier("Morio's Lab - Portal to Arcade Plaza", "", "", LevelId.Hub, Levels.Index.level_PanikArcade, LevelId.L4_ArcadePanik, new Vector3(-780f, 50f, 680f), new Vector3(-800f, 0f, 0f), 180, 3, true, false, "SoundtrackArcadePanik", "Background Sea and Sky - Sunset"),
-            new WarpIdentifier("Morio's Lab - Portal to Pizza Time", "", "", LevelId.Hub, Levels.Index.level_PizzaTime, LevelId.L2_PizzaTime, new Vector3(-720f, 50f, 810f), new Vector3(0f, 0f, 0f), 180, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+            new WarpIdentifier("Morio's Lab - Morio's Home Portal", "", "", LevelId.Hub, Levels.Index.level_MoriosHome, LevelId.L3_MoriosHome, new Vector3(-640f, 30f, 730f), new Vector3(0f, 10f, 960f), 0, 0, true, true, "SoundtrackMoriosHome", "Background Morio's Island"),
+            new WarpIdentifier("Morio's Lab - Bombeach Portal", "Bombeach - Morio's Lab Portal Near Entrance", "", LevelId.Hub, Levels.Index.level_bombeach, LevelId.L1_Bombeach, new Vector3(-640f, 50f, 630f), new Vector3(0f, 0f, 800f), 0, 0, true, true, "SoundtrackBombeach", "Background Bombeach"),
+            new WarpIdentifier("Morio's Lab - Arcade Panik Portal", "", "", LevelId.Hub, Levels.Index.level_PanikArcade, LevelId.L4_ArcadePanik, new Vector3(-780f, 50f, 680f), new Vector3(-800f, 0f, 0f), 180, 3, true, false, "SoundtrackArcadePanik", "Background Sea and Sky - Sunset"),
+            new WarpIdentifier("Morio's Lab - Pizza Time Portal", "", "", LevelId.Hub, Levels.Index.level_PizzaTime, LevelId.L2_PizzaTime, new Vector3(-720f, 50f, 810f), new Vector3(0f, 0f, 0f), 180, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
             new WarpIdentifier("Morio's Lab - Psycho Taxi Arcade Machine", "", "", LevelId.Hub, Levels.Index.level_psycho_taxi, LevelId.L20_PsychoTaxi, new Vector3(-785f, 70f, 615f), new Vector3(-400f, 60f, 20f), 0, 0, true, true, "MEGA_RAN_-_TAXI_REFERENCE", "Background Sea and Sky"),
 
             // Morio's Island Warps
@@ -250,7 +257,7 @@ namespace YellowTaxiAP.Managers
             // Morio's Home Warps
             new WarpIdentifier("Morio's Home - Morio's Garage Exit", "Morio's Island - Morio's Garage Entrance", "", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-20f, 10f, -300f), new Vector3(-10f, 0f, 460f), 90, 0, true, true, "SoundtrackMoriosHome", "Background Morio's Island"),
             new WarpIdentifier("Morio's Home - Door to Weird Tunnels", "Weird Tunnels - Entrance Door", "", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(85.10001f, 30.41628f, -409.6847f), new Vector3(-645f, 55f, -645f), 0, 4, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
-            new WarpIdentifier("Morio's Home - Portal to Morio's Lab", "", "", LevelId.L3_MoriosHome, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(83.79849f, 70.41628f, -847.1847f), new Vector3(-650f, 30f, 720f), 135, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Morio's Home - Morio's Lab Portal", "", "", LevelId.L3_MoriosHome, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(83.79849f, 70.41628f, -847.1847f), new Vector3(-650f, 30f, 720f), 135, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
             // Weird Tunnel Warps
             new WarpIdentifier("Weird Tunnels - Entrance Door", "Morio's Home - Door to Weird Tunnels", "Weird Tunnels - Exit", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-670f, 10f, -645f), new Vector3(85f, 30f, -445f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
             new WarpIdentifier("Weird Tunnels - Exit Door", "Morio's Home - Door to Weird Tunnels", "Weird Tunnels - Exit", LevelId.L3_MoriosHome, Levels.Index.noone, LevelId.noone, new Vector3(-260f, 0f, -645f), new Vector3(85f, 30f, -445f), 90, 3, false, false, "SoundtrackMoriosHomeInternal", "Background Morio's Home Internal"),
@@ -263,10 +270,34 @@ namespace YellowTaxiAP.Managers
             new WarpIdentifier("Bombeach - Morio's Lab Portal on Summit", "Morio's Lab - Portal to Bombeach", "Bombeach - Morio's Lab Portal", LevelId.L1_Bombeach, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(640f, 95f, 830f), new Vector3(-650f, 50f, 640f), -135, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
             new WarpIdentifier("Cave - Exit", "Bombeach - Cave Entrance", "", LevelId.L1_Bombeach, Levels.Index.noone, LevelId.noone, new Vector3(-630f, -10f, -94.76f), new Vector3(850f, -15f, 790f), -45, 0, true, true, "SoundtrackBombeach", "Background Bombeach"),
 
+            // Arcade Panik Warps
+            new WarpIdentifier("Arcade Plaza - Hat World Entrance", "Arcade Plaza Hat World - Exit", "", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-763f, 0f, 1.136496E-06f), new Vector3(-1110f, 80f, -1.486187E-05f), 180, 1, false, false, "SoundtrackHatShop", "Background Sea and Sky - Sunset"),
+            new WarpIdentifier("Arcade Plaza Hat World - Exit", "Arcade Plaza - Hat World Entrance", "", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-1105f, 80f, -1.529899E-05f), new Vector3(-770f, 0f, 1.748456E-06f), 180, 3, true, true, "SoundtrackArcadePanik", "Background Sea and Sky - Sunset"),
+            new WarpIdentifier("Arcade Plaza - Arcade Panik Entrance", "Arcade Panik - Arcade Exit", "", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-840f, 0f, 0f), new Vector3(-500f, 10f, 0f), 0, 0, true, true, "SoundtrackArcadePanik", "Background Panik Arcade Internal"),
+            new WarpIdentifier("Arcade Panik - Arcade Exit", "Arcade Plaza - Arcade Panik Entrance", "", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-518f, 10f, 0f), new Vector3(-815f, 0f, 0f), 0, 3, true, true, "SoundtrackArcadePanik", "Background Sea and Sky - Sunset"),
+            new WarpIdentifier("Arcade Panik - Pinball Entrance", "Flipper - Hole in Tower Exit", "", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-240f, 85f, 0f), new Vector3(-145f, 380f, 960f), 0, 4, true, true, "SoundtrackArcadePanik", "Background Panik Arcade Internal"),
+            new WarpIdentifier("Arcade Panik - Morio's Lab Portal in Bowling Alley", "Morio's Lab - Arcade Panik Portal", "Arcade Panik - Portal to Morio's Lab", LevelId.L4_ArcadePanik, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(-442.5f, 10f, 55f), new Vector3(-765f, 50f, 680f), 0, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Arcade Panik - Morio's Lab Portal on Center Platform", "Morio's Lab - Arcade Panik Portal", "Arcade Panik - Portal to Morio's Lab", LevelId.L4_ArcadePanik, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(90f, 5f, -20f), new Vector3(-765f, 50f, 680f), 0, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            new WarpIdentifier("Flipper - Hole in Tower Exit", "Arcade Panik - Pinball Entrance", "Flipper - Exit", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-130f, -10f, 960f), new Vector3(-225f, 85f, 0f), 0, 0, true, true, "SoundtrackArcadePanik", "Background Panik Arcade Internal"),
+            new WarpIdentifier("Flipper - Pipe Before Final Challenge Exit", "Arcade Panik - Pinball Entrance", "Flipper - Exit", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-855f, 162.5f, 960f), new Vector3(-225f, 85f, 0f), 0, 0, true, true, "SoundtrackArcadePanik", "Background Panik Arcade Internal"),
+            new WarpIdentifier("Flipper - Pipe After Final Challenge Exit", "Arcade Panik - Pinball Entrance", "Flipper - Exit", LevelId.L4_ArcadePanik, Levels.Index.noone, LevelId.noone, new Vector3(-1225f, 332.5f, 955f), new Vector3(-225f, 85f, 0f), 0, 0, true, true, "SoundtrackArcadePanik", "Background Panik Arcade Internal"),
+
+            // Pizza Time Warps
+            new WarpIdentifier("Pizza Time - Hat World Entrance", "Pizza Time Hat World - Exit", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-123.5f, 0f, -8.741669f), new Vector3(1067.5f, 0f, 0f), 0, 1, false, false, "SoundtrackHatShop", "Background Pizza Time"),
+            new WarpIdentifier("Pizza Time Hat World - Exit", "Pizza Time - Hat World Entrance", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(1062.5f, 0f, 0f), new Vector3(-120f, 0f, -2.679491f), 300, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+            new WarpIdentifier("Pizza Time - Sewer Entrance", "Pizza Time Sewer - Exit", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-567.5f, 5f, 180f), new Vector3(155f, 10f, 475f), -90, 6, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+            new WarpIdentifier("Pizza Time Sewer - Exit", "Pizza Time - Sewer Entrance", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(155f, 10f, 460f), new Vector3(-560f, 30f, 185f), -90, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+            new WarpIdentifier("Pizza Time - 400° Oven", "400° - Exit", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-425.26f, 30f, 210f), new Vector3(980f, 10f, -750f), 180, 3, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
+            new WarpIdentifier("400° - Exit", "Pizza Time - 400° Oven", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(990f, 10f, -750f), new Vector3(-435f, 30f, 210f), 180, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+            new WarpIdentifier("Pizza Time - 600° Oven", "600° - Exit", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-410f, 30f, -5f), new Vector3(460f, 10f, -810f), 180, 4, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
+            new WarpIdentifier("600° - Exit", "Pizza Time - 600° Oven", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(470f, 10f, -810f), new Vector3(-402.5f, 30f, 2.5f), -45, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+            new WarpIdentifier("Pizza Time - 900° Oven", "900° - Exit", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-876.69f, 70f, 281.18f), new Vector3(-330f, 10f, -790f), -90, 5, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
+            new WarpIdentifier("900° - Exit", "Pizza Time - 900° Oven", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-330f, 10f, -800f), new Vector3(-870f, 70f, 279.9f), 15, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
+
             // Rocket Warps
             new WarpIdentifier("Mosk's Rocket - Exit to Granny's Island", "Granny's Island - Rocket Entrance", "", LevelId.L16_Rocket, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(-1150f, 0f, -1120f), new Vector3(190f, 20f, -30f), 90, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
-            new WarpIdentifier("Mosk's Rocket - Portal to Welcoming Climbs", "Welcoming Climbs - Portal to Mosk's Rocket", "", LevelId.L16_Rocket, Levels.Index.noone, LevelId.noone, new Vector3(-1045f, 30f, -1135f), new Vector3(-490f, 10f, -1120f), 0, 4, true, true, "SoundtrackRocket", "Background Bonus Level", LevelId.L3_MoriosHome),
-            new WarpIdentifier("Welcoming Climbs - Portal to Mosk's Rocket", "Mosk's Rocket - Portal to Welcoming Climbs", "", LevelId.L16_Rocket, Levels.Index.noone, LevelId.noone, new Vector3(-500f, 10f, -1120f), new Vector3(-1045f, 30f, -1120f), -90, 0, true, true, "SoundtrackRocket", "Background Bonus Level", LevelId.L16_Rocket),
+            new WarpIdentifier("Mosk's Rocket - Welcoming Climbs Portal", "Welcoming Climbs - Mosk's Rocket Portal", "", LevelId.L16_Rocket, Levels.Index.noone, LevelId.noone, new Vector3(-1045f, 30f, -1135f), new Vector3(-490f, 10f, -1120f), 0, 4, true, true, "SoundtrackRocket", "Background Bonus Level", LevelId.L3_MoriosHome),
+            new WarpIdentifier("Welcoming Climbs - Mosk's Rocket Portal", "Mosk's Rocket - Welcoming Climbs Portal", "", LevelId.L16_Rocket, Levels.Index.noone, LevelId.noone, new Vector3(-500f, 10f, -1120f), new Vector3(-1045f, 30f, -1120f), -90, 0, true, true, "SoundtrackRocket", "Background Bonus Level", LevelId.L16_Rocket),
         };
 
         public static Dictionary<string, string> WarpRedirects = new()
@@ -343,14 +374,27 @@ namespace YellowTaxiAP.Managers
             var water = warp.targetLevelId != LevelId.Hub ? warp.desiredWaterState : PortalScript.latestHubWaterState;
             var light = warp.targetLevelId != LevelId.Hub ? warp.desiredLightState : PortalScript.latestHubLightState;
             var song = warp.targetLevelId != LevelId.Hub ? warp.songChange : PortalScript.latestHubSoundtrack;
-            if (string.IsNullOrEmpty(song))
-            {
-                song = warp.targetLevelId == LevelId.noone ? GameplayMaster.instance.levelSoundtrack : "default";
-            }
             var bg = warp.targetLevelId != LevelId.Hub ? warp.backgroundChange : PortalScript.latestHubBackground;
-            if (string.IsNullOrEmpty(bg))
+
+            if (warp.targetLevelId == LevelId.noone)
             {
-                bg = warp.targetLevelId == LevelId.noone ? BackgroundMaster.instance.name : "default";
+                if (string.IsNullOrEmpty(song))
+                {
+                    song = GameplayMaster.instance.levelSoundtrack;
+                }
+                else if (song.Equals("default"))
+                {
+                    song = GameplayMaster.instance.defaultLevelSoundtrack;
+                }
+
+                if (string.IsNullOrEmpty(bg))
+                {
+                    bg = BackgroundMaster.instance.name;
+                }
+                else if (bg.Equals("default"))
+                {
+                    bg = GameplayMaster.instance.initialBackground;
+                }
             }
             GUIUtility.systemCopyBuffer = $"new WarpIdentifier(\"{warpName}\", \"{linkedExit}\", \"{groupName}\", LevelId.{GameplayMaster.instance.levelId}, Levels.Index.{warp.targetLevel}, LevelId.{warp.targetLevelId}, new Vector3({warp.portalStartPosition.x}f, {warp.portalStartPosition.y}f, {warp.portalStartPosition.z}f), new Vector3({moveTaxiHere?.x ?? 0}f, {moveTaxiHere?.y ?? 0}f, {moveTaxiHere?.z ?? 0}f), {rotateTaxiY ?? 0}, {zone}, {light.ToString().ToLower()}, {water.ToString().ToLower()}, \"{song}\", \"{bg}\""+(warp.kaizoLevelId != LevelId.noone ? $", LevelId.{warp.kaizoLevelId}" : string.Empty)+"),";
 #endif

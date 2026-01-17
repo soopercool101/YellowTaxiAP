@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace YellowTaxiAP
@@ -10,6 +11,8 @@ namespace YellowTaxiAP
 #if DEBUG
     public static class DebugLocationHelper
     {
+        public static bool Enabled => false;
+
         #region Hub
 
         [Description("Granny's Island - Starting Area")]
@@ -986,8 +989,8 @@ namespace YellowTaxiAP
         [Description("Morio's Lab - Third Floor")]
         public static Dictionary<string, string> MoriosLabThirdFloor = new()
         {
-            { "0_03_00580", "Morio's Lab - Coin on Second to Third Floor Stairway #3"},
-            { "0_03_00582", "Morio's Lab - Coin on Second to Third Floor Stairway #4"},
+            { "0_03_00580", "Morio's Lab - Coin on Second to Third Floor Stairway #5"},
+            { "0_03_00582", "Morio's Lab - Coin on Second to Third Floor Stairway #6"},
             { "0_03_00581", "Morio's Lab - Chest on Second to Third Floor Stairway"},
             { "0_09_00080", "Morio's Lab - Checkpoint Before Spikes" },
             { "0_08_00005", "Morio's Lab - PICI Spin Attack Tutorial" },
@@ -1189,7 +1192,7 @@ namespace YellowTaxiAP
             { "0_01_00015", "Granny's Island - Gear - In the Clouds" },                 // Region Granny's Island Higher Ground & ((B1 & GP) | (B2 & J1))
             { "0_01_00007", "Granny's Island - Gear - High Pillar by Lab" },            // Region Granny's Island - High Pillar by Lab & (J1 | GP)
             { "0_01_00003", "Granny's Island - Gear - Oil Pump" },                      // Region Granny's Island Main & (SP | EX2)
-            { "0_01_00014", "Granny's Island - Gear - Inside Spin Blocks"},             // Region Granny's Island Main & SP
+            { "0_01_00014", "Granny's Island - Gear - Inside Spin Blocks" },             // Region Granny's Island Main & SP
             { "0_01_00010", "Crash Again - Gear" },                                     // Region Crash Again & ((SP & (B1 | EX1)) | EX2)
             { "0_01_00004", "Pizza Oven - Gear" },                                      // Region Pizza Oven & B1 & (J1 | EX1)
             { "0_03_00632", "Morio's Lab - Coin on Bolts Above Ground Floor #1" },      // Region Morio's Lab Ground Floor Bolts | Region Morio's Lab Fifth Floor Crash Test Area
@@ -1364,8 +1367,80 @@ namespace YellowTaxiAP
             { "3_03_00130", "Morio's Island - Coin in Zigzag Leading to Morio's Home #4" },
             { "3_03_00129", "Morio's Island - Coin in Zigzag Leading to Morio's Home #5" },
             { "3_03_00128", "Morio's Island - Coin in Zigzag Leading to Morio's Home #6" },
-            { "3_01_00000", "Morio's Island - Gear - On Morio's Home"},
+            { "3_01_00014", "Morio's Island - Gear - Stone Island Above Morio's Home Island" },
+            { "3_03_00333", "Morio's Island - Coin Near Fence on Island Leading to Morio's Home #1" },
+            { "3_03_00332", "Morio's Island - Coin Near Fence on Island Leading to Morio's Home #2" },
+            { "3_03_00331", "Morio's Island - Coin Bag Near Fence on Island Leading to Morio's Home" },
+            { "3_03_00198", "Morio's Island - Coin on Gem-Shaped Island #1" },
+            { "3_03_00197", "Morio's Island - Coin on Gem-Shaped Island #2" },
+            { "3_03_00196", "Morio's Island - Coin on Gem-Shaped Island #3" },
+            { "3_03_00195", "Morio's Island - Coin on Gem-Shaped Island #4" },
+            { "3_03_00194", "Morio's Island - Coin on Gem-Shaped Island #5" },
+            { "3_03_00193", "Morio's Island - Coin on Gem-Shaped Island #6" },
+            { "3_03_00192", "Morio's Island - Coin on Gem-Shaped Island #7" },
+            { "3_03_00084", "Morio's Island - Coin on Umbrella #1" },
+            { "3_03_00085", "Morio's Island - Coin on Umbrella #2" },
+            { "3_03_00086", "Morio's Island - Coin on Umbrella #3" },
+            { "3_03_00082", "Morio's Island - Coin on Umbrella #4" },
+            { "3_03_00083", "Morio's Island - Coin on Umbrella #5" },
+            { "3_03_00079", "Morio's Island - Coin on Umbrella #6" },
+            { "3_03_00080", "Morio's Island - Coin on Umbrella #7" },
+            { "3_03_00081", "Morio's Island - Coin on Umbrella #8" },
+            { "3_03_00143", "Morio's Island - Coin Bag on Umbrella" },
+            { "3_03_00090", "Morio's Island - Coin on Morio's Garage #1" },
+            { "3_03_00091", "Morio's Island - Coin on Morio's Garage #2" },
+            { "3_03_00092", "Morio's Island - Coin on Morio's Garage #3" },
+            { "3_03_00087", "Morio's Island - Coin on Morio's Garage #4" },
+            { "3_03_00088", "Morio's Island - Coin on Morio's Garage #5" },
+            { "3_03_00089", "Morio's Island - Coin on Morio's Garage #6" },
+            { "3_01_00000", "Morio's Island - Gear - On Morio's Roof" },
+            { "3_03_00290", "Morio's Island - Coin Bag on Home Island Stone Pillar #2" },
+            { "3_03_00385", "Morio's Island - Chest on Home Island Stone Pillar" },
             { "3_01_00009", "Morio's Island - Gear - On the Rubber Ducks" },
+            { "3_03_00014", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #1" },
+            { "3_03_00013", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #2" },
+            { "3_03_00012", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #3" },
+            { "3_03_00011", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #4" },
+            { "3_03_00010", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #5" },
+            { "3_03_00009", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #6" },
+            { "3_03_00008", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #7" },
+            { "3_03_00007", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #8" },
+            { "3_03_00006", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #9" },
+            { "3_03_00005", "Morio's Island - Coin on Low Stone Island After Rubber Ducks #10" },
+            { "3_03_00311", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #1" },
+            { "3_03_00308", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #2" },
+            { "3_03_00305", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #3" },
+            { "3_03_00312", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #4" },
+            { "3_03_00310", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #5" },
+            { "3_03_00307", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #6" },
+            { "3_03_00304", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #7" },
+            { "3_03_00302", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #8" },
+            { "3_03_00309", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #9" },
+            { "3_03_00306", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #10" },
+            { "3_03_00303", "Morio's Island - Coin in Oval on High Stone Island on Rubber Duck Path #11" },
+            { "3_03_00372", "Morio's Island - Coin in Line on High Stone Island on Rubber Duck Path #1" },
+            { "3_03_00371", "Morio's Island - Coin in Line on High Stone Island on Rubber Duck Path #2" },
+            { "3_03_00370", "Morio's Island - Coin in Line on High Stone Island on Rubber Duck Path #3" },
+            { "3_03_00369", "Morio's Island - Coin in Line on High Stone Island on Rubber Duck Path #4" },
+            { "3_03_00368", "Morio's Island - Coin in Line on High Stone Island on Rubber Duck Path #5" },
+            { "3_21_00000", "Morio's Island - Cheese on High Stone Island on Rubber Duck Path" },
+            { "3_03_00269", "Morio's Island - Coin on High Grass Island on Rubber Duck Path #1" },
+            { "3_03_00268", "Morio's Island - Coin on High Grass Island on Rubber Duck Path #2" },
+            { "3_03_00267", "Morio's Island - Coin on High Grass Island on Rubber Duck Path #3" },
+            { "3_03_00265", "Morio's Island - Coin on High Grass Island on Rubber Duck Path #4" },
+            { "3_03_00263", "Morio's Island - Coin on High Grass Island on Rubber Duck Path #5" },
+            { "3_03_00170", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #1" },
+            { "3_03_00169", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #2" },
+            { "3_03_00168", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #3" },
+            { "3_03_00167", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #4" },
+            { "3_03_00166", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #5" },
+            { "3_03_00015", "Morio's Island - Coin Bag on Low Stone Island Near Mori-O-Tron #1" },
+            { "3_03_00016", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #1" },
+            { "3_03_00017", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #2" },
+            { "3_03_00018", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #3" },
+            { "3_03_00019", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #4" },
+            { "3_03_00020", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #5" },
+            { "3_03_00021", "Morio's Island - Coin Bag on Low Stone Island Near Mori-O-Tron #2" },
         };
 
         [Description("Morio's Island - Morio's Home Island")]
@@ -1383,11 +1458,20 @@ namespace YellowTaxiAP
             { "3_03_00000", "Morio's Island - Coin in Ocean #3" },
             { "3_03_00001", "Morio's Island - Coin in Ocean #4" },
             { "3_03_00002", "Morio's Island - Coin Bag in Ocean" },
+            { "3_21_00002", "Morio's Island - Cheese Near Morio's Home" },
         };
 
-        [Description("Morio's Island - Morio's Home Island High Ground")]
-        public static Dictionary<string, string> MoriosIslandHomeIslandHighGround = new()
+        [Description("Morio's Island - Stone Arch in Ocean Near Morio's Home")]
+        public static Dictionary<string, string> MoriosIslandLowStoneArch = new()
         {
+            { "3_03_00149", "Morio's Island - Coin on Stone Arch Near Morio's Home #1" },
+            { "3_03_00150", "Morio's Island - Coin on Stone Arch Near Morio's Home #2" },
+            { "3_03_00153", "Morio's Island - Coin on Stone Arch Near Morio's Home #3" },
+            { "3_03_00152", "Morio's Island - Coin on Stone Arch Near Morio's Home #4" },
+            { "3_03_00151", "Morio's Island - Coin on Stone Arch Near Morio's Home #5" },
+            { "3_03_00156", "Morio's Island - Coin on Stone Arch Near Morio's Home #6" },
+            { "3_03_00155", "Morio's Island - Coin Bag on Stone Arch Near Morio's Home" },
+            { "3_03_00154", "Morio's Island - Chest Stone Arch Near Morio's Home" },
         };
 
         #endregion
@@ -1462,7 +1546,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosIslandFirstHurdle)), MoriosIslandFirstHurdle),
             new(GetDescription(nameof(MoriosIslandHighGround)), MoriosIslandHighGround),
             new(GetDescription(nameof(MoriosIslandHomeIsland)), MoriosIslandHomeIsland),
-            new(GetDescription(nameof(MoriosIslandHomeIslandHighGround)), MoriosIslandHomeIslandHighGround),
+            new(GetDescription(nameof(MoriosIslandLowStoneArch)), MoriosIslandLowStoneArch),
         ];
 
         public static Dictionary<string, List<Dictionary<string, string>>> PerLevelIDs = new()
@@ -1612,9 +1696,9 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCrashAgainIsland, "B2+GP"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
-                    new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubPizzaOven, ConnectionType.Subwarp, "GelaToni"),
+                    new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
-                    // TODO: GYM GEARS CONNECTION //new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsEntrance, )
+                    // TODO: GYM GEARS CONNECTION //new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsEntrance, ConnectionType.Warp)
                 ]
             },
             {
@@ -1735,7 +1819,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandCrashAgainIsland)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection("Crash Again - Entrance", HubCrashAgain, ConnectionType.Subwarp),
+                    new RegionConnection(GrannysIslandLabHillHighGround, "OS"),
                 ]
             },
             // Granny's Island Subareas
@@ -2044,7 +2129,7 @@ namespace YellowTaxiAP
             switch (areas.Count)
             {
                 case 1:
-                    if(!string.IsNullOrEmpty(type))
+                    if (!string.IsNullOrEmpty(type))
                         Plugin.Log($"[KNOWN] Picked up \"{areas[0].Item2[id]}\" From area \"{areas[0].Item1}\". ID: {id}");
                     return true;
                 case > 1:
@@ -2059,6 +2144,12 @@ namespace YellowTaxiAP
             if (!string.IsNullOrEmpty(type))
                 GUIUtility.systemCopyBuffer = id;
             return false;
+        }
+
+        public static Tuple<string, string> GetKnownItemNameArea(string id)
+        {
+            var areas = KnownIDs.Where(area => area.Item2.ContainsKey(id)).ToList();
+            return areas.Count >= 1 ? new Tuple<string, string>(areas[0].Item2[id], areas[0].Item1) : null;
         }
 
         public static string GetDescription(string fieldName)

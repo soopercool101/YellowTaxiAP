@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
+﻿using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using BepInEx;
+using System;
+using System.Collections.Generic;
 
 namespace YellowTaxiAP.Archipelago;
 
@@ -28,6 +28,11 @@ public class DeathLinkHandler
         if (deathLinkEnabled)
         {
             service.EnableDeathLink();
+            Plugin.Log("DeathLink enabled");
+        }
+        else
+        {
+            Plugin.Log("DeathLink disabled");
         }
     }
 
@@ -74,7 +79,7 @@ public class DeathLinkHandler
             var deathLink = deathLinks.Dequeue();
             var cause = deathLink.Cause.IsNullOrWhiteSpace() ? GetDeathLinkCause(deathLink) : deathLink.Cause;
 
-            Plugin.BepinLogger.LogMessage(cause);
+            ArchipelagoConsole.LogMessage(cause);
             Plugin.DeathLinkInProgress = true;
             GameplayMaster.instance.Die();
         }
@@ -103,7 +108,7 @@ public class DeathLinkHandler
         {
             if (!deathLinkEnabled) return;
 
-            Plugin.BepinLogger.LogMessage("sharing your death...");
+            ArchipelagoConsole.LogMessage("Sending Death Link...");
 
             var linkToSend = new DeathLink(slotName, cause);
 

@@ -1,18 +1,24 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
+using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
-using YellowTaxiAP.Utils;
+using JetBrains.Annotations;
+using Mono.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using YellowTaxiAP.Behaviours;
+using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago;
 
 public class ArchipelagoClient
 {
-    public const string APVersion = "0.7.0";
+    public const string APVersion = "0.6.6";
     private const string Game = "Yellow Taxi Goes Vroom";
 
     public static bool Authenticated;
@@ -67,10 +73,10 @@ public class ArchipelagoClient
                     session.TryConnectAndLogin(
                         Game,
                         ServerData.SlotName,
-                        ItemsHandlingFlags.NoItems, // TODO make sure to change this line
+                        ItemsHandlingFlags.AllItems, // TODO make sure to change this line
                         new Version(APVersion),
                         password: ServerData.Password,
-                        requestSlotData: false // ServerData.NeedSlotData
+                        requestSlotData: true // ServerData.NeedSlotData
                     )));
         }
         catch (Exception e)
@@ -95,11 +101,72 @@ public class ArchipelagoClient
             ServerData.SetupSession(success.SlotData, session.RoomState.Seed);
             Authenticated = true;
 
-            DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName);
+            var enableDeathlink = ServerData.SlotData.ContainsKey("death_link") && (long)ServerData.SlotData["death_link"] == 1;
+
+            Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
+            foreach (var key in ServerData.SlotData.Keys)
+            {
+                Plugin.Log($"SlotData: {key} | {ServerData.SlotData[key]}");
+            }
+
+            Plugin.SlotData = new YTGVSlotData(ServerData.SlotData);
+
+            if (ServerData.SlotData.ContainsKey("death_link"))
+            {
+                Plugin.Log($"death_link is {ServerData.SlotData["death_link"].GetType()} {enableDeathlink}");
+            }
+            else
+            {
+                Plugin.Log("No Death Link variable found!");
+            }
+            DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName, enableDeathlink);
             session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
+
+            if (!Plugin.SlotData.Hatsanity)
+            {
+                session.DataStorage[Scope.Slot, "HatState"].GetAsync().ContinueWith(x =>
+                {
+                    try
+                    {
+                        APDataManager.HatSaveFlags = x.Result.ToObject<ulong>();
+                        Data.currentHat[Data.gameDataIndex] = (int) (APDataManager.HatSaveFlags & 0xFF);
+                        Plugin.Log($"Hat Load Finished: {APDataManager.HatSaveFlags}");
+                    }
+                    catch
+                    {
+                        Plugin.Log("Hat Load Failed");
+                        try
+                        {
+                            APDataManager.HatSaveFlags = 0x100;
+                            session.DataStorage[Scope.Slot, "HatState"].Initialize(0x100);
+                            Plugin.Log("Hat State initialized");
+                        }
+                        catch
+                        {
+                            Plugin.Log("Hat State failed initialization");
+                            throw;
+                        }
+                    }
+                });
+                session.DataStorage[Scope.Slot, "HatState"].OnValueChanged += HatData_OnValueChanged;
+            }
+
             outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
 
             ArchipelagoConsole.LogMessage(outText);
+            try
+            {
+                if (Directory.Exists(Plugin.PluginDirectory))
+                {
+                    if (File.Exists(Plugin.LoginDetailsFile))
+                        File.Delete(Plugin.LoginDetailsFile);
+                    File.WriteAllLines(Plugin.LoginDetailsFile, [ServerData.Uri, ServerData.SlotName, ServerData.Password]);
+                }
+            }
+            catch
+            {
+                Plugin.BepinLogger.LogWarning("Failed to save connection info");
+            }
         }
         else
         {
@@ -148,6 +215,154 @@ public class ArchipelagoClient
         // TODO reward the item here
         // if items can be received while in an invalid state for actually handling them, they can be placed in a local
         // queue to be handled later
+        switch ((Identifiers.ItemID) receivedItem.ItemId)
+        {
+            case Identifiers.ItemID.Gear:
+                Data.gearsUnlockedNumber[Data.gameDataIndex] += 1;
+                GameStateUpdater.GearStateNeedsUpdate = true;
+                break;
+            case Identifiers.ItemID.Coin1:
+                ReceiveCoins(1);
+                break;
+            case Identifiers.ItemID.Coins10:
+                ReceiveCoins(10);
+                break;
+            case Identifiers.ItemID.Coins25:
+                ReceiveCoins(25);
+                break;
+            case Identifiers.ItemID.Coins100:
+                ReceiveCoins(100);
+                break;
+            case Identifiers.ItemID.FlipOWill:
+                APPlayerManager.BoostItems = 2;
+                APPlayerManager.JumpItems = 2;
+                APPlayerManager.SpinAttackItem = true;
+                break;
+            case Identifiers.ItemID.ProgressiveBoost:
+                APPlayerManager.BoostItems++;
+                break;
+            case Identifiers.ItemID.ProgressiveJump:
+                APPlayerManager.JumpItems++;
+                break;
+            case Identifiers.ItemID.SpinAttack:
+                APPlayerManager.SpinAttackItem = true;
+                break;
+            case Identifiers.ItemID.Glide:
+                APPlayerManager.GlideEnabledItem = true;
+                break;
+            case Identifiers.ItemID.GoldenSpringUnlock:
+                APCollectableManager.GoldenSpringActive = true;
+                break;
+            case Identifiers.ItemID.GoldenPropellerUnlock:
+                APCollectableManager.GoldenPropellerActive = true;
+                break;
+            case Identifiers.ItemID.Bunny:
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyMoriosLab:
+                Data.GetLevel(Data.LevelId.Hub).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyBombeach:
+                Data.GetLevel(Data.LevelId.L1_Bombeach).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyPizzaTime:
+                Data.GetLevel(Data.LevelId.L2_PizzaTime).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyMoriosHome:
+                Data.GetLevel(Data.LevelId.L3_MoriosHome).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyArcadePanik:
+                Data.GetLevel(Data.LevelId.L4_ArcadePanik).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyToslasOffices:
+                Data.GetLevel(Data.LevelId.L5_ToslaOffices).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyGymGears:
+                Data.GetLevel(Data.LevelId.L6_Gym).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyFecalMatters:
+                Data.GetLevel(Data.LevelId.L7_PoopWorld).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyFlushedAway:
+                Data.GetLevel(Data.LevelId.L8_Sewers).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyMauriziosCity:
+                Data.GetLevel(Data.LevelId.L9_City).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyCrashTestIndustries:
+                Data.GetLevel(Data.LevelId.L10_CrashTestIndustries).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyDemo:
+                // Placeholder
+                //Data.GetLevel(Data.LevelId.L11_HubDemo).bunniesUnlocked++;
+                //APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyMoriosMind:
+                Data.GetLevel(Data.LevelId.L12_MoriosMind).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyRuinedObservatory:
+                Data.GetLevel(Data.LevelId.L13_StarmanCastle).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyToslaHQ:
+                Data.GetLevel(Data.LevelId.L14_ToslaHQ).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.BunnyMoon:
+                Data.GetLevel(Data.LevelId.L15_Moon).bunniesUnlocked++;
+                APDataManager.TotalBunniesReceived++;
+                break;
+            case Identifiers.ItemID.GelaToni:
+                //Data.grannyZoneUnlocked_IceCream[Data.gameDataIndex] = true;
+                APAreaStateManager.GelaToniReceived = true;
+                break;
+            case Identifiers.ItemID.PizzaKing:
+                //Data.grannyZoneUnlocked_PizzaKing[Data.gameDataIndex] = true;
+                APAreaStateManager.PizzaKingReceived = true;
+                break;
+            case Identifiers.ItemID.Doggo:
+                //Data.doggoStuckLabTalked[Data.gameDataIndex] = true;
+                APAreaStateManager.DoggoReceived = true;
+                break;
+            case Identifiers.ItemID.OrangeSwitch:
+                APSwitchManager.OrangeSwitchUnlocked = true;
+                break;
+            case Identifiers.ItemID.MoriosPassword:
+                APAreaStateManager.MindPasswordReceived = true;
+                break;
+            case Identifiers.ItemID.MosksRocket:
+                APAreaStateManager.RocketEnabled = true;
+                break;
+            case Identifiers.ItemID.PsychoTaxiCartridge:
+                Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = true;
+                Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] = true;
+                break;
+            case Identifiers.ItemID.Michele:
+                APRatManager.ReceivedRatItem = true;
+                break;
+            default:
+                Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void ReceiveCoins(int coinCount)
+    {
+        if (GameplayMaster.instance?.levelId == null || GameplayMaster.instance.levelId == Data.LevelId.noone)
+            return;
+        Data.coinsCollected[Data.gameDataIndex] += coinCount;
     }
 
     /// <summary>
@@ -169,5 +384,75 @@ public class ArchipelagoClient
     {
         Plugin.BepinLogger.LogError($"Connection to Archipelago lost: {reason}");
         Disconnect();
+    }
+
+    public void SendLocation(long id)
+    {
+        Plugin.Log($"Sending location #{id}");
+        session.Locations.CompleteLocationChecks(id);
+    }
+
+    public void SendLocations(long[] ids)
+    {
+        session.Locations.CompleteLocationChecks(ids);
+    }
+
+    public System.Collections.ObjectModel.ReadOnlyCollection<long> AllClearedLocations => session.Locations.AllLocationsChecked;
+
+
+    private void HatData_OnValueChanged(Newtonsoft.Json.Linq.JToken originalValue, Newtonsoft.Json.Linq.JToken newValue, System.Collections.Generic.Dictionary<string, Newtonsoft.Json.Linq.JToken> additionalArguments)
+    {
+        if (APDataManager.HatSaveFlags == newValue.ToObject<ulong>())
+            return;
+
+        var oldHat = Data.HatGetCurrentKind();
+        APDataManager.HatSaveFlags = newValue.ToObject<ulong>();
+        Data.currentHat[Data.gameDataIndex] = (int)(APDataManager.HatSaveFlags & 0xFF);
+        var newHat = Data.HatGetCurrentKind();
+        if (oldHat != newHat)
+        {
+            GameStateUpdater.HatStateNeedsUpdate = true;
+        }
+        Plugin.Log($"Updated hat data: {APDataManager.HatSaveFlags}");
+    }
+
+    public void SaveDSHatData()
+    {
+        if (Plugin.SlotData.Hatsanity)
+            return;
+
+        try
+        {
+            session.DataStorage[Scope.Slot, "HatState"] = (JToken)APDataManager.HatSaveFlags;
+            Plugin.Log($"Saved hat data: {APDataManager.HatSaveFlags}");
+        }
+        catch
+        {
+            try
+            {
+                session.DataStorage[Scope.Slot, "HatState"].Initialize(APDataManager.HatSaveFlags);
+                Plugin.Log($"Initialized hat data: {APDataManager.HatSaveFlags}");
+            }
+            catch
+            {
+                Plugin.Log("Could not save hat data");
+                throw;
+            }
+        }
+    }
+
+    public void LoadDSHatData()
+    {
+        if (Plugin.SlotData.Hatsanity)
+            return;
+
+        try
+        {
+            APDataManager.HatSaveFlags = session.DataStorage[Scope.Slot, "HatState"].To<ulong>();
+        }
+        catch
+        {
+            Plugin.Log("Could not load hat data");
+        }
     }
 }

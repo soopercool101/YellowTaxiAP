@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Newtonsoft.Json;
 
 namespace YellowTaxiAP.Archipelago;
@@ -18,15 +21,37 @@ public class ArchipelagoData
     /// </summary>
     private string seed;
 
-    private Dictionary<string, object> slotData;
+    internal Dictionary<string, object> SlotData;
 
-    public bool NeedSlotData => slotData == null;
+    public bool NeedSlotData => SlotData == null;
 
     public ArchipelagoData()
     {
-        Uri = "localhost";
-        SlotName = "Player1";
-        CheckedLocations = new();
+        var fileRead = false;
+        try
+        {
+            if (File.Exists(Plugin.LoginDetailsFile))
+            {
+                var lines = File.ReadAllLines(Plugin.LoginDetailsFile);
+                Uri = lines[0];
+                SlotName = lines[1];
+                Password = lines[2];
+                fileRead = true;
+            }
+        }
+        catch
+        {
+            fileRead = false;
+        }
+
+        if (!fileRead)
+        {
+            Uri = "archipelago.gg:";
+            SlotName = "Player1";
+            Password = string.Empty;
+        }
+
+        CheckedLocations = [];
     }
 
     public ArchipelagoData(string uri, string slotName, string password)
@@ -34,7 +59,7 @@ public class ArchipelagoData
         Uri = uri;
         SlotName = slotName;
         Password = password;
-        CheckedLocations = new();
+        CheckedLocations = [];
     }
 
     /// <summary>
@@ -44,7 +69,7 @@ public class ArchipelagoData
     /// <param name="roomSeed">seed name of this session</param>
     public void SetupSession(Dictionary<string, object> roomSlotData, string roomSeed)
     {
-        slotData = roomSlotData;
+        SlotData = roomSlotData;
         seed = roomSeed;
     }
 

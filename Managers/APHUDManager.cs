@@ -7,8 +7,8 @@ namespace YellowTaxiAP.Managers
     {
         public APHUDManager()
         {
-            On.HudMasterScript.Update += HudMasterScript_Update;
-            On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
+            //On.HudMasterScript.Update += HudMasterScript_Update;
+            //On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void HudMasterScript_Update(On.HudMasterScript.orig_Update orig, HudMasterScript self)
         {
-            if (Master.instance.USE_UI_TOTAL_GEARS && GearAnimationScript.instance && DialogueScript.instance == null && !Master.instance.EVENT_MODE && !GameplayMaster.instance.timeAttackLevel)
+            if (Master.instance.USE_UI_TOTAL_GEARS && GearAnimationScript.instance && !DialogueScript.instance && !Master.instance.EVENT_MODE && !GameplayMaster.instance.timeAttackLevel)
             {
                 if (!self.gearsTotalHolder.gameObject.activeSelf)
                 {

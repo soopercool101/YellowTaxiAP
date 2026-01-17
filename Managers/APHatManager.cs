@@ -1,4 +1,6 @@
-﻿namespace YellowTaxiAP.Managers
+﻿using System;
+
+namespace YellowTaxiAP.Managers
 {
     public class APHatManager
     {
@@ -6,6 +8,20 @@
         {
             //On.HatBuyScript.Update += AP_HatUpdate;
             On.HatBuyScript.Buy += AP_BuyHat;
+            On.HatScript.RemoveHat += HatScript_RemoveHat;
+            On.HatScript.Instantiate += HatScript_Instantiate;
+        }
+
+        private void HatScript_RemoveHat(On.HatScript.orig_RemoveHat orig, bool removeHatFromData)
+        {
+            APDataManager.HatSaveFlags &= 0xFFFFFFFFFFFFFF00;
+            orig(removeHatFromData);
+        }
+
+        private HatScript HatScript_Instantiate(On.HatScript.orig_Instantiate orig, Data.Hat hatKind)
+        {
+            APDataManager.HatSaveFlags = (APDataManager.HatSaveFlags & 0xFFFFFFFFFFFFFF00) + (ulong)hatKind;
+            return orig(hatKind);
         }
 
         /// <summary>
@@ -24,6 +40,8 @@
                 DebugLocationHelper.CheckLocation("hat", id);
             }
             orig(self);
+
+            Plugin.ArchipelagoClient.SaveDSHatData();
         }
     }
 }

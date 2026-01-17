@@ -1,5 +1,6 @@
-﻿using System.Linq;
+﻿using System;
 using UnityEngine;
+using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
@@ -8,6 +9,10 @@ namespace YellowTaxiAP.Managers
     {
         public static bool RocketEnabled = false;
         public static bool MindPasswordReceived = false;
+        public static bool GelaToniReceived = false;
+        public static bool PizzaKingReceived = false;
+        public static bool DoggoReceived = false;
+        public static bool FullGameUnlocked = true;
 
         public APAreaStateManager()
         {
@@ -19,76 +24,63 @@ namespace YellowTaxiAP.Managers
             On.DisableAreaScript_EventMode.Start += DisableAreaScript_EventMode_Start;
             On.DisableAreaScript_GrannyIsland_IceCream.Start += DisableAreaScript_GrannyIsland_IceCream_Start;
             On.DisableAreaScript_GrannyIsland_KingPizza.Start += DisableAreaScript_GrannyIsland_KingPizza_Start;
+            On.DisableAreaScript_StuckDoggoTalk.Awake += DisableAreaScript_StuckDoggoTalk_Awake;
             On.DisableAreaScript_StuckDoggoTalk.DisableEnable += DisableAreaScript_StuckDoggoTalk_DisableEnable;
-            //On.DisableAreaScript_Demo.Start += DisableAreaScript_Demo_Start;
+            On.DisableAreaScript_Demo.Start += DisableAreaScript_Demo_Start;
+            On.TrueDemoWallScript.OnCollisionEnter += TrueDemoWallScript_OnCollisionEnter;
+            On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
+        }
+
+        private void TrueDemoWallScript_OnCollisionEnter(On.TrueDemoWallScript.orig_OnCollisionEnter orig, TrueDemoWallScript self, UnityEngine.Collision collision)
+        {
+            if (!(collision.gameObject == PlayerScript.instance.gameObject) || self.waitTimer > 0.0 || DialogueScript.instance)
+                return;
+
+            orig(self, collision);
+            Plugin.ArchipelagoClient.SendLocation(10_00011);
+        }
+
+        private void RainbowArrowScript_Awake(On.RainbowArrowScript.orig_Awake orig, RainbowArrowScript self)
+        {
+            orig(self);
+            if (self.disableInDemo)
+            {
+                self.gameObject.AddComponent<RainbowArrowDemo>();
+            }
         }
 
         private void DisableAreaScript_Demo_Start(On.DisableAreaScript_Demo.orig_Start orig, DisableAreaScript_Demo self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (Demo)");
-            orig(self);
-            foreach (var toDisable in self.disableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
-                //toDisable?.SetActive(true);
-            }
+            self.gameObject.AddComponent<AreaStateOverride_Demo>();
+        }
 
-            foreach (var toEnable in self.enableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
-                //toEnable?.SetActive(true);
-            }
+        /// <summary>
+        /// Replace with new script
+        /// </summary>
+        private void DisableAreaScript_StuckDoggoTalk_Awake(On.DisableAreaScript_StuckDoggoTalk.orig_Awake orig, DisableAreaScript_StuckDoggoTalk self)
+        {
+            self.gameObject.AddComponent<AreaStateOverride_Doggo>();
         }
 
         private void DisableAreaScript_StuckDoggoTalk_DisableEnable(On.DisableAreaScript_StuckDoggoTalk.orig_DisableEnable orig, DisableAreaScript_StuckDoggoTalk self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (StuckDoggoTalk)");
-            orig(self);
-            foreach (var toDisable in self.disableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
-                //toDisable?.SetActive(true);
-            }
-
-            foreach (var toEnable in self.enableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
-                //toEnable?.SetActive(true);
-            }
+            // Do nothing. Handled by the override script
         }
 
+        /// <summary>
+        /// Replace with new script
+        /// </summary>
         private void DisableAreaScript_GrannyIsland_KingPizza_Start(On.DisableAreaScript_GrannyIsland_KingPizza.orig_Start orig, DisableAreaScript_GrannyIsland_KingPizza self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (GrannyIsland_KingPizza)");
-            orig(self);
-            foreach (var toDisable in self.disableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
-                //toDisable?.SetActive(true);
-            }
-
-            foreach (var toEnable in self.enableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
-                //toEnable?.SetActive(true);
-            }
+            self.gameObject.AddComponent<AreaStateOverride_PizzaKing>();
         }
 
+        /// <summary>
+        /// Replace with new script
+        /// </summary>
         private void DisableAreaScript_GrannyIsland_IceCream_Start(On.DisableAreaScript_GrannyIsland_IceCream.orig_Start orig, DisableAreaScript_GrannyIsland_IceCream self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (EventMode)");
-            orig(self);
-            foreach (var toDisable in self.disableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
-                //toDisable?.SetActive(true);
-            }
-
-            foreach (var toEnable in self.enableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
-                //toEnable?.SetActive(true);
-            }
+            self.gameObject.AddComponent<AreaStateOverride_GelaToni>();
         }
 
         private void DisableAreaScript_EventMode_Start(On.DisableAreaScript_EventMode.orig_Start orig, DisableAreaScript_EventMode self)
@@ -152,10 +144,12 @@ namespace YellowTaxiAP.Managers
             self.labWallText.enabled = Utility.AngleSin((float)(Tick.PassedTimePausable * 360.0 * 4.0)) < 0.89999997615814209;
         }
 
+        /// <summary>
+        /// Replace with new script
+        /// </summary>
         private void DisableAreaScript_MorioMindPassword_Start(On.DisableAreaScript_MorioMindPassword.orig_Start orig, DisableAreaScript_MorioMindPassword self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (MorioMindPassword)");
-            UpdateMoriosPasswordState(self);
+            self.gameObject.AddComponent<AreaStateOverride_MorioPassword>();
         }
 
         /// <summary>
@@ -179,110 +173,11 @@ namespace YellowTaxiAP.Managers
         }
 
         /// <summary>
-        /// Disables and enables final boss state. Primarily used for the Rocket.
+        /// Replace with new script
         /// </summary>
         private void DisableAreaScript_BeatedFinalBoss_Start(On.DisableAreaScript_BeatedFinalBoss.orig_Start orig, DisableAreaScript_BeatedFinalBoss self)
         {
-            //Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas");
-            //foreach (var disable in self.disableThisAreaWhenActive)
-            //{
-            //    Plugin.Log($"Disable: {disable.name}");
-            //}
-            //foreach (var enable in self.enableThisAreaWhenActive)
-            //{
-            //    Plugin.Log($"Enable: {enable.name}");
-            //}
-
-            if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
-            {
-                Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (BeatedFinalBoss)");
-                UpdateRocketState(self);
-            }
-            else
-            {
-                Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (BeatedFinalBoss)");
-                orig(self);
-                foreach (var toDisable in self.disableThisAreaWhenActive.Where(o =>
-                             o.GetComponent<BonusScript>()))
-                {
-                    Plugin.Log($"WARNING: THIS SHOULDN'T BE TRIGGERED! MISSABLE FOUND! {toDisable?.name ?? "<null>"}");
-                    toDisable?.SetActive(true);
-                }
-
-                foreach (var toEnable in self.enableThisAreaWhenActive.Where(o =>
-                             o.GetComponent<BonusScript>()))
-                {
-                    Plugin.Log($"WARNING: THIS SHOULDN'T BE TRIGGERED! MISSABLE FOUND! {toEnable?.name ?? "<null>"}");
-                    toEnable?.SetActive(true);
-                }
-            }
-        }
-
-        public static void UpdateRocketState()
-        {
-            if (GameplayMaster.instance.levelId != Data.LevelId.Hub)
-                return;
-
-            foreach (var rocketObj in Object.FindObjectsByType<DisableAreaScript_BeatedFinalBoss>(FindObjectsSortMode.None))
-            {
-                UpdateRocketState(rocketObj);
-            }
-        }
-
-        /// <summary>
-        /// Override how the rocket is typically handled by the game.
-        /// Additionally, remove Alien Mosk from the front (you can still get into the rocket via the door)
-        /// </summary>
-        /// <param name="rocketObj"></param>
-        private static void UpdateRocketState(DisableAreaScript_BeatedFinalBoss rocketObj)
-        {
-            foreach (var toDisable in rocketObj.disableThisAreaWhenActive)
-            {
-                if (toDisable)
-                {
-                    if (toDisable.name.Equals("Dettaglio Albero1"))
-                    {
-                        continue;
-                    }
-                    toDisable.SetActive(!RocketEnabled || toDisable.GetComponent<BonusScript>());
-                }
-            }
-
-            foreach (var toEnable in rocketObj.enableThisAreaWhenActive)
-            {
-                if (toEnable)
-                {
-                    if (toEnable.name.Equals("Person Alien Mosk Good"))
-                    {
-                        toEnable.SetActive(false);
-                    }
-                    else
-                    {
-                        toEnable.SetActive(RocketEnabled || toEnable.GetComponent<BonusScript>());
-                    }
-                }
-            }
-        }
-
-        public static void UpdateMoriosPasswordState()
-        {
-            foreach (var morioMindObj in Object.FindObjectsByType<DisableAreaScript_MorioMindPassword>(FindObjectsSortMode.None))
-            {
-                UpdateMoriosPasswordState(morioMindObj);
-            }
-        }
-
-        private static void UpdateMoriosPasswordState(DisableAreaScript_MorioMindPassword morioMindObj)
-        {
-            foreach (var toDisable in morioMindObj.disableThisAreaWhenActive)
-            {
-                toDisable?.SetActive(!MindPasswordReceived);
-            }
-
-            foreach (var toEnable in morioMindObj.enableThisAreaWhenActive)
-            {
-                toEnable?.SetActive(MindPasswordReceived);
-            }
+            self.gameObject.AddComponent<AreaStateOverride_Rocket>();
         }
     }
 }

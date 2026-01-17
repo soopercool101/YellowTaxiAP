@@ -4,9 +4,8 @@ namespace YellowTaxiAP.Managers
 {
     public class APRatManager
     {
-        public static bool AP_RatRando => true;
-        public static bool AP_ReceivedRat = false;
-        public static bool AP_SentRat = false;
+        public static bool ReceivedRatItem = false;
+        public static bool SentRatLocation => Plugin.ArchipelagoClient.AllClearedLocations.Contains(2_21_99999);
 
         public APRatManager()
         {
@@ -47,25 +46,35 @@ namespace YellowTaxiAP.Managers
         {
             //Plugin.Log($"Cheese {self.GetCheeseIdString()} can be found at {self.transform.position.ToString()}");
             // TODO: Base this off the location being checked instead of the vanilla check
-            return orig(self);
+            return !Plugin.SlotData.Cheesesanity
+                ? orig(self)
+                : Plugin.ArchipelagoClient.AllClearedLocations.Contains(
+                    long.Parse(self.GetCheeseIdString().Replace("_", string.Empty)));
         }
 
         private void DialogueScript_SpecialMethod_OnAnswerYes_PickupRat(On.DialogueScript.orig_SpecialMethod_OnAnswerYes_PickupRat orig, DialogueScript self)
         {
-            if (!AP_RatRando)
+            if (!Plugin.SlotData.ShuffleRat)
             {
                 RatPersonScript.RatPickUp();
             }
             else
             {
+#if DEBUG
                 DebugLocationHelper.CheckLocation("Michele", "2_21_99999");
+#endif
+                Plugin.ArchipelagoClient.SendLocation(2_21_99999);
             }
             Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
         }
 
         private void CheeseScript_MarkPickedUp(On.CheeseScript.orig_MarkPickedUp orig, CheeseScript self)
         {
-            DebugLocationHelper.CheckLocation("cheese", self.GetCheeseIdString());
+            var id = self.GetCheeseIdString();
+#if DEBUG
+            DebugLocationHelper.CheckLocation("cheese", id);
+#endif
+            Plugin.ArchipelagoClient.SendLocation(long.Parse(id.Replace("_", string.Empty)));
             orig(self);
         }
 
@@ -85,12 +94,12 @@ namespace YellowTaxiAP.Managers
         /// <param name="orig"></param>
         private void RatPersonScript_RatPickUp(On.RatPersonScript.orig_RatPickUp orig)
         {
-            if (!AP_RatRando)
+            if (!Plugin.SlotData.ShuffleRat)
             {
                 orig();
                 return;
             }
-            if (RatPlayerScript.instance != null)
+            if (RatPlayerScript.instance)
                 return;
             RatPersonScript.pickedUp = true;
             RatPlayerScript.SpawnRat();
@@ -101,20 +110,20 @@ namespace YellowTaxiAP.Managers
 
         private bool RatPersonScript_IsRatPickedUp(On.RatPersonScript.orig_IsRatPickedUp orig)
         {
-            return AP_RatRando ? AP_ReceivedRat : orig();
+            return Plugin.SlotData.ShuffleRat ? ReceivedRatItem : orig();
         }
 
         private void RatPersonScript_Awake(On.RatPersonScript.orig_Awake orig, RatPersonScript self)
         {
             RatPersonScript.instance = self;
-            if (!AP_RatRando)
+            if (!Plugin.SlotData.ShuffleRat)
             {
                 orig(self);
             }
-            //else if (AP_SentRat)
-            //{
-            //    Object.Destroy(self.gameObject);
-            //}
+            else if (SentRatLocation)
+            {
+                Object.Destroy(self.gameObject);
+            }
         }
     }
 }

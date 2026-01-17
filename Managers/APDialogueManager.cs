@@ -26,11 +26,29 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowBackflipPrompt += DialogueScript_OnShowBackflipPrompt;
             On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowGlidePrompt += DialogueScript_OnShowGlidePrompt;
             On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowQuickTurnPrompt += DialogueScript_OnShowQuickTurnPrompt;
+            On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab += DoggoLabDialogueTree;
             
             // Morio Dialogue Overrides
             On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
             On.PersonScenziatoV2.Update += PersonScenziatoV2_Update;
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
+            On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
+        }
+
+        private void DoggoLabDialogueTree(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab orig, DialogueScript self)
+        {
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(07_08_00000)) // TODO: Should depend on if location check is sent. Technically fine for now.
+                return;
+            Plugin.ArchipelagoClient.SendLocation(07_08_00000);
+            self.dialgoueCapsuleKey = "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB";
+        }
+
+        private void DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 orig, DialogueScript self)
+        {
+            if (APCollectableManager.GoldenSpringActive)
+                self.dialgoueCapsuleKey = "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_POST_TOSLA";
+            else
+                self.dialgoueCapsuleKey = "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_PRE_TOSLA";
         }
 
         /// <summary>
@@ -86,7 +104,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowJumpPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowJumpPrompt orig, DialogueScript self)
         {
-            if (!APPlayerManager.AP_MoveRando)
+            if (!Plugin.SlotData.ShuffleFlipOWill)
             {
                 orig(self);
             }
@@ -94,7 +112,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowQuickTurnPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowQuickTurnPrompt orig, DialogueScript self)
         {
-            if (!APPlayerManager.AP_MoveRando)
+            if (!Plugin.SlotData.ShuffleFlipOWill)
             {
                 orig(self);
             }
@@ -102,7 +120,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowGlidePrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowGlidePrompt orig, DialogueScript self)
         {
-            if (!APPlayerManager.AP_MoveRando)
+            if (!Plugin.SlotData.ShuffleGlide)
             {
                 orig(self);
             }
@@ -110,7 +128,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowFlipPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowFlipPrompt orig, DialogueScript self)
         {
-            if (!APPlayerManager.AP_MoveRando)
+            if (!Plugin.SlotData.ShuffleFlipOWill)
             {
                 orig(self);
             }
@@ -118,7 +136,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowDoubleBoostPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowDoubleBoostPrompt orig, DialogueScript self)
         {
-            if (!APPlayerManager.AP_MoveRando)
+            if (!Plugin.SlotData.ShuffleFlipOWill)
             {
                 orig(self);
             }
@@ -126,7 +144,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowBackflipPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowBackflipPrompt orig, DialogueScript self)
         {
-            if (!APPlayerManager.AP_MoveRando)
+            if (!Plugin.SlotData.ShuffleFlipOWill)
             {
                 orig(self);
             }
@@ -149,13 +167,13 @@ namespace YellowTaxiAP.Managers
                         self.dialogues[0] = new Random().Next(0, 2) == 1 ? "&legalrom" : "&eyepatch";
                         break;
                     case "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK": // Normally unlocks Flip O' Will
-                        if (!APPlayerManager.AP_MoveRando)
+                        if (!Plugin.SlotData.ShuffleFlipOWill)
                             break;
                         var font = CurrentFont;
                         self.dialogues =
                         [
                             $"Normally, I'd teach you how to <font=\"{font} Black\" material=\"{font} OrangeYellow\">boost</font> using your <font=\"{font} Black\" material=\"{font} OrangeYellow\">Flip O' Will</font>!",
-                            APPlayerManager.AP_BoostLevel > 0
+                            APPlayerManager.BoostLevel > 0
                                 ? "It seems that's unnecessary, since you already know how."
                                 : "Unfortunately, I've forgotten how to do that...",
                             "Instead, here's an item from the multiworld!"
@@ -163,51 +181,51 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.BOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH": // Normally super boost tutorial
-                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
-                            GetMoveDialogue("Super Boost", APPlayerManager.AP_BoostLevel > 1),
+                            GetMoveDialogue("Super Boost", APPlayerManager.BoostLevel > 1),
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.SUPERBOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT": // Normally jump tutorial
-                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
-                            GetMoveDialogue("Flip", APPlayerManager.AP_JumpLevel > 0),
+                            GetMoveDialogue("Flip", APPlayerManager.JumpLevel > 0),
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.JUMP_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP": // Normally backflip tutorial
-                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
-                            GetMoveDialogue("Backflip", APPlayerManager.AP_JumpLevel > 1),
+                            GetMoveDialogue("Backflip", APPlayerManager.JumpLevel > 1),
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.BACKFLIP_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE": // Normally glide tutorial
-                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleGlide || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
-                            GetMoveDialogue("Glide", APPlayerManager.AP_GlideEnabled, null),
+                            GetMoveDialogue("Glide", APPlayerManager.GlideEnabled, null),
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.GLIDE_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN": // Normally quick turn tutorial. Repurposed for Spin Attack
-                        if (!APPlayerManager.AP_MoveRando || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
-                            GetMoveDialogue("Attack", APPlayerManager.AP_FlipAttackEnabled),
+                            GetMoveDialogue("Attack", APPlayerManager.SpinAttackEnabled),
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.SPIN_ID;
@@ -240,24 +258,18 @@ namespace YellowTaxiAP.Managers
                     var item = testItems[new Random().Next(0, testItems.Length)];
                     var font = CurrentFont;
                     Plugin.Log($"Current Font: {CurrentFont}");
-                    var material = "Acqua";
-                    switch (item.Item3) // TODO: Probably if instead of switch to handle cases of multiple types?
+                    var material = "Yellow";
+                    if ((item.Item3 & ItemFlags.Advancement) == ItemFlags.Advancement)
                     {
-                        //case ItemFlags.Advancement | ItemFlags.Trap:
-                        //    material = "RedYellow";
-                        //    break;
-                        case ItemFlags.Advancement:
-                            material = "GreenYellow";
-                            break;
-                        case ItemFlags.NeverExclude:
-                            material = "RedYellow";
-                            break;
-                        case ItemFlags.Trap:
-                            material = "FullRed";
-                            break;
-                        case ItemFlags.None:
-                            material = "Yellow";
-                            break;
+                        material = "GreenYellow";
+                    }
+                    else if((item.Item3 & ItemFlags.NeverExclude) == ItemFlags.NeverExclude)
+                    {
+                        material = "RedYellow";
+                    }
+                    else if ((item.Item3 & ItemFlags.Trap) == ItemFlags.Trap)
+                    {
+                        material = "FullRed";
                     }
                     self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you this <font=\"{font} Black\" material=\"{font} {material}\">{item.Item1}</font>";
 
@@ -266,7 +278,10 @@ namespace YellowTaxiAP.Managers
                         self.dialogues[self.dialogues.Length - 1] += $" for <font=\"{font} Black\" material=\"{font} OrangeYellow\">{item.Item2}</font>";
                     }
                     self.dialogues[self.dialogues.Length - 1] += "!";
+#if DEBUG
                     DebugLocationHelper.CheckLocation("Move Rando", $"0_{Identifiers.NPC_ID:D2}_{moveRandoID:D5}");
+#endif
+                    Plugin.ArchipelagoClient.SendLocation(800000 + moveRandoID);
                 }
             }
             orig(self);

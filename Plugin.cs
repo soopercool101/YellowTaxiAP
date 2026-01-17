@@ -1,10 +1,12 @@
-using System;
 using BepInEx;
 using BepInEx.Logging;
+using System;
+using System.IO;
+using System.Reflection;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
+using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
-using YellowTaxiAP.Utils;
 
 namespace YellowTaxiAP;
 
@@ -19,8 +21,12 @@ public class Plugin : BaseUnityPlugin
     public const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
     public static ManualLogSource BepinLogger;
     public static ArchipelagoClient ArchipelagoClient;
+    public static YTGVSlotData SlotData = new ();
     public static Plugin Instance;
     public static bool DeathLinkInProgress = false;
+
+    public static string PluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    public static string LoginDetailsFile = Path.Combine(PluginDirectory, "login.txt");
 
     public APPlayerManager PlayerControlHook;
     public APPortalManager PortalHook;
@@ -55,6 +61,11 @@ public class Plugin : BaseUnityPlugin
 
         BepinLogger.LogMessage($"{ModDisplayInfo} loaded!");
         ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
+        On.Master.Start += (orig, self) =>
+        {
+            DataHook = new APDataManager();
+            orig(self);
+        };
         On.ModMaster.Start += (orig, self) =>
         {
             if (Master.instance.isDemo)
@@ -82,11 +93,11 @@ public class Plugin : BaseUnityPlugin
             DialogueHook = new APDialogueManager();
             RatHook = new APRatManager();
             MenuHook = new APMenuManager();
-            DataHook = new APDataManager();
             PsychoTaxiHook = new APPsychoTaxiManager();
             DestructableHook = new APDestructableManager();
             HudHook = new APHUDManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
+            self.gameObject.AddComponent<GameStateUpdater>();
             On.GigaMorioScript.Update += (origUpdate, selfGigaMorio) =>
             {
                 if (!AllowLaser)
@@ -116,7 +127,7 @@ public class Plugin : BaseUnityPlugin
                 origOnPlayerDie(selfModMaster);
                 if (!DeathLinkInProgress)
                 {
-                    ArchipelagoClient.DeathLinkHandler?.KillPlayer();
+                    ArchipelagoClient.DeathLinkHandler?.SendDeathLink();
                     Log("Death Link Sent");
                 }
 
@@ -127,33 +138,33 @@ public class Plugin : BaseUnityPlugin
 #if DEBUG
         On.ModMaster.Update += (orig, self) =>
         {
-            if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.boost_level > 0)
+            if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.BoostItems > 0)
             {
-                Log($"Flip-O-Will Boost Level lowered to {--APPlayerManager.boost_level}");
+                Log($"Flip-O-Will Boost Level lowered to {--APPlayerManager.BoostItems}");
             }
-            if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.boost_level < 2)
+            if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.BoostItems < 2)
             {
-                Log($"Flip-O-Will Boost Level increased to {++APPlayerManager.boost_level}");
+                Log($"Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}");
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.jump_level > 0)
+            if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.JumpItems > 0)
             {
-                Log($"Flip-O-Will Jump Level lowered to {--APPlayerManager.jump_level}");
+                Log($"Flip-O-Will Jump Level lowered to {--APPlayerManager.JumpItems}");
             }
-            if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.jump_level < 2)
+            if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.JumpItems < 2)
             {
-                Log($"Flip-O-Will Jump Level increased to {++APPlayerManager.jump_level}");
+                Log($"Flip-O-Will Jump Level increased to {++APPlayerManager.JumpItems}");
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                APPlayerManager.flip_enabled = !APPlayerManager.flip_enabled;
-                Log($"Flip-O-Will Spin Attack {(APPlayerManager.flip_enabled ? "enabled" : "disabled")}");
+                APPlayerManager.SpinAttackItem = !APPlayerManager.SpinAttackItem;
+                Log($"Flip-O-Will Spin Attack {(APPlayerManager.SpinAttackItem ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Backslash))
             {
-                APPlayerManager.glide_enabled = !APPlayerManager.glide_enabled;
-                Log($"Glide {(APPlayerManager.glide_enabled ? "enabled" : "disabled")}");
+                APPlayerManager.GlideEnabledItem = !APPlayerManager.GlideEnabledItem;
+                Log($"Glide {(APPlayerManager.GlideEnabledItem ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
             {
@@ -183,8 +194,8 @@ public class Plugin : BaseUnityPlugin
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
             {
-                APRatManager.AP_ReceivedRat = !APRatManager.AP_ReceivedRat;
-                if (APRatManager.AP_ReceivedRat)
+                APRatManager.ReceivedRatItem = !APRatManager.ReceivedRatItem;
+                if (APRatManager.ReceivedRatItem)
                 {
                     RatPersonScript.pickedUp = false;
                     RatPersonScript.RatPickUp();
@@ -193,7 +204,7 @@ public class Plugin : BaseUnityPlugin
                 {
                     UnityEngine.Object.Destroy(RatPlayerScript.instance?.gameObject);
                 }
-                Log($"Rat {(APRatManager.AP_ReceivedRat ? "enabled" : "disabled")}");
+                Log($"Rat {(APRatManager.ReceivedRatItem ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
             {
@@ -205,7 +216,7 @@ public class Plugin : BaseUnityPlugin
                 APSwitchManager.GreenSwitchUnlocked = !APSwitchManager.GreenSwitchUnlocked;
                 Log($"Green Switch {(APSwitchManager.GreenSwitchUnlocked ? "enabled" : "disabled")}");
             }
-            if (Input.GetKeyDown(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.L))
             {
                 DeathLinkInProgress = true;
                 GameplayMaster.instance?.Die();
@@ -237,14 +248,32 @@ public class Plugin : BaseUnityPlugin
             if (Input.GetKeyDown(KeyCode.R))
             {
                 APAreaStateManager.RocketEnabled = !APAreaStateManager.RocketEnabled;
-                APAreaStateManager.UpdateRocketState();
                 Log($"Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 APAreaStateManager.MindPasswordReceived = !APAreaStateManager.MindPasswordReceived;
-                APAreaStateManager.UpdateMoriosPasswordState();
                 Log($"Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                APAreaStateManager.DoggoReceived = !APAreaStateManager.DoggoReceived;
+                Log($"Doggo {(APAreaStateManager.DoggoReceived ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                APAreaStateManager.GelaToniReceived = !APAreaStateManager.GelaToniReceived;
+                Log($"Gela-Toni {(APAreaStateManager.GelaToniReceived ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                APAreaStateManager.PizzaKingReceived = !APAreaStateManager.PizzaKingReceived;
+                Log($"Pizza King {(APAreaStateManager.PizzaKingReceived ? "enabled" : "disabled")}");
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                APAreaStateManager.FullGameUnlocked = !APAreaStateManager.FullGameUnlocked;
+                Log($"Full Game {(APAreaStateManager.FullGameUnlocked ? "enabled" : "disabled")}");
             }
 
             if (Input.GetKeyDown(KeyCode.C))
@@ -263,6 +292,11 @@ public class Plugin : BaseUnityPlugin
                     $"\"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\"),";
                 Log($"Copying current music/bg values ({zoneVals}");
                 GUIUtility.systemCopyBuffer = zoneVals;
+            }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
             }
 
             if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))

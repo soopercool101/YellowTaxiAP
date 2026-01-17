@@ -8,19 +8,7 @@ namespace YellowTaxiAP.Managers
     /// </summary>
     public class APSwitchManager
     {
-        private static bool _orangeSwitchUnlocked;
-        public static bool OrangeSwitchUnlocked
-        {
-            get => _orangeSwitchUnlocked;
-            set
-            {
-                _orangeSwitchUnlocked = value;
-                foreach (var block in SwitchBlockScript.list)
-                {
-                    block.ChangeState();
-                }
-            }
-        }
+        public static bool OrangeSwitchUnlocked { get; set; }
 
         public static bool SwitchPressed = false;
         public APSwitchManager()
@@ -83,7 +71,10 @@ namespace YellowTaxiAP.Managers
             SwitchPressed = true;
             self.VisualSwitch();
             Sound.Play("SoundSwitchTurnOn");
+#if DEBUG
             DebugLocationHelper.CheckLocation("Orange Switch", "10_00_00001");
+#endif
+            Plugin.ArchipelagoClient.SendLocation(10_00_00001);
             _ = Spawn.FromPool("Pt Star Rnbw Big - 8 Ring", self.transform.position, Pool.instance.transform).transform.SetYAngle(Random.value * 360f);
         }
 

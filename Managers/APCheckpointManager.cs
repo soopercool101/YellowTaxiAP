@@ -16,7 +16,10 @@ namespace YellowTaxiAP.Managers
             if (CheckpointScript.enabledInstance != self)
             {
                 var id = GetCheckpointID(self);
+#if DEBUG
                 DebugLocationHelper.CheckLocation("checkpoint", id);
+#endif
+                Plugin.ArchipelagoClient.SendLocation(long.Parse(id.Replace("_", string.Empty)));
             }
             orig(self, other);
         }

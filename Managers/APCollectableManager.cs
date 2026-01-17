@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
@@ -39,7 +40,25 @@ namespace YellowTaxiAP.Managers
 
         private void BonusScript_GearAlreadyPickedUpRefresh(On.BonusScript.orig_GearAlreadyPickedUpRefresh orig, BonusScript self)
         {
-            if (DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self))))
+#if DEBUG
+            if (DebugLocationHelper.Enabled)
+            {
+                if (DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self))))
+                {
+                    self.GetComponentInChildren<MeshRenderer>().sharedMaterial = self.gearUsedMaterial;
+                    self.gearHasPickedupUpTexture = true;
+                    self.gearOutlineTr.gameObject.SetActive(false);
+                    return;
+                }
+                else
+                {
+                    self.gearHasPickedupUpTexture = false;
+                    self.GearDaltonicTextureRefresh();
+                    return;
+                }
+            }
+#endif
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(long.Parse(GetID(self).Replace("_", string.Empty))))
             {
                 self.GetComponentInChildren<MeshRenderer>().sharedMaterial = self.gearUsedMaterial;
                 self.gearHasPickedupUpTexture = true;
@@ -63,12 +82,61 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void BonusScript_Awake(On.BonusScript.orig_Awake orig, BonusScript self)
         {
-            if (self.transform.parent != null && self.transform.parent.gameObject.GetComponent<BonusScript>() != null)
+            if (self.transform.parent && self.transform.parent.gameObject.GetComponent<BonusScript>())
             {
                 Plugin.Log($"Warning! {self.myIdentity} ({GetID(self)}) has a parent object ({self.transform.parent.gameObject.name})! Removing parent");
                 self.transform.parent = null;
             }
+
+            if (self.smallDdemoPositionOffset != new Vector3(0,0,0))
+            {
+                var id = GetID(self);
+                var itemArea = DebugLocationHelper.GetKnownItemNameArea(id);
+                var item = itemArea.Item1 ?? "Unknown Item";
+                var area = itemArea.Item2 ?? "Unknown Area";
+                Plugin.Log($"In a demo, {item} ({id}) in {area} will be moved from {self.transform.position} to {self.transform.position + self.smallDdemoPositionOffset}");
+                if (false) // TODO: Add extra demo gears/bunnies if settings are enabled
+                {
+                    var demoOffset = self.smallDdemoPositionOffset;
+                    self.smallDdemoPositionOffset = new Vector3(0, 0, 0);
+                    var duplicated = Object.Instantiate(self.gameObject, self.transform.position + demoOffset, self.transform.rotation, self.transform.parent);
+                    var duplicatedBonus = duplicated.GetComponent<BonusScript>();
+                    switch (duplicatedBonus.myIdentity)
+                    {
+                        case BonusScript.Identity.gear:
+                            duplicatedBonus.gearArrayIndex += 10000;
+                            break;
+                        case BonusScript.Identity.bunny:
+                            duplicatedBonus.bunnyIndex += 10000;
+                            break;
+                        default:
+                            duplicatedBonus.coinIndex += 10000;
+                            break;
+                    }
+
+                    self.smallDdemoPositionOffset = demoOffset;
+                }
+            }
             orig(self);
+            if (self.smallDdemoPositionOffset == new Vector3(0, 0, 0) && self.smallDemoZoneMaster >= 0)
+            {
+                var id = GetID(self);
+                Plugin.Log($"Changing zone master for {self.name}");
+                var withZoneMasterIndex = self.GetComponent<HideWithZoneMasterIndex>();
+                withZoneMasterIndex.hideWhenZoneMasterId =
+                [
+                    self.smallDemoZoneMaster
+                ];
+            }
+
+            if (self.myIdentity == BonusScript.Identity.invincibilitySpring)
+            {
+                self.gameObject.AddComponent<GoldenSpringUpdater>();
+            }
+            else if (self.myIdentity == BonusScript.Identity.goldenPropeller)
+            {
+                self.gameObject.AddComponent<GoldenPropellerUpdater>();
+            }
         }
 
         /// <summary>
@@ -86,15 +154,28 @@ namespace YellowTaxiAP.Managers
 
         private bool BonusScript_CoinPickedUpGet(On.BonusScript.orig_CoinPickedUpGet orig, BonusScript self)
         {
-            // TODO: Check against checked locations instead of this
-            return self.coinIndex >= 0 && DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self)));
+            if (DebugLocationHelper.Enabled)
+            {
+                return self.coinIndex >= 0 && DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self)));
+            }
+
+            switch (self.myIdentity)
+            {
+                case BonusScript.Identity.coin when Plugin.SlotData.Coinsanity:
+                case BonusScript.Identity.bigCoin10 when Plugin.SlotData.Coinbagsanity:
+                case BonusScript.Identity.bigCoin25 when Plugin.SlotData.Chestsanity:
+                case BonusScript.Identity.bigCoin100 when Plugin.SlotData.Safesanity:
+                    return self.coinIndex >= 0 && Plugin.ArchipelagoClient.AllClearedLocations.Contains(long.Parse(GetID(self).Replace("_", string.Empty)));
+                default:
+                    return false;
+            }
         }
 
         private string _previousSubarea = string.Empty;
 
         private void MapArea_MarkDiscovered(On.MapArea.orig_MarkDiscovered orig, MapArea self)
         {
-            if (!_previousSubarea.Equals(self.areaNameKey))
+            if (DebugLocationHelper.Enabled && !_previousSubarea.Equals(self.areaNameKey))
             {
                 _previousSubarea = self.areaNameKey;
                 var trimmedName = _previousSubarea;
@@ -330,8 +411,8 @@ namespace YellowTaxiAP.Managers
                         json = json.TrimEnd(',');
 
                         json += "\n}";
-                        //GUIUtility.systemCopyBuffer = json;
-                        //Plugin.Log("JSON Generation successful");
+                        GUIUtility.systemCopyBuffer = json;
+                        Plugin.Log("JSON Generation successful");
                     }
                 }
                 else
@@ -339,6 +420,7 @@ namespace YellowTaxiAP.Managers
                     //GUIUtility.systemCopyBuffer = GameplayMaster.instance.levelId.ToString();
                 }
                 Plugin.Log($"{GameplayMaster.instance.levelId}: {trimmedName}. There are {bonuses.Count} AP collectables, {checkpoints.Count} checkpoints, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses.Count + cheeses + checkpoints.Count} likely checks. Currently {documentedChecks} have been sorted into regions.");
+
 
             }
             orig(self);
@@ -365,7 +447,10 @@ namespace YellowTaxiAP.Managers
                         if (ModMaster.instance.ModEnableGet())
                             ModMaster.instance.OnPlayerOnMorioMindKeyPickup();
                         // TODO: Send Check
+#if DEBUG
                         DebugLocationHelper.CheckLocation("MindPassword", "12_00_00000");
+#endif
+                        Plugin.ArchipelagoClient.SendLocation(12_00_00000);
                         bonusScr.KillMe();
                         return;
                     }
@@ -378,6 +463,7 @@ namespace YellowTaxiAP.Managers
                         if (!string.IsNullOrEmpty(id))
                         {
                             DebugLocationHelper.CheckLocation(bonusScr.myIdentity.ToString(), id);
+                            Plugin.ArchipelagoClient.SendLocation(long.Parse(id.Replace("_", string.Empty)));
                         }
                     }
                 }
@@ -424,30 +510,10 @@ namespace YellowTaxiAP.Managers
 
         private void Update_AP(On.BonusScript.orig_Update orig, BonusScript self)
         {
-            switch (self.myIdentity)
+            if ((self.myIdentity == BonusScript.Identity.goldenPropeller && !GoldenPropellerActive) ||
+                (self.myIdentity == BonusScript.Identity.invincibilitySpring && !GoldenSpringActive))
             {
-                case BonusScript.Identity.goldenPropeller:
-                    self.gameObject.GetComponent<SphereCollider>().enabled = GoldenPropellerActive;
-                    foreach (var renderer in self.gameObject.GetComponentsInChildren<Renderer>())
-                    {
-                        renderer.enabled = GoldenPropellerActive;
-                    }
-                    if (!GoldenPropellerActive)
-                    {
-                        return;
-                    }
-                    break;
-                case BonusScript.Identity.invincibilitySpring:
-                    self.gameObject.GetComponent<SphereCollider>().enabled = GoldenSpringActive;
-                    foreach (var renderer in self.gameObject.GetComponentsInChildren<Renderer>())
-                    {
-                        renderer.enabled = GoldenSpringActive;
-                    }
-                    if (!GoldenSpringActive)
-                    {
-                        return;
-                    }
-                    break;
+                return;
             }
             orig(self);
         }
