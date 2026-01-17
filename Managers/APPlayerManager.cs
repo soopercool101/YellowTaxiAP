@@ -66,7 +66,7 @@ namespace YellowTaxiAP.Managers
                 DisableFlipOWillSpinAttack(self); // Disables spin effects
             }
 
-            if (BoostLevel < 1)
+            if (BoostLevel < 1) // Disable the homing beacons
             {
                 self.targettedFlipPowerup = null;
                 self.flipTargetLineRenderer.enabled = false;
@@ -85,8 +85,10 @@ namespace YellowTaxiAP.Managers
             //{
             //    self.FlipOWillAbort(); // This oddly results in a lower jump than jumping normally. Doesn't really matter, but prob better to just disable
             //}
-
-            FlipOWillJumplessAbort(self);
+            else
+            {
+                FlipOWillJumplessAbort(self);
+            }
         }
 
         private float FlipOWillAbort_AP(On.PlayerScript.orig_FlipOWillAbort orig, PlayerScript self)
@@ -129,7 +131,7 @@ namespace YellowTaxiAP.Managers
         public void DisableFlipOWillSpinAttack(PlayerScript self)
         {
             self.flipOWillTrailTransform.gameObject.SetActive(false);
-            if (FlipAreaOfEffect.instance != null)
+            if (FlipAreaOfEffect.instance)
             {
                 FlipAreaOfEffect.instance.GetComponentInChildren<FrameAnimator>().FrameIndex = 0;
                 Pool.Destroy(FlipAreaOfEffect.instance.gameObject);
