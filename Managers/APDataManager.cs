@@ -116,7 +116,6 @@ namespace YellowTaxiAP.Managers
             if (!ArchipelagoClient.Authenticated)
             {
                 orig(forceSave);
-                return;
             }
 #endif
         }

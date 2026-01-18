@@ -37,7 +37,7 @@ namespace YellowTaxiAP.Managers
             orig(self);
         }
 
-        private void CheckpointScript_OnTriggerEnter(On.CheckpointScript.orig_OnTriggerEnter orig, CheckpointScript self, UnityEngine.Collider other)
+        private void CheckpointScript_OnTriggerEnter(On.CheckpointScript.orig_OnTriggerEnter orig, CheckpointScript self, Collider other)
         {
             if (self.triggerOncePerFrame || other.gameObject != PlayerScript.instance.gameObject)
                 return;

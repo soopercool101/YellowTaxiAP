@@ -1,28 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Steamworks.InventoryItem;
-
-namespace YellowTaxiAP.Managers
+﻿namespace YellowTaxiAP.Managers
 {
     public class APWalletManager
     {
+        public static int ServerCoins { get; set; }
+
         public APWalletManager()
         {
             On.ModMaster.OnPlayerOnCoinCollect += ModMaster_OnPlayerOnCoinCollect;
-            On.ModMaster.OnPlayerDie += ModMaster_OnPlayerDie;
+            On.MenuEventLeaderboard.CoinsSpentAdd += MenuEventLeaderboard_CoinsSpentAdd;
+            On.Data.CoinsLostCountAdd += Data_CoinsLostCountAdd;
         }
 
-        private void ModMaster_OnPlayerDie(On.ModMaster.orig_OnPlayerDie orig, ModMaster self)
+        private void Data_CoinsLostCountAdd(On.Data.orig_CoinsLostCountAdd orig, int value)
         {
-            orig(self);
-            if (Data.IsLevelPsychoTaxiMode(GameplayMaster.instance.levelId))
+            orig(value);
+            if (value != 0)
             {
-                return;
+                Plugin.ArchipelagoClient.UpdateWallet(-value);
             }
+        }
 
-            var amount = Math.Min(30, Data.coinsCollected[Data.gameDataIndex]);
-            Plugin.ArchipelagoClient.UpdateWallet(-amount);
+        private void MenuEventLeaderboard_CoinsSpentAdd(On.MenuEventLeaderboard.orig_CoinsSpentAdd orig, int coins)
+        {
+            orig(coins);
+            if (coins != 0)
+            {
+                Plugin.ArchipelagoClient.UpdateWallet(-coins);
+            }
         }
 
         private void ModMaster_OnPlayerOnCoinCollect(On.ModMaster.orig_OnPlayerOnCoinCollect orig, ModMaster self, int amount)

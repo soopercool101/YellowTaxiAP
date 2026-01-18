@@ -154,7 +154,7 @@ public class ArchipelagoClient
             {
                 try
                 {
-                    Data.coinsCollected[Data.gameDataIndex] = x.Result.ToObject<int>();
+                    Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = x.Result.ToObject<int>();
                     Plugin.Log($"Wallet Load Finished: {APDataManager.HatSaveFlags}");
                 }
                 catch
@@ -162,7 +162,7 @@ public class ArchipelagoClient
                     Plugin.Log("Wallet Load Failed");
                     try
                     {
-                        Data.coinsCollected[Data.gameDataIndex] = 0;
+                        Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = 0;
                         session.DataStorage[Scope.Slot, "Wallet"].Initialize(0);
                         Plugin.Log("Wallet State initialized");
                     }
@@ -208,11 +208,6 @@ public class ArchipelagoClient
         attemptingConnection = false;
     }
 
-    private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
-    {
-        Data.coinsCollected[Data.gameDataIndex] = newValue.ToObject<int>();
-    }
-
     /// <summary>
     /// something we wrong or we need to properly disconnect from the server. cleanup and re null our session
     /// </summary>
@@ -241,9 +236,6 @@ public class ArchipelagoClient
 
         ServerData.Index++;
 
-        // TODO reward the item here
-        // if items can be received while in an invalid state for actually handling them, they can be placed in a local
-        // queue to be handled later
         switch ((Identifiers.ItemID) receivedItem.ItemId)
         {
             case Identifiers.ItemID.Gear:
@@ -380,6 +372,7 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.Michele:
                 APRatManager.ReceivedRatItem = true;
+                GameStateUpdater.RatStateNeedsUpdate = true;
                 break;
             default:
                 Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
@@ -430,7 +423,7 @@ public class ArchipelagoClient
     public System.Collections.ObjectModel.ReadOnlyCollection<long> AllClearedLocations => session.Locations.AllLocationsChecked;
 
 
-    private void HatData_OnValueChanged(Newtonsoft.Json.Linq.JToken originalValue, Newtonsoft.Json.Linq.JToken newValue, System.Collections.Generic.Dictionary<string, Newtonsoft.Json.Linq.JToken> additionalArguments)
+    private void HatData_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
     {
         if (APDataManager.HatSaveFlags == newValue.ToObject<ulong>())
             return;
@@ -454,14 +447,14 @@ public class ArchipelagoClient
         try
         {
             session.DataStorage[Scope.Slot, "HatState"] = (JToken)APDataManager.HatSaveFlags;
-            Plugin.Log($"Saved hat data: {APDataManager.HatSaveFlags}");
+            //Plugin.Log($"Saved hat data: {APDataManager.HatSaveFlags}");
         }
         catch
         {
             try
             {
                 session.DataStorage[Scope.Slot, "HatState"].Initialize(APDataManager.HatSaveFlags);
-                Plugin.Log($"Initialized hat data: {APDataManager.HatSaveFlags}");
+                //Plugin.Log($"Initialized hat data: {APDataManager.HatSaveFlags}");
             }
             catch
             {
@@ -469,6 +462,11 @@ public class ArchipelagoClient
                 throw;
             }
         }
+    }
+
+    private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    {
+        Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = newValue.ToObject<int>();
     }
 
     public void UpdateWallet(int amountChanged)
@@ -483,7 +481,8 @@ public class ArchipelagoClient
             try
             {
                 session.DataStorage[Scope.Slot, "Wallet"].Initialize(Data.coinsCollected[Data.gameDataIndex]);
-                Plugin.Log($"Initialized wallet: {Data.coinsCollected[Data.gameDataIndex]}");
+                APWalletManager.ServerCoins = Data.coinsCollected[Data.gameDataIndex];
+                //Plugin.Log($"Initialized wallet: {Data.coinsCollected[Data.gameDataIndex]}");
             }
             catch
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Behaviours
 {
@@ -15,6 +16,7 @@ namespace YellowTaxiAP.Behaviours
         public static bool GearStateNeedsUpdate { get; set; }
         public static bool BunnyStateNeedsUpdate { get; set; }
         public static bool OrangeSwitchStateNeedsUpdate { get; set; }
+        public static bool RatStateNeedsUpdate { get; set; }
 
         public void Awake()
         {
@@ -32,11 +34,11 @@ namespace YellowTaxiAP.Behaviours
                 {
                     var hat = EquippedHatUpdate ?? Data.HatGetCurrentKind();
                     HatScript.RemoveHat(false);
-                    Plugin.Log(hat.ToString());
                     if (hat != Data.Hat.Noone)
                     {
                         HatScript.Instantiate(hat);
                     }
+                    PlayerScript.PlayerHatsRenderingUpdate();
                 }
 
                 HatStateNeedsUpdate = false;
@@ -66,6 +68,25 @@ namespace YellowTaxiAP.Behaviours
                 }
 
                 OrangeSwitchStateNeedsUpdate = false;
+            }
+
+            if (RatStateNeedsUpdate)
+            {
+                if (PlayerScript.instance)
+                {
+                    if (APRatManager.ReceivedRatItem)
+                    {
+                        RatPlayerScript.SpawnRat();
+                        RatPlayerScript.EnsureNextPickToBeGood();
+                        CheeseScript.EnableAllCheese();
+                        Sound.Play("SoundRatJoined");
+                    }
+                    else
+                    {
+                        Destroy(RatPlayerScript.instance?.gameObject);
+                    }
+                }
+                RatStateNeedsUpdate = false;
             }
         }
     }

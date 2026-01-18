@@ -195,7 +195,7 @@ namespace YellowTaxiAP.Managers
             return null;
         }
 
-        private void DetailScript_DestructiveCollision(On.DetailScript.orig_DestructiveCollision orig, DetailScript self, UnityEngine.Vector3 velocity)
+        private void DetailScript_DestructiveCollision(On.DetailScript.orig_DestructiveCollision orig, DetailScript self, Vector3 velocity)
         {
             string destructableSpawns = string.Empty;
             var unkStr = "gifted";

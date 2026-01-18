@@ -192,20 +192,13 @@ public class Plugin : BaseUnityPlugin
             if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
             {
                 APSwitchManager.OrangeSwitchUnlocked = !APSwitchManager.OrangeSwitchUnlocked;
+                GameStateUpdater.OrangeSwitchStateNeedsUpdate = true;
                 Log($"Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
             {
                 APRatManager.ReceivedRatItem = !APRatManager.ReceivedRatItem;
-                if (APRatManager.ReceivedRatItem)
-                {
-                    RatPersonScript.pickedUp = false;
-                    RatPersonScript.RatPickUp();
-                }
-                else
-                {
-                    UnityEngine.Object.Destroy(RatPlayerScript.instance?.gameObject);
-                }
+                GameStateUpdater.RatStateNeedsUpdate = true;
                 Log($"Rat {(APRatManager.ReceivedRatItem ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))

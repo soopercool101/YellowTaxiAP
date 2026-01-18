@@ -31,7 +31,7 @@ namespace YellowTaxiAP.Managers
             On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
         }
 
-        private void TrueDemoWallScript_OnCollisionEnter(On.TrueDemoWallScript.orig_OnCollisionEnter orig, TrueDemoWallScript self, UnityEngine.Collision collision)
+        private void TrueDemoWallScript_OnCollisionEnter(On.TrueDemoWallScript.orig_OnCollisionEnter orig, TrueDemoWallScript self, Collision collision)
         {
             if (!(collision.gameObject == PlayerScript.instance.gameObject) || self.waitTimer > 0.0 || DialogueScript.instance)
                 return;
@@ -59,6 +59,7 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void DisableAreaScript_StuckDoggoTalk_Awake(On.DisableAreaScript_StuckDoggoTalk.orig_Awake orig, DisableAreaScript_StuckDoggoTalk self)
         {
+            DisableAreaScript_StuckDoggoTalk.instance = self; // Need to set this or doggo throws an error when talking
             self.gameObject.AddComponent<AreaStateOverride_Doggo>();
         }
 
