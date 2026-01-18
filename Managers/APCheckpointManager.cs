@@ -6,7 +6,35 @@ namespace YellowTaxiAP.Managers
     {
         public APCheckpointManager()
         {
+            On.CheckpointScript.Awake += CheckpointScript_Awake;
             On.CheckpointScript.OnTriggerEnter += CheckpointScript_OnTriggerEnter;
+            On.PersonParent.Awake += PersonParent_Awake;
+            On.PersonParent.LineRendererAlreadyPickedUpRefresh += PersonParent_LineRendererAlreadyPickedUpRefresh;
+        }
+
+        private void CheckpointScript_Awake(On.CheckpointScript.orig_Awake orig, CheckpointScript self)
+        {
+            orig(self);
+            if (!Plugin.SlotData.Checkpointsanity ||
+                Plugin.ArchipelagoClient.AllClearedLocations.Contains(long.Parse(GetCheckpointID(self).Replace("_", string.Empty))))
+            {
+                self.myCircleRend.material = new Material(GameplayMaster.instance.rainbowMaterials[0]);
+                self.myCircleRend.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.5f));
+            }
+        }
+
+        private void PersonParent_LineRendererAlreadyPickedUpRefresh(On.PersonParent.orig_LineRendererAlreadyPickedUpRefresh orig, PersonParent self)
+        {
+            orig(self);
+            if (self.alreadyPickedUp)
+            {
+                Plugin.Log("alreadypickedupmat: " + self.alreadyPickedUpMatCopy.name);
+            }
+        }
+
+        private void PersonParent_Awake(On.PersonParent.orig_Awake orig, PersonParent self)
+        {
+            orig(self);
         }
 
         private void CheckpointScript_OnTriggerEnter(On.CheckpointScript.orig_OnTriggerEnter orig, CheckpointScript self, UnityEngine.Collider other)
@@ -20,6 +48,9 @@ namespace YellowTaxiAP.Managers
                 DebugLocationHelper.CheckLocation("checkpoint", id);
 #endif
                 Plugin.ArchipelagoClient.SendLocation(long.Parse(id.Replace("_", string.Empty)));
+
+                self.myCircleRend.material = new Material(GameplayMaster.instance.rainbowMaterials[0]);
+                self.myCircleRend.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.5f));
             }
             orig(self, other);
         }

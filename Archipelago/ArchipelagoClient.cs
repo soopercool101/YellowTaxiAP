@@ -120,7 +120,7 @@ public class ArchipelagoClient
                 Plugin.Log("No Death Link variable found!");
             }
             DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName, enableDeathlink);
-            session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
+            //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
 
             if (!Plugin.SlotData.Hatsanity)
             {
@@ -150,6 +150,30 @@ public class ArchipelagoClient
                 });
                 session.DataStorage[Scope.Slot, "HatState"].OnValueChanged += HatData_OnValueChanged;
             }
+            session.DataStorage[Scope.Slot, "Wallet"].GetAsync().ContinueWith(x =>
+            {
+                try
+                {
+                    Data.coinsCollected[Data.gameDataIndex] = x.Result.ToObject<int>();
+                    Plugin.Log($"Wallet Load Finished: {APDataManager.HatSaveFlags}");
+                }
+                catch
+                {
+                    Plugin.Log("Wallet Load Failed");
+                    try
+                    {
+                        Data.coinsCollected[Data.gameDataIndex] = 0;
+                        session.DataStorage[Scope.Slot, "Wallet"].Initialize(0);
+                        Plugin.Log("Wallet State initialized");
+                    }
+                    catch
+                    {
+                        Plugin.Log("Wallet failed initialization");
+                        throw;
+                    }
+                }
+            });
+            session.DataStorage[Scope.Slot, "Wallet"].OnValueChanged += Wallet_OnValueChanged;
 
             outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
 
@@ -182,6 +206,11 @@ public class ArchipelagoClient
 
         ArchipelagoConsole.LogMessage(outText);
         attemptingConnection = false;
+    }
+
+    private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    {
+        Data.coinsCollected[Data.gameDataIndex] = newValue.ToObject<int>();
     }
 
     /// <summary>
@@ -363,6 +392,7 @@ public class ArchipelagoClient
         if (GameplayMaster.instance?.levelId == null || GameplayMaster.instance.levelId == Data.LevelId.noone)
             return;
         Data.coinsCollected[Data.gameDataIndex] += coinCount;
+        UpdateWallet(coinCount);
     }
 
     /// <summary>
@@ -441,18 +471,25 @@ public class ArchipelagoClient
         }
     }
 
-    public void LoadDSHatData()
+    public void UpdateWallet(int amountChanged)
     {
-        if (Plugin.SlotData.Hatsanity)
-            return;
-
         try
         {
-            APDataManager.HatSaveFlags = session.DataStorage[Scope.Slot, "HatState"].To<ulong>();
+            session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
+            Plugin.Log($"Changed wallet: {amountChanged}");
         }
         catch
         {
-            Plugin.Log("Could not load hat data");
+            try
+            {
+                session.DataStorage[Scope.Slot, "Wallet"].Initialize(Data.coinsCollected[Data.gameDataIndex]);
+                Plugin.Log($"Initialized wallet: {Data.coinsCollected[Data.gameDataIndex]}");
+            }
+            catch
+            {
+                Plugin.Log("Could not save wallet");
+                throw;
+            }
         }
     }
 }

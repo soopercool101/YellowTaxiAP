@@ -204,7 +204,7 @@ namespace YellowTaxiAP.Archipelago
             }
             else
             {
-                Plugin.Log("No slot data for flip_o_will_shuffle found");
+                Plugin.Log("No slot data for shuffle_flip_o_will found");
             }
 
             if (slotData.ContainsKey("shuffle_glide"))

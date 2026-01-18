@@ -30,8 +30,9 @@ namespace YellowTaxiAP.Behaviours
             {
                 if (PlayerScript.instance)
                 {
-                    HatScript.RemoveHat(false);
                     var hat = EquippedHatUpdate ?? Data.HatGetCurrentKind();
+                    HatScript.RemoveHat(false);
+                    Plugin.Log(hat.ToString());
                     if (hat != Data.Hat.Noone)
                     {
                         HatScript.Instantiate(hat);

@@ -13,7 +13,7 @@ public class ArchipelagoData
     public string Password;
     public int Index;
 
-    public List<long> CheckedLocations;
+    //public List<long> CheckedLocations;
 
     /// <summary>
     /// seed for this archipelago data. Can be used when loading a file to verify the session the player is trying to
@@ -51,7 +51,7 @@ public class ArchipelagoData
             Password = string.Empty;
         }
 
-        CheckedLocations = [];
+        //CheckedLocations = [];
     }
 
     public ArchipelagoData(string uri, string slotName, string password)
@@ -59,7 +59,7 @@ public class ArchipelagoData
         Uri = uri;
         SlotName = slotName;
         Password = password;
-        CheckedLocations = [];
+        //CheckedLocations = [];
     }
 
     /// <summary>
