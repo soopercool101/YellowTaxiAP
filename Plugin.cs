@@ -43,6 +43,7 @@ public class Plugin : BaseUnityPlugin
     public APDataManager DataHook;
     public APHUDManager HudHook;
     public APWalletManager WalletHook;
+    public APMinimapManager MinimapHook;
 
     public bool AllowLaser = true;
     public static void Log(string message)
@@ -107,6 +108,7 @@ public class Plugin : BaseUnityPlugin
             PsychoTaxiHook = new APPsychoTaxiManager();
             DestructableHook = new APDestructableManager();
             HudHook = new APHUDManager();
+            MinimapHook = new APMinimapManager();
             WalletHook = new APWalletManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
             self.gameObject.AddComponent<GameStateUpdater>();

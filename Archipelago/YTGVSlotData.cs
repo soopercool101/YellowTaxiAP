@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
 {
@@ -147,6 +148,8 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for shuffle_full_game found");
             }
+
+            APAreaStateManager.FullGameUnlocked = !ShuffleFullGame;
 
             if (slotData.ContainsKey("shuffle_psycho_taxi"))
             {

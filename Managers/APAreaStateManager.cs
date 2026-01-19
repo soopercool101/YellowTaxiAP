@@ -12,7 +12,7 @@ namespace YellowTaxiAP.Managers
         public static bool GelaToniReceived = false;
         public static bool PizzaKingReceived = false;
         public static bool DoggoReceived = false;
-        public static bool FullGameUnlocked = true;
+        public static bool FullGameUnlocked = false;
 
         public APAreaStateManager()
         {

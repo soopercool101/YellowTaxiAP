@@ -88,6 +88,9 @@ namespace YellowTaxiAP.Behaviours
                         Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = MiscSave.HasPsychoTaxi;
                 }
 
+                Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex] =
+                    MiscSave.HasLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
+
                 foreach (var portal in PortalScript.list)
                 {
                     if(!portal.PortalIsLevelPortal || portal.PortalIsAlreadyOpened)
