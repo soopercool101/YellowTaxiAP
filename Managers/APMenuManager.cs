@@ -32,7 +32,10 @@ namespace YellowTaxiAP.Managers
                 return;
             orig();
             if (MenuV2Script.instance.isPauseMenu || !startText || Archipelago.ArchipelagoClient.Authenticated) return;
-            startText.textAnimator.SetText("Connect to Archipelago", false);
+            if(Plugin.SlotData.FailedValidation)
+                startText.textAnimator.SetText("Update Required", false);
+            else
+                startText.textAnimator.SetText("Connect to Archipelago", false);
         }
 
         /// <summary>

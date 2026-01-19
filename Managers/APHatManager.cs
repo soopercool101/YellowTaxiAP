@@ -1,4 +1,5 @@
 ﻿using System;
+using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
 {
@@ -8,19 +9,21 @@ namespace YellowTaxiAP.Managers
         {
             //On.HatBuyScript.Update += AP_HatUpdate;
             On.HatBuyScript.Buy += AP_BuyHat;
-            On.HatScript.RemoveHat += HatScript_RemoveHat;
+            On.HatScript.RemoveHat += HatScript_RemoveHat; ;
             On.HatScript.Instantiate += HatScript_Instantiate;
         }
 
         private void HatScript_RemoveHat(On.HatScript.orig_RemoveHat orig, bool removeHatFromData)
         {
-            APDataManager.HatSaveFlags &= 0xFFFFFFFFFFFFFF00;
-            orig(removeHatFromData);
+            orig(false);
         }
 
         private HatScript HatScript_Instantiate(On.HatScript.orig_Instantiate orig, Data.Hat hatKind)
         {
-            APDataManager.HatSaveFlags = (APDataManager.HatSaveFlags & 0xFFFFFFFFFFFFFF00) + (ulong)hatKind;
+            if (!Plugin.SlotData.Hatsanity)
+            {
+                APSaveController.HatSave.SetHatUnlocked(hatKind);
+            }
             return orig(hatKind);
         }
 
@@ -40,8 +43,7 @@ namespace YellowTaxiAP.Managers
                 DebugLocationHelper.CheckLocation("hat", id);
             }
             orig(self);
-
-            Plugin.ArchipelagoClient.SaveDSHatData();
+            APSaveController.MiscSave.CurrentHat = (Data.Hat)Data.currentHat[Data.gameDataIndex];
         }
     }
 }

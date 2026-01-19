@@ -9,13 +9,10 @@ namespace YellowTaxiAP.Behaviours
 {
     public class GameStateUpdater : MonoBehaviour
     {
-        public static GameStateUpdater Instance;
+        public static GameStateUpdater Instance { get; private set; }
 
-        public static bool HatStateNeedsUpdate { get; set; }
-        public static Data.Hat? EquippedHatUpdate { get; set; }
         public static bool GearStateNeedsUpdate { get; set; }
         public static bool BunnyStateNeedsUpdate { get; set; }
-        public static bool OrangeSwitchStateNeedsUpdate { get; set; }
         public static bool RatStateNeedsUpdate { get; set; }
 
         public void Awake()
@@ -28,22 +25,6 @@ namespace YellowTaxiAP.Behaviours
 
         public void FixedUpdate()
         {
-            if (HatStateNeedsUpdate)
-            {
-                if (PlayerScript.instance)
-                {
-                    var hat = EquippedHatUpdate ?? Data.HatGetCurrentKind();
-                    HatScript.RemoveHat(false);
-                    if (hat != Data.Hat.Noone)
-                    {
-                        HatScript.Instantiate(hat);
-                    }
-                    PlayerScript.PlayerHatsRenderingUpdate();
-                }
-
-                HatStateNeedsUpdate = false;
-            }
-
             if (GearStateNeedsUpdate)
             {
                 // Update portal cost text where applicable
@@ -58,16 +39,6 @@ namespace YellowTaxiAP.Behaviours
             if (BunnyStateNeedsUpdate)
             {
                 BunnyStateNeedsUpdate = false;
-            }
-
-            if (OrangeSwitchStateNeedsUpdate)
-            {
-                foreach (var block in SwitchBlockScript.list)
-                {
-                    block.ChangeState();
-                }
-
-                OrangeSwitchStateNeedsUpdate = false;
             }
 
             if (RatStateNeedsUpdate)

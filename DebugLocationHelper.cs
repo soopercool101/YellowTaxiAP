@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace YellowTaxiAP
@@ -916,12 +915,26 @@ namespace YellowTaxiAP
             { "0_03_00436", "Morio's Lab - Coin on Second Floor #3" },
             { "0_03_00437", "Morio's Lab - Coin on Second Floor #4" },
             { "0_03_00438", "Morio's Lab - Coin on Second Floor #5" },
-            { "0_03_00434", "Morio's Lab - Coin on Second Floor #6" },
-            { "0_03_00432", "Morio's Lab - Coin on Second Floor #7" },
-            { "0_03_00431", "Morio's Lab - Coin on Second Floor #8" },
-            { "0_03_00430", "Morio's Lab - Coin on Second Floor #9" },
-            { "0_03_00429", "Morio's Lab - Coin on Second Floor #10" },
+        };
+
+        [Description("Morio's Lab - Second Floor After Demo Wall")]
+        public static Dictionary<string, string> MoriosLabSecondFloorAfterDemoWall = new()
+        {
+            { "0_03_00434", "Morio's Lab - Coin on Second Floor After Pizza Time Portal #1" },
+            { "0_03_00432", "Morio's Lab - Coin on Second Floor After Pizza Time Portal #2" },
+        };
+
+        [Description("Morio's Lab - Second Floor Inside True Demo Wall")]
+        public static Dictionary<string, string> MoriosLabSecondFloorInTrueDemoWall = new()
+        {
+            { "0_03_00430", "Morio's Lab - Coin on Second Floor After Pizza Time Portal #4" },
+            { "0_03_00429", "Morio's Lab - Coin on Second Floor After Pizza Time Portal #5" },
             { "0_03_00428", "Morio's Lab - Coin Bag on Second Floor" },
+        };
+
+        [Description("Morio's Lab - Second Floor After True Demo Wall")]
+        public static Dictionary<string, string> MoriosLabSecondFloorAfterTrueDemoWall = new()
+        {
             { "0_03_00475", "Morio's Lab - Coin on Second to Third Floor Stairway #1"},
             { "0_03_00477", "Morio's Lab - Coin on Second to Third Floor Stairway #2"},
             { "0_03_00549", "Morio's Lab - Coin on Second to Third Floor Stairway #3"},
@@ -1004,6 +1017,12 @@ namespace YellowTaxiAP
             { "0_03_00652", "Morio's Lab - Coin on Third Floor Wrenches #3" },
             { "0_03_00653", "Morio's Lab - Coin on Third Floor Wrenches #4" },
             { "0_03_00654", "Morio's Lab - Coin on Third Floor Wrenches #5" },
+        };
+
+
+        [Description("Morio's Lab - Third Floor Wrenches Middle")]
+        public static Dictionary<string, string> MoriosLabThirdFloorWrenchesMiddle = new()
+        {
             { "0_03_00664", "Morio's Lab - Coin on Third Floor Wrenches #6" },
             { "0_03_00666", "Morio's Lab - Coin on Third Floor Wrenches #7" },
             { "0_03_00668", "Morio's Lab - Coin on Third Floor Wrenches #8" },
@@ -1199,6 +1218,7 @@ namespace YellowTaxiAP
             { "0_02_00000", "Morio's Lab - Bunny - Ledge Above Ground Floor" },         // Region Morio's Lab Ground Floor Bolts & (J1 | (EX1 & B1)) | Region Morio's Lab Final Floor High Pipes
             { "0_03_00793", "Morio's Lab - Coin Bag Above Maurizio's City Portal" },    // (Region Morio's Lab Fourth Floor & J2) | (Region Morio's Lab Fifth Floor Ruined Observatory Area & J1 & Password)
             { "0_01_00024", "Morio's Lab - Gear - Third Floor Wrenches" },              // Region Morio's Lab Third Floor Wrenches Upper & J1
+            { "0_03_00431", "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3" },  // Region Morio's Lab Second Floor After Demo Wall & (X1 | FGU)
         };
 
         #endregion
@@ -1516,12 +1536,16 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabGroundFloorWrenches)), MoriosLabGroundFloorWrenches),
             new(GetDescription(nameof(MoriosLabGroundFloorBolts)), MoriosLabGroundFloorBolts),
             new(GetDescription(nameof(MoriosLabSecondFloor)), MoriosLabSecondFloor),
+            new(GetDescription(nameof(MoriosLabSecondFloorAfterDemoWall)), MoriosLabSecondFloorAfterDemoWall),
+            new(GetDescription(nameof(MoriosLabSecondFloorInTrueDemoWall)), MoriosLabSecondFloorInTrueDemoWall),
+            new(GetDescription(nameof(MoriosLabSecondFloorAfterTrueDemoWall)), MoriosLabSecondFloorAfterTrueDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipe)), MoriosLabSecondFloorShortcutPipe),
             new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipeFalling)), MoriosLabSecondFloorShortcutPipeFalling),
             new(GetDescription(nameof(MoriosLabPathToMoriosRoom)), MoriosLabPathToMoriosRoom),
             new(GetDescription(nameof(MoriosLabMoriosRoomJump)), MoriosLabMoriosRoomJump),
             new(GetDescription(nameof(MoriosLabThirdFloor)), MoriosLabThirdFloor),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)), MoriosLabThirdFloorWrenchesLower),
+            new(GetDescription(nameof(MoriosLabThirdFloorWrenchesMiddle)), MoriosLabThirdFloorWrenchesMiddle),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesUpper)), MoriosLabThirdFloorWrenchesUpper),
             new(GetDescription(nameof(MoriosLabFourthFloor)), MoriosLabFourthFloor),
             new(GetDescription(nameof(MoriosLabFourthFloorJumpSpikes)), MoriosLabFourthFloorJumpSpikes),
@@ -1591,12 +1615,16 @@ namespace YellowTaxiAP
                     MoriosLabGroundFloorWrenches,
                     MoriosLabGroundFloorBolts,
                     MoriosLabSecondFloor,
+                    MoriosLabSecondFloorAfterDemoWall,
+                    MoriosLabSecondFloorInTrueDemoWall,
+                    MoriosLabSecondFloorAfterTrueDemoWall,
                     MoriosLabSecondFloorShortcutPipeFalling,
                     MoriosLabSecondFloorShortcutPipe,
                     MoriosLabPathToMoriosRoom,
                     MoriosLabMoriosRoomJump,
                     MoriosLabThirdFloor,
                     MoriosLabThirdFloorWrenchesLower,
+                    MoriosLabThirdFloorWrenchesMiddle,
                     MoriosLabThirdFloorWrenchesUpper,
                     MoriosLabFourthFloor,
                     MoriosLabFourthFloorJumpSpikes,
@@ -1884,7 +1912,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Morio's Lab - Wardrobe Entrance", MoriosWardrobe, ConnectionType.Subwarp),
                     new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B2/X2"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B2/X2 & FGU"),
                 ]
             },
             {
@@ -1896,7 +1924,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabGroundFloorWrenches)),
                 [
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "J1+OS"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "J1+OS+FGU"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "J1"),
                     new RegionConnection(MoriosLabGroundFloor),
                 ]
@@ -1911,9 +1939,30 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabSecondFloor)),
                 [
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1"),
-                    new RegionConnection(MoriosLabThirdFloor, "J1/B1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+B1+J1"),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU|B2"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabSecondFloorAfterDemoWall)),
+                [
+                    new RegionConnection(MoriosLabSecondFloor, "FGU"),
+                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall, "FGU"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabSecondFloorInTrueDemoWall)),
+                [
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall),
+                    new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabSecondFloorAfterTrueDemoWall)),
+                [
+                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall, "FGU"),
+                    new RegionConnection(MoriosLabThirdFloor, "J1/B1"),
                 ]
             },
             {
@@ -1935,8 +1984,10 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabMoriosRoomJump, "J1+MorioHat"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "B1"),
                     new RegionConnection(MoriosLabGroundFloorWrenches),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "B2"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "B2"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2"),
                 ]
             },
             {
@@ -1956,8 +2007,14 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)),
                 [
-                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "J1"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "J1+FGU"),
                     new RegionConnection(MoriosLabThirdFloor),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabThirdFloorWrenchesMiddle)),
+                [
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "J1"),
                 ]
             },
             {
@@ -1970,7 +2027,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabFourthFloor)),
                 [
                     new RegionConnection(MoriosLabFourthFloorJumpSpikes, "GS+J1"),
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "FGU & B1/J1"),
                     new RegionConnection(MoriosLabThirdFloor, "GS"),
                 ]
             },
@@ -1986,8 +2043,8 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthFloorMoriosMindArea, "OS/J2"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "B1/J1"),
                     new RegionConnection(MoriosLabFourthFloor),
-                    new RegionConnection(MoriosLabSecondFloor),
-                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabSecondFloor, "FGU"),
+                    new RegionConnection(MoriosLabGroundFloorWrenches, "FGU"),
                 ]
             },
             {
@@ -2066,7 +2123,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFinalFloorPipes)),
                 [
-                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabGroundFloorWrenches, "FGU"),
                 ]
             },
             {

@@ -124,21 +124,23 @@ public class ArchipelagoClient
 
             if (!Plugin.SlotData.Hatsanity)
             {
-                session.DataStorage[Scope.Slot, "HatState"].GetAsync().ContinueWith(x =>
+                session.DataStorage[Scope.Slot, "UnlockedHats"].GetAsync().ContinueWith(x =>
                 {
                     try
                     {
-                        APDataManager.HatSaveFlags = x.Result.ToObject<ulong>();
-                        Data.currentHat[Data.gameDataIndex] = (int) (APDataManager.HatSaveFlags & 0xFF);
-                        Plugin.Log($"Hat Load Finished: {APDataManager.HatSaveFlags}");
+                        APSaveController.HatSave.SaveData = x.Result.ToObject<ulong>();
+                        APSaveController.HatSave.NeedsLoad = true;
                     }
                     catch
                     {
                         Plugin.Log("Hat Load Failed");
                         try
                         {
-                            APDataManager.HatSaveFlags = 0x100;
-                            session.DataStorage[Scope.Slot, "HatState"].Initialize(0x100);
+                            APSaveController.HatSave = new YTGVHatSave(1)
+                            {
+                                NeedsLoad = true
+                            };
+                            session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(1);
                             Plugin.Log("Hat State initialized");
                         }
                         catch
@@ -148,14 +150,72 @@ public class ArchipelagoClient
                         }
                     }
                 });
-                session.DataStorage[Scope.Slot, "HatState"].OnValueChanged += HatData_OnValueChanged;
+                session.DataStorage[Scope.Slot, "UnlockedHats"].OnValueChanged += HatData_OnValueChanged;
             }
+            if (!Plugin.SlotData.Bunnysanity)
+            {
+                session.DataStorage[Scope.Slot, "Bunnies"].GetAsync().ContinueWith(x =>
+                {
+                    try
+                    {
+                        APSaveController.BunnySave.SaveData = x.Result.ToObject<ulong>();
+                        APSaveController.BunnySave.NeedsLoad = true;
+                    }
+                    catch
+                    {
+                        Plugin.Log("Bunny Load Failed");
+                        try
+                        {
+                            APSaveController.BunnySave = new YTGVBunnySave(0)
+                            {
+                                NeedsLoad = true
+                            };
+                            session.DataStorage[Scope.Slot, "Bunnies"].Initialize(0);
+                            Plugin.Log("Bunny State initialized");
+                        }
+                        catch
+                        {
+                            Plugin.Log("Bunnies failed initialization");
+                            throw;
+                        }
+                    }
+                });
+                session.DataStorage[Scope.Slot, "Bunnies"].OnValueChanged += Bunnies_OnValueChanged;
+            }
+            session.DataStorage[Scope.Slot, "Save"].GetAsync().ContinueWith(x =>
+            {
+                try
+                {
+                    APSaveController.MiscSave.SaveData = x.Result.ToObject<uint>();
+                    APSaveController.MiscSave.NeedsLoad = true;
+                }
+                catch
+                {
+                    Plugin.Log("Save Load Failed");
+                    try
+                    {
+                        APSaveController.MiscSave = new YTGVMiscSave(0)
+                        {
+                            NeedsLoad = true
+                        };
+                        session.DataStorage[Scope.Slot, "Save"].Initialize(0);
+                        Plugin.Log("Save State initialized");
+                    }
+                    catch
+                    {
+                        Plugin.Log("Save failed initialization");
+                        throw;
+                    }
+                }
+            });
+            session.DataStorage[Scope.Slot, "Save"].OnValueChanged += Save_OnValueChanged;
+
             session.DataStorage[Scope.Slot, "Wallet"].GetAsync().ContinueWith(x =>
             {
                 try
                 {
                     Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = x.Result.ToObject<int>();
-                    Plugin.Log($"Wallet Load Finished: {APDataManager.HatSaveFlags}");
+                    Plugin.Log($"Wallet Load Finished: {APWalletManager.ServerCoins}");
                 }
                 catch
                 {
@@ -411,7 +471,7 @@ public class ArchipelagoClient
 
     public void SendLocation(long id)
     {
-        Plugin.Log($"Sending location #{id}");
+        Plugin.BepinLogger.LogMessage($"Sending location #{id}");
         session.Locations.CompleteLocationChecks(id);
     }
 
@@ -421,52 +481,141 @@ public class ArchipelagoClient
     }
 
     public System.Collections.ObjectModel.ReadOnlyCollection<long> AllClearedLocations => session.Locations.AllLocationsChecked;
+    public System.Collections.ObjectModel.ReadOnlyCollection<long> AllLocations => session.Locations.AllLocations;
 
+    private object hatDataLock = new();
 
     private void HatData_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
     {
-        if (APDataManager.HatSaveFlags == newValue.ToObject<ulong>())
-            return;
-
-        var oldHat = Data.HatGetCurrentKind();
-        APDataManager.HatSaveFlags = newValue.ToObject<ulong>();
-        Data.currentHat[Data.gameDataIndex] = (int)(APDataManager.HatSaveFlags & 0xFF);
-        var newHat = Data.HatGetCurrentKind();
-        if (oldHat != newHat)
+        lock (hatDataLock)
         {
-            GameStateUpdater.HatStateNeedsUpdate = true;
+            var newVal = newValue.ToObject<ulong>();
+            if (APSaveController.HatSave.SaveData == newVal)
+                return;
+
+            APSaveController.HatSave.SaveData = newVal;
+            Plugin.Log($"Updated hat data: {APSaveController.HatSave.SaveData:x16}");
+            APSaveController.HatSave.NeedsLoad = true;
         }
-        Plugin.Log($"Updated hat data: {APDataManager.HatSaveFlags}");
     }
 
     public void SaveDSHatData()
     {
-        if (Plugin.SlotData.Hatsanity)
-            return;
+        lock (hatDataLock)
+        {
+            if (Plugin.SlotData.Hatsanity)
+                return;
 
-        try
-        {
-            session.DataStorage[Scope.Slot, "HatState"] = (JToken)APDataManager.HatSaveFlags;
-            //Plugin.Log($"Saved hat data: {APDataManager.HatSaveFlags}");
-        }
-        catch
-        {
             try
             {
-                session.DataStorage[Scope.Slot, "HatState"].Initialize(APDataManager.HatSaveFlags);
-                //Plugin.Log($"Initialized hat data: {APDataManager.HatSaveFlags}");
+                session.DataStorage[Scope.Slot, "UnlockedHats"] = (JToken)APSaveController.HatSave.SaveData;
+                Plugin.Log($"Saved hat data: {APSaveController.HatSave.SaveData:x16}");
             }
             catch
             {
-                Plugin.Log("Could not save hat data");
-                throw;
+                try
+                {
+                    session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(APSaveController.HatSave.SaveData);
+                    Plugin.Log($"Initialized hat data: {APSaveController.HatSave.SaveData:x16}");
+                }
+                catch
+                {
+                    Plugin.Log("Could not save hat data");
+                    throw;
+                }
             }
         }
     }
 
+    private object bunnyLock = new();
+    private void Bunnies_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    {
+        lock (bunnyLock)
+        {
+            var newVal = newValue.ToObject<ulong>();
+            if (APSaveController.BunnySave.SaveData == newVal)
+                return;
+
+            APSaveController.BunnySave.SaveData = newVal;
+            Plugin.Log($"Updated bunny data: {APSaveController.BunnySave.SaveData:x16}");
+            APSaveController.BunnySave.NeedsLoad = true;
+        }
+    }
+
+    public void SaveDSBunnyData()
+    {
+        lock (bunnyLock)
+        {
+            if (Plugin.SlotData.Bunnysanity)
+                return;
+
+            try
+            {
+                session.DataStorage[Scope.Slot, "Bunnies"] = (JToken)APSaveController.BunnySave.SaveData;
+                Plugin.Log($"Saved bunny data: {APSaveController.BunnySave.SaveData:x16}");
+            }
+            catch
+            {
+                try
+                {
+                    session.DataStorage[Scope.Slot, "Bunnies"].Initialize(APSaveController.BunnySave.SaveData);
+                    Plugin.Log($"Initialized bunny data: {APSaveController.BunnySave.SaveData:x16}");
+                }
+                catch
+                {
+                    Plugin.Log("Could not save bunny data");
+                    throw;
+                }
+            }
+        }
+    }
+
+    private object saveLock = new();
+    private void Save_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    {
+        lock (saveLock)
+        {
+            if (APSaveController.MiscSave.SaveData == newValue.ToObject<uint>())
+                return;
+
+            APSaveController.MiscSave.SaveData = newValue.ToObject<uint>();
+            Plugin.Log($"Updated save data: {APSaveController.MiscSave.SaveData:x8}");
+            APSaveController.MiscSave.NeedsLoad = true;
+        }
+    }
+
+    public void SaveDSSaveData()
+    {
+        lock (saveLock)
+        {
+            try
+            {
+                session.DataStorage[Scope.Slot, "Save"] = (JToken)APSaveController.MiscSave.SaveData;
+                Plugin.Log($"Saved data: {APSaveController.MiscSave.SaveData:x8}");
+            }
+            catch
+            {
+                try
+                {
+                    session.DataStorage[Scope.Slot, "Save"].Initialize(APSaveController.MiscSave.SaveData);
+                    Plugin.Log($"Initialized save data: {APSaveController.MiscSave.SaveData:x8}");
+                }
+                catch
+                {
+                    Plugin.Log("Could not save data");
+                    throw;
+                }
+            }
+        }
+    }
+
+    private object walletLock = new ();
     private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
     {
-        Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = newValue.ToObject<int>();
+        lock (walletLock)
+        {
+            Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = newValue.ToObject<int>();
+        }
     }
 
     public void UpdateWallet(int amountChanged)
@@ -474,7 +623,7 @@ public class ArchipelagoClient
         try
         {
             session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
-            Plugin.Log($"Changed wallet: {amountChanged}");
+            Plugin.BepinLogger.LogMessage($"Changed wallet: {amountChanged}");
         }
         catch
         {

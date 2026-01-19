@@ -16,19 +16,12 @@ namespace YellowTaxiAP.Managers
         public APPlayerManager()
         {
             // PlayerScript hooks
-            On.PlayerScript.Awake += PlayerScript_Awake_AP;
             On.PlayerScript.Update += PlayerScript_Update_AP;
             On.PlayerScript.FlipOWill_Do += FlipOWill_AP;
             On.PlayerScript.IsFlipOWilling += IsFlipOWillingAP;
             On.PlayerScript.IsFlipOWillingExtraLong += FlipOWillExtraLong_AP;
             On.PlayerScript.FlipOWillAbort += FlipOWillAbort_AP;
             On.PlayerScript.BackFlip += FlipOWillBackFlip_AP;
-        }
-
-        private void PlayerScript_Awake_AP(On.PlayerScript.orig_Awake orig, PlayerScript self)
-        {
-            Data.flipOWillUnlockState[Data.gameDataIndex] = true;
-            orig(self);
         }
 
         /// <summary>

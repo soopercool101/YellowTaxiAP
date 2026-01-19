@@ -66,6 +66,16 @@ public class Plugin : BaseUnityPlugin
         {
             DataHook = new APDataManager();
             orig(self);
+            // Add extra bunnies and gears from demo-only locations
+            var grannysIslandMap = MapMaster.GetAreaScriptableObject_ByAreaName("LEVEL_NAME_GRANNY_ISLAND");
+            grannysIslandMap.gearsId.Add(10004);    // Pizza Oven
+            grannysIslandMap.gearsId.Add(10010);    // Crash Again
+            grannysIslandMap.gearsId.Add(10020);    // Sewer
+            var moriosIslandMap = MapMaster.GetAreaScriptableObject_ByAreaName("MAP_AREA_NAME_GRANNY_ISLAND_LAB");
+            moriosIslandMap.gearsId.Add(10019);     // Orange Blocks
+            moriosIslandMap.gearsId.Add(10024);     // Nut
+            moriosIslandMap.bunniesId.Add(3);       // Above Morio's Home Portal
+            moriosIslandMap.bunniesId.Add(4);       // Above Demo Wall
         };
         On.ModMaster.Start += (orig, self) =>
         {
@@ -100,6 +110,8 @@ public class Plugin : BaseUnityPlugin
             WalletHook = new APWalletManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
             self.gameObject.AddComponent<GameStateUpdater>();
+            self.gameObject.AddComponent<APSaveController>();
+            self.gameObject.AddComponent<OrangeSwitchController>();
             On.GigaMorioScript.Update += (origUpdate, selfGigaMorio) =>
             {
                 if (!AllowLaser)
@@ -192,7 +204,6 @@ public class Plugin : BaseUnityPlugin
             if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
             {
                 APSwitchManager.OrangeSwitchUnlocked = !APSwitchManager.OrangeSwitchUnlocked;
-                GameStateUpdater.OrangeSwitchStateNeedsUpdate = true;
                 Log($"Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}");
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))

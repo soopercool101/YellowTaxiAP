@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -92,10 +92,10 @@ namespace YellowTaxiAP.Managers
             {
                 var id = GetID(self);
                 var itemArea = DebugLocationHelper.GetKnownItemNameArea(id);
-                var item = itemArea.Item1 ?? "Unknown Item";
-                var area = itemArea.Item2 ?? "Unknown Area";
+                var item = itemArea?.Item1 ?? "Unknown Item";
+                var area = itemArea?.Item2 ?? "Unknown Area";
                 Plugin.Log($"In a demo, {item} ({id}) in {area} will be moved from {self.transform.position} to {self.transform.position + self.smallDdemoPositionOffset}");
-                if (false) // TODO: Add extra demo gears/bunnies if settings are enabled
+                if (Plugin.SlotData.ExtraDemoCollectables)
                 {
                     var demoOffset = self.smallDdemoPositionOffset;
                     self.smallDdemoPositionOffset = new Vector3(0, 0, 0);
@@ -107,18 +107,23 @@ namespace YellowTaxiAP.Managers
                             duplicatedBonus.gearArrayIndex += 10000;
                             break;
                         case BonusScript.Identity.bunny:
-                            duplicatedBonus.bunnyIndex += 10000;
+                            duplicatedBonus.bunnyIndex = duplicatedBonus.bunnyIndex switch
+                            {
+                                1 => 4,
+                                2 => 3,
+                                _ => duplicatedBonus.bunnyIndex + 10000
+                            };
                             break;
                         default:
                             duplicatedBonus.coinIndex += 10000;
                             break;
                     }
 
-                    self.smallDdemoPositionOffset = demoOffset;
+                    self.smallDemoZoneMaster = -1;
                 }
             }
             orig(self);
-            if (self.smallDdemoPositionOffset == new Vector3(0, 0, 0) && self.smallDemoZoneMaster >= 0)
+            if (self.smallDemoZoneMaster >= 0 && self.smallDdemoPositionOffset == new Vector3(0, 0, 0))
             {
                 var id = GetID(self);
                 Plugin.Log($"Changing zone master for {self.name}");

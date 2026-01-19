@@ -257,7 +257,7 @@ namespace YellowTaxiAP.Managers
                     ];
                     var item = testItems[new Random().Next(0, testItems.Length)];
                     var font = CurrentFont;
-                    Plugin.Log($"Current Font: {CurrentFont}");
+                    Plugin.Log($"Current Font: {font}");
                     var material = "Yellow";
                     if ((item.Item3 & ItemFlags.Advancement) == ItemFlags.Advancement)
                     {

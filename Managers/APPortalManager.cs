@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using YellowTaxiAP.Behaviours;
 using static Data;
 
 namespace YellowTaxiAP.Managers
@@ -16,9 +17,17 @@ namespace YellowTaxiAP.Managers
             On.PortalScript.GoToLevel += PortalScript_GoToLevel;
             On.PortalScript.OnTriggerEnter += PortalScript_OnTriggerEnter;
             On.PortalScript.PortalIslandToLabCoroutine += PortalScript_PortalIslandToLabCoroutine;
+            On.PortalScript.PortalOpenStart += PortalScript_PortalOpenStart;
             //On.PortalScript.DemoCheck_ShouldPortalBeEnabled += PortalScript_DemoCheck_ShouldPortalBeEnabled;
             //On.PortalScript.SetupDataForLevelComeback += PortalScript_SetupDataForLevelComeback;
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
+        }
+
+        private void PortalScript_PortalOpenStart(On.PortalScript.orig_PortalOpenStart orig, PortalScript self)
+        {
+            var trueId = self.gameObject.GetComponent<TruePortalId>();
+            APSaveController.MiscSave.SetLevelPortalUnlocked(trueId.OriginalLevel);
+            orig(self);
         }
 
         private bool PortalScript_DemoCheck_ShouldPortalBeEnabled(On.PortalScript.orig_DemoCheck_ShouldPortalBeEnabled orig, PortalScript self)
@@ -128,6 +137,12 @@ namespace YellowTaxiAP.Managers
         private void PortalScript_Awake(On.PortalScript.orig_Awake orig, PortalScript self)
         {
             self.hubPortalForceEnabled = true;
+            self.gameObject.AddComponent<TruePortalId>(); // Keep track of unaltered portal values
+            if (self.PortalIsLevelPortal)
+            {
+                Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open {APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId)}");
+                GetLevel(self.targetLevelId).everOpened = APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId);
+            }
             orig(self);
             self.UpdatePortalToLevelName();
         }

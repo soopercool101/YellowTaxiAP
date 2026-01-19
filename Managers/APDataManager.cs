@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Archipelago.MultiClient.Net.Models;
 using YellowTaxiAP.Archipelago;
+using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
 {
@@ -33,19 +34,16 @@ namespace YellowTaxiAP.Managers
 
         private Data.Hat Data_HatGetCurrentKind(On.Data.orig_HatGetCurrentKind orig)
         {
-            var b = HatSaveFlags & 0xFF;
-            //Plugin.Log($"Hat Current Kind: {b}");
-            return (Data.Hat) b;
+            return APSaveController.MiscSave.CurrentHat;
         }
 
-        public static ulong HatSaveFlags { get; set; } = 0x100;
         private void Data_HatSetUnlockedState(On.Data.orig_HatSetUnlockedState orig, int hatIndex, bool unlockedState)
         {
             if (unlockedState)
             {
                 if (!Plugin.SlotData.Hatsanity)
                 {
-                    HatSaveFlags |= (ulong)1 << (hatIndex + 8);
+                    APSaveController.HatSave.SetHatUnlocked((Data.Hat)hatIndex);
                 }
                 else
                 {
@@ -60,7 +58,7 @@ namespace YellowTaxiAP.Managers
 
         private bool Data_HatGetUnlockedState(On.Data.orig_HatGetUnlockedState orig, int hatIndex)
         {
-            return ((HatSaveFlags >> (hatIndex + 8)) & 1) != 0;
+            return APSaveController.HatSave.GetHatUnlocked((Data.Hat)hatIndex);
         }
 
         public static int TotalBunniesReceived = 0;

@@ -6,11 +6,16 @@ namespace YellowTaxiAP.Archipelago
 {
     public class YTGVSlotData
     {
+        public const int LowestSupportedVersion = 1;
+        public const int HighestSupportedVersion = 1;
+        public bool FailedValidation { get; private set; }
+        public long APWorldVersion { get; set; }
         public long Goal { get; private set; } = 2;
         public bool DeathLink { get; private set; }
         public bool ShuffleGelaToni { get; private set; }
         public bool ShufflePizzaKing { get; private set; }
         public bool ShuffleDoggo { get; private set; }
+        public bool ShuffleOrangeSwitch { get; private set; }
         public bool ShuffleMoriosPassword { get; private set; }
         public bool ShuffleRocket { get; private set; }
         public bool ShuffleFullGame { get; private set; }
@@ -24,6 +29,7 @@ namespace YellowTaxiAP.Archipelago
         public bool Coinsanity { get; private set; }
         public bool Cheesesanity { get; private set; }
         public bool Hatsanity { get; private set; }
+        public bool ExtraDemoCollectables { get; private set; }
         public bool ShuffleFlipOWill { get; private set; }
         public bool ShuffleGlide { get; private set; }
         public bool ShuffleGoldenSpring { get; private set; }
@@ -36,6 +42,31 @@ namespace YellowTaxiAP.Archipelago
 
         public YTGVSlotData(Dictionary<string, object> slotData)
         {
+            if (slotData.ContainsKey("version"))
+            {
+                APWorldVersion = (long)slotData["version"];
+                if (APWorldVersion < LowestSupportedVersion)
+                {
+                    ArchipelagoClient.Authenticated = false;
+                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {APWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
+                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {APWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
+                    FailedValidation = true;
+                    return;
+                }
+                if (APWorldVersion > HighestSupportedVersion)
+                {
+                    ArchipelagoClient.Authenticated = false;
+                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {APWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
+                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {APWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
+                    FailedValidation = true;
+                    return;
+                }
+            }
+            else
+            {
+                Plugin.Log("No slot data for version found");
+            }
+
             if (slotData.ContainsKey("goal"))
             {
                 Goal = (long)slotData["goal"];
@@ -79,6 +110,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for shuffle_doggo found");
+            }
+
+            if (slotData.ContainsKey("shuffle_orange_switch"))
+            {
+                ShuffleOrangeSwitch = (long)slotData["shuffle_orange_switch"] == 1;
+            }
+            else
+            {
+                Plugin.Log("No slot data for shuffle_orange_switch found");
             }
 
             if (slotData.ContainsKey("shuffle_morios_password"))
@@ -232,6 +272,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for shuffle_golden_propeller found");
+            }
+
+            if (slotData.ContainsKey("extra_demo_collectables"))
+            {
+                ExtraDemoCollectables = (long) slotData["extra_demo_collectables"] == 1;
+            }
+            else
+            {
+                Plugin.Log("No slot data for extra_demo_collectables found");
             }
         }
     }
