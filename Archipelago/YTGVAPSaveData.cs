@@ -94,6 +94,22 @@ namespace YellowTaxiAP.Archipelago
             return GetBit((int) level * 3 + bunnyIndex);
         }
 
+        public int GetBunnyCount(Data.LevelId level)
+        {
+            if (level == Data.LevelId.noone)
+                return 0;
+
+            var count = 0;
+            // 3 bunnies per level
+            for (var i = 0; i < 3; i++)
+            {
+                if(HasBunny(level, i))
+                    count++;
+            }
+
+            return count;
+        }
+
         public void SetBunny(Data.LevelId level, int bunnyIndex, bool value = true)
         {
             if (level == Data.LevelId.noone)

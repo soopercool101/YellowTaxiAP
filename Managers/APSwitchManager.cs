@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
 {
@@ -9,8 +10,6 @@ namespace YellowTaxiAP.Managers
     public class APSwitchManager
     {
         public static bool OrangeSwitchUnlocked { get; set; }
-
-        public static bool SwitchPressed = false;
         public APSwitchManager()
         {
             // Orange Switch Blocks
@@ -68,13 +67,22 @@ namespace YellowTaxiAP.Managers
         {
             if (self.switched)
                 return;
-            SwitchPressed = true;
-            self.VisualSwitch();
-            Sound.Play("SoundSwitchTurnOn");
+
 #if DEBUG
             DebugLocationHelper.CheckLocation("Orange Switch", "10_00_00001");
 #endif
-            Plugin.ArchipelagoClient.SendLocation(10_00_00001);
+            if (Plugin.SlotData.ShuffleOrangeSwitch)
+            {
+                Plugin.ArchipelagoClient.SendLocation(10_00_00001);
+            }
+            else
+            {
+                APSaveController.MiscSave.HasOrangeSwitch = true;
+            }
+            self.switched = true;
+            self.meshOff.enabled = false;
+            self.meshOn.enabled = true;
+            Sound.Play("SoundSwitchTurnOn");
             _ = Spawn.FromPool("Pt Star Rnbw Big - 8 Ring", self.transform.position, Pool.instance.transform).transform.SetYAngle(Random.value * 360f);
         }
 
@@ -85,9 +93,12 @@ namespace YellowTaxiAP.Managers
 
         private void GiantSwitchScript_VisualSwitch(On.GiantSwitchScript.orig_VisualSwitch orig, GiantSwitchScript self)
         {
-            self.switched = SwitchPressed;
-            self.meshOff.enabled = !SwitchPressed;
-            self.meshOn.enabled = SwitchPressed;
+            var switchPressed = Plugin.SlotData.ShuffleOrangeSwitch
+                ? Plugin.ArchipelagoClient.AllClearedLocations.Contains(10_00_00001)
+                : APSaveController.MiscSave.HasOrangeSwitch;
+            self.switched = switchPressed;
+            self.meshOff.enabled = !switchPressed;
+            self.meshOn.enabled = switchPressed;
         }
 
         private void SetState_AP(On.SwitchBlockScript.orig_SetState orig, SwitchBlockScript.SwitchBlockKind switchesToAffect, bool changeState)

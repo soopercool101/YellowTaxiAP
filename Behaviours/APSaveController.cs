@@ -63,6 +63,10 @@ namespace YellowTaxiAP.Behaviours
                 {
                     APAreaStateManager.MindPasswordReceived = MiscSave.HasMoriosMindPassword;
                 }
+                if (!Plugin.SlotData.ShuffleRocket)
+                {
+                    APAreaStateManager.RocketEnabled = MiscSave.HasRocket;
+                }
 
                 // Update collectable states
                 if (!Plugin.SlotData.ShuffleGoldenSpring)
@@ -76,6 +80,12 @@ namespace YellowTaxiAP.Behaviours
                 if (!Plugin.SlotData.ShuffleOrangeSwitch)
                 {
                     APSwitchManager.OrangeSwitchUnlocked = MiscSave.HasOrangeSwitch;
+                }
+
+                if (!Plugin.SlotData.ShufflePsychoTaxi)
+                {
+                    Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
+                        Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = MiscSave.HasPsychoTaxi;
                 }
 
                 foreach (var portal in PortalScript.list)
@@ -125,7 +135,17 @@ namespace YellowTaxiAP.Behaviours
                 if (BunnySave.NeedsLoad)
                 {
                     Plugin.BepinLogger.LogWarning("Loading Bunny Data");
-                    // Todo: Add 
+                    var bunnyCount = Data.GetLevel(Data.LevelId.Hub).bunniesUnlocked =
+                        BunnySave.GetBunnyCount(Data.LevelId.Hub) + BunnySave.GetBunnyCount(Data.LevelId.L11_HubDemo);
+                    for (var i = 1; i < 19; i++)
+                    {
+                        if (i == (int) Data.LevelId.L11_HubDemo) // Ignore, these were added to the hub
+                            continue;
+                        var bunnies = Data.GetLevel((Data.LevelId)i).bunniesUnlocked = BunnySave.GetBunnyCount((Data.LevelId)i);
+                        bunnyCount += bunnies;
+                    }
+
+                    Data.totalBunniesCount = bunnyCount;
                     BunnySave.NeedsLoad = false;
                 }
 

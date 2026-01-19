@@ -140,8 +140,25 @@ namespace YellowTaxiAP.Managers
             self.gameObject.AddComponent<TruePortalId>(); // Keep track of unaltered portal values
             if (self.PortalIsLevelPortal)
             {
-                Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open {APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId)}");
-                GetLevel(self.targetLevelId).everOpened = APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId);
+                switch (self.targetLevelId)
+                {
+                    case LevelId.Hub:
+                    case LevelId.L6_Gym:
+                    case LevelId.L7_PoopWorld:
+                    case LevelId.L8_Sewers:
+                    case LevelId.L11_HubDemo:
+                    case LevelId.L16_Rocket:
+                    case LevelId.L17_TimeAttack01:
+                    case LevelId.L18_TimeAttack02:
+                    case LevelId.L19_TimeAttack03:
+                    case LevelId.L20_PsychoTaxi:
+                        GetLevel(self.targetLevelId).everOpened = true;
+                        break;
+                    default:
+                        Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open {APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId)}");
+                        GetLevel(self.targetLevelId).everOpened = APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId);
+                        break;
+                }
             }
             orig(self);
             self.UpdatePortalToLevelName();

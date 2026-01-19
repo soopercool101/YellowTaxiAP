@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
@@ -7,13 +8,26 @@ namespace YellowTaxiAP.Managers
     {
         public APPsychoTaxiManager()
         {
+            On.PsychoTaxiCassetteScript.Start += PsychoTaxiCassetteScript_Start;
             On.PsychoTaxiCassetteScript.OnTriggerEnter += PsychoTaxiCassetteScript_OnTriggerEnter;
+        }
+
+        private void PsychoTaxiCassetteScript_Start(On.PsychoTaxiCassetteScript.orig_Start orig, PsychoTaxiCassetteScript self)
+        {
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(4_20_99999) ||
+                (!Plugin.SlotData.ShufflePsychoTaxi && APSaveController.MiscSave.HasPsychoTaxi))
+            {
+                Object.Destroy(self);
+            }
         }
 
         private void PsychoTaxiCassetteScript_OnTriggerEnter(On.PsychoTaxiCassetteScript.orig_OnTriggerEnter orig, PsychoTaxiCassetteScript self, Collider other)
         {
             if (!Plugin.SlotData.ShufflePsychoTaxi)
             {
+                if (other.gameObject != PlayerScript.instance.gameObject)
+                    return;
+                APSaveController.MiscSave.HasPsychoTaxi = true;
                 orig(self, other);
                 return;
             }

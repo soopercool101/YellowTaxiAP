@@ -15,11 +15,22 @@ namespace YellowTaxiAP.Managers
             On.Data.SaveGame += Data_SaveGame;
             On.Data.BunniesCollectedGameGet += Data_BunniesCollectedGameGet;
             On.Data.BunniesGetLevelCollectedNumber_LevelId += Data_BunniesGetLevelCollectedNumber_LevelId;
+            On.Data.BunniesGetLevelMaxNumber_LevelId += Data_BunniesGetLevelMaxNumber_LevelId;
             On.Data.HatGetCurrentPrefabName += Data_HatGetCurrentPrefabName;
             On.Data.HatGetCurrentKind += Data_HatGetCurrentKind;
             On.Data.HatSetUnlockedState += Data_HatSetUnlockedState;
             On.Data.HatGetUnlockedState += Data_HatGetUnlockedState;
             On.AchievementsMaster.UnlockAchievement_FullRelease += AchievementsMaster_UnlockAchievement_FullRelease;
+        }
+
+        private int Data_BunniesGetLevelMaxNumber_LevelId(On.Data.orig_BunniesGetLevelMaxNumber_LevelId orig, Data.LevelId _levelId)
+        {
+            // Two extras in the hub with demo collectables
+            if (Plugin.SlotData.ExtraDemoCollectables && _levelId == Data.LevelId.Hub)
+            {
+                return orig(_levelId) + 2;
+            }
+            return orig(_levelId);
         }
 
         private void DemoDataImporter_DemoDataCheckAndImport(On.DemoDataImporter.orig_DemoDataCheckAndImport orig, bool reloadOriginalGameDataIndex)

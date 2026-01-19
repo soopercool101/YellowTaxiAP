@@ -406,15 +406,12 @@ public class ArchipelagoClient
                 APDataManager.TotalBunniesReceived++;
                 break;
             case Identifiers.ItemID.GelaToni:
-                //Data.grannyZoneUnlocked_IceCream[Data.gameDataIndex] = true;
                 APAreaStateManager.GelaToniReceived = true;
                 break;
             case Identifiers.ItemID.PizzaKing:
-                //Data.grannyZoneUnlocked_PizzaKing[Data.gameDataIndex] = true;
                 APAreaStateManager.PizzaKingReceived = true;
                 break;
             case Identifiers.ItemID.Doggo:
-                //Data.doggoStuckLabTalked[Data.gameDataIndex] = true;
                 APAreaStateManager.DoggoReceived = true;
                 break;
             case Identifiers.ItemID.OrangeSwitch:
@@ -427,8 +424,9 @@ public class ArchipelagoClient
                 APAreaStateManager.RocketEnabled = true;
                 break;
             case Identifiers.ItemID.PsychoTaxiCartridge:
-                Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = true;
-                Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] = true;
+                Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] =
+                    Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
+                        Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
                 break;
             case Identifiers.ItemID.Michele:
                 APRatManager.ReceivedRatItem = true;
