@@ -46,8 +46,7 @@ namespace YellowTaxiAP.Managers
         {
             if (GearAnimationScript.instance == self)
                 GearAnimationScript.instance = null;
-            if (!self.shouldUpdateGearsTextAtDeath)
-                return;
+            Plugin.Log("Updating gears");
             HudMasterScript.instance.UpdateGearsText();
         }
 
@@ -230,14 +229,14 @@ namespace YellowTaxiAP.Managers
                 return self.coinIndex >= 0 && DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetIDString(self)));
             }
 #endif
-
+            var id = GetID(self);
             switch (self.myIdentity)
             {
                 case BonusScript.Identity.coin when Plugin.SlotData.Coinsanity:
                 case BonusScript.Identity.bigCoin10 when Plugin.SlotData.Coinbagsanity:
                 case BonusScript.Identity.bigCoin25 when Plugin.SlotData.Chestsanity:
                 case BonusScript.Identity.bigCoin100 when Plugin.SlotData.Safesanity:
-                    return self.coinIndex >= 0 && Plugin.ArchipelagoClient.AllClearedLocations.Contains(long.Parse(GetIDString(self).Replace("_", string.Empty)));
+                    return !id.HasValue || (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) || !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value));
                 default:
                     return false;
             }
@@ -272,7 +271,7 @@ namespace YellowTaxiAP.Managers
                 var checkIds = new List<string>();
                 foreach (var checkpoint in checkpoints)
                 {
-                    var id = APCheckpointManager.GetCheckpointID(checkpoint);
+                    var id = APCheckpointManager.GetCheckpointStringID(checkpoint);
                     if (checkIds.Contains(id))
                     {
                         Plugin.Log("ERROR: CHECKPOINT ID NOT UNIQUE. NEW HASHING MECHANISM NEEDED.");
@@ -311,6 +310,7 @@ namespace YellowTaxiAP.Managers
                                 sublevelname = sublevelname.Substring(0, sublevelname.IndexOf("-", StringComparison.Ordinal)).TrimEnd();
                             }
                             var modifiedRegionName = DebugLocationHelper.GetRegionJsonName(regionName);
+                            var regionItems = new List<KeyValuePair<string, string>>();
                             var regionCoins = new List<KeyValuePair<string, string>>();
                             var regionCoinbags = new List<KeyValuePair<string, string>>();
                             var regionChests = new List<KeyValuePair<string, string>>();
@@ -319,6 +319,7 @@ namespace YellowTaxiAP.Managers
                             var regionGears = new List<KeyValuePair<string, string>>();
                             var regionBunnies = new List<KeyValuePair<string, string>>();
                             var regionCheckpoints = new List<KeyValuePair<string, string>>();
+                            var regionSpecialRules = new List<KeyValuePair<string, string>>();
                             var regionConnections = new List<DebugLocationHelper.RegionConnection>();
                             var regionWarps = new List<DebugLocationHelper.RegionConnection>();
                             var regionSubwarps = new List<DebugLocationHelper.RegionConnection>();
@@ -406,6 +407,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionGears.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionGears);
                             }
                             json += "},";
                             json += "\n    \"bunnies\": {";
@@ -413,6 +415,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionBunnies.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionBunnies);
                             }
                             json += "},";
                             json += "\n    \"safes\": {";
@@ -420,6 +423,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionSafes.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionSafes);
                             }
                             json += "},";
                             json += "\n    \"chests\": {";
@@ -427,6 +431,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionChests.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionChests);
                             }
                             json += "},";
                             json += "\n    \"coinbags\": {";
@@ -434,6 +439,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionCoinbags.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionCoinbags);
                             }
                             json += "},";
                             json += "\n    \"coins\": {";
@@ -441,6 +447,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionCoins.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionCoins);
                             }
                             json += "},";
                             json += "\n    \"checkpoints\": {";
@@ -448,6 +455,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionCheckpoints.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionCheckpoints);
                             }
                             json += "},";
                             json += "\n    \"cheeses\": {";
@@ -455,6 +463,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionCheeses.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                                 json = json.TrimEnd(',') + "\n    ";
+                                regionItems.AddRange(regionCheeses);
                             }
                             json += "},";
                             json += "\n    \"connections\": {";
@@ -476,6 +485,18 @@ namespace YellowTaxiAP.Managers
                             {
                                 json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
                                 json = json.TrimEnd(',') + "\n    ";
+                            }
+                            json += "},";
+                            json += "\n    \"specialrules\": {";
+                            if (DebugLocationHelper.SpecialRules.ContainsKey(GameplayMaster.instance.levelId.ToString()))
+                            {
+                                var specialRules = DebugLocationHelper.SpecialRules[GameplayMaster.instance.levelId.ToString()].Where(ruleItem =>
+                                    regionItems.Any(regionItem => regionItem.Value == ruleItem.Key)).ToArray();
+                                if (specialRules.Any())
+                                {
+                                    json = specialRules.Aggregate(json, (current, v) => current + $"\n      \"{v.Key}\": \"{v.Value}\",");
+                                    json = json.TrimEnd(',') + "\n    ";
+                                }
                             }
                             json += "}";
                             json += "\n  },";
@@ -508,101 +529,111 @@ namespace YellowTaxiAP.Managers
                 var pickup = other.GetComponent<BonusScript>();
                 if (pickup)
                 {
+                    if (pickup.pickupDelay > 0.0 || GameplayMaster.instance.gameOver || pickup.IsRestoring() || (DialogueScript.instance && pickup.myIdentity == BonusScript.Identity.gear))
+                        return;
                     var id = GetID(pickup);
-                    if (id != null)
-                    {
-                        var alreadyTaken = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) ||
+                    var alreadyTaken = !id.HasValue || Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) ||
                                        !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value);
-                        switch (pickup.myIdentity)
-                        {
-                            case BonusScript.Identity.gear when !GameplayMaster.instance.timeAttackLevel:
-                                string str1 = null;
-                                var str2 = "";
-                                ScoutedItemInfo info = null;
-                                if (!alreadyTaken && Plugin.ArchipelagoClient.ScoutedLocations.ContainsKey(id.Value))
-                                {
-                                    info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
-                                    str1 = $"Found {info.ItemDisplayName}";
-                                    str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName ? string.Empty : $"For {info.Player}";
-                                }
-                                else
-                                {
-                                    for (var index = 0; index < 10; ++index)
-                                        BonusScript.SpawnCoinMoving(
-                                            self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
-                                            Utility.AngleToAxis3D(36 * index, 75f) * 24f);
-                                }
+                    switch (pickup.myIdentity)
+                    {
+                        case BonusScript.Identity.gear when !GameplayMaster.instance.timeAttackLevel && id.HasValue:
+                            string str1 = null;
+                            var str2 = "";
+                            ScoutedItemInfo info = null;
+                            if (!alreadyTaken && Plugin.ArchipelagoClient.ScoutedLocations.ContainsKey(id.Value))
+                            {
+                                Plugin.Log("Restoring scouted location");
+                                info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
+                                str1 = $"Found {info.ItemDisplayName}";
+                                str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName
+                                    ? string.Empty
+                                    : $"For {info.Player}";
+                            }
+                            else
+                            {
+                                Plugin.Log("Grabbing already collected gear");
+                                for (var index = 0; index < 10; ++index)
+                                    BonusScript.SpawnCoinMoving(
+                                        self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
+                                        Utility.AngleToAxis3D(36 * index, 75f) * 24f);
+                            }
 
-                                GameplayMaster.instance.UpdateLevelCollectedGearsNumber();
-                                if (!alreadyTaken && !GameplayMaster.instance.timeAttackLevel)
-                                    MenuEventLeaderboard.GearsCollectedAdd(1);
-                                if (!Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+                            GameplayMaster.instance.UpdateLevelCollectedGearsNumber();
+                            if (!alreadyTaken && !GameplayMaster.instance.timeAttackLevel)
+                                MenuEventLeaderboard.GearsCollectedAdd(1);
+                            if (!Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+                            {
+                                foreach (var portal in PortalScript.list.Where(portal =>
+                                             portal.targetLevel is Levels.Index.level_hub))
                                 {
-                                    foreach (var portal in PortalScript.list.Where(portal => portal.targetLevel is Levels.Index.level_hub))
-                                    {
-                                        portal.gameObject.SetActive(true);
-                                        _ = (double)portal.transform.SetYAngle(CameraGame.instance.transform.GetYAngle());
-                                    }
+                                    portal.gameObject.SetActive(true);
+                                    _ = (double) portal.transform.SetYAngle(
+                                        CameraGame.instance.transform.GetYAngle());
                                 }
-                                Sound.Play_Unpausable("SoundGearPickup");
-                                if (alreadyTaken)
-                                {
-                                    GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear", freezePlayer: false);
-                                }
-                                else
-                                {
+                            }
+
+                            Sound.Play_Unpausable("SoundGearPickup");
+                            if (alreadyTaken)
+                            {
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear",
+                                    freezePlayer: false);
+                            }
+                            else
+                            {
 #if DEBUG
-                                    DebugLocationHelper.CheckLocation(pickup.ToString(), GetIDString(pickup));
+                                DebugLocationHelper.CheckLocation(pickup.ToString(), GetIDString(pickup));
 #endif
-                                    Tick.Paused = true;
-                                    var obj = Spawn.FromPool("GearPickupAnimationObject", PlayerScript.instance.transform.position);
-                                    var pickupInfo = obj.AddComponent<PickupInfo>();
-                                    pickupInfo.ID = id.Value;
-                                    pickupInfo.Scout = info;
-                                    var component = obj.GetComponent<GearAnimationScript>();
-                                    component.dialogueText = null;
-                                    component.newLevelGoBackHubQuestion = false;
-                                    component.newLevelSplashText1 = str1;
-                                    component.newLevelSplashText2 = str2;
-                                    component.newLevelSplashSound = "SoundNewLevelUnlockSplash";
-                                    component.initialGearCameraZoomOnPortal = false;
-                                    component.itWasANeverTakenGear = true;
-                                }
+                                Tick.Paused = true;
+                                var obj = Spawn.FromPool("GearPickupAnimationObject",
+                                    PlayerScript.instance.transform.position);
+                                var pickupInfo = obj.AddComponent<PickupInfo>();
+                                pickupInfo.ID = id.Value;
+                                pickupInfo.Scout = info;
+                                var component = obj.GetComponent<GearAnimationScript>();
+                                component.dialogueText = null;
+                                component.newLevelGoBackHubQuestion = false;
+                                component.newLevelSplashText1 = str1;
+                                component.newLevelSplashText2 = str2;
+                                component.newLevelSplashSound = "SoundNewLevelUnlockSplash";
+                                component.initialGearCameraZoomOnPortal = false;
+                                component.itWasANeverTakenGear = true;
                                 HudMasterScript.instance.gearShowCollectAnimation = true;
-                                if (GameplayMaster.instance.timeAttackLevel)
-                                    HudMasterScript.instance.UpdateGearsText();
-                                Controls.SetVibration(self.playerIndex, 0.5f);
-                                if (ModMaster.instance.ModEnableGet())
-                                    ModMaster.instance.OnPlayerOnGearCollect(alreadyTaken);
-                                pickup.KillMe();
-                                return;
-                            case BonusScript.Identity.coin:
-                            case BonusScript.Identity.bigCoin10:
-                            case BonusScript.Identity.bigCoin25:
-                            case BonusScript.Identity.bigCoin100:
-                                PickupCoinLocation(pickup);
-                                return;
-                            case BonusScript.Identity.morioMindPassword:
-                                if (!pickup.skipGenericPickupAnimation)
-                                    GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey");
-                                Sound.Play("SoundLevelCollectiblePickup");
-                                Controls.SetVibration(self.playerIndex, 0.5f);
-                                if (ModMaster.instance.ModEnableGet())
-                                    ModMaster.instance.OnPlayerOnMorioMindKeyPickup();
+                            }
+
+                            if (GameplayMaster.instance.timeAttackLevel)
+                                HudMasterScript.instance.UpdateGearsText();
+                            Controls.SetVibration(self.playerIndex, 0.5f);
+                            if (ModMaster.instance.ModEnableGet())
+                                ModMaster.instance.OnPlayerOnGearCollect(alreadyTaken);
+                            pickup.KillMe();
+                            return;
+                        case BonusScript.Identity.coin:
+                        case BonusScript.Identity.bigCoin10:
+                        case BonusScript.Identity.bigCoin25:
+                        case BonusScript.Identity.bigCoin100:
+                            PickupCoinLocation(pickup);
+                            return;
+                        case BonusScript.Identity.morioMindPassword:
+                            if (!pickup.skipGenericPickupAnimation)
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey");
+                            Sound.Play("SoundLevelCollectiblePickup");
+                            Controls.SetVibration(self.playerIndex, 0.5f);
+                            if (ModMaster.instance.ModEnableGet())
+                                ModMaster.instance.OnPlayerOnMorioMindKeyPickup();
 #if DEBUG
-                                DebugLocationHelper.CheckLocation("MindPassword", "12_00_00000");
+                            DebugLocationHelper.CheckLocation("MindPassword", "12_00_00000");
 #endif
-                                if (Plugin.SlotData.ShuffleMoriosPassword)
-                                {
-                                    Plugin.ArchipelagoClient.SendLocation(12_00_00000);
-                                }
-                                else
-                                {
-                                    APSaveController.MiscSave.HasMoriosMindPassword = true;
-                                }
-                                pickup.KillMe();
-                                return;
-                        }
+                            if (Plugin.SlotData.ShuffleMoriosPassword)
+                            {
+                                Plugin.ArchipelagoClient.SendLocation(12_00_00000);
+                            }
+                            else
+                            {
+                                APSaveController.MiscSave.HasMoriosMindPassword = true;
+                            }
+
+                            pickup.KillMe();
+                            return;
                     }
                 }
             }
@@ -611,6 +642,73 @@ namespace YellowTaxiAP.Managers
 
         public static void PickupCoinLocation(BonusScript coin)
         {
+            coin.pickupDelay = 1;
+            Plugin.Log("Coin pickup intercept");
+            var amount = 1;
+            switch (coin.myIdentity)
+            {
+                case BonusScript.Identity.coin:
+                    Spawn.FromPool("Pt Star Yellow - Rnd Small", coin.transform.position + new Vector3(0.0f, 2f, 0.0f), Pool.instance.transform);
+                    Controls.SetVibration(PlayerScript.instance.playerIndex, 0.25f);
+                    break;
+                case BonusScript.Identity.bigCoin10:
+                    amount = 10 + Data.CoinsLostGetBack(10);
+                    Spawn.FromPool("Pt Star Yellow - Rnd Small", coin.transform.position + new Vector3(0.0f, 2f, 0.0f), Pool.instance.transform);
+                    Controls.SetVibration(PlayerScript.instance.playerIndex, 0.35f);
+                    break;
+                case BonusScript.Identity.bigCoin25:
+                    amount = 25 + Data.CoinsLostGetBack(25);
+                    Spawn.FromPool("Pt Star Rnbw - Rnd", coin.transform.position + new Vector3(0.0f, 0.5f, 0.0f), Pool.instance.transform);
+                    Controls.SetVibration(PlayerScript.instance.playerIndex, 0.5f);
+                    break;
+                case BonusScript.Identity.bigCoin100:
+                    amount = 100 + Data.CoinsLostGetBack(100);
+                    Spawn.FromPool("Pt Star Rnbw - Rnd", coin.transform.position + new Vector3(0.0f, 0.5f, 0.0f), Pool.instance.transform);
+                    Controls.SetVibration(PlayerScript.instance.playerIndex, 0.5f);
+                    break;
+            }
+
+            var id = GetID(coin);
+            if (!id.HasValue || (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) || !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value)))
+            {
+                // Coins that are not checks will give coins. Less coin grinding.
+                Plugin.Log($"Picking up already picked up coin {amount}");
+                Data.coinsCollected[Data.gameDataIndex] += amount;
+                MenuEventLeaderboard.CoinsCollectedAdd(amount);
+                switch (coin.myIdentity)
+                {
+                    case BonusScript.Identity.coin:
+                        Spawn.FromPool("EffectCoinPickedup", PlayerScript.instance.transform.position, Pool.instance.transform);
+                        Sound.Play("SoundCoin");
+                        break;
+                    case BonusScript.Identity.bigCoin10:
+                        Spawn.FromPool("EffectCoin10Pickedup", PlayerScript.instance.transform.position, Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
+                        Sound.Play("SoundCoin10");
+                        break;
+                    case BonusScript.Identity.bigCoin25:
+                        Spawn.FromPool("EffectCoin25Pickedup", PlayerScript.instance.transform.position, Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
+                        Sound.Play("SoundCoin25");
+                        break;
+                    case BonusScript.Identity.bigCoin100:
+                        Spawn.FromPool("EffectCoin100Pickedup", PlayerScript.instance.transform.position, Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
+                        Sound.Play("SoundCoin25");
+                        break;
+                }
+                if (ModMaster.instance.ModEnableGet())
+                    ModMaster.instance.OnPlayerOnCoinCollect(amount);
+            }
+            else
+            {
+#if DEBUG
+                DebugLocationHelper.CheckLocation(coin.myIdentity.ToString(), GetIDString(coin));
+#endif
+                Plugin.ArchipelagoClient.SendLocation(id.Value);
+                PlayerScript.instance.CoinsSand(coin.transform);
+            }
+
+            GameplayMaster.instance.coinsCollectedTimerBonusCounter += amount;
+            PlayerScript.instance.CoinsLimit25Reached();
+
             coin.KillMe();
         }
 

@@ -20,8 +20,12 @@ namespace YellowTaxiAP.Managers
         {
             if (!self.gearsText || !self.gearsText.gameObject.activeInHierarchy)
                 return;
-            var flag1 = self.gearsOld != Data.gearsUnlockedNumber[Data.gameDataIndex] || GameplayMaster.instance.timeAttackLevel;
             self.gearsOld = Data.gearsUnlockedNumber[Data.gameDataIndex];
+            if (self.gearShowCollectAnimation)
+            {
+                self.UpdateAreaGears();
+                self.gearsOld_ForAreaGears = Data.gearsUnlockedNumber[Data.gameDataIndex];
+            }
             if (self.gearIconImage.enabled)
                 self.gearIconImage.enabled = false;
             if (self.gearsText.tmproText.rectTransform.anchoredPosition.x > 3.0)
@@ -56,7 +60,7 @@ namespace YellowTaxiAP.Managers
             if (!self.gearShowCollectAnimation)
                 return;
             self.gearShowCollectAnimation = false;
-            if (!(self.gearsTextHighlightCoroutine == null & flag1))
+            if (self.gearsTextHighlightCoroutine != null)
                 return;
             self.gearsTextHighlightCoroutine = self.StartCoroutine(self.GearsTextHighlightUnlockedCoroutine(text));
         }

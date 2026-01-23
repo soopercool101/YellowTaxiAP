@@ -10,6 +10,7 @@ namespace YellowTaxiAP.Managers
         {
             On.DemoDataImporter.DemoDataCheckAndImport += DemoDataImporter_DemoDataCheckAndImport;
             On.Data.GearStateGet += Data_GearStateGet;
+            On.Data.GearStateGetAbsolute += Data_GearStateGetAbsolute;
             On.Data.LoadGame += Data_LoadGame;
             On.Data.SaveGame += Data_SaveGame;
             On.Data.BunniesCollectedGameGet += Data_BunniesCollectedGameGet;
@@ -21,6 +22,14 @@ namespace YellowTaxiAP.Managers
             On.Data.HatGetUnlockedState += Data_HatGetUnlockedState;
             On.AchievementsMaster.UnlockAchievement_FullRelease += AchievementsMaster_UnlockAchievement_FullRelease;
         }
+
+        private bool Data_GearStateGetAbsolute(On.Data.orig_GearStateGetAbsolute orig, int levelIndex, int gearAbsoluteIndex)
+        {
+            var id = levelIndex * 1_00_00000 + 1_00000 + gearAbsoluteIndex;
+            return Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) ||
+                   !Plugin.ArchipelagoClient.AllLocations.Contains(id);
+        }
+
         private bool Data_GearStateGet(On.Data.orig_GearStateGet orig, int levelIndex, int gearIntIndex, int gearBitPosition)
         {
             var id = levelIndex * 1_00_00000 + 1_00000 + gearIntIndex * 32 + gearBitPosition;
