@@ -43,7 +43,7 @@ namespace YellowTaxiAP.Managers
 #if DEBUG
             if (DebugLocationHelper.Enabled)
             {
-                if (DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self))))
+                if (DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetIDString(self))))
                 {
                     self.GetComponentInChildren<MeshRenderer>().sharedMaterial = self.gearUsedMaterial;
                     self.gearHasPickedupUpTexture = true;
@@ -58,7 +58,8 @@ namespace YellowTaxiAP.Managers
                 }
             }
 #endif
-            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(long.Parse(GetID(self).Replace("_", string.Empty))))
+            var id = GetID(self);
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id))
             {
                 self.GetComponentInChildren<MeshRenderer>().sharedMaterial = self.gearUsedMaterial;
                 self.gearHasPickedupUpTexture = true;
@@ -73,7 +74,31 @@ namespace YellowTaxiAP.Managers
 
         private void BonusScript_BunnyAlreadyPickedUpRefresh(On.BonusScript.orig_BunnyAlreadyPickedUpRefresh orig, BonusScript self)
         {
-            self.myMeshRend.sharedMaterial = DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self))) ? self.bunnyPickedUpMaterial : self.bunnyDefaultMaterial;
+#if DEBUG
+            if (DebugLocationHelper.Enabled)
+            {
+                self.myMeshRend.sharedMaterial =
+                    DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetIDString(self)))
+                        ? self.bunnyPickedUpMaterial
+                        : self.bunnyDefaultMaterial;
+                return;
+            }
+#endif
+            if (Plugin.SlotData.Bunnysanity)
+            {
+                var id = GetID(self);
+                self.myMeshRend.sharedMaterial =
+                    Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id)
+                        ? self.bunnyPickedUpMaterial
+                        : self.bunnyDefaultMaterial;
+            }
+            else
+            {
+                self.myMeshRend.sharedMaterial =
+                    APSaveController.BunnySave.HasBunny(GameplayMaster.instance.levelId, self.bunnyIndex)
+                        ? self.bunnyPickedUpMaterial
+                        : self.bunnyDefaultMaterial;
+            }
         }
 
         /// <summary>
@@ -84,13 +109,13 @@ namespace YellowTaxiAP.Managers
         {
             if (self.transform.parent && self.transform.parent.gameObject.GetComponent<BonusScript>())
             {
-                Plugin.Log($"Warning! {self.myIdentity} ({GetID(self)}) has a parent object ({self.transform.parent.gameObject.name})! Removing parent");
+                Plugin.Log($"Warning! {self.myIdentity} ({GetIDString(self)}) has a parent object ({self.transform.parent.gameObject.name})! Removing parent");
                 self.transform.parent = null;
             }
 
             if (self.smallDdemoPositionOffset != new Vector3(0,0,0))
             {
-                var id = GetID(self);
+                var id = GetIDString(self);
                 var itemArea = DebugLocationHelper.GetKnownItemNameArea(id);
                 var item = itemArea?.Item1 ?? "Unknown Item";
                 var area = itemArea?.Item2 ?? "Unknown Area";
@@ -125,7 +150,7 @@ namespace YellowTaxiAP.Managers
             orig(self);
             if (self.smallDemoZoneMaster >= 0 && self.smallDdemoPositionOffset == new Vector3(0, 0, 0))
             {
-                var id = GetID(self);
+                var id = GetIDString(self);
                 Plugin.Log($"Changing zone master for {self.name}");
                 var withZoneMasterIndex = self.GetComponent<HideWithZoneMasterIndex>();
                 withZoneMasterIndex.hideWhenZoneMasterId =
@@ -161,7 +186,7 @@ namespace YellowTaxiAP.Managers
         {
             if (DebugLocationHelper.Enabled)
             {
-                return self.coinIndex >= 0 && DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetID(self)));
+                return self.coinIndex >= 0 && DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetIDString(self)));
             }
 
             switch (self.myIdentity)
@@ -170,7 +195,7 @@ namespace YellowTaxiAP.Managers
                 case BonusScript.Identity.bigCoin10 when Plugin.SlotData.Coinbagsanity:
                 case BonusScript.Identity.bigCoin25 when Plugin.SlotData.Chestsanity:
                 case BonusScript.Identity.bigCoin100 when Plugin.SlotData.Safesanity:
-                    return self.coinIndex >= 0 && Plugin.ArchipelagoClient.AllClearedLocations.Contains(long.Parse(GetID(self).Replace("_", string.Empty)));
+                    return self.coinIndex >= 0 && Plugin.ArchipelagoClient.AllClearedLocations.Contains(long.Parse(GetIDString(self).Replace("_", string.Empty)));
                 default:
                     return false;
             }
@@ -192,7 +217,7 @@ namespace YellowTaxiAP.Managers
                     (o.myIdentity is BonusScript.Identity.gear or BonusScript.Identity.bunny)
                         || ((o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
                         or BonusScript.Identity.bigCoin100) && o.coinIndex >= 0)).ToList();
-                var unknownBonuses = bonuses.Where(o => !DebugLocationHelper.CheckLocation(string.Empty, GetID(o))).ToList();
+                var unknownBonuses = bonuses.Where(o => !DebugLocationHelper.CheckLocation(string.Empty, GetIDString(o))).ToList();
                 if (unknownBonuses.Count < 5)
                 {
                     foreach (var bonus in unknownBonuses)
@@ -442,29 +467,32 @@ namespace YellowTaxiAP.Managers
                 {
                     if (bonusScr.myIdentity == BonusScript.Identity.morioMindPassword)
                     {
-                        //MorioDreamMachineScript.justUpdatedPassword = !Data.morioMindPasswordGot[Data.gameDataIndex];
-                        //Data.morioMindPasswordGot[Data.gameDataIndex] = true;
-                        //Data.SaveGame();
                         if (!bonusScr.skipGenericPickupAnimation)
                             GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey");
                         Sound.Play("SoundLevelCollectiblePickup");
                         Controls.SetVibration(self.playerIndex, 0.5f);
                         if (ModMaster.instance.ModEnableGet())
                             ModMaster.instance.OnPlayerOnMorioMindKeyPickup();
-                        // TODO: Send Check
 #if DEBUG
                         DebugLocationHelper.CheckLocation("MindPassword", "12_00_00000");
 #endif
-                        Plugin.ArchipelagoClient.SendLocation(12_00_00000);
+                        if (Plugin.SlotData.ShuffleMoriosPassword)
+                        {
+                            Plugin.ArchipelagoClient.SendLocation(12_00_00000);
+                        }
+                        else
+                        {
+                            APSaveController.MiscSave.HasMoriosMindPassword = true;
+                        }
                         bonusScr.KillMe();
                         return;
                     }
                     if (!(bonusScr.pickupDelay > 0.0) && !GameplayMaster.instance.gameOver &&
                         !bonusScr.IsRestoring() &&
-                        (DialogueScript.instance == null ||
+                        (!DialogueScript.instance ||
                          bonusScr.myIdentity != BonusScript.Identity.gear))
                     {
-                        var id = GetID(bonusScr);
+                        var id = GetIDString(bonusScr);
                         if (!string.IsNullOrEmpty(id))
                         {
                             DebugLocationHelper.CheckLocation(bonusScr.myIdentity.ToString(), id);
@@ -476,7 +504,22 @@ namespace YellowTaxiAP.Managers
             orig(self, other);
         }
 
-        public static string GetID(BonusScript item)
+        public static long GetID(BonusScript item)
+        {
+            var baseID = (long)GameplayMaster.instance.levelId * 1_00_00000;
+            return item.myIdentity switch
+            {
+                BonusScript.Identity.coin when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
+                BonusScript.Identity.bigCoin10 when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
+                BonusScript.Identity.bigCoin25 when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
+                BonusScript.Identity.bigCoin100 when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
+                BonusScript.Identity.gear => baseID + 100000 + item.gearArrayIndex,
+                BonusScript.Identity.bunny => baseID + 200000 + item.bunnyIndex,
+                _ => -1
+            };
+        }
+
+        public static string GetIDString(BonusScript item)
         {
             string s = (int)GameplayMaster.instance.levelId + "_";
             switch (item.myIdentity)

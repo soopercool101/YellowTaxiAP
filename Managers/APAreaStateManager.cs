@@ -1,7 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using YellowTaxiAP.Behaviours;
-using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
 {

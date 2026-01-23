@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 namespace YellowTaxiAP.Managers
 {
@@ -68,7 +65,6 @@ namespace YellowTaxiAP.Managers
                 else
                     self.isAreaUnlocked = false;
 
-                Plugin.Log($"{self.gameObject.name} {self.isAreaUnlocked}");
                 if (self.isAreaUnlocked)
                 {
                     self.isDiscovered = Data.discoveredMapAreas[Data.gameDataIndex]
@@ -83,6 +79,7 @@ namespace YellowTaxiAP.Managers
             orig(self);
 
             self.isAreaUnlocked = self.isDiscovered;
+            MinimapUiNodeScript.unlockedUndiscoveredList.Remove(self);
         }
     }
 }

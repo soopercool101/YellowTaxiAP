@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YellowTaxiAP.Managers;
-
-namespace YellowTaxiAP.Archipelago
+﻿namespace YellowTaxiAP.Archipelago
 {
     public abstract class YTGVAPSaveData<T>
     {

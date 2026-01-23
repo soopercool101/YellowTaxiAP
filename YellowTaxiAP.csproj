@@ -34,12 +34,10 @@
     </Target>
 
     <ItemGroup>
-        <PackageReference Include="Archipelago.Gifting.Net" Version="0.4.3" />
         <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
         <PackageReference Include="BepInEx.Analyzers" Version="1.0.8" PrivateAssets="all" />
         <PackageReference Include="BepInEx.Core" Version="5.4.21" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
-        <PackageReference Include="com.alwaysintreble.Chauffeur" Version="0.2.0" />
         <PackageReference Include="UnityEngine.Modules" Version="2020.3.48" IncludeAssets="compile" />
     </ItemGroup>
 

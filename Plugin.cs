@@ -36,7 +36,6 @@ public class Plugin : BaseUnityPlugin
     public APDialogueManager DialogueHook;
     public APCollectableManager CollectableHook;
     public APSwitchManager SwitchHook;
-    public APDestructableManager DestructableHook;
     public APPsychoTaxiManager PsychoTaxiHook;
     public APRatManager RatHook;
     public APMenuManager MenuHook;
@@ -106,7 +105,6 @@ public class Plugin : BaseUnityPlugin
             RatHook = new APRatManager();
             MenuHook = new APMenuManager();
             PsychoTaxiHook = new APPsychoTaxiManager();
-            DestructableHook = new APDestructableManager();
             HudHook = new APHUDManager();
             MinimapHook = new APMinimapManager();
             WalletHook = new APWalletManager();
@@ -138,19 +136,18 @@ public class Plugin : BaseUnityPlugin
                 }
             };
 
-            On.ModMaster.OnPlayerDie += (origOnPlayerDie, selfModMaster) =>
-            {
-                origOnPlayerDie(selfModMaster);
-                if (!DeathLinkInProgress)
-                {
-                    ArchipelagoClient.DeathLinkHandler?.SendDeathLink();
-                    Log("Death Link Sent");
-                }
-
-                DeathLinkInProgress = false;
-            };
         };
+        On.ModMaster.OnPlayerDie += (orig, self) =>
+        {
+            orig(self);
+            if (!DeathLinkInProgress)
+            {
+                ArchipelagoClient.DeathLinkHandler?.SendDeathLink();
+                Log("Death Link Sent");
+            }
 
+            DeathLinkInProgress = false;
+        };
 #if DEBUG
         On.ModMaster.Update += (orig, self) =>
         {

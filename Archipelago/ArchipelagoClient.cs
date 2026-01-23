@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -6,10 +6,7 @@ using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
-using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
-using JetBrains.Annotations;
-using Mono.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
@@ -22,7 +19,7 @@ public class ArchipelagoClient
     private const string Game = "Yellow Taxi Goes Vroom";
 
     public static bool Authenticated;
-    private bool attemptingConnection;
+    public bool AttemptingConnection { get; private set; }
 
     public static ArchipelagoData ServerData = new();
     public static DeathLinkHandler DeathLinkHandler;
@@ -34,7 +31,9 @@ public class ArchipelagoClient
     /// <returns></returns>
     public void Connect()
     {
-        if (Authenticated || attemptingConnection) return;
+        if (Authenticated || AttemptingConnection) return;
+
+        AttemptingConnection = true;
 
         try
         {
@@ -54,7 +53,7 @@ public class ArchipelagoClient
     /// </summary>
     private void SetupSession()
     {
-        session.MessageLog.OnMessageReceived += message => ArchipelagoConsole.LogMessage(message.ToString());
+        session.MessageLog.OnMessageReceived += message => ArchipelagoConsole.LogMessage(message);
         session.Items.ItemReceived += OnItemReceived;
         session.Socket.ErrorReceived += OnSessionErrorReceived;
         session.Socket.SocketClosed += OnSessionSocketClosed;
@@ -83,7 +82,7 @@ public class ArchipelagoClient
         {
             Plugin.BepinLogger.LogError(e);
             HandleConnectResult(new LoginFailure(e.ToString()));
-            attemptingConnection = false;
+            AttemptingConnection = false;
         }
     }
 
@@ -101,8 +100,6 @@ public class ArchipelagoClient
             ServerData.SetupSession(success.SlotData, session.RoomState.Seed);
             Authenticated = true;
 
-            var enableDeathlink = ServerData.SlotData.ContainsKey("death_link") && (long)ServerData.SlotData["death_link"] == 1;
-
             Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
             foreach (var key in ServerData.SlotData.Keys)
             {
@@ -111,15 +108,7 @@ public class ArchipelagoClient
 
             Plugin.SlotData = new YTGVSlotData(ServerData.SlotData);
 
-            if (ServerData.SlotData.ContainsKey("death_link"))
-            {
-                Plugin.Log($"death_link is {ServerData.SlotData["death_link"].GetType()} {enableDeathlink}");
-            }
-            else
-            {
-                Plugin.Log("No Death Link variable found!");
-            }
-            DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName, enableDeathlink);
+            DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName, Plugin.SlotData.DeathLink);
             //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
 
             if (!Plugin.SlotData.Hatsanity)
@@ -265,7 +254,7 @@ public class ArchipelagoClient
         }
 
         ArchipelagoConsole.LogMessage(outText);
-        attemptingConnection = false;
+        AttemptingConnection = false;
     }
 
     /// <summary>

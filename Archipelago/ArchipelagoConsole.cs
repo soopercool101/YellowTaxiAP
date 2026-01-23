@@ -11,7 +11,7 @@ public static class ArchipelagoConsole
     public static bool Hidden = true;
     public static bool Initialized = false;
 
-    private static List<string> logLines = new();
+    private static List<ConsoleMessage> logLines = new();
     private static Vector2 scrollView;
     private static Rect window;
     private static Rect scroll;
@@ -33,16 +33,16 @@ public static class ArchipelagoConsole
         UpdateWindow();
     }
 
-    public static void LogMessage(string message)
+    public static void LogMessage(ConsoleMessage message)
     {
-        if (message.IsNullOrWhiteSpace()) return;
+        if (message.ToString().IsNullOrWhiteSpace()) return;
 
         if (logLines.Count == MaxLogLines)
         {
             logLines.RemoveAt(0);
         }
         logLines.Add(message);
-        Plugin.BepinLogger.LogMessage(message);
+        Plugin.BepinLogger.LogMessage(message.SimpleString);
         lastUpdateTime = Time.time;
         UpdateWindow();
     }
@@ -54,32 +54,70 @@ public static class ArchipelagoConsole
         if (!Hidden || Time.time - lastUpdateTime < HideTimeout)
         {
             scrollView = GUI.BeginScrollView(window, scrollView, scroll);
-            GUI.Box(text, "");
+            // Improve visibility, moreso on menu
+            if (!PlayerScript.instance || MenuV2Script.instance)
+            {
+                GUI.Box(text, string.Empty);
+                GUI.Box(text, string.Empty);
+                GUI.Box(text, string.Empty);
+                GUI.Box(text, string.Empty);
+            }
+            else
+            {
+                GUI.backgroundColor = new Color(GUI.backgroundColor.r, GUI.backgroundColor.g, GUI.backgroundColor.b, 0.8f);
+                GUI.Box(text, string.Empty);
+                GUI.Box(text, string.Empty);
+                GUI.backgroundColor = new Color(GUI.backgroundColor.r, GUI.backgroundColor.g, GUI.backgroundColor.b, 1);
+            }
             GUI.Box(text, scrollText, textStyle);
             GUI.EndScrollView();
         }
 
-        var buttonText = Hidden ? "Show" : "Hide";
 #if DEBUG
-        if (PlayerScript.instance)
+        var buttonText = Hidden ? "Show" : "Hide";
+        if (PlayerScript.instance && !MenuV2Script.instance)
         {
             buttonText = PlayerScript.instance.transform.position.ToString();
         }
-#endif
-        if (GUI.Button(hideShowButton, buttonText))
+#else
+        // Show Show/Hide button only when in menus
+        if (!ArchipelagoClient.Authenticated || !PlayerScript.instance || MenuV2Script.instance)
         {
-            Hidden = !Hidden;
-            UpdateWindow();
+            var buttonText = Hidden ? "Show" : "Hide";
+#endif
+            GUI.Box(hideShowButton, string.Empty);
+            if (GUI.Button(hideShowButton, buttonText))
+            {
+                Hidden = !Hidden;
+                MenuV2Script.instance?.suspendInputs = !Hidden;
+                UpdateWindow();
+            }
+#if !DEBUG
         }
+#endif
         
         // draw client/server commands entry
-        if (Hidden || !ArchipelagoClient.Authenticated) return;
-
-        CommandText = GUI.TextField(CommandTextRect, CommandText);
-        if (!CommandText.IsNullOrWhiteSpace() && GUI.Button(SendCommandButton, "Send"))
+        if (Hidden || !ArchipelagoClient.Authenticated || (PlayerScript.instance && !MenuV2Script.instance))
         {
-            Plugin.ArchipelagoClient.SendMessage(CommandText);
-            CommandText = "";
+            return;
+        }
+
+        GUI.Box(CommandTextRect, string.Empty);
+        GUI.Box(CommandTextRect, string.Empty);
+        GUI.SetNextControlName("CommandText");
+        CommandText = GUI.TextField(CommandTextRect, CommandText);
+        var typingCommand = GUI.GetNameOfFocusedControl().Equals("CommandText");
+        MenuV2Script.instance?.suspendInputs = typingCommand;
+        if (!CommandText.IsNullOrWhiteSpace())
+        {
+            GUI.Box(SendCommandButton, string.Empty);
+            GUI.Box(SendCommandButton, string.Empty);
+            var enterPressed = Event.current.type == EventType.KeyDown && Event.current.character == '\n';
+            if (GUI.Button(SendCommandButton, "Send") || (typingCommand && enterPressed))
+            {
+                Plugin.ArchipelagoClient.SendMessage(CommandText);
+                CommandText = string.Empty;
+            }
         }
     }
 
@@ -91,7 +129,7 @@ public static class ArchipelagoConsole
         {
             if (logLines.Count > 0)
             {
-                scrollText = logLines[logLines.Count - 1];
+                scrollText = logLines[logLines.Count - 1].ToString();
             }
         }
         else

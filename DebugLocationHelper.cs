@@ -2182,6 +2182,8 @@ namespace YellowTaxiAP
 
         public static bool CheckLocation(string type, string id)
         {
+            if (!Enabled)
+                return false;
             var areas = KnownIDs.Where(area => area.Item2.ContainsKey(id)).ToList();
             switch (areas.Count)
             {
