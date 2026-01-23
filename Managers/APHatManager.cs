@@ -38,8 +38,10 @@ namespace YellowTaxiAP.Managers
         {
             if (!self.versioneArmadio)
             {
+#if DEBUG
                 var id = $"0_{Identifiers.HAT_ID:D2}_{(int)self.myHatKind:D5}";
                 DebugLocationHelper.CheckLocation("hat", id);
+#endif
             }
             orig(self);
             APSaveController.MiscSave.CurrentHat = (Data.Hat)Data.currentHat[Data.gameDataIndex];

@@ -1,4 +1,4 @@
-﻿using YellowTaxiAP.Archipelago;
+using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
@@ -9,6 +9,7 @@ namespace YellowTaxiAP.Managers
         public APDataManager()
         {
             On.DemoDataImporter.DemoDataCheckAndImport += DemoDataImporter_DemoDataCheckAndImport;
+            On.Data.GearStateGet += Data_GearStateGet;
             On.Data.LoadGame += Data_LoadGame;
             On.Data.SaveGame += Data_SaveGame;
             On.Data.BunniesCollectedGameGet += Data_BunniesCollectedGameGet;
@@ -19,6 +20,12 @@ namespace YellowTaxiAP.Managers
             On.Data.HatSetUnlockedState += Data_HatSetUnlockedState;
             On.Data.HatGetUnlockedState += Data_HatGetUnlockedState;
             On.AchievementsMaster.UnlockAchievement_FullRelease += AchievementsMaster_UnlockAchievement_FullRelease;
+        }
+        private bool Data_GearStateGet(On.Data.orig_GearStateGet orig, int levelIndex, int gearIntIndex, int gearBitPosition)
+        {
+            var id = levelIndex * 1_00_00000 + 1_00000 + gearIntIndex * 32 + gearBitPosition;
+            return Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) ||
+                   !Plugin.ArchipelagoClient.AllLocations.Contains(id);
         }
 
         private int Data_BunniesGetLevelMaxNumber_LevelId(On.Data.orig_BunniesGetLevelMaxNumber_LevelId orig, Data.LevelId _levelId)

@@ -53,9 +53,9 @@ namespace YellowTaxiAP.Archipelago
                 }
                 else
                 {
-                    GUI.Label(new Rect(150, 70, 150, 20), ArchipelagoClient.ServerData.Uri);
-                    GUI.Label(new Rect(150, 90, 150, 20), ArchipelagoClient.ServerData.SlotName);
-                    GUI.Label(new Rect(150, 110, 150, 20), new string('*', ArchipelagoClient.ServerData.Password.Length));
+                    GUI.Label(new Rect(150, 70, 150, 22), ArchipelagoClient.ServerData.Uri);
+                    GUI.Label(new Rect(150, 90, 150, 22), ArchipelagoClient.ServerData.SlotName);
+                    GUI.Label(new Rect(150, 110, 150, 22), new string('*', ArchipelagoClient.ServerData.Password.Length));
                 }
 
                 var enteringInfo = GUI.GetNameOfFocusedControl().StartsWith("APClientTextbox-");

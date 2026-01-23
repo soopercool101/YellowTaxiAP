@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -6,6 +7,7 @@ using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
+using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
 using Newtonsoft.Json.Linq;
 using YellowTaxiAP.Behaviours;
@@ -86,6 +88,11 @@ public class ArchipelagoClient
         }
     }
 
+    public bool LocationWasGear(long location)
+    {
+        return  location / 1000000 % 10 == 0 && location / 100000 % 10 == 1;
+    }
+
     /// <summary>
     /// handle the connection result and do things
     /// </summary>
@@ -99,6 +106,9 @@ public class ArchipelagoClient
 
             ServerData.SetupSession(success.SlotData, session.RoomState.Seed);
             Authenticated = true;
+
+            var scouting = session.Locations.ScoutLocationsAsync(HintCreationPolicy.None,
+                AllLocations.Where(LocationWasGear).ToArray());
 
             Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
             foreach (var key in ServerData.SlotData.Keys)
@@ -226,7 +236,6 @@ public class ArchipelagoClient
 
             outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
 
-            ArchipelagoConsole.LogMessage(outText);
             try
             {
                 if (Directory.Exists(Plugin.PluginDirectory))
@@ -240,6 +249,9 @@ public class ArchipelagoClient
             {
                 Plugin.BepinLogger.LogWarning("Failed to save connection info");
             }
+
+            scouting.Wait();
+            ScoutedLocations = scouting.Result;
         }
         else
         {
@@ -266,6 +278,7 @@ public class ArchipelagoClient
         session?.Socket.DisconnectAsync();
         session = null;
         Authenticated = false;
+        AttemptingConnection = false;
     }
 
     public void SendMessage(string message)
@@ -469,6 +482,8 @@ public class ArchipelagoClient
 
     public System.Collections.ObjectModel.ReadOnlyCollection<long> AllClearedLocations => session.Locations.AllLocationsChecked;
     public System.Collections.ObjectModel.ReadOnlyCollection<long> AllLocations => session.Locations.AllLocations;
+    public Dictionary<long, ScoutedItemInfo> ScoutedLocations { get; private set; }
+    public ILocationCheckHelper Locations => session.Locations;
 
     private object hatDataLock = new();
 

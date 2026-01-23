@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Archipelago.MultiClient.Net.Enums;
+using Archipelago.MultiClient.Net.Models;
 using UnityEngine;
+using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
@@ -31,11 +34,21 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.OnTriggerStay += PlayerScript_OnTriggerStay;
 
             On.GearAnimationScript.Update += GearAnimationScript_Update;
+            On.GearAnimationScript.OnDestroy += GearAnimationScript_OnDestroy;
 
             On.BunnyTv.Start += (_, _) =>
             {
                 // Do nothing instead of deleting bunny tvs prior to final boss defeated
             };
+        }
+
+        private void GearAnimationScript_OnDestroy(On.GearAnimationScript.orig_OnDestroy orig, GearAnimationScript self)
+        {
+            if (GearAnimationScript.instance == self)
+                GearAnimationScript.instance = null;
+            if (!self.shouldUpdateGearsTextAtDeath)
+                return;
+            HudMasterScript.instance.UpdateGearsText();
         }
 
         private void BonusScript_GearAlreadyPickedUpRefresh(On.BonusScript.orig_GearAlreadyPickedUpRefresh orig, BonusScript self)
@@ -59,7 +72,7 @@ namespace YellowTaxiAP.Managers
             }
 #endif
             var id = GetID(self);
-            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id))
+            if (id != null && (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) || !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value)))
             {
                 self.GetComponentInChildren<MeshRenderer>().sharedMaterial = self.gearUsedMaterial;
                 self.gearHasPickedupUpTexture = true;
@@ -86,7 +99,7 @@ namespace YellowTaxiAP.Managers
 #endif
             if (Plugin.SlotData.Bunnysanity)
             {
-                var id = GetID(self);
+                var id = GetID(self).GetValueOrDefault();
                 self.myMeshRend.sharedMaterial =
                     Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id)
                         ? self.bunnyPickedUpMaterial
@@ -115,11 +128,13 @@ namespace YellowTaxiAP.Managers
 
             if (self.smallDdemoPositionOffset != new Vector3(0,0,0))
             {
+#if DEBUG
                 var id = GetIDString(self);
                 var itemArea = DebugLocationHelper.GetKnownItemNameArea(id);
                 var item = itemArea?.Item1 ?? "Unknown Item";
                 var area = itemArea?.Item2 ?? "Unknown Area";
                 Plugin.Log($"In a demo, {item} ({id}) in {area} will be moved from {self.transform.position} to {self.transform.position + self.smallDdemoPositionOffset}");
+#endif
                 if (Plugin.SlotData.ExtraDemoCollectables)
                 {
                     var demoOffset = self.smallDdemoPositionOffset;
@@ -170,24 +185,51 @@ namespace YellowTaxiAP.Managers
         }
 
         /// <summary>
-        /// When a third gear is collected, typically you are teleported to Morio who will tell you the portal is unlocked.
-        /// This script bugs out if you are anywhere besides the lab (which the multiworld context allows)
-        /// Additionally, this would happen every time a gear is collected when you have 3, which could be any number of gears.
-        ///
-        /// This disables the flag to set this dialogue entirely.
+        /// Disable zoom to Morio on 3 gears, send location when showing the text
         /// </summary>
         private void GearAnimationScript_Update(On.GearAnimationScript.orig_Update orig, GearAnimationScript self)
         {
+            if (self.done)
+                return;
             self.initialGearCameraZoomOnPortal = false;
+            if (self.timer <= Tick.Time * self.timeSpeed && self.newLevelSplashText1 != null)
+            {
+                var pickup = self.GetComponent<PickupInfo>();
+                if (pickup)
+                {
+                    if (pickup.Scout.Flags.HasFlag(ItemFlags.Advancement))
+                    {
+                        self.newLevelSplashSound = "SoundNewLevelUnlockSplash";
+                    }
+                    else if (pickup.Scout.Flags.HasFlag(ItemFlags.NeverExclude))
+                    {
+                        self.newLevelSplashSound = "SoundSmallMissionClear";
+                    }
+                    else if (pickup.Scout.Flags.HasFlag(ItemFlags.Trap))
+                    {
+                        self.newLevelSplashSound = "SoundMenuError";
+                    }
+                    else if (pickup.Scout.Flags.HasFlag(ItemFlags.None))
+                    {
+                        self.newLevelSplashSound = "SoundLevelCollectiblePickup";
+                    }
+
+                    GiudgementScript.SpawnCustom(self.newLevelSplashText1, self.newLevelSplashText2, self.newLevelSplashSound, true, 1f);
+                    self.newLevelSplashText1 = null;
+                    Plugin.ArchipelagoClient.SendLocation(pickup.ID);
+                }
+            }
             orig(self);
         }
-
+        
         private bool BonusScript_CoinPickedUpGet(On.BonusScript.orig_CoinPickedUpGet orig, BonusScript self)
         {
+#if DEBUG
             if (DebugLocationHelper.Enabled)
             {
                 return self.coinIndex >= 0 && DebugLocationHelper.KnownIDs.Any(o => o.Item2.ContainsKey(GetIDString(self)));
             }
+#endif
 
             switch (self.myIdentity)
             {
@@ -201,8 +243,8 @@ namespace YellowTaxiAP.Managers
             }
         }
 
+#if DEBUG
         private string _previousSubarea = string.Empty;
-
         private void MapArea_MarkDiscovered(On.MapArea.orig_MarkDiscovered orig, MapArea self)
         {
             if (DebugLocationHelper.Enabled && !_previousSubarea.Equals(self.areaNameKey))
@@ -455,6 +497,7 @@ namespace YellowTaxiAP.Managers
             }
             orig(self);
         }
+#endif
 
         private void PlayerScript_OnTriggerStay(On.PlayerScript.orig_OnTriggerStay orig, PlayerScript self, Collider other)
         {
@@ -462,41 +505,103 @@ namespace YellowTaxiAP.Managers
                 return;
             if (other.gameObject.layer == 17)
             {
-                var bonusScr = other.GetComponent<BonusScript>();
-                if (bonusScr)
+                var pickup = other.GetComponent<BonusScript>();
+                if (pickup)
                 {
-                    if (bonusScr.myIdentity == BonusScript.Identity.morioMindPassword)
+                    var id = GetID(pickup);
+                    if (id != null)
                     {
-                        if (!bonusScr.skipGenericPickupAnimation)
-                            GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey");
-                        Sound.Play("SoundLevelCollectiblePickup");
-                        Controls.SetVibration(self.playerIndex, 0.5f);
-                        if (ModMaster.instance.ModEnableGet())
-                            ModMaster.instance.OnPlayerOnMorioMindKeyPickup();
+                        var alreadyTaken = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) ||
+                                       !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value);
+                        switch (pickup.myIdentity)
+                        {
+                            case BonusScript.Identity.gear when !GameplayMaster.instance.timeAttackLevel:
+                                string str1 = null;
+                                var str2 = "";
+                                ScoutedItemInfo info = null;
+                                if (!alreadyTaken && Plugin.ArchipelagoClient.ScoutedLocations.ContainsKey(id.Value))
+                                {
+                                    info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
+                                    str1 = $"Found {info.ItemDisplayName}";
+                                    str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName ? string.Empty : $"For {info.Player}";
+                                }
+                                else
+                                {
+                                    for (var index = 0; index < 10; ++index)
+                                        BonusScript.SpawnCoinMoving(
+                                            self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
+                                            Utility.AngleToAxis3D(36 * index, 75f) * 24f);
+                                }
+
+                                GameplayMaster.instance.UpdateLevelCollectedGearsNumber();
+                                if (!alreadyTaken && !GameplayMaster.instance.timeAttackLevel)
+                                    MenuEventLeaderboard.GearsCollectedAdd(1);
+                                if (!Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+                                {
+                                    foreach (var portal in PortalScript.list.Where(portal => portal.targetLevel is Levels.Index.level_hub))
+                                    {
+                                        portal.gameObject.SetActive(true);
+                                        _ = (double)portal.transform.SetYAngle(CameraGame.instance.transform.GetYAngle());
+                                    }
+                                }
+                                Sound.Play_Unpausable("SoundGearPickup");
+                                if (alreadyTaken)
+                                {
+                                    GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear", freezePlayer: false);
+                                }
+                                else
+                                {
 #if DEBUG
-                        DebugLocationHelper.CheckLocation("MindPassword", "12_00_00000");
+                                    DebugLocationHelper.CheckLocation(pickup.ToString(), GetIDString(pickup));
 #endif
-                        if (Plugin.SlotData.ShuffleMoriosPassword)
-                        {
-                            Plugin.ArchipelagoClient.SendLocation(12_00_00000);
-                        }
-                        else
-                        {
-                            APSaveController.MiscSave.HasMoriosMindPassword = true;
-                        }
-                        bonusScr.KillMe();
-                        return;
-                    }
-                    if (!(bonusScr.pickupDelay > 0.0) && !GameplayMaster.instance.gameOver &&
-                        !bonusScr.IsRestoring() &&
-                        (!DialogueScript.instance ||
-                         bonusScr.myIdentity != BonusScript.Identity.gear))
-                    {
-                        var id = GetIDString(bonusScr);
-                        if (!string.IsNullOrEmpty(id))
-                        {
-                            DebugLocationHelper.CheckLocation(bonusScr.myIdentity.ToString(), id);
-                            Plugin.ArchipelagoClient.SendLocation(long.Parse(id.Replace("_", string.Empty)));
+                                    Tick.Paused = true;
+                                    var obj = Spawn.FromPool("GearPickupAnimationObject", PlayerScript.instance.transform.position);
+                                    var pickupInfo = obj.AddComponent<PickupInfo>();
+                                    pickupInfo.ID = id.Value;
+                                    pickupInfo.Scout = info;
+                                    var component = obj.GetComponent<GearAnimationScript>();
+                                    component.dialogueText = null;
+                                    component.newLevelGoBackHubQuestion = false;
+                                    component.newLevelSplashText1 = str1;
+                                    component.newLevelSplashText2 = str2;
+                                    component.newLevelSplashSound = "SoundNewLevelUnlockSplash";
+                                    component.initialGearCameraZoomOnPortal = false;
+                                    component.itWasANeverTakenGear = true;
+                                }
+                                HudMasterScript.instance.gearShowCollectAnimation = true;
+                                if (GameplayMaster.instance.timeAttackLevel)
+                                    HudMasterScript.instance.UpdateGearsText();
+                                Controls.SetVibration(self.playerIndex, 0.5f);
+                                if (ModMaster.instance.ModEnableGet())
+                                    ModMaster.instance.OnPlayerOnGearCollect(alreadyTaken);
+                                pickup.KillMe();
+                                return;
+                            case BonusScript.Identity.coin:
+                            case BonusScript.Identity.bigCoin10:
+                            case BonusScript.Identity.bigCoin25:
+                            case BonusScript.Identity.bigCoin100:
+                                PickupCoinLocation(pickup);
+                                return;
+                            case BonusScript.Identity.morioMindPassword:
+                                if (!pickup.skipGenericPickupAnimation)
+                                    GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey");
+                                Sound.Play("SoundLevelCollectiblePickup");
+                                Controls.SetVibration(self.playerIndex, 0.5f);
+                                if (ModMaster.instance.ModEnableGet())
+                                    ModMaster.instance.OnPlayerOnMorioMindKeyPickup();
+#if DEBUG
+                                DebugLocationHelper.CheckLocation("MindPassword", "12_00_00000");
+#endif
+                                if (Plugin.SlotData.ShuffleMoriosPassword)
+                                {
+                                    Plugin.ArchipelagoClient.SendLocation(12_00_00000);
+                                }
+                                else
+                                {
+                                    APSaveController.MiscSave.HasMoriosMindPassword = true;
+                                }
+                                pickup.KillMe();
+                                return;
                         }
                     }
                 }
@@ -504,18 +609,24 @@ namespace YellowTaxiAP.Managers
             orig(self, other);
         }
 
-        public static long GetID(BonusScript item)
+        public static void PickupCoinLocation(BonusScript coin)
+        {
+            coin.KillMe();
+        }
+
+        public static long? GetID(BonusScript item)
         {
             var baseID = (long)GameplayMaster.instance.levelId * 1_00_00000;
             return item.myIdentity switch
             {
+                BonusScript.Identity.morioMindPassword => 12_00_00000,
                 BonusScript.Identity.coin when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
                 BonusScript.Identity.bigCoin10 when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
                 BonusScript.Identity.bigCoin25 when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
                 BonusScript.Identity.bigCoin100 when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
                 BonusScript.Identity.gear => baseID + 100000 + item.gearArrayIndex,
                 BonusScript.Identity.bunny => baseID + 200000 + item.bunnyIndex,
-                _ => -1
+                _ => null
             };
         }
 
