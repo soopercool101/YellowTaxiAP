@@ -83,8 +83,11 @@ namespace YellowTaxiAP.Managers
                 if (!Archipelago.ArchipelagoClient.Authenticated)
                 {
                     Sound.Play_Unpausable("SoundMenuError");
-                    ArchipelagoRenderer.GamepadInputStep = -1;
-                    ArchipelagoRenderer.AutomaticGamepadInput = true;
+                    if (!ArchipelagoRenderer.AutomaticGamepadInput)
+                    {
+                        ArchipelagoRenderer.GamepadInputStep = -1;
+                        ArchipelagoRenderer.AutomaticGamepadInput = true;
+                    }
                     return;
                 }
 
