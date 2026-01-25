@@ -364,47 +364,47 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.BunnyMoriosLab:
                 Data.GetLevel(Data.LevelId.Hub).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyBombeach:
                 Data.GetLevel(Data.LevelId.L1_Bombeach).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyPizzaTime:
                 Data.GetLevel(Data.LevelId.L2_PizzaTime).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyMoriosHome:
                 Data.GetLevel(Data.LevelId.L3_MoriosHome).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyArcadePanik:
                 Data.GetLevel(Data.LevelId.L4_ArcadePanik).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyToslasOffices:
                 Data.GetLevel(Data.LevelId.L5_ToslaOffices).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyGymGears:
                 Data.GetLevel(Data.LevelId.L6_Gym).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyFecalMatters:
                 Data.GetLevel(Data.LevelId.L7_PoopWorld).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyFlushedAway:
                 Data.GetLevel(Data.LevelId.L8_Sewers).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyMauriziosCity:
                 Data.GetLevel(Data.LevelId.L9_City).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyCrashTestIndustries:
                 Data.GetLevel(Data.LevelId.L10_CrashTestIndustries).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyDemo:
                 // Placeholder
@@ -413,19 +413,19 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.BunnyMoriosMind:
                 Data.GetLevel(Data.LevelId.L12_MoriosMind).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyRuinedObservatory:
                 Data.GetLevel(Data.LevelId.L13_StarmanCastle).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyToslaHQ:
                 Data.GetLevel(Data.LevelId.L14_ToslaHQ).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.BunnyMoon:
                 Data.GetLevel(Data.LevelId.L15_Moon).bunniesUnlocked++;
-                APDataManager.TotalBunniesReceived++;
+                ReceivedBunny();
                 break;
             case Identifiers.ItemID.GelaToni:
                 APAreaStateManager.GelaToniReceived = true;
@@ -457,6 +457,17 @@ public class ArchipelagoClient
             default:
                 Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
                 throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void ReceivedBunny()
+    {
+        APDataManager.TotalBunniesReceived++;
+        if (!GameplayMaster.instance || GameplayMaster.instance.levelId != Data.LevelId.L16_Rocket)
+            return;
+        foreach (var portal in PortalScript.list)
+        {
+            portal.CostUpdateTry();
         }
     }
 
@@ -512,7 +523,7 @@ public class ArchipelagoClient
 
     private object hatDataLock = new();
 
-    private void HatData_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    private void HatData_OnValueChanged(JToken originalValue, JToken newValue, Dictionary<string, JToken> additionalArguments)
     {
         lock (hatDataLock)
         {
@@ -555,7 +566,7 @@ public class ArchipelagoClient
     }
 
     private object bunnyLock = new();
-    private void Bunnies_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    private void Bunnies_OnValueChanged(JToken originalValue, JToken newValue, Dictionary<string, JToken> additionalArguments)
     {
         lock (bunnyLock)
         {
@@ -598,7 +609,7 @@ public class ArchipelagoClient
     }
 
     private object saveLock = new();
-    private void Save_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    private void Save_OnValueChanged(JToken originalValue, JToken newValue, Dictionary<string, JToken> additionalArguments)
     {
         lock (saveLock)
         {
@@ -637,7 +648,7 @@ public class ArchipelagoClient
     }
 
     private object walletLock = new ();
-    private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, System.Collections.Generic.Dictionary<string, JToken> additionalArguments)
+    private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, Dictionary<string, JToken> additionalArguments)
     {
         lock (walletLock)
         {

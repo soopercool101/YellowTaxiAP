@@ -18,6 +18,9 @@ namespace YellowTaxiAP.Managers
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
         }
 
+        /// <summary>
+        /// Loading screen shows number of gears in level. This functionality is massively broken in rando, so disable.
+        /// </summary>
         private void LoadingScreenScript_WelcomeInit(On.LoadingScreenScript.orig_WelcomeInit orig, LoadingScreenScript self)
         {
             orig(self);
@@ -40,7 +43,7 @@ namespace YellowTaxiAP.Managers
             if (!MenuV2Script.instance.isPauseMenu && MenuV2Script.instance.menuIndex != 0)
                 return;
             orig();
-            if (MenuV2Script.instance.isPauseMenu || !startText || Archipelago.ArchipelagoClient.Authenticated) return;
+            if (MenuV2Script.instance.isPauseMenu || !startText || ArchipelagoClient.Authenticated) return;
             if(Plugin.SlotData.FailedValidation)
                 startText.textAnimator.SetText("Update Required", false);
             else
@@ -57,7 +60,7 @@ namespace YellowTaxiAP.Managers
             if (Sound.IsPlaying("SoundDeleteFileSiren"))
                 Sound.Stop("SoundDeleteFileSiren");
             if (!MenuV2Script.IsSelectionDelayedStill())
-                self.targetAlpha = Archipelago.ArchipelagoClient.Authenticated ? 0.0f : 1f;
+                self.targetAlpha = ArchipelagoClient.Authenticated ? 0.0f : 1f;
             self.myImage.color = new Color(1f, 1f, 1f, self.myImage.color.a + (float)((self.targetAlpha - (double)self.myImage.color.a) * 0.10000000149011612));
             if (Level.currentScene == 2)
             {
@@ -89,7 +92,7 @@ namespace YellowTaxiAP.Managers
         {
             if (!self.isPauseMenu)
             {
-                if (!Archipelago.ArchipelagoClient.Authenticated)
+                if (!ArchipelagoClient.Authenticated)
                 {
                     Sound.Play_Unpausable("SoundMenuError");
                     if (!ArchipelagoRenderer.AutomaticGamepadInput)

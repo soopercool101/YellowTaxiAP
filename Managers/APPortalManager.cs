@@ -18,9 +18,24 @@ namespace YellowTaxiAP.Managers
             On.PortalScript.OnTriggerEnter += PortalScript_OnTriggerEnter;
             On.PortalScript.PortalIslandToLabCoroutine += PortalScript_PortalIslandToLabCoroutine;
             On.PortalScript.PortalOpenStart += PortalScript_PortalOpenStart;
-            //On.PortalScript.DemoCheck_ShouldPortalBeEnabled += PortalScript_DemoCheck_ShouldPortalBeEnabled;
-            //On.PortalScript.SetupDataForLevelComeback += PortalScript_SetupDataForLevelComeback;
+            On.PortalScript.CostUpdateTry += PortalScript_CostUpdateTry;
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
+        }
+
+        private void PortalScript_CostUpdateTry(On.PortalScript.orig_CostUpdateTry orig, PortalScript self)
+        {
+            // Update gear portals
+            if (self.kaizoLevelId == LevelId.noone)
+            {
+                orig(self);
+            }
+            else // Update bunny portals
+            {
+                self.kaizoEnabled = BunniesGetLevelCollectedNumber(self.kaizoLevelId) >= BunniesGetLevelMaxNumber(self.kaizoLevelId) || self.kaizoLevelId == LevelId.L16_Rocket;
+                self._name = self.kaizoLevelId == LevelId.L16_Rocket ? "" : $"{BunniesGetLevelCollectedNumber(self.kaizoLevelId).ToString()}/{BunniesGetLevelMaxNumber(self.kaizoLevelId).ToString()}<sprite name=\"GoldenBunnyOutlined\">";
+                self.nameText.text = self._name;
+                self.nameText.rectTransform.anchoredPosition = self.kaizoEnabled ? new Vector2(0.0f, 8.0f) : new Vector2(0.0f, 3.5f);
+            }
         }
 
         private void PortalScript_PortalOpenStart(On.PortalScript.orig_PortalOpenStart orig, PortalScript self)
@@ -28,12 +43,6 @@ namespace YellowTaxiAP.Managers
             var trueId = self.gameObject.GetComponent<TruePortalId>();
             APSaveController.MiscSave.SetLevelPortalUnlocked(trueId.OriginalLevel);
             orig(self);
-        }
-
-        private bool PortalScript_DemoCheck_ShouldPortalBeEnabled(On.PortalScript.orig_DemoCheck_ShouldPortalBeEnabled orig, PortalScript self)
-        {
-            Plugin.Log($"{self.gameObject.name}: {self.USE_IN_DEMO_} | {self.USE_IN_DEMO_EXTRA} | {self.USE_IN_DEMO_EXTRA_INFLUENCERS}");
-            return self.USE_IN_DEMO_;
         }
 
         private void PlayerScript_Start(On.PlayerScript.orig_Start orig, PlayerScript self)

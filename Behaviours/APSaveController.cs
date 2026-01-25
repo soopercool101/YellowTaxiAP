@@ -14,7 +14,6 @@ namespace YellowTaxiAP.Behaviours
         public static YTGVHatSave HatSave = new(1);
         public static YTGVBunnySave BunnySave = new(0);
 
-
         public void Awake()
         {
             if (Instance)
@@ -94,11 +93,9 @@ namespace YellowTaxiAP.Behaviours
                     if(!portal.PortalIsLevelPortal || portal.PortalIsAlreadyOpened)
                         continue;
                     var trueId = portal.gameObject.GetComponent<TruePortalId>();
-                    Plugin.Log($"Checking if portal to {trueId.OriginalLevel} ({portal.gameObject.name}) should be opened");
                     var open = Data.GetLevel(trueId.OriginalLevel).everOpened = MiscSave.HasLevelPortalUnlocked(trueId.OriginalLevel);
                     if (open)
                     {
-                        Plugin.Log($"Opening portal {trueId.OriginalLevel}");
                         portal.PortalOpenedSet();
                     }
                 }
@@ -148,6 +145,14 @@ namespace YellowTaxiAP.Behaviours
 
                     Data.totalBunniesCount = bunnyCount;
                     BunnySave.NeedsLoad = false;
+
+                    if (GameplayMaster.instance && GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket)
+                    {
+                        foreach (var portal in PortalScript.list)
+                        {
+                            portal.CostUpdateTry();
+                        }
+                    }
                 }
 
                 if (BunnySave.NeedsSave)
