@@ -53,7 +53,8 @@ namespace YellowTaxiAP.Managers
         {
             if (GameplayMaster.instance.timeAttackLevel)
             {
-                orig(self);
+                self.gearHasPickedupUpTexture = false;
+                self.GearDaltonicTextureRefresh();
                 return;
             }
 #if DEBUG
@@ -103,27 +104,18 @@ namespace YellowTaxiAP.Managers
             if (Plugin.SlotData.Bunnysanity)
             {
                 var id = GetID(self).GetValueOrDefault();
-                self.myMeshRend.sharedMaterial =
-                    Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id)
-                        ? self.bunnyPickedUpMaterial
-                        : self.bunnyDefaultMaterial;
+                self.myMeshRend.sharedMaterial = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id) ? self.bunnyPickedUpMaterial : self.bunnyDefaultMaterial;
             }
             else
             {
-                self.myMeshRend.sharedMaterial =
-                    APSaveController.BunnySave.HasBunny(GameplayMaster.instance.levelId, self.bunnyIndex)
-                        ? self.bunnyPickedUpMaterial
-                        : self.bunnyDefaultMaterial;
+                self.myMeshRend.sharedMaterial = APSaveController.BunnySave.HasBunny(GameplayMaster.instance.levelId, self.bunnyIndex) ? self.bunnyPickedUpMaterial : self.bunnyDefaultMaterial;
             }
         }
 
-        /// <summary>
-        /// A small number of coins are accidentally set as children of other coins, causing them to remove themselves when the parent is collected.
-        /// Remove the parent in this instance.
-        /// </summary>
         private void BonusScript_Awake(On.BonusScript.orig_Awake orig, BonusScript self)
         {
-            if (self.transform.parent && self.transform.parent.gameObject.GetComponent<BonusScript>())
+            // A small number of coins are accidentally set as children of other coins, causing them to remove themselves when the parent is collected.
+            if (self.transform.parent && !self.transform.parent.gameObject.GetComponent<ZoneMaster>())
             {
                 Plugin.Log($"Warning! {self.myIdentity} ({GetIDString(self)}) has a parent object ({self.transform.parent.gameObject.name})! Removing parent");
                 self.transform.parent = null;
@@ -323,7 +315,6 @@ namespace YellowTaxiAP.Managers
                             var regionGears = new List<KeyValuePair<string, string>>();
                             var regionBunnies = new List<KeyValuePair<string, string>>();
                             var regionCheckpoints = new List<KeyValuePair<string, string>>();
-                            var regionSpecialRules = new List<KeyValuePair<string, string>>();
                             var regionConnections = new List<DebugLocationHelper.RegionConnection>();
                             var regionWarps = new List<DebugLocationHelper.RegionConnection>();
                             var regionSubwarps = new List<DebugLocationHelper.RegionConnection>();
@@ -555,6 +546,7 @@ namespace YellowTaxiAP.Managers
                             }
                             else
                             {
+                                pickup.pickupDelay = 1;
                                 Plugin.Log("Grabbing already collected gear");
                                 for (var index = 0; index < 10; ++index)
                                     BonusScript.SpawnCoinMoving(
@@ -611,6 +603,36 @@ namespace YellowTaxiAP.Managers
                                 ModMaster.instance.OnPlayerOnGearCollect(alreadyTaken);
                             pickup.KillMe();
                             return;
+                        case BonusScript.Identity.bunny when pickup.bunnyIndex >= 0:
+                            if (Plugin.SlotData.Bunnysanity)
+                            {
+                                var bunnyId = GetID(pickup);
+                                if (!bunnyId.HasValue)
+                                {
+                                    Plugin.BepinLogger.LogError($"Could not get id for bunny {GameplayMaster.instance.levelId} {pickup.bunnyIndex}");
+                                }
+                                else
+                                {
+#if DEBUG
+                                    DebugLocationHelper.CheckLocation(pickup.ToString(), GetIDString(pickup));
+#endif
+                                    Plugin.ArchipelagoClient.SendLocation(bunnyId.Value);
+                                }
+                            }
+                            else
+                            {
+                                APSaveController.BunnySave.SetBunny(GameplayMaster.instance.levelId, pickup.bunnyIndex);
+                            }
+                            HudMasterScript.instance.UpdateBunniesTotalText();
+                            MenuEventLeaderboard.BunniesCollectedAdd(1);
+                            Sound.Play("SoundGoldenBunnyPickup");
+                            if (!pickup.skipGenericPickupAnimation)
+                            {
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GoldenBunny").GetComponentInChildren<MeshRenderer>().sharedMaterial = pickup.myMeshRend.sharedMaterial;
+                            }
+                            Controls.SetVibration(self.playerIndex, 0.5f);
+                            pickup.KillMe();
+                            break;
                         case BonusScript.Identity.coin:
                         case BonusScript.Identity.bigCoin10:
                         case BonusScript.Identity.bigCoin25:
@@ -647,7 +669,6 @@ namespace YellowTaxiAP.Managers
         public static void PickupCoinLocation(BonusScript coin)
         {
             coin.pickupDelay = 1;
-            Plugin.Log("Coin pickup intercept");
             var amount = 1;
             switch (coin.myIdentity)
             {
@@ -656,48 +677,56 @@ namespace YellowTaxiAP.Managers
                     Controls.SetVibration(PlayerScript.instance.playerIndex, 0.25f);
                     break;
                 case BonusScript.Identity.bigCoin10:
-                    amount = 10 + Data.CoinsLostGetBack(10);
+                    amount = 10;
                     Spawn.FromPool("Pt Star Yellow - Rnd Small", coin.transform.position + new Vector3(0.0f, 2f, 0.0f), Pool.instance.transform);
                     Controls.SetVibration(PlayerScript.instance.playerIndex, 0.35f);
                     break;
                 case BonusScript.Identity.bigCoin25:
-                    amount = 25 + Data.CoinsLostGetBack(25);
+                    amount = 25;
                     Spawn.FromPool("Pt Star Rnbw - Rnd", coin.transform.position + new Vector3(0.0f, 0.5f, 0.0f), Pool.instance.transform);
                     Controls.SetVibration(PlayerScript.instance.playerIndex, 0.5f);
                     break;
                 case BonusScript.Identity.bigCoin100:
-                    amount = 100 + Data.CoinsLostGetBack(100);
+                    amount = 100;
                     Spawn.FromPool("Pt Star Rnbw - Rnd", coin.transform.position + new Vector3(0.0f, 0.5f, 0.0f), Pool.instance.transform);
                     Controls.SetVibration(PlayerScript.instance.playerIndex, 0.5f);
                     break;
             }
 
             var id = GetID(coin);
-            if (!id.HasValue || (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) || !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value)))
+            if (!id.HasValue || Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) ||
+                !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value))
             {
                 // Coins that are not checks will give coins. Less coin grinding.
-                Plugin.Log($"Picking up already picked up coin {amount}");
-                Data.coinsCollected[Data.gameDataIndex] += amount;
-                MenuEventLeaderboard.CoinsCollectedAdd(amount);
                 switch (coin.myIdentity)
                 {
                     case BonusScript.Identity.coin:
-                        Spawn.FromPool("EffectCoinPickedup", PlayerScript.instance.transform.position, Pool.instance.transform);
+                        Spawn.FromPool("EffectCoinPickedup", PlayerScript.instance.transform.position,
+                                Pool.instance.transform).GetComponentInChildren<MeshRenderer>().sharedMaterial =
+                            coin.dobulePickupPreventionMaterial_Picked;
                         Sound.Play("SoundCoin");
                         break;
                     case BonusScript.Identity.bigCoin10:
-                        Spawn.FromPool("EffectCoin10Pickedup", PlayerScript.instance.transform.position, Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
+                        amount += Data.CoinsLostGetBack(10);
+                        Spawn.FromPool("EffectCoin10Pickedup", PlayerScript.instance.transform.position,
+                            Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
                         Sound.Play("SoundCoin10");
                         break;
                     case BonusScript.Identity.bigCoin25:
-                        Spawn.FromPool("EffectCoin25Pickedup", PlayerScript.instance.transform.position, Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
+                        amount += Data.CoinsLostGetBack(25);
+                        Spawn.FromPool("EffectCoin25Pickedup", PlayerScript.instance.transform.position,
+                            Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
                         Sound.Play("SoundCoin25");
                         break;
                     case BonusScript.Identity.bigCoin100:
-                        Spawn.FromPool("EffectCoin100Pickedup", PlayerScript.instance.transform.position, Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
+                        amount += Data.CoinsLostGetBack(100);
+                        Spawn.FromPool("EffectCoin100Pickedup", PlayerScript.instance.transform.position,
+                            Pool.instance.transform).GetComponent<EffectScript>().CoinPickedEffectSetCoins(amount);
                         Sound.Play("SoundCoin25");
                         break;
                 }
+                Data.coinsCollected[Data.gameDataIndex] += amount;
+                MenuEventLeaderboard.CoinsCollectedAdd(amount);
                 if (ModMaster.instance.ModEnableGet())
                     ModMaster.instance.OnPlayerOnCoinCollect(amount);
             }

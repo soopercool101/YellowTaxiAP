@@ -1,6 +1,5 @@
 ﻿using Archipelago.MultiClient.Net.Models;
 using UnityEngine;
-using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Behaviours
 {

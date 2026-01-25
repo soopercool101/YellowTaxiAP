@@ -1,5 +1,4 @@
-﻿using System;
-using BepInEx;
+﻿using BepInEx;
 using Steamworks;
 using Steamworks.Data;
 using UnityEngine;

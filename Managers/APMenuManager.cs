@@ -14,6 +14,15 @@ namespace YellowTaxiAP.Managers
             On.MenuV2Element.Awake += MenuV2Element_Awake;
             On.MenuV2Element.UpdateTexts += MenuV2Element_UpdateTexts;
             On.MenuV2WhiteBackground.FixedUpdate += MenuV2WhiteBackground_FixedUpdate;
+
+            On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
+        }
+
+        private void LoadingScreenScript_WelcomeInit(On.LoadingScreenScript.orig_WelcomeInit orig, LoadingScreenScript self)
+        {
+            orig(self);
+            self.welcomeGearImage.enabled = false;
+            self.welcomeGearsTextAnimator.SetText(string.Empty, true);
         }
 
         private MenuV2Element startText;

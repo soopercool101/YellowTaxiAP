@@ -157,7 +157,7 @@ namespace YellowTaxiAP.Managers
                 : DialogueCapsule.dictionary[self.dialgoueCapsuleKey.ToUpper()];
             if (dialogueCapsule != null)
             {
-                Plugin.Log($"Initiating dialogue with key: {dialogueCapsule.key}");
+                Plugin.Log($"Initiating dialogue with key: {dialogueCapsule.key}  {self.textSoundNames[0]}");
 
                 var moveRandoID = -1;
                 switch (dialogueCapsule.key)
@@ -230,9 +230,35 @@ namespace YellowTaxiAP.Managers
                         ];
                         moveRandoID = Identifiers.SPIN_ID;
                         break;
+                    case "DIALOGUE_RAT_PICKUP_QUESTION":
+                        if (!Plugin.SlotData.ShuffleRat)
+                            break;
+                        
+                        self.dialogues =
+                        [
+                            APRatManager.ReceivedRatItem ?
+                                "Squit squit! Who's your handsome friend?!?" : "Squit squit! I was looking for cheese, but found a check!!!",
+                            "Would you like this shiny thing I found?!?"
+                        ];
+                        break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_YES":
+                        if (!Plugin.SlotData.ShuffleRat)
+                            break;
+                        self.dialogues =
+                        [
+                            "Michele handed you a particularly smelly <ITEM> for <PLAYER>!!!"
+                        ];
+                        break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_NO":
+                        if (!Plugin.SlotData.ShuffleRat)
+                            break;
+                        self.dialogues =
+                        [
+                            "You monster!!! That could've been someone's progression!!!"
+                        ];
+                        break;
                     case "DIALOGUE_MOON_END":
-                        // TODO: Win the game
-                        Plugin.Log("The game has been won!");
+                        Plugin.ArchipelagoClient.Win();
                         break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":

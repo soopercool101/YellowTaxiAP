@@ -5,8 +5,8 @@ namespace YellowTaxiAP.Behaviours
 {
     public abstract class RenderableAndColliderUpdater : MonoBehaviour
     {
-        public abstract bool EnabledState { get; }
-        public bool? currentState;
+        protected abstract bool EnabledState { get; }
+        private bool? currentState;
 
         public void FixedUpdate()
         {
@@ -25,11 +25,11 @@ namespace YellowTaxiAP.Behaviours
 
     public class GoldenPropellerUpdater : RenderableAndColliderUpdater
     {
-        public override bool EnabledState => APCollectableManager.GoldenPropellerActive;
+        protected override bool EnabledState => APCollectableManager.GoldenPropellerActive;
     }
 
     public class GoldenSpringUpdater : RenderableAndColliderUpdater
     {
-        public override bool EnabledState => APCollectableManager.GoldenSpringActive;
+        protected override bool EnabledState => APCollectableManager.GoldenSpringActive;
     }
 }

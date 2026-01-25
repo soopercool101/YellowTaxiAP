@@ -1,4 +1,7 @@
-﻿namespace YellowTaxiAP.Archipelago
+﻿using System;
+using System.Linq;
+
+namespace YellowTaxiAP.Archipelago
 {
     public abstract class YTGVAPSaveData<T>
     {
@@ -85,8 +88,14 @@
                     HasBunny(Data.LevelId.L11_HubDemo, bunnyIndex - 3) : GetBit(bunnyIndex);
             }
 
+            //Plugin.Log($"Getting bunny: {GameplayMaster.instance.levelId} {bunnyIndex} {SaveData:X16}");
             // 3 bunnies per level
             return GetBit((int) level * 3 + bunnyIndex);
+        }
+
+        public int GetBunnyTotal()
+        {
+            return Enum.GetValues(typeof(Data.LevelId)).Cast<Data.LevelId>().Sum(GetBunnyCount);
         }
 
         public int GetBunnyCount(Data.LevelId level)

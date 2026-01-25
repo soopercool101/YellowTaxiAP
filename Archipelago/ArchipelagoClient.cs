@@ -88,6 +88,26 @@ public class ArchipelagoClient
         }
     }
 
+
+    private static readonly long[] NonGearScouts =
+    [
+        // Move rando
+        800000,
+        800001,
+        800002,
+        800003,
+        800004,
+        800005,
+        800006,
+        // Michele
+        2_21_99999,
+    ];
+
+    public bool LocationNeedsScouting(long location)
+    {
+        return NonGearScouts.Contains(location) || (!AllClearedLocations.Contains(location) && LocationWasGear(location));
+    }
+
     public bool LocationWasGear(long location)
     {
         return  location / 1000000 % 10 == 0 && location / 100000 % 10 == 1;
@@ -108,7 +128,7 @@ public class ArchipelagoClient
             Authenticated = true;
 
             var scouting = session.Locations.ScoutLocationsAsync(HintCreationPolicy.None,
-                AllLocations.Where(LocationWasGear).ToArray());
+                AllLocations.Where(LocationNeedsScouting).ToArray());
 
             Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
             foreach (var key in ServerData.SlotData.Keys)
@@ -473,6 +493,11 @@ public class ArchipelagoClient
     {
         Plugin.BepinLogger.LogMessage($"Sending location #{id}");
         session.Locations.CompleteLocationChecks(id);
+    }
+
+    public void Win()
+    {
+        session.SetGoalAchieved();
     }
 
     public void SendLocations(long[] ids)

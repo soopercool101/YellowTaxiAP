@@ -13,14 +13,53 @@ namespace YellowTaxiAP.Managers
             On.Data.GearStateGetAbsolute += Data_GearStateGetAbsolute;
             On.Data.LoadGame += Data_LoadGame;
             On.Data.SaveGame += Data_SaveGame;
+            On.Data.BunniesTotalGameGet += Data_BunniesTotalGameGet;
             On.Data.BunniesCollectedGameGet += Data_BunniesCollectedGameGet;
+            On.Data.BunniesGetLevelCollectedNumber += Data_BunniesGetLevelCollectedNumber;
             On.Data.BunniesGetLevelCollectedNumber_LevelId += Data_BunniesGetLevelCollectedNumber_LevelId;
             On.Data.BunniesGetLevelMaxNumber_LevelId += Data_BunniesGetLevelMaxNumber_LevelId;
             On.Data.HatGetCurrentPrefabName += Data_HatGetCurrentPrefabName;
             On.Data.HatGetCurrentKind += Data_HatGetCurrentKind;
             On.Data.HatSetUnlockedState += Data_HatSetUnlockedState;
             On.Data.HatGetUnlockedState += Data_HatGetUnlockedState;
+            On.Data.CutsceneCarsTransformDisplayedGet += Data_CutsceneCarsTransformDisplayedGet;
             On.AchievementsMaster.UnlockAchievement_FullRelease += AchievementsMaster_UnlockAchievement_FullRelease;
+        }
+
+        private int Data_BunniesTotalGameGet(On.Data.orig_BunniesTotalGameGet orig)
+        {
+            return Plugin.SlotData.ExtraDemoCollectables ? 47 : 45;
+        }
+
+        /// <summary>
+        /// This is called for bunnies collected in current level for UI purposes, based on locations not items.
+        /// </summary>
+        private int Data_BunniesGetLevelCollectedNumber(On.Data.orig_BunniesGetLevelCollectedNumber orig)
+        {
+            if (!Plugin.SlotData.Bunnysanity)
+                return Data.BunniesGetLevelCollectedNumber(GameplayMaster.instance.levelId);
+
+            var count = 0;
+            for (var i = 0; i < Data.BunniesGetLevelMaxNumber(GameplayMaster.instance.levelId); i++)
+            {
+                if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(
+                        (int) GameplayMaster.instance.levelId * 1_00_00000 + 2_00000 + i))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+
+        }
+
+        /// <summary>
+        /// Skip certain explanatory cutscenes
+        /// </summary>
+        private bool Data_CutsceneCarsTransformDisplayedGet(On.Data.orig_CutsceneCarsTransformDisplayedGet orig, int indexOrBitPosition)
+        {
+            Plugin.Log($"Skipping CutsceneCars: {indexOrBitPosition}");
+            return true;
         }
 
         private bool Data_GearStateGetAbsolute(On.Data.orig_GearStateGetAbsolute orig, int levelIndex, int gearAbsoluteIndex)
@@ -39,12 +78,16 @@ namespace YellowTaxiAP.Managers
 
         private int Data_BunniesGetLevelMaxNumber_LevelId(On.Data.orig_BunniesGetLevelMaxNumber_LevelId orig, Data.LevelId _levelId)
         {
-            // Two extras in the hub with demo collectables
-            if (Plugin.SlotData.ExtraDemoCollectables && _levelId == Data.LevelId.Hub)
+            return _levelId switch
             {
-                return orig(_levelId) + 2;
-            }
-            return orig(_levelId);
+                Data.LevelId.Hub when Plugin.SlotData.ExtraDemoCollectables => 5,
+                Data.LevelId.Hub or Data.LevelId.L1_Bombeach or Data.LevelId.L2_PizzaTime or Data.LevelId.L3_MoriosHome
+                    or Data.LevelId.L4_ArcadePanik or Data.LevelId.L5_ToslaOffices or Data.LevelId.L6_Gym
+                    or Data.LevelId.L7_PoopWorld or Data.LevelId.L8_Sewers or Data.LevelId.L9_City
+                    or Data.LevelId.L10_CrashTestIndustries or Data.LevelId.L12_MoriosMind
+                    or Data.LevelId.L13_StarmanCastle or Data.LevelId.L14_ToslaHQ or Data.LevelId.L15_Moon => 3,
+                _ => 0
+            };
         }
 
         private void DemoDataImporter_DemoDataCheckAndImport(On.DemoDataImporter.orig_DemoDataCheckAndImport orig, bool reloadOriginalGameDataIndex)
@@ -89,12 +132,12 @@ namespace YellowTaxiAP.Managers
         public static int TotalBunniesReceived = 0;
         private int Data_BunniesCollectedGameGet(On.Data.orig_BunniesCollectedGameGet orig)
         {
-            return TotalBunniesReceived;
+            return Plugin.SlotData.Bunnysanity ? TotalBunniesReceived : APSaveController.BunnySave.GetBunnyTotal();
         }
 
         private int Data_BunniesGetLevelCollectedNumber_LevelId(On.Data.orig_BunniesGetLevelCollectedNumber_LevelId orig, Data.LevelId levelId)
         {
-            return Data.GetLevel(levelId).bunniesUnlocked;
+            return Plugin.SlotData.Bunnysanity ? Data.GetLevel(levelId).bunniesUnlocked : APSaveController.BunnySave.GetBunnyCount(levelId);
         }
 
         private bool AchievementsMaster_UnlockAchievement_FullRelease(On.AchievementsMaster.orig_UnlockAchievement_FullRelease orig, AchievementsMaster.AchievementRelease achievementToUnlock)
