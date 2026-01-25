@@ -3,6 +3,7 @@ using BepInEx.Logging;
 using System;
 using System.IO;
 using System.Reflection;
+using Steamworks;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
@@ -24,6 +25,9 @@ public class Plugin : BaseUnityPlugin
     public static YTGVSlotData SlotData = new ();
     public static Plugin Instance;
     public static bool DeathLinkInProgress = false;
+
+    public static bool IsSteam { get; private set; }
+    public static bool EnableSteamKeyboard { get; set; }
 
     public static string PluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     public static string LoginDetailsFile = Path.Combine(PluginDirectory, "login.txt");
@@ -84,6 +88,27 @@ public class Plugin : BaseUnityPlugin
                 // Disable the mod if this is the demo
                 Log("Demo detected, not enabling mod");
                 return;
+            }
+
+            if (Master.instance.PlatformManager.GetType().Name.Equals("SteamManager"))
+            {
+                try
+                {
+                    BepinLogger.LogMessage($"Steam detected. Enabling Steam features. Big picture: {SteamUtils.IsSteamInBigPictureMode} | Overlay: {SteamUtils.IsOverlayEnabled}");
+                    IsSteam = true;
+                    EnableSteamKeyboard = SteamUtils.IsSteamInBigPictureMode;// && SteamUtils.IsOverlayEnabled;
+
+                }
+                catch(Exception ex)
+                {
+                    BepinLogger.LogError("Steam setup failed. Disabling steam features.");
+                    BepinLogger.LogError(ex);
+                    IsSteam = EnableSteamKeyboard = false;
+                }
+            }
+            else
+            {
+                BepinLogger.LogMessage($"Current platform manager: {Master.instance.PlatformManager.GetType().Name}");
             }
 #if DEBUG
             self.ModMasterDebugLogsEnableSet(true);

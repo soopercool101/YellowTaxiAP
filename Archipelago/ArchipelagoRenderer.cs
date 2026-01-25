@@ -1,10 +1,31 @@
-﻿using BepInEx;
+﻿using System;
+using BepInEx;
+using Steamworks;
+using Steamworks.Data;
 using UnityEngine;
 
 namespace YellowTaxiAP.Archipelago
 {
     public class ArchipelagoRenderer : MonoBehaviour
     {
+        public static bool AutomaticGamepadInput;
+        public static bool InGamepadInput;
+        private static float _lastClosedKeyboard;
+        public static int GamepadInputStep = -1;
+
+        public static bool CheckTimeElapsedSinceLastClosedKeyboard(float deltaTime)
+        {
+            return Time.realtimeSinceStartup - _lastClosedKeyboard >= deltaTime;
+        }
+
+        public void Awake()
+        {
+            if (Plugin.IsSteam && Plugin.EnableSteamKeyboard)
+            {
+                Dispatch.Install<GamepadTextInputDismissed_t>(OnKeyboardDismissed, server: false);
+            }
+        }
+
         public void OnGUI()
         {
             // Improve visibility of connection window, title screen is white
@@ -26,6 +47,11 @@ namespace YellowTaxiAP.Archipelago
                 Cursor.visible = !PlayerScript.instance || MenuV2Script.instance;
                 statusMessage = " Status: Connected";
                 GUI.Label(new Rect(16, 50, 300, 20), Plugin.APDisplayInfo + statusMessage);
+                if (_lastClosedKeyboard > 0.01f) // Prevent repeated gamepad keyboard entry in same textbox
+                {
+                    _lastClosedKeyboard = 0.0f;
+                    GUI.FocusControl(null);
+                }
             }
             else
             {
@@ -60,24 +86,123 @@ namespace YellowTaxiAP.Archipelago
 
                 var enteringInfo = GUI.GetNameOfFocusedControl().StartsWith("APClientTextbox-");
                 var enterPressed = Event.current.type == EventType.KeyDown && Event.current.character == '\n';
-                // requires that the player at least puts *something* in the slot name
+                if (Plugin.IsSteam && Plugin.EnableSteamKeyboard)
+                {
+                    if (!InGamepadInput && CheckTimeElapsedSinceLastClosedKeyboard(0.4f))
+                    {
+                        if (AutomaticGamepadInput)
+                        {
+                            GamepadInputStep++;
+                            ShowSteamGamepadKeyboard();
+                        }
+                        else if (_lastClosedKeyboard > 0.01f) // Prevent repeated gamepad keyboard entry in same textbox
+                        {
+                            _lastClosedKeyboard = 0.0f;
+                            GUI.FocusControl(null);
+                            enteringInfo = false;
+                        }
+                        else if (enteringInfo)
+                        {
+                            GamepadInputStep = GUI.GetNameOfFocusedControl() switch
+                            {
+                                "APClientTextbox-Server" => 0,
+                                "APClientTextbox-SlotName" => 1,
+                                "APClientTextbox-Password" => 2,
+                                _ => GamepadInputStep
+                            };
+                            ShowSteamGamepadKeyboard();
+                        }
+                    }
+                }
+                
                 if (Plugin.ArchipelagoClient.AttemptingConnection)
                 {
                     GUI.Label(new Rect(16, 130, 100, 20), "Connecting...");
                     MenuV2Script.instance?.suspendInputs = false;
                 }
-                else if ((GUI.Button(new Rect(16, 130, 100, 20), "Connect") || (enteringInfo && enterPressed)) &&
-                    !ArchipelagoClient.ServerData.SlotName.IsNullOrWhiteSpace())
+                else if ((GUI.Button(new Rect(16, 130, 100, 20), "Connect") || (enteringInfo && enterPressed) ||
+                          (AutomaticGamepadInput && GamepadInputStep == 3)) &&
+                         !ArchipelagoClient.ServerData.SlotName.IsNullOrWhiteSpace())
                 {
                     Plugin.ArchipelagoClient.Connect();
+                    AutomaticGamepadInput = false;
                     MenuV2Script.instance?.suspendInputs = false;
                 }
-                else if (enteringInfo)
+                else
                 {
-                    MenuV2Script.instance?.suspendInputs = true;
+                    MenuV2Script.instance?.suspendInputs = enteringInfo;
                 }
             }
-            // this is a good place to create and add a bunch of debug buttons
+        }
+
+        private void OnKeyboardDismissed(GamepadTextInputDismissed_t callback)
+        {
+            if (callback.Submitted)
+            {
+                var text = SteamUtils.GetEnteredGamepadText();
+                //Plugin.Log($"Keyboard submitted: {callback.SubmittedText} | \"{text ?? "<null>"}\"");
+                if (!ArchipelagoClient.Authenticated)
+                {
+                    switch (GamepadInputStep)
+                    {
+                        case 0:
+                            ArchipelagoClient.ServerData.Uri = text;
+                            break;
+                        case 1:
+                            ArchipelagoClient.ServerData.SlotName = text;
+                            break;
+                        case 2:
+                            ArchipelagoClient.ServerData.Password = text;
+                            break;
+                    }
+                }
+                else
+                {
+                    // If we're not in setup, we're in the console
+                    ArchipelagoConsole.SendMessage(text);
+                }
+            }
+            else
+            {
+                Plugin.Log("Keyboard dismissed");
+                AutomaticGamepadInput = false;
+            }
+
+            InGamepadInput = false;
+            _lastClosedKeyboard = Time.realtimeSinceStartup;
+        }
+
+        private void ShowSteamGamepadKeyboard()
+        {
+            if (Plugin.ArchipelagoClient.AttemptingConnection || InGamepadInput || GamepadInputStep is > 2 or < 0)
+                return;
+            var description = GamepadInputStep switch
+            {
+                0 => "Host",
+                1 => "Slot Name",
+                2 => "Password",
+                _ => string.Empty
+            };
+            var startingText = GamepadInputStep switch
+            {
+                0 => ArchipelagoClient.ServerData.Uri,
+                1 => ArchipelagoClient.ServerData.SlotName,
+                2 => ArchipelagoClient.ServerData.Password,
+                _ => string.Empty
+            };
+            if (SteamUtils.ShowGamepadTextInput(
+                    GamepadInputStep == 2 ? GamepadTextInputMode.Password : GamepadTextInputMode.Normal,
+                    GamepadTextInputLineMode.SingleLine, description, int.MaxValue, startingText))
+            {
+                InGamepadInput = true;
+            }
+            else
+            {
+                Plugin.Log("Failed to open keyboard");
+                Plugin.EnableSteamKeyboard = false;
+                InGamepadInput = false;
+                AutomaticGamepadInput = false;
+            }
         }
     }
 }

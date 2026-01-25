@@ -1,4 +1,5 @@
 using UnityEngine;
+using YellowTaxiAP.Archipelago;
 
 namespace YellowTaxiAP.Managers
 {
@@ -82,6 +83,8 @@ namespace YellowTaxiAP.Managers
                 if (!Archipelago.ArchipelagoClient.Authenticated)
                 {
                     Sound.Play_Unpausable("SoundMenuError");
+                    ArchipelagoRenderer.GamepadInputStep = -1;
+                    ArchipelagoRenderer.AutomaticGamepadInput = true;
                     return;
                 }
 

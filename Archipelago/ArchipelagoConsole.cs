@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BepInEx;
+using Steamworks;
 using UnityEngine;
 
 namespace YellowTaxiAP.Archipelago;
@@ -89,7 +90,6 @@ public static class ArchipelagoConsole
             if (GUI.Button(hideShowButton, buttonText))
             {
                 Hidden = !Hidden;
-                MenuV2Script.instance?.suspendInputs = !Hidden;
                 UpdateWindow();
             }
 #if !DEBUG
@@ -108,6 +108,24 @@ public static class ArchipelagoConsole
         CommandText = GUI.TextField(CommandTextRect, CommandText);
         var typingCommand = GUI.GetNameOfFocusedControl().Equals("CommandText");
         MenuV2Script.instance?.suspendInputs = typingCommand;
+        if (typingCommand && !ArchipelagoRenderer.InGamepadInput && Plugin.EnableSteamKeyboard)
+        {
+            if (ArchipelagoRenderer.CheckTimeElapsedSinceLastClosedKeyboard(0.2f))
+            {
+                if (SteamUtils.ShowGamepadTextInput(
+                        GamepadTextInputMode.Normal, GamepadTextInputLineMode.SingleLine, "Send Message", int.MaxValue,
+                        CommandText))
+                {
+                    ArchipelagoRenderer.InGamepadInput = true;
+                }
+            }
+            else
+            {
+                GUI.FocusControl(null);
+                typingCommand = false;
+            }
+        }
+        MenuV2Script.instance?.suspendInputs = typingCommand;
         if (!CommandText.IsNullOrWhiteSpace())
         {
             GUI.Box(SendCommandButton, string.Empty);
@@ -115,10 +133,15 @@ public static class ArchipelagoConsole
             var enterPressed = Event.current.type == EventType.KeyDown && Event.current.character == '\n';
             if (GUI.Button(SendCommandButton, "Send") || (typingCommand && enterPressed))
             {
-                Plugin.ArchipelagoClient.SendMessage(CommandText);
-                CommandText = string.Empty;
+                SendMessage(CommandText);
             }
         }
+    }
+
+    public static void SendMessage(string message)
+    {
+        Plugin.ArchipelagoClient.SendMessage(message);
+        CommandText = string.Empty;
     }
 
     public static void UpdateWindow()

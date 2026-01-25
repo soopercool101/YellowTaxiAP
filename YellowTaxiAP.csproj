@@ -68,7 +68,7 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="&quot;C:\Program Files (x86)\Steam\steam.exe&quot; steam://launch/2011780" />
+      <Exec Command="if '$(ConfigurationName)' == 'Debug' (&#xD;&#xA;  &quot;C:\Program Files (x86)\Steam\steam.exe&quot; steam://launch/2011780&#xD;&#xA;)" />
     </Target>
 
 </Project>
