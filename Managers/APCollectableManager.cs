@@ -46,12 +46,16 @@ namespace YellowTaxiAP.Managers
         {
             if (GearAnimationScript.instance == self)
                 GearAnimationScript.instance = null;
-            Plugin.Log("Updating gears");
             HudMasterScript.instance.UpdateGearsText();
         }
 
         private void BonusScript_GearAlreadyPickedUpRefresh(On.BonusScript.orig_GearAlreadyPickedUpRefresh orig, BonusScript self)
         {
+            if (GameplayMaster.instance.timeAttackLevel)
+            {
+                orig(self);
+                return;
+            }
 #if DEBUG
             if (DebugLocationHelper.Enabled)
             {

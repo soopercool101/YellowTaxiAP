@@ -17,10 +17,28 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnAnswerYes_PickupRat += DialogueScript_SpecialMethod_OnAnswerYes_PickupRat;
             // Rat Player scripts
             On.RatPlayerScript.StateBehaviour_FollowPlayer += RatPlayerScript_StateBehaviour_FollowPlayer;
+            On.RatPlayerScript.StateBehaviour_GetTheCheese += RatPlayerScript_StateBehaviour_GetTheCheese;
             // Cheese scripts
             On.CheeseScript.GetCheeseIdString += CheeseScript_GetCheeseIdString;
             On.CheeseScript.IsAlreadyPickedUp += CheeseScript_IsAlreadyPickedUp;
             On.CheeseScript.MarkPickedUp += CheeseScript_MarkPickedUp;
+        }
+
+        private void RatPlayerScript_StateBehaviour_GetTheCheese(On.RatPlayerScript.orig_StateBehaviour_GetTheCheese orig, RatPlayerScript self)
+        {
+            if (!Plugin.SlotData.Cheesesanity)
+            {
+                orig(self);
+                return;
+            }
+
+            // Follow basic routine without spawning any loot
+            self.cheesePickupAnimationTimer -= Tick.Time;
+            self.cheeseHolderTr.SetYAngle((float)(self.cheesePickupAnimationTimer * 360.0 * (2.0 * self.cheesePickupAnimationTimer)));
+            if (self.cheesePickupAnimationTimer > 0.0)
+                return;
+            Spawn.FromPool("Pt Star Yellow - Rnd Small", self.transform.position + new Vector3(0.0f, 2.5f, 0.0f), Pool.instance.transform);
+            RatPlayerScript.SetState(RatPlayerScript.State.FollowPlayer);
         }
 
         /// <summary>
