@@ -4,7 +4,7 @@ using Archipelago.MultiClient.Net.Models;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Managers
 {
@@ -166,7 +166,7 @@ namespace YellowTaxiAP.Managers
                 {
                     case "DISCLAIMER_CASUAL_REFERENCES":
                         self.names[0] = "AP Lawyer";
-                        self.dialogues[0] = new Random().Next(0, 2) == 1 ? "&legalrom" : "&eyepatch";
+                        self.dialogues[0] = Random.Range(0, 2) == 1 ? "&legalrom" : "&eyepatch";
                         break;
                     case "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK": // Normally unlocks Flip O' Will
                         if (!Plugin.SlotData.ShuffleFlipOWill)
