@@ -3,6 +3,7 @@ using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Models;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
+using YellowTaxiAP.Behaviours;
 using Random = System.Random;
 
 namespace YellowTaxiAP.Managers
@@ -38,10 +39,10 @@ namespace YellowTaxiAP.Managers
 
         private void DoggoLabDialogueTree(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab orig, DialogueScript self)
         {
-            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(07_08_00000)) // TODO: Should depend on if location check is sent. Technically fine for now.
-                return;
-            Plugin.ArchipelagoClient.SendLocation(07_08_00000);
-            self.dialgoueCapsuleKey = "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB";
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(10_00007) || APSaveController.MiscSave.HasDoggo)
+            {
+                self.dialgoueCapsuleKey = "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB";
+            }
         }
 
         private void DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 orig, DialogueScript self)
@@ -269,17 +270,63 @@ namespace YellowTaxiAP.Managers
                             break;
                         self.dialogues =
                         [
-                            "You monster!!! That could've been someone's progression!!!"
+                            "You monster!!! That could've been someone's unwall!!!"
                         ];
                         break;
                     case "DIALOGUE_MOON_END":
                         Plugin.ArchipelagoClient.Win();
                         break;
-                    case "DIALOGUE_NARRATOR_DEMO_TRUE_WALL":
-                        ScoutedItemInfo scoutedItem;
+                    case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK":
+                        if (!Plugin.SlotData.ShuffleDoggo)
+                        {
+                            APSaveController.MiscSave.HasDoggo = true;
+                            break;
+                        }
+
+                        ScoutedItemInfo scoutedDoggo;
                         try
                         {
-                            scoutedItem = Plugin.ArchipelagoClient.ScoutedLocations[10_00011];
+                            scoutedDoggo = Plugin.ArchipelagoClient.ScoutedLocations[10_00007];
+                        }
+                        catch (Exception ex)
+                        {
+                            Plugin.BepinLogger.LogWarning(ex);
+                            Plugin.ArchipelagoClient.SendLocation(10_00007);
+                            break;
+                        }
+
+                        foreach (var speech in self.dialogues)
+                        {
+                            Plugin.Log($"Original: {speech}");
+                        }
+
+                        self.dialogues =
+                        [
+                            "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
+                            $"Woff woff woff! (I looked where I last left them, but found this {GetItemText(scoutedDoggo, true, false)} instead!)",
+                            "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Go visit my home on Granny's Island!)" : "(I suppose you need it more than me! If you find my house keys meet me at my home on Granny's Island!)"),
+                        ];
+
+                        Plugin.ArchipelagoClient.SendLocation(10_00007);
+                        break;
+                    case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB":
+                        if (APAreaStateManager.DoggoReceived)
+                        {
+                            break;
+                        }
+
+                        self.dialogues =
+                        [
+                            "Woff woff woff! (Still no luck finding my house keys?)",
+                            "Woff woff woff! (If you find them, please meet me at my home on Granny's Island!)"
+                        ];
+
+                        break;
+                    case "DIALOGUE_NARRATOR_DEMO_TRUE_WALL":
+                        ScoutedItemInfo scoutedWall;
+                        try
+                        {
+                            scoutedWall = Plugin.ArchipelagoClient.ScoutedLocations[10_00011];
                         }
                         catch (Exception ex)
                         {
@@ -290,8 +337,12 @@ namespace YellowTaxiAP.Managers
 
                         self.dialogues =
                         [
-                            APAreaStateManager.FullGameUnlocked ? "Congratulations on reaching the full game!" : self.dialogues[0],
-                            APAreaStateManager.FullGameUnlocked ? $"As a reward, here's {GetItemText(scoutedItem)}!" : $"You are stuck here now, but as consolation you can have this {GetItemText(scoutedItem)}!",
+                            APAreaStateManager.FullGameUnlocked
+                                ? "Congratulations on reaching the full game!"
+                                : self.dialogues[0],
+                            APAreaStateManager.FullGameUnlocked
+                                ? $"As a reward, here's {GetItemText(scoutedWall)}!"
+                                : $"You are stuck here now, but as consolation you can have this {GetItemText(scoutedWall)}!",
                         ];
                         Plugin.ArchipelagoClient.SendLocation(10_00011);
                         break;

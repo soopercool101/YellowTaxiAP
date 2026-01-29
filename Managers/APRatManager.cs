@@ -77,6 +77,7 @@ namespace YellowTaxiAP.Managers
                 RatPersonScript.RatPickUp();
             }
             Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
+            Object.Destroy(self.gameObject);
         }
 
         private void CheeseScript_MarkPickedUp(On.CheeseScript.orig_MarkPickedUp orig, CheeseScript self)

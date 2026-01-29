@@ -10,7 +10,7 @@ namespace YellowTaxiAP
 #if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => false;
+        public static bool Enabled => true;
 
         #region Hub
 
@@ -1723,6 +1723,7 @@ namespace YellowTaxiAP
                 nameof(Data.LevelId.L3_MoriosHome),
                 [
                     MoriosIslandStartingArea,
+                    MoriosIslandFirstHurdle,
                     MoriosIslandHighGround,
                     MoriosIslandHomeIsland,
                 ]
@@ -1789,7 +1790,7 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandExpert1HighGround, "X1/J1/B1/GP"),
                     new RegionConnection(GrannysIslandExpert2HighGround, "X2/J1/B1/GP"),
                     new RegionConnection(GrannysIslandHighGround, "J1/B1/GP"),
-                    new RegionConnection(GrannysIslandRocketTop, "Rocket+B1"),
+                    new RegionConnection(GrannysIslandRocketTop, "Rocket+B2 | Rocket+B1 & GP/X1"),
                     new RegionConnection(GrannysIslandConstructionArch, "B1 | GP+J1"),
                     new RegionConnection(GrannysIslandOceanPillar, "B1 | GP+OS"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+OS & J1/X2"),
@@ -2004,6 +2005,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B2+X2+FGU"),
+                    new RegionConnection("Morio's Lab - Morio's Home Portal", MoriosIslandStartingArea, ConnectionType.Warp, "PortalMorioHome")
                 ]
             },
             {

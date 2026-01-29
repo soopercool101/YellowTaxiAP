@@ -665,13 +665,17 @@ public class ArchipelagoClient
         try
         {
             session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
+            if (session.DataStorage[Scope.Slot, "Wallet"] < 0)
+            {
+                session.DataStorage[Scope.Slot, "Wallet"] = 0;
+            }
             Plugin.BepinLogger.LogMessage($"Changed wallet: {amountChanged}");
         }
         catch
         {
             try
             {
-                session.DataStorage[Scope.Slot, "Wallet"].Initialize(Data.coinsCollected[Data.gameDataIndex]);
+                session.DataStorage[Scope.Slot, "Wallet"].Initialize(Math.Min(Data.coinsCollected[Data.gameDataIndex], 0));
                 APWalletManager.ServerCoins = Data.coinsCollected[Data.gameDataIndex];
                 //Plugin.Log($"Initialized wallet: {Data.coinsCollected[Data.gameDataIndex]}");
             }

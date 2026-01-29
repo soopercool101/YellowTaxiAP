@@ -289,7 +289,7 @@ namespace YellowTaxiAP.Managers
                 if (DebugLocationHelper.PerLevelIDs.ContainsKey(GameplayMaster.instance.levelId.ToString()))
                 {
                     documentedChecks = DebugLocationHelper.PerLevelIDs[GameplayMaster.instance.levelId.ToString()].Sum(known => known.Count(o => !string.IsNullOrEmpty(o.Key)));
-                    if (documentedChecks >= bonuses.Count + cheeses + checkpoints.Count || GameplayMaster.instance.levelId == Data.LevelId.Hub)
+                    if (DebugLocationHelper.Enabled)
                     {
                         var json = "{";
                         //var i = 0;
