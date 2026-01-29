@@ -58,6 +58,7 @@
             PizzaKing = 9_02,
             Doggo = 9_07,
             OrangeSwitch = 9_10,
+            FullGameUnlock = 9_11,
             MoriosPassword = 9_12,
             MosksRocket = 9_16,
             PsychoTaxiCartridge = 20_01,

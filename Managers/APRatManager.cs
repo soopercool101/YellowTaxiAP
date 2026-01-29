@@ -76,13 +76,6 @@ namespace YellowTaxiAP.Managers
             {
                 RatPersonScript.RatPickUp();
             }
-            else
-            {
-#if DEBUG
-                DebugLocationHelper.CheckLocation("Michele", "2_21_99999");
-#endif
-                Plugin.ArchipelagoClient.SendLocation(2_21_99999);
-            }
             Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
         }
 

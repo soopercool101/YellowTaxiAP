@@ -59,8 +59,9 @@ public class DeathLinkHandler
     /// <param name="deathLink">Received Death Link object to handle</param>
     private void DeathLinkReceived(DeathLink deathLink)
     {
+        if (!GameplayMaster.instance)
+            return;
         deathLinks.Enqueue(deathLink);
-
         Plugin.BepinLogger.LogDebug(deathLink.Cause.IsNullOrWhiteSpace()
             ? $"Received Death Link from: {deathLink.Source}"
             : deathLink.Cause);

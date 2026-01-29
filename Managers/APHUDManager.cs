@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using YellowTaxiAP.Archipelago;
 
 namespace YellowTaxiAP.Managers
 {
@@ -10,10 +11,38 @@ namespace YellowTaxiAP.Managers
             //On.HudMasterScript.Update += HudMasterScript_Update;
             On.HudMasterScript.Update += HudMasterScript_Update;
             On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
+            On.MapMaster.Awake += MapMaster_Awake;
             On.MapMaster.GetAreaGearsTotal += MapMaster_GetAreaGearsTotal;
             On.MapMaster.GetAreaGearsCollected += MapMaster_GetAreaGearsCollected;
             On.MapMaster.GetAreaScriptableObject_ByAreaName += MapMaster_GetAreaScriptableObject_ByAreaName;
             //On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
+        }
+
+        private static bool updatedGears;
+        private void MapMaster_Awake(On.MapMaster.orig_Awake orig, MapMaster self)
+        {
+            orig(self);
+            if (updatedGears)
+                return;
+            foreach (var area in MapMaster.instance.mapAreasList)
+            {
+                if (area.areaName.Equals("LEVEL_NAME_GRANNY_ISLAND"))
+                {
+                    if (!area.gearsId.Contains(10004))
+                    {
+                        area.gearsId.AddRange([10004, 10010, 10020]);
+                    }
+                }
+                else if (area.areaName.Equals("MAP_AREA_NAME_GRANNY_ISLAND_LAB"))
+                {
+                    if (!area.gearsId.Contains(10019))
+                    {
+                        area.gearsId.AddRange([10019, 10024]);
+                    }
+                }
+            }
+
+            updatedGears = true;
         }
 
         private void HudMasterScript_UpdateGearsText(On.HudMasterScript.orig_UpdateGearsText orig, HudMasterScript self)

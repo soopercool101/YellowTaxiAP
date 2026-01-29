@@ -669,6 +669,12 @@ namespace YellowTaxiAP
             { "0_03_00259", "Granny's Island - Chest on Sewer Island" },
         };
 
+        [Description("Granny's Island - Sewer Island Upper")]
+        public static Dictionary<string, string> GrannysIslandSewerIslandUpper = new()
+        {
+            { string.Empty, nameof(GrannysIslandSewerIslandUpper) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Granny's Island - Island Past Cloro-Phil")]
         public static Dictionary<string, string> GrannysIslandCloroPhilIsland = new()
         {
@@ -710,6 +716,12 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> GrannysIslandCrashAgainIsland = new()
         {
             { string.Empty, nameof(GrannysIslandCrashAgainIsland) + " - !PLACEHOLDER!" }
+        };
+
+        [Description("Granny's Island - Crash Again Roof")]
+        public static Dictionary<string, string> GrannysIslandCrashAgainRoof = new()
+        {
+            { string.Empty, nameof(GrannysIslandCrashAgainRoof) + " - !PLACEHOLDER!" }
         };
 
         [Description("Crash Again - Entrance")]
@@ -927,6 +939,12 @@ namespace YellowTaxiAP
             { "0_08_00006", "Morio's Lab - PICI Glide Tutorial" },
         };
 
+        [Description("Morio's Lab - Ground Floor Orange Blocks")]
+        public static Dictionary<string, string> MoriosLabGroundFloorOrangeBlocks = new()
+        {
+            { string.Empty, nameof(MoriosLabGroundFloorOrangeBlocks) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Morio's Lab - Bunny Ledge")]
         public static Dictionary<string, string> MoriosLabBunnyLedge = new()
         {
@@ -941,6 +959,12 @@ namespace YellowTaxiAP
             { "0_03_00436", "Morio's Lab - Coin on Second Floor #3" },
             { "0_03_00437", "Morio's Lab - Coin on Second Floor #4" },
             { "0_03_00438", "Morio's Lab - Coin on Second Floor #5" },
+        };
+
+        [Description("Morio's Lab - Second Floor Above Demo Wall")]
+        public static Dictionary<string, string> MoriosLabSecondFloorAboveDemoWall = new()
+        {
+            { string.Empty, nameof(MoriosLabSecondFloorAboveDemoWall) + " - !PLACEHOLDER!" }
         };
 
         [Description("Morio's Lab - Second Floor After Demo Wall")]
@@ -1243,7 +1267,7 @@ namespace YellowTaxiAP
             { "Granny's Island - Safe on Ocean Pillar", "B2 | B1+GP" },
             { "Granny's Island - Safe on Granny's Statue", "J2 | J1+GP" },
             { "Granny's Island - Coin Bag on Pillar Towards Sewer", "B1/GP" },
-            { "Granny's Island - Gear - Oil Pump", "SP | EX2" },
+            { "Granny's Island - Gear - Oil Pump", "SP | X2" },
             { "Granny's Island - Gear - Inside Spin Blocks", "SP" },
             { "Granny's Island - Gear - Lighthouse", "B2 | B1+GP" },
             { "Granny's Island - Gear - In the Clouds", "B1+GP | B2+J1" },
@@ -1251,7 +1275,10 @@ namespace YellowTaxiAP
             { "Crash Again - Gear" , "SP+B1 | X1+SP | X2" },
             { "Pizza Oven - Gear", "B1 & J1/X1" },
             { "Morio's Lab - Gear - Third Floor Wrenches", "J1" },
-            { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1 | FGU" },
+            { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1/FGU" },
+            { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #4", "FGU" },
+            { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #5", "FGU" },
+            { "Morio's Lab - Coin Bag on Second Floor", "FGU" },
         };
 
         #endregion
@@ -1551,9 +1578,11 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GrannysIslandTowardsSewerIsland2)), GrannysIslandTowardsSewerIsland2),
             new(GetDescription(nameof(GrannysIslandTowardsSewerIsland2Tree)), GrannysIslandTowardsSewerIsland2Tree),
             new(GetDescription(nameof(GrannysIslandSewerIsland)), GrannysIslandSewerIsland),
+            new(GetDescription(nameof(GrannysIslandSewerIslandUpper)), GrannysIslandSewerIslandUpper),
             new(GetDescription(nameof(GrannysIslandCloroPhilIsland)), GrannysIslandCloroPhilIsland),
             new(GetDescription(nameof(GrannysIslandHighPillarByLab)), GrannysIslandHighPillarByLab),
             new(GetDescription(nameof(GrannysIslandCrashAgainIsland)), GrannysIslandCrashAgainIsland),
+            new(GetDescription(nameof(GrannysIslandCrashAgainRoof)), GrannysIslandCrashAgainRoof),
 
             new(GetDescription(nameof(HubLawFirm)), HubLawFirm),
             new(GetDescription(nameof(HubLawFirmJump)), HubLawFirmJump),
@@ -1569,8 +1598,10 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabGroundFloorWrenches)), MoriosLabGroundFloorWrenches),
             new(GetDescription(nameof(MoriosLabGroundFloorLowestBolt)), MoriosLabGroundFloorLowestBolt),
             new(GetDescription(nameof(MoriosLabGroundFloorBolts)), MoriosLabGroundFloorBolts),
+            new(GetDescription(nameof(MoriosLabGroundFloorOrangeBlocks)), MoriosLabGroundFloorOrangeBlocks),
             new(GetDescription(nameof(MoriosLabBunnyLedge)), MoriosLabBunnyLedge),
             new(GetDescription(nameof(MoriosLabSecondFloor)), MoriosLabSecondFloor),
+            new(GetDescription(nameof(MoriosLabSecondFloorAboveDemoWall)), MoriosLabSecondFloorAboveDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorAfterDemoWall)), MoriosLabSecondFloorAfterDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorInTrueDemoWall)), MoriosLabSecondFloorInTrueDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorAfterTrueDemoWall)), MoriosLabSecondFloorAfterTrueDemoWall),
@@ -1636,9 +1667,11 @@ namespace YellowTaxiAP
                     GrannysIslandTowardsSewerIsland2,
                     GrannysIslandTowardsSewerIsland2Tree,
                     GrannysIslandSewerIsland,
+                    GrannysIslandSewerIslandUpper,
                     GrannysIslandCloroPhilIsland,
                     GrannysIslandHighPillarByLab,
                     GrannysIslandCrashAgainIsland,
+                    GrannysIslandCrashAgainRoof,
 
                     HubLawFirm,
                     HubLawFirmJump,
@@ -1654,8 +1687,10 @@ namespace YellowTaxiAP
                     MoriosLabGroundFloorWrenches,
                     MoriosLabGroundFloorLowestBolt,
                     MoriosLabGroundFloorBolts,
+                    MoriosLabGroundFloorOrangeBlocks,
                     MoriosLabBunnyLedge,
                     MoriosLabSecondFloor,
+                    MoriosLabSecondFloorAboveDemoWall,
                     MoriosLabSecondFloorAfterDemoWall,
                     MoriosLabSecondFloorInTrueDemoWall,
                     MoriosLabSecondFloorAfterTrueDemoWall,
@@ -1762,6 +1797,7 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
                     new RegionConnection(GrannysIslandHighPillarByLab, "B1 & X1/GP/J1"),
                     new RegionConnection(GrannysIslandCrashAgainIsland, "B2+GP"),
+                    new RegionConnection(GrannysIslandCrashAgainRoof, "B2+GP+X1 | GP & OS & J1/B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
@@ -1870,6 +1906,13 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandSewerIsland)),
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland2, "OS"),
+                    new RegionConnection(GrannysIslandSewerIslandUpper, "X1/J1/B1")
+                ]
+            },
+            {
+                GetDescription(nameof(GrannysIslandSewerIslandUpper)),
+                [
+                    // Doesn't connect anywhere
                 ]
             },
             {
@@ -1888,7 +1931,14 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandCrashAgainIsland)),
                 [
                     new RegionConnection("Crash Again - Entrance", HubCrashAgain, ConnectionType.Subwarp),
+                    new RegionConnection(GrannysIslandCrashAgainRoof, "J2"),
                     new RegionConnection(GrannysIslandLabHillHighGround, "OS"),
+                ]
+            },
+            {
+                GetDescription(nameof(GrannysIslandCrashAgainRoof)),
+                [
+                    // Doesn't connect anywhere
                 ]
             },
             // Granny's Island Subareas
@@ -1950,6 +2000,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Morio's Lab - Front Door", GrannysIslandStart, ConnectionType.Subwarp),
                     new RegionConnection("Morio's Lab - Back Door", GrannysIslandMoat, ConnectionType.Subwarp),
                     new RegionConnection("Morio's Lab - Wardrobe Entrance", MoriosWardrobe, ConnectionType.Subwarp),
+                    new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "B2"),
                     new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B2+X2+FGU"),
@@ -1967,6 +2018,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "J1+OS+FGU"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "J1"),
                     new RegionConnection(MoriosLabGroundFloor),
+                    new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "J1+OS | J2"),
                 ]
             },
             {
@@ -1979,7 +2031,13 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabGroundFloorBolts)),
                 [
                     new RegionConnection(MoriosLabGroundFloorLowestBolt),
-                    new RegionConnection(MoriosLabBunnyLedge, "J1 | EX1+B1"),
+                    new RegionConnection(MoriosLabBunnyLedge, "J1 | X1+B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabGroundFloorOrangeBlocks)),
+                [
+                    // No connections
                 ]
             },
             {
@@ -1988,27 +2046,34 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+B1+J1"),
-                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU|B2"),
+                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2"),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabSecondFloorAboveDemoWall)),
+                [
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabSecondFloorAfterDemoWall)),
                 [
                     new RegionConnection(MoriosLabSecondFloor, "FGU"),
-                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall, "FGU"),
+                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabSecondFloorInTrueDemoWall)),
                 [
-                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall),
-                    new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
+                    new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall, "FGU"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabSecondFloorAfterTrueDemoWall)),
                 [
-                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall, "FGU"),
+                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall),
                     new RegionConnection(MoriosLabThirdFloor, "J1/B1"),
                 ]
             },
@@ -2034,7 +2099,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
-                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2"),
+                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "J2"),
                 ]
             },
             {
@@ -2099,6 +2164,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFourthFloor),
                     new RegionConnection(MoriosLabSecondFloor, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorLowestBolt, "FGU"),
+                    new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorWrenches, "FGU"),
                 ]
             },

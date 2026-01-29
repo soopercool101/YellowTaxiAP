@@ -35,7 +35,6 @@ namespace YellowTaxiAP.Managers
                 return;
 
             orig(self, collision);
-            Plugin.ArchipelagoClient.SendLocation(10_00011);
         }
 
         private void RainbowArrowScript_Awake(On.RainbowArrowScript.orig_Awake orig, RainbowArrowScript self)

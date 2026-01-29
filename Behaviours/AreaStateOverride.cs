@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Managers;
 
@@ -117,6 +117,8 @@ namespace YellowTaxiAP.Behaviours
 
             foreach (var disable in toDisable)
             {
+                if (!disable)
+                    continue;
                 if (disable.name.Equals("Dettaglio Albero1")) // Keep this tree. Mosk normally replaces it.
                 {
                     //disable.SetActive(true); // Don't just always enable it though. If you destroyed it this creates an invincible tree
@@ -129,6 +131,8 @@ namespace YellowTaxiAP.Behaviours
 
             foreach (var enable in toEnable)
             {
+                if (!enable)
+                    continue;
                 if (enable.name.Equals("Person Alien Mosk Good")) // Don't add Mosk. He brings you to the moon.
                 {
                     enable.SetActive(false);
@@ -164,13 +168,27 @@ namespace YellowTaxiAP.Behaviours
 
             foreach (var disable in toDisable)
             {
-                disable?.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
+                if (!disable)
+                    continue;
+                // For some reason gym portal gets removed by demo code, despite being in demo
+                if (disable.gameObject.name.Equals("Portal Level Gym"))
+                {
+                    disable.SetActive(true);
+                    continue;
+                }
+                disable.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
             }
 
             foreach (var enable in toEnable)
             {
                 if (!enable)
                     continue;
+                // For some reason gym portal gets removed by demo code, despite being in demo
+                if (enable.gameObject.name.Equals("Sign Forbidden (1)"))
+                {
+                    enable.SetActive(false);
+                    continue;
+                }
                 // Psycho taxi gets disabled by demo mode... Do I want this to be the case?
                 //if (enable.gameObject.name.Equals("Tile Lab Cubo Spicchio") ||
                 //    enable.gameObject.name.Equals("LabPareteQuad Diagonale") ||

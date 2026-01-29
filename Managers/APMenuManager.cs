@@ -10,7 +10,6 @@ namespace YellowTaxiAP.Managers
             // MenuV2Script hooks
             On.MenuV2Script.GotoLabConditionGet += GotoLabConditionGet_AP;
             On.MenuV2Script.MenuSelection += MenuV2Script_MenuSelection;
-            On.MenuV2Script.Update += MenuV2Script_Update;
             On.MenuV2Element.Awake += MenuV2Element_Awake;
             On.MenuV2Element.UpdateTexts += MenuV2Element_UpdateTexts;
             On.MenuV2WhiteBackground.FixedUpdate += MenuV2WhiteBackground_FixedUpdate;
@@ -83,11 +82,6 @@ namespace YellowTaxiAP.Managers
             Music.SetVolumeFade(1f, 2f);
         }
 
-        private void MenuV2Script_Update(On.MenuV2Script.orig_Update orig, MenuV2Script self)
-        {
-            orig(self);
-        }
-
         private void MenuV2Script_MenuSelection(On.MenuV2Script.orig_MenuSelection orig, MenuV2Script self)
         {
             if (!self.isPauseMenu)
@@ -97,7 +91,11 @@ namespace YellowTaxiAP.Managers
                     Sound.Play_Unpausable("SoundMenuError");
                     if (!ArchipelagoRenderer.AutomaticGamepadInput)
                     {
-                        ArchipelagoRenderer.GamepadInputStep = -1;
+                        if (!Plugin.EnableSteamKeyboard && ArchipelagoRenderer.AttemptedConnectionOnce)
+                        {
+                            return;
+                        }
+                        ArchipelagoRenderer.GamepadInputStep = Plugin.EnableSteamKeyboard ? -1 : 3;
                         ArchipelagoRenderer.AutomaticGamepadInput = true;
                     }
                     return;

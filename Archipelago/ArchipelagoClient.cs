@@ -99,6 +99,8 @@ public class ArchipelagoClient
         800004,
         800005,
         800006,
+        // Demo wall
+        10_00011,
         // Michele
         2_21_99999,
     ];
@@ -124,6 +126,7 @@ public class ArchipelagoClient
         {
             var success = (LoginSuccessful)result;
 
+            Plugin.SlotData = new YTGVSlotData(success.SlotData);
             ServerData.SetupSession(success.SlotData, session.RoomState.Seed);
             Authenticated = true;
 
@@ -135,8 +138,6 @@ public class ArchipelagoClient
             {
                 Plugin.Log($"SlotData: {key} | {ServerData.SlotData[key]}");
             }
-
-            Plugin.SlotData = new YTGVSlotData(ServerData.SlotData);
 
             DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName, Plugin.SlotData.DeathLink);
             //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
@@ -449,6 +450,9 @@ public class ArchipelagoClient
                 Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] =
                     Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
                         Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
+                break;
+            case Identifiers.ItemID.FullGameUnlock:
+                APAreaStateManager.FullGameUnlocked = true;
                 break;
             case Identifiers.ItemID.Michele:
                 APRatManager.ReceivedRatItem = true;

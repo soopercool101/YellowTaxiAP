@@ -104,6 +104,7 @@ namespace YellowTaxiAP.Managers
             if (Plugin.SlotData.Bunnysanity)
             {
                 var id = GetID(self).GetValueOrDefault();
+                Plugin.Log($"Bunny {id} setting material Picked up: \"{self.bunnyPickedUpMaterial}\" | Not Picked up: \"{self.bunnyDefaultMaterial}\"");
                 self.myMeshRend.sharedMaterial = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id) ? self.bunnyPickedUpMaterial : self.bunnyDefaultMaterial;
             }
             else
@@ -140,6 +141,7 @@ namespace YellowTaxiAP.Managers
                     {
                         case BonusScript.Identity.gear:
                             duplicatedBonus.gearArrayIndex += 10000;
+                            duplicatedBonus.GearAlreadyPickedUpRefresh();
                             break;
                         case BonusScript.Identity.bunny:
                             duplicatedBonus.bunnyIndex = duplicatedBonus.bunnyIndex switch
@@ -228,10 +230,10 @@ namespace YellowTaxiAP.Managers
             var id = GetID(self);
             switch (self.myIdentity)
             {
-                case BonusScript.Identity.coin when Plugin.SlotData.Coinsanity:
-                case BonusScript.Identity.bigCoin10 when Plugin.SlotData.Coinbagsanity:
-                case BonusScript.Identity.bigCoin25 when Plugin.SlotData.Chestsanity:
-                case BonusScript.Identity.bigCoin100 when Plugin.SlotData.Safesanity:
+                case BonusScript.Identity.coin:
+                case BonusScript.Identity.bigCoin10:
+                case BonusScript.Identity.bigCoin25:
+                case BonusScript.Identity.bigCoin100:
                     return !id.HasValue || (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) || !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value));
                 default:
                     return false;
@@ -287,7 +289,7 @@ namespace YellowTaxiAP.Managers
                 if (DebugLocationHelper.PerLevelIDs.ContainsKey(GameplayMaster.instance.levelId.ToString()))
                 {
                     documentedChecks = DebugLocationHelper.PerLevelIDs[GameplayMaster.instance.levelId.ToString()].Sum(known => known.Count(o => !string.IsNullOrEmpty(o.Key)));
-                    if (documentedChecks >= bonuses.Count + cheeses + checkpoints.Count)
+                    if (documentedChecks >= bonuses.Count + cheeses + checkpoints.Count || GameplayMaster.instance.levelId == Data.LevelId.Hub)
                     {
                         var json = "{";
                         //var i = 0;
@@ -529,25 +531,37 @@ namespace YellowTaxiAP.Managers
                     var id = GetID(pickup);
                     var alreadyTaken = !id.HasValue || Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) ||
                                        !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value);
+#if DEBUG
+                    if (DebugLocationHelper.Enabled)
+                    {
+                        alreadyTaken = false;
+                    }
+#endif
                     switch (pickup.myIdentity)
                     {
                         case BonusScript.Identity.gear when !GameplayMaster.instance.timeAttackLevel && id.HasValue:
                             string str1 = null;
                             var str2 = "";
                             ScoutedItemInfo info = null;
-                            if (!alreadyTaken && Plugin.ArchipelagoClient.ScoutedLocations.ContainsKey(id.Value))
+                            if (!alreadyTaken)
                             {
-                                Plugin.Log("Restoring scouted location");
-                                info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
-                                str1 = $"Found {info.ItemDisplayName}";
-                                str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName
-                                    ? string.Empty
-                                    : $"For {info.Player}";
+                                try
+                                {
+                                    info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
+                                    str1 = $"Found {info.ItemDisplayName}";
+                                    str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName
+                                        ? string.Empty
+                                        : $"For {info.Player}";
+                                }
+                                catch (Exception ex)
+                                {
+                                    Plugin.BepinLogger.LogWarning("Scout Failure");
+                                    Plugin.BepinLogger.LogError(ex);
+                                }
                             }
                             else
                             {
-                                pickup.pickupDelay = 1;
-                                Plugin.Log("Grabbing already collected gear");
+                                pickup.pickupDelay = 10;
                                 for (var index = 0; index < 10; ++index)
                                     BonusScript.SpawnCoinMoving(
                                         self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
@@ -637,7 +651,7 @@ namespace YellowTaxiAP.Managers
                         case BonusScript.Identity.bigCoin10:
                         case BonusScript.Identity.bigCoin25:
                         case BonusScript.Identity.bigCoin100:
-                            PickupCoinLocation(pickup);
+                            PickupCoinLocation(pickup, alreadyTaken);
                             return;
                         case BonusScript.Identity.morioMindPassword:
                             if (!pickup.skipGenericPickupAnimation)
@@ -666,7 +680,7 @@ namespace YellowTaxiAP.Managers
             orig(self, other);
         }
 
-        public static void PickupCoinLocation(BonusScript coin)
+        public static void PickupCoinLocation(BonusScript coin, bool alreadyPickedUp)
         {
             coin.pickupDelay = 1;
             var amount = 1;
@@ -693,9 +707,7 @@ namespace YellowTaxiAP.Managers
                     break;
             }
 
-            var id = GetID(coin);
-            if (!id.HasValue || Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) ||
-                !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value))
+            if (alreadyPickedUp)
             {
                 // Coins that are not checks will give coins. Less coin grinding.
                 switch (coin.myIdentity)
@@ -732,11 +744,15 @@ namespace YellowTaxiAP.Managers
             }
             else
             {
+                var id = GetID(coin);
+                if (id.HasValue)
+                {
 #if DEBUG
-                DebugLocationHelper.CheckLocation(coin.myIdentity.ToString(), GetIDString(coin));
+                    DebugLocationHelper.CheckLocation(coin.myIdentity.ToString(), GetIDString(coin));
 #endif
-                Plugin.ArchipelagoClient.SendLocation(id.Value);
-                PlayerScript.instance.CoinsSand(coin.transform);
+                    Plugin.ArchipelagoClient.SendLocation(id.Value);
+                    PlayerScript.instance.CoinsSand(coin.transform);
+                }
             }
 
             GameplayMaster.instance.coinsCollectedTimerBonusCounter += amount;

@@ -6,9 +6,54 @@ namespace YellowTaxiAP.Archipelago;
 
 public class ArchipelagoData
 {
-    public string Uri;
-    public string SlotName;
-    public string Password;
+    public string Uri
+    {
+        get;
+        set
+        {
+            if (field == null)
+            {
+                field = value;
+                return;
+            }
+            if (field.Equals(value)) return;
+            Plugin.Log("Uri changed");
+            ArchipelagoRenderer.AttemptedConnectionOnce = false;
+            field = value;
+        }
+    }
+    public string SlotName
+    {
+        get;
+        set
+        {
+            if (field == null)
+            {
+                field = value;
+                return;
+            }
+            if (field.Equals(value)) return;
+            Plugin.Log("SlotName changed");
+            ArchipelagoRenderer.AttemptedConnectionOnce = false;
+            field = value;
+        }
+    }
+    public string Password
+    {
+        get;
+        set
+        {
+            if (field == null)
+            {
+                field = value;
+                return;
+            }
+            if (field.Equals(value)) return;
+            Plugin.Log("Password changed");
+            ArchipelagoRenderer.AttemptedConnectionOnce = false;
+            field = value;
+        }
+    }
     public int Index;
 
     //public List<long> CheckedLocations;

@@ -11,6 +11,7 @@ namespace YellowTaxiAP.Archipelago
         public static bool InGamepadInput;
         private static float _lastClosedKeyboard;
         public static int GamepadInputStep = -1;
+        public static bool AttemptedConnectionOnce;
 
         public static bool CheckTimeElapsedSinceLastClosedKeyboard(float deltaTime)
         {
@@ -124,6 +125,7 @@ namespace YellowTaxiAP.Archipelago
                          !ArchipelagoClient.ServerData.SlotName.IsNullOrWhiteSpace())
                 {
                     Plugin.ArchipelagoClient.Connect();
+                    AttemptedConnectionOnce = true;
                     AutomaticGamepadInput = false;
                     MenuV2Script.instance?.suspendInputs = false;
                 }

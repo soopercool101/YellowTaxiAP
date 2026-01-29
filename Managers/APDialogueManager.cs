@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using Archipelago.MultiClient.Net.Enums;
+using Archipelago.MultiClient.Net.Models;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using Random = System.Random;
@@ -209,6 +210,7 @@ namespace YellowTaxiAP.Managers
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.BACKFLIP_ID;
+                        Plugin.ArchipelagoClient.Win();
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE": // Normally glide tutorial
                         if (!Plugin.SlotData.ShuffleGlide || GameplayMaster.instance.levelId != Data.LevelId.Hub)
@@ -233,21 +235,34 @@ namespace YellowTaxiAP.Managers
                     case "DIALOGUE_RAT_PICKUP_QUESTION":
                         if (!Plugin.SlotData.ShuffleRat)
                             break;
-                        
+
                         self.dialogues =
                         [
-                            APRatManager.ReceivedRatItem ?
-                                "Squit squit! Who's your handsome friend?!?" : "Squit squit! I was looking for cheese, but found a check!!!",
+                            APRatManager.ReceivedRatItem
+                                ? "Squit squit! Who's your handsome friend?!?"
+                                : "Squit squit! I was looking for cheese, but found a check!!!",
                             "Would you like this shiny thing I found?!?"
                         ];
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES":
                         if (!Plugin.SlotData.ShuffleRat)
                             break;
-                        self.dialogues =
-                        [
-                            "Michele handed you a particularly smelly <ITEM> for <PLAYER>!!!"
-                        ];
+                        try
+                        {
+                            var ratItem = Plugin.ArchipelagoClient.ScoutedLocations[2_21_99999];
+                            self.dialogues =
+                            [
+                                $"Michele handed you a particularly smelly {GetItemText(ratItem, true, false)}!!!"
+                            ];
+#if DEBUG
+                            DebugLocationHelper.CheckLocation("Michele", "2_21_99999");
+#endif
+                            Plugin.ArchipelagoClient.SendLocation(2_21_99999);
+                        }
+                        catch (Exception ex)
+                        {
+                            Plugin.BepinLogger.LogWarning(ex);
+                        }
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_NO":
                         if (!Plugin.SlotData.ShuffleRat)
@@ -259,6 +274,26 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_MOON_END":
                         Plugin.ArchipelagoClient.Win();
+                        break;
+                    case "DIALOGUE_NARRATOR_DEMO_TRUE_WALL":
+                        ScoutedItemInfo scoutedItem;
+                        try
+                        {
+                            scoutedItem = Plugin.ArchipelagoClient.ScoutedLocations[10_00011];
+                        }
+                        catch (Exception ex)
+                        {
+                            Plugin.BepinLogger.LogWarning(ex);
+                            Plugin.ArchipelagoClient.SendLocation(10_00011);
+                            break;
+                        }
+
+                        self.dialogues =
+                        [
+                            APAreaStateManager.FullGameUnlocked ? "Congratulations on reaching the full game!" : self.dialogues[0],
+                            APAreaStateManager.FullGameUnlocked ? $"As a reward, here's {GetItemText(scoutedItem)}!" : $"You are stuck here now, but as consolation you can have this {GetItemText(scoutedItem)}!",
+                        ];
+                        Plugin.ArchipelagoClient.SendLocation(10_00011);
                         break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
@@ -272,45 +307,59 @@ namespace YellowTaxiAP.Managers
 
                 if (moveRandoID > 0)
                 {
-                    // TODO: SCOUT LOCATION BASED ON ID, AND SEND CHECK
-                    Tuple<string, string, ItemFlags>[] testItems =
-                    [
-                        new("Power Star", "sooper_Mario_64", ItemFlags.Advancement),
-                        new("1-up", "sooper_Mario_64", ItemFlags.None),
-                        new("TM01", "sooper_Emerald", ItemFlags.NeverExclude),
-                        new("Teleport Trap", "sooper_Risk", ItemFlags.Trap)
-                        //new Tuple<string, string, ItemFlags>("Hard Mode", "sooper_Terraria", ItemFlags.Advancement | ItemFlags.Trap),
-                    ];
-                    var item = testItems[new Random().Next(0, testItems.Length)];
-                    var font = CurrentFont;
-                    Plugin.Log($"Current Font: {font}");
-                    var material = "Yellow";
-                    if ((item.Item3 & ItemFlags.Advancement) == ItemFlags.Advancement)
+                    try
                     {
-                        material = "GreenYellow";
+                        var scoutItem = Plugin.ArchipelagoClient.ScoutedLocations[8_00000 + moveRandoID];
+                        self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you {GetItemText(scoutItem)}!";
+                        Plugin.ArchipelagoClient.SendLocation(800000 + moveRandoID);
                     }
-                    else if((item.Item3 & ItemFlags.NeverExclude) == ItemFlags.NeverExclude)
+                    catch(Exception ex)
                     {
-                        material = "RedYellow";
+                        Plugin.BepinLogger.LogWarning(ex);
                     }
-                    else if ((item.Item3 & ItemFlags.Trap) == ItemFlags.Trap)
-                    {
-                        material = "FullRed";
-                    }
-                    self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you this <font=\"{font} Black\" material=\"{font} {material}\">{item.Item1}</font>";
-
-                    if (!item.Item2.Equals(ArchipelagoClient.ServerData?.SlotName))
-                    {
-                        self.dialogues[self.dialogues.Length - 1] += $" for <font=\"{font} Black\" material=\"{font} OrangeYellow\">{item.Item2}</font>";
-                    }
-                    self.dialogues[self.dialogues.Length - 1] += "!";
 #if DEBUG
                     DebugLocationHelper.CheckLocation("Move Rando", $"0_{Identifiers.NPC_ID:D2}_{moveRandoID:D5}");
 #endif
-                    Plugin.ArchipelagoClient.SendLocation(800000 + moveRandoID);
                 }
             }
             orig(self);
+        }
+
+        private string GetItemText(ScoutedItemInfo item, bool includePlayer = true, bool includePrefixes = true)
+        {
+            var font = CurrentFont;
+            var material = "Yellow";
+            if ((item.Flags & ItemFlags.Advancement) == ItemFlags.Advancement)
+            {
+                material = "GreenYellow";
+            }
+            else if ((item.Flags & ItemFlags.NeverExclude) == ItemFlags.NeverExclude)
+            {
+                material = "RedYellow";
+            }
+            else if ((item.Flags & ItemFlags.Trap) == ItemFlags.Trap)
+            {
+                material = "FullRed";
+            }
+            var itemText = $"<font=\"{font} Black\" material=\"{font} {material}\">{item.ItemDisplayName}</font>";
+            if (includePlayer)
+            {
+                if (item.Player.Name.Equals(ArchipelagoClient.ServerData.SlotName))
+                {
+                    itemText = (includePrefixes ? "your " : string.Empty) + itemText;
+                }
+                else
+                {
+                    itemText = (includePrefixes ? "this " : string.Empty) + itemText +
+                               $" for <font=\"{font} Black\" material=\"{font} OrangeYellow\">{item.Player.Name}</font>";
+                }
+            }
+            else if (includePrefixes)
+            {
+                itemText = "this " + itemText;
+            }
+
+            return itemText;
         }
 
         private string GetMoveDialogue(string moveName, bool moveUnlocked, string flipOwillConnection = "using your")

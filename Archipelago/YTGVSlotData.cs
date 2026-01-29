@@ -147,7 +147,10 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for shuffle_full_game found");
             }
 
-            APAreaStateManager.FullGameUnlocked = !ShuffleFullGame;
+            if (!ShuffleFullGame)
+            {
+                APAreaStateManager.FullGameUnlocked = true;
+            }
 
             if (slotData.ContainsKey("shuffle_psycho_taxi"))
             {

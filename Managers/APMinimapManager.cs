@@ -56,7 +56,7 @@ namespace YellowTaxiAP.Managers
                     switch (self.myMapAreaScriptableObject.areaName)
                     {
                         case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_BOMBS" when !APAreaStateManager.GelaToniReceived:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_PIZZA" when !APAreaStateManager.RocketEnabled:
+                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_PIZZA" when !APAreaStateManager.PizzaKingReceived:
                         case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_CRASH_TEST" when (!APSwitchManager.OrangeSwitchUnlocked || !APAreaStateManager.FullGameUnlocked):
                             self.isAreaUnlocked = false;
                             break;
