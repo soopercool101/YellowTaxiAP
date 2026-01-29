@@ -295,11 +295,6 @@ namespace YellowTaxiAP.Managers
                             break;
                         }
 
-                        foreach (var speech in self.dialogues)
-                        {
-                            Plugin.Log($"Original: {speech}");
-                        }
-
                         self.dialogues =
                         [
                             "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
