@@ -1,4 +1,6 @@
-﻿namespace YellowTaxiAP.Managers
+﻿using System;
+
+namespace YellowTaxiAP.Managers
 {
     public class APWalletManager
     {
@@ -16,7 +18,7 @@
             orig(value);
             if (value != 0)
             {
-                Plugin.ArchipelagoClient.UpdateWallet(-value);
+                Plugin.ArchipelagoClient.UpdateWallet(-Math.Min(value, ServerCoins));
             }
         }
 

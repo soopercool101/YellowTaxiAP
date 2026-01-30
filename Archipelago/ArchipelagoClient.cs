@@ -658,7 +658,7 @@ public class ArchipelagoClient
     {
         lock (walletLock)
         {
-            Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = newValue.ToObject<int>();
+            Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = Math.Max(newValue.ToObject<int>(), 0);
         }
     }
 
