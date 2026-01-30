@@ -99,6 +99,8 @@ public class ArchipelagoClient
         800004,
         800005,
         800006,
+        // Doggo
+        10_00007,
         // Demo wall
         10_00011,
         // Michele
