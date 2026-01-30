@@ -1563,7 +1563,7 @@ namespace YellowTaxiAP
             { "3_03_00434", "Morio's Island - Coin on First Bunny Arch #4" },
             { "3_03_00435", "Morio's Island - Coin on First Bunny Arch #5" },
             { "3_03_00436", "Morio's Island - Coin on First Bunny Arch #6" },
-            { "3_02_00000", "Morio's Island - Bunny on First Optional Path" },
+            { "3_02_00000", "Morio's Island - Bunny - On First Optional Path" },
         };
 
         [Description("Morio's Island - Second Bunny Arch")]
@@ -1579,7 +1579,7 @@ namespace YellowTaxiAP
             { "3_03_00413", "Morio's Island - Coin on Second Bunny Arch #8" },
             { "3_03_00416", "Morio's Island - Coin Bag on Second Bunny Arch #1" },
             { "3_03_00414", "Morio's Island - Coin Bag on Second Bunny Arch #2" },
-            { "3_02_00001", "Morio's Island - Bunny on Second Optional Path" },
+            { "3_02_00001", "Morio's Island - Bunny - On Second Optional Path" },
         };
 
         [Description("Morio's Island - Center Stone Island")]
