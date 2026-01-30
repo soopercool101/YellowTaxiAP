@@ -234,7 +234,7 @@ public class ArchipelagoClient
             {
                 try
                 {
-                    Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = x.Result.ToObject<int>();
+                    Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = Math.Max(x.Result.ToObject<int>(), 0);
                     Plugin.Log($"Wallet Load Finished: {APWalletManager.ServerCoins}");
                 }
                 catch
@@ -665,11 +665,6 @@ public class ArchipelagoClient
         try
         {
             session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
-            if (session.DataStorage[Scope.Slot, "Wallet"] < 0)
-            {
-                session.DataStorage[Scope.Slot, "Wallet"] = 0;
-            }
-            Plugin.BepinLogger.LogMessage($"Changed wallet: {amountChanged}");
         }
         catch
         {

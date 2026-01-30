@@ -1097,13 +1097,12 @@ namespace YellowTaxiAP
         [Description("Morio's Lab - Fourth Floor")]
         public static Dictionary<string, string> MoriosLabFourthFloor = new()
         {
-            { string.Empty, nameof(MoriosLabFourthFloor) + " - !PLACEHOLDER!" }
+            { "0_01_00019", "Morio's Lab - Gear - On Spiky Cliffs" },
         };
 
         [Description("Morio's Lab - Fourth Floor Jump Spikes")]
         public static Dictionary<string, string> MoriosLabFourthFloorJumpSpikes = new()
         {
-            { "0_01_00019", "Morio's Lab - Gear - On Spiky Cliffs" },
             { "0_03_00789", "Morio's Lab - Coin Bag in Spiky Alcove" },
             { "0_02_00001", "Morio's Lab - Bunny - In Spiky Alcove" },
         };
@@ -1279,6 +1278,7 @@ namespace YellowTaxiAP
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #4", "FGU" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #5", "FGU" },
             { "Morio's Lab - Coin Bag on Second Floor", "FGU" },
+            { "Morio's Lab - Gear - On Spiky Cliffs", "GS+J1 | X1+GS+B2 | X2+B2+J2" },
         };
 
         #endregion
@@ -1554,6 +1554,86 @@ namespace YellowTaxiAP
             { "3_03_00154", "Morio's Island - Chest Stone Arch Near Morio's Home" },
         };
 
+        [Description("Morio's Island - First Bunny Arch")]
+        public static Dictionary<string, string> MoriosIslandFirstBunnyArch = new()
+        {
+            { "3_03_00431", "Morio's Island - Coin on First Bunny Arch #1" },
+            { "3_03_00432", "Morio's Island - Coin on First Bunny Arch #2" },
+            { "3_03_00433", "Morio's Island - Coin on First Bunny Arch #3" },
+            { "3_03_00434", "Morio's Island - Coin on First Bunny Arch #4" },
+            { "3_03_00435", "Morio's Island - Coin on First Bunny Arch #5" },
+            { "3_03_00436", "Morio's Island - Coin on First Bunny Arch #6" },
+            { "3_02_00000", "Morio's Island - Bunny on First Optional Path" },
+        };
+
+        [Description("Morio's Island - Second Bunny Arch")]
+        public static Dictionary<string, string> MoriosIslandSecondBunnyArch = new()
+        {
+            { "3_03_00417", "Morio's Island - Coin on Second Bunny Arch #1" },
+            { "3_03_00420", "Morio's Island - Coin on Second Bunny Arch #2" },
+            { "3_03_00419", "Morio's Island - Coin on Second Bunny Arch #3" },
+            { "3_03_00418", "Morio's Island - Coin on Second Bunny Arch #4" },
+            { "3_03_00412", "Morio's Island - Coin on Second Bunny Arch #5" },
+            { "3_03_00411", "Morio's Island - Coin on Second Bunny Arch #6" },
+            { "3_03_00410", "Morio's Island - Coin on Second Bunny Arch #7" },
+            { "3_03_00413", "Morio's Island - Coin on Second Bunny Arch #8" },
+            { "3_03_00416", "Morio's Island - Coin Bag on Second Bunny Arch #1" },
+            { "3_03_00414", "Morio's Island - Coin Bag on Second Bunny Arch #2" },
+            { "3_02_00001", "Morio's Island - Bunny on Second Optional Path" },
+        };
+
+        [Description("Morio's Island - Center Stone Island")]
+        public static Dictionary<string, string> MoriosIslandCenterIsland = new()
+        {
+            { "3_03_00062", "Morio's Island - Coin on Center Stone Island #1" },
+            { "3_03_00061", "Morio's Island - Coin on Center Stone Island #2" },
+            { "3_03_00060", "Morio's Island - Coin on Center Stone Island #3" },
+            { "3_03_00141", "Morio's Island - Coin on Center Stone Island #4" },
+            { "3_03_00140", "Morio's Island - Coin on Center Stone Island #5" },
+            { "3_03_00138", "Morio's Island - Coin on Center Stone Island #6" },
+            { "3_03_00139", "Morio's Island - Coin on Center Stone Island #7" },
+            { "3_03_00137", "Morio's Island - Coin on Center Stone Island #8" },
+            { "3_03_00136", "Morio's Island - Coin on Center Stone Island #9" },
+            { "3_03_00134", "Morio's Island - Coin on Center Stone Island #10" },
+            { "3_03_00133", "Morio's Island - Coin on Center Stone Island #11" },
+            { "3_03_00199", "Morio's Island - Coin on Center Stone Island #12" },
+            { "3_03_00200", "Morio's Island - Coin on Center Stone Island #13" },
+            { "3_03_00202", "Morio's Island - Coin on Center Stone Island #14" },
+            { "3_03_00201", "Morio's Island - Coin on Center Stone Island #15" },
+            { "3_03_00276", "Morio's Island - Coin on Center Stone Island #16" },
+            { "3_03_00275", "Morio's Island - Coin on Center Stone Island #17" },
+            { "3_03_00272", "Morio's Island - Coin on Center Stone Island #18" },
+            { "3_03_00270", "Morio's Island - Coin on Center Stone Island #19" },
+            { "3_03_00271", "Morio's Island - Coin on Center Stone Island #20" },
+            { "3_03_00274", "Morio's Island - Coin Bag on Center Stone Island" },
+            { "3_03_00273", "Morio's Island - Chest on Center Stone Island" },
+        };
+
+        [Description("Morio's Island - Highest Ground")]
+        public static Dictionary<string, string> MoriosIslandHighestGround = new()
+        {
+            { "3_03_00487", "Morio's Island - Coin on Dirt Arch #1" },
+            { "3_03_00486", "Morio's Island - Coin on Dirt Arch #2" },
+            { "3_03_00482", "Morio's Island - Coin on Dirt Arch #3" },
+            { "3_03_00481", "Morio's Island - Coin on Dirt Arch #4" },
+            { "3_03_00485", "Morio's Island - Coin Bag on Dirt Arch #1" },
+            { "3_03_00483", "Morio's Island - Coin Bag on Dirt Arch #2" },
+            { "3_03_00484", "Morio's Island - Chest on Dirt Arch" },
+            { "3_03_00462", "Morio's Island - Coin on Highest Center Stone Pillar #1" },
+            { "3_03_00461", "Morio's Island - Coin on Highest Center Stone Pillar #2" },
+            { "3_03_00460", "Morio's Island - Coin on Highest Center Stone Pillar #3" },
+            { "3_03_00459", "Morio's Island - Coin on Highest Center Stone Pillar #4" },
+            { "3_03_00458", "Morio's Island - Coin on Highest Center Stone Pillar #5" },
+            { "3_03_00457", "Morio's Island - Coin on Highest Center Stone Pillar #6" },
+            { "3_03_00456", "Morio's Island - Coin on Highest Center Stone Pillar #7" },
+            { "3_03_00409", "Morio's Island - Coin on Center Stone Cliffside #1" },
+            { "3_03_00408", "Morio's Island - Coin on Center Stone Cliffside #2" },
+            { "3_03_00407", "Morio's Island - Coin Bag on Center Stone Cliffside" },
+            { "3_03_00442", "Morio's Island - Coin Bag on Center Stone Clifftop #1" },
+            { "3_03_00441", "Morio's Island - Coin Bag on Center Stone Clifftop #2" },
+            { "3_03_00440", "Morio's Island - Coin Bag on Center Stone Clifftop #3" },
+        };
+
         #endregion
 
         public static List<Tuple<string, Dictionary<string, string>>> KnownIDs =
@@ -1624,7 +1704,6 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabFifthFloorLowerLedge)), MoriosLabFifthFloorLowerLedge),
             new(GetDescription(nameof(MoriosLabFifthToSixthFloorStair)), MoriosLabFifthToSixthFloorStair),
             new(GetDescription(nameof(MoriosLabFifthFloorLowPillars)), MoriosLabFifthFloorLowPillars),
-            new(GetDescription(nameof(MoriosLabFifthFloorLowPillars)), MoriosLabFifthFloorLowPillars),
             new(GetDescription(nameof(MoriosLabFifthFloorHighPillars)), MoriosLabFifthFloorHighPillars),
             new(GetDescription(nameof(MoriosLabFinalFloor)), MoriosLabFinalFloor),
             new(GetDescription(nameof(MoriosLabFinalFloorPipes)), MoriosLabFinalFloorPipes),
@@ -1636,6 +1715,10 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosIslandHighGround)), MoriosIslandHighGround),
             new(GetDescription(nameof(MoriosIslandHomeIsland)), MoriosIslandHomeIsland),
             new(GetDescription(nameof(MoriosIslandLowStoneArch)), MoriosIslandLowStoneArch),
+            new(GetDescription(nameof(MoriosIslandFirstBunnyArch)), MoriosIslandFirstBunnyArch),
+            new(GetDescription(nameof(MoriosIslandSecondBunnyArch)), MoriosIslandSecondBunnyArch),
+            new(GetDescription(nameof(MoriosIslandCenterIsland)), MoriosIslandCenterIsland),
+            new(GetDescription(nameof(MoriosIslandHighestGround)), MoriosIslandHighestGround),
         ];
 
         public static Dictionary<string, Dictionary<string, string>> SpecialRules = new()
@@ -1726,6 +1809,11 @@ namespace YellowTaxiAP
                     MoriosIslandFirstHurdle,
                     MoriosIslandHighGround,
                     MoriosIslandHomeIsland,
+                    MoriosIslandLowStoneArch,
+                    MoriosIslandFirstBunnyArch,
+                    MoriosIslandSecondBunnyArch,
+                    MoriosIslandCenterIsland,
+                    MoriosIslandHighestGround,
                 ]
             },
         };
@@ -1797,8 +1885,8 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandTowardsSewerIsland2, "B1 & OS/GP/J1"),
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
                     new RegionConnection(GrannysIslandHighPillarByLab, "B1 & X1/GP/J1"),
-                    new RegionConnection(GrannysIslandCrashAgainIsland, "B2+GP"),
-                    new RegionConnection(GrannysIslandCrashAgainRoof, "B2+GP+X1 | GP & OS & J1/B1"),
+                    new RegionConnection(GrannysIslandCrashAgainIsland, "B2+GP+X1"),
+                    new RegionConnection(GrannysIslandCrashAgainRoof, "B2+GP+X2 | GP & OS & J1/B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
@@ -1848,7 +1936,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandExpert1HighGround)),
                 [
-                    new RegionConnection(GrannysIslandLabHillExpert1HighGround)
+                    new RegionConnection(GrannysIslandLabHillExpert1HighGround),
                 ]
             },
             {
@@ -1860,7 +1948,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandHighGround)),
                 [
-                    new RegionConnection(GrannysIslandLabHillHighGround),
+                    new RegionConnection(GrannysIslandLabHillHighGround)
                 ]
             },
             {
@@ -2026,7 +2114,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabGroundFloorLowestBolt)),
                 [
-                    // No connections
+                    new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X1+B1"),
                 ]
             },
             {
@@ -2279,12 +2367,47 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosIslandHighGround)),
                 [
                     new RegionConnection(MoriosIslandHomeIsland),
+                    new RegionConnection(MoriosIslandFirstBunnyArch, "X1/J1 & B1"),
+                    new RegionConnection(MoriosIslandSecondBunnyArch, "B2"),
+                    new RegionConnection(MoriosIslandCenterIsland, "B1 & J1/X2 | J2+X1"),
+                    new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosIslandHomeIsland)),
                 [
                     new RegionConnection(MoriosIslandStartingArea, "J1/B1"),
+                    new RegionConnection(MoriosIslandLowStoneArch, "B1 | X1+J2")
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosIslandLowStoneArch)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosIslandFirstBunnyArch)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosIslandSecondBunnyArch)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosIslandCenterIsland)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosIslandHighestGround)),
+                [
+                    // Doesn't connect anywhere
                 ]
             },
 

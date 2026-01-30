@@ -211,7 +211,6 @@ namespace YellowTaxiAP.Managers
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.BACKFLIP_ID;
-                        Plugin.ArchipelagoClient.Win();
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE": // Normally glide tutorial
                         if (!Plugin.SlotData.ShuffleGlide || GameplayMaster.instance.levelId != Data.LevelId.Hub)

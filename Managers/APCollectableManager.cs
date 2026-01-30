@@ -532,9 +532,9 @@ namespace YellowTaxiAP.Managers
                     var alreadyTaken = !id.HasValue || Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) ||
                                        !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value);
 #if DEBUG
-                    if (DebugLocationHelper.Enabled)
+                    if (DebugLocationHelper.Enabled && alreadyTaken)
                     {
-                        alreadyTaken = false;
+                        alreadyTaken = !id.HasValue;
                     }
 #endif
                     switch (pickup.myIdentity)

@@ -10,8 +10,8 @@ namespace YellowTaxiAP.Managers
             // MenuV2Script hooks
             On.MenuV2Script.GotoLabConditionGet += GotoLabConditionGet_AP;
             On.MenuV2Script.MenuSelection += MenuV2Script_MenuSelection;
+            On.MenuV2Script.Update += MenuV2Script_Update;
             On.MenuV2Element.Awake += MenuV2Element_Awake;
-            On.MenuV2Element.UpdateTexts += MenuV2Element_UpdateTexts;
             On.MenuV2WhiteBackground.FixedUpdate += MenuV2WhiteBackground_FixedUpdate;
 
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
@@ -37,16 +37,28 @@ namespace YellowTaxiAP.Managers
             }
         }
 
-        private void MenuV2Element_UpdateTexts(On.MenuV2Element.orig_UpdateTexts orig)
+        private void MenuV2Script_Update(On.MenuV2Script.orig_Update orig, MenuV2Script self)
         {
-            if (!MenuV2Script.instance.isPauseMenu && MenuV2Script.instance.menuIndex != 0)
-                return;
-            orig();
-            if (MenuV2Script.instance.isPauseMenu || !startText || ArchipelagoClient.Authenticated) return;
-            if(Plugin.SlotData.FailedValidation)
+            orig(self);
+            if (!self.isPauseMenu)
+            {
+                UpdateMainMenuText();
+            }
+        }
+
+        private void UpdateMainMenuText()
+        {
+            if (MenuV2Script.instance.isPauseMenu || !startText) return;
+            if (Plugin.SlotData.FailedValidation)
                 startText.textAnimator.SetText("Update Required", false);
+            else if (Plugin.ArchipelagoClient.AttemptingConnection)
+                startText.textAnimator.SetText("Connecting...", false);
+            else if (!ArchipelagoClient.Authenticated)
+                startText.textAnimator.SetText(
+                    ArchipelagoRenderer.AttemptedConnectionOnce ? "Check connection details" : "Connect to Archipelago",
+                    false);
             else
-                startText.textAnimator.SetText("Connect to Archipelago", false);
+                startText.textAnimator.SetText("Start", false);
         }
 
         /// <summary>
@@ -69,13 +81,11 @@ namespace YellowTaxiAP.Managers
                     if (Music.lowPassFilterLevel > (double) a)
                     {
                         Music.SetLowpassFilter(Mathf.Max(a, Music.lowPassFilterLevel - Tick.TimeFixed * 2f));
-                        MenuV2Element.UpdateTexts();
                     }
 
                     if (Music.lowPassFilterLevel < (double) a)
                     {
                         Music.SetLowpassFilter(Mathf.Min(a, Music.lowPassFilterLevel + Tick.TimeFixed * 2f));
-                        MenuV2Element.UpdateTexts();
                     }
                 }
             }
@@ -89,7 +99,7 @@ namespace YellowTaxiAP.Managers
                 if (!ArchipelagoClient.Authenticated)
                 {
                     Sound.Play_Unpausable("SoundMenuError");
-                    if (!ArchipelagoRenderer.AutomaticGamepadInput)
+                    if (!ArchipelagoRenderer.AutomaticGamepadInput && !Plugin.SlotData.FailedValidation)
                     {
                         if (!Plugin.EnableSteamKeyboard && ArchipelagoRenderer.AttemptedConnectionOnce)
                         {
