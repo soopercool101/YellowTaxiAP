@@ -51,10 +51,8 @@ namespace YellowTaxiAP.Managers
                     : RatPersonScript.IsRatPickedUp())
             {
                 // Convert a lawyer into a rat, giving a rat location on bomboss goal
-
-                var ratMesh = Resources.FindObjectsOfTypeAll<Mesh>().First(o => o.name.Equals("Rats 1"));
-                var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>().First(r => r.sharedMesh == ratMesh);
-                var ratMat = Resources.FindObjectsOfTypeAll<Material>().First(o => o.name.Equals("Material.017 1"));
+                var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>()
+                    .First(r => r.name.Equals("Rats 1"));
                 var anims = Resources.FindObjectsOfTypeAll<AnimationClip>();
                 var deadAnim = anims.First(o => o.name.Equals("Rat Dies"));
                 var idleAnim = anims.First(o => o.name.Equals("Rat Idle.001"));
