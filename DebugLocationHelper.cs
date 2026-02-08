@@ -10,7 +10,7 @@ namespace YellowTaxiAP
 #if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => true;
+        public static bool Enabled => false;
 
         #region Hub
 
@@ -1634,6 +1634,587 @@ namespace YellowTaxiAP
             { "3_03_00440", "Morio's Island - Coin Bag on Center Stone Clifftop #3" },
         };
 
+        [Description("Morio's Home - Starting Area")]
+        public static Dictionary<string, string> MoriosHomeStartingArea = new()
+        {
+            { "3_03_00078", "Morio's Home - Coin on Garage Ramp #1" },
+            { "3_03_00144", "Morio's Home - Coin on Garage Ramp #2" },
+            { "3_03_00162", "Morio's Home - Coin on Garage Ramp #3" },
+            { "3_03_00219", "Morio's Home - Coin on Garage Ramp #4" },
+            { "3_03_00252", "Morio's Home - Coin on Garage Ramp #5" },
+            { "3_03_00163", "Morio's Home - Coin on Garage Workbench #1" },
+            { "3_03_00165", "Morio's Home - Coin on Garage Workbench #2" },
+            { "3_03_00171", "Morio's Home - Coin on Garage Workbench #3" },
+            { "3_03_00172", "Morio's Home - Coin on Garage Workbench #4" },
+            { "3_03_00173", "Morio's Home - Coin on Garage Workbench #5" },
+            { "3_03_00183", "Morio's Home - Coin in Living Room #1" },
+            { "3_03_00184", "Morio's Home - Coin in Living Room #2" },
+            { "3_03_00185", "Morio's Home - Coin in Living Room #3" },
+            { "3_03_00186", "Morio's Home - Coin in Living Room #4" },
+            { "3_03_00187", "Morio's Home - Coin on Living Room Couch #1" },
+            { "3_03_00266", "Morio's Home - Coin on Living Room Couch #2" },
+            { "3_03_00301", "Morio's Home - Coin on Living Room Couch #3" },
+            { "3_03_00295", "Morio's Home - Coin on Bookshelf #1" },
+            { "3_03_00294", "Morio's Home - Coin on Bookshelf #2" },
+            { "3_03_00293", "Morio's Home - Coin Bag on Bookshelf" },
+            { "3_01_00002", "Morio's Home - Gear - Living Room Nook" },
+            { "3_02_00002", "Morio's Home - Bunny - In Hidden Room in Hallway" },
+            { "3_03_00107", "Morio's Home - Coin in Hallway #1" },
+            { "3_03_00106", "Morio's Home - Coin in Hallway #2" },
+            { "3_03_00105", "Morio's Home - Coin in Hallway #3" },
+            { "3_03_00104", "Morio's Home - Coin in Hallway #4" },
+            { "3_03_00103", "Morio's Home - Coin in Hallway #5" },
+            { "3_03_00102", "Morio's Home - Coin in Hallway #6" },
+            { "3_03_00101", "Morio's Home - Coin in Hallway #7" },
+            { "3_03_00100", "Morio's Home - Coin in Hallway #8" },
+            { "3_03_00099", "Morio's Home - Coin in Hallway #9" },
+            { "3_03_00096", "Morio's Home - Coin in Hallway #10" },
+            { "3_03_00145", "Morio's Home - Coin in Hallway #11" },
+            { "3_03_00180", "Morio's Home - Coin in Hallway #12" },
+            { "3_03_00220", "Morio's Home - Coin in Hallway #13" },
+            { "3_03_00262", "Morio's Home - Coin in Hallway #14" },
+            { "3_03_00261", "Morio's Home - Coin in Hallway #15" },
+            { "3_03_00259", "Morio's Home - Coin in Hallway #16" },
+            { "3_03_00257", "Morio's Home - Coin in Hallway #17" },
+            { "3_03_00255", "Morio's Home - Coin in Hallway #18" },
+            { "3_03_00254", "Morio's Home - Coin in Hallway #19" },
+            { "3_03_00253", "Morio's Home - Coin in Hallway #20" },
+            { "3_03_00256", "Morio's Home - Coin in Hallway #21" },
+            { "3_03_00258", "Morio's Home - Coin in Hallway #22" },
+            { "3_03_00260", "Morio's Home - Coin in Hallway #23" },
+            { "3_03_00373", "Morio's Home - Coin in Bedroom Before Checkpoint #1" },
+            { "3_03_00374", "Morio's Home - Coin in Bedroom Before Checkpoint #2" },
+            { "3_03_00375", "Morio's Home - Coin in Bedroom Before Checkpoint #3" },
+            { "3_03_00376", "Morio's Home - Coin in Bedroom Before Checkpoint #4" },
+            { "3_03_00377", "Morio's Home - Coin in Bedroom Before Checkpoint #5" },
+            { "3_09_00380", "Morio's Home - Checkpoint in Bedroom" },
+            { "3_03_00378", "Morio's Home - Coin Leading to Weird Tunnels Door #1" },
+            { "3_03_00379", "Morio's Home - Coin Leading to Weird Tunnels Door #2" },
+            { "3_03_00380", "Morio's Home - Coin Leading to Weird Tunnels Door #3" },
+            { "3_03_00390", "Morio's Home - Coin on Bump in Bedroom #1" },
+            { "3_03_00388", "Morio's Home - Coin on Bump in Bedroom #2" },
+            { "3_03_00389", "Morio's Home - Coin Bag on Bump in Bedroom" },
+            { "3_03_00406", "Morio's Home - Coin on First Bed in Bedroom #1" },
+            { "3_03_00430", "Morio's Home - Coin on First Bed in Bedroom #2" },
+            { "3_03_00439", "Morio's Home - Coin on Second Bed in Bedroom #1" },
+            { "3_03_00447", "Morio's Home - Coin on Second Bed in Bedroom #2" },
+            { "3_03_00454", "Morio's Home - Coin on Second Bed in Bedroom #3" },
+            { "3_03_00480", "Morio's Home - Coin on Highest Bed in Bedroom #1" },
+            { "3_03_00491", "Morio's Home - Coin on Highest Bed in Bedroom #2" },
+            { "3_03_00493", "Morio's Home - Coin on Highest Bed in Bedroom #3" },
+            { "3_03_00500", "Morio's Home - Coin Bag on Upper Bedroom Platform #1" },
+            { "3_03_00498", "Morio's Home - Coin on Upper Bedroom Platform #1" },
+            { "3_03_00495", "Morio's Home - Coin on Upper Bedroom Platform #2" },
+            { "3_03_00496", "Morio's Home - Coin Bag on Upper Bedroom Platform #2" },
+            { "3_03_00497", "Morio's Home - Coin on Upper Bedroom Platform #3" },
+            { "3_03_00499", "Morio's Home - Coin on Upper Bedroom Platform #4" },
+            { "3_03_00502", "Morio's Home - Coin Bag on Upper Bedroom Platform #3" },
+            { "3_03_00504", "Morio's Home - Coin on Upper Bedroom Platform #5" },
+            { "3_03_00507", "Morio's Home - Coin on Upper Bedroom Platform #6" },
+            { "3_03_00506", "Morio's Home - Coin Bag on Upper Bedroom Platform #4" },
+            { "3_03_00505", "Morio's Home - Coin on Upper Bedroom Platform #7" },
+            { "3_03_00503", "Morio's Home - Coin on Upper Bedroom Platform #8" },
+            { "3_01_00003", "Morio's Home - Gear - Upper Bedroom Platform" },
+            { "3_03_00476", "Morio's Home - Coin on Bedroom Path #1" },
+            { "3_03_00455", "Morio's Home - Coin on Bedroom Path #2" },
+            { "3_03_00448", "Morio's Home - Coin Bag on Bedroom Path" },
+            { "3_03_00438", "Morio's Home - Coin on Bedroom Bed Wall #1" },
+            { "3_03_00446", "Morio's Home - Coin on Bedroom Bed Wall #2" },
+            { "3_03_00453", "Morio's Home - Coin on Bedroom Bed Wall #3" },
+            { "3_03_00475", "Morio's Home - Coin on Bedroom Bed Wall #4" },
+            { "3_03_00473", "Morio's Home - Coin on Bedroom Bed Wall #5" },
+            { "3_03_00451", "Morio's Home - Coin on Bedroom Bed Wall #6" },
+            { "3_03_00470", "Morio's Home - Coin on Bedroom Bed Wall #7" },
+            { "3_03_00478", "Morio's Home - Coin on Bedroom Bed Wall #8" },
+            { "3_03_00490", "Morio's Home - Coin on Bedroom Bed Wall #9" },
+            { "3_03_00489", "Morio's Home - Coin on Bedroom Bed Wall #10" },
+            { "3_03_00405", "Morio's Home - Coin on Wooden Beam in Bedroom #1"},
+            { "3_03_00404", "Morio's Home - Coin on Wooden Beam in Bedroom #2"},
+            { "3_03_00402", "Morio's Home - Coin on Wooden Beam in Bedroom #3"},
+            { "3_03_00401", "Morio's Home - Coin on Wooden Beam in Bedroom #4"},
+            { "3_03_00403", "Morio's Home - Coin Bag on Wooden Beam in Bedroom"},
+            { "3_01_00007", "Morio's Home - Gear - In Bedroom Corner" },
+            // Special rules
+            { "3_03_00395", "Morio's Home - Coin Bag on Garage Wall Shelf" },       // J1
+            { "3_01_00013", "Morio's Home - Gear - In Hidden Room Near Garage" },   // X2/J1/B1
+        };
+
+        [Description("Morio's Home - Expert 1 High Ground")]
+        public static Dictionary<string, string> MoriosHomeExpert1 = new()
+        {
+            { "3_03_00356", "Morio's Home - Coin on Garage Shelf #1" },
+            { "3_03_00357", "Morio's Home - Coin on Garage Shelf #2" },
+            { "3_03_00358", "Morio's Home - Coin on Garage Shelf #3" },
+            { "3_03_00366", "Morio's Home - Coin on Garage Shelf #4" },
+            { "3_03_00264", "Morio's Home - Safe in Hidden Room Near Garage" },
+        };
+
+        [Description("Morio's Home - High Ground")]
+        public static Dictionary<string, string> MoriosHomeHighGround = new()
+        {
+            { "3_01_00015", "Morio's Home - Gear - On Garage Shelf" },
+            { "3_03_00297", "Morio's Home - Coin on Garage Shelf #5" },
+            { "3_03_00298", "Morio's Home - Coin on Garage Shelf #6" },
+            { "3_03_00299", "Morio's Home - Coin Bag on Garage Standing Shelf" },
+            { "3_03_00300", "Morio's Home - Chest on Garage Shelf" },
+            { "3_03_00365", "Morio's Home - Coin Bag on Hallway Ledge #1" },
+            { "3_03_00364", "Morio's Home - Coin on Hallway Ledge #1" },
+            { "3_03_00363", "Morio's Home - Coin on Hallway Ledge #2" },
+            { "3_03_00362", "Morio's Home - Coin on Hallway Ledge #3" },
+            { "3_03_00361", "Morio's Home - Coin on Hallway Ledge #4" },
+            { "3_03_00360", "Morio's Home - Coin on Hallway Ledge #5" },
+            { "3_03_00359", "Morio's Home - Coin Bag on Hallway Ledge #2" },
+            { "3_01_00011", "Morio's Home - Gear - Above Hallway" },
+        };
+
+        // Only relevant due to Mori-O-Tron
+        [Description("Morio's Home - Before Bed Pillars")]
+        public static Dictionary<string, string> MoriosHomeBeforeBedPillars = new()
+        {
+            { "3_09_00425", "Morio's Home - Checkpoint Before Bed Pillars" },
+            { "3_03_00443", "Morio's Home - Coin on Bed Pillar #1" },
+            { "3_03_00449", "Morio's Home - Coin on Bed Pillar #2" },
+            { "3_03_00463", "Morio's Home - Coin on Bed Pillar #3" },
+        };
+
+        [Description("Morio's Home - Bed Pillars")]
+        public static Dictionary<string, string> MoriosHomeBedPillars = new()
+        {
+            { "3_03_00469", "Morio's Home - Coin After Bed Pillars #1" },
+            { "3_03_00472", "Morio's Home - Coin After Bed Pillars #2" },
+            { "3_03_00471", "Morio's Home - Coin After Bed Pillars #3" },
+            { "3_03_00467", "Morio's Home - Coin After Bed Pillars #4" },
+            { "3_03_00465", "Morio's Home - Coin After Bed Pillars #5" },
+            { "3_03_00466", "Morio's Home - Coin After Bed Pillars #6" },
+            { "3_01_00012", "Morio's Home - Gear - After Bed Pillars" },
+            { "3_03_00494", "Morio's Home - Safe After Bed Pillars" },
+        };
+
+        [Description("Morio's Home - Loft")]
+        public static Dictionary<string, string> MoriosHomeLoft = new()
+        {
+            { "3_03_00511", "Morio's Home - Coin in Loft #1" },
+            { "3_03_00516", "Morio's Home - Coin in Loft #2" },
+            { "3_03_00521", "Morio's Home - Coin in Loft #3" },
+            { "3_03_00526", "Morio's Home - Coin in Loft #4" },
+            { "3_03_00531", "Morio's Home - Coin in Loft #5" },
+            { "3_03_00508", "Morio's Home - Coin in Loft #6" },
+            { "3_03_00512", "Morio's Home - Coin in Loft #7" },
+            { "3_03_00517", "Morio's Home - Coin in Loft #8" },
+            { "3_03_00518", "Morio's Home - Coin in Loft #9" },
+            { "3_03_00527", "Morio's Home - Coin in Loft #10" },
+            { "3_03_00532", "Morio's Home - Coin in Loft #11" },
+            { "3_03_00536", "Morio's Home - Coin in Loft #12" },
+            { "3_03_00509", "Morio's Home - Coin in Loft #13" },
+            { "3_03_00522", "Morio's Home - Coin in Loft #14" },
+            { "3_03_00528", "Morio's Home - Coin in Loft #15" },
+            { "3_03_00537", "Morio's Home - Coin in Loft #16" },
+            { "3_03_00510", "Morio's Home - Coin in Loft #17" },
+            { "3_03_00514", "Morio's Home - Coin in Loft #18" },
+            { "3_03_00519", "Morio's Home - Coin in Loft #19" },
+            { "3_03_00524", "Morio's Home - Coin in Loft #20" },
+            { "3_03_00525", "Morio's Home - Coin in Loft #21" },
+            { "3_03_00534", "Morio's Home - Coin in Loft #23" },
+            { "3_03_00538", "Morio's Home - Coin in Loft #24" },
+            { "3_03_00515", "Morio's Home - Coin in Loft #25" },
+            { "3_03_00520", "Morio's Home - Coin in Loft #26" },
+            { "3_03_00529", "Morio's Home - Coin in Loft #27" },
+            { "3_03_00530", "Morio's Home - Coin in Loft #28" },
+            { "3_03_00535", "Morio's Home - Coin in Loft #29" },
+            { "3_03_00513", "Morio's Home - Coin in Loft #30" },
+            { "3_03_00523", "Morio's Home - Coin Bag in Loft #1" },
+            { "3_03_00533", "Morio's Home - Coin Bag in Loft #2" },
+        };
+
+        [Description("Morio's Home - Kitchen")]
+        public static Dictionary<string, string> MoriosHomeKitchen = new()
+        {
+            { "3_03_00190", "Morio's Home - Coin on Kitchen Sink" },
+            { "3_03_00191", "Morio's Home - Coin on Kitchen Stove" },
+            { "3_03_00121", "Morio's Home - Coin in Kitchen Hallway #1" },
+            { "3_03_00122", "Morio's Home - Coin in Kitchen Hallway #2" },
+            { "3_03_00123", "Morio's Home - Coin in Kitchen Hallway #3" },
+            { "3_03_00147", "Morio's Home - Coin on Dining Room Cupboard #1" },
+            { "3_03_00148", "Morio's Home - Coin on Dining Room Cupboard #2" },
+            { "3_01_00001", "Morio's Home - Gear - In Dining Room Nook" },
+        };
+
+        [Description("Morio's Home - Kitchen Expert 1")]
+        public static Dictionary<string, string> MoriosHomeKitchenExpert1 = new()
+        {
+            { "3_03_00222", "Morio's Home - Coin on Dining Room Pantry #1" },
+            { "3_03_00223", "Morio's Home - Coin on Dining Room Pantry #2" },
+            { "3_03_00224", "Morio's Home - Chest on Dining Room Pantry" },
+        };
+
+        [Description("Morio's Home - Kitchen Cabinets")]
+        public static Dictionary<string, string> MoriosHomeKitchenCabinets = new()
+        {
+            { "3_03_00354", "Morio's Home - Coin on Kitchen Cabinet #1" },
+            { "3_03_00353", "Morio's Home - Coin Bag on Kitchen Cabinet #1" },
+            { "3_03_00352", "Morio's Home - Coin Bag on Kitchen Cabinet #2" },
+            { "3_03_00351", "Morio's Home - Coin on Kitchen Cabinet #2" },
+        };
+
+        [Description("Morio's Home - Kitchen High Ground")]
+        public static Dictionary<string, string> MoriosHomeKitchenHighGround = new()
+        {
+            { "3_03_00396", "Morio's Home - Coin on Path Above Kitchen #1" },
+            { "3_03_00397", "Morio's Home - Coin Bag on Path Above Kitchen" },
+            { "3_03_00398", "Morio's Home - Coin on Path Above Kitchen #2" },
+            { "3_03_00399", "Morio's Home - Coin on Path Above Kitchen #3" },
+            { "3_03_00444", "Morio's Home - Coin Bag Above Dining Room" },
+            { "3_03_00445", "Morio's Home - Coin on Ramp Above Dining Room #1" },
+            { "3_03_00450", "Morio's Home - Coin on Ramp Above Dining Room #2" },
+            { "3_03_00452", "Morio's Home - Coin on Ramp Above Dining Room #3" },
+            { "3_03_00474", "Morio's Home - Coin on Ramp Above Dining Room #4" },
+            { "3_03_00477", "Morio's Home - Coin on Ramp Above Dining Room #5" },
+            { "3_03_00479", "Morio's Home - Coin on Ramp Above Dining Room #6" },
+            { "3_01_00008", "Morio's Home - Gear - Above Kitchen" },
+        };
+
+        [Description("Weird Tunnels - Entrance Area")]
+        public static Dictionary<string, string> WeirdTunnelsEntrance = new()
+        {
+            { "3_03_00068", "Weird Tunnels - Coin on Path Before First Boosts #1" },
+            { "3_03_00069", "Weird Tunnels - Coin on Path Before First Boosts #2" },
+            { "3_03_00070", "Weird Tunnels - Coin on Path Before First Boosts #3" },
+            { "3_03_00071", "Weird Tunnels - Coin on Path Before First Boosts #4" },
+            { "3_03_00072", "Weird Tunnels - Coin on Path Before First Boosts #5" },
+        };
+
+        [Description("Weird Tunnels - Expert 1")]
+        public static Dictionary<string, string> WeirdTunnelsExpert1 = new()
+        {
+            { "3_03_00073", "Weird Tunnels - Coin on Path Before Second Boosts #1" },
+            { "3_03_00074", "Weird Tunnels - Coin on Path Before Second Boosts #2" },
+            { "3_03_00075", "Weird Tunnels - Coin on Path Before Second Boosts #3" },
+            { "3_03_00076", "Weird Tunnels - Coin on Path Before Second Boosts #4" },
+            { "3_03_00077", "Weird Tunnels - Coin on Path Before Second Boosts #5" },
+        };
+
+        [Description("Weird Tunnels - High Ground")]
+        public static Dictionary<string, string> WeirdTunnelsHighGround = new()
+        {
+            { "3_03_00225", "Weird Tunnels - Coin on Left Upper Path #1" },
+            { "3_03_00226", "Weird Tunnels - Coin on Left Upper Path #2" },
+            { "3_03_00227", "Weird Tunnels - Coin on Left Upper Path #3" },
+            { "3_03_00228", "Weird Tunnels - Coin on Left Upper Path #4" },
+            { "3_03_00229", "Weird Tunnels - Coin on Left Upper Path #5" },
+            { "3_03_00234","Weird Tunnels - Coin on Right Upper Path #1" },
+            { "3_03_00233","Weird Tunnels - Coin on Right Upper Path #2" },
+            { "3_03_00232","Weird Tunnels - Coin on Right Upper Path #3" },
+            { "3_03_00231","Weird Tunnels - Coin on Right Upper Path #4" },
+            { "3_03_00230","Weird Tunnels - Coin on Right Upper Path #5" },
+            { "3_03_00235", "Weird Tunnels - Coin Bag on Right Upper Path #1" },
+            { "3_03_00238", "Weird Tunnels - Coin on Right Upper Path #6" },
+            { "3_03_00237", "Weird Tunnels - Coin on Right Upper Path #7" },
+            { "3_03_00236", "Weird Tunnels - Coin on Right Upper Path #8" },
+            { "3_03_00241", "Weird Tunnels - Coin on Right Upper Path #9" },
+            { "3_03_00240", "Weird Tunnels - Coin on Right Upper Path #10" },
+            { "3_03_00239", "Weird Tunnels - Coin on Right Upper Path #11" },
+            { "3_03_00244", "Weird Tunnels - Coin on Right Upper Path #12" },
+            { "3_01_00006", "Weird Tunnels - Gear - On Upper Path" },
+            { "3_03_00242", "Weird Tunnels - Coin on Right Upper Path #13" },
+            { "3_03_00247", "Weird Tunnels - Coin on Right Upper Path #14" },
+            { "3_03_00246", "Weird Tunnels - Coin on Right Upper Path #15" },
+            { "3_03_00245", "Weird Tunnels - Coin on Right Upper Path #16" },
+            { "3_03_00250", "Weird Tunnels - Coin on Right Upper Path #17" },
+            { "3_03_00249", "Weird Tunnels - Coin on Right Upper Path #18" },
+            { "3_03_00248", "Weird Tunnels - Coin on Right Upper Path #19" },
+            { "3_03_00251", "Weird Tunnels - Coin Bag on Right Upper Path #2" },
+            { "3_03_00022", "Weird Tunnels - Coin Surrounding Lower Gear #1" },
+            { "3_03_00025", "Weird Tunnels - Coin Surrounding Lower Gear #2" },
+            { "3_03_00024", "Weird Tunnels - Coin Bag Near Lower Gear #1" },
+            { "3_03_00023", "Weird Tunnels - Coin Surrounding Lower Gear #3" },
+            { "3_03_00028", "Weird Tunnels - Coin Surrounding Lower Gear #4" },
+            { "3_03_00027", "Weird Tunnels - Coin Surrounding Lower Gear #5" },
+            { "3_03_00026", "Weird Tunnels - Coin Surrounding Lower Gear #6" },
+            { "3_03_00031", "Weird Tunnels - Coin Surrounding Lower Gear #7" },
+            { "3_01_00005", "Weird Tunnels - Gear - On Lower Path" },
+            { "3_03_00029", "Weird Tunnels - Coin Surrounding Lower Gear #8" },
+            { "3_03_00034", "Weird Tunnels - Coin Surrounding Lower Gear #9" },
+            { "3_03_00033", "Weird Tunnels - Coin Surrounding Lower Gear #10" },
+            { "3_03_00032", "Weird Tunnels - Coin Surrounding Lower Gear #11" },
+            { "3_03_00037", "Weird Tunnels - Coin Surrounding Lower Gear #12" },
+            { "3_03_00036", "Weird Tunnels - Coin Bag Near Lower Gear #2" },
+            { "3_03_00035", "Weird Tunnels - Coin Surrounding Lower Gear #13" },
+            { "3_03_00038", "Weird Tunnels - Coin Surrounding Lower Gear #14" },
+            { "3_03_00039", "Weird Tunnels - Coin Leading Towards Exit #1" },
+            { "3_03_00040", "Weird Tunnels - Coin Leading Towards Exit #2" },
+            { "3_03_00041", "Weird Tunnels - Coin Leading Towards Exit #3" },
+            { "3_03_00042", "Weird Tunnels - Coin Leading Towards Exit #4" },
+        };
+
+
+        [Description("Morio's Island - Special Rules")]
+        public static Dictionary<string, string> MoriosIslandSpecialRules = new()
+        {
+            { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1" },
+            { "Morio's Home - Gear - In Hidden Side Room", "X2/J1/B1" },
+        };
+
+        #endregion
+
+        #region Bombeach
+
+        #endregion
+
+        #region Arcade Panik
+
+        [Description("Arcade Plaza - Starting Area")]
+        public static Dictionary<string, string> ArcadePlazaStartingArea = new()
+        {
+            { string.Empty, nameof(HubHatWorld) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Arcade Plaza - Outskirts")]
+        public static Dictionary<string, string> ArcadePlazaOutskirts = new()
+        {
+            { "4_03_00157", "Arcade Plaza - Coin on Arcade Roof #1" },
+            { "4_03_00152", "Arcade Plaza - Coin on Arcade Roof #2" },
+            { "4_03_00148", "Arcade Plaza - Coin on Arcade Roof #3" },
+            { "4_03_00158", "Arcade Plaza - Coin on Arcade Roof #4" },
+            { "4_03_00153", "Arcade Plaza - Coin on Arcade Roof #5" },
+            { "4_03_00149", "Arcade Plaza - Coin on Arcade Roof #6" },
+            { "4_03_00154", "Arcade Plaza - Chest on Arcade Roof" },
+            { "4_03_00159", "Arcade Plaza - Coin on Arcade Roof #7" },
+            { "4_03_00155", "Arcade Plaza - Coin on Arcade Roof #8" },
+            { "4_03_00150", "Arcade Plaza - Coin on Arcade Roof #9" },
+            { "4_03_00160", "Arcade Plaza - Coin on Arcade Roof #10" },
+            { "4_03_00156", "Arcade Plaza - Coin on Arcade Roof #11" },
+            { "4_03_00151", "Arcade Plaza - Coin on Arcade Roof #12" },
+            { "4_03_00011", "Arcade Plaza - Coin on Track Ramp Left #1" },
+            { "4_03_00080", "Arcade Plaza - Coin on Track Ramp Left #2" },
+            { "4_03_00082", "Arcade Plaza - Coin on Track Ramp Left #3" },
+            { "4_03_00088", "Arcade Plaza - Coin on Track Ramp Left #4" },
+            { "4_03_00090", "Arcade Plaza - Coin on Track Ramp Left #5" },
+            { "4_03_00042", "Arcade Plaza - Coin on Inner Track Ring Left #1" },
+            { "4_03_00038", "Arcade Plaza - Coin on Inner Track Ring Left #2" },
+            { "4_03_00034", "Arcade Plaza - Coin on Inner Track Ring Left #3" },
+            { "4_03_00030", "Arcade Plaza - Coin on Inner Track Ring Left #4" },
+            { "4_03_00026", "Arcade Plaza - Coin on Inner Track Ring Left #5" },
+            { "4_03_00022", "Arcade Plaza - Coin on Inner Track Ring Left #6" },
+            { "4_03_00018", "Arcade Plaza - Coin on Inner Track Ring Left #7" },
+            { "4_03_00014", "Arcade Plaza - Coin Bag on Inner Track Ring Left"},
+            { "4_03_00041", "Arcade Plaza - Coin Bag on Outer Track Ring Left"},
+            { "4_03_00037", "Arcade Plaza - Coin on Outer Track Ring Left #1" },
+            { "4_03_00033", "Arcade Plaza - Coin on Outer Track Ring Left #2" },
+            { "4_03_00029", "Arcade Plaza - Coin on Outer Track Ring Left #3" },
+            { "4_03_00025", "Arcade Plaza - Coin on Outer Track Ring Left #4" },
+            { "4_03_00021", "Arcade Plaza - Coin on Outer Track Ring Left #5" },
+            { "4_03_00017", "Arcade Plaza - Coin on Outer Track Ring Left #6" },
+            { "4_03_00013", "Arcade Plaza - Coin on Outer Track Ring Left #7" },
+            { "4_03_00045", "Arcade Plaza - Coin Bag on Inner Track Ring Back #1" },
+            { "4_03_00046", "Arcade Plaza - Coin on Inner Track Ring Back #1" },
+            { "4_03_00047", "Arcade Plaza - Coin on Inner Track Ring Back #2" },
+            { "4_03_00048", "Arcade Plaza - Coin on Inner Track Ring Back #3" },
+            { "4_03_00049", "Arcade Plaza - Coin on Inner Track Ring Back #4" },
+            { "4_03_00050", "Arcade Plaza - Coin on Inner Track Ring Back #5" },
+            { "4_03_00051", "Arcade Plaza - Coin Bag on Inner Track Ring Back #2" },
+            { "4_03_00052", "Arcade Plaza - Coin on Inner Track Ring Back #6" },
+            { "4_03_00053", "Arcade Plaza - Coin on Inner Track Ring Back #7" },
+            { "4_03_00054", "Arcade Plaza - Coin on Inner Track Ring Back #8" },
+            { "4_03_00055", "Arcade Plaza - Coin on Inner Track Ring Back #9" },
+            { "4_03_00056", "Arcade Plaza - Coin on Inner Track Ring Back #10" },
+            { "4_03_00057", "Arcade Plaza - Coin Bag on Inner Track Ring Back #3" },
+            { "4_03_00058", "Arcade Plaza - Coin Bag on Outer Track Ring Back #1" },
+            { "4_03_00059", "Arcade Plaza - Coin on Outer Track Ring Back #1" },
+            { "4_03_00060", "Arcade Plaza - Coin on Outer Track Ring Back #2" },
+            { "4_03_00061", "Arcade Plaza - Coin on Outer Track Ring Back #3" },
+            { "4_03_00062", "Arcade Plaza - Coin on Outer Track Ring Back #4" },
+            { "4_03_00063", "Arcade Plaza - Coin on Outer Track Ring Back #5" },
+            { "4_03_00064", "Arcade Plaza - Coin Bag on Outer Track Ring Back #2" },
+            { "4_03_00065", "Arcade Plaza - Coin on Outer Track Ring Back #6" },
+            { "4_03_00066", "Arcade Plaza - Coin on Outer Track Ring Back #7" },
+            { "4_03_00067", "Arcade Plaza - Coin on Outer Track Ring Back #8" },
+            { "4_03_00068", "Arcade Plaza - Coin on Outer Track Ring Back #9" },
+            { "4_03_00069", "Arcade Plaza - Coin on Outer Track Ring Back #10" },
+            { "4_03_00070", "Arcade Plaza - Coin Bag on Outer Track Ring Back #3" },
+            { "4_03_00012", "Arcade Plaza - Coin on Track Ramp Right #1" },
+            { "4_03_00081", "Arcade Plaza - Coin on Track Ramp Right #2" },
+            { "4_03_00083", "Arcade Plaza - Coin on Track Ramp Right #3" },
+            { "4_03_00089", "Arcade Plaza - Coin on Track Ramp Right #4" },
+            { "4_03_00091", "Arcade Plaza - Coin on Track Ramp Right #5" },
+            { "4_03_00043", "Arcade Plaza - Coin on Inner Track Ring Right #1" },
+            { "4_03_00039", "Arcade Plaza - Coin on Inner Track Ring Right #2" },
+            { "4_03_00035", "Arcade Plaza - Coin on Inner Track Ring Right #3" },
+            { "4_03_00031", "Arcade Plaza - Coin on Inner Track Ring Right #4" },
+            { "4_03_00027", "Arcade Plaza - Coin on Inner Track Ring Right #5" },
+            { "4_03_00023", "Arcade Plaza - Coin on Inner Track Ring Right #6" },
+            { "4_03_00019", "Arcade Plaza - Coin on Inner Track Ring Right #7" },
+            { "4_03_00015", "Arcade Plaza - Coin Bag on Inner Track Ring Right" },
+            { "4_03_00044", "Arcade Plaza - Coin Bag on Outer Track Ring Right" },
+            { "4_03_00040", "Arcade Plaza - Coin on Outer Track Ring Right #1" },
+            { "4_03_00036", "Arcade Plaza - Coin on Outer Track Ring Right #2" },
+            { "4_03_00032", "Arcade Plaza - Coin on Outer Track Ring Right #3" },
+            { "4_03_00028", "Arcade Plaza - Coin on Outer Track Ring Right #4" },
+            { "4_03_00024", "Arcade Plaza - Coin on Outer Track Ring Right #5" },
+            { "4_03_00020", "Arcade Plaza - Coin on Outer Track Ring Right #6" },
+            { "4_03_00016", "Arcade Plaza - Coin on Outer Track Ring Right #7" },
+        };
+
+        [Description("Arcade Panik Hat World")]
+        public static Dictionary<string, string> ArcadePanikHatWorld = new()
+        {
+            { string.Empty, nameof(ArcadePanikHatWorld) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Arcade Panik - Starting Area")]
+        public static Dictionary<string, string> ArcadePanikStartingArea = new()
+        {
+            { "4_03_00101", "Arcade Panik - Coin by Big Bowling #1" },
+            { "4_03_00102", "Arcade Panik - Coin by Big Bowling #2" },
+            { "4_03_00103", "Arcade Panik - Coin by Big Bowling #3" },
+            { "4_03_00104", "Arcade Panik - Coin by Big Bowling #4" },
+            { "4_03_00105", "Arcade Panik - Coin by Big Bowling #5" },
+            { "4_03_00092", "Arcade Panik - Coin by Rental Shoes #1" },
+            { "4_03_00093", "Arcade Panik - Coin by Rental Shoes #2" },
+            { "4_03_00094", "Arcade Panik - Coin by Rental Shoes #3" },
+            { "4_03_00095", "Arcade Panik - Coin by Rental Shoes #4" },
+            { "4_03_00096", "Arcade Panik - Coin by Rental Shoes #5" },
+            { "4_03_00097", "Arcade Panik - Coin by Rental Shoes #6" },
+            { "4_03_00098", "Arcade Panik - Coin by Rental Shoes #7" },
+            { "4_03_00099", "Arcade Panik - Coin by Rental Shoes #8" },
+            { "4_03_00100", "Arcade Panik - Coin by Rental Shoes #9" },
+            { "4_03_00106", "Arcade Panik - Coin in Big Bowling Center Lane #1" },
+            { "4_03_00107", "Arcade Panik - Coin in Big Bowling Center Lane #2" },
+            { "4_03_00108", "Arcade Panik - Coin in Big Bowling Center Lane #3" },
+            { "4_03_00109", "Arcade Panik - Coin in Big Bowling Center Lane #4" },
+            { "4_03_00110", "Arcade Panik - Coin in Big Bowling Center Lane #5" },
+            { "4_01_00001", "Arcade Panik - Gear - Big Bowling Center Lane Strike" },
+            { "4_03_00112", "Arcade Panik - Coin on Left Side of Big Bowling Lanes #1" },
+            { "4_03_00114", "Arcade Panik - Coin on Left Side of Big Bowling Lanes #2" },
+            { "4_03_00116", "Arcade Panik - Coin on Left Side of Big Bowling Lanes #3" },
+            { "4_03_00118", "Arcade Panik - Coin on Left Side of Big Bowling Lanes #4" },
+            { "4_03_00120", "Arcade Panik - Coin on Left Side of Big Bowling Lanes #5" },
+            { "4_03_00111", "Arcade Panik - Coin on Right Side of Big Bowling Lanes #1" },
+            { "4_03_00113", "Arcade Panik - Coin on Right Side of Big Bowling Lanes #2" },
+            { "4_03_00115", "Arcade Panik - Coin on Right Side of Big Bowling Lanes #3" },
+            { "4_03_00117", "Arcade Panik - Coin on Right Side of Big Bowling Lanes #4" },
+            { "4_03_00119", "Arcade Panik - Coin on Right Side of Big Bowling Lanes #5" },
+            { "4_03_00077", "Arcade Panik - Coin Behind Big Bowling Lanes #1" },
+            { "4_03_00076", "Arcade Panik - Coin Behind Big Bowling Lanes #2" },
+            { "4_03_00075", "Arcade Panik - Coin Behind Big Bowling Lanes #3" },
+            { "4_03_00074", "Arcade Panik - Coin Behind Big Bowling Lanes #4" },
+            { "4_03_00073", "Arcade Panik - Coin Behind Big Bowling Lanes #5" },
+            { "4_03_00072", "Arcade Panik - Coin Behind Big Bowling Lanes #6" },
+            { "4_03_00071", "Arcade Panik - Coin Behind Big Bowling Lanes #7" },
+            { "4_03_00010", "Arcade Panik - Coin on Ramp Behind Big Bowling #1" },
+            { "4_03_00078", "Arcade Panik - Coin on Ramp Behind Big Bowling #2" },
+            { "4_03_00084", "Arcade Panik - Coin on Ramp Behind Big Bowling #3" },
+            { "4_03_00125", "Arcade Panik - Coin on Ramp Behind Big Bowling #4" },
+            { "4_03_00132", "Arcade Panik - Coin on Ramp Behind Big Bowling #5" },
+            { "4_03_00133", "Arcade Panik - Coin on Ramp Behind Big Bowling #6" },
+            { "4_03_00134", "Arcade Panik - Coin on Ramp Behind Big Bowling #7" },
+            { "4_03_00135", "Arcade Panik - Coin on Ramp Behind Big Bowling #8" },
+            { "4_03_00130", "Arcade Panik - Coin on Ramp Behind Big Bowling #9" },
+            { "4_01_00021", "Arcade Panik - Gear - Under Purple Bridge to Big Bowling" },
+            { "4_09_00065", "Arcade Panik - Checkpoint Near Big Bowling" },
+            { "4_01_00012", "Arcade Panik - Gear - Above Center Island" },
+            { "4_03_00006", "Arcade Panik - Chest on Big Bowling Pipe" },
+            { "4_03_00007", "Arcade Panik - Chest on Arcade Zone Pipe" },
+            { "4_03_00008", "Arcade Panik - Chest on Go Karts Pipes #1" },
+            { "4_03_00079", "Arcade Panik - Chest on Go Karts Pipes #2" },
+            { "4_03_00131", "Arcade Panik - Chest on Go Karts Pipes #3" },
+            { "4_01_00022", "Arcade Panik - Gear - Crazy Ballz Short Strike" },
+            { "4_03_00279", "Arcade Panik - Coin on Switch Overlooking Crazy Ballz Long Strike #1" },
+            { "4_03_00287", "Arcade Panik - Coin on Switch Overlooking Crazy Ballz Long Strike #2" },
+            { "4_03_00290", "Arcade Panik - Coin Bag on Switch Overlooking Crazy Ballz Long Strike #1" },
+            { "4_03_00292", "Arcade Panik - Coin Bag on Switch Overlooking Crazy Ballz Long Strike #2" },
+            { "4_01_00014", "Arcade Panik - Gear - Crazy Ballz Long Strike" },
+            { "4_03_00141", "Arcade Panik - Coin on Crazy Ballz Path #1" },
+            { "4_03_00142", "Arcade Panik - Coin on Crazy Ballz Path #2" },
+            { "4_03_00143", "Arcade Panik - Coin on Crazy Ballz Path #3" },
+            { "4_03_00144", "Arcade Panik - Coin on Crazy Ballz Path #4" },
+            { "4_03_00145", "Arcade Panik - Coin on Crazy Ballz Path #5" },
+            { "4_03_00146", "Arcade Panik - Coin on Crazy Ballz Path #6" },
+            { "4_03_00147", "Arcade Panik - Coin on Crazy Ballz Path #7" },
+            { "4_03_00280", "Arcade Panik - Coin on Crazy Ballz Final Switch #1" },
+            { "4_03_00288", "Arcade Panik - Coin on Crazy Ballz Final Switch #2" },
+            { "4_03_00291", "Arcade Panik - Coin on Crazy Ballz Final Switch #3" },
+            { "4_03_00293", "Arcade Panik - Coin on Crazy Ballz Final Switch #4" },
+            { "4_03_00294", "Arcade Panik - Coin on Crazy Ballz Final Switch #5" },
+            { "4_01_00015", "Arcade Panik - Gear - Crazy Ballz Left Prize" },
+            { "4_01_00019", "Arcade Panik - Gear - Crazy Ballz Middle Prize" },
+            { "4_01_00004", "Arcade Panik - Gear - Crazy Ballz Right Prize" },
+            { "4_03_00178", "Arcade Panik - Coin Near Go Karts Entrance #1" },
+            { "4_03_00177", "Arcade Panik - Coin Near Go Karts Entrance #2" },
+            { "4_03_00176", "Arcade Panik - Coin Near Go Karts Entrance #3" },
+            { "4_03_00175", "Arcade Panik - Coin Near Go Karts Entrance #4" },
+            { "4_03_00174", "Arcade Panik - Coin Near Go Karts Entrance #5" },
+            { "4_03_00173", "Arcade Panik - Coin on Go Karts Path #1" },
+            { "4_03_00172", "Arcade Panik - Coin on Go Karts Path #2" },
+            { "4_03_00171", "Arcade Panik - Coin on Go Karts Path #3" },
+            { "4_03_00170", "Arcade Panik - Coin on Go Karts Path #4" },
+            { "4_03_00169", "Arcade Panik - Coin on Go Karts Path #5" },
+            { "4_03_00164", "Arcade Panik - Coin on Go Karts Ramp to Switch #1" },
+            { "4_03_00165", "Arcade Panik - Coin on Go Karts Ramp to Switch #2" },
+            { "4_03_00166", "Arcade Panik - Coin on Go Karts Ramp to Switch #3" },
+            { "4_03_00186", "Arcade Panik - Coin on Go Karts Ramp to Switch #4" },
+            { "4_03_00187", "Arcade Panik - Coin on Go Karts Ramp to Switch #5" },
+            { "4_03_00190", "Arcade Panik - Coin on Go Karts Ramp to Switch #6" },
+            { "4_03_00192", "Arcade Panik - Coin on Go Karts Ramp to Switch #7" },
+            { "4_03_00191", "Arcade Panik - Coin on Go Karts Switch #1" },
+            { "4_03_00201", "Arcade Panik - Coin on Go Karts Switch #2" },
+            { "4_03_00204", "Arcade Panik - Coin on Go Karts Switch #3" },
+            { "4_03_00247", "Arcade Panik - Coin on Go Karts Switch #4" },
+            { "4_03_00260", "Arcade Panik - Coin on Go Karts Switch #5" },
+            { "4_01_00020", "Arcade Panik - Gear - Go Karts Strike" },
+            { "4_03_00140", "Arcade Panik - Coin on Go Karts Curved Ramp #1" },
+            { "4_03_00139", "Arcade Panik - Coin on Go Karts Curved Ramp #2" },
+            { "4_03_00138", "Arcade Panik - Coin on Go Karts Curved Ramp #3" },
+            { "4_03_00137", "Arcade Panik - Coin on Go Karts Curved Ramp #4" },
+            { "4_03_00136", "Arcade Panik - Coin on Go Karts Curved Ramp #5" },
+            { "4_09_00415", "Arcade Panik - Checkpoint by Go Karts" },
+            { "4_03_00220", "Arcade Panik - Coin Before Go Karts Obstacle Course #1" },
+            { "4_03_00221", "Arcade Panik - Coin Before Go Karts Obstacle Course #2" },
+            { "4_03_00222", "Arcade Panik - Coin Before Go Karts Obstacle Course #3" },
+            { "4_03_00223", "Arcade Panik - Coin Before Go Karts Obstacle Course #4" },
+            { "4_03_00224", "Arcade Panik - Coin Before Go Karts Obstacle Course #5" },
+            { "4_01_00008", "Arcade Panik - Gear - Go Karts Obstacle Course" },
+            { "4_03_00179", "Arcade Panik - Coin on Path to Arcade Zone #1" },
+            { "4_03_00180", "Arcade Panik - Coin on Path to Arcade Zone #2" },
+            { "4_03_00181", "Arcade Panik - Coin on Path to Arcade Zone #3" },
+            { "4_03_00182", "Arcade Panik - Coin on Path to Arcade Zone #4" },
+            { "4_03_00183", "Arcade Panik - Coin on Path to Arcade Zone #5" },
+            { "4_01_00018", "Arcade Panik - Gear - Left Switch Path" },
+            { "4_01_00013", "Arcade Panik - Gear - Right Switch Path" },
+            //{ "4_20_99999", "Arcade Panik - Psycho Taxi Cartridge" }, // Irrelevant to this, placed by special handling
+        };
+
+        [Description("Arcade Panik - Expert 1 or Jump")]
+        public static Dictionary<string, string> ArcadePanikExpert1Jump = new()
+        {
+            { "4_03_00005", "Arcade Panik - Chest on Crazy Ballz Pipes #1" },
+            { "4_03_00009", "Arcade Panik - Chest on Crazy Ballz Pipes #2" },
+            { "4_03_00167", "Arcade Panik - Chest Behind Arcade Zone Entrance Left Arcade Machine" },
+            { "4_03_00185", "Arcade Panik - Chest Behind Arcade Zone Entrance Right Arcade Machine" },
+        };
+
+        public static Dictionary<string, string> ArcadePanikSpecialRules = new()
+        {
+            { "Arcade Panik - Chest on Crazy Ballz Pipes #1", "X1/J1" },
+            { "Arcade Panik - Chest on Crazy Ballz Pipes #2", "X1/J1" },
+        };
+
+        #endregion
+
+        #region Gym Gears
+
+
+        [Description("Gym Gears - Starting Area")]
+        public static Dictionary<string, string> GymGearsStartingArea = new()
+        {
+            { "6_03_00000", "Gym Gears - Entrance Hallway Coin #1" },
+            { "6_03_00001", "Gym Gears - Entrance Hallway Coin #2" },
+            { "6_03_00002", "Gym Gears - Entrance Hallway Coin #3" },
+            { "6_03_00003", "Gym Gears - Entrance Hallway Coin #4" },
+            { "6_03_00004", "Gym Gears - Entrance Hallway Coin #5" },
+            { "6_03_00006", "Gym Gears - Entrance Hallway Coin #6" },
+            { "6_03_00005", "Gym Gears - Coin Inside Entrance Pillar" },
+        };
+
         #endregion
 
         public static List<Tuple<string, Dictionary<string, string>>> KnownIDs =
@@ -1719,11 +2300,38 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosIslandSecondBunnyArch)), MoriosIslandSecondBunnyArch),
             new(GetDescription(nameof(MoriosIslandCenterIsland)), MoriosIslandCenterIsland),
             new(GetDescription(nameof(MoriosIslandHighestGround)), MoriosIslandHighestGround),
+
+            new(GetDescription(nameof(MoriosHomeStartingArea)), MoriosHomeStartingArea),
+            new(GetDescription(nameof(MoriosHomeExpert1)), MoriosHomeExpert1),
+            new(GetDescription(nameof(MoriosHomeHighGround)), MoriosHomeHighGround),
+            new(GetDescription(nameof(MoriosHomeBeforeBedPillars)), MoriosHomeBeforeBedPillars),
+            new(GetDescription(nameof(MoriosHomeBedPillars)), MoriosHomeBedPillars),
+            new(GetDescription(nameof(MoriosHomeLoft)), MoriosHomeLoft),
+            new(GetDescription(nameof(MoriosHomeKitchen)), MoriosHomeKitchen),
+            new(GetDescription(nameof(MoriosHomeKitchenExpert1)), MoriosHomeKitchenExpert1),
+            new(GetDescription(nameof(MoriosHomeKitchenCabinets)), MoriosHomeKitchenCabinets),
+            new(GetDescription(nameof(MoriosHomeKitchenHighGround)), MoriosHomeKitchenHighGround),
+
+            new(GetDescription(nameof(WeirdTunnelsEntrance)), WeirdTunnelsEntrance),
+            new(GetDescription(nameof(WeirdTunnelsExpert1)), WeirdTunnelsExpert1),
+            new(GetDescription(nameof(WeirdTunnelsHighGround)), WeirdTunnelsHighGround),
+
+            // Arcade Panik Areas
+            new(GetDescription(nameof(ArcadePlazaStartingArea)), ArcadePlazaStartingArea),
+            new(GetDescription(nameof(ArcadePlazaOutskirts)), ArcadePlazaOutskirts),
+            new(GetDescription(nameof(ArcadePanikHatWorld)), ArcadePanikHatWorld),
+            new(GetDescription(nameof(ArcadePanikStartingArea)), ArcadePanikStartingArea),
+            new(GetDescription(nameof(ArcadePanikExpert1Jump)), ArcadePanikExpert1Jump),
+
+            // Gym Gears Areas
+            new(GetDescription(nameof(GymGearsStartingArea)), GymGearsStartingArea),
         ];
 
         public static Dictionary<string, Dictionary<string, string>> SpecialRules = new()
         {
             { nameof(Data.LevelId.Hub), HubSpecialRules },
+            { nameof(Data.LevelId.L3_MoriosHome), MoriosIslandSpecialRules },
+            { nameof(Data.LevelId.L4_ArcadePanik), ArcadePanikSpecialRules },
         };
 
         public static Dictionary<string, List<Dictionary<string, string>>> PerLevelIDs = new()
@@ -1814,6 +2422,37 @@ namespace YellowTaxiAP
                     MoriosIslandSecondBunnyArch,
                     MoriosIslandCenterIsland,
                     MoriosIslandHighestGround,
+
+                    MoriosHomeStartingArea,
+                    MoriosHomeExpert1,
+                    MoriosHomeHighGround,
+                    MoriosHomeBeforeBedPillars,
+                    MoriosHomeBedPillars,
+                    MoriosHomeLoft,
+                    MoriosHomeKitchen,
+                    MoriosHomeKitchenExpert1,
+                    MoriosHomeKitchenCabinets,
+                    MoriosHomeKitchenHighGround,
+
+                    WeirdTunnelsEntrance,
+                    WeirdTunnelsExpert1,
+                    WeirdTunnelsHighGround,
+                ]
+            },
+            {
+                nameof(Data.LevelId.L4_ArcadePanik),
+                [
+                    ArcadePlazaStartingArea,
+                    ArcadePlazaOutskirts,
+                    ArcadePanikHatWorld,
+                    ArcadePanikStartingArea,
+                    ArcadePanikExpert1Jump,
+                ]
+            },
+            {
+                nameof(Data.LevelId.L6_Gym),
+                [
+                    GymGearsStartingArea,
                 ]
             },
         };
@@ -1823,6 +2462,7 @@ namespace YellowTaxiAP
             Connection,
             Subwarp,
             Warp,
+            MoriOTron,
         }
 
         public class RegionConnection
@@ -1891,7 +2531,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
-                    // TODO: GYM GEARS CONNECTION //new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsEntrance, ConnectionType.Warp)
+                    new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears")
                 ]
             },
             {
@@ -2133,6 +2773,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabSecondFloor)),
                 [
+                    // RegionConnection("Morio's Lab - Bombeach Portal", BombeachStartingArea, ConnectionType.Warp, "PortalBombeach"),
+                    new RegionConnection("Morio's Lab - Arcade Panik Portal", ArcadePlazaStartingArea, ConnectionType.Warp, "PortalArcadePanik"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+B1+J1"),
@@ -2377,7 +3019,8 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosIslandHomeIsland)),
                 [
                     new RegionConnection(MoriosIslandStartingArea, "J1/B1"),
-                    new RegionConnection(MoriosIslandLowStoneArch, "B1 | X1+J2")
+                    new RegionConnection(MoriosIslandLowStoneArch, "B1 | X1+J2"),
+                    new RegionConnection("Morio's Island - Morio's Garage", MoriosHomeStartingArea, ConnectionType.Subwarp),
                 ]
             },
             {
@@ -2410,6 +3053,135 @@ namespace YellowTaxiAP
                     // Doesn't connect anywhere
                 ]
             },
+            {
+                GetDescription(nameof(MoriosHomeStartingArea)),
+                [
+                    new RegionConnection(MoriosHomeExpert1, "X1/J1/B1"),
+                    new RegionConnection(MoriosHomeHighGround, "J1/B1"),
+                    new RegionConnection(MoriosHomeLoft, "J2 | B2+J1"),
+                    new RegionConnection(MoriosHomeKitchen, "SP"),
+                    new RegionConnection("Morio's Home - Door in Bedroom", WeirdTunnelsEntrance, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeExpert1)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeHighGround)),
+                [
+                    new RegionConnection(MoriosHomeBeforeBedPillars),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeBeforeBedPillars)),
+                [
+                    new RegionConnection(MoriosHomeStartingArea),
+                    new RegionConnection(MoriosHomeBedPillars, "B1 & X1/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeBedPillars)),
+                [
+                    new RegionConnection("Morio's Home - Portal to Morio's Lab", MoriosLabGroundFloor, ConnectionType.Warp),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeLoft)),
+                [
+                    new RegionConnection(MoriosHomeKitchen),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeKitchen)),
+                [
+                    new RegionConnection(MoriosHomeKitchenExpert1, "X1/B1/J1"),
+                    new RegionConnection(MoriosHomeKitchenCabinets, "B1/J1"),
+                    new RegionConnection(MoriosHomeKitchenHighGround, "J1 | X1+B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeKitchenExpert1)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeKitchenCabinets)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosHomeKitchenHighGround)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(WeirdTunnelsEntrance)),
+                [
+                    new RegionConnection(WeirdTunnelsExpert1, "X1/B1/J1"),
+                    new RegionConnection(WeirdTunnelsHighGround, "B1/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(WeirdTunnelsExpert1)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(WeirdTunnelsHighGround)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+
+            #endregion
+
+            #region Arcade Panik Connections
+
+            {
+                GetDescription(nameof(ArcadePlazaStartingArea)),
+                [
+                    new RegionConnection(ArcadePlazaOutskirts, "J1"),
+                    new RegionConnection("Arcade Plaza - Hat World Entrance", ArcadePanikHatWorld, ConnectionType.Subwarp),
+                    new RegionConnection("Arcade Plaza - Arcade Panik Entrance", ArcadePanikStartingArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePlazaOutskirts)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePanikHatWorld)),
+                [
+                    new RegionConnection("Arcade Panik Hat World - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePanikStartingArea)),
+                [
+                    new RegionConnection("Arcade Panik - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(ArcadePanikExpert1Jump, "X1/J1"),
+                ]
+            },
+
+            #endregion
+
+            #region Gym Gears Connections
+
+            {
+                GetDescription(nameof(GymGearsStartingArea)),
+                [
+                    new RegionConnection("Gym Gears - Granny's Island Portal", GrannysIslandMain, ConnectionType.Warp),
+                ]
+            }
 
             #endregion
         };

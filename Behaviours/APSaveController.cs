@@ -85,6 +85,9 @@ namespace YellowTaxiAP.Behaviours
                         Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = MiscSave.HasPsychoTaxi;
                 }
 
+                // Update key cutscene states
+                Data.morioCutsceneToslaHQUnlocked[Data.gameDataIndex] = MiscSave.HasSeenFinalLevelUnlockCutscene;
+
                 Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex] =
                     MiscSave.HasLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
 

@@ -96,7 +96,7 @@ namespace YellowTaxiAP.Managers
         {
             if (!self.isPauseMenu)
             {
-                if (!ArchipelagoClient.Authenticated)
+                if (!ArchipelagoClient.Authenticated || Plugin.SlotData.FailedValidation)
                 {
                     Sound.Play_Unpausable("SoundMenuError");
                     if (!ArchipelagoRenderer.AutomaticGamepadInput && !Plugin.SlotData.FailedValidation)

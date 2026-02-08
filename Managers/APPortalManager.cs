@@ -223,6 +223,7 @@ namespace YellowTaxiAP.Managers
         public bool DesiredWaterState;
         public string SongChange;
         public string BackgroundChange;
+        public string MapAreaName;
 
         public string Group => string.IsNullOrEmpty(ExitGroup) ? Name : ExitGroup;
 
@@ -243,7 +244,7 @@ namespace YellowTaxiAP.Managers
         }
 
         public WarpIdentifier(LevelId levelId, Levels.Index targetLevel, LevelId targetLevelId, Vector3 startPosition, Vector3 moveTaxiHere,
-            float rotation, int zone, bool desiredLightState, bool desiredWaterState, string songChange, string backgroundChange)
+            float rotation, int zone, bool desiredLightState, bool desiredWaterState, string songChange, string backgroundChange, string mapAreaName = "")
         {
             OriginalLevelId = levelId;
             StartPosition = startPosition;
@@ -343,7 +344,7 @@ namespace YellowTaxiAP.Managers
 
         public static Dictionary<string, string> WarpRedirects = new()
         {
-            //{"Granny's Island - Morio's Lab Front Door", "Bombeach - Hat World Entrance"},
+            //{"Granny's Island - Morio's Lab Front Door", "Morio's Lab - Arcade Panik Portal"},
             //{"Cave - Exit", "Morio's Lab - Portal to Bombeach"},
             //{"Bombeach - Morio's Lab Portal", "Cave - Exit"},
             //{"Bombeach - Hat World Entrance", "Morio's Home - Portal to Morio's Lab"},

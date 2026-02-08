@@ -1,9 +1,12 @@
-using System;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Managers
@@ -29,6 +32,8 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowGlidePrompt += DialogueScript_OnShowGlidePrompt;
             On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowQuickTurnPrompt += DialogueScript_OnShowQuickTurnPrompt;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab += DoggoLabDialogueTree;
+
+            On.PersonParent.Awake += PersonParent_Awake;
             
             // Morio Dialogue Overrides
             On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
@@ -36,6 +41,84 @@ namespace YellowTaxiAP.Managers
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
         }
+
+        private void PersonParent_Awake(On.PersonParent.orig_Awake orig, PersonParent self)
+        {
+            if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach &&
+                GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 512 &&
+                Plugin.SlotData.ShuffleRat
+                    ? !Plugin.ArchipelagoClient.AllClearedLocations.Contains(2_21_99999)
+                    : RatPersonScript.IsRatPickedUp())
+            {
+                // Convert a lawyer into a rat, giving a rat location on bomboss goal
+
+                var ratMesh = Resources.FindObjectsOfTypeAll<Mesh>().First(o => o.name.Equals("Rats 1"));
+                var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>().First(r => r.sharedMesh == ratMesh);
+                var ratMat = Resources.FindObjectsOfTypeAll<Material>().First(o => o.name.Equals("Material.017 1"));
+                var anims = Resources.FindObjectsOfTypeAll<AnimationClip>();
+                var deadAnim = anims.First(o => o.name.Equals("Rat Dies"));
+                var idleAnim = anims.First(o => o.name.Equals("Rat Idle.001"));
+                var walkAnim = anims.First(o => o.name.Equals("Rat Walk"));
+                // Rat talking and scared animations are not loaded in the hub. Make do.
+                //var talkAnim = anims.First(o => o.name.Equals("Rat Talk"));
+                var talkAnim = idleAnim;
+                //var scaredAnim = anims.First(o => o.name.Equals("ArmaturaRat_Rat Bump"));
+                var scaredAnim = idleAnim;
+                self.transform.parent = null;
+                self.gameObject.transform.position = new Vector3(675, 20, -95);
+                self.dialoguePickup = AssetMaster.GetPrefab("Dialogue Rat Pickup Question");
+                self.cannotDie = true;
+                self.forceCannotRunAway = true;
+                self.gameRelevantPerson = true;
+                self.gameObject.AddComponent<RatPersonScript>();
+
+                var animator = self.modelHolder.GetComponentInChildren<Animator>(true);
+                var animatorController = animator.runtimeAnimatorController;
+                var sourceAnimator = sourceRenderer.GetComponentInParent<Animator>(true);
+
+                var newAnimator = Object.Instantiate(sourceAnimator, self.modelHolder);
+                newAnimator.runtimeAnimatorController = animatorController;
+                var animatorOverride = new AnimatorOverrideController(newAnimator.runtimeAnimatorController);
+                
+                var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+                animatorOverride.GetOverrides(overrides);
+                for (var i = 0; i < animatorOverride.overridesCount; i++)
+                {
+                    var oldClip = overrides[i].Key;
+                    var newClip = idleAnim;
+                    if (oldClip.name.Contains("Talk"))
+                        newClip = talkAnim;
+                    else if (oldClip.name.Contains("Morte"))
+                        newClip = deadAnim;
+                    else if (oldClip.name.Contains("Spavento"))
+                        newClip = scaredAnim;
+                    else if (oldClip.name.Contains("Walk") || oldClip.name.Contains("Run"))
+                        newClip = walkAnim;
+                    Plugin.Log($"Animator override [{i}]: {oldClip.name} -> {newClip.name}");
+                    overrides[i] = new KeyValuePair<AnimationClip, AnimationClip>(oldClip, newClip);
+                }
+                animatorOverride.ApplyOverrides(overrides);
+                newAnimator.runtimeAnimatorController = animatorOverride;
+
+                static void DestroyRecursive(Transform obj, bool destroyThis)
+                {
+                    for (var i = 0; i < obj.childCount; i++)
+                    {
+                        DestroyRecursive(obj.GetChild(i), true);
+                    }
+
+                    if (destroyThis)
+                    {
+                        Object.DestroyImmediate(obj.gameObject);
+                    }
+                }
+
+                DestroyRecursive(animator.transform, true);
+            }
+
+            orig(self);
+        }
+
 
         private void DoggoLabDialogueTree(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab orig, DialogueScript self)
         {
@@ -339,6 +422,9 @@ namespace YellowTaxiAP.Managers
                                 : $"You are stuck here now, but as consolation you can have this {GetItemText(scoutedWall)}!",
                         ];
                         Plugin.ArchipelagoClient.SendLocation(10_00011);
+                        break;
+                    case "DIALOGUE_MORIO_TOSLA_HQ_UNLOCKED_CUTSCENE":
+                        APSaveController.MiscSave.HasSeenFinalLevelUnlockCutscene = true;
                         break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":

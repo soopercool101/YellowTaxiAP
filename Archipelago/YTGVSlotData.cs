@@ -5,11 +5,18 @@ namespace YellowTaxiAP.Archipelago
 {
     public class YTGVSlotData
     {
-        public const int LowestSupportedVersion = 1;
-        public const int HighestSupportedVersion = 1;
+        public const int LowestSupportedVersion = 0;
+        public const int HighestSupportedVersion = 0;
         public bool FailedValidation { get; private set; }
-        public long APWorldVersion { get; set; }
-        public long Goal { get; private set; } = 2;
+        public long BreakingAPWorldVersion { get; set; }
+
+        public enum GoalType : long
+        {
+            Bombeach = 0,
+            ToslaHQ = 1,
+            Moon = 2,
+        }
+        public GoalType Goal { get; private set; }
         public bool DeathLink { get; private set; }
         public bool ShuffleGelaToni { get; private set; }
         public bool ShufflePizzaKing { get; private set; }
@@ -41,22 +48,22 @@ namespace YellowTaxiAP.Archipelago
 
         public YTGVSlotData(Dictionary<string, object> slotData)
         {
-            if (slotData.ContainsKey("version"))
+            if (slotData.ContainsKey("breaking_version"))
             {
-                APWorldVersion = (long)slotData["version"];
-                if (APWorldVersion < LowestSupportedVersion)
+                BreakingAPWorldVersion = (long)slotData["breaking_version"];
+                if (BreakingAPWorldVersion < LowestSupportedVersion)
                 {
                     ArchipelagoClient.Authenticated = false;
-                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {APWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
-                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {APWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
+                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
+                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
                     FailedValidation = true;
                     return;
                 }
-                if (APWorldVersion > HighestSupportedVersion)
+                if (BreakingAPWorldVersion > HighestSupportedVersion)
                 {
                     ArchipelagoClient.Authenticated = false;
-                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {APWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
-                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {APWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
+                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
+                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
                     FailedValidation = true;
                     return;
                 }
@@ -68,7 +75,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("goal"))
             {
-                Goal = (long)slotData["goal"];
+                Goal = (GoalType)slotData["goal"];
             }
             else
             {

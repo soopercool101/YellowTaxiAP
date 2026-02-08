@@ -116,7 +116,7 @@ namespace YellowTaxiAP.Managers
         private void BonusScript_Awake(On.BonusScript.orig_Awake orig, BonusScript self)
         {
             // A small number of coins are accidentally set as children of other coins, causing them to remove themselves when the parent is collected.
-            if (self.transform.parent && !self.transform.parent.gameObject.GetComponent<ZoneMaster>())
+            if (self.transform.parent && self.transform.parent.gameObject.GetComponent<BonusScript>())
             {
                 Plugin.Log($"Warning! {self.myIdentity} ({GetIDString(self)}) has a parent object ({self.transform.parent.gameObject.name})! Removing parent");
                 self.transform.parent = null;
@@ -397,7 +397,9 @@ namespace YellowTaxiAP.Managers
 
                             json += $"\n  \"{modifiedRegionName}\": {{";
                             json += $"\n    \"name\": \"{regionName}\",";
-                            json += $"\n    \"level\": \"{GameplayMaster.instance.levelId.ToString()}\",";
+                            json += GameplayMaster.instance.levelId == Data.LevelId.Hub
+                                ? "\n    \"level\": \"Hub\","
+                                : $"\n    \"level\": \"{Data.levelDataList[(int) GameplayMaster.instance.levelId].GetName()}\",";
                             json += $"\n    \"sublevel\": \"{sublevelname}\",";
                             json += "\n    \"gears\": {";
                             if (regionGears.Any())
