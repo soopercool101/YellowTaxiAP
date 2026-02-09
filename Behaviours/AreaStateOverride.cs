@@ -24,12 +24,16 @@ namespace YellowTaxiAP.Behaviours
 
             foreach (var disable in toDisable)
             {
-                disable?.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
+                if (!disable)
+                    continue;
+                disable.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
             }
 
             foreach (var enable in toEnable)
             {
-                enable?.SetActive(ExpectedState || enable.GetComponent<BonusScript>());
+                if (!enable)
+                    continue;
+                enable.SetActive(ExpectedState || enable.GetComponent<BonusScript>());
             }
 
             state = ExpectedState;
