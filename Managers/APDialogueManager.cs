@@ -46,9 +46,9 @@ namespace YellowTaxiAP.Managers
         {
             if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach &&
                 GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 512 &&
-                Plugin.SlotData.ShuffleRat
-                    ? !Plugin.ArchipelagoClient.AllClearedLocations.Contains(2_21_99999)
-                    : RatPersonScript.IsRatPickedUp())
+                (Plugin.SlotData.ShuffleRat
+                    ? !Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.Michele)
+                    : RatPersonScript.IsRatPickedUp()))
             {
                 // Convert a lawyer into a rat, giving a rat location on bomboss goal
                 var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>()
@@ -63,7 +63,14 @@ namespace YellowTaxiAP.Managers
                 //var scaredAnim = anims.First(o => o.name.Equals("ArmaturaRat_Rat Bump"));
                 var scaredAnim = idleAnim;
                 self.transform.parent = null;
-                self.gameObject.transform.position = new Vector3(675, 20, -95);
+                self.gameObject.transform.position = Plugin.SlotData.ShuffleOrangeSwitch
+                    ? new Vector3(175, 10, -735)
+                    : new Vector3(675, 20, -95);
+                if (Plugin.SlotData.ShuffleOrangeSwitch)
+                {
+                    var ribcage = GameObject.Find("Dettaglio Rib Cage");
+                    ribcage.transform.localPosition = new Vector3(30, 10, 65);
+                }
                 self.dialoguePickup = AssetMaster.GetPrefab("Dialogue Rat Pickup Question");
                 self.cannotDie = true;
                 self.forceCannotRunAway = true;
@@ -92,7 +99,6 @@ namespace YellowTaxiAP.Managers
                         newClip = scaredAnim;
                     else if (oldClip.name.Contains("Walk") || oldClip.name.Contains("Run"))
                         newClip = walkAnim;
-                    Plugin.Log($"Animator override [{i}]: {oldClip.name} -> {newClip.name}");
                     overrides[i] = new KeyValuePair<AnimationClip, AnimationClip>(oldClip, newClip);
                 }
                 animatorOverride.ApplyOverrides(overrides);
@@ -120,7 +126,7 @@ namespace YellowTaxiAP.Managers
 
         private void DoggoLabDialogueTree(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab orig, DialogueScript self)
         {
-            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(10_00007) || APSaveController.MiscSave.HasDoggo)
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations.Doggo) || APSaveController.MiscSave.HasDoggo)
             {
                 self.dialgoueCapsuleKey = "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB";
             }
@@ -252,10 +258,10 @@ namespace YellowTaxiAP.Managers
                     case "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK": // Normally unlocks Flip O' Will
                         if (!Plugin.SlotData.ShuffleFlipOWill)
                             break;
-                        var font = CurrentFont;
+                        var morioFont = CurrentFont;
                         self.dialogues =
                         [
-                            $"Normally, I'd teach you how to <font=\"{font} Black\" material=\"{font} OrangeYellow\">boost</font> using your <font=\"{font} Black\" material=\"{font} OrangeYellow\">Flip O' Will</font>!",
+                            $"Normally, I'd teach you how to <font=\"{morioFont} Black\" material=\"{morioFont} OrangeYellow\">boost</font> using your <font=\"{morioFont} Black\" material=\"{morioFont} OrangeYellow\">Flip O' Will</font>!",
                             APPlayerManager.BoostLevel > 0
                                 ? "It seems that's unnecessary, since you already know how."
                                 : "Unfortunately, I've forgotten how to do that...",
@@ -273,7 +279,7 @@ namespace YellowTaxiAP.Managers
                         ];
                         moveRandoID = Identifiers.SUPERBOOST_ID;
                         break;
-                    case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT": // Normally jump tutorial
+                    case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT" when GameplayMaster.instance.levelId == Data.LevelId.Hub: // Normally jump tutorial
                         if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
@@ -283,8 +289,12 @@ namespace YellowTaxiAP.Managers
                         ];
                         moveRandoID = Identifiers.JUMP_ID;
                         break;
-                    case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP": // Normally backflip tutorial
-                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                    case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
+                    case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP" when GameplayMaster.instance.levelId == Data.LevelId.Hub: // Normally backflip tutorial
+                        if (!Plugin.SlotData.ShuffleFlipOWill)
+                            break;
+                        // Gym Gears backflip location is only for early goals
+                        if (GameplayMaster.instance.levelId == Data.LevelId.L6_Gym && (int)Plugin.SlotData.Goal > 1)
                             break;
                         self.dialogues =
                         [
@@ -330,15 +340,14 @@ namespace YellowTaxiAP.Managers
                             break;
                         try
                         {
-                            var ratItem = Plugin.ArchipelagoClient.ScoutedLocations[2_21_99999];
                             self.dialogues =
                             [
-                                $"Michele handed you a particularly smelly {GetItemText(ratItem, true, false)}!!!"
+                                $"Michele handed you a particularly smelly {GetItemText((int)Identifiers.NotableLocations.Michele, true, false)}!!!"
                             ];
 #if DEBUG
                             DebugLocationHelper.CheckLocation("Michele", "2_21_99999");
 #endif
-                            Plugin.ArchipelagoClient.SendLocation(2_21_99999);
+                            Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Michele);
                         }
                         catch (Exception ex)
                         {
@@ -363,26 +372,14 @@ namespace YellowTaxiAP.Managers
                             break;
                         }
 
-                        ScoutedItemInfo scoutedDoggo;
-                        try
-                        {
-                            scoutedDoggo = Plugin.ArchipelagoClient.ScoutedLocations[10_00007];
-                        }
-                        catch (Exception ex)
-                        {
-                            Plugin.BepinLogger.LogWarning(ex);
-                            Plugin.ArchipelagoClient.SendLocation(10_00007);
-                            break;
-                        }
-
                         self.dialogues =
                         [
                             "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
-                            $"Woff woff woff! (I looked where I last left them, but found this {GetItemText(scoutedDoggo, true, false)} instead!)",
+                            $"Woff woff woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
                             "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Go visit my home on Granny's Island!)" : "(I suppose you need it more than me! If you find my house keys meet me at my home on Granny's Island!)"),
                         ];
 
-                        Plugin.ArchipelagoClient.SendLocation(10_00007);
+                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Doggo);
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB":
                         if (APAreaStateManager.DoggoReceived)
@@ -398,31 +395,52 @@ namespace YellowTaxiAP.Managers
 
                         break;
                     case "DIALOGUE_NARRATOR_DEMO_TRUE_WALL":
-                        ScoutedItemInfo scoutedWall;
-                        try
-                        {
-                            scoutedWall = Plugin.ArchipelagoClient.ScoutedLocations[10_00011];
-                        }
-                        catch (Exception ex)
-                        {
-                            Plugin.BepinLogger.LogWarning(ex);
-                            Plugin.ArchipelagoClient.SendLocation(10_00011);
+                        if (Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.DemoWall))
                             break;
-                        }
-
                         self.dialogues =
                         [
                             APAreaStateManager.FullGameUnlocked
                                 ? "Congratulations on reaching the full game!"
                                 : self.dialogues[0],
                             APAreaStateManager.FullGameUnlocked
-                                ? $"As a reward, here's {GetItemText(scoutedWall)}!"
-                                : $"You are stuck here now, but as consolation you can have this {GetItemText(scoutedWall)}!",
+                                ? $"As a reward, here's {GetItemText((int)Identifiers.NotableLocations.DemoWall)}!"
+                                : $"You are stuck here now, but as consolation you can have this {GetItemText((int)Identifiers.NotableLocations.DemoWall)}!",
                         ];
-                        Plugin.ArchipelagoClient.SendLocation(10_00011);
+                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.DemoWall);
                         break;
                     case "DIALOGUE_MORIO_TOSLA_HQ_UNLOCKED_CUTSCENE":
                         APSaveController.MiscSave.HasSeenFinalLevelUnlockCutscene = true;
+                        break;
+                    case "DIALOGUE_GRANNY_ISLAND_NICK_JUST_TALK":
+                        if ((int) Plugin.SlotData.Goal > 1 || !Plugin.SlotData.ShuffleGoldenPropeller)
+                            break;
+                        var nickFont = CurrentFont;
+                        self.textSoundNames =
+                        [
+                            self.textSoundNames[0],
+                            self.textSoundNames[0],
+                            self.textSoundNames[0],
+                        ];
+                        self.textSounds =
+                        [
+                            self.textSounds[0],
+                            self.textSounds[0],
+                            self.textSounds[0],
+                        ];
+                        self.names =
+                        [
+                            self.names[0],
+                            self.names[0],
+                            self.names[0],
+                        ];
+                        self.dialogues =
+                        [
+                            "Hehe, congrats for getting up here! With your moveset there is no place you cannot reach!",
+                            APCollectableManager.GoldenPropellerActive ?
+                                $"Especially with that <font=\"{nickFont} Black\" material=\"{nickFont} OrangeYellow\">Golden Propeller</font>!" :
+                                $"Although a <font=\"{nickFont} Black\" material=\"{nickFont} OrangeYellow\">Golden Propeller</font> would certainly help.",
+                            $"For managing to get up here{(APCollectableManager.GoldenPropellerActive ? string.Empty : " without one")}, here's {GetItemText(0)}!"
+                        ];
                         break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
@@ -438,8 +456,7 @@ namespace YellowTaxiAP.Managers
                 {
                     try
                     {
-                        var scoutItem = Plugin.ArchipelagoClient.ScoutedLocations[8_00000 + moveRandoID];
-                        self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you {GetItemText(scoutItem)}!";
+                        self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you {GetItemText(8_00000 + moveRandoID)}!";
                         Plugin.ArchipelagoClient.SendLocation(800000 + moveRandoID);
                     }
                     catch(Exception ex)
@@ -454,8 +471,21 @@ namespace YellowTaxiAP.Managers
             orig(self);
         }
 
-        private string GetItemText(ScoutedItemInfo item, bool includePlayer = true, bool includePrefixes = true)
+        private string GetItemText(int itemId, bool includePlayer = true, bool includePrefixes = true)
         {
+            ScoutedItemInfo item;
+            try
+            {
+                item = Plugin.ArchipelagoClient.ScoutedLocations[itemId];
+            }
+            catch (Exception ex)
+            {
+
+                Plugin.BepinLogger.LogWarning(ex);
+                return includePrefixes ? "an item from the multiworld" : "item from the multiworld";
+            }
+
+
             var font = CurrentFont;
             var material = "Yellow";
             if ((item.Flags & ItemFlags.Advancement) == ItemFlags.Advancement)

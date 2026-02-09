@@ -2,7 +2,9 @@
 {
     public static class Identifiers
     {
-        public const int PASSWORD_ID = 0; // Only used by one level in vanilla, will never be used for level 0 so good fit
+        public const int
+            PASSWORD_ID = 0; // Only used by one level in vanilla, will never be used for level 0 so good fit
+
         public const int GEAR_ID = 1;
         public const int BUNNY_ID = 2;
         public const int COIN_ID = 3;
@@ -44,7 +46,7 @@
             BunnyToslaHQ = 2_14,
             BunnyMoon = 2_15,
             Coin1 = 3,
-            Coins10 = 4, 
+            Coins10 = 4,
             Coins25 = 5,
             Coins100 = 6,
             FlipOWill = 8_0_0,
@@ -64,5 +66,13 @@
             PsychoTaxiCartridge = 20_01,
             Michele = 20_02,
         }
-}
+        public enum NotableLocations : long
+        {
+            DemoWall = 10_00011,
+            PizzaKing = 10_00002,
+            Michele = 2_21_99999,
+            Doggo = 10_00007,
+            MoriosPassword = 12_00_00000,
+        }
+    }
 }
