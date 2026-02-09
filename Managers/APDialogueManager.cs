@@ -63,14 +63,7 @@ namespace YellowTaxiAP.Managers
                 //var scaredAnim = anims.First(o => o.name.Equals("ArmaturaRat_Rat Bump"));
                 var scaredAnim = idleAnim;
                 self.transform.parent = null;
-                self.gameObject.transform.position = Plugin.SlotData.ShuffleOrangeSwitch
-                    ? new Vector3(175, 10, -735)
-                    : new Vector3(675, 20, -95);
-                if (Plugin.SlotData.ShuffleOrangeSwitch)
-                {
-                    var ribcage = GameObject.Find("Dettaglio Rib Cage");
-                    ribcage.transform.localPosition = new Vector3(30, 10, 65);
-                }
+                self.gameObject.transform.position = new Vector3(675, 20, -95);
                 self.dialoguePickup = AssetMaster.GetPrefab("Dialogue Rat Pickup Question");
                 self.cannotDie = true;
                 self.forceCannotRunAway = true;
