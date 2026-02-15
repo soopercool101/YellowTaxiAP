@@ -8,7 +8,7 @@ namespace YellowTaxiAP.Managers
         {
             //On.HatBuyScript.Update += AP_HatUpdate;
             On.HatBuyScript.Buy += AP_BuyHat;
-            On.HatScript.RemoveHat += HatScript_RemoveHat; ;
+            On.HatScript.RemoveHat += HatScript_RemoveHat;
             On.HatScript.Instantiate += HatScript_Instantiate;
         }
 

@@ -243,12 +243,5 @@ namespace YellowTaxiAP.Archipelago
             get => HasLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi);
             set => SetLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi, value);
         }
-
-        // Bit 28. If need to conserve remaining bits, can probably just check if final portal has been opened without too much detriment
-        public bool HasSeenFinalLevelUnlockCutscene
-        {
-            get => GetBit(28);
-            set => SetBit(28, value);
-        }
     }
 }

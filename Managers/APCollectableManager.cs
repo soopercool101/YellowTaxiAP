@@ -6,6 +6,7 @@ using Archipelago.MultiClient.Net.Models;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
+using YellowTaxiAP.Helpers;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
@@ -158,6 +159,16 @@ namespace YellowTaxiAP.Managers
 
                     self.smallDemoZoneMaster = -1;
                 }
+            }
+
+            if (GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myIdentity == BonusScript.Identity.bunny &&
+                ((self.bunnyIndex == 1 && Plugin.SlotData.ExcludeSpikeBunny) || (self.bunnyIndex == 2 && Plugin.SlotData.ExcludeTopBunny)))
+            {
+                // Ensure that the unincluded bunny is invisible, then completely destroy it.
+                self.myMeshRend.enabled = false;
+                ObjectHelper.DestroyImmediateRecursive(self.myMeshHolder);
+                ObjectHelper.DestroyImmediateRecursive(self.transform);
+                return;
             }
             orig(self);
             if (self.smallDemoZoneMaster >= 0 && self.smallDdemoPositionOffset == new Vector3(0, 0, 0))
@@ -667,7 +678,7 @@ namespace YellowTaxiAP.Managers
 #endif
                             if (Plugin.SlotData.ShuffleMoriosPassword)
                             {
-                                Plugin.ArchipelagoClient.SendLocation(12_00_00000);
+                                Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.MoriosPassword);
                             }
                             else
                             {

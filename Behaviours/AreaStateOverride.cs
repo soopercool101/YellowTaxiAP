@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Behaviours
@@ -67,6 +69,25 @@ namespace YellowTaxiAP.Behaviours
                 toDisable = orig.disableThisAreaWhenActive;
                 toEnable = orig.enableThisAreaWhenActive;
             }
+
+            if (Plugin.SlotData.EarlyPizzaKing)
+            {
+                // Pizza King would be postgame in BomBoss goal, so put his location check here
+                var newToEnable = new List<GameObject>();
+                foreach (var enable in toEnable)
+                {
+                    if (enable.name.Equals("Person Pizza King Granny'sIsland"))
+                    {
+                        enable.SetActive(true);
+                    }
+                    else
+                    {
+                        newToEnable.Add(enable);
+                    }
+                }
+
+                toEnable = newToEnable.ToArray();
+            }
         }
     }
 
@@ -81,6 +102,25 @@ namespace YellowTaxiAP.Behaviours
             {
                 toDisable = orig.disableThisAreaWhenActive;
                 toEnable = orig.enableThisAreaWhenActive;
+            }
+
+            if (Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.ShuffleDoggo)
+            {
+                // Doggo would be postgame in pre-moon goals, so put his location check here
+                var newToEnable = new List<GameObject>();
+                foreach (var enable in toEnable)
+                {
+                    if (enable.name.Equals("Person Animal Corgie"))
+                    {
+                        enable.SetActive(true);
+                    }
+                    else
+                    {
+                        newToEnable.Add(enable);
+                    }
+                }
+
+                toEnable = newToEnable.ToArray();
             }
         }
     }
@@ -125,7 +165,7 @@ namespace YellowTaxiAP.Behaviours
                     continue;
                 if (disable.name.Equals("Dettaglio Albero1")) // Keep this tree. Mosk normally replaces it.
                 {
-                    //disable.SetActive(true); // Don't just always enable it though. If you destroyed it this creates an invincible tree
+                    disable.SetActive(false); // Don't just always enable it though. If you destroyed it this creates an invincible tree
                 }
                 else
                 {
@@ -139,7 +179,7 @@ namespace YellowTaxiAP.Behaviours
                     continue;
                 if (enable.name.Equals("Person Alien Mosk Good")) // Don't add Mosk. He brings you to the moon.
                 {
-                    enable.SetActive(false);
+                    enable.SetActive(true);
                 }
                 else
                 {
@@ -174,12 +214,6 @@ namespace YellowTaxiAP.Behaviours
             {
                 if (!disable)
                     continue;
-                // For some reason gym portal gets removed by demo code, despite being in demo
-                if (disable.gameObject.name.Equals("Portal Level Gym"))
-                {
-                    disable.SetActive(true);
-                    continue;
-                }
                 disable.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
             }
 
@@ -187,12 +221,6 @@ namespace YellowTaxiAP.Behaviours
             {
                 if (!enable)
                     continue;
-                // For some reason gym portal gets removed by demo code, despite being in demo
-                if (enable.gameObject.name.Equals("Sign Forbidden (1)"))
-                {
-                    enable.SetActive(false);
-                    continue;
-                }
                 // Psycho taxi gets disabled by demo mode... Do I want this to be the case?
                 //if (enable.gameObject.name.Equals("Tile Lab Cubo Spicchio") ||
                 //    enable.gameObject.name.Equals("LabPareteQuad Diagonale") ||

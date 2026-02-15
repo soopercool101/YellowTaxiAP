@@ -49,13 +49,16 @@ public class Plugin : BaseUnityPlugin
     public APMinimapManager MinimapHook;
 
     public bool AllowLaser = true;
-    public static void Log(string message)
-    {
 #if DEBUG
-        ArchipelagoConsole.LogMessage(message);
+    public static void Log(string message, bool logInGame = true)
 #else
-        BepinLogger.LogMessage(message);
+    public static void Log(string message, bool logInGame = false)
 #endif
+    {
+        if (logInGame)
+            ArchipelagoConsole.LogMessage(message);
+        else
+            BepinLogger.LogMessage(message);
     }
 
     private void Awake()

@@ -73,6 +73,11 @@
             Michele = 2_21_99999,
             Doggo = 10_00007,
             MoriosPassword = 12_00_00000,
+            MosksRocket = 10_00016,
+            PsychoTaxi = 4_20_99999,
+            OrangeSwitch = 10_00_00000,
+            GoldenSpring = 5_00_00000,
+            GoldenPropeller = 13_00_00000,
         }
     }
 }

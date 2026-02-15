@@ -5,7 +5,7 @@ namespace YellowTaxiAP.Managers
     public class APRatManager
     {
         public static bool ReceivedRatItem = false;
-        public static bool SentRatLocation => Plugin.ArchipelagoClient.AllClearedLocations.Contains(2_21_99999);
+        public static bool SentRatLocation => Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.Michele);
 
         public APRatManager()
         {
@@ -62,8 +62,6 @@ namespace YellowTaxiAP.Managers
 
         private bool CheeseScript_IsAlreadyPickedUp(On.CheeseScript.orig_IsAlreadyPickedUp orig, CheeseScript self)
         {
-            //Plugin.Log($"Cheese {self.GetCheeseIdString()} can be found at {self.transform.position.ToString()}");
-            // TODO: Base this off the location being checked instead of the vanilla check
             return !Plugin.SlotData.Cheesesanity
                 ? orig(self)
                 : Plugin.ArchipelagoClient.AllClearedLocations.Contains(
@@ -76,8 +74,9 @@ namespace YellowTaxiAP.Managers
             {
                 RatPersonScript.RatPickUp();
             }
+            Plugin.Log("Picking up rat");
             Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
-            Object.Destroy(self.gameObject);
+            Object.Destroy(RatPersonScript.instance.gameObject);
         }
 
         private void CheeseScript_MarkPickedUp(On.CheeseScript.orig_MarkPickedUp orig, CheeseScript self)

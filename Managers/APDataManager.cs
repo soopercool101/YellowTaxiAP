@@ -78,10 +78,25 @@ namespace YellowTaxiAP.Managers
 
         private int Data_BunniesGetLevelMaxNumber_LevelId(On.Data.orig_BunniesGetLevelMaxNumber_LevelId orig, Data.LevelId _levelId)
         {
+            // Hub has special handling
+            if (_levelId == Data.LevelId.Hub)
+            {
+                var count = 3;
+                if (Plugin.SlotData.ExcludeSpikeBunny)
+                    count -= 1;
+
+                if (Plugin.SlotData.ExcludeTopBunny)
+                    count -= 1;
+
+                if (Plugin.SlotData.ExtraDemoCollectables)
+                    count += 2;
+
+                return count;
+            }
+            // 3 for any main world levels, 0 for others
             return _levelId switch
             {
-                Data.LevelId.Hub when Plugin.SlotData.ExtraDemoCollectables => 5,
-                Data.LevelId.Hub or Data.LevelId.L1_Bombeach or Data.LevelId.L2_PizzaTime or Data.LevelId.L3_MoriosHome
+                Data.LevelId.L1_Bombeach or Data.LevelId.L2_PizzaTime or Data.LevelId.L3_MoriosHome
                     or Data.LevelId.L4_ArcadePanik or Data.LevelId.L5_ToslaOffices or Data.LevelId.L6_Gym
                     or Data.LevelId.L7_PoopWorld or Data.LevelId.L8_Sewers or Data.LevelId.L9_City
                     or Data.LevelId.L10_CrashTestIndustries or Data.LevelId.L12_MoriosMind
@@ -151,20 +166,6 @@ namespace YellowTaxiAP.Managers
             if (Data.levelDataList.Count == 0)
                 Data.CreateLevelData();
             Data.InitHatData();
-#if DEBUG
-            if (!ArchipelagoClient.Authenticated && false)
-            {
-                Plugin.BepinLogger.LogMessage("AP Not Connected, Default Load");
-                orig();
-                Data.cutscenePropellerFirstTimePickup[Data.gameDataIndex] = true;
-                Data.goldenSpringUnlocked[Data.gameDataIndex] = true;
-                Data.activeState_OrangeSwitch[Data.gameDataIndex] = true;
-                Data.flipOWillUnlockState[Data.gameDataIndex] = true;
-                Data.morioMindPasswordGot[Data.gameDataIndex] = false;
-                Data.gononoBombeachDelivered[Data.gameDataIndex] = true;
-                return;
-            }
-#endif
             Data.introCutscenePlayed[Data.gameDataIndex] = true;
             Data.cutscenePropellerFirstTimePickup[Data.gameDataIndex] = true;
             Data.goldenSpringUnlocked[Data.gameDataIndex] = true;
@@ -172,6 +173,7 @@ namespace YellowTaxiAP.Managers
             Data.flipOWillUnlockState[Data.gameDataIndex] = true;
             Data.morioMindPasswordGot[Data.gameDataIndex] = false;
             Data.gononoBombeachDelivered[Data.gameDataIndex] = true;
+            Data.morioCutsceneToslaHQUnlocked[Data.gameDataIndex] = true;
         }
 
         private void Data_SaveGame(On.Data.orig_SaveGame orig, bool forceSave)

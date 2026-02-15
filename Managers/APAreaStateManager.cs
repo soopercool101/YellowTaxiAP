@@ -48,7 +48,18 @@ namespace YellowTaxiAP.Managers
 
         private void DisableAreaScript_Demo_Start(On.DisableAreaScript_Demo.orig_Start orig, DisableAreaScript_Demo self)
         {
-            self.gameObject.AddComponent<AreaStateOverride_Demo>();
+            if (self.gameObject.name.Equals("DisableArea Demo Gym"))
+            {
+                // Not sure what demo disabled the gym. Don't do that.
+                foreach(var dis in self.disableThisAreaWhenActive)
+                    dis.SetActive(true);
+                foreach(var en in self.enableThisAreaWhenActive)
+                    en.SetActive(false);
+            }
+            else
+            {
+                self.gameObject.AddComponent<AreaStateOverride_Demo>();
+            }
         }
 
         /// <summary>

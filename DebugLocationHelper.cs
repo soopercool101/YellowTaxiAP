@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace YellowTaxiAP
 #if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => false;
+        public static bool Enabled => true;
 
         #region Hub
 
@@ -961,6 +961,12 @@ namespace YellowTaxiAP
             { "0_03_00438", "Morio's Lab - Coin on Second Floor #5" },
         };
 
+        [Description("Morio's Lab - Psycho Taxi Arcade Machine")]
+        public static Dictionary<string, string> MoriosLabPsychoTaxi = new()
+        {
+            { string.Empty, nameof(MoriosLabPsychoTaxi) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Morio's Lab - Second Floor Above Demo Wall")]
         public static Dictionary<string, string> MoriosLabSecondFloorAboveDemoWall = new()
         {
@@ -1041,6 +1047,12 @@ namespace YellowTaxiAP
         };
 
         [Description("Morio's Lab - Morio's Room")]
+        public static Dictionary<string, string> MoriosLabMoriosRoom = new()
+        {
+            { string.Empty, nameof(MoriosLabMoriosRoom) + " - !PLACEHOLDER!" }
+        };
+
+        [Description("Morio's Lab - Morio's Room Jump")]
         public static Dictionary<string, string> MoriosLabMoriosRoomJump = new()
         {
             { "0_03_00748", "Morio's Lab - Coin in Morio's Room #1"},
@@ -1096,6 +1108,12 @@ namespace YellowTaxiAP
 
         [Description("Morio's Lab - Fourth Floor")]
         public static Dictionary<string, string> MoriosLabFourthFloor = new()
+        {
+            { string.Empty, nameof(MoriosLabSecondFloorShortcutPipe) + " - !PLACEHOLDER!" }
+        };
+
+        [Description("Morio's Lab - Fourth Floor Expert Jump Spikes")]
+        public static Dictionary<string, string> MoriosLabFourthFloorExpertJumpSpikes = new()
         {
             { "0_01_00019", "Morio's Lab - Gear - On Spiky Cliffs" },
         };
@@ -1278,7 +1296,6 @@ namespace YellowTaxiAP
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #4", "FGU" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #5", "FGU" },
             { "Morio's Lab - Coin Bag on Second Floor", "FGU" },
-            { "Morio's Lab - Gear - On Spiky Cliffs", "GS+J1 | X1+GS+B2 | X2+B2+J2" },
         };
 
         #endregion
@@ -2213,6 +2230,9 @@ namespace YellowTaxiAP
             { "6_03_00004", "Gym Gears - Entrance Hallway Coin #5" },
             { "6_03_00006", "Gym Gears - Entrance Hallway Coin #6" },
             { "6_03_00005", "Gym Gears - Coin Inside Entrance Pillar" },
+            { "6_03_00012", "Gym Gears - Coin Between Entrance Pillars #1" },
+            { "6_03_00016", "Gym Gears - Coin Bag Between Entrance Pillars" },
+            { "6_03_00017", "Gym Gears - Coin Between Entrance Pillars #2" },
         };
 
         #endregion
@@ -2262,6 +2282,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabGroundFloorOrangeBlocks)), MoriosLabGroundFloorOrangeBlocks),
             new(GetDescription(nameof(MoriosLabBunnyLedge)), MoriosLabBunnyLedge),
             new(GetDescription(nameof(MoriosLabSecondFloor)), MoriosLabSecondFloor),
+            new(GetDescription(nameof(MoriosLabPsychoTaxi)), MoriosLabPsychoTaxi),
             new(GetDescription(nameof(MoriosLabSecondFloorAboveDemoWall)), MoriosLabSecondFloorAboveDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorAfterDemoWall)), MoriosLabSecondFloorAfterDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorInTrueDemoWall)), MoriosLabSecondFloorInTrueDemoWall),
@@ -2269,12 +2290,14 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipe)), MoriosLabSecondFloorShortcutPipe),
             new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipeFalling)), MoriosLabSecondFloorShortcutPipeFalling),
             new(GetDescription(nameof(MoriosLabPathToMoriosRoom)), MoriosLabPathToMoriosRoom),
+            new(GetDescription(nameof(MoriosLabMoriosRoom)), MoriosLabMoriosRoom),
             new(GetDescription(nameof(MoriosLabMoriosRoomJump)), MoriosLabMoriosRoomJump),
             new(GetDescription(nameof(MoriosLabThirdFloor)), MoriosLabThirdFloor),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)), MoriosLabThirdFloorWrenchesLower),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesMiddle)), MoriosLabThirdFloorWrenchesMiddle),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesUpper)), MoriosLabThirdFloorWrenchesUpper),
             new(GetDescription(nameof(MoriosLabFourthFloor)), MoriosLabFourthFloor),
+            new(GetDescription(nameof(MoriosLabFourthFloorExpertJumpSpikes)), MoriosLabFourthFloorExpertJumpSpikes),
             new(GetDescription(nameof(MoriosLabFourthFloorJumpSpikes)), MoriosLabFourthFloorJumpSpikes),
             new(GetDescription(nameof(MoriosLabLedgeAboveMauriziosCity)), MoriosLabLedgeAboveMauriziosCity),
             new(GetDescription(nameof(MoriosLabFifthFloorCrashTestArea)), MoriosLabFifthFloorCrashTestArea),
@@ -2381,6 +2404,7 @@ namespace YellowTaxiAP
                     MoriosLabGroundFloorOrangeBlocks,
                     MoriosLabBunnyLedge,
                     MoriosLabSecondFloor,
+                    MoriosLabPsychoTaxi,
                     MoriosLabSecondFloorAboveDemoWall,
                     MoriosLabSecondFloorAfterDemoWall,
                     MoriosLabSecondFloorInTrueDemoWall,
@@ -2388,12 +2412,14 @@ namespace YellowTaxiAP
                     MoriosLabSecondFloorShortcutPipeFalling,
                     MoriosLabSecondFloorShortcutPipe,
                     MoriosLabPathToMoriosRoom,
+                    MoriosLabMoriosRoom,
                     MoriosLabMoriosRoomJump,
                     MoriosLabThirdFloor,
                     MoriosLabThirdFloorWrenchesLower,
                     MoriosLabThirdFloorWrenchesMiddle,
                     MoriosLabThirdFloorWrenchesUpper,
                     MoriosLabFourthFloor,
+                    MoriosLabFourthFloorExpertJumpSpikes,
                     MoriosLabFourthFloorJumpSpikes,
                     MoriosLabLedgeAboveMauriziosCity,
                     MoriosLabFifthFloorCrashTestArea,
@@ -2531,7 +2557,8 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
-                    new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears")
+                    new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears"),
+                    new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP"),
                 ]
             },
             {
@@ -2777,9 +2804,17 @@ namespace YellowTaxiAP
                     new RegionConnection("Morio's Lab - Arcade Panik Portal", ArcadePlazaStartingArea, ConnectionType.Warp, "PortalArcadePanik"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1"),
                     new RegionConnection(MoriosLabGroundFloor),
-                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+B1+J1"),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+B1+J1 | B2+J2"),
                     new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2"),
                     new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
+                    new RegionConnection(MoriosLabPsychoTaxi, "FGU"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabPsychoTaxi)),
+                [
+                    new RegionConnection(MoriosLabSecondFloor, "FGU"),
+                    // TODO: Connect to Psycho Taxi region whenever it becomes logically relevant
                 ]
             },
             {
@@ -2825,13 +2860,19 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabPathToMoriosRoom)),
                 [
-                    new RegionConnection(MoriosLabMoriosRoomJump, "J1+MorioHat"),
+                    new RegionConnection(MoriosLabMoriosRoom, "MorioHat"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "B1"),
                     new RegionConnection(MoriosLabGroundFloorWrenches),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
                     new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabMoriosRoom)),
+                [
+                    new RegionConnection(MoriosLabMoriosRoomJump, "J1")
                 ]
             },
             {
@@ -2874,6 +2915,13 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J2"),
                     new RegionConnection(MoriosLabThirdFloor, "GS"),
+                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "GS+J1 | X1+GS+B2 | X2+B2+J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabFourthFloorExpertJumpSpikes)),
+                [
+                    // Doesn't connect anywhere
                 ]
             },
             {

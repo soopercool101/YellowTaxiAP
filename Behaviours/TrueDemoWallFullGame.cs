@@ -11,7 +11,7 @@ namespace YellowTaxiAP.Behaviours
         private void Awake()
         {
             // Deactivate object if full game unlock already sent or full game isn't shuffled
-            if (!Plugin.SlotData.ShuffleFullGame || (APAreaStateManager.FullGameUnlocked && Plugin.ArchipelagoClient.AllClearedLocations.Contains(10_00011)))
+            if (!Plugin.SlotData.ShuffleFullGame || (APAreaStateManager.FullGameUnlocked && Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.DemoWall)))
                 gameObject.SetActive(false);
 
             origScript = gameObject.GetComponent<TrueDemoWallScript>();

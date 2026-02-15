@@ -5,15 +5,32 @@ namespace YellowTaxiAP.Archipelago
 {
     public class YTGVSlotData
     {
-        public const int LowestSupportedVersion = 0;
-        public const int HighestSupportedVersion = 0;
+        /// <summary>
+        /// Backwards compatibility. Lowest x.y.0 version supported, where y is the lowest supported minor version
+        /// </summary>
+        public const int LowestSupportedMajorVersion = 0;
+        /// <summary>
+        /// Backwards compatibility. Lowest supported minor version in the lowest supported major version.
+        /// </summary>
+        public const int LowestSupportedMinorVersion = 1;
+        /// <summary>
+        /// Highest x.y.# version supported, where y is in the highest supported minor version
+        /// Should be up to date with latest APWorld whenever a new version is released.
+        /// </summary>
+        public const int HighestSupportedMajorVersion = 0;
+        /// <summary>
+        /// Highest supported minor version in the highest supported major version.
+        /// Should be up to date with latest APWorld whenever a new version is released.
+        /// </summary>
+        public const int HighestSupportedMinorVersion = 1;
         public bool FailedValidation { get; private set; }
-        public long BreakingAPWorldVersion { get; set; }
+        public long APWorldMajorVersion { get; set; }
+        public long APWorldMinorVersion { get; set; }
 
         public enum GoalType : long
         {
             Bombeach = 0,
-            ToslaHQ = 1,
+            ToslaOffices = 1,
             Moon = 2,
         }
         public GoalType Goal { get; private set; }
@@ -41,6 +58,20 @@ namespace YellowTaxiAP.Archipelago
         public bool ShuffleGoldenSpring { get; private set; }
         public bool ShuffleGoldenPropeller { get; private set; }
 
+        // Early location states, and explicitly excluded hubworld items
+        public bool EarlyPizzaKing { get; private set; }
+        public bool EarlyRat { get; private set; }
+        public bool EarlyDoggo { get; private set; }
+        public bool EarlyBackflip { get; private set; }
+        public bool EarlyPsychoTaxi { get; private set; }
+        public bool EarlyOrangeSwitch { get; private set; }
+        public bool EarlyGoldenSpring { get; private set; }
+        public bool EarlyGoldenPropeller { get; private set; }
+        public bool EarlyMoriosPassword { get; private set; }
+        public bool EarlyRocket { get; private set; }
+        public bool ExcludeSpikeBunny { get; private set; }
+        public bool ExcludeTopBunny { get; private set; }
+
         public YTGVSlotData()
         {
             // Defaults
@@ -48,22 +79,21 @@ namespace YellowTaxiAP.Archipelago
 
         public YTGVSlotData(Dictionary<string, object> slotData)
         {
-            if (slotData.ContainsKey("breaking_version"))
+            if (slotData.TryGetValue("minor_version", out var minorVersion) && slotData.TryGetValue("major_version", out var majorVersion))
             {
-                BreakingAPWorldVersion = (long)slotData["breaking_version"];
-                if (BreakingAPWorldVersion < LowestSupportedVersion)
+                APWorldMajorVersion = (long)majorVersion;
+                APWorldMinorVersion = (long)minorVersion;
+                if (APWorldMajorVersion < LowestSupportedMajorVersion || (APWorldMajorVersion == LowestSupportedMajorVersion && APWorldMinorVersion < LowestSupportedMinorVersion))
                 {
                     ArchipelagoClient.Authenticated = false;
-                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
-                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is lower than lowest supported APWorld major version {LowestSupportedVersion}. Please update your APWorld or use an older version of the mod.");
+                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.x which is lower than lowest supported APWorld version {LowestSupportedMajorVersion}.{LowestSupportedMinorVersion}.0. Please update your APWorld or use an older version of the mod.", true);
                     FailedValidation = true;
                     return;
                 }
-                if (BreakingAPWorldVersion > HighestSupportedVersion)
+                if (APWorldMajorVersion > HighestSupportedMajorVersion || (APWorldMajorVersion == HighestSupportedMajorVersion && APWorldMinorVersion > HighestSupportedMinorVersion))
                 {
                     ArchipelagoClient.Authenticated = false;
-                    ArchipelagoConsole.LogMessage($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
-                    Plugin.BepinLogger.LogError($"ERROR: Game was generated with major version {BreakingAPWorldVersion} which is higher than highest supported APWorld major version {HighestSupportedVersion}. Please update your game mod.");
+                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.x which is higher than highest supported APWorld version {HighestSupportedMajorVersion}.{HighestSupportedMinorVersion}.x. Please update your game mod.", true);
                     FailedValidation = true;
                     return;
                 }
@@ -71,6 +101,8 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for version found");
+                Plugin.Log("ERROR: Game was generated on an unknown version, make sure your APWorld and game mod are up-to-date!", true);
+                FailedValidation = true;
             }
 
             if (slotData.ContainsKey("goal"))
@@ -293,6 +325,115 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for extra_demo_collectables found");
             }
+
+            if (slotData.ContainsKey("early_pizza_king"))
+            {
+                EarlyPizzaKing = (bool) slotData["early_pizza_king"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_pizza_king found");
+            }
+
+            if (slotData.ContainsKey("early_rat"))
+            {
+                EarlyRat = (bool) slotData["early_rat"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_rat found");
+            }
+
+            if (slotData.ContainsKey("early_doggo"))
+            {
+                EarlyDoggo = (bool) slotData["early_doggo"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_doggo found");
+            }
+
+            if (slotData.ContainsKey("early_backflip"))
+            {
+                EarlyBackflip = (bool) slotData["early_backflip"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_backflip found");
+            }
+
+            if (slotData.ContainsKey("early_psycho_taxi"))
+            {
+                EarlyPsychoTaxi = (bool) slotData["early_psycho_taxi"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_psycho_taxi found");
+            }
+
+            if (slotData.ContainsKey("early_orange_switch"))
+            {
+                EarlyOrangeSwitch = (bool) slotData["early_orange_switch"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_orange_switch found");
+            }
+
+            if (slotData.ContainsKey("early_golden_spring"))
+            {
+                EarlyGoldenSpring = (bool) slotData["early_golden_spring"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_golden_spring found");
+            }
+
+            if (slotData.ContainsKey("early_golden_propeller"))
+            {
+                EarlyGoldenPropeller = (bool) slotData["early_golden_propeller"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_golden_propeller found");
+            }
+
+            if (slotData.ContainsKey("early_morios_password"))
+            {
+                EarlyMoriosPassword = (bool) slotData["early_morios_password"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_morios_password found");
+            }
+
+            if (slotData.ContainsKey("early_rocket"))
+            {
+                EarlyRocket = (bool) slotData["early_rocket"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_rocket found");
+            }
+
+            if (slotData.ContainsKey("exclude_spike_bunny"))
+            {
+                ExcludeSpikeBunny = (bool) slotData["exclude_spike_bunny"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for exclude_spike_bunny found");
+            }
+
+            if (slotData.ContainsKey("exclude_top_bunny"))
+            {
+                ExcludeTopBunny = (bool) slotData["exclude_top_bunny"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for exclude_top_bunny found");
+            }
+
         }
     }
 }
