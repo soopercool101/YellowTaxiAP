@@ -72,7 +72,6 @@ namespace YellowTaxiAP.Behaviours
 
             if (Plugin.SlotData.EarlyPizzaKing)
             {
-                // Pizza King would be postgame in BomBoss goal, so put his location check here
                 var newToEnable = new List<GameObject>();
                 foreach (var enable in toEnable)
                 {
@@ -104,7 +103,7 @@ namespace YellowTaxiAP.Behaviours
                 toEnable = orig.enableThisAreaWhenActive;
             }
 
-            if (Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.ShuffleDoggo)
+            if (Plugin.SlotData.EarlyDoggo)
             {
                 // Doggo would be postgame in pre-moon goals, so put his location check here
                 var newToEnable = new List<GameObject>();
@@ -165,7 +164,8 @@ namespace YellowTaxiAP.Behaviours
                     continue;
                 if (disable.name.Equals("Dettaglio Albero1")) // Keep this tree. Mosk normally replaces it.
                 {
-                    disable.SetActive(false); // Don't just always enable it though. If you destroyed it this creates an invincible tree
+                    if (Plugin.SlotData.EarlyRocket) // Disable it if early rocket
+                        disable.SetActive(false);
                 }
                 else
                 {
@@ -177,9 +177,10 @@ namespace YellowTaxiAP.Behaviours
             {
                 if (!enable)
                     continue;
-                if (enable.name.Equals("Person Alien Mosk Good")) // Don't add Mosk. He brings you to the moon.
+                if (enable.name.Equals("Person Alien Mosk Good"))
                 {
-                    enable.SetActive(true);
+                    // Put Mosk here if he is needed for a location check
+                    enable.SetActive(Plugin.SlotData.EarlyRocket);
                 }
                 else
                 {
