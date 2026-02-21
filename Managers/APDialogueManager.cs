@@ -61,10 +61,6 @@ namespace YellowTaxiAP.Managers
                 // Convert a lawyer into a rat, giving a rat location on bomboss goal
                 var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>()
                     .First(r => r.name.Equals("Rats 1"));
-                foreach (var rend in Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>())
-                {
-                    Plugin.BepinLogger.LogWarning(rend.name);
-                }
 
                 var anims = Resources.FindObjectsOfTypeAll<AnimationClip>();
                 var deadAnim = anims.First(o => o.name.Equals("Rat Dies"));
@@ -254,7 +250,7 @@ namespace YellowTaxiAP.Managers
                         var morioFont = CurrentFont;
                         self.dialogues =
                         [
-                            $"Normally, I'd teach you how to <font=\"{morioFont} Black\" material=\"{morioFont} OrangeYellow\">boost</font> using your <font=\"{morioFont} Black\" material=\"{morioFont} OrangeYellow\">Flip O' Will</font>!",
+                            $"Normally, I'd teach you how to {SetTextColor("boost", DialogueColors.OrangeYellow)} using your {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}!",
                             APPlayerManager.BoostLevel > 0
                                 ? "It seems that's unnecessary, since you already know how."
                                 : "Unfortunately, I've forgotten how to do that...",
@@ -360,7 +356,14 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK":
                         if (Plugin.SlotData.EarlyDoggo)
+                        {
+                            self.dialogues =
+                            [
+                                "Woff woff woff! (You're not supposed to be able to get here!)",
+                                "Woff woff woff! (You should consider turning up your expert level!)"
+                            ];
                             break;
+                        }
                         if (!Plugin.SlotData.ShuffleDoggo)
                         {
                             APSaveController.MiscSave.HasDoggo = true;
@@ -377,6 +380,15 @@ namespace YellowTaxiAP.Managers
                         Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Doggo);
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB":
+                        if (Plugin.SlotData.EarlyDoggo)
+                        {
+                            self.dialogues =
+                            [
+                                "Woff woff woff! (You're not supposed to be able to get here!)",
+                                "Woff woff woff! (You should consider turning up your expert level!)"
+                            ];
+                            break;
+                        }
                         if (APAreaStateManager.DoggoReceived)
                         {
                             break;
@@ -401,12 +413,6 @@ namespace YellowTaxiAP.Managers
                                 self.textSoundNames[0],
                                 self.textSoundNames[0],
                                 self.textSoundNames[0],
-                            ];
-                            self.textSounds =
-                            [
-                                self.textSounds[0],
-                                self.textSounds[0],
-                                self.textSounds[0],
                             ];
                             self.names =
                             [
@@ -447,20 +453,16 @@ namespace YellowTaxiAP.Managers
                         Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.DemoWall);
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_NICK_JUST_TALK":
+                        if (APPlayerManager.BoostLevel < 2 && APPlayerManager.JumpLevel < 2)
+                            self.dialogues[1] = "With your moveset it must have been tricky!";
+
                         if (!Plugin.SlotData.EarlyGoldenPropeller || !Plugin.SlotData.ShuffleGoldenPropeller)
                             break;
-                        var nickFont = CurrentFont;
                         self.textSoundNames =
                         [
                             self.textSoundNames[0],
                             self.textSoundNames[0],
                             self.textSoundNames[0],
-                        ];
-                        self.textSounds =
-                        [
-                            self.textSounds[0],
-                            self.textSounds[0],
-                            self.textSounds[0],
                         ];
                         self.names =
                         [
@@ -474,10 +476,20 @@ namespace YellowTaxiAP.Managers
                                 "Hehe, congrats for getting up here! With your moveset there is no place you cannot reach!" :
                                 "Hehe, congrats for getting up here! With your moveset it must have been tricky!",
                             APCollectableManager.GoldenPropellerActive ?
-                                $"That <font=\"{nickFont} Black\" material=\"{nickFont} OrangeYellow\">Golden Propeller</font> certainly helps!" :
-                                $"A <font=\"{nickFont} Black\" material=\"{nickFont} OrangeYellow\">Golden Propeller</font> could help you reach greater heights!",
-                            $"For managing to get up here{(APCollectableManager.GoldenPropellerActive ? string.Empty : " without one")}, here's {GetItemText(0)}!"
+                                $"That {SetTextColor("Golden Propeller", DialogueColors.OrangeYellow)} certainly helps!" :
+                                $"A {SetTextColor("Golden Propeller", DialogueColors.OrangeYellow)} could help you reach greater heights!",
                         ];
+                        if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains((long) Identifiers.NotableLocations
+                                .GoldenPropeller))
+                        {
+                            self.dialogues =
+                            [
+                                self.dialogues[0],
+                                self.dialogues[1],
+                                $"For managing to get up here{(APCollectableManager.GoldenPropellerActive ? string.Empty : " without one")}, here's {GetItemText((long) Identifiers.NotableLocations.GoldenPropeller)}!"
+                            ];
+                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GoldenPropeller);
+                        }
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_ALIEN_MOSK_QEUSTION_1":
                         // Don't actually ask a question, don't want Mosk to take you anywhere directly
@@ -552,37 +564,120 @@ namespace YellowTaxiAP.Managers
                             [
                                 self.textSoundNames[0],
                                 self.textSoundNames[0],
-                                self.textSoundNames[0],
-                            ];
-                            self.textSounds =
-                            [
-                                self.textSounds[0],
-                                self.textSounds[0],
-                                self.textSounds[0],
                             ];
                             self.names =
                             [
-                                self.names[0],
                                 self.names[0],
                                 self.names[0],
                             ];
                             self.dialogues =
                             [
                                 self.dialogues[0],
-                                self.dialogues[1],
-                                $"Wedged into the cartridge slot, you found {GetItemText((long) Identifiers.NotableLocations.PsychoTaxi)}!",
+                                $"What's this? You found {GetItemText((long) Identifiers.NotableLocations.PsychoTaxi, true, false)} wedged in the cartridge slot!",
                             ];
+                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.PsychoTaxi);
+                        }
+                        break;
+                    case "PSYCHO_TAXI_CABINET_PLAY_QUESTION":
+                        if (!Plugin.SlotData.EarlyPsychoTaxi || !Plugin.SlotData.ShufflePsychoTaxi)
+                            break;
+
+                        if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
+                                (long)Identifiers.NotableLocations.PsychoTaxi))
+                        {
+                            self.textSoundNames =
+                            [
+                                self.textSoundNames[0],
+                                self.textSoundNames[0],
+                            ];
+                            self.names =
+                            [
+                                self.names[0],
+                                self.names[0],
+                            ];
+                            self.dialogues =
+                            [
+                                $"What's this? You found {GetItemText((long) Identifiers.NotableLocations.PsychoTaxi, true, false)} next to the machine!",
+                                self.dialogues[0],
+                            ];
+                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.PsychoTaxi);
+                        }
+                        break;
+                    case "DIALOGUE_MORIO_LAB_SECRET_BEDROOM":
+                        if (!Plugin.SlotData.EarlyMoriosPassword || Plugin.ArchipelagoClient.AllClearedLocations.Contains((int) Identifiers.NotableLocations.MoriosPassword))
+                            break;
+
+                        self.dialogues[1] =
+                            $"And take {GetItemText((int) Identifiers.NotableLocations.MoriosPassword)} with you!";
+                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.MoriosPassword);
+
+                        break;
+                    case "DIALOGUE_GRANNY_ISLAND_OCRA_TAXI_MINIGAME_2":
+                        if (!Plugin.SlotData.EarlyOrangeSwitch ||
+                            Plugin.ArchipelagoClient.AllClearedLocations.Contains((int) Identifiers.NotableLocations.OrangeSwitch))
+                            break;
+                        self.dialogues[1] =
+                            $"As a reward, please take {GetItemText((int) Identifiers.NotableLocations.OrangeSwitch)}!";
+                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.OrangeSwitch);
+                        break;
+                    case "DIALOGUE_MORIO_DREAM_MACHINE_INACTIVE":
+                        // TODO: If Morio's Mind is a level, dialogue should probably be tweaked here somewhat anyway
+                        if (!Plugin.SlotData.OverworldMoriosPassword)
+                            break;
+
+                        Plugin.BepinLogger.LogWarning(self.dialogues[1]);
+                        self.dialogues =
+                        [
+                            self.dialogues[0],
+                            APAreaStateManager.MindPasswordReceived ? $"Looks like you already found the {SetTextColor("password", DialogueColors.OrangeYellow)} to this safety door!" : self.dialogues[1],
+                            $"On an unrelated note, this machine will give you {GetItemText((int) Identifiers.NotableLocations.MoriosPassword)}!",
+                            $"I hope it's worth it, because this is quite painful!",
+                        ];
+
+                        break;
+                    case "DIALOGUE_MORIO_DREAM_MACHINE_ACTIVE_AFTER_PASSWORD":
+                        if (!Plugin.SlotData.OverworldMoriosPassword)
+                            break;
+
+                        self.dialogues = [
+                            self.dialogues[0],
+                        ];
+                        break;
+                    case "DIALOGUE_GRANNY_ISLAND_GELATAIO_THANKS":
+                        if (!Plugin.SlotData.EarlyGelaToni)
+                            break;
+
+                        if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
+                                (long) Identifiers.NotableLocations.GelaToni))
+                        {
+                            self.dialogues = APAreaStateManager.GelaToniReceived ?
+                                [
+                                    self.dialogues[0],
+                                    $"As a reward, you can have {GetItemText((long) Identifiers.NotableLocations.GelaToni)}!",
+                                ] :
+                                [
+                                    "Hey hey! Have you seen an ice cream truck around here?",
+                                    $"I thought I parked it here, but found {GetItemText((long) Identifiers.NotableLocations.GelaToni)} in its place! It's yours if you want!",
+                                ];
+                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GelaToni);
+                        }
+                        else if (!APAreaStateManager.GelaToniReceived)
+                        {
+                            self.dialogues = 
+                                [
+                                    "Hey hey! Have you been keeping an eye out for my ice cream truck?",
+                                ];
                         }
                         break;
 #if DEBUG
-                    case "NARRATOR_BACK_TO_HUB_QUESTION":
-                    case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
-                        break;
-                    default:
-                        GUIUtility.systemCopyBuffer = dialogueCapsule.key;
-                        break;
+                        case "NARRATOR_BACK_TO_HUB_QUESTION":
+                        case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
+                            break;
+                        default:
+                            GUIUtility.systemCopyBuffer = dialogueCapsule.key;
+                            break;
 #endif
-                }
+                        }
 
                 if (moveRandoID > 0)
                 {
@@ -603,6 +698,22 @@ namespace YellowTaxiAP.Managers
             orig(self);
         }
 
+        private enum DialogueColors
+        {
+            Black,
+            Yellow,
+            GreenYellow,
+            OrangeYellow,
+            RedYellow,
+            FullRed,
+        }
+
+        private string SetTextColor(string text, DialogueColors color)
+        {
+            var font = CurrentFont;
+            return $"<font=\"{font} Black\" material=\"{font} {color}\">{text}</font>";
+        }
+
         private string GetItemText(long itemId, bool includePlayer = true, bool includePrefixes = true)
         {
             ScoutedItemInfo item;
@@ -617,22 +728,20 @@ namespace YellowTaxiAP.Managers
                 return includePrefixes ? "an item from the multiworld" : "item from the multiworld";
             }
 
-
-            var font = CurrentFont;
-            var material = "Yellow";
+            var material = DialogueColors.Yellow;
             if ((item.Flags & ItemFlags.Advancement) == ItemFlags.Advancement)
             {
-                material = "GreenYellow";
+                material = DialogueColors.GreenYellow;
             }
             else if ((item.Flags & ItemFlags.NeverExclude) == ItemFlags.NeverExclude)
             {
-                material = "RedYellow";
+                material = DialogueColors.RedYellow;
             }
             else if ((item.Flags & ItemFlags.Trap) == ItemFlags.Trap)
             {
-                material = "FullRed";
+                material = DialogueColors.FullRed;
             }
-            var itemText = $"<font=\"{font} Black\" material=\"{font} {material}\">{item.ItemDisplayName}</font>";
+            var itemText = SetTextColor(item.ItemDisplayName, material);
             if (includePlayer)
             {
                 if (item.Player.Name.Equals(ArchipelagoClient.ServerData.SlotName))
@@ -642,7 +751,7 @@ namespace YellowTaxiAP.Managers
                 else
                 {
                     itemText = (includePrefixes ? "this " : string.Empty) + itemText +
-                               $" for <font=\"{font} Black\" material=\"{font} OrangeYellow\">{item.Player.Name}</font>";
+                               $" for {SetTextColor(item.Player.Name, DialogueColors.OrangeYellow)}";
                 }
             }
             else if (includePrefixes)
@@ -655,7 +764,6 @@ namespace YellowTaxiAP.Managers
 
         private string GetMoveDialogue(string moveName, bool moveUnlocked, string flipOwillConnection = "using your")
         {
-            var font = CurrentFont;
             var secondHalf = moveUnlocked
                 ? "it appears you already know how."
                 : "I appear to have lost the instructions.";
@@ -663,10 +771,10 @@ namespace YellowTaxiAP.Managers
             if (!string.IsNullOrEmpty(flipOwillConnection))
             {
                 flipOwillText =
-                    $" {flipOwillConnection} <font=\"{font} Black\" material=\"{font} OrangeYellow\">Flip O' Will</font>";
+                    $" {flipOwillConnection} {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}";
             }
             return
-                $"Beep boop! I was supposed to teach you how to <font=\"{font} Black\" material=\"{font} OrangeYellow\">{moveName}</font>{flipOwillText} but {secondHalf}";
+                $"Beep boop! I was supposed to teach you how to {SetTextColor(moveName, DialogueColors.OrangeYellow)}{flipOwillText} but {secondHalf}";
         }
     }
 }

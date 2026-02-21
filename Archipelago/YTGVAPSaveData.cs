@@ -100,7 +100,7 @@ namespace YellowTaxiAP.Archipelago
 
         public int GetBunnyCount(Data.LevelId level)
         {
-            if (level == Data.LevelId.noone)
+            if (level is Data.LevelId.noone or Data.LevelId.L11_HubDemo)
                 return 0;
 
             var count = 0;
@@ -109,6 +109,16 @@ namespace YellowTaxiAP.Archipelago
             {
                 if(HasBunny(level, i))
                     count++;
+            }
+
+            if (level == Data.LevelId.Hub)
+            {
+                // Also include demo bunnies
+                for (var i = 0; i < 3; i++)
+                {
+                    if (HasBunny(Data.LevelId.L11_HubDemo, i))
+                        count++;
+                }
             }
 
             return count;

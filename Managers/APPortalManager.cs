@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
+using YellowTaxiAP.Helpers;
 using static Data;
 
 namespace YellowTaxiAP.Managers
@@ -19,7 +21,52 @@ namespace YellowTaxiAP.Managers
             On.PortalScript.PortalIslandToLabCoroutine += PortalScript_PortalIslandToLabCoroutine;
             On.PortalScript.PortalOpenStart += PortalScript_PortalOpenStart;
             On.PortalScript.CostUpdateTry += PortalScript_CostUpdateTry;
+            On.MorioDreamMachineScript.AnimationCoroutine += MorioDreamMachineScript_AnimationCoroutine;
+            On.MorioDreamMachineScript.Start += MorioDreamMachineScript_Start;
+            On.MorioDreamMachineScript.MachineReady += MorioDreamMachineScript_MachineReady;
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
+        }
+
+        private System.Collections.IEnumerator MorioDreamMachineScript_AnimationCoroutine(On.MorioDreamMachineScript.orig_AnimationCoroutine orig, MorioDreamMachineScript self)
+        {
+            yield return orig(self);
+            if (!Plugin.SlotData.EarlyMoriosPassword && Plugin.SlotData.OverworldMoriosPassword)
+            {
+                Plugin.Log("Dream Machine activated");
+                Plugin.ArchipelagoClient.SendLocation((long) Identifiers.NotableLocations.MoriosPassword);
+            }
+        }
+
+        /// <summary>
+        /// Nullable check on portalGObj, doesn't always exist in rando
+        /// </summary>
+        private void MorioDreamMachineScript_MachineReady(On.MorioDreamMachineScript.orig_MachineReady orig, MorioDreamMachineScript self)
+        {
+            self.myMorioPerson.gameObject.SetActive(true);
+            if (self.portalGObj)
+            {
+                self.portalGObj?.SetActive(true);
+            }
+            self.SetAnimation(3);
+            self.myMorioPerson.dialoguePickup = APAreaStateManager.MindPasswordReceived ? self.dialogueActiveAndPasswordRetrieved : self.dialogueActive;
+        }
+
+        /// <summary>
+        /// Nullable check on portalGObj, doesn't always exist in rando
+        /// </summary>
+        private void MorioDreamMachineScript_Start(On.MorioDreamMachineScript.orig_Start orig, MorioDreamMachineScript self)
+        {
+            if (self.portalGObj)
+            {
+                self.portalGObj?.SetActive(false);
+            }
+            self.lightBulb.enabled = Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex];
+            self.labWallText.text = "----";
+            if (Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex])
+                self.MachineReady();
+            if (!MorioDreamMachineScript.justUpdatedPassword)
+                return;
+            self.StartCoroutine(self.JustUpdatedPasswordCorotuine());
         }
 
         private void PortalScript_CostUpdateTry(On.PortalScript.orig_CostUpdateTry orig, PortalScript self)
@@ -145,12 +192,44 @@ namespace YellowTaxiAP.Managers
 
         private void PortalScript_Awake(On.PortalScript.orig_Awake orig, PortalScript self)
         {
+            if ((self.targetLevelId == LevelId.L1_Bombeach && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach) ||
+                (self.targetLevelId == LevelId.L5_ToslaOffices && Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices) ||
+                (self.targetLevelId == LevelId.L14_ToslaHQ && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon))
+            {
+                Data.levelDataList[(int)self.targetLevelId].levelCost = Plugin.SlotData.GoalPortalCost;
+            }
+
             self.hubPortalForceEnabled = true;
             self.gameObject.AddComponent<TruePortalId>(); // Keep track of unaltered portal values
+            if (self.PortalIsLevelPortal || self.kaizoLevelId != LevelId.noone)
+            {
+                var target = self.kaizoLevelId != LevelId.noone ? self.kaizoLevelId : self.targetLevelId;
+                // Delete portals that are excluded
+                switch (target)
+                {
+                    case LevelId.L2_PizzaTime when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
+                    case LevelId.L4_ArcadePanik when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
+                    //case LevelId.L20_PsychoTaxi when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && !Plugin.SlotData.ShufflePsychoTaxi:
+                    case LevelId.L5_ToslaOffices when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
+                    case LevelId.L7_PoopWorld when Plugin.SlotData.ExcludePoophouse:
+                    case LevelId.L8_Sewers when Plugin.SlotData.ExcludeSewers:
+                    case LevelId.L9_City when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
+                    case LevelId.L10_CrashTestIndustries when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
+                    case LevelId.L12_MoriosMind when Plugin.SlotData.ExcludeMind:
+                    case LevelId.L13_StarmanCastle when Plugin.SlotData.ExcludeObservatory:
+                    case LevelId.L14_ToslaHQ when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
+                    case LevelId.L15_Moon when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
+                        ObjectHelper.DestroyRecursive(self.transform);
+                        return;
+                }
+            }
+
             if (self.PortalIsLevelPortal)
             {
+                // Get Portal Opened state from save
                 switch (self.targetLevelId)
                 {
+                    // These levels are always open
                     case LevelId.Hub:
                     case LevelId.L6_Gym:
                     case LevelId.L7_PoopWorld:

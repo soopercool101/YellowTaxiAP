@@ -123,6 +123,13 @@ namespace YellowTaxiAP.Managers
                 self.transform.parent = null;
             }
 
+            var bunnyNeedsRemoval = false;
+            if (GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myIdentity == BonusScript.Identity.bunny &&
+                ((self.bunnyIndex == 1 && Plugin.SlotData.ExcludeSpikeBunny) || (self.bunnyIndex == 2 && Plugin.SlotData.ExcludeTopBunny)))
+            {
+                bunnyNeedsRemoval = true;
+            }
+
             if (self.smallDdemoPositionOffset != new Vector3(0,0,0))
             {
 #if DEBUG
@@ -134,39 +141,45 @@ namespace YellowTaxiAP.Managers
 #endif
                 if (Plugin.SlotData.ExtraDemoCollectables)
                 {
-                    var demoOffset = self.smallDdemoPositionOffset;
-                    self.smallDdemoPositionOffset = new Vector3(0, 0, 0);
-                    var duplicated = Object.Instantiate(self.gameObject, self.transform.position + demoOffset, self.transform.rotation, self.transform.parent);
-                    var duplicatedBonus = duplicated.GetComponent<BonusScript>();
-                    switch (duplicatedBonus.myIdentity)
+                    BonusScript demoBonus;
+                    if (bunnyNeedsRemoval)
+                    {
+                        demoBonus = self;
+                        self.transform.position += self.smallDdemoPositionOffset;
+                        self.smallDdemoPositionOffset = new Vector3(0, 0, 0);
+                        bunnyNeedsRemoval = false;
+                    }
+                    else
+                    {
+                        var demoOffset = self.smallDdemoPositionOffset;
+                        self.smallDdemoPositionOffset = new Vector3(0, 0, 0);
+                        var duplicated = Object.Instantiate(self.gameObject, self.transform.position + demoOffset, self.transform.rotation, self.transform.parent);
+                        demoBonus = duplicated.GetComponent<BonusScript>();
+                        self.smallDemoZoneMaster = -1;
+                    }
+                    switch (demoBonus.myIdentity)
                     {
                         case BonusScript.Identity.gear:
-                            duplicatedBonus.gearArrayIndex += 10000;
-                            duplicatedBonus.GearAlreadyPickedUpRefresh();
+                            demoBonus.gearArrayIndex += 10000;
+                            demoBonus.GearAlreadyPickedUpRefresh();
                             break;
                         case BonusScript.Identity.bunny:
-                            duplicatedBonus.bunnyIndex = duplicatedBonus.bunnyIndex switch
+                            demoBonus.bunnyIndex = demoBonus.bunnyIndex switch
                             {
                                 1 => 4,
                                 2 => 3,
-                                _ => duplicatedBonus.bunnyIndex + 10000
+                                _ => demoBonus.bunnyIndex + 10000
                             };
                             break;
                         default:
-                            duplicatedBonus.coinIndex += 10000;
+                            demoBonus.coinIndex += 10000;
                             break;
                     }
-
-                    self.smallDemoZoneMaster = -1;
                 }
             }
 
-            if (GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myIdentity == BonusScript.Identity.bunny &&
-                ((self.bunnyIndex == 1 && Plugin.SlotData.ExcludeSpikeBunny) || (self.bunnyIndex == 2 && Plugin.SlotData.ExcludeTopBunny)))
+            if (bunnyNeedsRemoval)
             {
-                // Ensure that the unincluded bunny is invisible, then completely destroy it.
-                self.myMeshRend.enabled = false;
-                ObjectHelper.DestroyImmediateRecursive(self.myMeshHolder);
                 ObjectHelper.DestroyImmediateRecursive(self.transform);
                 return;
             }

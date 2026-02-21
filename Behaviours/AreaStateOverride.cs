@@ -54,6 +54,21 @@ namespace YellowTaxiAP.Behaviours
                 toDisable = orig.disableThisAreaWhenActive;
                 toEnable = orig.enableThisAreaWhenActive;
             }
+
+            if (Plugin.SlotData.EarlyGelaToni)
+            {
+                foreach (var enable in toEnable)
+                {
+                    var personScript = enable.transform.GetComponentInChildren<PersonParent>(true);
+                    if (!personScript)
+                        continue;
+                    var gelaToni = enable.transform.GetComponentInChildren<PersonParent>().gameObject;
+                    if (!gelaToni)
+                        continue;
+                    gelaToni.transform.parent = enable.transform.parent;
+                    gelaToni.SetActive(true);
+                }
+            }
         }
     }
 

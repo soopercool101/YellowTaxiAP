@@ -28,7 +28,7 @@ namespace YellowTaxiAP.Managers
 
         private int Data_BunniesTotalGameGet(On.Data.orig_BunniesTotalGameGet orig)
         {
-            return Plugin.SlotData.ExtraDemoCollectables ? 47 : 45;
+            return Plugin.SlotData.TotalBunnies;
         }
 
         /// <summary>

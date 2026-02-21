@@ -34,6 +34,11 @@ namespace YellowTaxiAP.Archipelago
             Moon = 2,
         }
         public GoalType Goal { get; private set; }
+
+        public int TotalGears { get; private set; }
+        public int TotalBunnies { get; private set; }
+        public int GoalPortalCost { get; private set; }
+
         public bool DeathLink { get; private set; }
         public bool ShuffleGelaToni { get; private set; }
         public bool ShufflePizzaKing { get; private set; }
@@ -59,6 +64,7 @@ namespace YellowTaxiAP.Archipelago
         public bool ShuffleGoldenPropeller { get; private set; }
 
         // Early location states, and explicitly excluded hubworld items
+        public bool EarlyGelaToni { get; private set; }
         public bool EarlyPizzaKing { get; private set; }
         public bool EarlyRat { get; private set; }
         public bool EarlyDoggo { get; private set; }
@@ -67,8 +73,13 @@ namespace YellowTaxiAP.Archipelago
         public bool EarlyOrangeSwitch { get; private set; }
         public bool EarlyGoldenSpring { get; private set; }
         public bool EarlyGoldenPropeller { get; private set; }
+        public bool OverworldMoriosPassword { get; private set; }
         public bool EarlyMoriosPassword { get; private set; }
         public bool EarlyRocket { get; private set; }
+        public bool ExcludePoophouse { get; private set; }
+        public bool ExcludeSewers { get; private set; }
+        public bool ExcludeMind { get; private set; }
+        public bool ExcludeObservatory { get; private set; }
         public bool ExcludeSpikeBunny { get; private set; }
         public bool ExcludeTopBunny { get; private set; }
 
@@ -112,6 +123,33 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for goal found");
+            }
+
+            if (slotData.ContainsKey("total_gears"))
+            {
+                TotalGears = (int) (long) slotData["total_gears"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for total_gears found");
+            }
+
+            if (slotData.ContainsKey("total_bunnies"))
+            {
+                TotalBunnies = (int) (long) slotData["total_bunnies"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for total_bunnies found");
+            }
+
+            if (slotData.ContainsKey("goal_portal_cost"))
+            {
+                GoalPortalCost = (int) (long) slotData["goal_portal_cost"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for goal_portal_cost found");
             }
 
             if (slotData.ContainsKey("death_link"))
@@ -326,6 +364,15 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for extra_demo_collectables found");
             }
 
+            if (slotData.ContainsKey("early_gela_toni"))
+            {
+                EarlyGelaToni = (bool)slotData["early_gela_toni"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_gela_toni found");
+            }
+
             if (slotData.ContainsKey("early_pizza_king"))
             {
                 EarlyPizzaKing = (bool) slotData["early_pizza_king"];
@@ -398,6 +445,15 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for early_golden_propeller found");
             }
 
+            if (slotData.ContainsKey("overworld_morios_password"))
+            {
+                OverworldMoriosPassword = (bool)slotData["overworld_morios_password"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for overworld_morios_password found");
+            }
+
             if (slotData.ContainsKey("early_morios_password"))
             {
                 EarlyMoriosPassword = (bool) slotData["early_morios_password"];
@@ -414,6 +470,43 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for early_rocket found");
+            }
+
+            if (slotData.ContainsKey("exclude_poophouse"))
+            {
+                ExcludePoophouse = (bool)slotData["exclude_poophouse"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for exclude_poophouse found");
+            }
+
+
+            if (slotData.ContainsKey("exclude_poophouse"))
+            {
+                ExcludePoophouse = (bool)slotData["exclude_poophouse"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for exclude_poophouse found");
+            }
+
+            if (slotData.ContainsKey("exclude_mind"))
+            {
+                ExcludePoophouse = (bool)slotData["exclude_mind"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for exclude_mind found");
+            }
+
+            if (slotData.ContainsKey("exclude_observatory"))
+            {
+                ExcludePoophouse = (bool)slotData["exclude_observatory"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for exclude_observatory found");
             }
 
             if (slotData.ContainsKey("exclude_spike_bunny"))

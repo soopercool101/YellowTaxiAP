@@ -99,17 +99,12 @@ public class ArchipelagoClient
         800004,
         800005,
         800006,
-        // Doggo
-        10_00007,
-        // Demo wall
-        10_00011,
-        // Michele
-        2_21_99999,
     ];
 
     public bool LocationNeedsScouting(long location)
     {
-        return NonGearScouts.Contains(location) || (!AllClearedLocations.Contains(location) && LocationWasGear(location));
+        return Enum.IsDefined(typeof(Identifiers.NotableLocations), location) || NonGearScouts.Contains(location) ||
+               (!AllClearedLocations.Contains(location) && LocationWasGear(location));
     }
 
     public bool LocationWasGear(long location)
