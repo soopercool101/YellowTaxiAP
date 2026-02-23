@@ -73,7 +73,6 @@ namespace YellowTaxiAP.Archipelago
         public bool EarlyOrangeSwitch { get; private set; }
         public bool EarlyGoldenSpring { get; private set; }
         public bool EarlyGoldenPropeller { get; private set; }
-        public bool OverworldMoriosPassword { get; private set; }
         public bool EarlyMoriosPassword { get; private set; }
         public bool EarlyRocket { get; private set; }
         public bool ExcludePoophouse { get; private set; }
@@ -445,15 +444,6 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for early_golden_propeller found");
             }
 
-            if (slotData.ContainsKey("overworld_morios_password"))
-            {
-                OverworldMoriosPassword = (bool)slotData["overworld_morios_password"];
-            }
-            else
-            {
-                Plugin.Log("No slot data for overworld_morios_password found");
-            }
-
             if (slotData.ContainsKey("early_morios_password"))
             {
                 EarlyMoriosPassword = (bool) slotData["early_morios_password"];
@@ -482,18 +472,18 @@ namespace YellowTaxiAP.Archipelago
             }
 
 
-            if (slotData.ContainsKey("exclude_poophouse"))
+            if (slotData.ContainsKey("exclude_sewers"))
             {
-                ExcludePoophouse = (bool)slotData["exclude_poophouse"];
+                ExcludeSewers = (bool)slotData["exclude_sewers"];
             }
             else
             {
-                Plugin.Log("No slot data for exclude_poophouse found");
+                Plugin.Log("No slot data for exclude_sewers found");
             }
 
             if (slotData.ContainsKey("exclude_mind"))
             {
-                ExcludePoophouse = (bool)slotData["exclude_mind"];
+                ExcludeMind = (bool)slotData["exclude_mind"];
             }
             else
             {
@@ -502,7 +492,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("exclude_observatory"))
             {
-                ExcludePoophouse = (bool)slotData["exclude_observatory"];
+                ExcludeObservatory = (bool)slotData["exclude_observatory"];
             }
             else
             {

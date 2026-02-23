@@ -1,5 +1,6 @@
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
+using static Data;
 
 namespace YellowTaxiAP.Managers
 {
@@ -9,6 +10,8 @@ namespace YellowTaxiAP.Managers
         public APDataManager()
         {
             On.DemoDataImporter.DemoDataCheckAndImport += DemoDataImporter_DemoDataCheckAndImport;
+            On.Master.Gears_GetMaximumOfVersion += Master_Gears_GetMaximumOfVersion;
+            On.Data.ComputeMaximumGameGears += Data_ComputeMaximumGameGears;
             On.Data.GearStateGet += Data_GearStateGet;
             On.Data.GearStateGetAbsolute += Data_GearStateGetAbsolute;
             On.Data.LoadGame += Data_LoadGame;
@@ -24,6 +27,18 @@ namespace YellowTaxiAP.Managers
             On.Data.HatGetUnlockedState += Data_HatGetUnlockedState;
             On.Data.CutsceneCarsTransformDisplayedGet += Data_CutsceneCarsTransformDisplayedGet;
             On.AchievementsMaster.UnlockAchievement_FullRelease += AchievementsMaster_UnlockAchievement_FullRelease;
+        }
+
+        private void Data_ComputeMaximumGameGears(On.Data.orig_ComputeMaximumGameGears orig, bool onlyUnlockedLevels, Data.LevelId[] overrideLevelsIdArray)
+        {
+            Master.instance.FULL_VERSION_GEARS_NUMBER = Plugin.SlotData.TotalGears;
+            GameplayMaster.UpdateSpeedrunTimerGearsStopNumber();
+        }
+
+        private int Master_Gears_GetMaximumOfVersion(On.Master.orig_Gears_GetMaximumOfVersion orig, Master self)
+        {
+            Master.instance.FULL_VERSION_GEARS_NUMBER = Plugin.SlotData.TotalGears;
+            return Plugin.SlotData.TotalGears;
         }
 
         private int Data_BunniesTotalGameGet(On.Data.orig_BunniesTotalGameGet orig)

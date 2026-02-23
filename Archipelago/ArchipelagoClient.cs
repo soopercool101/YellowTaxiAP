@@ -99,6 +99,10 @@ public class ArchipelagoClient
         800004,
         800005,
         800006,
+        // Early Doggo
+        (long)Identifiers.NotableLocations.Doggo + 10000,
+        // Arcade Panik Psycho Taxi Cartridge
+        (long)Identifiers.NotableLocations.PsychoTaxi + (1_00_00000 * (long)Data.LevelId.L4_ArcadePanik),
     ];
 
     public bool LocationNeedsScouting(long location)

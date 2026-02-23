@@ -30,7 +30,7 @@ namespace YellowTaxiAP.Managers
         private System.Collections.IEnumerator MorioDreamMachineScript_AnimationCoroutine(On.MorioDreamMachineScript.orig_AnimationCoroutine orig, MorioDreamMachineScript self)
         {
             yield return orig(self);
-            if (!Plugin.SlotData.EarlyMoriosPassword && Plugin.SlotData.OverworldMoriosPassword)
+            if (Plugin.SlotData.EarlyMoriosPassword)
             {
                 Plugin.Log("Dream Machine activated");
                 Plugin.ArchipelagoClient.SendLocation((long) Identifiers.NotableLocations.MoriosPassword);
@@ -219,8 +219,32 @@ namespace YellowTaxiAP.Managers
                     case LevelId.L13_StarmanCastle when Plugin.SlotData.ExcludeObservatory:
                     case LevelId.L14_ToslaHQ when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
                     case LevelId.L15_Moon when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
+#if DEBUG
+                        if (!DebugLocationHelper.Enabled)
+                        {
+                            ObjectHelper.DestroyRecursive(self.transform);
+                            return;
+                        }
+                        if (self.PortalIsLevelPortal)
+                        {
+                            levelDataList[(int)self.targetLevelId].levelCost = -1;
+                            GetLevel(self.targetLevelId).everOpened = true;
+                            self.CostUpdateTry();
+                            orig(self);
+                            self.UpdatePortalToLevelName();
+                            return;
+                        }
+                        break;
+#else
+                        // Disable level cost. This fixes issues with main menu.
+                        // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
+                        if (self.PortalIsLevelPortal)
+                        {
+                            levelDataList[(int)self.targetLevelId].levelCost = -1;
+                        }
                         ObjectHelper.DestroyRecursive(self.transform);
                         return;
+#endif
                 }
             }
 

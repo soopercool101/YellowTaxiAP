@@ -334,7 +334,7 @@ namespace YellowTaxiAP.Managers
                                 $"Michele handed you a particularly smelly {GetItemText((int)Identifiers.NotableLocations.Michele, true, false)} before scurrying back to the sewers!"
                             ];
 #if DEBUG
-                            DebugLocationHelper.CheckLocation("Michele", "2_21_99999");
+                            DebugLocationHelper.CheckLocation("Michele", "21_99999");
 #endif
                             Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Michele);
                         }
@@ -406,7 +406,7 @@ namespace YellowTaxiAP.Managers
                             break;
 
                         if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
-                                (long)Identifiers.NotableLocations.Doggo))
+                                (long)Identifiers.NotableLocations.Doggo + 10000))
                         {
                             self.textSoundNames =
                             [
@@ -426,7 +426,7 @@ namespace YellowTaxiAP.Managers
                                 $"Woff woff woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
                                 "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Please, feel free to visit my home!)" : "(I suppose you need it more than me! If you find my house keys meet me back here at my home!)"),
                             ];
-                            Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.PizzaKing);
+                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.Doggo + 10000);
                         }
                         else
                         {
@@ -603,15 +603,6 @@ namespace YellowTaxiAP.Managers
                             Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.PsychoTaxi);
                         }
                         break;
-                    case "DIALOGUE_MORIO_LAB_SECRET_BEDROOM":
-                        if (!Plugin.SlotData.EarlyMoriosPassword || Plugin.ArchipelagoClient.AllClearedLocations.Contains((int) Identifiers.NotableLocations.MoriosPassword))
-                            break;
-
-                        self.dialogues[1] =
-                            $"And take {GetItemText((int) Identifiers.NotableLocations.MoriosPassword)} with you!";
-                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.MoriosPassword);
-
-                        break;
                     case "DIALOGUE_GRANNY_ISLAND_OCRA_TAXI_MINIGAME_2":
                         if (!Plugin.SlotData.EarlyOrangeSwitch ||
                             Plugin.ArchipelagoClient.AllClearedLocations.Contains((int) Identifiers.NotableLocations.OrangeSwitch))
@@ -622,7 +613,7 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_MORIO_DREAM_MACHINE_INACTIVE":
                         // TODO: If Morio's Mind is a level, dialogue should probably be tweaked here somewhat anyway
-                        if (!Plugin.SlotData.OverworldMoriosPassword)
+                        if (!Plugin.SlotData.EarlyMoriosPassword)
                             break;
 
                         Plugin.BepinLogger.LogWarning(self.dialogues[1]);
@@ -636,10 +627,11 @@ namespace YellowTaxiAP.Managers
 
                         break;
                     case "DIALOGUE_MORIO_DREAM_MACHINE_ACTIVE_AFTER_PASSWORD":
-                        if (!Plugin.SlotData.OverworldMoriosPassword)
+                        if (!Plugin.SlotData.EarlyMoriosPassword)
                             break;
 
-                        self.dialogues = [
+                        self.dialogues =
+                        [
                             self.dialogues[0],
                         ];
                         break;
@@ -664,10 +656,17 @@ namespace YellowTaxiAP.Managers
                         else if (!APAreaStateManager.GelaToniReceived)
                         {
                             self.dialogues = 
-                                [
-                                    "Hey hey! Have you been keeping an eye out for my ice cream truck?",
-                                ];
+                            [
+                                "Hey hey! Have you been keeping an eye out for my ice cream truck?",
+                            ];
                         }
+                        break;
+                    case "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_PRE_TOSLA":
+                    case "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_POST_TOSLA":
+                        if (!Plugin.SlotData.EarlyGoldenSpring || Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations.GoldenSpring))
+                            break;
+
+                        self.dialogues[1] = $"On an unrelated note, I have {GetItemText((long)Identifiers.NotableLocations.GoldenSpring)}, please take it!";
                         break;
 #if DEBUG
                         case "NARRATOR_BACK_TO_HUB_QUESTION":

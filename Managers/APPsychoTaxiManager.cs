@@ -14,7 +14,7 @@ namespace YellowTaxiAP.Managers
 
         private void PsychoTaxiCassetteScript_Start(On.PsychoTaxiCassetteScript.orig_Start orig, PsychoTaxiCassetteScript self)
         {
-            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(4_20_99999) ||
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)GameplayMaster.instance.levelId * 1_00_00000 + (long) Identifiers.NotableLocations.PsychoTaxi) ||
                 (!Plugin.SlotData.ShufflePsychoTaxi && APSaveController.MiscSave.HasPsychoTaxi))
             {
                 Object.Destroy(self);
@@ -35,9 +35,9 @@ namespace YellowTaxiAP.Managers
             if (other.gameObject != PlayerScript.instance.gameObject)
                 return;
 #if DEBUG
-            DebugLocationHelper.CheckLocation("Psycho Taxi Cartridge", $"{(int)Data.LevelId.L4_ArcadePanik}_{Identifiers.PSYCHO_ID:D2}_99999");
+            DebugLocationHelper.CheckLocation("Psycho Taxi Cartridge", $"{(int)GameplayMaster.instance.levelId}_{Identifiers.PSYCHO_ID:D2}_99999");
 #endif
-            Plugin.ArchipelagoClient.SendLocation(4_20_99999);
+            Plugin.ArchipelagoClient.SendLocation((long)GameplayMaster.instance.levelId * 1_00_00000 + (long)Identifiers.NotableLocations.PsychoTaxi);
             GenericPickupAnimationScript.SpawnNew("PickupVisualizer_PsychoTaxiCartridge").waitForDialogue = true;
             //Spawn.Instance("Dialogue Psycho Taxi - Cartridge found 1", Vector3.zero);
             Sound.Play_Unpausable("SoundLevelCollectiblePickup");

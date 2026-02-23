@@ -27,7 +27,7 @@ namespace YellowTaxiAP.Managers
                 return null;
 
             return (from level in Data.levelDataList
-                where (Data.LevelId) level.levelId == _id
+                where (Data.LevelId) level.levelId == _id && level.levelCost != -1
                 select level.levelCost > Data.gearsUnlockedNumber[Data.gameDataIndex] ? null : level).FirstOrDefault();
         }
 

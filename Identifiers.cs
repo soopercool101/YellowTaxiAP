@@ -69,16 +69,16 @@
         public enum NotableLocations : long
         {
             DemoWall = 10_00011,
-            GelaToni = 10_00001,
-            PizzaKing = 10_00002,
-            Michele = 2_21_99999,
+            GelaToni = 11_00001,
+            PizzaKing = 11_00002,
+            Michele = 21_99999,
             Doggo = 10_00007,
-            MoriosPassword = 12_10_00000,
+            MoriosPassword = 11_00012,
             MosksRocket = 10_00016,
-            PsychoTaxi = 4_20_99999,
-            OrangeSwitch = 10_10_00000,
-            GoldenSpring = 5_00_00000,
-            GoldenPropeller = 13_00_00000,
+            PsychoTaxi = 20_99999,
+            OrangeSwitch = 11_00010,
+            GoldenSpring = 11_00005,
+            GoldenPropeller = 11_00013,
         }
     }
 }
