@@ -2529,8 +2529,7 @@ namespace YellowTaxiAP
 
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
-            { "Arcade Panik - Chest on Crazy Ballz Pipes #1", "X1/J1" },
-            { "Arcade Panik - Chest on Crazy Ballz Pipes #2", "X1/J1" },
+
         };
 
         #endregion
@@ -2541,16 +2540,129 @@ namespace YellowTaxiAP
         [Description("Gym Gears - Starting Area")]
         public static Dictionary<string, string> GymGearsStartingArea = new()
         {
-            { "6_03_00000", "Gym Gears - Entrance Hallway Coin #1" },
-            { "6_03_00001", "Gym Gears - Entrance Hallway Coin #2" },
-            { "6_03_00002", "Gym Gears - Entrance Hallway Coin #3" },
-            { "6_03_00003", "Gym Gears - Entrance Hallway Coin #4" },
-            { "6_03_00004", "Gym Gears - Entrance Hallway Coin #5" },
-            { "6_03_00006", "Gym Gears - Entrance Hallway Coin #6" },
+            { "6_03_00000", "Gym Gears - Coin in Entrance Hallway #1" },
+            { "6_03_00001", "Gym Gears - Coin in Entrance Hallway #2" },
+            { "6_03_00002", "Gym Gears - Coin in Entrance Hallway #3" },
+            { "6_03_00003", "Gym Gears - Coin in Entrance Hallway #4" },
+            { "6_03_00004", "Gym Gears - Coin in Entrance Hallway #5" },
+            { "6_03_00006", "Gym Gears - Coin in Entrance Hallway #6" },
             { "6_03_00005", "Gym Gears - Coin Inside Entrance Pillar" },
             { "6_03_00012", "Gym Gears - Coin Between Entrance Pillars #1" },
             { "6_03_00016", "Gym Gears - Coin Bag Between Entrance Pillars" },
             { "6_03_00017", "Gym Gears - Coin Between Entrance Pillars #2" },
+            { "6_03_00015", "Gym Gears - Coin in Entrance Weightlifting Area #1" },
+            { "6_03_00011", "Gym Gears - Coin in Entrance Weightlifting Area #2" },
+            { "6_03_00014", "Gym Gears - Coin in Entrance Weightlifting Area #3" },
+            { "6_03_00010", "Gym Gears - Coin in Entrance Weightlifting Area #4" },
+            { "6_03_00013", "Gym Gears - Coin in Entrance Weightlifting Area #5" },
+            { "6_03_00009", "Gym Gears - Coin in Entrance Weightlifting Area #6" },
+            { "6_03_00008", "Gym Gears - Coin in Entrance Weightlifting Area #7" },
+            { "6_03_00007", "Gym Gears - Coin in Entrance Weightlifting Area #8" },
+            { "6_21_00002", "Gym Gears - Cheese in Entrance Weightlifting Area" },
+            { "6_03_00018", "Gym Gears - Coin Inside Entrance Weightlifting Area Exit Hallway Pillar #1" },
+            { "6_03_00026", "Gym Gears - Coin Inside Entrance Weightlifting Area Exit Hallway Pillar #2" },
+            { "6_03_00019", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #1" },
+            { "6_03_00020", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #2" },
+            { "6_03_00021", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #3" },
+            { "6_03_00022", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #4" },
+            { "6_03_00024", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #5" },
+            { "6_03_00027", "Gym Gears - Coin in Hallway to Main Area #1" },
+            { "6_03_00029", "Gym Gears - Coin in Hallway to Main Area #2" },
+            { "6_03_00030", "Gym Gears - Coin in Hallway to Main Area #3" },
+            { "6_03_00048", "Gym Gears - Coin in Hallway to Main Area #4" },
+            { "6_03_00049", "Gym Gears - Coin in Hallway to Main Area #5" },
+            { "6_03_00050", "Gym Gears - Coin in Hallway to Main Area #6" },
+            { "6_03_00051", "Gym Gears - Coin in Hallway to Main Area #7" },
+            { "6_09_00170", "Gym Gears - Checkpoint in Hallway to Main Area" },
+            { "6_03_00052", "Gym Gears - Coin in Hallway to Main Area #8" },
+            { "6_03_00053", "Gym Gears - Coin in Hallway to Main Area #9" },
+            { "6_03_00054", "Gym Gears - Coin in Hallway to Main Area #10" },
+            { "6_03_00031", "Gym Gears - Coin in Left Row in Main Area #1" },
+            { "6_03_00032", "Gym Gears - Coin in Left Row in Main Area #2" },
+            { "6_03_00033", "Gym Gears - Coin in Left Row in Main Area #3" },
+            { "6_03_00034", "Gym Gears - Coin in Left Row in Main Area #4" },
+            { "6_03_00035", "Gym Gears - Coin in Left Row in Main Area #5" },
+            { "6_03_00036", "Gym Gears - Coin in Left Row in Main Area #6" },
+            { "6_03_00037", "Gym Gears - Coin in Left Row in Main Area #7" },
+            { "6_03_00038", "Gym Gears - Coin in Left Row in Main Area #8" },
+            { "6_03_00039", "Gym Gears - Coin in Left Row in Main Area #9" },
+            { "6_03_00040", "Gym Gears - Coin in Left Row in Main Area #10" },
+            { "6_03_00041", "Gym Gears - Coin in Left Row in Main Area #11" },
+            { "6_03_00042", "Gym Gears - Coin in Left Row in Main Area #12" },
+            { "6_03_00043", "Gym Gears - Coin in Left Row in Main Area #13" },
+            { "6_03_00044", "Gym Gears - Coin in Left Row in Main Area #14" },
+            { "6_03_00045", "Gym Gears - Coin in Left Row in Main Area #15" },
+            { "6_03_00046", "Gym Gears - Coin in Left Row in Main Area #16" },
+            { "6_03_00047", "Gym Gears - Coin in Left Row in Main Area #17" },
+            { "6_03_00058", "Gym Gears - Coin in Right Row in Main Area #1" },
+            { "6_03_00059", "Gym Gears - Coin in Right Row in Main Area #2" },
+            { "6_03_00060", "Gym Gears - Coin in Right Row in Main Area #3" },
+            { "6_03_00061", "Gym Gears - Coin in Right Row in Main Area #4" },
+            { "6_03_00062", "Gym Gears - Coin in Right Row in Main Area #5" },
+            { "6_03_00063", "Gym Gears - Coin in Right Row in Main Area #6" },
+            { "6_03_00064", "Gym Gears - Coin in Right Row in Main Area #7" },
+            { "6_03_00065", "Gym Gears - Coin in Right Row in Main Area #8" },
+            { "6_03_00066", "Gym Gears - Coin in Right Row in Main Area #9" },
+            { "6_03_00067", "Gym Gears - Coin in Right Row in Main Area #10" },
+            { "6_03_00068", "Gym Gears - Coin in Right Row in Main Area #11" },
+            { "6_03_00069", "Gym Gears - Coin in Right Row in Main Area #12" },
+            { "6_03_00070", "Gym Gears - Coin in Right Row in Main Area #13" },
+            { "6_03_00071", "Gym Gears - Coin in Right Row in Main Area #14" },
+            { "6_03_00072", "Gym Gears - Coin in Right Row in Main Area #15" },
+            { "6_03_00073", "Gym Gears - Coin in Right Row in Main Area #16" },
+            { "6_03_00074", "Gym Gears - Coin in Right Row in Main Area #17" },
+            { "6_03_00055", "Gym Gears - Chest in Center of Main Area" },
+            { "6_03_00082", "Gym Gears - Coin Near Rock Climbing Wall #1" },
+            { "6_03_00086", "Gym Gears - Coin Near Rock Climbing Wall #2" },
+            { "6_03_00090", "Gym Gears - Coin Near Rock Climbing Wall #3" },
+            { "6_03_00083", "Gym Gears - Coin Near Rock Climbing Wall #4" },
+            { "6_03_00087", "Gym Gears - Coin Near Rock Climbing Wall #5" },
+            { "6_03_00091", "Gym Gears - Coin Near Rock Climbing Wall #6" },
+            { "6_03_00084", "Gym Gears - Coin Near Rock Climbing Wall #7" },
+            { "6_03_00088", "Gym Gears - Coin Near Rock Climbing Wall #8" },
+            { "6_03_00092", "Gym Gears - Coin Near Rock Climbing Wall #9" },
+            { "6_03_00057", "Gym Gears - Coin Near Back Window #1" },
+            { "6_03_00076", "Gym Gears - Coin Near Back Window #2" },
+            { "6_03_00078", "Gym Gears - Coin Near Back Window #3" },
+            { "6_03_00080", "Gym Gears - Coin Near Back Window #4" },
+            { "6_03_00085", "Gym Gears - Coin Near Back Window #5" },
+            { "6_03_00081", "Gym Gears - Coin Near Front Window #1" },
+            { "6_03_00079", "Gym Gears - Coin Near Front Window #2" },
+            { "6_03_00077", "Gym Gears - Coin Near Front Window #3" },
+            { "6_03_00075", "Gym Gears - Coin Near Front Window #4" },
+            { "6_03_00056", "Gym Gears - Coin Near Front Window #5" },
+            { "6_03_00023", "Gym Gears - Coin in Main Area Poster Corner #1" },
+            { "6_03_00025", "Gym Gears - Coin in Main Area Poster Corner #2" },
+            { "6_03_00028", "Gym Gears - Coin in Main Area Poster Corner #3" },
+            { "6_21_00001", "Gym Gears - Cheese Under Spin Blocks #1" },
+            { "6_21_00000", "Gym Gears - Cheese Under Spin Blocks #2" },
+            { "6_03_00089", "Gym Gears - Coin in Ultra Chad Hallway #1" },
+            { "6_03_00093", "Gym Gears - Coin in Ultra Chad Hallway #2" },
+            { "6_03_00094", "Gym Gears - Coin in Ultra Chad Hallway #3" },
+            { "6_03_00095", "Gym Gears - Coin in Ultra Chad Hallway #4" },
+            { "6_03_00096", "Gym Gears - Coin in Ultra Chad Hallway #5" },
+            { "6_03_00097", "Gym Gears - Coin in Ultra Chad Hallway #6" },
+            { "6_03_00098", "Gym Gears - Coin in Ultra Chad Hallway #7" },
+        };
+
+        [Description("Gym Gears - Expert 1")]
+        public static Dictionary<string, string> GymGearsExpert1 = new()
+        {
+            { "6_03_00099", "Gym Gears - Coin on Steps in Entrance Weightlifting Area #1" },
+            { "6_03_00100", "Gym Gears - Coin on Steps in Main Area #1" },
+        };
+
+        [Description("Gym Gears - Expert 2")]
+        public static Dictionary<string, string> GymGearsExpert2 = new()
+        {
+            //{"TEMP1", "TEMP1"},
+        };
+
+        [Description("Gym Gears - Jump")]
+        public static Dictionary<string, string> GymGearsJump = new()
+        {
+            { "6_03_00101", "Gym Gears - Coin on Steps in Main Area #2" },
+            { "6_03_00108", "Gym Gears - Coin on 20 Tons Block in Entrance Weightlifting Area #1" }
         };
 
         #endregion
@@ -2670,6 +2782,9 @@ namespace YellowTaxiAP
 
             // Gym Gears Areas
             new(GetDescription(nameof(GymGearsStartingArea)), GymGearsStartingArea),
+            new(GetDescription(nameof(GymGearsExpert1)), GymGearsExpert1),
+            new(GetDescription(nameof(GymGearsExpert2)), GymGearsExpert2),
+            new(GetDescription(nameof(GymGearsJump)), GymGearsJump),
         ];
 
         public static Dictionary<string, Dictionary<string, string>> SpecialRules = new()
@@ -2804,6 +2919,9 @@ namespace YellowTaxiAP
                 nameof(Data.LevelId.L6_Gym),
                 [
                     GymGearsStartingArea,
+                    GymGearsExpert1,
+                    GymGearsExpert2,
+                    GymGearsJump,
                 ]
             },
             {
@@ -3567,26 +3685,32 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GymGearsStartingArea)),
                 [
                     new RegionConnection("Gym Gears - Granny's Island Portal", GrannysIslandMain, ConnectionType.Warp),
+                    new RegionConnection(GymGearsExpert1 , "X1/J1"),
+                    new RegionConnection(GymGearsExpert2 , "X2/J1"),
+                    new RegionConnection(GymGearsJump, "J1"),
                 ]
-            }
+            },
+            {
+                GetDescription(nameof(GymGearsExpert1)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(GymGearsExpert2)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(GymGearsJump)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
 
             #endregion
         };
-
-        public static string GetRegionJsonName(Dictionary<string, string> region)
-        {
-            return GetRegionJsonName(KnownIDs.First(o => o.Item2.Equals(region)).Item1);
-        }
-
-        public static string GetRegionJsonName(string description)
-        {
-            var end = string.Empty;
-            if (!description.Contains(" - "))
-            {
-                end = "/MAIN";
-            }
-            return "REGION_" + description.Replace(" - ", "/").Replace("'", "").Replace(" ", "_").ToUpper() + end;
-        }
 
         public static bool CheckLocation(string type, string id)
         {

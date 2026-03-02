@@ -247,7 +247,6 @@ namespace YellowTaxiAP.Managers
                     case "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK": // Normally unlocks Flip O' Will
                         if (!Plugin.SlotData.ShuffleFlipOWill)
                             break;
-                        var morioFont = CurrentFont;
                         self.dialogues =
                         [
                             $"Normally, I'd teach you how to {SetTextColor("boost", DialogueColors.OrangeYellow)} using your {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}!",
@@ -682,15 +681,16 @@ namespace YellowTaxiAP.Managers
                 {
                     try
                     {
-                        self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you {GetItemText(8_00000 + moveRandoID)}!";
-                        Plugin.ArchipelagoClient.SendLocation(800000 + moveRandoID);
+                        var id = ((int) GameplayMaster.instance.levelId * 1_00_00000) + 8_00000 + moveRandoID;
+                        self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you {GetItemText(id)}!";
+                        Plugin.ArchipelagoClient.SendLocation(id);
                     }
                     catch(Exception ex)
                     {
                         Plugin.BepinLogger.LogWarning(ex);
                     }
 #if DEBUG
-                    DebugLocationHelper.CheckLocation("Move Rando", $"0_{Identifiers.NPC_ID:D2}_{moveRandoID:D5}");
+                    DebugLocationHelper.CheckLocation("Move Rando", $"{(int)GameplayMaster.instance.levelId}_{Identifiers.NPC_ID:D2}_{moveRandoID:D5}");
 #endif
                 }
             }

@@ -93,10 +93,11 @@ public class ArchipelagoClient
     [
         // Move rando
         800000,
-        800001,
+        30800001,
         800002,
         800003,
         800004,
+        60800004,
         800005,
         800006,
         // Early Doggo

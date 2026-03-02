@@ -79,6 +79,12 @@ namespace YellowTaxiAP.Managers
             else // Update bunny portals
             {
                 self.kaizoEnabled = BunniesGetLevelCollectedNumber(self.kaizoLevelId) >= BunniesGetLevelMaxNumber(self.kaizoLevelId) || self.kaizoLevelId == LevelId.L16_Rocket;
+#if DEBUG
+                if (DebugLocationHelper.Enabled && levelDataList[(int) self.kaizoLevelId].levelCost == -1)
+                {
+                    self.kaizoEnabled = true;
+                }
+#endif
                 self._name = self.kaizoLevelId == LevelId.L16_Rocket ? "" : $"{BunniesGetLevelCollectedNumber(self.kaizoLevelId).ToString()}/{BunniesGetLevelMaxNumber(self.kaizoLevelId).ToString()}<sprite name=\"GoldenBunnyOutlined\">";
                 self.nameText.text = self._name;
                 self.nameText.rectTransform.anchoredPosition = self.kaizoEnabled ? new Vector2(0.0f, 8.0f) : new Vector2(0.0f, 3.5f);

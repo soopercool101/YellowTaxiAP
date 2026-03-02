@@ -8,7 +8,7 @@ namespace YellowTaxiAP.Managers
         {
             //On.HatBuyScript.Update += AP_HatUpdate;
             On.HatBuyScript.Buy += AP_BuyHat;
-            On.HatScript.RemoveHat += HatScript_RemoveHat;
+            //On.HatScript.RemoveHat += HatScript_RemoveHat;
             On.HatScript.Instantiate += HatScript_Instantiate;
         }
 
@@ -43,8 +43,10 @@ namespace YellowTaxiAP.Managers
                 DebugLocationHelper.CheckLocation("hat", id);
 #endif
             }
+
+            APSaveController.MiscSave.CurrentHat = self.myHatKind;
             orig(self);
-            APSaveController.MiscSave.CurrentHat = (Data.Hat)Data.currentHat[Data.gameDataIndex];
+            //APSaveController.MiscSave.CurrentHat = (Data.Hat)Data.currentHat[Data.gameDataIndex];
         }
     }
 }

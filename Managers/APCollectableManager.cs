@@ -331,7 +331,6 @@ namespace YellowTaxiAP.Managers
                             {
                                 sublevelname = sublevelname.Substring(0, sublevelname.IndexOf("-", StringComparison.Ordinal)).TrimEnd();
                             }
-                            var modifiedRegionName = DebugLocationHelper.GetRegionJsonName(regionName);
                             var regionItems = new List<KeyValuePair<string, string>>();
                             var regionCoins = new List<KeyValuePair<string, string>>();
                             var regionCoinbags = new List<KeyValuePair<string, string>>();
@@ -419,8 +418,7 @@ namespace YellowTaxiAP.Managers
                                 Plugin.Log($"WARNING: NO CONNECTION DATA FOUND FOR \"{regionName}\"");
                             }
 
-                            json += $"\n  \"{modifiedRegionName}\": {{";
-                            json += $"\n    \"name\": \"{regionName}\",";
+                            json += $"\n  \"{regionName}\": {{";
                             json += GameplayMaster.instance.levelId == Data.LevelId.Hub
                                 ? "\n    \"level\": \"Hub\","
                                 : $"\n    \"level\": \"{Data.levelDataList[(int) GameplayMaster.instance.levelId].GetName()}\",";
