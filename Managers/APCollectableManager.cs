@@ -327,9 +327,9 @@ namespace YellowTaxiAP.Managers
                             }
 
                             var sublevelname = regionName;
-                            if (sublevelname.Contains("-"))
+                            if (sublevelname.Contains(" - "))
                             {
-                                sublevelname = sublevelname.Substring(0, sublevelname.IndexOf("-", StringComparison.Ordinal)).TrimEnd();
+                                sublevelname = sublevelname.Substring(0, sublevelname.IndexOf(" - ", StringComparison.Ordinal)).TrimEnd();
                             }
                             var regionItems = new List<KeyValuePair<string, string>>();
                             var regionCoins = new List<KeyValuePair<string, string>>();
@@ -423,6 +423,67 @@ namespace YellowTaxiAP.Managers
                                 ? "\n    \"level\": \"Hub\","
                                 : $"\n    \"level\": \"{Data.levelDataList[(int) GameplayMaster.instance.levelId].GetName()}\",";
                             json += $"\n    \"sublevel\": \"{sublevelname}\",";
+                            if (GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket)
+                            {
+                                json += $"\n    \"kaizolevel\": \"";
+                                switch (sublevelname)
+                                {
+                                    case "Lab Memories":
+                                        json += "Hub";
+                                        break;
+                                    case "Welcoming Climbs":
+                                        json += Data.levelDataList[(int) Data.LevelId.L3_MoriosHome].GetName();
+                                        break;
+                                    case "Bomb-it":
+                                        json += Data.levelDataList[(int)Data.LevelId.L1_Bombeach].GetName();
+                                        break;
+                                    case "Buttons Smashing":
+                                        json += Data.levelDataList[(int)Data.LevelId.L4_ArcadePanik].GetName();
+                                        break;
+                                    case "Pepperoni":
+                                        json += Data.levelDataList[(int)Data.LevelId.L2_PizzaTime].GetName();
+                                        break;
+                                    case "Stealthy":
+                                        json += Data.levelDataList[(int)Data.LevelId.L5_ToslaOffices].GetName();
+                                        break;
+                                    case "Podium":
+                                        json += Data.levelDataList[(int)Data.LevelId.L6_Gym].GetName();
+                                        break;
+                                    case "Costipation": // Typo present in-game
+                                    case "Constipation":
+                                        json += Data.levelDataList[(int)Data.LevelId.L7_PoopWorld].GetName();
+                                        break;
+                                    case "Smelly Slimes":
+                                        json += Data.levelDataList[(int)Data.LevelId.L8_Sewers].GetName();
+                                        break;
+                                    case "Heroic Moves":
+                                        json += Data.levelDataList[(int)Data.LevelId.L9_City].GetName();
+                                        break;
+                                    case "Conveyor Belts":
+                                        json += Data.levelDataList[(int)Data.LevelId.L10_CrashTestIndustries].GetName();
+                                        break;
+                                    case "Eye surgery":
+                                    case "Eye Surgery":
+                                        json += Data.levelDataList[(int)Data.LevelId.L12_MoriosMind].GetName();
+                                        break;
+                                    case "Mid air":
+                                    case "Mid Air":
+                                        json += Data.levelDataList[(int)Data.LevelId.L13_StarmanCastle].GetName();
+                                        break;
+                                    case "Infiltration":
+                                        json += Data.levelDataList[(int)Data.LevelId.L14_ToslaHQ].GetName();
+                                        break;
+                                    case "Far far away":
+                                    case "Far Far Away":
+                                        json += Data.levelDataList[(int)Data.LevelId.L15_Moon].GetName();
+                                        break;
+                                    case "Mosk's Rocket":
+                                    default:
+                                        json += sublevelname;
+                                        break;
+                                }
+                                json += "\",";
+                            }
                             json += "\n    \"gears\": {";
                             if (regionGears.Any())
                             {

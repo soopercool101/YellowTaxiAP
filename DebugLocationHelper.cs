@@ -1179,6 +1179,12 @@ namespace YellowTaxiAP
             { string.Empty, nameof(MoriosLabFifthFloorGoldenPropeller) + " - !PLACEHOLDER!" }
         };
 
+        [Description("Morio's Lab - Fifth Floor Golden Propeller (Password)")]
+        public static Dictionary<string, string> MoriosLabFifthFloorGoldenPropellerPassword = new()
+        {
+            { string.Empty, nameof(MoriosLabFifthFloorGoldenPropellerPassword) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Morio's Lab - Fifth Floor Inside Shortcut Pipe")]
         public static Dictionary<string, string> MoriosLabFifthFloorShortcutPipe = new()
         {
@@ -1292,7 +1298,7 @@ namespace YellowTaxiAP
             { "Granny's Island - Gear - Inside Spin Blocks", "SP" },
             { "Granny's Island - Gear - Lighthouse", "B2 | B1+GP" },
             { "Granny's Island - Gear - In the Clouds", "B1+GP | B2+J1" },
-            { "Granny's Island - Gear - High Pillar by Lab", "J1/GP" },
+            { "Granny's Island - Gear - High Pillar by Lab", "X2/J1/GP" },
             { "Pizza Oven - Gear", "B1 & X1/J1" },
             { "Morio's Lab - Gear - Third Floor Wrenches", "J1" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1/FGU" },
@@ -2649,20 +2655,523 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> GymGearsExpert1 = new()
         {
             { "6_03_00099", "Gym Gears - Coin on Steps in Entrance Weightlifting Area #1" },
-            { "6_03_00100", "Gym Gears - Coin on Steps in Main Area #1" },
+            { "6_03_00100", "Gym Gears - Coin on Left Side Steps in Main Area #1" },
         };
 
         [Description("Gym Gears - Expert 2")]
         public static Dictionary<string, string> GymGearsExpert2 = new()
         {
-            //{"TEMP1", "TEMP1"},
+            { "6_03_00102", "Gym Gears - Coin on Left Side Steps in Main Area #2" },
+            { "6_03_00105", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #1" },
+            { "6_03_00111", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #2" },
+            { "6_03_00118", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #3" },
         };
 
         [Description("Gym Gears - Jump")]
         public static Dictionary<string, string> GymGearsJump = new()
         {
-            { "6_03_00101", "Gym Gears - Coin on Steps in Main Area #2" },
-            { "6_03_00108", "Gym Gears - Coin on 20 Tons Block in Entrance Weightlifting Area #1" }
+            { "6_03_00101", "Gym Gears - Coin on Steps in Entrance Weightlifting Area #2" },
+            { "6_03_00104", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #1" },
+            { "6_03_00110", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #2" },
+            { "6_03_00117", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #3" },
+            { "6_03_00108", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #1" },
+            { "6_03_00114", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #2" },
+            { "6_03_00121", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #3" },
+            { "6_03_00126", "Gym Gears - Coin Bag on 20 Tons Block in Entrance Weightlifting Area" },
+            { "6_03_00122", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #4" },
+            { "6_03_00127", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #5" },
+            { "6_03_00133", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #6" },
+            { "6_03_00138", "Gym Gears - Chest on 20 Tons Block in Entrance Weightlifting Area" },
+            { "6_03_00130", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #1" },
+            { "6_01_00000", "Gym Gears - Gear - Beam Above Entrance Weightlifting Area" },
+            { "6_03_00132", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #2" },
+            { "6_03_00106", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #1" },
+            { "6_03_00112", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #2" },
+            { "6_03_00119", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #3" },
+            { "6_01_00001", "Gym Gears - Gear - Back Left Corner of Main Area" },
+            { "6_03_00134", "Gym Gears - Coin on 20 Tons Block Towards Bunny #1" },
+            { "6_03_00139", "Gym Gears - Coin on 20 Tons Block Towards Bunny #2" },
+            { "6_03_00152", "Gym Gears - Coin on 20 Tons Block Towards Bunny #3" },
+            { "6_03_00135", "Gym Gears - Coin on 20 Tons Block Towards Bunny #4" },
+            { "6_03_00140", "Gym Gears - Coin on 20 Tons Block Towards Bunny #5" },
+            { "6_03_00153", "Gym Gears - Coin on 20 Tons Block Towards Bunny #6" },
+            { "6_09_00360", "Gym Gears - Checkpoint Near Bunny" },
+            { "6_02_00001", "Gym Gears - Bunny - Back of Main Area" },
+            { "6_03_00107", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #1" },
+            { "6_03_00113", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #2" },
+            { "6_03_00120", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #3" },
+            { "6_03_00109", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #1" },
+            { "6_03_00115", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #2" },
+            { "6_03_00123", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #3" },
+            { "6_03_00124", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #4" },
+            { "6_03_00128", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #5" },
+            { "6_03_00136", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #6" },
+            { "6_03_00137", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #7" },
+            { "6_03_00150", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #8" },
+            { "6_03_00154", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #9" },
+            { "6_03_00157", "Gym Gears - Coin Bag on 20 Tons Block Stairway to Upper Area #1" },
+            { "6_03_00155", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #10" },
+            { "6_03_00158", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #11" },
+            { "6_03_00162", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #12" },
+            { "6_03_00156", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #13" },
+            { "6_03_00159", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #14" },
+            { "6_03_00163", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #15" },
+            { "6_09_00350", "Gym Gears - Checkpoint Halfway to Upper Area" },
+            { "6_03_00160", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #16" },
+            { "6_03_00164", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #17" },
+            { "6_03_00168", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #18" },
+            { "6_03_00173", "Gym Gears - Coin Bag on 20 Tons Block Stairway to Upper Area #2" },
+            { "6_03_00165", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #19" },
+            { "6_03_00169", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #20" },
+            { "6_03_00174", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #21" },
+            { "6_03_00178", "Gym Gears - Chest on 20 Tons Block Stairway to Upper Area" },
+            { "6_03_00170", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #22" },
+            { "6_03_00175", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #23" },
+            { "6_03_00179", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #24" },
+            { "6_01_00003", "Gym Gears - Gear - Top of 20 Tons Block Stairway to Upper Area" },
+            { "6_03_00185", "Gym Gears - Coin on Upper Area Stairway #1" },
+            { "6_03_00190", "Gym Gears - Coin on Upper Area Stairway #2" },
+            { "6_03_00194", "Gym Gears - Coin on Upper Area Stairway #3" },
+            { "6_03_00195", "Gym Gears - Coin on Upper Area 20 Tons Block #1" },
+            { "6_03_00196", "Gym Gears - Coin on Upper Area 20 Tons Block #2" },
+            { "6_03_00197", "Gym Gears - Coin on Upper Area 20 Tons Block #3" },
+            { "6_03_00198", "Gym Gears - Coin on Upper Area 20 Tons Block #4" },
+            { "6_03_00231", "Gym Gears - Coin on Upper Area 20 Tons Block #5" },
+            { "6_01_00005", "Gym Gears - Gear - Highest Point" },
+            { "6_03_00217", "Gym Gears - Coin on Beam Above Main Area #1" },
+            { "6_03_00216", "Gym Gears - Coin on Beam Above Main Area #2" },
+            { "6_03_00215", "Gym Gears - Coin on Beam Above Main Area #3" },
+            { "6_03_00214", "Gym Gears - Coin on Beam Above Main Area #4" },
+            { "6_03_00213", "Gym Gears - Coin on Beam Above Main Area #5" },
+            { "6_03_00212", "Gym Gears - Coin on Beam Above Main Area #6" },
+            { "6_03_00211", "Gym Gears - Coin on Beam Above Main Area #7" },
+            { "6_03_00210", "Gym Gears - Coin on Beam Above Main Area #8" },
+            { "6_03_00209", "Gym Gears - Coin on Beam Above Main Area #9" },
+            { "6_03_00208", "Gym Gears - Chest on Beam Above Main Area" },
+            { "6_03_00207", "Gym Gears - Coin on Beam Above Main Area #10" },
+            { "6_03_00206", "Gym Gears - Coin on Beam Above Main Area #11" },
+            { "6_03_00205", "Gym Gears - Coin on Beam Above Main Area #12" },
+            { "6_03_00204", "Gym Gears - Coin on Beam Above Main Area #13" },
+            { "6_03_00203", "Gym Gears - Coin on Beam Above Main Area #14" },
+            { "6_03_00202", "Gym Gears - Coin on Beam Above Main Area #15" },
+            { "6_03_00201", "Gym Gears - Coin on Beam Above Main Area #16" },
+            { "6_03_00200", "Gym Gears - Coin on Beam Above Main Area #17" },
+            { "6_03_00199", "Gym Gears - Coin on Beam Above Main Area #18" },
+            { "6_03_00218", "Gym Gears - Coin on Beam Above Main Area #19" },
+            { "6_03_00219", "Gym Gears - Coin on Beam Above Main Area #20" },
+            { "6_03_00220", "Gym Gears - Coin on Beam Above Main Area #21" },
+            { "6_03_00221", "Gym Gears - Coin on Beam Above Main Area #22" },
+            { "6_03_00222", "Gym Gears - Coin on Beam Above Main Area #23" },
+            { "6_03_00223", "Gym Gears - Coin on Beam Above Main Area #24" },
+            { "6_03_00224", "Gym Gears - Coin Bag on Beam Above Main Area #1" },
+            { "6_03_00225", "Gym Gears - Coin Bag on Beam Above Main Area #2" },
+            { "6_03_00227", "Gym Gears - Coin on Beam Above Main Area #25" },
+            { "6_03_00228", "Gym Gears - Coin on Beam Above Main Area #26" },
+            { "6_03_00229", "Gym Gears - Coin on Beam Above Main Area #27" },
+            { "6_03_00230", "Gym Gears - Coin on Beam Above Main Area #28" },
+            { "6_03_00232", "Gym Gears - Coin on Beam Above Main Area #29" },
+            { "6_03_00233", "Gym Gears - Coin on Beam Above Main Area #30" },
+            { "6_02_00000", "Gym Gears - Bunny - On Center Pillar" },
+            { "6_03_00149", "Gym Gears - Coin in Alcove Above Entrance to Main Area #1" },
+            { "6_03_00146", "Gym Gears - Coin in Alcove Above Entrance to Main Area #2" },
+            { "6_03_00143", "Gym Gears - Coin in Alcove Above Entrance to Main Area #3" },
+            { "6_03_00148", "Gym Gears - Coin in Alcove Above Entrance to Main Area #4" },
+            { "6_03_00145", "Gym Gears - Coin in Alcove Above Entrance to Main Area #5" },
+            { "6_03_00142", "Gym Gears - Coin in Alcove Above Entrance to Main Area #6" },
+            { "6_03_00147", "Gym Gears - Coin in Alcove Above Entrance to Main Area #7" },
+            { "6_03_00144", "Gym Gears - Coin in Alcove Above Entrance to Main Area #8" },
+            { "6_03_00141", "Gym Gears - Coin in Alcove Above Entrance to Main Area #9" },
+            { "6_03_00161", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #1" },
+            { "6_03_00166", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #2" },
+            { "6_03_00172", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #3" },
+            { "6_03_00177", "Gym Gears - Coin Bag on 20 Tons Block in Alcove Above Entrance to Main Area #1" },
+            { "6_03_00171", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #4" },
+            { "6_03_00176", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #5" },
+            { "6_03_00180", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #6" },
+            { "6_03_00183", "Gym Gears - Coin Bag on 20 Tons Block in Alcove Above Entrance to Main Area #2" },
+            { "6_03_00181", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #7" },
+            { "6_03_00184", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #8" },
+            { "6_03_00187", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #9" },
+            { "6_03_00189", "Gym Gears - Chest on 20 Tons Block in Alcove Above Entrance to Main Area" },
+            { "6_03_00186", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #10" },
+            { "6_03_00188", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #11" },
+            { "6_03_00191", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #12" },
+            { "6_01_00002", "Gym Gears - Gear - Alcove Above Entrance to Main Area" },
+            { "6_03_00103", "Gym Gears - Coin Bag on Broken Pillar in Ultra Chad Room" },
+            { "6_03_00116", "Gym Gears - Coin Bag on Pillar in Ultra Chad Room" },
+            { "6_01_00004", "Gym Gears - Gear - Ultra Chad Room" },
+            { "6_02_00002", "Gym Gears - Bunny - Ultra Chad Room" },
+        };
+
+        public static Dictionary<string, string> GymGearsSpecialRules = new()
+        {
+            { "Gym Gears - Bunny - Ultra Chad Room", "X1/J2" },
+        };
+
+        #endregion
+
+        #region Fecal Matters
+
+        [Description("Fecal Matters - Starting Area")]
+        public static Dictionary<string, string> FecalMattersStartingArea = new()
+        {
+            { "7_03_00003", "Fecal Matters - Coin in Row Between Roundabout and Entrance #1" },
+            { "7_03_00004", "Fecal Matters - Coin in Row Between Roundabout and Entrance #2" },
+            { "7_03_00005", "Fecal Matters - Coin in Row Between Roundabout and Entrance #3" },
+            { "7_03_00006", "Fecal Matters - Coin in Row Between Roundabout and Entrance #4" },
+            { "7_03_00007", "Fecal Matters - Coin in Row Between Roundabout and Entrance #5" },
+            { "7_03_00008", "Fecal Matters - Coin in Row Between Roundabout and Entrance #6" },
+            { "7_03_00009", "Fecal Matters - Coin in Row Between Roundabout and Entrance #7" },
+        };
+
+        #endregion
+
+        #region Mosk's Rocket
+
+        [Description("Mosk's Rocket - Starting Area")]
+        public static Dictionary<string, string> RocketStartingArea = new()
+        {
+            { "16_21_00004", "Mosk's Rocket - Cheese Near Welcoming Climbs Portal" },
+            { "16_03_00225", "Mosk's Rocket - Coin Bag Between Lab Memories and Bomb-it Portals" },
+            { "16_03_00224", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #1" },
+            { "16_03_00223", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #2" },
+            { "16_03_00222", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #3" },
+            { "16_03_00221", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #4" },
+            { "16_03_00220", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #5" },
+            { "16_03_00219", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #6" },
+            { "16_03_00218", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #7" },
+            { "16_03_00217", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #8" },
+            { "16_03_00216", "Mosk's Rocket - Coin Between Lab Memories and Bomb-it Portals #9" },
+        };
+
+        [Description("Mosk's Rocket - Bombeach/Arcade Panik/Pizza Time Area")]
+        public static Dictionary<string, string> RocketBombeachArcadePizzaArea = new()
+        {
+            { "16_21_00003", "Mosk's Rocket - Cheese Near Buttons Smashing Portal" },
+        };
+
+        [Description("Mosk's Rocket - Tosla's Offices Area")]
+        public static Dictionary<string, string> RocketToslaOfficesArea = new()
+        {
+            { "16_03_00338", "Mosk's Rocket - Coin Near Stealthy Portal #1" },
+            { "16_03_00339", "Mosk's Rocket - Coin Near Stealthy Portal #2" },
+            { "16_03_00340", "Mosk's Rocket - Coin Near Stealthy Portal #3" },
+            { "16_03_00341", "Mosk's Rocket - Coin Bag Near Stealthy Portal" },
+        };
+
+        [Description("Mosk's Rocket - Gym Gears Area")]
+        public static Dictionary<string, string> RocketGymGearsArea = new()
+        {
+            { "16_03_00334", "Mosk's Rocket - Coin Near Podium Portal #1" },
+            { "16_03_00335", "Mosk's Rocket - Coin Near Podium Portal #2" },
+            { "16_03_00336", "Mosk's Rocket - Coin Near Podium Portal #3" },
+            { "16_03_00337", "Mosk's Rocket - Coin Bag Near Podium Portal" },
+        };
+
+        [Description("Mosk's Rocket - Fecal Matters/Flushed Away Area")]
+        public static Dictionary<string, string> RocketFecalFlushedArea = new()
+        {
+            { "16_03_00353", "Mosk's Rocket - Coin Near Smelly Slimes Portal #1" },
+            { "16_03_00352", "Mosk's Rocket - Coin Near Smelly Slimes Portal #2" },
+            { "16_03_00351", "Mosk's Rocket - Coin Near Smelly Slimes Portal #3" },
+            { "16_03_00350", "Mosk's Rocket - Coin Near Smelly Slimes Portal #4" },
+            { "16_03_00349", "Mosk's Rocket - Coin Near Smelly Slimes Portal #5" },
+            { "16_21_00001", "Mosk's Rocket - Cheese Under Homing Beacons" }
+        };
+
+        [Description("Mosk's Rocket - Maurizio's City/Crash Test Industries/Morio's Mind Area")]
+        public static Dictionary<string, string> RocketCityCrashMindArea = new()
+        {
+            { "16_21_00002", "Mosk's Rocket - Cheese Near Conveyor Belts Portal" },
+        };
+
+        [Description("Mosk's Rocket - Coins Leading to Final Floor")]
+        public static Dictionary<string, string> RocketCoinsToFinalFloor = new()
+        {
+            { "16_03_00404", "Mosk's Rocket - Coin on Steps to Final Floor #1" },
+            { "16_03_00426", "Mosk's Rocket - Coin on Steps to Final Floor #2" },
+            { "16_03_00427", "Mosk's Rocket - Coin on Steps to Final Floor #3" },
+            { "16_03_00428", "Mosk's Rocket - Coin on Steps to Final Floor #4" },
+            { "16_03_00429", "Mosk's Rocket - Coin on Steps to Final Floor #5" },
+        };
+
+        [Description("Mosk's Rocket - Tosla HQ Area")]
+        public static Dictionary<string, string> RocketToslaHQArea = new()
+        {
+            { "16_03_00430", "Mosk's Rocket - Coin Bag on Steps to Final Floor" },
+        };
+
+        [Description("Mosk's Rocket - Final Floor Cheese")]
+        public static Dictionary<string, string> RocketFinalFloorCheese = new()
+        {
+            { "16_21_00000", "Mosk's Rocket - Cheese Near Top of Rocket" },
+        };
+
+        [Description("Mosk's Rocket - Moon Area")]
+        public static Dictionary<string, string> RocketMoonArea = new()
+        {
+            { string.Empty, nameof(RocketMoonArea) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Lab Memories - Starting Area")]
+        public static Dictionary<string, string> LabMemoriesStartingArea = new()
+        {
+            { "16_09_01925", "Lab Memories - Checkpoint" },
+        };
+
+        [Description("Lab Memories - First Step")]
+        public static Dictionary<string, string> LabMemoriesFirstStep = new()
+        {
+            { "16_03_00157", "Lab Memories - Coin on Spiky Steps #1" },
+            { "16_03_00158", "Lab Memories - Coin on Spiky Steps #2" },
+            { "16_03_00159", "Lab Memories - Coin on Spiky Steps #3" },
+            { "16_03_00162", "Lab Memories - Coin on Spiky Steps #4" },
+            { "16_03_00164", "Lab Memories - Coin Bag on Spiky Steps #1" },
+            { "16_03_00167", "Lab Memories - Coin on Spiky Steps #5" },
+            { "16_03_00166", "Lab Memories - Coin on Spiky Steps #6" },
+            { "16_03_00165", "Lab Memories - Coin on Spiky Steps #7" },
+            { "16_03_00199", "Lab Memories - Coin on Spiky Steps #8" },
+            { "16_03_00226", "Lab Memories - Coin on Spiky Steps #9" },
+            { "16_03_00246", "Lab Memories - Coin on Spiky Steps #10" },
+        };
+
+        [Description("Lab Memories - High Ground")]
+        public static Dictionary<string, string> LabMemoriesHighGround = new()
+        {
+            { "16_03_00268", "Lab Memories - Coin Bag on Spiky Steps #2" },
+            { "16_03_00290", "Lab Memories - Coin on Spiky Steps #11" },
+            { "16_03_00292", "Lab Memories - Coin on Spiky Steps #12" },
+            { "16_03_00309", "Lab Memories - Coin on Spiky Steps #13" },
+            { "16_03_00308", "Lab Memories - Coin on Spiky Steps #14" },
+            { "16_03_00307", "Lab Memories - Coin Bag on Spiky Steps #3" },
+            { "16_03_00281", "Lab Memories - Coin Surrounding First Gear #1" },
+            { "16_03_00278", "Lab Memories - Coin Bag Surrounding First Gear #1" },
+            { "16_03_00282", "Lab Memories - Coin Surrounding First Gear #2" },
+            { "16_03_00286", "Lab Memories - Coin Bag Surrounding First Gear #2" },
+            { "16_03_00277", "Lab Memories - Coin Surrounding First Gear #3" },
+            { "16_03_00279", "Lab Memories - Coin Surrounding First Gear #4" },
+            { "16_01_00000", "Lab Memories - Gear - First Gear" },
+            { "16_03_00287", "Lab Memories - Coin Surrounding First Gear #5" },
+            { "16_03_00289", "Lab Memories - Coin Surrounding First Gear #6" },
+            { "16_03_00280", "Lab Memories - Coin Bag Surrounding First Gear #3" },
+            { "16_03_00284", "Lab Memories - Coin Surrounding First Gear #7" },
+            { "16_03_00288", "Lab Memories - Coin Bag Surrounding First Gear #4" },
+            { "16_03_00285", "Lab Memories - Coin Surrounding First Gear #8" },
+
+            { "16_03_00314", "Lab Memories - Coin on First Island Towards Second Gear #1" },
+            { "16_03_00313", "Lab Memories - Coin on First Island Towards Second Gear #2" },
+            { "16_03_00312", "Lab Memories - Coin on First Island Towards Second Gear #3" },
+            { "16_03_00317", "Lab Memories - Coin on First Island Towards Second Gear #4" },
+            { "16_03_00316", "Lab Memories - Coin Bag on First Island Towards Second Gear" },
+            { "16_03_00315", "Lab Memories - Coin on First Island Towards Second Gear #5" },
+            { "16_03_00320", "Lab Memories - Coin on First Island Towards Second Gear #6" },
+            { "16_03_00319", "Lab Memories - Coin on First Island Towards Second Gear #7" },
+            { "16_03_00318", "Lab Memories - Coin on First Island Towards Second Gear #8" },
+            { "16_03_00321", "Lab Memories - Coin Bag on Second Island Towards Second Gear" },
+            { "16_03_00324", "Lab Memories - Coin by Second Gear" },
+            { "16_03_00323", "Lab Memories - Coin Bag by Second Gear" },
+            { "16_01_00001", "Lab Memories - Gear - Second Gear" },
+        };
+
+        [Description("Welcoming Climbs - Starting Area")]
+        public static Dictionary<string, string> WelcomingClimbsStartingArea = new()
+        {
+            { "16_09_01600", "Welcoming Climbs - Checkpoint" },
+            { "16_03_00118", "Welcoming Climbs - Coin on Left Side of Starting Platform #1" },
+            { "16_03_00120", "Welcoming Climbs - Coin on Left Side of Starting Platform #2" },
+            { "16_03_00122", "Welcoming Climbs - Coin on Left Side of Starting Platform #3" },
+            { "16_03_00124", "Welcoming Climbs - Coin on Left Side of Starting Platform #4" },
+            { "16_03_00126", "Welcoming Climbs - Coin Bag on Left Side of Starting Platform" },
+            { "16_03_00117", "Welcoming Climbs - Coin on Right Side of Starting Platform #1" },
+            { "16_03_00119", "Welcoming Climbs - Coin on Right Side of Starting Platform #2" },
+            { "16_03_00121", "Welcoming Climbs - Coin on Right Side of Starting Platform #3" },
+            { "16_03_00123", "Welcoming Climbs - Coin on Right Side of Starting Platform #4" },
+            { "16_03_00125", "Welcoming Climbs - Coin Bag on Right Side of Starting Platform" },
+            { "16_03_00127", "Welcoming Climbs - Coin on Front Side of Starting Platform #1" },
+            { "16_03_00128", "Welcoming Climbs - Coin on Front Side of Starting Platform #2" },
+            { "16_03_00129", "Welcoming Climbs - Coin on Front Side of Starting Platform #3" },
+            { "16_03_00130", "Welcoming Climbs - Coin Bag on Front Side of Starting Platform" },
+        };
+
+        [Description("Welcoming Climbs - First Gear Area")]
+        public static Dictionary<string, string> WelcomingClimbsFirstGearArea = new()
+        {
+            { "16_03_00408", "Welcoming Climbs - Chest at Halfway Point #1" },
+            { "16_01_00002", "Welcoming Climbs - Gear - Halfway Point" },
+            { "16_03_00406", "Welcoming Climbs - Chest at Halfway Point #2" },
+        };
+
+        [Description("Welcoming Climbs - Second Gear Area")]
+        public static Dictionary<string, string> WelcomingClimbsSecondGearArea = new()
+        {
+            { "16_03_00434", "Welcoming Climbs - Coin at Highest Point #1" },
+            { "16_03_00433", "Welcoming Climbs - Coin at Highest Point #2" },
+            { "16_03_00432", "Welcoming Climbs - Coin at Highest Point #3" },
+            { "16_03_00437", "Welcoming Climbs - Coin Bag at Highest Point #1" },
+            { "16_01_00003", "Welcoming Climbs - Gear - Highest Point" },
+            { "16_03_00435", "Welcoming Climbs - Coin Bag at Highest Point #2" },
+            { "16_03_00440", "Welcoming Climbs - Coin at Highest Point #4" },
+            { "16_03_00439", "Welcoming Climbs - Coin at Highest Point #5" },
+            { "16_03_00438", "Welcoming Climbs - Coin at Highest Point #6" },
+        };
+
+        [Description("Bomb-it - Starting Area")]
+        public static Dictionary<string, string> BombitStartingArea = new()
+        {
+            { "16_09_01270", "Bomb-it - Checkpoint" },
+        };
+
+        [Description("Bomb-it - Outer Area")]
+        public static Dictionary<string, string> BombitOuterArea = new()
+        {
+            { "16_03_00066", "Bomb-it - Coin Near Houses #1" },
+            { "16_03_00067", "Bomb-it - Coin Near Houses #2" },
+            { "16_03_00064", "Bomb-it - Coin Near Houses #3" },
+            { "16_03_00065", "Bomb-it - Coin Near Houses #4" },
+            { "16_03_00062", "Bomb-it - Coin Near Houses #5" },
+            { "16_03_00063", "Bomb-it - Coin Near Houses #6" },
+            { "16_03_00060", "Bomb-it - Coin Near Houses #7" },
+            { "16_03_00061", "Bomb-it - Coin Near Houses #8" },
+            { "16_03_00058", "Bomb-it - Coin Near Houses #9" },
+            { "16_03_00059", "Bomb-it - Coin Near Houses #10" },
+            { "16_03_00056", "Bomb-it - Coin Bag Near Houses #1" },
+            { "16_03_00057", "Bomb-it - Coin Bag Near Houses #2" },
+            { "16_01_00004", "Bomb-it - Gear - Bomb Car Obstacle Course" },
+            { "16_01_00005", "Bomb-it - Gear - Bomb Car Ramps" },
+        };
+
+        [Description("Podium - Starting Area")]
+        public static Dictionary<string, string> PodiumStartingArea = new()
+        {
+            { "16_09_00145", "Podium - Checkpoint" },
+        };
+
+        [Description("Podium - High Ground")]
+        public static Dictionary<string, string> PodiumHighGround = new()
+        {
+            { "16_03_00276", "Podium - Coin by First Gear #1" },
+            { "16_03_00275", "Podium - Coin by First Gear #2" },
+            { "16_03_00274", "Podium - Coin by First Gear #3" },
+            { "16_03_00273", "Podium - Coin Bag by First Gear" },
+            { "16_01_00012", "Podium - Gear - First Gear" },
+            { "16_03_00331", "Podium - Coin by Hat #1" },
+            { "16_03_00330", "Podium - Coin by Hat #2" },
+            { "16_03_00329", "Podium - Coin by Hat #3" },
+            { "16_03_00328", "Podium - Coin Bag by Hat" },
+            { "16_03_00347", "Podium - Coin by Second Gear #1" },
+            { "16_03_00346", "Podium - Coin by Second Gear #2" },
+            { "16_03_00345", "Podium - Coin by Second Gear #3" },
+            { "16_03_00344", "Podium - Coin Bag by Second Gear" },
+            { "16_01_00013", "Podium - Gear - Second Gear" },
+        };
+
+        [Description("Costipation - Starting Area")]
+        public static Dictionary<string, string> CostipationStartingArea = new()
+        {
+            { "16_09_01910", "Costipation - Checkpoint" },
+        };
+
+        [Description("Costipation - Roadway Gear Area")]
+        public static Dictionary<string, string> CostipationRoadwayGearArea = new()
+        {
+            { "16_03_00215", "Costipation - Coin Surrounding Roadway Gear #1" },
+            { "16_03_00214", "Costipation - Coin Surrounding Roadway Gear #2" },
+            { "16_03_00211", "Costipation - Coin Surrounding Roadway Gear #3" },
+            { "16_03_00212", "Costipation - Coin Bag Surrounding Roadway Gear #1" },
+            { "16_03_00213", "Costipation - Coin Surrounding Roadway Gear #4" },
+            { "16_03_00208", "Costipation - Coin Surrounding Roadway Gear #5" },
+            { "16_01_00015", "Costipation - Gear - Roadway" },
+            { "16_03_00210", "Costipation - Coin Surrounding Roadway Gear #6" },
+            { "16_03_00205", "Costipation - Coin Surrounding Roadway Gear #7" },
+            { "16_03_00206", "Costipation - Coin Bag Surrounding Roadway Gear #2" },
+            { "16_03_00207", "Costipation - Coin Surrounding Roadway Gear #8" },
+            { "16_03_00204", "Costipation - Coin Surrounding Roadway Gear #9" },
+            { "16_03_00203", "Costipation - Coin Surrounding Roadway Gear #10" },
+        };
+
+        [Description("Costipation - Island Gear Area")]
+        public static Dictionary<string, string> CostipationIslandGearArea = new()
+        {
+            { "16_03_00267", "Costipation - Coin on Gear Island #1" },
+            { "16_03_00264", "Costipation - Coin on Gear Island #2" },
+            { "16_03_00260", "Costipation - Coin on Gear Island #3" },
+            { "16_03_00266", "Costipation - Coin on Gear Island #4" },
+            { "16_03_00263", "Costipation - Coin Bag on Gear Island #1" },
+            { "16_03_00259", "Costipation - Coin on Gear Island #5" },
+            { "16_03_00255", "Costipation - Coin Bag on Gear Island #2" },
+            { "16_03_00265", "Costipation - Coin on Gear Island #6" },
+            { "16_03_00262", "Costipation - Coin on Gear Island #7" },
+            { "16_01_00014", "Costipation - Gear - On Island" },
+            { "16_03_00254", "Costipation - Coin on Gear Island #8" },
+            { "16_03_00251", "Costipation - Coin on Gear Island #9" },
+            { "16_03_00261", "Costipation - Coin Bag on Gear Island #3" },
+            { "16_03_00257", "Costipation - Coin on Gear Island #10" },
+            { "16_03_00253", "Costipation - Coin Bag on Gear Island #4" },
+            { "16_03_00250", "Costipation - Coin on Gear Island #11" },
+            { "16_03_00256", "Costipation - Coin on Gear Island #12" },
+            { "16_03_00252", "Costipation - Coin on Gear Island #13" },
+            { "16_03_00249", "Costipation - Coin on Gear Island #14" },
+        };
+
+        [Description("Smelly Slimes - Starting Area")]
+        public static Dictionary<string, string> SmellySlimesStartingArea = new()
+        {
+            { "16_09_01448", "Smelly Slimes - Checkpoint by Entrance" },
+            { "16_01_00017", "Smelly Slimes - Gear - Pipe Above Entrance" },
+        };
+
+        [Description("Smelly Slimes - Sidebars by Entrance")]
+        public static Dictionary<string, string> SmellySlimesSidebars = new()
+        {
+            { "16_03_00093", "Smelly Slimes - Coin Left of Entrance Portal #1" },
+            { "16_03_00094", "Smelly Slimes - Coin Left of Entrance Portal #2" },
+            { "16_03_00095", "Smelly Slimes - Coin Left of Entrance Portal #3" },
+            { "16_03_00096", "Smelly Slimes - Coin Left of Entrance Portal #4" },
+            { "16_03_00097", "Smelly Slimes - Coin Left of Entrance Portal #5" },
+            { "16_03_00098", "Smelly Slimes - Chest Left of Entrance Portal" },
+            { "16_03_00099", "Smelly Slimes - Coin Left of Entrance Portal #6" },
+            { "16_03_00100", "Smelly Slimes - Coin Left of Entrance Portal #7" },
+            { "16_03_00101", "Smelly Slimes - Coin Left of Entrance Portal #8" },
+            { "16_03_00102", "Smelly Slimes - Coin Left of Entrance Portal #9" },
+            { "16_03_00103", "Smelly Slimes - Coin Left of Entrance Portal #10" },
+            { "16_03_00105", "Smelly Slimes - Coin Right of Entrance Portal #1" },
+            { "16_03_00106", "Smelly Slimes - Coin Right of Entrance Portal #2" },
+            { "16_03_00107", "Smelly Slimes - Coin Right of Entrance Portal #3" },
+            { "16_03_00108", "Smelly Slimes - Coin Right of Entrance Portal #4" },
+            { "16_03_00109", "Smelly Slimes - Coin Right of Entrance Portal #5" },
+            { "16_03_00110", "Smelly Slimes - Chest Right of Entrance Portal" },
+            { "16_03_00111", "Smelly Slimes - Coin Right of Entrance Portal #6" },
+            { "16_03_00112", "Smelly Slimes - Coin Right of Entrance Portal #7" },
+            { "16_03_00113", "Smelly Slimes - Coin Right of Entrance Portal #8" },
+            { "16_03_00114", "Smelly Slimes - Coin Right of Entrance Portal #9" },
+            { "16_03_00115", "Smelly Slimes - Coin Right of Entrance Portal #10" },
+        };
+
+        [Description("Smelly Slimes - Exit Area")]
+        public static Dictionary<string, string> SmellySlimesExit = new()
+        {
+            { "16_01_00016", "Smelly Slimes - Gear - In Slime Near Exit" },
+            { "16_03_00070", "Smelly Slimes - Coin on Left of Exit Gear #1" },
+            { "16_03_00071", "Smelly Slimes - Coin on Left of Exit Gear #2" },
+            { "16_03_00104", "Smelly Slimes - Coin on Left of Exit Gear #3" },
+            { "16_03_00152", "Smelly Slimes - Coin on Left of Exit Gear #4" },
+            { "16_03_00154", "Smelly Slimes - Coin on Left of Exit Gear #5" },
+            { "16_03_00160", "Smelly Slimes - Coin Bag on Left of Exit Gear" },
+            { "16_03_00072", "Smelly Slimes - Coin on Right of Exit Gear #1" },
+            { "16_03_00073", "Smelly Slimes - Coin on Right of Exit Gear #2" },
+            { "16_03_00116", "Smelly Slimes - Coin on Right of Exit Gear #3" },
+            { "16_03_00153", "Smelly Slimes - Coin on Right of Exit Gear #4" },
+            { "16_03_00155", "Smelly Slimes - Coin on Right of Exit Gear #5" },
+            { "16_03_00161", "Smelly Slimes - Coin Bag on Right of Exit Gear" },
+            { "16_09_00998", "Smelly Slimes - Checkpoint by Exit" },
+        };
+
+        [Description("Mosk's Rocket - Special Rules")]
+        public static Dictionary<string, string> RocketSpecialRules = new()
+        {
+            { "Mosk's Rocket - Coin Bag on Steps to Final Floor", "J1/GP" },
+            { "Bomb-it - Gear - Bomb Car Ramps", "X1/J1" },
+            { "Smelly Slimes - Gear - Pipe Above Entrance", "B2 & X2/J1" },
         };
 
         #endregion
@@ -2735,6 +3244,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabFifthFloorMoriosMindArea)), MoriosLabFifthFloorMoriosMindArea),
             new(GetDescription(nameof(MoriosLabFifthFloorRuinedObservatoryArea)), MoriosLabFifthFloorRuinedObservatoryArea),
             new(GetDescription(nameof(MoriosLabFifthFloorGoldenPropeller)), MoriosLabFifthFloorGoldenPropeller),
+            new(GetDescription(nameof(MoriosLabFifthFloorGoldenPropellerPassword)), MoriosLabFifthFloorGoldenPropellerPassword),
             new(GetDescription(nameof(MoriosLabFifthFloorShortcutPipe)), MoriosLabFifthFloorShortcutPipe),
             new(GetDescription(nameof(MoriosLabFifthFloorLowerLedge)), MoriosLabFifthFloorLowerLedge),
             new(GetDescription(nameof(MoriosLabFifthToSixthFloorStair)), MoriosLabFifthToSixthFloorStair),
@@ -2785,6 +3295,37 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GymGearsExpert1)), GymGearsExpert1),
             new(GetDescription(nameof(GymGearsExpert2)), GymGearsExpert2),
             new(GetDescription(nameof(GymGearsJump)), GymGearsJump),
+
+            // Fecal Matters Areas
+            new(GetDescription(nameof(FecalMattersStartingArea)), FecalMattersStartingArea),
+
+            // Rocket Areas
+            new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
+            new(GetDescription(nameof(RocketBombeachArcadePizzaArea)), RocketBombeachArcadePizzaArea),
+            new(GetDescription(nameof(RocketToslaOfficesArea)), RocketToslaOfficesArea),
+            new(GetDescription(nameof(RocketGymGearsArea)), RocketGymGearsArea),
+            new(GetDescription(nameof(RocketFecalFlushedArea)), RocketFecalFlushedArea),
+            new(GetDescription(nameof(RocketCityCrashMindArea)), RocketCityCrashMindArea),
+            new(GetDescription(nameof(RocketCoinsToFinalFloor)), RocketCoinsToFinalFloor),
+            new(GetDescription(nameof(RocketToslaHQArea)), RocketToslaHQArea),
+            new(GetDescription(nameof(RocketFinalFloorCheese)), RocketFinalFloorCheese),
+            new(GetDescription(nameof(RocketMoonArea)), RocketMoonArea),
+            new(GetDescription(nameof(LabMemoriesStartingArea)), LabMemoriesStartingArea),
+            new(GetDescription(nameof(LabMemoriesFirstStep)), LabMemoriesFirstStep),
+            new(GetDescription(nameof(LabMemoriesHighGround)), LabMemoriesHighGround),
+            new(GetDescription(nameof(WelcomingClimbsStartingArea)), WelcomingClimbsStartingArea),
+            new(GetDescription(nameof(WelcomingClimbsFirstGearArea)), WelcomingClimbsFirstGearArea),
+            new(GetDescription(nameof(WelcomingClimbsSecondGearArea)), WelcomingClimbsSecondGearArea),
+            new(GetDescription(nameof(BombitStartingArea)), BombitStartingArea),
+            new(GetDescription(nameof(BombitOuterArea)), BombitOuterArea),
+            new(GetDescription(nameof(PodiumStartingArea)), PodiumStartingArea),
+            new(GetDescription(nameof(PodiumHighGround)), PodiumHighGround),
+            new(GetDescription(nameof(CostipationStartingArea)), CostipationStartingArea),
+            new(GetDescription(nameof(CostipationRoadwayGearArea)), CostipationRoadwayGearArea),
+            new(GetDescription(nameof(CostipationIslandGearArea)), CostipationIslandGearArea),
+            new(GetDescription(nameof(SmellySlimesStartingArea)), SmellySlimesStartingArea),
+            new(GetDescription(nameof(SmellySlimesSidebars)), SmellySlimesSidebars),
+            new(GetDescription(nameof(SmellySlimesExit)), SmellySlimesExit),
         ];
 
         public static Dictionary<string, Dictionary<string, string>> SpecialRules = new()
@@ -2792,6 +3333,8 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.Hub), HubSpecialRules },
             { nameof(Data.LevelId.L3_MoriosHome), MoriosIslandSpecialRules },
             { nameof(Data.LevelId.L4_ArcadePanik), ArcadePanikSpecialRules },
+            { nameof(Data.LevelId.L6_Gym), GymGearsSpecialRules },
+            { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
         };
 
         public static Dictionary<string, List<Dictionary<string, string>>> PerLevelIDs = new()
@@ -2864,6 +3407,7 @@ namespace YellowTaxiAP
                     MoriosLabFifthFloorMoriosMindArea,
                     MoriosLabFifthFloorRuinedObservatoryArea,
                     MoriosLabFifthFloorGoldenPropeller,
+                    MoriosLabFifthFloorGoldenPropellerPassword,
                     MoriosLabFifthFloorShortcutPipe,
                     MoriosLabFifthFloorLowerLedge,
                     MoriosLabFifthToSixthFloorStair,
@@ -2925,9 +3469,46 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                nameof(Data.LevelId.L7_PoopWorld),
+                [
+                    FecalMattersStartingArea,
+                ]
+            },
+            {
                 nameof(Data.LevelId.L1_Bombeach),
                 [
                     BombeachStartingArea,
+                ]
+            },
+            {
+                nameof(Data.LevelId.L16_Rocket),
+                [
+                    RocketStartingArea,
+                    RocketBombeachArcadePizzaArea,
+                    RocketToslaOfficesArea,
+                    RocketGymGearsArea,
+                    RocketFecalFlushedArea,
+                    RocketCityCrashMindArea,
+                    RocketCoinsToFinalFloor,
+                    RocketToslaHQArea,
+                    RocketFinalFloorCheese,
+                    RocketMoonArea,
+                    LabMemoriesStartingArea,
+                    LabMemoriesFirstStep,
+                    LabMemoriesHighGround,
+                    WelcomingClimbsStartingArea,
+                    WelcomingClimbsFirstGearArea,
+                    WelcomingClimbsSecondGearArea,
+                    BombitStartingArea,
+                    BombitOuterArea,
+                    PodiumStartingArea,
+                    PodiumHighGround,
+                    CostipationStartingArea,
+                    CostipationRoadwayGearArea,
+                    CostipationIslandGearArea,
+                    SmellySlimesStartingArea,
+                    SmellySlimesSidebars,
+                    SmellySlimesExit,
                 ]
             }
         };
@@ -3006,8 +3587,10 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
-                    new RegionConnection("Granny's Island - Gym Gears Front Door", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears"),
+                    new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears"),
                     new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP"),
+                    new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "Doggo"),
+                    new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & J2/B1/GP | X1+Rocket+J1"),
                 ]
             },
             {
@@ -3370,7 +3953,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosLabFourthFloorJumpSpikes, "GS+J1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
-                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J2"),
+                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
                     new RegionConnection(MoriosLabThirdFloor, "GS"),
                     new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "GS+J1 | X1+GS+B2 | X2+B2+J2"),
                 ]
@@ -3427,14 +4010,20 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthToSixthFloorStair),
                     new RegionConnection(MoriosLabFifthFloorHighPillars),
                     new RegionConnection(MoriosLabFinalFloor),
-                    new RegionConnection(MoriosLabFifthFloorShortcutPipe, "Password"),
-                    new RegionConnection(MoriosLabPathToMoriosRoom, "Password+FGU"),
-                    new RegionConnection(MoriosLabMoriosRoomJump, "Password+FGU+MorioHat"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "Password"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "Password+FGU"),
-                    new RegionConnection(MoriosLabGroundFloorBolts, "Password"),
-                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "Password"),
-                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "Password"),
+                    new RegionConnection(MoriosLabFifthFloorGoldenPropellerPassword, "Password"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabFifthFloorGoldenPropellerPassword)),
+                [
+                    new RegionConnection(MoriosLabFifthFloorShortcutPipe),
+                    new RegionConnection(MoriosLabPathToMoriosRoom, "FGU"),
+                    new RegionConnection(MoriosLabMoriosRoomJump, "FGU+MorioHat"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU"),
+                    new RegionConnection(MoriosLabGroundFloorBolts),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe),
+                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity),
                 ]
             },
             {
@@ -3706,6 +4295,200 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GymGearsJump)),
                 [
                     // Doesn't connect anywhere
+                ]
+            },
+
+            #endregion
+
+            #region Fecal Matters Connections
+
+            {
+                GetDescription(nameof(FecalMattersStartingArea)),
+                [
+                    new RegionConnection("Fecal Matters - Roundabout Portal to Granny's Island", GrannysIslandMain, ConnectionType.Warp),
+                ]
+            },
+
+            #endregion
+
+            #region Rocket Connections
+
+            {
+                GetDescription(nameof(RocketStartingArea)),
+                [
+                    new RegionConnection("Mosk's Rocket - Front Door", GrannysIslandMain, ConnectionType.Warp),
+                    new RegionConnection(RocketBombeachArcadePizzaArea, "J1/B1"),
+                    new RegionConnection("Mosk's Rocket - Lab Memories Portal", LabMemoriesStartingArea, ConnectionType.Subwarp, "Bunny-Hub"),
+                    new RegionConnection("Mosk's Rocket - Welcoming Climbs Portal", WelcomingClimbsStartingArea, ConnectionType.Subwarp, "Bunny-MH"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketBombeachArcadePizzaArea)),
+                [
+                    new RegionConnection(RocketStartingArea),
+                    new RegionConnection(RocketToslaOfficesArea, "J1 | X2+B2"),
+                    new RegionConnection("Mosk's Rocket - Bomb-it Portal", BombitStartingArea, ConnectionType.Subwarp, "Bunny-BB"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketToslaOfficesArea)),
+                [
+                    new RegionConnection(RocketBombeachArcadePizzaArea),
+                    new RegionConnection(RocketGymGearsArea, "J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketGymGearsArea)),
+                [
+                    new RegionConnection(RocketBombeachArcadePizzaArea),
+                    new RegionConnection(RocketFecalFlushedArea, "B1/J2"),
+                    new RegionConnection("Mosk's Rocket - Podium Portal", PodiumStartingArea, ConnectionType.Subwarp, "Bunny-GG"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketFecalFlushedArea)),
+                [
+                    new RegionConnection(RocketGymGearsArea),
+                    new RegionConnection(RocketCityCrashMindArea, "B1 | X1+J2"),
+                    new RegionConnection("Mosk's Rocket - Costipation Portal", CostipationStartingArea, ConnectionType.Subwarp, "J1/B2 & Bunny-FM"),
+                    new RegionConnection("Mosk's Rocket - Smelly Slimes Portal", SmellySlimesStartingArea, ConnectionType.Subwarp, "Bunny-FA"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketCityCrashMindArea)),
+                [
+                    new RegionConnection(RocketFecalFlushedArea),
+                    new RegionConnection(RocketCoinsToFinalFloor, "J1 | X1+B2"),
+                    new RegionConnection(RocketToslaHQArea, "GP/J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketCoinsToFinalFloor)),
+                [
+                    new RegionConnection(RocketCityCrashMindArea),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketToslaHQArea)),
+                [
+                    new RegionConnection(RocketCoinsToFinalFloor),
+                    new RegionConnection(RocketFinalFloorCheese, "B1/J2 | X1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketFinalFloorCheese)),
+                [
+                    new RegionConnection(RocketToslaHQArea),
+                    new RegionConnection(RocketMoonArea, "B2"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketMoonArea)),
+                [
+                    new RegionConnection(RocketFinalFloorCheese),
+                ]
+            },
+            {
+                GetDescription(nameof(LabMemoriesStartingArea)),
+                [
+                    new RegionConnection("Lab Memories - Mosk's Rocket Portal", RocketStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(LabMemoriesFirstStep, "J1+GS"),
+                ]
+            },
+            {
+                GetDescription(nameof(LabMemoriesFirstStep)),
+                [
+                    new RegionConnection(LabMemoriesHighGround, "J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(LabMemoriesHighGround)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(WelcomingClimbsStartingArea)),
+                [
+                    new RegionConnection("Welcoming Climbs - Mosk's Rocket Portal", RocketStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(WelcomingClimbsFirstGearArea, "B2 & X1/J1")
+                ]
+            },
+            {
+                GetDescription(nameof(WelcomingClimbsFirstGearArea)),
+                [
+                    new RegionConnection(WelcomingClimbsSecondGearArea, "B2+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(WelcomingClimbsSecondGearArea)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(BombitStartingArea)),
+                [
+                    new RegionConnection(BombitOuterArea, "J1/B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(BombitOuterArea)),
+                [
+                    new RegionConnection("Bomb-it - Mosk's Rocket Portal", RocketBombeachArcadePizzaArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(PodiumStartingArea)),
+                [
+                    new RegionConnection(PodiumHighGround, "X2+J1 | J2"),
+                    new RegionConnection("Podium - Mosk's Rocket Portal", RocketGymGearsArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(PodiumHighGround)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(CostipationStartingArea)),
+                [
+                    new RegionConnection("Costipation - Mosk's Rocket Portal", RocketFecalFlushedArea, ConnectionType.Subwarp),
+                    new RegionConnection(CostipationRoadwayGearArea, "J1/B1"),
+                    new RegionConnection(CostipationIslandGearArea, "B2"),
+                ]
+            },
+            {
+                GetDescription(nameof(CostipationRoadwayGearArea)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(CostipationIslandGearArea)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(SmellySlimesStartingArea)),
+                [
+                    new RegionConnection("Smelly Slimes - Entrance Mosk's Rocket Portal", RocketFecalFlushedArea, ConnectionType.Subwarp),
+                    new RegionConnection(SmellySlimesSidebars, "X2/J1/B1"),
+                    new RegionConnection(SmellySlimesExit, "B1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(SmellySlimesSidebars)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(SmellySlimesExit)),
+                [
+                    // No connections
                 ]
             },
 

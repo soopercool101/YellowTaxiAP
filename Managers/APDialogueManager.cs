@@ -666,6 +666,7 @@ namespace YellowTaxiAP.Managers
                             break;
 
                         self.dialogues[1] = $"On an unrelated note, I have {GetItemText((long)Identifiers.NotableLocations.GoldenSpring)}, please take it!";
+                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GoldenSpring);
                         break;
 #if DEBUG
                         case "NARRATOR_BACK_TO_HUB_QUESTION":

@@ -1,6 +1,5 @@
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
-using static Data;
 
 namespace YellowTaxiAP.Managers
 {
@@ -55,7 +54,8 @@ namespace YellowTaxiAP.Managers
                 return Data.BunniesGetLevelCollectedNumber(GameplayMaster.instance.levelId);
 
             var count = 0;
-            for (var i = 0; i < Data.BunniesGetLevelMaxNumber(GameplayMaster.instance.levelId); i++)
+            var max = GameplayMaster.instance.levelId == Data.LevelId.Hub ? 5 : 3;
+            for (var i = 0; i < max; i++)
             {
                 if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(
                         (int) GameplayMaster.instance.levelId * 1_00_00000 + 2_00000 + i))

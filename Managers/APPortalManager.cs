@@ -80,7 +80,7 @@ namespace YellowTaxiAP.Managers
             {
                 self.kaizoEnabled = BunniesGetLevelCollectedNumber(self.kaizoLevelId) >= BunniesGetLevelMaxNumber(self.kaizoLevelId) || self.kaizoLevelId == LevelId.L16_Rocket;
 #if DEBUG
-                if (DebugLocationHelper.Enabled && levelDataList[(int) self.kaizoLevelId].levelCost == -1)
+                if (DebugLocationHelper.Enabled && (levelDataList[(int) self.kaizoLevelId].levelCost == -1 || self.kaizoLevelId == LevelId.L1_Bombeach))
                 {
                     self.kaizoEnabled = true;
                 }
