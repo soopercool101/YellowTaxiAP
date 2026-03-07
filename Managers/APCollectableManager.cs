@@ -642,6 +642,8 @@ namespace YellowTaxiAP.Managers
                                 {
                                     Plugin.BepinLogger.LogWarning("Scout Failure");
                                     Plugin.BepinLogger.LogError(ex);
+                                    // Make sure we still send the location if the scout fails, since it will otherwise pose issue
+                                    Plugin.ArchipelagoClient.SendLocation(id.Value);
                                 }
                             }
                             else

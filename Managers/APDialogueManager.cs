@@ -350,9 +350,6 @@ namespace YellowTaxiAP.Managers
                             "You monster!!! That could've been someone's unwall!!!"
                         ];
                         break;
-                    case "DIALOGUE_MOON_END":
-                        Plugin.ArchipelagoClient.Win();
-                        break;
                     case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK":
                         if (Plugin.SlotData.EarlyDoggo)
                         {
@@ -668,8 +665,23 @@ namespace YellowTaxiAP.Managers
                         self.dialogues[1] = $"On an unrelated note, I have {GetItemText((long)Identifiers.NotableLocations.GoldenSpring)}, please take it!";
                         Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GoldenSpring);
                         break;
+                    case "BOBOMBOSS_2":
+                        if (!Plugin.SlotData.EarlyGelaToni)
+                        {
+                            if (Plugin.SlotData.ShuffleGelaToni)
+                                Plugin.ArchipelagoClient.SendLocation(2_00_00000 + (long)Identifiers.NotableLocations.GelaToni);
+                            else
+                                APSaveController.MiscSave.HasGelaToni = true;
+                        }
+                        if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach)
+                            Plugin.ArchipelagoClient.Win();
+                        break;
+                    case "DIALOGUE_MOON_END":
+                        if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon)
+                            Plugin.ArchipelagoClient.Win();
+                        break;
 #if DEBUG
-                        case "NARRATOR_BACK_TO_HUB_QUESTION":
+                    case "NARRATOR_BACK_TO_HUB_QUESTION":
                         case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
                             break;
                         default:

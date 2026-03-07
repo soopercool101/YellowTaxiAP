@@ -185,7 +185,7 @@ namespace YellowTaxiAP
             { "0_03_00112", "Granny's Island - Coin in Construction Site #8" },
             { "0_03_00109", "Granny's Island - Coin in Construction Site #9" },
             { "0_03_00106", "Granny's Island - Coin in Construction Site #10" },
-            { "0_01_00017", "Granny's Island - Gear - Morco Chauffeur" },
+            { "0_01_00017", "Granny's Island - Gear - Escort Morco" },
             { "0_03_00309", "Granny's Island - Coin on Roofs Near Hat World #1" },
             { "0_03_00308", "Granny's Island - Coin on Roofs Near Hat World #2" },
             { "0_03_00316", "Granny's Island - Coin on Roofs Near Hat World #3" },
@@ -2542,7 +2542,6 @@ namespace YellowTaxiAP
 
         #region Gym Gears
 
-
         [Description("Gym Gears - Starting Area")]
         public static Dictionary<string, string> GymGearsStartingArea = new()
         {
@@ -2822,6 +2821,190 @@ namespace YellowTaxiAP
             { "7_03_00007", "Fecal Matters - Coin in Row Between Roundabout and Entrance #5" },
             { "7_03_00008", "Fecal Matters - Coin in Row Between Roundabout and Entrance #6" },
             { "7_03_00009", "Fecal Matters - Coin in Row Between Roundabout and Entrance #7" },
+            { "7_03_00016", "Fecal Matters - Coin in Row From Roundabout Towards Village Island #1" },
+            { "7_03_00015", "Fecal Matters - Coin in Row From Roundabout Towards Village Island #2" },
+            { "7_03_00014", "Fecal Matters - Coin in Row From Roundabout Towards Village Island #3" },
+            { "7_03_00013", "Fecal Matters - Coin in Row From Roundabout Towards Village Island #4" },
+            { "7_03_00012", "Fecal Matters - Coin in Row From Roundabout Towards Village Island #5" },
+            { "7_03_00022", "Fecal Matters - Coin in Row From Roundabout Towards Mountain #1" },
+            { "7_03_00024", "Fecal Matters - Coin in Row From Roundabout Towards Mountain #2" },
+            { "7_03_00026", "Fecal Matters - Coin in Row From Roundabout Towards Mountain #3" },
+            { "7_03_00028", "Fecal Matters - Coin in Row From Roundabout Towards Mountain #4" },
+            { "7_03_00030", "Fecal Matters - Coin in Row From Roundabout Towards Mountain #5" },
+            { "7_03_00017", "Fecal Matters - Coin in Row From Roundabout Towards Cul-de-sac #1" },
+            { "7_03_00018", "Fecal Matters - Coin in Row From Roundabout Towards Cul-de-sac #2" },
+            { "7_03_00019", "Fecal Matters - Coin in Row From Roundabout Towards Cul-de-sac #3" },
+            { "7_03_00020", "Fecal Matters - Coin in Row From Roundabout Towards Cul-de-sac #4" },
+            { "7_03_00021", "Fecal Matters - Coin in Row From Roundabout Towards Cul-de-sac #5" },
+            { "7_21_00005", "Fecal Matters - Cheese by Roundabout" },
+            { "7_03_00023", "Fecal Matters - Coin on Road Towards Cul-de-sac #1" },
+            { "7_03_00025", "Fecal Matters - Coin on Road Towards Cul-de-sac #2" },
+            { "7_03_00027", "Fecal Matters - Coin on Road Towards Cul-de-sac #3" },
+            { "7_03_00029", "Fecal Matters - Coin on Road Towards Cul-de-sac #4" },
+            { "7_03_00031", "Fecal Matters - Coin on Road Towards Cul-de-sac #5" },
+            { "7_03_00032", "Fecal Matters - Coin on Road Towards Cul-de-sac #6" },
+            { "7_03_00033", "Fecal Matters - Coin on Road Towards Cul-de-sac #7" },
+            { "7_03_00034", "Fecal Matters - Coin on Road Towards Cul-de-sac #8" },
+            { "7_03_00035", "Fecal Matters - Coin on Road Towards Cul-de-sac #9" },
+            { "7_03_00036", "Fecal Matters - Coin on Road Towards Cul-de-sac #10" },
+            { "7_03_00037", "Fecal Matters - Coin on Road Towards Cul-de-sac #11" },
+            { "7_03_00038", "Fecal Matters - Coin on Road Towards Cul-de-sac #12" },
+            { "7_03_00039", "Fecal Matters - Coin on Road Towards Cul-de-sac #13" },
+            { "7_03_00040", "Fecal Matters - Coin on Road Towards Cul-de-sac #14" },
+            { "7_03_00041", "Fecal Matters - Coin on Road Towards Cul-de-sac #15" },
+            { "7_03_00042", "Fecal Matters - Coin on Road Towards Cul-de-sac #16" },
+            { "7_03_00043", "Fecal Matters - Coin on Road Towards Cul-de-sac #17" },
+            { "7_03_00044", "Fecal Matters - Coin on Road Towards Cul-de-sac #18" },
+            { "7_03_00045", "Fecal Matters - Coin on Road Towards Cul-de-sac #19" },
+            { "7_21_00000", "Fecal Matters - Cheese by Cul-de-sac" },
+        };
+
+        [Description("Fecal Matters - Roundabout Hill Tier 1")]
+        public static Dictionary<string, string> FecalMattersRoundaboutHillTier1 = new()
+        {
+            { "7_03_00046", "Fecal Matters - Coin on Hill Above Roundabout #1" },
+            { "7_03_00047", "Fecal Matters - Coin on Hill Above Roundabout #2" },
+            { "7_03_00049", "Fecal Matters - Coin on Hill Above Roundabout #3" },
+            { "7_03_00048", "Fecal Matters - Coin on Hill Above Roundabout #4" },
+            { "7_03_00050", "Fecal Matters - Coin on Hill Above Roundabout #5" },
+            { "7_03_00052", "Fecal Matters - Coin on Hill Above Roundabout #6" },
+            { "7_03_00051", "Fecal Matters - Coin on Hill Above Roundabout #7" },
+            { "7_03_00053", "Fecal Matters - Coin on Hill Above Roundabout #8" },
+        };
+
+        // Tier 2 is part of greater "Boost or Jump" region
+
+        [Description("Fecal Matters - Roundabout Hill Tier 3")]
+        public static Dictionary<string, string> FecalMattersRoundaboutHillTier3 = new()
+        {
+            { "7_01_00008", "Fecal Matters - Gear - Escort Bulldog Doggo on Roundabout Hill" },
+            { "7_02_00000", "Fecal Matters - Bunny - Above Roundabout" },
+        };
+
+        [Description("Fecal Matters - Boost or Jump")]
+        public static Dictionary<string, string> FecalMattersBoostOrJump = new()
+        {
+            { "7_03_00064", "Fecal Matters - Coin on Hill Above Roundabout #9" },
+            { "7_03_00063", "Fecal Matters - Coin on Hill Above Roundabout #10" },
+            { "7_03_00062", "Fecal Matters - Coin on Hill Above Roundabout #11" },
+            { "7_03_00079", "Fecal Matters - Coin on Ledge Above Cul-de-sac #1" },
+            { "7_03_00078", "Fecal Matters - Coin on Ledge Above Cul-de-sac #2" },
+            { "7_03_00077", "Fecal Matters - Coin on Ledge Above Cul-de-sac #3" },
+            { "7_03_00076", "Fecal Matters - Coin on Ledge Above Cul-de-sac #4" },
+            { "7_01_00003", "Fecal Matters - Gear - Ledge Above Cul-de-sac" },
+            { "7_03_00074", "Fecal Matters - Coin on Ledge Above Cul-de-sac #5" },
+            { "7_03_00073", "Fecal Matters - Coin on Ledge Above Cul-de-sac #6" },
+            { "7_03_00072", "Fecal Matters - Coin on Ledge Above Cul-de-sac #7" },
+            { "7_03_00071", "Fecal Matters - Coin on Ledge Above Cul-de-sac #8" },
+            { "7_21_00003", "Fecal Matters - Cheese in Tunnel on Ramp Over Main Road" },
+            { "7_03_00054", "Fecal Matters - Coin on Ramp Over Main Road #1" },
+            { "7_03_00056", "Fecal Matters - Coin on Ramp Over Main Road #2" },
+            { "7_03_00058", "Fecal Matters - Coin on Ramp Over Main Road #3" },
+            { "7_03_00055", "Fecal Matters - Coin on Ramp Over Main Road #4" },
+            { "7_03_00057", "Fecal Matters - Chest on Ramp Over Main Road" },
+            { "7_03_00059", "Fecal Matters - Coin on Ramp Over Main Road #5" },
+            { "7_03_00088", "Fecal Matters - Coin on Island Overlooking Main Road #1" },
+            { "7_03_00091", "Fecal Matters - Coin on Island Overlooking Main Road #2" },
+            { "7_03_00094", "Fecal Matters - Coin on Island Overlooking Main Road #3" },
+            { "7_03_00086", "Fecal Matters - Coin on Island Overlooking Main Road #4" },
+            { "7_03_00089", "Fecal Matters - Coin on Island Overlooking Main Road #5" },
+            { "7_03_00092", "Fecal Matters - Coin on Island Overlooking Main Road #6" },
+            { "7_03_00095", "Fecal Matters - Coin on Island Overlooking Main Road #7" },
+            { "7_03_00099", "Fecal Matters - Coin on Island Overlooking Main Road #8" },
+            { "7_03_00087", "Fecal Matters - Coin on Island Overlooking Main Road #9" },
+            { "7_03_00090", "Fecal Matters - Coin on Island Overlooking Main Road #10" },
+            { "7_03_00093", "Fecal Matters - Coin on Island Overlooking Main Road #11" },
+            { "7_03_00100", "Fecal Matters - Coin on Island Overlooking Main Road #12" },
+            { "7_03_00104", "Fecal Matters - Coin on Island Overlooking Main Road #13" },
+            { "7_03_00096", "Fecal Matters - Coin on Island Overlooking Main Road #14" },
+            { "7_03_00101", "Fecal Matters - Coin on Island Overlooking Main Road #15" },
+            { "7_03_00105", "Fecal Matters - Coin on Island Overlooking Main Road #16" },
+            { "7_03_00097", "Fecal Matters - Coin on Island Overlooking Main Road #17" },
+            { "7_03_00102", "Fecal Matters - Coin on Island Overlooking Main Road #18" },
+            { "7_03_00106", "Fecal Matters - Coin on Island Overlooking Main Road #19" },
+            { "7_03_00098", "Fecal Matters - Coin on Island Overlooking Main Road #20" },
+            { "7_03_00103", "Fecal Matters - Coin on Island Overlooking Main Road #21" },
+            { "7_03_00128", "Fecal Matters - Coin on Island Overlooking Main Road #22" },
+            { "7_03_00125", "Fecal Matters - Coin on Island Overlooking Main Road #23" },
+            { "7_03_00129", "Fecal Matters - Coin on Island Overlooking Main Road #24" },
+            { "7_03_00123", "Fecal Matters - Coin on Island Overlooking Main Road #25" },
+            { "7_03_00126", "Fecal Matters - Coin Bag on Overlooking Main Road" },
+            { "7_03_00130", "Fecal Matters - Coin on Island Overlooking Main Road #26" },
+            { "7_03_00124", "Fecal Matters - Coin on Island Overlooking Main Road #27" },
+            { "7_03_00127", "Fecal Matters - Coin on Island Overlooking Main Road #28" },
+            { "7_03_00066", "Fecal Matters - Coin Near Poop Hat #1" },
+            { "7_03_00067", "Fecal Matters - Coin Near Poop Hat #2" },
+            { "7_03_00069", "Fecal Matters - Coin Near Poop Hat #3" },
+            { "7_03_00068", "Fecal Matters - Coin Near Poop Hat #4" },
+            { "7_03_00070", "Fecal Matters - Coin Near Poop Hat #5" },
+            { "7_01_00002", "Fecal Matters - Gear - Homing Beacons" },
+        };
+
+        [Description("Fecal Matters - Boost or Backflip")]
+        public static Dictionary<string, string> FecalMattersBoostOrBackflip = new()
+        {
+            { "7_01_00006", "Fecal Matters - Gear - Center of Village Island" },
+            { "7_21_00004", "Fecal Matters - Cheese on Village Island" },
+            { "7_01_00007", "Fecal Matters - Gear - Escort Bulldog Doggo on Village Island" },
+            { "7_01_00004", "Fecal Matters - Gear - Fire Hydrant on Mountain" },
+            { "7_21_00002", "Fecal Matters - Cheese on Mountain" },
+            { "7_01_00001", "Fecal Matters - Gear - Talk to Skeletrone" },
+            { "7_01_00005", "Fecal Matters - Gear - House on Top of Mountain" },
+            { "7_03_00084", "Fecal Matters - Coin Near Dog Food Hat #1" },
+            { "7_03_00083", "Fecal Matters - Coin Near Dog Food Hat #2" },
+            { "7_03_00082", "Fecal Matters - Coin Near Dog Food Hat #3" },
+            { "7_03_00081", "Fecal Matters - Coin Near Dog Food Hat #4" },
+            { "7_21_00001", "Fecal Matters - Cheese on Island" },
+        };
+
+        [Description("Fecal Matters - Highest Ground")]
+        public static Dictionary<string, string> FecalMattersHighestGround = new()
+        {
+            { "7_03_00134", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #1" },
+            { "7_03_00135", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #2" },
+            { "7_03_00137", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #3" },
+            { "7_03_00145", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #4" },
+            { "7_03_00153", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #5" },
+            { "7_03_00157", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #6" },
+            { "7_03_00159", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #7" },
+            { "7_03_00160", "Fecal Matters - Coin on Top of Mountain Above Orange Switch Block #8" },
+            { "7_03_00136", "Fecal Matters - Coin on Top of Mountain by Bunny #1" },
+            { "7_03_00140", "Fecal Matters - Coin on Top of Mountain by Bunny #2" },
+            { "7_03_00139", "Fecal Matters - Coin on Top of Mountain by Bunny #3" },
+            { "7_03_00138", "Fecal Matters - Coin on Top of Mountain by Bunny #4" },
+            { "7_03_00144", "Fecal Matters - Coin on Top of Mountain by Bunny #5" },
+            { "7_03_00143", "Fecal Matters - Coin Bag on Top of Mountain by Bunny #1" },
+            { "7_03_00142", "Fecal Matters - Coin on Top of Mountain by Bunny #6" },
+            { "7_03_00148", "Fecal Matters - Coin on Top of Mountain by Bunny #7" },
+            { "7_02_00002", "Fecal Matters - Bunny - On Top of Mountain" },
+            { "7_03_00146", "Fecal Matters - Coin on Top of Mountain by Bunny #8" },
+            { "7_03_00152", "Fecal Matters - Coin on Top of Mountain by Bunny #9" },
+            { "7_03_00151", "Fecal Matters - Coin Bag on Top of Mountain by Bunny #2" },
+            { "7_03_00150", "Fecal Matters - Coin on Top of Mountain by Bunny #10" },
+            { "7_03_00156", "Fecal Matters - Coin on Top of Mountain by Bunny #11" },
+            { "7_03_00155", "Fecal Matters - Coin on Top of Mountain by Bunny #12" },
+            { "7_03_00154", "Fecal Matters - Coin on Top of Mountain by Bunny #13" },
+            { "7_03_00158", "Fecal Matters - Coin on Top of Mountain by Bunny #14" },
+            { "7_02_00001", "Fecal Matters - Bunny - Off Cliff" },
+            { "7_03_00122", "Fecal Matters - Coin on Narrow Cliff #1" },
+            { "7_03_00121", "Fecal Matters - Coin on Narrow Cliff #2" },
+            { "7_03_00120", "Fecal Matters - Coin on Narrow Cliff #3" },
+            { "7_03_00119", "Fecal Matters - Coin on Narrow Cliff #4" },
+            { "7_03_00118", "Fecal Matters - Coin on Narrow Cliff #5" },
+            { "7_03_00117", "Fecal Matters - Coin on Narrow Cliff #6" },
+            { "7_03_00116", "Fecal Matters - Coin on Narrow Cliff #7" },
+            { "7_03_00115", "Fecal Matters - Coin on Narrow Cliff #8" },
+            { "7_03_00114", "Fecal Matters - Coin on Narrow Cliff #9" },
+            { "7_03_00113", "Fecal Matters - Coin on Narrow Cliff #10" },
+            { "7_03_00112", "Fecal Matters - Coin on Narrow Cliff #11" },
+            { "7_03_00111", "Fecal Matters - Coin on Narrow Cliff #12" },
+            { "7_03_00110", "Fecal Matters - Coin on Narrow Cliff #13" },
+            { "7_01_00000", "Fecal Matters - Gear - On Narrow Cliff" },
+        };
+
+        public static Dictionary<string, string> FecalMattersSpecialRules = new()
+        {
+            { "Fecal Matters - Gear - Escort Bulldog Doggo on Roundabout Hill", $"{{{GetDescription(nameof(FecalMattersBoostOrBackflip))}}}" },
         };
 
         #endregion
@@ -3298,6 +3481,11 @@ namespace YellowTaxiAP
 
             // Fecal Matters Areas
             new(GetDescription(nameof(FecalMattersStartingArea)), FecalMattersStartingArea),
+            new(GetDescription(nameof(FecalMattersRoundaboutHillTier1)), FecalMattersRoundaboutHillTier1),
+            new(GetDescription(nameof(FecalMattersRoundaboutHillTier3)), FecalMattersRoundaboutHillTier3),
+            new(GetDescription(nameof(FecalMattersBoostOrJump)), FecalMattersBoostOrJump),
+            new(GetDescription(nameof(FecalMattersBoostOrBackflip)), FecalMattersBoostOrBackflip),
+            new(GetDescription(nameof(FecalMattersHighestGround)), FecalMattersHighestGround),
 
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
@@ -3334,6 +3522,7 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.L3_MoriosHome), MoriosIslandSpecialRules },
             { nameof(Data.LevelId.L4_ArcadePanik), ArcadePanikSpecialRules },
             { nameof(Data.LevelId.L6_Gym), GymGearsSpecialRules },
+            { nameof(Data.LevelId.L7_PoopWorld), FecalMattersSpecialRules },
             { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
         };
 
@@ -3472,6 +3661,11 @@ namespace YellowTaxiAP
                 nameof(Data.LevelId.L7_PoopWorld),
                 [
                     FecalMattersStartingArea,
+                    FecalMattersRoundaboutHillTier1,
+                    FecalMattersRoundaboutHillTier3,
+                    FecalMattersBoostOrJump,
+                    FecalMattersBoostOrBackflip,
+                    FecalMattersHighestGround,
                 ]
             },
             {
@@ -4306,6 +4500,40 @@ namespace YellowTaxiAP
                 GetDescription(nameof(FecalMattersStartingArea)),
                 [
                     new RegionConnection("Fecal Matters - Roundabout Portal to Granny's Island", GrannysIslandMain, ConnectionType.Warp),
+                    new RegionConnection(FecalMattersRoundaboutHillTier1, "J1/B1 | X1+NHPR"),
+                    new RegionConnection(FecalMattersRoundaboutHillTier3, "J1/B2"),
+                    new RegionConnection(FecalMattersBoostOrJump, "J1/B1"),
+                    new RegionConnection(FecalMattersBoostOrBackflip, "J2/B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FecalMattersRoundaboutHillTier1)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(FecalMattersRoundaboutHillTier3)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(FecalMattersBoostOrJump)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(FecalMattersBoostOrBackflip)),
+                [
+                    new RegionConnection(FecalMattersHighestGround, "J1 | X1+B2"),
+                ]
+            },
+            {
+                GetDescription(nameof(FecalMattersHighestGround)),
+                [
+                    // No connections
                 ]
             },
 
