@@ -4314,7 +4314,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandCrashAgainIsland)),
                 [
-                    new RegionConnection("Crash Again - Entrance", HubCrashAgainStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection("Crash Again - Entrance", HubCrashAgainStartingArea, ConnectionType.Subwarp, "FGU"),
                     new RegionConnection(GrannysIslandCrashAgainRoof, "J2"),
                     new RegionConnection(GrannysIslandLabHillHighGround, "OS"),
                 ]
@@ -4394,7 +4394,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "B2"),
                     new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X2+B2+FGU"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X2+B2+FGU | B2+J2+FGU"),
                     new RegionConnection("Morio's Lab - Morio's Home Portal", MoriosIslandStartingArea, ConnectionType.Warp, "PortalMorioHome"),
                     new RegionConnection("Morio's Lab - Bombeach Portal", BombeachStartingArea, ConnectionType.Warp, "PortalBombeach"),
                 ]
@@ -4442,7 +4442,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Morio's Lab - Arcade Panik Portal", ArcadePlazaStartingArea, ConnectionType.Warp, "PortalArcadePanik"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1"),
                     new RegionConnection(MoriosLabGroundFloor),
-                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1+B1+J1 | B2+J2"),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X2+B1+J1 | X1+B2+J2"),
                     new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2"),
                     new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
                     new RegionConnection(MoriosLabPsychoTaxi, "FGU"),
