@@ -17,7 +17,7 @@ public class ArchipelagoData
                 return;
             }
             if (field.Equals(value)) return;
-            Plugin.Log("Uri changed");
+            //Plugin.Log("Uri changed");
             ArchipelagoRenderer.AttemptedConnectionOnce = false;
             field = value;
         }
@@ -33,7 +33,7 @@ public class ArchipelagoData
                 return;
             }
             if (field.Equals(value)) return;
-            Plugin.Log("SlotName changed");
+            //Plugin.Log("SlotName changed");
             ArchipelagoRenderer.AttemptedConnectionOnce = false;
             field = value;
         }
@@ -49,7 +49,7 @@ public class ArchipelagoData
                 return;
             }
             if (field.Equals(value)) return;
-            Plugin.Log("Password changed");
+            //Plugin.Log("Password changed");
             ArchipelagoRenderer.AttemptedConnectionOnce = false;
             field = value;
         }

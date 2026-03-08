@@ -123,173 +123,184 @@ public class ArchipelagoClient
     /// <param name="result"></param>
     private void HandleConnectResult(LoginResult result)
     {
-        string outText;
-        if (result.Successful)
+        try
         {
-            var success = (LoginSuccessful)result;
-
-            Plugin.SlotData = new YTGVSlotData(success.SlotData);
-            ServerData.SetupSession(success.SlotData, session.RoomState.Seed);
-            Authenticated = true;
-
-            var scouting = session.Locations.ScoutLocationsAsync(HintCreationPolicy.None,
-                AllLocations.Where(LocationNeedsScouting).ToArray());
-
-            Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
-            foreach (var key in ServerData.SlotData.Keys)
+            string outText;
+            if (result.Successful)
             {
-                Plugin.Log($"SlotData: {key} | {ServerData.SlotData[key]}");
-            }
+                var success = (LoginSuccessful) result;
 
-            DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName, Plugin.SlotData.DeathLink);
-            //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
+                Plugin.SlotData = new YTGVSlotData(success.SlotData);
+                ServerData.SetupSession(success.SlotData, session.RoomState.Seed);
+                Authenticated = true;
 
-            if (!Plugin.SlotData.Hatsanity)
-            {
-                session.DataStorage[Scope.Slot, "UnlockedHats"].GetAsync().ContinueWith(x =>
+                var scouting = session.Locations.ScoutLocationsAsync(HintCreationPolicy.None,
+                    AllLocations.Where(LocationNeedsScouting).ToArray());
+
+                Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
+                foreach (var key in ServerData.SlotData.Keys)
                 {
-                    try
+                    Plugin.Log($"SlotData: {key} | {ServerData.SlotData[key]}");
+                }
+
+                DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName,
+                    Plugin.SlotData.DeathLink);
+                //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
+
+                if (!Plugin.SlotData.Hatsanity)
+                {
+                    session.DataStorage[Scope.Slot, "UnlockedHats"].GetAsync().ContinueWith(x =>
                     {
-                        APSaveController.HatSave.SaveData = x.Result.ToObject<ulong>();
-                        APSaveController.HatSave.NeedsLoad = true;
-                    }
-                    catch
-                    {
-                        Plugin.Log("Hat Load Failed");
                         try
                         {
-                            APSaveController.HatSave = new YTGVHatSave(1)
-                            {
-                                NeedsLoad = true
-                            };
-                            session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(1);
-                            Plugin.Log("Hat State initialized");
+                            APSaveController.HatSave.SaveData = x.Result.ToObject<ulong>();
+                            APSaveController.HatSave.NeedsLoad = true;
                         }
                         catch
                         {
-                            Plugin.Log("Hat State failed initialization");
+                            Plugin.Log("Hat Load Failed");
+                            try
+                            {
+                                APSaveController.HatSave = new YTGVHatSave(1)
+                                {
+                                    NeedsLoad = true
+                                };
+                                session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(1);
+                                Plugin.Log("Hat State initialized");
+                            }
+                            catch
+                            {
+                                Plugin.Log("Hat State failed initialization");
+                                throw;
+                            }
+                        }
+                    });
+                    session.DataStorage[Scope.Slot, "UnlockedHats"].OnValueChanged += HatData_OnValueChanged;
+                }
+
+                if (!Plugin.SlotData.Bunnysanity)
+                {
+                    session.DataStorage[Scope.Slot, "Bunnies"].GetAsync().ContinueWith(x =>
+                    {
+                        try
+                        {
+                            APSaveController.BunnySave.SaveData = x.Result.ToObject<ulong>();
+                            APSaveController.BunnySave.NeedsLoad = true;
+                        }
+                        catch
+                        {
+                            Plugin.Log("Bunny Load Failed");
+                            try
+                            {
+                                APSaveController.BunnySave = new YTGVBunnySave(0)
+                                {
+                                    NeedsLoad = true
+                                };
+                                session.DataStorage[Scope.Slot, "Bunnies"].Initialize(0);
+                                Plugin.Log("Bunny State initialized");
+                            }
+                            catch
+                            {
+                                Plugin.Log("Bunnies failed initialization");
+                                throw;
+                            }
+                        }
+                    });
+                    session.DataStorage[Scope.Slot, "Bunnies"].OnValueChanged += Bunnies_OnValueChanged;
+                }
+
+                session.DataStorage[Scope.Slot, "Save"].GetAsync().ContinueWith(x =>
+                {
+                    try
+                    {
+                        APSaveController.MiscSave.SaveData = x.Result.ToObject<uint>();
+                        APSaveController.MiscSave.NeedsLoad = true;
+                    }
+                    catch
+                    {
+                        Plugin.Log("Save Load Failed");
+                        try
+                        {
+                            APSaveController.MiscSave = new YTGVMiscSave(0)
+                            {
+                                NeedsLoad = true
+                            };
+                            session.DataStorage[Scope.Slot, "Save"].Initialize(0);
+                            Plugin.Log("Save State initialized");
+                        }
+                        catch
+                        {
+                            Plugin.Log("Save failed initialization");
                             throw;
                         }
                     }
                 });
-                session.DataStorage[Scope.Slot, "UnlockedHats"].OnValueChanged += HatData_OnValueChanged;
-            }
-            if (!Plugin.SlotData.Bunnysanity)
-            {
-                session.DataStorage[Scope.Slot, "Bunnies"].GetAsync().ContinueWith(x =>
+                session.DataStorage[Scope.Slot, "Save"].OnValueChanged += Save_OnValueChanged;
+
+                session.DataStorage[Scope.Slot, "Wallet"].GetAsync().ContinueWith(x =>
                 {
                     try
                     {
-                        APSaveController.BunnySave.SaveData = x.Result.ToObject<ulong>();
-                        APSaveController.BunnySave.NeedsLoad = true;
+                        Data.coinsCollected[Data.gameDataIndex] =
+                            APWalletManager.ServerCoins = Math.Max(x.Result.ToObject<int>(), 0);
+                        Plugin.Log($"Wallet Load Finished: {APWalletManager.ServerCoins}");
                     }
                     catch
                     {
-                        Plugin.Log("Bunny Load Failed");
+                        Plugin.Log("Wallet Load Failed");
                         try
                         {
-                            APSaveController.BunnySave = new YTGVBunnySave(0)
-                            {
-                                NeedsLoad = true
-                            };
-                            session.DataStorage[Scope.Slot, "Bunnies"].Initialize(0);
-                            Plugin.Log("Bunny State initialized");
+                            Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = 0;
+                            session.DataStorage[Scope.Slot, "Wallet"].Initialize(0);
+                            Plugin.Log("Wallet State initialized");
                         }
                         catch
                         {
-                            Plugin.Log("Bunnies failed initialization");
+                            Plugin.Log("Wallet failed initialization");
                             throw;
                         }
                     }
                 });
-                session.DataStorage[Scope.Slot, "Bunnies"].OnValueChanged += Bunnies_OnValueChanged;
-            }
-            session.DataStorage[Scope.Slot, "Save"].GetAsync().ContinueWith(x =>
-            {
+                session.DataStorage[Scope.Slot, "Wallet"].OnValueChanged += Wallet_OnValueChanged;
+
+                outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
+
                 try
                 {
-                    APSaveController.MiscSave.SaveData = x.Result.ToObject<uint>();
-                    APSaveController.MiscSave.NeedsLoad = true;
+                    if (Directory.Exists(Plugin.PluginDirectory))
+                    {
+                        if (File.Exists(Plugin.LoginDetailsFile))
+                            File.Delete(Plugin.LoginDetailsFile);
+                        File.WriteAllLines(Plugin.LoginDetailsFile,
+                            [ServerData.Uri, ServerData.SlotName, ServerData.Password]);
+                    }
                 }
                 catch
                 {
-                    Plugin.Log("Save Load Failed");
-                    try
-                    {
-                        APSaveController.MiscSave = new YTGVMiscSave(0)
-                        {
-                            NeedsLoad = true
-                        };
-                        session.DataStorage[Scope.Slot, "Save"].Initialize(0);
-                        Plugin.Log("Save State initialized");
-                    }
-                    catch
-                    {
-                        Plugin.Log("Save failed initialization");
-                        throw;
-                    }
+                    Plugin.BepinLogger.LogWarning("Failed to save connection info");
                 }
-            });
-            session.DataStorage[Scope.Slot, "Save"].OnValueChanged += Save_OnValueChanged;
 
-            session.DataStorage[Scope.Slot, "Wallet"].GetAsync().ContinueWith(x =>
-            {
-                try
-                {
-                    Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = Math.Max(x.Result.ToObject<int>(), 0);
-                    Plugin.Log($"Wallet Load Finished: {APWalletManager.ServerCoins}");
-                }
-                catch
-                {
-                    Plugin.Log("Wallet Load Failed");
-                    try
-                    {
-                        Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = 0;
-                        session.DataStorage[Scope.Slot, "Wallet"].Initialize(0);
-                        Plugin.Log("Wallet State initialized");
-                    }
-                    catch
-                    {
-                        Plugin.Log("Wallet failed initialization");
-                        throw;
-                    }
-                }
-            });
-            session.DataStorage[Scope.Slot, "Wallet"].OnValueChanged += Wallet_OnValueChanged;
-
-            outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
-
-            try
-            {
-                if (Directory.Exists(Plugin.PluginDirectory))
-                {
-                    if (File.Exists(Plugin.LoginDetailsFile))
-                        File.Delete(Plugin.LoginDetailsFile);
-                    File.WriteAllLines(Plugin.LoginDetailsFile, [ServerData.Uri, ServerData.SlotName, ServerData.Password]);
-                }
+                scouting.Wait();
+                ScoutedLocations = scouting.Result;
             }
-            catch
+            else
             {
-                Plugin.BepinLogger.LogWarning("Failed to save connection info");
+                var failure = (LoginFailure) result;
+                outText = $"Failed to connect to {ServerData.Uri} as {ServerData.SlotName}.";
+                outText = failure.Errors.Aggregate(outText, (current, error) => current + $"\n    {error}");
+
+                Plugin.BepinLogger.LogError(outText);
+
+                Authenticated = false;
+                Disconnect();
             }
 
-            scouting.Wait();
-            ScoutedLocations = scouting.Result;
+            ArchipelagoConsole.LogMessage(outText);
         }
-        else
+        finally
         {
-            var failure = (LoginFailure)result;
-            outText = $"Failed to connect to {ServerData.Uri} as {ServerData.SlotName}.";
-            outText = failure.Errors.Aggregate(outText, (current, error) => current + $"\n    {error}");
-
-            Plugin.BepinLogger.LogError(outText);
-
-            Authenticated = false;
-            Disconnect();
+            AttemptingConnection = false;
         }
-
-        ArchipelagoConsole.LogMessage(outText);
-        AttemptingConnection = false;
     }
 
     /// <summary>

@@ -669,7 +669,7 @@ namespace YellowTaxiAP.Managers
                         if (!Plugin.SlotData.EarlyGelaToni)
                         {
                             if (Plugin.SlotData.ShuffleGelaToni)
-                                Plugin.ArchipelagoClient.SendLocation(2_00_00000 + (long)Identifiers.NotableLocations.GelaToni);
+                                Plugin.ArchipelagoClient.SendLocation(1_00_00000 + (long)Identifiers.NotableLocations.GelaToni);
                             else
                                 APSaveController.MiscSave.HasGelaToni = true;
                         }
