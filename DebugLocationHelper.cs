@@ -1166,6 +1166,12 @@ namespace YellowTaxiAP
             { string.Empty, nameof(MoriosLabFifthFloorMoriosMindArea) + " - !PLACEHOLDER!" }
         };
 
+        [Description("Morio's Lab - Dream Machine")]
+        public static Dictionary<string, string> MoriosLabFifthFloorDreamMachine = new()
+        {
+            { string.Empty, nameof(MoriosLabFifthFloorDreamMachine) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Morio's Lab - Fifth Floor Ruined Observatory Area")]
         public static Dictionary<string, string> MoriosLabFifthFloorRuinedObservatoryArea = new()
         {
@@ -3815,6 +3821,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabLedgeAboveMauriziosCity)), MoriosLabLedgeAboveMauriziosCity),
             new(GetDescription(nameof(MoriosLabFifthFloorCrashTestArea)), MoriosLabFifthFloorCrashTestArea),
             new(GetDescription(nameof(MoriosLabFifthFloorMoriosMindArea)), MoriosLabFifthFloorMoriosMindArea),
+            new(GetDescription(nameof(MoriosLabFifthFloorDreamMachine)), MoriosLabFifthFloorDreamMachine),
             new(GetDescription(nameof(MoriosLabFifthFloorRuinedObservatoryArea)), MoriosLabFifthFloorRuinedObservatoryArea),
             new(GetDescription(nameof(MoriosLabFifthFloorGoldenPropeller)), MoriosLabFifthFloorGoldenPropeller),
             new(GetDescription(nameof(MoriosLabFifthFloorGoldenPropellerPassword)), MoriosLabFifthFloorGoldenPropellerPassword),
@@ -3990,6 +3997,7 @@ namespace YellowTaxiAP
                     MoriosLabLedgeAboveMauriziosCity,
                     MoriosLabFifthFloorCrashTestArea,
                     MoriosLabFifthFloorMoriosMindArea,
+                    MoriosLabFifthFloorDreamMachine,
                     MoriosLabFifthFloorRuinedObservatoryArea,
                     MoriosLabFifthFloorGoldenPropeller,
                     MoriosLabFifthFloorGoldenPropellerPassword,
@@ -4590,7 +4598,14 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabFifthFloorMoriosMindArea)),
                 [
                     new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea, "Password"),
+                    new RegionConnection(MoriosLabFifthFloorDreamMachine, "FGU"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabFifthFloorDreamMachine)),
+                [
+                    // TODO: Morio's Mind Portal connection here
                 ]
             },
             {
