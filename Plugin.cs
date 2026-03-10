@@ -16,7 +16,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string PluginGUID = "com.soopercool101.YellowTaxiAP";
     public const string PluginName = "YellowTaxiAP";
-    public const string PluginVersion = "0.0.1";
+    public const string PluginVersion = "0.2.0";
 
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
     public const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";

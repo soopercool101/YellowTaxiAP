@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
@@ -81,6 +81,8 @@ namespace YellowTaxiAP.Archipelago
         public bool ExcludeObservatory { get; private set; }
         public bool ExcludeSpikeBunny { get; private set; }
         public bool ExcludeTopBunny { get; private set; }
+
+        public bool OpenGrannysIsland { get; private set; }
 
         public YTGVSlotData()
         {
@@ -517,6 +519,15 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for exclude_top_bunny found");
             }
 
+
+            if (slotData.ContainsKey("open_grannys_island"))
+            {
+                OpenGrannysIsland = (bool) slotData["open_grannys_island"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for open_grannys_island found");
+            }
         }
     }
 }

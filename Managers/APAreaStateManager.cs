@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using YellowTaxiAP.Behaviours;
+using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
 {
@@ -14,6 +16,8 @@ namespace YellowTaxiAP.Managers
 
         public APAreaStateManager()
         {
+            On.PlayerScript.Awake += PlayerScript_Awake;
+
             On.DisableAreaScript_BeatedFinalBoss.Start += DisableAreaScript_BeatedFinalBoss_Start;
             On.DisableAreaScript_GoldenSpring.Start += DisableAreaScript_GoldenSpring_Start;
             On.DisableAreaScript_MorioMindPassword.Start += DisableAreaScript_MorioMindPassword_Start;
@@ -27,6 +31,40 @@ namespace YellowTaxiAP.Managers
             On.DisableAreaScript_Demo.Start += DisableAreaScript_Demo_Start;
             On.TrueDemoWallScript.OnCollisionEnter += TrueDemoWallScript_OnCollisionEnter;
             On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
+        }
+
+        private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
+        {
+            // Open Granny's Island
+            if (Plugin.SlotData.OpenGrannysIsland && GameplayMaster.instance.levelId == Data.LevelId.Hub)
+            {
+                var count = 0;
+                foreach (var mesh in Object.FindObjectsOfType<MeshFilter>())
+                {
+                    if (mesh.gameObject.name == "ModelTilesCuboDiagonale" && mesh.transform.parent.gameObject.name == "Tile Grass Cubo Diagonale")
+                    {
+                        if (mesh.mesh.name.Equals(" Instance"))
+                        {
+                            mesh.transform.parent.position = Math.Floor(mesh.transform.parent.position.x) switch
+                            {
+                                65 => new Vector3(127, 10, 0),
+                                75 => new Vector3(142, 10, 0),
+                                _ => mesh.transform.parent.position
+                            };
+                            //mesh.transform.localRotation = new Quaternion(-45, 0, 0, 0);
+                            mesh.transform.Rotate(0, 0, -225);
+                            Plugin.Log($"Rotation: {mesh.transform.rotation}");
+                            Plugin.Log($"Local Rotation: {mesh.transform.localRotation}");
+                            Plugin.Log(mesh.mesh.name + " Moved!");
+                            count++;
+
+                            if (count >= 2)
+                                break;
+                        }
+                    }
+                }
+            }
+            orig(self);
         }
 
         private void TrueDemoWallScript_OnCollisionEnter(On.TrueDemoWallScript.orig_OnCollisionEnter orig, TrueDemoWallScript self, Collision collision)
