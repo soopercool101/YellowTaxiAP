@@ -1,3 +1,4 @@
+using I2.Loc;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 
@@ -13,8 +14,34 @@ namespace YellowTaxiAP.Managers
             On.MenuV2Script.Update += MenuV2Script_Update;
             On.MenuV2Element.Awake += MenuV2Element_Awake;
             On.MenuV2WhiteBackground.FixedUpdate += MenuV2WhiteBackground_FixedUpdate;
+            On.MenuV2Script.MenuVoicesInit += MenuV2Script_MenuVoicesInit;
+
+            On.MenuV2Script.PauseMenuVoicesStringsGet += MenuV2Script_PauseMenuVoicesStringsGet;
 
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
+        }
+
+        private string[] MenuV2Script_PauseMenuVoicesStringsGet(On.MenuV2Script.orig_PauseMenuVoicesStringsGet orig, MenuV2Script self)
+        {
+            var strings = orig(self);
+            var grannysString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND");
+            var labString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB");
+            for (var i = 0; i < strings.Length; i++)
+            {
+                if (strings[i].Equals(Plugin.SlotData.StartInLab ? grannysString : labString))
+                {
+                    strings[i] = Plugin.SlotData.StartInLab ? labString : grannysString;
+                    break;
+                }
+            }
+
+            return strings;
+        }
+
+        private void MenuV2Script_MenuVoicesInit(On.MenuV2Script.orig_MenuVoicesInit orig, MenuV2Script self)
+        {
+            orig(self);
+            self.menuSubTitles[15] = LocalizationManager.GetTermTranslation(Plugin.SlotData.StartInLab ? "MENU_SUB_TITLE_HEAD_TO_LAB" : "MENU_SUB_TITLE_HEAD_TO_GRANNYS_ISLAND");
         }
 
         /// <summary>
@@ -113,12 +140,63 @@ namespace YellowTaxiAP.Managers
 
                 if (self.menuIndex == 0) // Start game immediately
                 {
+                    // Override behavior to return to starting position in all cases
+                    Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
+                    if (Plugin.SlotData.StartInLab)
+                    {
+                        APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                    }
                     self.GotoStoryScene();
                 }
                 else
                 {
                     return;
                 }
+            }
+            else if (self.menuIndex == 15 && self.voiceIndex == 0)
+            {
+                // Override behavior to return to starting position in all cases
+                Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
+                if (!Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+                {
+                    //Data.HubPortalSetLast();
+                    TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)Levels.GetHubIndex());
+                    Data.LevelId hubLevelId = Data.GetHubLevelId();
+                    LoadingScreenScript.WelcomeSetup(hubLevelId, Plugin.SlotData.StartInLab ? LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND_LAB") : LocalizationManager.GetTermTranslation("Hub")
+                        , 0, 0, false);
+                    CheckpointScript.CheckpointDataReset();
+                    GameplayMaster.SelfRespawnClear();
+                    if (Plugin.SlotData.StartInLab)
+                    {
+                        APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                    }
+                }
+                else
+                {
+                    Tick.Paused = false;
+                    Object.Destroy(self.gameObject);
+                    PlayerScript.instance.propellerUsesLeft = 0;
+                    GameplayMaster.SelfRespawnClear();
+                    if (!Plugin.SlotData.StartInLab)
+                    {
+                        var transitionScript = PortalTransitionScript.Spawn(new Vector3(0, 0, 0), 0);
+                        transitionScript.songChange = "SoundtrackHubOutside";
+                        transitionScript.backgroundChange = "Background Sea and Sky";
+                        transitionScript.desiredWaterState = true;
+                        transitionScript.desiredLightState = true;
+                        transitionScript.desiredZoneId = 0;
+                    }
+                    else
+                    {
+                        var transitionScript = PortalTransitionScript.Spawn(new Vector3(-750f, 10f, 680f), 0);
+                        transitionScript.songChange = "SoundtrackHubInside";
+                        transitionScript.backgroundChange = "Background Soffitto Laboratorio";
+                        transitionScript.desiredWaterState = false;
+                        transitionScript.desiredLightState = true;
+                        transitionScript.desiredZoneId = 2;
+                    }
+                }
+                return;
             }
 
             orig(self);

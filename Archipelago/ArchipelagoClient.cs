@@ -447,6 +447,12 @@ public class ArchipelagoClient
             case Identifiers.ItemID.PizzaKing:
                 APAreaStateManager.PizzaKingReceived = true;
                 break;
+            case Identifiers.ItemID.LabKey:
+                APAreaStateManager.LabDoorUnlocked = true;
+                break;
+            case Identifiers.ItemID.GymMembership:
+                APAreaStateManager.GymMembership = true;
+                break;
             case Identifiers.ItemID.Doggo:
                 APAreaStateManager.DoggoReceived = true;
                 break;

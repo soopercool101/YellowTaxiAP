@@ -217,17 +217,24 @@ namespace YellowTaxiAP.Managers
                     case LevelId.L4_ArcadePanik when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
                     //case LevelId.L20_PsychoTaxi when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && !Plugin.SlotData.ShufflePsychoTaxi:
                     case LevelId.L5_ToslaOffices when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
-                    case LevelId.L7_PoopWorld when Plugin.SlotData.ExcludePoophouse:
-                    case LevelId.L8_Sewers when Plugin.SlotData.ExcludeSewers:
+                    case LevelId.L8_Sewers when Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
                     case LevelId.L9_City when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
                     case LevelId.L10_CrashTestIndustries when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
-                    case LevelId.L12_MoriosMind when Plugin.SlotData.ExcludeMind:
-                    case LevelId.L13_StarmanCastle when Plugin.SlotData.ExcludeObservatory:
+                    case LevelId.L12_MoriosMind when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
+                    case LevelId.L13_StarmanCastle when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
                     case LevelId.L14_ToslaHQ when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
                     case LevelId.L15_Moon when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
 #if DEBUG
                         if (!DebugLocationHelper.Enabled)
                         {
+                            // Disable level cost. This fixes issues with main menu.
+                            // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
+                            if (self.PortalIsLevelPortal)
+                            {
+                                levelDataList[(int)self.targetLevelId].levelCost = -1;
+                                GetLevel(self.targetLevelId).everOpened = false;
+                                self.CostUpdateTry();
+                            }
                             ObjectHelper.DestroyRecursive(self.transform);
                             return;
                         }
@@ -247,6 +254,8 @@ namespace YellowTaxiAP.Managers
                         if (self.PortalIsLevelPortal)
                         {
                             levelDataList[(int)self.targetLevelId].levelCost = -1;
+                            GetLevel(self.targetLevelId).everOpened = false;
+                            self.CostUpdateTry();
                         }
                         ObjectHelper.DestroyRecursive(self.transform);
                         return;
@@ -368,10 +377,15 @@ namespace YellowTaxiAP.Managers
             BackgroundChange = backgroundChange;
         }
 
+        public static WarpIdentifier LabStart =
+            new WarpIdentifier("Granny's Island - Morio's Lab Front Door", "Morio's Lab - Front Door", "", LevelId.Hub,
+                Levels.Index.noone, LevelId.noone, new Vector3(80f, 20f, 0f), new Vector3(-750f, 10f, 680f), 0, 2, true,
+                false, "SoundtrackHubInside", "Background Soffitto Laboratorio");
+
         public static List<WarpIdentifier> KnownWarps = new()
         {
             // Granny's Island Warps
-            new WarpIdentifier("Granny's Island - Morio's Lab Front Door", "Morio's Lab - Front Door", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(80f, 20f, 0f), new Vector3(-750f, 10f, 680f), 0, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
+            LabStart,
             new WarpIdentifier("Granny's Island - Morio's Lab Back Door", "Morio's Lab - Back Door", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(98.35f, 20f, -0.33f), new Vector3(-645.1f, 10f, 680f), 180, 2, true, false, "SoundtrackHubInside", "Background Soffitto Laboratorio"),
             new WarpIdentifier("Granny's Island - Hillside Pipe", "Granny's Island - Beach Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(10f, 40f, 75f), new Vector3(685f, 20f, -120f), 0, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
             new WarpIdentifier("Granny's Island - Beach Pipe", "Granny's Island - Hillside Pipe", "", LevelId.Hub, Levels.Index.noone, LevelId.noone, new Vector3(665f, 20f, -120f), new Vector3(-5f, 40f, 75f), -180, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),

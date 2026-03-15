@@ -10,7 +10,7 @@ namespace YellowTaxiAP
 #if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => true;
+        public static bool Enabled => false;
 
         #region Hub
 
@@ -263,6 +263,8 @@ namespace YellowTaxiAP
             { "0_03_00589", "Granny's Island - Coin Bag on Pillar Towards Sewer" },     // Region Granny's Island Main & (B1 | GP)
             { "0_01_00003", "Granny's Island - Gear - Oil Pump" },                      // Region Granny's Island Main & (SP | EX2)
             { "0_01_00014", "Granny's Island - Gear - Inside Spin Blocks" },            // Region Granny's Island Main & SP
+            { "0_03_00548", "Granny's Island - Coin Bag on Brown Cliffside Cabin" },
+            { "0_03_00311", "Granny's Island - Coin Bag on Green Cliffside Cabin" },
         };
 
         [Description("Granny's Island - Pipe Area")]
@@ -404,8 +406,6 @@ namespace YellowTaxiAP
         {
             { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
             { "0_03_00300", "Granny's Island - Coin on Roofs Behind Granny's Statue"},
-            { "0_03_00548", "Granny's Island - Coin Bag on Brown Cliffside Cabin" },
-            { "0_03_00311", "Granny's Island - Coin Bag on Green Cliffside Cabin" },
             // Everything below this requires an explosion bounce.
             // Not *too* precise but definitely silly to require moveless
             // Some of these are decently tricky with just B1 but not too crazy
@@ -875,6 +875,12 @@ namespace YellowTaxiAP
             { "0_03_00737", "Pizza Oven - Chest on Top of Pillar" },
         };
 
+        [Description("Morio's Lab - Ground Floor Propeller")]
+        public static Dictionary<string, string> MoriosLabGroundFloorGoldenPropeller = new()
+        {
+            { string.Empty, nameof(MoriosLabGroundFloorGoldenPropeller) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Morio's Lab - Ground Floor")]
         public static Dictionary<string, string> MoriosLabGroundFloor = new()
         {
@@ -939,8 +945,13 @@ namespace YellowTaxiAP
             { "0_03_00663", "Morio's Lab - Coin Bag in Nut Above Ground Floor #1" },
             { "0_03_00648", "Morio's Lab - Coin Bag in Nut Above Ground Floor #2" },
             { "0_03_00631", "Morio's Lab - Coin Bag in Nut Above Ground Floor #3" },
-            { "0_01_00027", "Morio's Lab - Gear - Alcove Above Ground Floor" },
             { "0_08_00006", "Morio's Lab - PICI Glide Tutorial" },
+        };
+
+        [Description("Morio's Lab - Alcove Above Arcade Panik")]
+        public static Dictionary<string, string> MoriosLabGroundFloorArcadeGearAlcove = new()
+        {
+            { "0_01_00027", "Morio's Lab - Gear - Alcove Above Arcade Panik Portal" },
         };
 
         [Description("Morio's Lab - Ground Floor Orange Blocks")]
@@ -1053,6 +1064,12 @@ namespace YellowTaxiAP
             { "0_03_00745", "Morio's Lab - Coin Near Morio's Room #3" },
             { "0_03_00744", "Morio's Lab - Coin Near Morio's Room #4" },
             { "0_03_00743", "Morio's Lab - Coin Near Morio's Room #5" },
+        };
+
+        [Description("Morio's Lab - Inside Morio's Room")]
+        public static Dictionary<string, string> MoriosLabMoriosRoomInside = new()
+        {
+            { string.Empty, nameof(MoriosLabSecondFloorShortcutPipe) + " - !PLACEHOLDER!" }
         };
 
         [Description("Morio's Lab - Inside Morio's Room Jump")]
@@ -1184,10 +1201,10 @@ namespace YellowTaxiAP
             { string.Empty, nameof(MoriosLabFifthFloorGoldenPropeller) + " - !PLACEHOLDER!" }
         };
 
-        [Description("Morio's Lab - Fifth Floor Golden Propeller (Password)")]
-        public static Dictionary<string, string> MoriosLabFifthFloorGoldenPropellerPassword = new()
+        [Description("Morio's Lab - Middle Floors Golden Propeller")]
+        public static Dictionary<string, string> MoriosLabMiddleFloorsGoldenPropeller = new()
         {
-            { string.Empty, nameof(MoriosLabFifthFloorGoldenPropellerPassword) + " - !PLACEHOLDER!" }
+            { string.Empty, nameof(MoriosLabMiddleFloorsGoldenPropeller) + " - !PLACEHOLDER!" }
         };
 
         [Description("Morio's Lab - Fifth Floor Inside Shortcut Pipe")]
@@ -1304,6 +1321,8 @@ namespace YellowTaxiAP
             { "Granny's Island - Gear - Lighthouse", "B2 | B1+GP" },
             { "Granny's Island - Gear - In the Clouds", "B1+GP | B2+J1" },
             { "Granny's Island - Gear - High Pillar by Lab", "X2/J1/GP" },
+            { "Granny's Island - Coin Bag on Brown Cliffside Cabin", "X1/J1/GP" },
+            { "Granny's Island - Coin Bag on Green Cliffside Cabin", "X1/J1/GP" },
             { "Pizza Oven - Gear", "B1 & X1/J1" },
             { "Morio's Lab - Gear - Third Floor Wrenches", "J1" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1/FGU" },
@@ -1981,7 +2000,7 @@ namespace YellowTaxiAP
         [Description("Morio's Island - Special Rules")]
         public static Dictionary<string, string> MoriosIslandSpecialRules = new()
         {
-            { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1" },
+            { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1 | X1+B1" },
             { "Morio's Home - Gear - In Hidden Side Room", "X2/J1/B1" },
         };
 
@@ -3798,6 +3817,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabGroundFloorWrenches)), MoriosLabGroundFloorWrenches),
             new(GetDescription(nameof(MoriosLabGroundFloorLowestBolt)), MoriosLabGroundFloorLowestBolt),
             new(GetDescription(nameof(MoriosLabGroundFloorBolts)), MoriosLabGroundFloorBolts),
+            new(GetDescription(nameof(MoriosLabGroundFloorArcadeGearAlcove)), MoriosLabGroundFloorArcadeGearAlcove),
             new(GetDescription(nameof(MoriosLabGroundFloorOrangeBlocks)), MoriosLabGroundFloorOrangeBlocks),
             new(GetDescription(nameof(MoriosLabBunnyLedge)), MoriosLabBunnyLedge),
             new(GetDescription(nameof(MoriosLabSecondFloor)), MoriosLabSecondFloor),
@@ -3810,6 +3830,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipeFalling)), MoriosLabSecondFloorShortcutPipeFalling),
             new(GetDescription(nameof(MoriosLabPathToMoriosRoom)), MoriosLabPathToMoriosRoom),
             new(GetDescription(nameof(MoriosLabMoriosRoomOutside)), MoriosLabMoriosRoomOutside),
+            new(GetDescription(nameof(MoriosLabMoriosRoomInside)), MoriosLabMoriosRoomInside),
             new(GetDescription(nameof(MoriosLabMoriosRoomInsideJump)), MoriosLabMoriosRoomInsideJump),
             new(GetDescription(nameof(MoriosLabThirdFloor)), MoriosLabThirdFloor),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)), MoriosLabThirdFloorWrenchesLower),
@@ -3824,7 +3845,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabFifthFloorDreamMachine)), MoriosLabFifthFloorDreamMachine),
             new(GetDescription(nameof(MoriosLabFifthFloorRuinedObservatoryArea)), MoriosLabFifthFloorRuinedObservatoryArea),
             new(GetDescription(nameof(MoriosLabFifthFloorGoldenPropeller)), MoriosLabFifthFloorGoldenPropeller),
-            new(GetDescription(nameof(MoriosLabFifthFloorGoldenPropellerPassword)), MoriosLabFifthFloorGoldenPropellerPassword),
+            new(GetDescription(nameof(MoriosLabMiddleFloorsGoldenPropeller)), MoriosLabMiddleFloorsGoldenPropeller),
             new(GetDescription(nameof(MoriosLabFifthFloorShortcutPipe)), MoriosLabFifthFloorShortcutPipe),
             new(GetDescription(nameof(MoriosLabFifthFloorLowerLedge)), MoriosLabFifthFloorLowerLedge),
             new(GetDescription(nameof(MoriosLabFifthToSixthFloorStair)), MoriosLabFifthToSixthFloorStair),
@@ -3833,6 +3854,8 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabFinalFloor)), MoriosLabFinalFloor),
             new(GetDescription(nameof(MoriosLabFinalFloorPipes)), MoriosLabFinalFloorPipes),
             new(GetDescription(nameof(MoriosLabFinalFloorCatwalk)), MoriosLabFinalFloorCatwalk),
+
+            new(GetDescription(nameof(MoriosLabGroundFloorGoldenPropeller)), MoriosLabGroundFloorGoldenPropeller),
 
             // Morio's Island Areas
             new(GetDescription(nameof(MoriosIslandStartingArea)), MoriosIslandStartingArea),
@@ -3974,6 +3997,7 @@ namespace YellowTaxiAP
                     MoriosLabGroundFloorWrenches,
                     MoriosLabGroundFloorLowestBolt,
                     MoriosLabGroundFloorBolts,
+                    MoriosLabGroundFloorArcadeGearAlcove,
                     MoriosLabGroundFloorOrangeBlocks,
                     MoriosLabBunnyLedge,
                     MoriosLabSecondFloor,
@@ -3986,6 +4010,7 @@ namespace YellowTaxiAP
                     MoriosLabSecondFloorShortcutPipe,
                     MoriosLabPathToMoriosRoom,
                     MoriosLabMoriosRoomOutside,
+                    MoriosLabMoriosRoomInside,
                     MoriosLabMoriosRoomInsideJump,
                     MoriosLabThirdFloor,
                     MoriosLabThirdFloorWrenchesLower,
@@ -4000,7 +4025,7 @@ namespace YellowTaxiAP
                     MoriosLabFifthFloorDreamMachine,
                     MoriosLabFifthFloorRuinedObservatoryArea,
                     MoriosLabFifthFloorGoldenPropeller,
-                    MoriosLabFifthFloorGoldenPropellerPassword,
+                    MoriosLabMiddleFloorsGoldenPropeller,
                     MoriosLabFifthFloorShortcutPipe,
                     MoriosLabFifthFloorLowerLedge,
                     MoriosLabFifthToSixthFloorStair,
@@ -4009,6 +4034,8 @@ namespace YellowTaxiAP
                     MoriosLabFinalFloor,
                     MoriosLabFinalFloorPipes,
                     MoriosLabFinalFloorCatwalk,
+
+                    MoriosLabGroundFloorGoldenPropeller,
                 ]
             },
             {
@@ -4155,16 +4182,19 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandStart)),
                 [
-                    new RegionConnection("Granny's Island - Morio's Lab Front Door", MoriosLabGroundFloor, ConnectionType.Subwarp),
+                    new RegionConnection("Granny's Island - Morio's Lab Front Door", MoriosLabGroundFloor, ConnectionType.Subwarp, "LabKey"),
                     new RegionConnection(GrannysIslandPipeArea, "J1/B1"),
+                    new RegionConnection(GrannysIslandMoat, "OGI"),
                 ]
             },
             {
                 GetDescription(nameof(GrannysIslandMoat)),
                 [
-                    new RegionConnection("Granny's Island - Morio's Lab Back Door", MoriosLabGroundFloor, ConnectionType.Subwarp),
+                    new RegionConnection("Granny's Island - Morio's Lab Back Door", MoriosLabGroundFloor, ConnectionType.Subwarp, "LabKey"),
                     new RegionConnection(GrannysIslandStart),
                     new RegionConnection(GrannysIslandPipeArea, "J1/B1"),
+                    new RegionConnection(GrannysIslandMain, "OGI"),
+                    new RegionConnection(GrannysIslandStart, "OGI"),
                 ]
             },
             {
@@ -4191,10 +4221,11 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
-                    new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears"),
+                    new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears+GymKey"),
                     new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP"),
-                    new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "Doggo"),
+                    new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "PortalFecalMatters+Doggo"),
                     new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & J2/B1/GP | X1+Rocket+J1"),
+                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "GP+NSAR+LabKey"),
                 ]
             },
             {
@@ -4392,12 +4423,31 @@ namespace YellowTaxiAP
                     // Doesn't connect anywhere
                 ]
             },
+            // Grannys
+            {
+                GetDescription(nameof(MoriosLabGroundFloorGoldenPropeller)),
+                [
+                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabGroundFloorLowestBolt),
+                    new RegionConnection(MoriosLabSecondFloor),
+                    new RegionConnection(MoriosLabGroundFloorBolts, "B1/X1"),
+                    new RegionConnection(MoriosLabPathToMoriosRoom, "X1"),
+                    new RegionConnection(MoriosLabBunnyLedge, "B1+X1"),
+                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B1"),
+                    new RegionConnection(MoriosLabThirdFloor, "FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "B1/X2 & FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "B1+FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "B1+FGU"),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
+                    new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+GS"),
+                ]
+            },
             // Morio's Lab
             {
                 GetDescription(nameof(MoriosLabGroundFloor)),
                 [
-                    new RegionConnection("Morio's Lab - Front Door", GrannysIslandStart, ConnectionType.Subwarp),
-                    new RegionConnection("Morio's Lab - Back Door", GrannysIslandMoat, ConnectionType.Subwarp),
+                    new RegionConnection("Morio's Lab - Front Door", GrannysIslandStart, ConnectionType.Subwarp, "LabKey"),
+                    new RegionConnection("Morio's Lab - Back Door", GrannysIslandMoat, ConnectionType.Subwarp, "LabKey"),
                     new RegionConnection("Morio's Lab - Wardrobe Entrance", MoriosWardrobe, ConnectionType.Subwarp),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "B2"),
                     new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
@@ -4436,6 +4486,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabBunnyLedge, "J1 | X1+B1"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1+J2"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X1+J1+B2+FGU"),
+                    new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "J1/B1"),
                 ]
             },
             {
@@ -4518,7 +4569,13 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabMoriosRoomOutside)),
                 [
-                    new RegionConnection(MoriosLabMoriosRoomInsideJump, "MorioHat+J1")
+                    new RegionConnection(MoriosLabMoriosRoomInside, "MorioHat")
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabMoriosRoomInside)),
+                [
+                    new RegionConnection(MoriosLabMoriosRoomInsideJump, "J1")
                 ]
             },
             {
@@ -4561,7 +4618,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
                     new RegionConnection(MoriosLabThirdFloor, "GS"),
-                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "GS+J1 | X1+GS+B2 | X2+B2+J2"),
+                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "X1+GS+B2 | X2+B2+J2"),
                 ]
             },
             {
@@ -4573,7 +4630,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFourthFloorJumpSpikes)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes),
                 ]
             },
             {
@@ -4623,21 +4680,26 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthToSixthFloorStair),
                     new RegionConnection(MoriosLabFifthFloorHighPillars),
                     new RegionConnection(MoriosLabFinalFloor),
-                    new RegionConnection(MoriosLabFifthFloorGoldenPropellerPassword, "Password"),
+                    new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "Password"),
+                    new RegionConnection(MoriosLabFifthFloorShortcutPipe, "Password"),
                 ]
             },
             {
-                GetDescription(nameof(MoriosLabFifthFloorGoldenPropellerPassword)),
+                GetDescription(nameof(MoriosLabMiddleFloorsGoldenPropeller)),
                 [
-                    new RegionConnection(MoriosLabFifthFloorShortcutPipe),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "FGU"),
                     new RegionConnection(MoriosLabMoriosRoomOutside, "FGU"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, "FGU+MorioHat"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesLower),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU/GS"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU"),
-                    new RegionConnection(MoriosLabGroundFloorBolts),
-                    new RegionConnection(MoriosLabSecondFloorShortcutPipe),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "GS+FGU"),
+                    new RegionConnection(MoriosLabGroundFloorBolts, "FGU"),
+                    new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "FGU"),
+                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "FGU"),
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity),
+                    new RegionConnection(MoriosLabFourthFloorJumpSpikes, "GS"),
+                    new RegionConnection(MoriosLabFifthFloorGoldenPropeller, "Password"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "GS"),
                 ]
             },
             {

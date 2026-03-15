@@ -56,13 +56,15 @@
             Glide = 8_0_4,
             GoldenSpringUnlock = 8_1_0,
             GoldenPropellerUnlock = 8_2_0,
-            GelaToni = 9_01,
-            PizzaKing = 9_02,
-            Doggo = 9_07,
-            OrangeSwitch = 9_10,
-            FullGameUnlock = 9_11,
-            MoriosPassword = 9_12,
-            MosksRocket = 9_16,
+            LabKey = 10_00,
+            GymMembership = 10_06,
+            Doggo = 10_07,
+            MosksRocket = 10_16,
+            GelaToni = 11_01,
+            PizzaKing = 11_02,
+            OrangeSwitch = 11_10,
+            FullGameUnlock = 11_11,
+            MoriosPassword = 11_12,
             PsychoTaxiCartridge = 20_01,
             Michele = 20_02,
         }
@@ -72,6 +74,7 @@
             GelaToni = 11_00001,
             PizzaKing = 11_00002,
             Michele = 21_99999,
+            LabKey = 10_00000,
             Doggo = 10_00007,
             MoriosPassword = 11_00012,
             MosksRocket = 10_00016,
@@ -79,6 +82,7 @@
             OrangeSwitch = 11_00010,
             GoldenSpring = 11_00005,
             GoldenPropeller = 11_00013,
+            UltraChadMembership = 6_10_00006,
         }
     }
 }

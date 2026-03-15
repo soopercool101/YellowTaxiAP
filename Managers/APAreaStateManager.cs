@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
@@ -13,6 +14,8 @@ namespace YellowTaxiAP.Managers
         public static bool PizzaKingReceived = false;
         public static bool DoggoReceived = false;
         public static bool FullGameUnlocked = false;
+        public static bool LabDoorUnlocked = false;
+        public static bool GymMembership = false;
 
         public APAreaStateManager()
         {
@@ -35,33 +38,72 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
         {
-            // Open Granny's Island
-            if (Plugin.SlotData.OpenGrannysIsland && GameplayMaster.instance.levelId == Data.LevelId.Hub)
+            // Hubworld state changes
+            if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
             {
-                var count = 0;
-                foreach (var mesh in Object.FindObjectsOfType<MeshFilter>())
+                // Open Granny's Island
+                if (Plugin.SlotData.OpenGrannysIsland)
                 {
-                    if (mesh.gameObject.name == "ModelTilesCuboDiagonale" && mesh.transform.parent.gameObject.name == "Tile Grass Cubo Diagonale")
+                    var count = 0;
+                    foreach (var mesh in Object.FindObjectsOfType<MeshFilter>())
                     {
-                        if (mesh.mesh.name.Equals(" Instance"))
+                        if (mesh.gameObject.name == "ModelTilesCuboDiagonale" && mesh.transform.parent.gameObject.name == "Tile Grass Cubo Diagonale")
                         {
-                            mesh.transform.parent.position = Math.Floor(mesh.transform.parent.position.x) switch
+                            if (mesh.mesh.name.Equals(" Instance"))
                             {
-                                65 => new Vector3(127, 10, 0),
-                                75 => new Vector3(142, 10, 0),
-                                _ => mesh.transform.parent.position
-                            };
-                            //mesh.transform.localRotation = new Quaternion(-45, 0, 0, 0);
-                            mesh.transform.Rotate(0, 0, -225);
-                            Plugin.Log($"Rotation: {mesh.transform.rotation}");
-                            Plugin.Log($"Local Rotation: {mesh.transform.localRotation}");
-                            Plugin.Log(mesh.mesh.name + " Moved!");
-                            count++;
+                                mesh.transform.parent.position = Math.Floor(mesh.transform.parent.position.x) switch
+                                {
+                                    65 => new Vector3(127, 10, 0),
+                                    75 => new Vector3(142, 10, 0),
+                                    _ => mesh.transform.parent.position
+                                };
+                                //mesh.transform.localRotation = new Quaternion(-45, 0, 0, 0);
+                                mesh.transform.Rotate(0, 0, -225);
+                                Plugin.Log($"Rotation: {mesh.transform.rotation}");
+                                Plugin.Log($"Local Rotation: {mesh.transform.localRotation}");
+                                Plugin.Log(mesh.mesh.name + " Moved!");
+                                count++;
 
-                            if (count >= 2)
-                                break;
+                                if (count >= 2)
+                                    break;
+                            }
                         }
                     }
+                }
+
+                // Locked lab
+                if (Plugin.SlotData.LockedMoriosLab && !LabDoorUnlocked)
+                {
+                    var sign = Object.FindObjectsOfType<MeshFilter>()
+                        .Last(o => o.gameObject.name.Equals("ModelObjectSign") && o.transform.parent.name.Equals("Sign Right"));
+                    Plugin.Log(sign.transform.parent.parent.gameObject.name);
+                    var noSign = Object.FindObjectsOfType<DisableAreaScript_EventMode>()[0].enableThisAreaWhenActive[0].transform.GetChild(0);
+                    Plugin.Log(sign.gameObject.GetComponent<MeshRenderer>()?.material.name ?? "<NULL>");
+                    Plugin.Log(sign.name);
+                    foreach (var component in sign.gameObject.GetComponents<Object>())
+                    {
+                        Plugin.Log($"  - {component.GetType()}");
+                    }
+                    Plugin.Log(noSign.name);
+                    foreach (var component in noSign.gameObject.GetComponents<Object>())
+                    {
+                        Plugin.Log($"  - {component.GetType()}");
+                    }
+                    //Plugin.Log(noSign.gameObject.GetComponent<MeshRenderer>()?.material.name ?? "<NULL>");
+                    sign.gameObject.GetComponent<MeshRenderer>().material = noSign.gameObject.GetComponent<MeshRenderer>().material;
+                    sign.transform.parent.localPosition = new Vector3(-120, 10, 40);
+                    sign.transform.Rotate(0, 0, 90);
+                    sign.transform.parent.gameObject.GetComponent<Collider>().enabled = false;
+
+                    var labEnableDisable = Object.FindObjectOfType<DisableAreaScript_EventMode>();
+
+                    var enable = labEnableDisable.enableThisAreaWhenActive.ToList();
+                    enable.Add(sign.transform.parent.gameObject);
+                    var disable = labEnableDisable.disableThisAreaWhenActive.ToList();
+                    disable.Add(Object.FindObjectsOfType<PortalScript>().First(p => p.name.Equals("Portal Lab to Garden")).gameObject);
+                    var locker = self.gameObject.AddComponent<AreaStateOverride_LabLocked>();
+                    locker.toDisable = disable.ToArray();
+                    locker.toEnable = enable.ToArray();
                 }
             }
             orig(self);
@@ -88,11 +130,7 @@ namespace YellowTaxiAP.Managers
         {
             if (self.gameObject.name.Equals("DisableArea Demo Gym"))
             {
-                // Not sure what demo disabled the gym. Don't do that.
-                foreach(var dis in self.disableThisAreaWhenActive)
-                    dis.SetActive(true);
-                foreach(var en in self.enableThisAreaWhenActive)
-                    en.SetActive(false);
+                self.gameObject.AddComponent<AreaStateOverride_GymMembership>();
             }
             else
             {
@@ -132,18 +170,10 @@ namespace YellowTaxiAP.Managers
 
         private void DisableAreaScript_EventMode_Start(On.DisableAreaScript_EventMode.orig_Start orig, DisableAreaScript_EventMode self)
         {
-            Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (EventMode)");
-            orig(self);
-            foreach (var toDisable in self.disableThisAreaWhenActive)
+            if (GameplayMaster.instance.levelId != Data.LevelId.Hub || !self.gameObject.GetComponent<AreaStateOverride_LabLocked>())
             {
-                Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
-                //toDisable?.SetActive(true);
-            }
-
-            foreach (var toEnable in self.enableThisAreaWhenActive)
-            {
-                Plugin.Log($"ToEnable: {toEnable?.name ?? "<null>"}");
-                //toEnable?.SetActive(true);
+                Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (EventMode)");
+                orig(self);
             }
         }
 

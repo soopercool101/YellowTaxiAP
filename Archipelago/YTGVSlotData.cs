@@ -12,7 +12,7 @@ namespace YellowTaxiAP.Archipelago
         /// <summary>
         /// Backwards compatibility. Lowest supported minor version in the lowest supported major version.
         /// </summary>
-        public const int LowestSupportedMinorVersion = 1;
+        public const int LowestSupportedMinorVersion = 2;
         /// <summary>
         /// Highest x.y.# version supported, where y is in the highest supported minor version
         /// Should be up to date with latest APWorld whenever a new version is released.
@@ -22,10 +22,11 @@ namespace YellowTaxiAP.Archipelago
         /// Highest supported minor version in the highest supported major version.
         /// Should be up to date with latest APWorld whenever a new version is released.
         /// </summary>
-        public const int HighestSupportedMinorVersion = 1;
+        public const int HighestSupportedMinorVersion = 2;
         public bool FailedValidation { get; private set; }
         public long APWorldMajorVersion { get; set; }
         public long APWorldMinorVersion { get; set; }
+        public long APWorldBuildVersion { get; set; }
 
         public enum GoalType : long
         {
@@ -42,7 +43,6 @@ namespace YellowTaxiAP.Archipelago
         public bool DeathLink { get; private set; }
         public bool ShuffleGelaToni { get; private set; }
         public bool ShufflePizzaKing { get; private set; }
-        public bool ShuffleDoggo { get; private set; }
         public bool ShuffleOrangeSwitch { get; private set; }
         public bool ShuffleMoriosPassword { get; private set; }
         public bool ShuffleRocket { get; private set; }
@@ -67,7 +67,6 @@ namespace YellowTaxiAP.Archipelago
         public bool EarlyGelaToni { get; private set; }
         public bool EarlyPizzaKing { get; private set; }
         public bool EarlyRat { get; private set; }
-        public bool EarlyDoggo { get; private set; }
         public bool EarlyBackflip { get; private set; }
         public bool EarlyPsychoTaxi { get; private set; }
         public bool EarlyOrangeSwitch { get; private set; }
@@ -75,14 +74,24 @@ namespace YellowTaxiAP.Archipelago
         public bool EarlyGoldenPropeller { get; private set; }
         public bool EarlyMoriosPassword { get; private set; }
         public bool EarlyRocket { get; private set; }
-        public bool ExcludePoophouse { get; private set; }
-        public bool ExcludeSewers { get; private set; }
-        public bool ExcludeMind { get; private set; }
-        public bool ExcludeObservatory { get; private set; }
         public bool ExcludeSpikeBunny { get; private set; }
         public bool ExcludeTopBunny { get; private set; }
 
         public bool OpenGrannysIsland { get; private set; }
+        public bool LockedMoriosLab { get; private set; }
+        public bool StartInLab { get; private set; }
+
+        public enum LevelUnlockCondition : long
+        {
+            Special = -1,
+            Open = 0,
+            FullGame = 1,
+            Item = 2,
+            Exclude = 3,
+        }
+        public LevelUnlockCondition GymGearsUnlockCondition { get; private set; }
+        public LevelUnlockCondition FecalMattersUnlockCondition { get; private set; }
+        public LevelUnlockCondition FlushedAwayUnlockCondition { get; private set; }
 
         public YTGVSlotData()
         {
@@ -95,17 +104,23 @@ namespace YellowTaxiAP.Archipelago
             {
                 APWorldMajorVersion = (long)majorVersion;
                 APWorldMinorVersion = (long)minorVersion;
+                var buildVersionString = "X";
+                if (slotData.TryGetValue("build_version", out var buildVersion))
+                {
+                    APWorldBuildVersion = (long)buildVersion;
+                    buildVersionString = APWorldBuildVersion.ToString();
+                }
                 if (APWorldMajorVersion < LowestSupportedMajorVersion || (APWorldMajorVersion == LowestSupportedMajorVersion && APWorldMinorVersion < LowestSupportedMinorVersion))
                 {
                     ArchipelagoClient.Authenticated = false;
-                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.x which is lower than lowest supported APWorld version {LowestSupportedMajorVersion}.{LowestSupportedMinorVersion}.0. Please update your APWorld or use an older version of the mod.", true);
+                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.{buildVersionString} which is lower than lowest supported APWorld version {LowestSupportedMajorVersion}.{LowestSupportedMinorVersion}.0. Please update your APWorld or use an older version of the mod.", true);
                     FailedValidation = true;
                     return;
                 }
                 if (APWorldMajorVersion > HighestSupportedMajorVersion || (APWorldMajorVersion == HighestSupportedMajorVersion && APWorldMinorVersion > HighestSupportedMinorVersion))
                 {
                     ArchipelagoClient.Authenticated = false;
-                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.x which is higher than highest supported APWorld version {HighestSupportedMajorVersion}.{HighestSupportedMinorVersion}.x. Please update your game mod.", true);
+                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.{buildVersionString} which is higher than highest supported APWorld version {HighestSupportedMajorVersion}.{HighestSupportedMinorVersion}.X. Please update your game mod.", true);
                     FailedValidation = true;
                     return;
                 }
@@ -178,15 +193,6 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for shuffle_pizza_king found");
-            }
-
-            if (slotData.ContainsKey("shuffle_doggo"))
-            {
-                ShuffleDoggo = (long)slotData["shuffle_doggo"] == 1;
-            }
-            else
-            {
-                Plugin.Log("No slot data for shuffle_doggo found");
             }
 
             if (slotData.ContainsKey("shuffle_orange_switch"))
@@ -392,15 +398,6 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for early_rat found");
             }
 
-            if (slotData.ContainsKey("early_doggo"))
-            {
-                EarlyDoggo = (bool) slotData["early_doggo"];
-            }
-            else
-            {
-                Plugin.Log("No slot data for early_doggo found");
-            }
-
             if (slotData.ContainsKey("early_backflip"))
             {
                 EarlyBackflip = (bool) slotData["early_backflip"];
@@ -464,43 +461,6 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for early_rocket found");
             }
 
-            if (slotData.ContainsKey("exclude_poophouse"))
-            {
-                ExcludePoophouse = (bool)slotData["exclude_poophouse"];
-            }
-            else
-            {
-                Plugin.Log("No slot data for exclude_poophouse found");
-            }
-
-
-            if (slotData.ContainsKey("exclude_sewers"))
-            {
-                ExcludeSewers = (bool)slotData["exclude_sewers"];
-            }
-            else
-            {
-                Plugin.Log("No slot data for exclude_sewers found");
-            }
-
-            if (slotData.ContainsKey("exclude_mind"))
-            {
-                ExcludeMind = (bool)slotData["exclude_mind"];
-            }
-            else
-            {
-                Plugin.Log("No slot data for exclude_mind found");
-            }
-
-            if (slotData.ContainsKey("exclude_observatory"))
-            {
-                ExcludeObservatory = (bool)slotData["exclude_observatory"];
-            }
-            else
-            {
-                Plugin.Log("No slot data for exclude_observatory found");
-            }
-
             if (slotData.ContainsKey("exclude_spike_bunny"))
             {
                 ExcludeSpikeBunny = (bool) slotData["exclude_spike_bunny"];
@@ -522,11 +482,59 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("open_grannys_island"))
             {
-                OpenGrannysIsland = (bool) slotData["open_grannys_island"];
+                OpenGrannysIsland = (long) slotData["open_grannys_island"] == 1;
             }
             else
             {
                 Plugin.Log("No slot data for open_grannys_island found");
+            }
+
+            if (slotData.ContainsKey("locked_morios_lab"))
+            {
+                LockedMoriosLab = (long)slotData["locked_morios_lab"] == 1;
+            }
+            else
+            {
+                Plugin.Log("No slot data for locked_morios_lab found");
+            }
+
+            if (slotData.ContainsKey("gym_gears_unlock_condition"))
+            {
+                GymGearsUnlockCondition = (LevelUnlockCondition) (long) slotData["gym_gears_unlock_condition"];
+            }
+            else
+            {
+                GymGearsUnlockCondition = LevelUnlockCondition.Exclude;
+                Plugin.Log("No slot data for gym_gears_unlock_condition found");
+            }
+
+            if (slotData.ContainsKey("fecal_matters_unlock_condition"))
+            {
+                FecalMattersUnlockCondition = (LevelUnlockCondition)(long)slotData["fecal_matters_unlock_condition"];
+            }
+            else
+            {
+                FecalMattersUnlockCondition = LevelUnlockCondition.Exclude;
+                Plugin.Log("No slot data for fecal_matters_unlock_condition found");
+            }
+
+            if (slotData.ContainsKey("flushed_away_unlock_condition"))
+            {
+                FlushedAwayUnlockCondition = (LevelUnlockCondition)(long)slotData["flushed_away_unlock_condition"];
+            }
+            else
+            {
+                FlushedAwayUnlockCondition = LevelUnlockCondition.Exclude;
+                Plugin.Log("No slot data for flushed_away_unlock_condition found");
+            }
+
+            if (slotData.ContainsKey("lab_start"))
+            {
+                StartInLab = (bool) slotData["lab_start"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for lab_start found");
             }
         }
     }

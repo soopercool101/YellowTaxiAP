@@ -108,6 +108,13 @@ namespace YellowTaxiAP.Managers
 
                 ObjectHelper.DestroyImmediateRecursive(animator.transform);
             }
+            else if (Plugin.SlotData.EarlyBackflip && GameplayMaster.instance.levelId == Data.LevelId.Hub &&
+                     self.myId == 535 && self.dialoguePickup.name.Equals("00 Dialogue Pici Computer Man Backflip"))
+            {
+                //Plugin.Log($"{self.transform.position} {self.dialoguePickup.name}");
+                self.transform.position = new Vector3(-850, 130, 470);
+            }
+
 
             orig(self);
         }
@@ -258,7 +265,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.BOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH": // Normally super boost tutorial
-                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleFlipOWill)
                             break;
                         self.dialogues =
                         [
@@ -268,7 +275,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.SUPERBOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT" when GameplayMaster.instance.levelId == Data.LevelId.Hub: // Normally jump tutorial
-                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleFlipOWill)
                             break;
                         self.dialogues =
                         [
@@ -277,7 +284,6 @@ namespace YellowTaxiAP.Managers
                         ];
                         moveRandoID = Identifiers.JUMP_ID;
                         break;
-                    case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
                     case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP" when GameplayMaster.instance.levelId == Data.LevelId.Hub: // Normally backflip tutorial
                         if (!Plugin.SlotData.ShuffleFlipOWill)
                             break;
@@ -323,6 +329,24 @@ namespace YellowTaxiAP.Managers
                             "Would you like this shiny thing I found?!?"
                         ];
                         break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_YES" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
+
+                        if (APWalletManager.ServerCoins < 1000)
+                        {
+                            self.dialogues =
+                            [
+                                "You cannot possibly afford that!"
+                            ];
+                            break;
+                        }
+
+                        Plugin.ArchipelagoClient.UpdateWallet(-1000);
+                        self.dialogues =
+                        [
+                            $"You received {GetItemText((long)Identifiers.NotableLocations.UltraChadMembership, true, false)} as a gift! Now to wait 4-7 business weeks for your membership card!"
+                        ];
+                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.UltraChadMembership);
+                        break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES":
                         if (!Plugin.SlotData.ShuffleRat)
                             break;
@@ -342,50 +366,42 @@ namespace YellowTaxiAP.Managers
                             Plugin.BepinLogger.LogWarning(ex);
                         }
                         break;
-                    case "DIALOGUE_RAT_PICKUP_ANWER_NO":
-                        if (!Plugin.SlotData.ShuffleRat)
-                            break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_NO" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
+                    case "DIALOGUE_RAT_PICKUP_ANWER_NO" when Plugin.SlotData.ShuffleRat:
                         self.dialogues =
                         [
                             "You monster!!! That could've been someone's unwall!!!"
                         ];
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK":
-                        if (Plugin.SlotData.EarlyDoggo)
+                        switch (Plugin.SlotData.FecalMattersUnlockCondition)
                         {
-                            self.dialogues =
-                            [
-                                "Woff woff woff! (You're not supposed to be able to get here!)",
-                                "Woff woff woff! (You should consider turning up your expert level!)"
-                            ];
-                            break;
+                            case YTGVSlotData.LevelUnlockCondition.Special: // Vanilla
+                                APSaveController.MiscSave.HasDoggo = true;
+                                break;
+                            case YTGVSlotData.LevelUnlockCondition.Item:
+                                self.dialogues =
+                                [
+                                    "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
+                                    $"Woff woff woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
+                                    "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Go visit my home on Granny's Island!)" : "(I suppose you need it more than me! If you find my house keys meet me at my home on Granny's Island!)"),
+                                ];
+                                Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Doggo);
+                                break;
+                            case YTGVSlotData.LevelUnlockCondition.Open:
+                            case YTGVSlotData.LevelUnlockCondition.FullGame:
+                            case YTGVSlotData.LevelUnlockCondition.Exclude:
+                            default:
+                                self.dialogues =
+                                [
+                                    "Woff woff woff! (You didn't need to talk to me this seed!)",
+                                    "Woff woff woff! (Nice of you to do so anyway!)",
+                                ];
+                                break;
                         }
-                        if (!Plugin.SlotData.ShuffleDoggo)
-                        {
-                            APSaveController.MiscSave.HasDoggo = true;
-                            break;
-                        }
-
-                        self.dialogues =
-                        [
-                            "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
-                            $"Woff woff woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
-                            "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Go visit my home on Granny's Island!)" : "(I suppose you need it more than me! If you find my house keys meet me at my home on Granny's Island!)"),
-                        ];
-
-                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Doggo);
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER_STILL_IN_LAB":
-                        if (Plugin.SlotData.EarlyDoggo)
-                        {
-                            self.dialogues =
-                            [
-                                "Woff woff woff! (You're not supposed to be able to get here!)",
-                                "Woff woff woff! (You should consider turning up your expert level!)"
-                            ];
-                            break;
-                        }
-                        if (APAreaStateManager.DoggoReceived)
+                        if (APAreaStateManager.DoggoReceived || APSaveController.MiscSave.HasDoggo)
                         {
                             break;
                         }
@@ -395,43 +411,6 @@ namespace YellowTaxiAP.Managers
                             "Woff woff woff! (Still no luck finding my house keys?)",
                             "Woff woff woff! (If you find them, please meet me at my home on Granny's Island!)"
                         ];
-
-                        break;
-                    case "DIALOGUE_GRANNY_ISLAND_LAB_DOGGO_STUCK_AFTER":
-                        if (!Plugin.SlotData.EarlyDoggo || !Plugin.SlotData.ShuffleDoggo)
-                            break;
-
-                        if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
-                                (long)Identifiers.NotableLocations.Doggo + 10000))
-                        {
-                            self.textSoundNames =
-                            [
-                                self.textSoundNames[0],
-                                self.textSoundNames[0],
-                                self.textSoundNames[0],
-                            ];
-                            self.names =
-                            [
-                                self.names[0],
-                                self.names[0],
-                                self.names[0],
-                            ];
-                            self.dialogues =
-                            [
-                                "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
-                                $"Woff woff woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
-                                "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Please, feel free to visit my home!)" : "(I suppose you need it more than me! If you find my house keys meet me back here at my home!)"),
-                            ];
-                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.Doggo + 10000);
-                        }
-                        else
-                        {
-                            self.dialogues =
-                            [
-                                "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Thanks for finding my house keys!)" : "(No luck finding my house keys?)"),
-                                "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Please, feel free to visit my home!)" : "(If you find my house keys meet me back here at my home!)"),
-                            ];
-                        }
 
                         break;
                     case "DIALOGUE_NARRATOR_DEMO_TRUE_WALL":
@@ -680,6 +659,32 @@ namespace YellowTaxiAP.Managers
                         if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon)
                             Plugin.ArchipelagoClient.Win();
                         break;
+                    case "DIALOGUE_GYM_GIGACHAD":
+                        if (Plugin.SlotData.GymGearsUnlockCondition != YTGVSlotData.LevelUnlockCondition.Item ||
+                            Plugin.ArchipelagoClient.AllClearedLocations.Contains((long) Identifiers.NotableLocations
+                                .UltraChadMembership))
+                            break;
+                        self.askQuestion = true;
+                        self.dialogues =
+                        [
+                            $"Hey King! If you're really serious about working out, you should upgrade to our {SetTextColor("Super Deluxe Membership", DialogueColors.OrangeYellow)}!",
+                            $"It's only {SetTextColor("1000 coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
+                        ];
+                        self.onAnswerYes.AddListener(SpecialMethod_OnUltraChadAnswerYes);
+                        self.onAnswerNo.AddListener(SpecialMethod_OnUltraChadAnswerNo);
+                        break;
+                    case "DIALOGUE_MORIO_LAB_SECRET_BEDROOM":
+                        if (!Plugin.SlotData.LockedMoriosLab ||
+                            Plugin.ArchipelagoClient.AllClearedLocations.Contains((long) Identifiers.NotableLocations
+                                .LabKey))
+                            break;
+                        self.dialogues =
+                        [
+                            "Get out! Now!",
+                            $"And take {GetItemText((long) Identifiers.NotableLocations.LabKey)} with you!",
+                        ];
+                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.LabKey);
+                        break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
                         case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
@@ -708,6 +713,16 @@ namespace YellowTaxiAP.Managers
                 }
             }
             orig(self);
+        }
+
+        public void SpecialMethod_OnUltraChadAnswerYes()
+        {
+            Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
+        }
+
+        public void SpecialMethod_OnUltraChadAnswerNo()
+        {
+            Spawn.Instance("Dialogue Rat Pickup Answer No", Vector3.zero);
         }
 
         private enum DialogueColors

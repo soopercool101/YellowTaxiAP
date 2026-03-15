@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Managers;
@@ -14,8 +16,8 @@ namespace YellowTaxiAP.Behaviours
     {
         protected abstract bool ExpectedState { get; }
         protected bool? state;
-        protected GameObject[] toDisable;
-        protected GameObject[] toEnable;
+        public GameObject[] toDisable;
+        public GameObject[] toEnable;
 
         public abstract void Awake(); // Need to properly populate toDisable/toEnable
 
@@ -107,7 +109,22 @@ namespace YellowTaxiAP.Behaviours
 
     public class AreaStateOverride_Doggo : AreaStateOverride
     {
-        protected override bool ExpectedState => APAreaStateManager.DoggoReceived;
+
+        protected override bool ExpectedState
+        {
+            get
+            {
+                return Plugin.SlotData.GymGearsUnlockCondition switch
+                {
+                    YTGVSlotData.LevelUnlockCondition.Exclude => false,
+                    YTGVSlotData.LevelUnlockCondition.Open => true,
+                    YTGVSlotData.LevelUnlockCondition.Special or YTGVSlotData.LevelUnlockCondition.Item =>
+                        APAreaStateManager.DoggoReceived,
+                    YTGVSlotData.LevelUnlockCondition.FullGame => APAreaStateManager.FullGameUnlocked,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+        }
 
         public override void Awake()
         {
@@ -116,25 +133,6 @@ namespace YellowTaxiAP.Behaviours
             {
                 toDisable = orig.disableThisAreaWhenActive;
                 toEnable = orig.enableThisAreaWhenActive;
-            }
-
-            if (Plugin.SlotData.EarlyDoggo)
-            {
-                // Doggo would be postgame in pre-moon goals, so put his location check here
-                var newToEnable = new List<GameObject>();
-                foreach (var enable in toEnable)
-                {
-                    if (enable.name.Equals("Person Animal Corgie"))
-                    {
-                        enable.SetActive(true);
-                    }
-                    else
-                    {
-                        newToEnable.Add(enable);
-                    }
-                }
-
-                toEnable = newToEnable.ToArray();
             }
         }
     }
@@ -275,6 +273,100 @@ namespace YellowTaxiAP.Behaviours
                 }
                 portal.gameObject.SetActive(!ExpectedState);
             }
+
+            state = ExpectedState;
+        }
+    }
+
+    public class AreaStateOverride_GymMembership : AreaStateOverride_Demo
+    {
+        protected override bool ExpectedState {
+            get
+            {
+                switch (Plugin.SlotData.GymGearsUnlockCondition)
+                {
+                    case YTGVSlotData.LevelUnlockCondition.Exclude:
+                        return true;
+                    case YTGVSlotData.LevelUnlockCondition.Open:
+                        return false;
+                    case YTGVSlotData.LevelUnlockCondition.Item:
+                        return !APAreaStateManager.GymMembership;
+                    case YTGVSlotData.LevelUnlockCondition.FullGame:
+                        return !APAreaStateManager.FullGameUnlocked;
+                    case YTGVSlotData.LevelUnlockCondition.Special:
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+    }
+
+    public class AreaStateOverride_LabLocked : AreaStateOverride
+    {
+        protected override bool ExpectedState => Plugin.SlotData.LockedMoriosLab && !APAreaStateManager.LabDoorUnlocked;
+
+        public Collider LabOutsideGardenDoorCollider;
+        public Collider LabOutsideMainAreaDoorCollider;
+        public MeshRenderer LabRenderer;
+        public Texture LabOutsideUnlockedTexture;
+        public Texture LabOutsideLockedTexture;
+
+        public override void Awake()
+        {
+            var portals = FindObjectsOfType<PortalScript>().Where(p =>
+                p.name.Equals("Portal Garden to Lab") || p.name.Equals("Portal Outside to Lab"));
+
+            foreach (var portal in portals)
+            {
+                if (portal.name.Equals("Portal Garden to Lab"))
+                {
+                    LabOutsideGardenDoorCollider = portal.gameObject.GetComponent<Collider>();
+                }
+                else
+                {
+                    LabOutsideMainAreaDoorCollider = portal.gameObject.GetComponent<Collider>();
+                }
+            }
+
+            LabRenderer = FindObjectsOfType<MeshRenderer>().First(o => o.name.Equals("MODELlab"));
+            LabOutsideUnlockedTexture = LabRenderer.material.mainTexture;
+
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("YellowTaxiAP.Resources.lab_door_closed.png"))
+            {
+                Plugin.Log("Reading Texture");
+                var data = new byte[stream.Length];
+                stream.Read(data, 0, data.Length);
+
+                var texture = new Texture2D(1024, 1024);
+                texture.LoadImage(data);
+                texture.filterMode = LabOutsideUnlockedTexture.filterMode;
+                LabOutsideLockedTexture = texture;
+            }
+        }
+
+        public virtual void FixedUpdate()
+        {
+            if (state == ExpectedState)
+                return;
+
+            foreach (var disable in toDisable)
+            {
+                if (!disable)
+                    continue;
+                disable.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
+            }
+
+            foreach (var enable in toEnable)
+            {
+                if (!enable)
+                    continue;
+                enable.SetActive(ExpectedState || enable.GetComponent<BonusScript>());
+            }
+
+            LabOutsideGardenDoorCollider.isTrigger =
+                LabOutsideMainAreaDoorCollider.isTrigger = !ExpectedState;
+
+            LabRenderer.material.mainTexture = ExpectedState ? LabOutsideLockedTexture : LabOutsideUnlockedTexture;
 
             state = ExpectedState;
         }

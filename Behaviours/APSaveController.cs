@@ -52,7 +52,7 @@ namespace YellowTaxiAP.Behaviours
                 {
                     APAreaStateManager.PizzaKingReceived = MiscSave.HasPizzaKing;
                 }
-                if (!Plugin.SlotData.ShuffleDoggo)
+                if (Plugin.SlotData.FecalMattersUnlockCondition == YTGVSlotData.LevelUnlockCondition.Special)
                 {
                     APAreaStateManager.DoggoReceived = MiscSave.HasDoggo;
                 }
