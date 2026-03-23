@@ -478,6 +478,18 @@ public class ArchipelagoClient
                 GameStateUpdater.RatStateNeedsUpdate = true;
                 break;
             default:
+                // Hats are handled en masse here
+                if (receivedItem.ItemId is >= 700 and < 800)
+                {
+                    var hat = (Data.Hat)(receivedItem.ItemId - 700);
+                    // If in-game, update hat to received hat
+                    if (PlayerScript.instance)
+                    {
+                        APSaveController.MiscSave.CurrentHat = hat;
+                    }
+                    APHatManager.ReceivedHats.Add(hat);
+                    return;
+                }
                 Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
                 throw new ArgumentOutOfRangeException();
         }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
@@ -15,6 +17,7 @@ namespace YellowTaxiAP.Managers
         public static bool DoggoReceived = false;
         public static bool FullGameUnlocked = false;
         public static bool LabDoorUnlocked = false;
+        public static bool SewerDoorUnlocked = false;
         public static bool GymMembership = false;
 
         public APAreaStateManager()
@@ -34,7 +37,49 @@ namespace YellowTaxiAP.Managers
             On.DisableAreaScript_Demo.Start += DisableAreaScript_Demo_Start;
             On.TrueDemoWallScript.OnCollisionEnter += TrueDemoWallScript_OnCollisionEnter;
             On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
+#if DEBUG
+            On.BackgroundMaster.Change += BackgroundMaster_Change;
+            On.GameplayMaster.SoundtrackRoutine += GameplayMaster_SoundtrackRoutine;
+            foreach (var song in Plugin.KnownSongs)
+            {
+                KnownSoundtracks[song] = song;
+            }
+
+            foreach (var bg in Plugin.KnownBGs)
+            {
+                KnownBackgrounds[bg] = bg;
+            }
+#endif
         }
+
+#if DEBUG
+        public static Dictionary<string, string> KnownSoundtracks = new();
+        public static Dictionary<string, string> KnownBackgrounds = new();
+
+        private void GameplayMaster_SoundtrackRoutine(On.GameplayMaster.orig_SoundtrackRoutine orig, GameplayMaster self)
+        {
+            if (!string.IsNullOrEmpty(BackgroundMaster.instance?.name))
+                KnownBackgrounds[BackgroundMaster.instance.name] = BackgroundMaster.instance.name;
+            if (!string.IsNullOrEmpty(self.levelSoundtrack))
+                KnownSoundtracks[self.levelSoundtrack] = self.levelSoundtrack;
+            if (!string.IsNullOrEmpty(self.levelSoundtrackBackup))
+                KnownSoundtracks[self.levelSoundtrackBackup] = self.levelSoundtrackBackup;
+            if (!string.IsNullOrEmpty(self.defaultLevelSoundtrack))
+                KnownSoundtracks[self.defaultLevelSoundtrack] = self.defaultLevelSoundtrack;
+            if (!string.IsNullOrEmpty(self.bossSoundtrack))
+                KnownSoundtracks[self.bossSoundtrack] = self.bossSoundtrack;
+            orig(self);
+        }
+
+        public static string currentBG;
+
+        private void BackgroundMaster_Change(On.BackgroundMaster.orig_Change orig, string backgroundName)
+        {
+            currentBG = backgroundName;
+            orig(backgroundName);
+            KnownBackgrounds[backgroundName] = backgroundName;
+        }
+#endif
 
         private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
         {
@@ -71,39 +116,56 @@ namespace YellowTaxiAP.Managers
                     }
                 }
 
-                // Locked lab
-                if (Plugin.SlotData.LockedMoriosLab && !LabDoorUnlocked)
+                var labDoorLocked = Plugin.SlotData.LockedMoriosLab && !LabDoorUnlocked;
+                var sewerDoorLocked = (Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.FullGame && !FullGameUnlocked) ||
+                                      (Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Item && !SewerDoorUnlocked) ||
+                                      Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude;
+
+                // Generate no entry signs where needed if needed
+                if (labDoorLocked || sewerDoorLocked)
                 {
-                    var sign = Object.FindObjectsOfType<MeshFilter>()
+                    var originalSign = Object.FindObjectsOfType<MeshFilter>()
                         .Last(o => o.gameObject.name.Equals("ModelObjectSign") && o.transform.parent.name.Equals("Sign Right"));
-                    Plugin.Log(sign.transform.parent.parent.gameObject.name);
+                    Plugin.Log(originalSign.transform.parent.parent.gameObject.name);
                     var noSign = Object.FindObjectsOfType<DisableAreaScript_EventMode>()[0].enableThisAreaWhenActive[0].transform.GetChild(0);
-                    Plugin.Log(sign.gameObject.GetComponent<MeshRenderer>()?.material.name ?? "<NULL>");
-                    Plugin.Log(sign.name);
-                    foreach (var component in sign.gameObject.GetComponents<Object>())
-                    {
-                        Plugin.Log($"  - {component.GetType()}");
-                    }
-                    Plugin.Log(noSign.name);
-                    foreach (var component in noSign.gameObject.GetComponents<Object>())
-                    {
-                        Plugin.Log($"  - {component.GetType()}");
-                    }
-                    //Plugin.Log(noSign.gameObject.GetComponent<MeshRenderer>()?.material.name ?? "<NULL>");
-                    sign.gameObject.GetComponent<MeshRenderer>().material = noSign.gameObject.GetComponent<MeshRenderer>().material;
-                    sign.transform.parent.localPosition = new Vector3(-120, 10, 40);
-                    sign.transform.Rotate(0, 0, 90);
-                    sign.transform.parent.gameObject.GetComponent<Collider>().enabled = false;
+                    Plugin.Log(originalSign.gameObject.GetComponent<MeshRenderer>()?.material.name ?? "<NULL>");
+                    Plugin.Log(originalSign.name);
+                    Plugin.Log("Parent: " + originalSign.gameObject.transform.parent.gameObject.name);
+                    var noEntrySignTemplate = Object.Instantiate(originalSign.gameObject.transform.parent.gameObject, originalSign.transform.parent.parent);
+                    noEntrySignTemplate.GetComponentInChildren<MeshRenderer>().material = noSign.gameObject.GetComponent<MeshRenderer>().material;
+                    noEntrySignTemplate.transform.position = new Vector3(0, -10000, 0);
+                    noEntrySignTemplate.GetComponent<Collider>().enabled = false;
 
-                    var labEnableDisable = Object.FindObjectOfType<DisableAreaScript_EventMode>();
+                    // Locked lab
+                    if (labDoorLocked)
+                    {
+                        var sign = Object.Instantiate(noEntrySignTemplate,
+                            Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include,
+                                FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: -5   Z: 4")).transform);
+                        sign.transform.localPosition = new Vector3(40, 10, 40);
+                        sign.transform.Rotate(0, 90, 0);
 
-                    var enable = labEnableDisable.enableThisAreaWhenActive.ToList();
-                    enable.Add(sign.transform.parent.gameObject);
-                    var disable = labEnableDisable.disableThisAreaWhenActive.ToList();
-                    disable.Add(Object.FindObjectsOfType<PortalScript>().First(p => p.name.Equals("Portal Lab to Garden")).gameObject);
-                    var locker = self.gameObject.AddComponent<AreaStateOverride_LabLocked>();
-                    locker.toDisable = disable.ToArray();
-                    locker.toEnable = enable.ToArray();
+                        var labEnableDisable = Object.FindObjectOfType<DisableAreaScript_EventMode>();
+
+                        var enable = labEnableDisable.enableThisAreaWhenActive.ToList();
+                        enable.Add(sign.gameObject);
+                        var disable = labEnableDisable.disableThisAreaWhenActive.ToList();
+                        disable.Add(Object.FindObjectsOfType<PortalScript>().First(p => p.name.Equals("Portal Lab to Garden")).gameObject);
+                        var locker = self.gameObject.AddComponent<AreaStateOverride_LabLocked>();
+                        locker.toDisable = disable.ToArray();
+                        locker.toEnable = enable.ToArray();
+                    }
+
+                    if (sewerDoorLocked)
+                    {
+                        var sign = Object.Instantiate(noEntrySignTemplate,
+                            Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include,
+                                FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 1   Z: -4")).transform);
+                        sign.transform.localPosition = new Vector3(15, 10, -67);
+                        //sign.transform.Rotate(0, 0, 0);
+                    }
+
+                    Object.Destroy(noEntrySignTemplate);
                 }
             }
             orig(self);

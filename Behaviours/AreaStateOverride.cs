@@ -305,28 +305,16 @@ namespace YellowTaxiAP.Behaviours
     {
         protected override bool ExpectedState => Plugin.SlotData.LockedMoriosLab && !APAreaStateManager.LabDoorUnlocked;
 
-        public Collider LabOutsideGardenDoorCollider;
-        public Collider LabOutsideMainAreaDoorCollider;
+        public Collider[] LabOutsideDoorColliders;
         public MeshRenderer LabRenderer;
         public Texture LabOutsideUnlockedTexture;
         public Texture LabOutsideLockedTexture;
 
         public override void Awake()
         {
-            var portals = FindObjectsOfType<PortalScript>().Where(p =>
-                p.name.Equals("Portal Garden to Lab") || p.name.Equals("Portal Outside to Lab"));
-
-            foreach (var portal in portals)
-            {
-                if (portal.name.Equals("Portal Garden to Lab"))
-                {
-                    LabOutsideGardenDoorCollider = portal.gameObject.GetComponent<Collider>();
-                }
-                else
-                {
-                    LabOutsideMainAreaDoorCollider = portal.gameObject.GetComponent<Collider>();
-                }
-            }
+            LabOutsideDoorColliders = FindObjectsOfType<PortalScript>()
+                .Where(p => p.name.Equals("Portal Garden to Lab") || p.name.Equals("Portal Outside to Lab"))
+                .Select(p => p.gameObject.GetComponent<Collider>()).ToArray();
 
             LabRenderer = FindObjectsOfType<MeshRenderer>().First(o => o.name.Equals("MODELlab"));
             LabOutsideUnlockedTexture = LabRenderer.material.mainTexture;
@@ -344,7 +332,7 @@ namespace YellowTaxiAP.Behaviours
             }
         }
 
-        public virtual void FixedUpdate()
+        public override void FixedUpdate()
         {
             if (state == ExpectedState)
                 return;
@@ -363,8 +351,10 @@ namespace YellowTaxiAP.Behaviours
                 enable.SetActive(ExpectedState || enable.GetComponent<BonusScript>());
             }
 
-            LabOutsideGardenDoorCollider.isTrigger =
-                LabOutsideMainAreaDoorCollider.isTrigger = !ExpectedState;
+            foreach (var collider in LabOutsideDoorColliders)
+            {
+                collider.isTrigger = !ExpectedState;
+            }
 
             LabRenderer.material.mainTexture = ExpectedState ? LabOutsideLockedTexture : LabOutsideUnlockedTexture;
 

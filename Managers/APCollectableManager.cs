@@ -28,6 +28,7 @@ namespace YellowTaxiAP.Managers
             //On.BonusScript.CoinPickedUpSet += BonusScript_CoinPickedUpSet;
             //On.BonusScript.OnDestroy += BonusScript_OnDestroy;
 #if DEBUG
+            On.GameplayMaster.TimeAttackStart += GameplayMaster_TimeAttackStart;
             On.MapArea.MarkDiscovered += MapArea_MarkDiscovered;
 #endif
             //On.Level.StartLoadedScene += Level_StartLoadedScene;
@@ -52,12 +53,12 @@ namespace YellowTaxiAP.Managers
 
         private void BonusScript_GearAlreadyPickedUpRefresh(On.BonusScript.orig_GearAlreadyPickedUpRefresh orig, BonusScript self)
         {
-            if (GameplayMaster.instance.timeAttackLevel)
-            {
-                self.gearHasPickedupUpTexture = false;
-                self.GearDaltonicTextureRefresh();
-                return;
-            }
+            //if (GameplayMaster.instance.timeAttackLevel)
+            //{
+            //    self.gearHasPickedupUpTexture = false;
+            //    self.GearDaltonicTextureRefresh();
+            //    return;
+            //}
 #if DEBUG
             if (DebugLocationHelper.Enabled)
             {
@@ -265,6 +266,14 @@ namespace YellowTaxiAP.Managers
         }
 
 #if DEBUG
+
+
+        private void GameplayMaster_TimeAttackStart(On.GameplayMaster.orig_TimeAttackStart orig, GameplayMaster self)
+        {
+            DebugLocationHelper.GenerateJson(self.levelId.ToString());
+            orig(self);
+        }
+
         private string _previousSubarea = string.Empty;
         private void MapArea_MarkDiscovered(On.MapArea.orig_MarkDiscovered orig, MapArea self)
         {
@@ -276,340 +285,17 @@ namespace YellowTaxiAP.Managers
                 //{
                 //    Plugin.Log(obj.gameObject.name);
                 //}
-                if (DebugLocationHelper.Enabled)
+
+                var trimmedName = _previousSubarea;
+                if (_previousSubarea.Contains("_NAME_"))
                 {
-
-                    var trimmedName = _previousSubarea;
-                    if (_previousSubarea.Contains("_NAME_"))
-                    {
-                        trimmedName = _previousSubarea.Substring(_previousSubarea.IndexOf("_NAME_", StringComparison.Ordinal) + "_NAME_".Length);
-                    }
-                    var bonuses = Object.FindObjectsByType<BonusScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(o =>
-                        (o.myIdentity is BonusScript.Identity.gear or BonusScript.Identity.bunny)
-                            || ((o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
-                            or BonusScript.Identity.bigCoin100) && o.coinIndex >= 0)).ToList();
-                    var unknownBonuses = bonuses.Where(o => !DebugLocationHelper.CheckLocation(string.Empty, GetIDString(o))).ToList();
-                    if (unknownBonuses.Count < 5)
-                    {
-                        foreach (var bonus in unknownBonuses)
-                        {
-                            Plugin.Log($"Unknown {bonus.myIdentity} found at {bonus.transform.position}");
-                        }
-                    }
-                    var cheeses = Object.FindObjectsByType<CheeseScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
-                    var checkpoints = CheckpointScript.list;
-                    var checkIds = new List<string>();
-                    foreach (var checkpoint in checkpoints)
-                    {
-                        var id = APCheckpointManager.GetCheckpointStringID(checkpoint);
-                        if (checkIds.Contains(id))
-                        {
-                            Plugin.Log("ERROR: CHECKPOINT ID NOT UNIQUE. NEW HASHING MECHANISM NEEDED.");
-                        }
-                        //var check = DebugLocationHelper.KnownIDs.FirstOrDefault(area => area.Item2.ContainsKey(id));
-                        //Plugin.Log(check == null
-                        //    ? $"Found unknown checkpoint at {self.transform.position}"
-                        //    : $"Found known checkpoint \"{check.Item2[id]}\"");
-                        checkIds.Add(id);
-                    }
-
-                    //var activeBonuses = Object.FindObjectsOfType<BonusScript>(false).Count(o =>
-                    //    o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.gear or BonusScript.Identity.bunny
-                    //        or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
-                    //        or BonusScript.Identity.bigCoin100);
-                    var documentedChecks = 0;
-                    if (DebugLocationHelper.PerLevelIDs.ContainsKey(GameplayMaster.instance.levelId.ToString()))
-                    {
-                        documentedChecks = DebugLocationHelper.PerLevelIDs[GameplayMaster.instance.levelId.ToString()].Sum(known => known.Count(o => !string.IsNullOrEmpty(o.Key)));
-                        if (DebugLocationHelper.Enabled)
-                        {
-                            var json = "{";
-                            //var i = 0;
-                            foreach (var subregion in DebugLocationHelper.PerLevelIDs[
-                                         GameplayMaster.instance.levelId.ToString()])
-                            {
-                                var regionName = DebugLocationHelper.KnownIDs.First(o => o.Item2.Equals(subregion)).Item1;
-                                if (regionName.Contains("Special Rules"))
-                                {
-                                    continue;
-                                }
-
-                                var sublevelname = regionName;
-                                if (sublevelname.Contains(" - "))
-                                {
-                                    sublevelname = sublevelname.Substring(0, sublevelname.IndexOf(" - ", StringComparison.Ordinal)).TrimEnd();
-                                }
-                                var regionItems = new List<KeyValuePair<string, string>>();
-                                var regionCoins = new List<KeyValuePair<string, string>>();
-                                var regionCoinbags = new List<KeyValuePair<string, string>>();
-                                var regionChests = new List<KeyValuePair<string, string>>();
-                                var regionSafes = new List<KeyValuePair<string, string>>();
-                                var regionCheeses = new List<KeyValuePair<string, string>>();
-                                var regionGears = new List<KeyValuePair<string, string>>();
-                                var regionBunnies = new List<KeyValuePair<string, string>>();
-                                var regionCheckpoints = new List<KeyValuePair<string, string>>();
-                                var regionConnections = new List<DebugLocationHelper.RegionConnection>();
-                                var regionWarps = new List<DebugLocationHelper.RegionConnection>();
-                                var regionSubwarps = new List<DebugLocationHelper.RegionConnection>();
-                                foreach (var c in subregion)
-                                {
-                                    if (string.IsNullOrEmpty(c.Key))
-                                        continue; // Skip placeholders 
-                                    if (c.Value.Contains("Bunny - "))
-                                    {
-                                        regionBunnies.Add(c);
-                                    }
-                                    else if (c.Value.Contains("Gear - "))
-                                    {
-                                        regionGears.Add(c);
-                                    }
-                                    else if (c.Value.Contains("Cheese "))
-                                    {
-                                        regionCheeses.Add(c);
-                                    }
-                                    else if (c.Value.Contains("Chest "))
-                                    {
-                                        regionChests.Add(c);
-                                    }
-                                    else if (c.Value.Contains("Safe "))
-                                    {
-                                        regionSafes.Add(c);
-                                    }
-                                    else if (c.Value.Contains("Coin Bag "))
-                                    {
-                                        regionCoinbags.Add(c);
-                                    }
-                                    else if (c.Value.Contains("Coin "))
-                                    {
-                                        regionCoins.Add(c);
-                                    }
-                                    else if (c.Value.Contains("Checkpoint"))
-                                    {
-                                        regionCheckpoints.Add(c);
-                                    }
-                                    else if (c.Value.EndsWith("Gear"))
-                                    {
-                                        regionGears.Add(c);
-                                    }
-                                    else if (c.Value.EndsWith("Bunny"))
-                                    {
-                                        regionBunnies.Add(c);
-                                    }
-                                    else
-                                    {
-                                        Plugin.Log($"WARNING: COULD NOT SORT \"{c.Value}\"");
-                                    }
-                                }
-
-                                if (DebugLocationHelper.RegionConnections.ContainsKey(regionName))
-                                {
-                                    foreach (var connection in DebugLocationHelper.RegionConnections[regionName])
-                                    {
-                                        switch (connection.ConnectingType)
-                                        {
-                                            case DebugLocationHelper.ConnectionType.Connection:
-                                                regionConnections.Add(connection);
-                                                break;
-                                            case DebugLocationHelper.ConnectionType.Subwarp:
-                                                regionSubwarps.Add(connection);
-                                                break;
-                                            case DebugLocationHelper.ConnectionType.Warp:
-                                                regionWarps.Add(connection);
-                                                break;
-                                            default:
-                                                throw new ArgumentOutOfRangeException();
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Plugin.Log($"WARNING: NO CONNECTION DATA FOUND FOR \"{regionName}\"");
-                                }
-
-                                json += $"\n  \"{regionName}\": {{";
-                                json += GameplayMaster.instance.levelId == Data.LevelId.Hub
-                                    ? "\n    \"level\": \"Hub\","
-                                    : $"\n    \"level\": \"{Data.levelDataList[(int)GameplayMaster.instance.levelId].GetName()}\",";
-                                json += $"\n    \"sublevel\": \"{sublevelname}\",";
-                                if (GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket)
-                                {
-                                    json += $"\n    \"kaizolevel\": \"";
-                                    switch (sublevelname)
-                                    {
-                                        case "Lab Memories":
-                                            json += "Hub";
-                                            break;
-                                        case "Welcoming Climbs":
-                                            json += Data.levelDataList[(int)Data.LevelId.L3_MoriosHome].GetName();
-                                            break;
-                                        case "Bomb-it":
-                                            json += Data.levelDataList[(int)Data.LevelId.L1_Bombeach].GetName();
-                                            break;
-                                        case "Buttons Smashing":
-                                            json += Data.levelDataList[(int)Data.LevelId.L4_ArcadePanik].GetName();
-                                            break;
-                                        case "Pepperoni":
-                                            json += Data.levelDataList[(int)Data.LevelId.L2_PizzaTime].GetName();
-                                            break;
-                                        case "Stealthy":
-                                            json += Data.levelDataList[(int)Data.LevelId.L5_ToslaOffices].GetName();
-                                            break;
-                                        case "Podium":
-                                            json += Data.levelDataList[(int)Data.LevelId.L6_Gym].GetName();
-                                            break;
-                                        case "Costipation": // Typo present in-game
-                                        case "Constipation":
-                                            json += Data.levelDataList[(int)Data.LevelId.L7_PoopWorld].GetName();
-                                            break;
-                                        case "Smelly Slimes":
-                                            json += Data.levelDataList[(int)Data.LevelId.L8_Sewers].GetName();
-                                            break;
-                                        case "Heroic Moves":
-                                            json += Data.levelDataList[(int)Data.LevelId.L9_City].GetName();
-                                            break;
-                                        case "Conveyor Belts":
-                                            json += Data.levelDataList[(int)Data.LevelId.L10_CrashTestIndustries].GetName();
-                                            break;
-                                        case "Eye surgery":
-                                        case "Eye Surgery":
-                                            json += Data.levelDataList[(int)Data.LevelId.L12_MoriosMind].GetName();
-                                            break;
-                                        case "Mid air":
-                                        case "Mid Air":
-                                            json += Data.levelDataList[(int)Data.LevelId.L13_StarmanCastle].GetName();
-                                            break;
-                                        case "Infiltration":
-                                            json += Data.levelDataList[(int)Data.LevelId.L14_ToslaHQ].GetName();
-                                            break;
-                                        case "Far far away":
-                                        case "Far Far Away":
-                                            json += Data.levelDataList[(int)Data.LevelId.L15_Moon].GetName();
-                                            break;
-                                        case "Mosk's Rocket":
-                                        default:
-                                            json += sublevelname;
-                                            break;
-                                    }
-                                    json += "\",";
-                                }
-                                json += "\n    \"gears\": {";
-                                if (regionGears.Any())
-                                {
-                                    json = regionGears.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionGears);
-                                }
-                                json += "},";
-                                json += "\n    \"bunnies\": {";
-                                if (regionBunnies.Any())
-                                {
-                                    json = regionBunnies.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionBunnies);
-                                }
-                                json += "},";
-                                json += "\n    \"safes\": {";
-                                if (regionSafes.Any())
-                                {
-                                    json = regionSafes.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionSafes);
-                                }
-                                json += "},";
-                                json += "\n    \"chests\": {";
-                                if (regionChests.Any())
-                                {
-                                    json = regionChests.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionChests);
-                                }
-                                json += "},";
-                                json += "\n    \"coinbags\": {";
-                                if (regionCoinbags.Any())
-                                {
-                                    json = regionCoinbags.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionCoinbags);
-                                }
-                                json += "},";
-                                json += "\n    \"coins\": {";
-                                if (regionCoins.Any())
-                                {
-                                    json = regionCoins.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionCoins);
-                                }
-                                json += "},";
-                                json += "\n    \"checkpoints\": {";
-                                if (regionCheckpoints.Any())
-                                {
-                                    json = regionCheckpoints.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionCheckpoints);
-                                }
-                                json += "},";
-                                json += "\n    \"cheeses\": {";
-                                if (regionCheeses.Any())
-                                {
-                                    json = regionCheeses.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                    regionItems.AddRange(regionCheeses);
-                                }
-                                json += "},";
-                                json += "\n    \"connections\": {";
-                                if (regionConnections.Any())
-                                {
-                                    json = regionConnections.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                }
-                                json += "},";
-                                json += "\n    \"subwarps\": {";
-                                if (regionSubwarps.Any())
-                                {
-                                    json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                }
-                                json += "},";
-                                json += "\n    \"warps\": {";
-                                if (regionWarps.Any())
-                                {
-                                    json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
-                                    json = json.TrimEnd(',') + "\n    ";
-                                }
-                                json += "},";
-                                json += "\n    \"specialrules\": {";
-                                if (DebugLocationHelper.SpecialRules.ContainsKey(GameplayMaster.instance.levelId.ToString()))
-                                {
-                                    var specialRules = DebugLocationHelper.SpecialRules[GameplayMaster.instance.levelId.ToString()].Where(ruleItem =>
-                                        regionItems.Any(regionItem => regionItem.Value == ruleItem.Key)).ToArray();
-                                    if (specialRules.Any())
-                                    {
-                                        json = specialRules.Aggregate(json, (current, v) => current + $"\n      \"{v.Key}\": \"{v.Value}\",");
-                                        json = json.TrimEnd(',') + "\n    ";
-                                    }
-                                }
-                                json += "}";
-                                json += "\n  },";
-                            }
-                            json = json.TrimEnd(',');
-
-                            json += "\n}";
-                            GUIUtility.systemCopyBuffer = json;
-                            Plugin.Log("JSON Generation successful");
-                        }
-                    }
-                    else
-                    {
-                        //GUIUtility.systemCopyBuffer = GameplayMaster.instance.levelId.ToString();
-                    }
-                    Plugin.Log($"{GameplayMaster.instance.levelId}: {trimmedName}. There are {bonuses.Count} AP collectables, {checkpoints.Count} checkpoints, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses.Count + cheeses + checkpoints.Count} likely checks. Currently {documentedChecks} have been sorted into regions.");
-
+                    trimmedName = _previousSubarea.Substring(_previousSubarea.IndexOf("_NAME_", StringComparison.Ordinal) + "_NAME_".Length);
                 }
+                DebugLocationHelper.GenerateJson(trimmedName);
             }
             orig(self);
         }
 #endif
-
         private void PlayerScript_OnTriggerStay(On.PlayerScript.orig_OnTriggerStay orig, PlayerScript self, Collider other)
         {
             if (!Tick.IsGameRunning)
@@ -632,35 +318,39 @@ namespace YellowTaxiAP.Managers
 #endif
                     switch (pickup.myIdentity)
                     {
-                        case BonusScript.Identity.gear when !GameplayMaster.instance.timeAttackLevel && id.HasValue:
+                        case BonusScript.Identity.gear when id.HasValue:
+                            pickup.pickupDelay = 5;
                             string str1 = null;
                             var str2 = "";
                             ScoutedItemInfo info = null;
-                            if (!alreadyTaken)
+                            if (!GameplayMaster.instance.timeAttackLevel)
                             {
-                                try
+                                if (!alreadyTaken)
                                 {
-                                    info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
-                                    str1 = $"Found {info.ItemDisplayName}";
-                                    str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName
-                                        ? string.Empty
-                                        : $"For {info.Player}";
+                                    try
+                                    {
+                                        info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
+                                        str1 = $"Found {info.ItemDisplayName}";
+                                        str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName
+                                            ? string.Empty
+                                            : $"For {info.Player}";
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Plugin.BepinLogger.LogWarning("Scout Failure");
+                                        Plugin.BepinLogger.LogError(ex);
+                                        // Make sure we still send the location if the scout fails, since it will otherwise pose issue
+                                        Plugin.ArchipelagoClient.SendLocation(id.Value);
+                                    }
                                 }
-                                catch (Exception ex)
+                                else
                                 {
-                                    Plugin.BepinLogger.LogWarning("Scout Failure");
-                                    Plugin.BepinLogger.LogError(ex);
-                                    // Make sure we still send the location if the scout fails, since it will otherwise pose issue
-                                    Plugin.ArchipelagoClient.SendLocation(id.Value);
+                                    pickup.pickupDelay = 10;
+                                    for (var index = 0; index < 10; ++index)
+                                        BonusScript.SpawnCoinMoving(
+                                            self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
+                                            Utility.AngleToAxis3D(36 * index, 75f) * 24f);
                                 }
-                            }
-                            else
-                            {
-                                pickup.pickupDelay = 10;
-                                for (var index = 0; index < 10; ++index)
-                                    BonusScript.SpawnCoinMoving(
-                                        self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
-                                        Utility.AngleToAxis3D(36 * index, 75f) * 24f);
                             }
 
                             GameplayMaster.instance.UpdateLevelCollectedGearsNumber();
@@ -678,16 +368,21 @@ namespace YellowTaxiAP.Managers
                             }
 
                             Sound.Play_Unpausable("SoundGearPickup");
+#if DEBUG
+                            DebugLocationHelper.CheckLocation(pickup.ToString(), GetIDString(pickup));
+#endif
                             if (alreadyTaken)
                             {
                                 GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear",
                                     freezePlayer: false);
                             }
+                            else if (GameplayMaster.instance.timeAttackLevel)
+                            {
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GearTimeAttack",
+                                    freezePlayer: false);
+                            }
                             else
                             {
-#if DEBUG
-                                DebugLocationHelper.CheckLocation(pickup.ToString(), GetIDString(pickup));
-#endif
                                 Tick.Paused = true;
                                 var obj = Spawn.FromPool("GearPickupAnimationObject",
                                     PlayerScript.instance.transform.position);
@@ -741,7 +436,7 @@ namespace YellowTaxiAP.Managers
                             }
                             Controls.SetVibration(self.playerIndex, 0.5f);
                             pickup.KillMe();
-                            break;
+                            return;
                         case BonusScript.Identity.coin:
                         case BonusScript.Identity.bigCoin10:
                         case BonusScript.Identity.bigCoin25:

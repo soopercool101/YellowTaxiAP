@@ -4,13 +4,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using YellowTaxiAP.Managers;
+using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP
 {
 #if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => false;
+        public static bool Enabled => true;
 
         #region Hub
 
@@ -25,10 +27,14 @@ namespace YellowTaxiAP
             { "0_03_00149", "Granny's Island - Coin in Starting Area #6" },
         };
 
-        [Description("Granny's Island - Hat World")]
+        [Description("Granny's Island Hat World")]
         public static Dictionary<string, string> HubHatWorld = new()
         {
-            { string.Empty, nameof(HubHatWorld) + " - !PLACEHOLDER!" }
+            { "0_07_00002", "Purchase Top Hat" },
+            { "0_07_00001", "Purchase Propeller Cap" },
+            { "0_07_00000", "Purchase No Hat" },
+            { "0_07_00003", "Purchase Morio Hat" },
+            { "0_07_00004", "Purchase Taxi Stack Hat" },
         };
 
         [Description("Granny's Island - Moat")]
@@ -1571,6 +1577,7 @@ namespace YellowTaxiAP
             { "3_03_00019", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #4" },
             { "3_03_00020", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #5" },
             { "3_03_00021", "Morio's Island - Coin Bag on Low Stone Island Near Mori-O-Tron #2" },
+            { "3_07_00001", "Purchase Propeller Cap" },
         };
 
         [Description("Morio's Island - Morio's Home Island")]
@@ -1895,6 +1902,7 @@ namespace YellowTaxiAP
             { "3_03_00222", "Morio's Home - Coin on Dining Room Pantry #1" },
             { "3_03_00223", "Morio's Home - Coin on Dining Room Pantry #2" },
             { "3_03_00224", "Morio's Home - Chest on Dining Room Pantry" },
+            { "3_07_00010", "Purchase Lasagna Hat" },
         };
 
         [Description("Morio's Home - Kitchen Cabinets")]
@@ -1904,6 +1912,7 @@ namespace YellowTaxiAP
             { "3_03_00353", "Morio's Home - Coin Bag on Kitchen Cabinet #1" },
             { "3_03_00352", "Morio's Home - Coin Bag on Kitchen Cabinet #2" },
             { "3_03_00351", "Morio's Home - Coin on Kitchen Cabinet #2" },
+            { "3_07_00009", "Purchase Pot Hat" },
         };
 
         [Description("Morio's Home - Kitchen High Ground")]
@@ -1951,11 +1960,11 @@ namespace YellowTaxiAP
             { "3_03_00227", "Weird Tunnels - Coin on Left Upper Path #3" },
             { "3_03_00228", "Weird Tunnels - Coin on Left Upper Path #4" },
             { "3_03_00229", "Weird Tunnels - Coin on Left Upper Path #5" },
-            { "3_03_00234","Weird Tunnels - Coin on Right Upper Path #1" },
-            { "3_03_00233","Weird Tunnels - Coin on Right Upper Path #2" },
-            { "3_03_00232","Weird Tunnels - Coin on Right Upper Path #3" },
-            { "3_03_00231","Weird Tunnels - Coin on Right Upper Path #4" },
-            { "3_03_00230","Weird Tunnels - Coin on Right Upper Path #5" },
+            { "3_03_00234", "Weird Tunnels - Coin on Right Upper Path #1" },
+            { "3_03_00233", "Weird Tunnels - Coin on Right Upper Path #2" },
+            { "3_03_00232", "Weird Tunnels - Coin on Right Upper Path #3" },
+            { "3_03_00231", "Weird Tunnels - Coin on Right Upper Path #4" },
+            { "3_03_00230", "Weird Tunnels - Coin on Right Upper Path #5" },
             { "3_03_00235", "Weird Tunnels - Coin Bag on Right Upper Path #1" },
             { "3_03_00238", "Weird Tunnels - Coin on Right Upper Path #6" },
             { "3_03_00237", "Weird Tunnels - Coin on Right Upper Path #7" },
@@ -2714,14 +2723,24 @@ namespace YellowTaxiAP
             { "1_01_00014", "Cave - Gear" },
         };
 
+        [Description("Bombeach Hat World")]
+        public static Dictionary<string, string> BombeachHatWorld = new()
+        {
+            { "1_07_00002", "Purchase Top Hat" },
+            { "1_07_00001", "Purchase Propeller Cap" },
+            { "1_07_00000", "Purchase No Hat" },
+            { "1_07_00005", "Purchase Bomb Hat" },
+            { "1_07_00006", "Purchase Drink Hat" },
+        };
+
         #endregion
 
         #region Arcade Panik
 
-            [Description("Arcade Plaza - Starting Area")]
+        [Description("Arcade Plaza - Starting Area")]
         public static Dictionary<string, string> ArcadePlazaStartingArea = new()
         {
-            { string.Empty, nameof(HubHatWorld) + " - !PLACEHOLDER!" },
+            { string.Empty, nameof(ArcadePlazaStartingArea) + " - !PLACEHOLDER!" },
         };
 
         [Description("Arcade Plaza - Outskirts")]
@@ -3215,6 +3234,8 @@ namespace YellowTaxiAP
             { "6_03_00116", "Gym Gears - Coin Bag on Pillar in Ultra Chad Room" },
             { "6_01_00004", "Gym Gears - Gear - Ultra Chad Room" },
             { "6_02_00002", "Gym Gears - Bunny - Ultra Chad Room" },
+            { "6_07_00017", "Purchase Syringe Hat" },
+            { "6_07_00016", "Purchase Flexing Hat" },
         };
 
         public static Dictionary<string, string> GymGearsSpecialRules = new()
@@ -3353,6 +3374,7 @@ namespace YellowTaxiAP
             { "7_03_00068", "Fecal Matters - Coin Near Poop Hat #4" },
             { "7_03_00070", "Fecal Matters - Coin Near Poop Hat #5" },
             { "7_01_00002", "Fecal Matters - Gear - Homing Beacons" },
+            { "7_07_00018", "Purchase Poop Hat" },
         };
 
         [Description("Fecal Matters - Boost or Backflip")]
@@ -3415,6 +3437,7 @@ namespace YellowTaxiAP
             { "7_03_00111", "Fecal Matters - Coin on Narrow Cliff #12" },
             { "7_03_00110", "Fecal Matters - Coin on Narrow Cliff #13" },
             { "7_01_00000", "Fecal Matters - Gear - On Narrow Cliff" },
+            { "7_07_00019", "Purchase Dog Bowl Hat" },
         };
 
         public static Dictionary<string, string> FecalMattersSpecialRules = new()
@@ -3422,6 +3445,263 @@ namespace YellowTaxiAP
             { "Fecal Matters - Gear - Escort Bulldog Doggo on Roundabout Hill", $"{{{GetDescription(nameof(FecalMattersBoostOrBackflip))}}}" },
         };
 
+        #endregion
+
+        #region Flushed Away
+        
+        [Description("Flushed Away - Starting Area")]
+        public static Dictionary<string, string> FlushedAwayStartingArea = new()
+        {
+            { "8_03_00382", "Flushed Away - Coin in Sewage Stream From Starting Area #1" },
+            { "8_03_00381", "Flushed Away - Coin in Sewage Stream From Starting Area #2" },
+            { "8_03_00379", "Flushed Away - Coin in Sewage Stream From Starting Area #3" },
+            { "8_03_00378", "Flushed Away - Coin in Sewage Stream From Starting Area #4" },
+            { "8_03_00377", "Flushed Away - Coin in Sewage Stream From Starting Area #5" },
+            { "8_03_00376", "Flushed Away - Coin in Sewage Stream From Starting Area #6" },
+            { "8_03_00375", "Flushed Away - Coin in Sewage Stream From Starting Area #7" },
+            { "8_03_00374", "Flushed Away - Coin in Sewage Stream From Starting Area #8" },
+            { "8_03_00373", "Flushed Away - Coin in Sewage Stream From Starting Area #9" },
+            { "8_03_00372", "Flushed Away - Coin in Sewage Stream From Starting Area #10" },
+            { "8_03_00364", "Flushed Away - Coin in Sewage Stream From Starting Area #11" },
+            { "8_03_00365", "Flushed Away - Coin in Sewage Stream From Starting Area #12" },
+            { "8_03_00366", "Flushed Away - Coin in Sewage Stream From Starting Area #13" },
+            { "8_03_00367", "Flushed Away - Coin in Sewage Stream From Starting Area #14" },
+            { "8_03_00368", "Flushed Away - Coin in Sewage Stream From Starting Area #15" },
+            { "8_03_00369", "Flushed Away - Coin in Sewage Stream From Starting Area #16" },
+            { "8_03_00370", "Flushed Away - Coin in Sewage Stream From Starting Area #17" },
+            { "8_03_00371", "Flushed Away - Coin in Sewage Stream From Starting Area #18" },
+            { "8_03_00354", "Flushed Away - Coin in Sewage Stream Left of Creature Triangle #1" },
+            { "8_03_00356", "Flushed Away - Coin in Sewage Stream Left of Creature Triangle #2" },
+            { "8_03_00358", "Flushed Away - Coin in Sewage Stream Left of Creature Triangle #3" },
+            { "8_03_00360", "Flushed Away - Coin in Sewage Stream Left of Creature Triangle #4" },
+            { "8_03_00362", "Flushed Away - Coin in Sewage Stream Left of Creature Triangle #5" },
+            { "8_03_00353", "Flushed Away - Coin in Sewage Stream Right of Creature Triangle #1" },
+            { "8_03_00355", "Flushed Away - Coin in Sewage Stream Right of Creature Triangle #2" },
+            { "8_03_00357", "Flushed Away - Coin in Sewage Stream Right of Creature Triangle #3" },
+            { "8_03_00359", "Flushed Away - Coin in Sewage Stream Right of Creature Triangle #4" },
+            { "8_03_00361", "Flushed Away - Coin in Sewage Stream Right of Creature Triangle #5" },
+            { "8_03_00307", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #1" },
+            { "8_03_00306", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #2" },
+            { "8_03_00305", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #3" },
+            { "8_03_00310", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #4" },
+            { "8_03_00309", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #5" },
+            { "8_03_00308", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #6" },
+            { "8_03_00313", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #7" },
+            { "8_03_00312", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #8" },
+            { "8_03_00311", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #9" },
+            { "8_03_00316", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #10" },
+            { "8_03_00315", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #11" },
+            { "8_03_00314", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #12" },
+            { "8_03_00319", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #13" },
+            { "8_03_00318", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #14" },
+            { "8_03_00317", "Flushed Away - Coin in Sewage Stream Right of Gear Pipe #15" },
+            { "8_03_00320", "Flushed Away - Coin in Sewage Stream Left of Diagonal Creatures #1" },
+            { "8_03_00321", "Flushed Away - Coin in Sewage Stream Left of Diagonal Creatures #2" },
+            { "8_03_00322", "Flushed Away - Coin in Sewage Stream Left of Diagonal Creatures #3" },
+            { "8_03_00323", "Flushed Away - Coin in Sewage Stream Left of Diagonal Creatures #4" },
+            { "8_03_00324", "Flushed Away - Coin in Sewage Stream Left of Diagonal Creatures #5" },
+            { "8_03_00325", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #1" },
+            { "8_03_00326", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #2" },
+            { "8_03_00327", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #3" },
+            { "8_03_00328", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #4" },
+            { "8_03_00329", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #5" },
+            { "8_03_00330", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #6" },
+            { "8_03_00331", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #7" },
+            { "8_03_00332", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #8" },
+            { "8_03_00333", "Flushed Away - Coin in Sewage Stream Leading to Bunny Ramp #9" },
+            
+            // Special Rules
+            { "8_02_00000", "Flushed Away - Bunny - Above the Sewer Creatures" },
+        };
+
+        [Description("Flushed Away - Path Surrounding Starting Area")]
+        public static Dictionary<string, string> FlushedAwayPathSurroundingStartingArea = new()
+        {
+            { "8_03_00417", "Flushed Away - Coin Bag on Right Side of Entrance Area" },
+            { "8_03_00415", "Flushed Away - Coin on Right Side of Entrance Area #1" },
+            { "8_03_00413", "Flushed Away - Coin on Right Side of Entrance Area #2" },
+            { "8_03_00411", "Flushed Away - Coin on Right Side of Entrance Area #3" },
+            { "8_03_00409", "Flushed Away - Coin on Right Side of Entrance Area #4" },
+            { "8_03_00407", "Flushed Away - Coin on Right Side of Entrance Area #5" },
+            { "8_03_00405", "Flushed Away - Coin on Right Side of Entrance Area #6" },
+            { "8_03_00403", "Flushed Away - Coin on Right Side of Entrance Area #7" },
+            { "8_03_00401", "Flushed Away - Coin on Right Side of Entrance Area #8" },
+            { "8_03_00399", "Flushed Away - Coin on Right Side of Entrance Area #9" },
+            { "8_03_00397", "Flushed Away - Coin on Right Side of Entrance Area #10" },
+            { "8_03_00395", "Flushed Away - Coin on Right Side of Entrance Area #11" },
+            { "8_03_00393", "Flushed Away - Coin on Right Side of Entrance Area #12" },
+            { "8_03_00383", "Flushed Away - Coin on Right Side of Entrance Area #13" },
+            { "8_03_00384", "Flushed Away - Coin on Right Side of Entrance Area #14" },
+            { "8_03_00385", "Flushed Away - Coin on Right Side of Entrance Area #15" },
+            { "8_03_00386", "Flushed Away - Coin on Right Side of Entrance Area #16" },
+            { "8_03_00387", "Flushed Away - Coin on Right Side of Entrance Area #17" },
+            { "8_03_00418", "Flushed Away - Coin Bag on Left Side of Entrance Area" },
+            { "8_03_00416", "Flushed Away - Coin on Left Side of Entrance Area #1" },
+            { "8_03_00414", "Flushed Away - Coin on Left Side of Entrance Area #2" },
+            { "8_03_00412", "Flushed Away - Coin on Left Side of Entrance Area #3" },
+            { "8_03_00410", "Flushed Away - Coin on Left Side of Entrance Area #4" },
+            { "8_03_00408", "Flushed Away - Coin on Left Side of Entrance Area #5" },
+            { "8_03_00406", "Flushed Away - Coin on Left Side of Entrance Area #6" },
+            { "8_03_00404", "Flushed Away - Coin on Left Side of Entrance Area #7" },
+            { "8_03_00402", "Flushed Away - Coin on Left Side of Entrance Area #8" },
+            { "8_03_00400", "Flushed Away - Coin on Left Side of Entrance Area #9" },
+            { "8_03_00398", "Flushed Away - Coin on Left Side of Entrance Area #10" },
+            { "8_03_00396", "Flushed Away - Coin on Left Side of Entrance Area #11" },
+            { "8_03_00394", "Flushed Away - Coin on Left Side of Entrance Area #12" },
+            { "8_03_00392", "Flushed Away - Coin on Left Side of Entrance Area #13" },
+            { "8_03_00391", "Flushed Away - Coin on Left Side of Entrance Area #14" },
+            { "8_03_00390", "Flushed Away - Coin on Left Side of Entrance Area #15" },
+            { "8_03_00389", "Flushed Away - Coin on Left Side of Entrance Area #16" },
+            { "8_03_00388", "Flushed Away - Coin on Left Side of Entrance Area #17" },
+        };
+        
+        [Description("Flushed Away - Pipe Above Starting Area")]
+        public static Dictionary<string, string> FlushedAwayPipeAboveStartingArea = new()
+        {
+            { "8_21_00001", "Flushed Away - Cheese on Pipe Above Entrance Area" },
+        };
+
+        [Description("Flushed Away - Ledge Above Starting Area")]
+        public static Dictionary<string, string> FlushedAwayLedgeAboveStartingArea = new()
+        {
+            { "8_03_00419", "Flushed Away - Coin on Ledge Above Entrance Area #1" },
+            { "8_03_00420", "Flushed Away - Coin on Ledge Above Entrance Area #2" },
+            { "8_03_00421", "Flushed Away - Coin on Ledge Above Entrance Area #3" },
+            { "8_03_00422", "Flushed Away - Coin on Ledge Above Entrance Area #4" },
+            { "8_03_00423", "Flushed Away - Coin on Ledge Above Entrance Area #5" },
+            { "8_01_00001", "Flushed Away - Gear - On Ledge Above Entrance Area" },
+            { "8_03_00427", "Flushed Away - Coin on Ledge Above Entrance Area #6" },
+            { "8_03_00428", "Flushed Away - Coin on Ledge Above Entrance Area #7" },
+            { "8_03_00429", "Flushed Away - Coin on Ledge Above Entrance Area #8" },
+            { "8_03_00430", "Flushed Away - Coin on Ledge Above Entrance Area #9" },
+            { "8_03_00431", "Flushed Away - Coin on Ledge Above Entrance Area #10" },
+        };
+
+        [Description("Flushed Away - Pipe to Upper Starting Area")]
+        public static Dictionary<string, string> FlushedAwayPipeToUpperStartingArea = new()
+        {
+            { "8_01_00000", "Flushed Away - Gear - Pipe in Starting Sewage Stream" }
+        };
+
+        [Description("Flushed Away - Checkpoint Area")]
+        public static Dictionary<string, string> FlushedAwayCheckpointArea = new()
+        {
+            { "8_21_00000", "Flushed Away - Cheese on Checkpoint Platform" },
+            { "8_09_00920", "Flushed Away - Checkpoint" },
+            { "8_03_00299", "Flushed Away - Coin in Sewage Path Right of Checkpoint #1" },
+            { "8_03_00298", "Flushed Away - Coin in Sewage Path Right of Checkpoint #2" },
+            { "8_03_00297", "Flushed Away - Coin in Sewage Path Right of Checkpoint #3" },
+            { "8_03_00296", "Flushed Away - Coin in Sewage Path Right of Checkpoint #4" },
+            { "8_03_00295", "Flushed Away - Coin in Sewage Path Right of Checkpoint #5" },
+            { "8_03_00294", "Flushed Away - Coin in Sewage Path Right of Checkpoint #6" },
+            { "8_03_00293", "Flushed Away - Coin in Sewage Path Right of Checkpoint #7" },
+            { "8_03_00292", "Flushed Away - Coin in Sewage Path Right of Checkpoint #8" },
+            { "8_03_00291", "Flushed Away - Coin in Sewage Path Right of Checkpoint #9" },
+            { "8_03_00290", "Flushed Away - Coin in Sewage Path Right of Checkpoint #10" },
+            { "8_03_00288", "Flushed Away - Coin Before Sewage Ramps #1" },
+            { "8_03_00287", "Flushed Away - Coin Before Sewage Ramps #2" },
+            { "8_03_00300", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #1" },
+            { "8_03_00301", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #2" },
+            { "8_03_00302", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #3" },
+            { "8_03_00303", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #4" },
+            { "8_03_00304", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #5" },
+
+            // Slightly too high to grab without jump. Also can boost to it though this is less obvious
+            { "8_01_00002", "Flushed Away - Gear - Skeleton Dance Party" },
+        };
+
+        [Description("Flushed Away - High Ground Near Checkpoint")]
+        public static Dictionary<string, string> FlushedAwayHighGroundAroundCheckpoint = new()
+        {
+            { "8_03_00347", "Flushed Away - Coin on Roof Near Checkpoint" },
+            { "8_03_00342", "Flushed Away - Coin Behind Doggo Near Checkpoint #1" },
+            { "8_03_00341", "Flushed Away - Coin Behind Doggo Near Checkpoint #2" },
+            { "8_03_00340", "Flushed Away - Coin Behind Doggo Near Checkpoint #3" },
+            // These two are obtainable with just boost but are much easier with jump. Expert special rule
+            { "8_03_00352", "Flushed Away - Coin Bag on Roof Near Checkpoint" },
+            { "8_03_00351", "Flushed Away - Chest on Roof Near Checkpoint" },
+        };
+
+        [Description("Flushed Away - Sewage Ramps")]
+        public static Dictionary<string, string> FlushedAwaySewageRamps = new()
+        {
+            { "8_03_00273", "Flushed Away - Coin on Sewage Ramps #1" },
+            { "8_03_00274", "Flushed Away - Coin on Sewage Ramps #2" },
+            { "8_03_00281", "Flushed Away - Coin on Sewage Ramps #3" },
+            { "8_03_00282", "Flushed Away - Coin on Sewage Ramps #4" },
+            { "8_03_00284", "Flushed Away - Coin on Sewage Ramps #5" },
+            { "8_03_00335", "Flushed Away - Coin on Sewage Ramps #6" },
+        };
+
+        [Description("Flushed Away - After Sewage Ramps")]
+        public static Dictionary<string, string> FlushedAwayAfterSewageRamps = new()
+        {
+            { "8_03_00283", "Flushed Away - Coin After Sewage Ramps #1" },
+            { "8_03_00334", "Flushed Away - Coin After Sewage Ramps #2" },
+            { "8_03_00336", "Flushed Away - Coin After Sewage Ramps #3" },
+            { "8_03_00345", "Flushed Away - Coin After Sewage Ramps #4" },
+            { "8_03_00346", "Flushed Away - Coin After Sewage Ramps #5" },
+            { "8_21_00004", "Flushed Away - Cheese After Sewage Ramps" },
+            { "8_01_00005", "Flushed Away - Gear - After Sewage Ramps" },
+        };
+
+        [Description("Flushed Away - Below Sewage Jumps")]
+        public static Dictionary<string, string> FlushedAwayBelowSewageRamps = new()
+        {
+            { "8_03_00069", "Flushed Away - Coin Below Sewage Ramps #1" },
+            { "8_03_00070", "Flushed Away - Coin Below Sewage Ramps #2" },
+            { "8_03_00071", "Flushed Away - Coin Below Sewage Ramps #3" },
+            { "8_03_00072", "Flushed Away - Coin Below Sewage Ramps #4" },
+            { "8_03_00075", "Flushed Away - Coin Below Sewage Ramps #5" },
+            { "8_03_00077", "Flushed Away - Coin Below Sewage Ramps #6" },
+            { "8_03_00079", "Flushed Away - Coin Below Sewage Ramps #7" },
+            { "8_03_00080", "Flushed Away - Coin Below Sewage Ramps #8" },
+            { "8_03_00081", "Flushed Away - Coin Below Sewage Ramps #9" },
+            { "8_03_00082", "Flushed Away - Coin Below Sewage Ramps #10" },
+            { "8_03_00083", "Flushed Away - Coin Below Sewage Ramps #11" },
+            { "8_03_00084", "Flushed Away - Coin Below Sewage Ramps #12" },
+            { "8_03_00085", "Flushed Away - Coin Below Sewage Ramps #13" },
+            { "8_03_00078", "Flushed Away - Coin Below Sewage Ramps #14" },
+            { "8_03_00076", "Flushed Away - Coin Below Sewage Ramps #15" },
+            { "8_03_00074", "Flushed Away - Coin Bag Below Sewage Ramps" },
+            { "8_03_00066", "Flushed Away - Coin Below Sewage Ramps #16" },
+            { "8_03_00064", "Flushed Away - Coin Below Sewage Ramps #17" },
+            { "8_03_00059", "Flushed Away - Coin Below Sewage Ramps #18" },
+            { "8_03_00060", "Flushed Away - Coin Below Sewage Ramps #19" },
+            { "8_03_00061", "Flushed Away - Coin Below Sewage Ramps #20" },
+            { "8_03_00062", "Flushed Away - Coin Below Sewage Ramps #21" },
+            { "8_03_00063", "Flushed Away - Coin Below Sewage Ramps #22" },
+            { "8_03_00065", "Flushed Away - Coin Below Sewage Ramps #23" },
+            { "8_03_00067", "Flushed Away - Coin Below Sewage Ramps #24" },
+            { "8_03_00023", "Flushed Away - Coin Below Sewage Ramps #25" },
+            { "8_03_00024", "Flushed Away - Coin Below Sewage Ramps #26" },
+            { "8_03_00025", "Flushed Away - Coin Below Sewage Ramps #27" },
+            { "8_03_00026", "Flushed Away - Coin Below Sewage Ramps #28" },
+            { "8_03_00027", "Flushed Away - Coin Below Sewage Ramps #29" },
+            { "8_03_00028", "Flushed Away - Coin Below Sewage Ramps #30" },
+            { "8_03_00029", "Flushed Away - Coin Below Sewage Ramps #31" },
+            { "8_03_00030", "Flushed Away - Coin Below Sewage Ramps #32" },
+            { "8_03_00031", "Flushed Away - Coin Below Sewage Ramps #33" },
+        };
+
+        [Description("Flushed Away - Sewage Path From Ramp Room to Pit Room")]
+        public static Dictionary<string, string> FlushedAwayPathFromRampsToMainRoom = new()
+        {
+            { "8_03_00000", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #1" },
+            { "8_03_00001", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #2" },
+            { "8_03_00002", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #3" },
+            { "8_03_00003", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #4" },
+            { "8_03_00004", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #5" },
+        };
+
+        public static Dictionary<string, string> FlushedAwaySpecialRules = new()
+        {
+            { "Flushed Away - Bunny - Above the Sewer Creatures", "X1/B1/J1" },
+            { "Flushed Away - Chest on Roof Near Checkpoint", "X1/J1" },
+            { "Flushed Away - Coin Bag on Roof Near Checkpoint", "X1/J1" },
+            { "Flushed Away - Gear - Skeleton Dance Party", "X1+B1 | J1" },
+        };
+        
         #endregion
 
         #region Mosk's Rocket
@@ -3569,6 +3849,8 @@ namespace YellowTaxiAP
             { "16_03_00324", "Lab Memories - Coin by Second Gear" },
             { "16_03_00323", "Lab Memories - Coin Bag by Second Gear" },
             { "16_01_00001", "Lab Memories - Gear - Second Gear" },
+
+            { "16_07_00049", "Purchase Robo Taxi Skin"}
         };
 
         [Description("Welcoming Climbs - Starting Area")]
@@ -3597,6 +3879,7 @@ namespace YellowTaxiAP
             { "16_03_00408", "Welcoming Climbs - Chest at Halfway Point #1" },
             { "16_01_00002", "Welcoming Climbs - Gear - Halfway Point" },
             { "16_03_00406", "Welcoming Climbs - Chest at Halfway Point #2" },
+            { "16_07_00039", "Purchase Dentures Hat" },
         };
 
         [Description("Welcoming Climbs - Second Gear Area")]
@@ -3636,6 +3919,7 @@ namespace YellowTaxiAP
             { "16_03_00057", "Bomb-it - Coin Bag Near Houses #2" },
             { "16_01_00004", "Bomb-it - Gear - Bomb Car Obstacle Course" },
             { "16_01_00005", "Bomb-it - Gear - Bomb Car Ramps" },
+            { "16_07_00040", "Purchase Mushroom Cloud Hat" },
         };
 
         [Description("Podium - Starting Area")]
@@ -3661,6 +3945,7 @@ namespace YellowTaxiAP
             { "16_03_00345", "Podium - Coin by Second Gear #3" },
             { "16_03_00344", "Podium - Coin Bag by Second Gear" },
             { "16_01_00013", "Podium - Gear - Second Gear" },
+            { "16_07_00041", "Purchase Gym Bros Hat" },
         };
 
         [Description("Costipation - Starting Area")]
@@ -3711,6 +3996,12 @@ namespace YellowTaxiAP
             { "16_03_00249", "Costipation - Coin on Gear Island #14" },
         };
 
+        [Description("Costipation - Hat Area")]
+        public static Dictionary<string, string> CostipationHatArea = new()
+        {
+            { "16_07_00046", "Purchase Toilet Paper Hat" },
+        };
+
         [Description("Smelly Slimes - Starting Area")]
         public static Dictionary<string, string> SmellySlimesStartingArea = new()
         {
@@ -3745,6 +4036,12 @@ namespace YellowTaxiAP
             { "16_03_00115", "Smelly Slimes - Coin Right of Entrance Portal #10" },
         };
 
+        [Description("Smelly Slimes - Hat Area")]
+        public static Dictionary<string, string> SmellySlimesHatArea = new()
+        {
+            { "16_07_00048", "Purchase Paper Boat Hat" },
+        };
+
         [Description("Smelly Slimes - Exit Area")]
         public static Dictionary<string, string> SmellySlimesExit = new()
         {
@@ -3772,6 +4069,72 @@ namespace YellowTaxiAP
             { "Smelly Slimes - Gear - Pipe Above Entrance", "B2 & X2/J1" },
         };
 
+        #endregion
+
+        #region Time Trial: Baby Steps!
+
+        [Description("Baby Steps! - Starting Area")]
+        public static Dictionary<string, string> BabyStepsStartingArea = new()
+        {
+            { string.Empty, nameof(BabyStepsStartingArea) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Baby Steps! - Main Area")]
+        public static Dictionary<string, string> BabyStepsMainArea = new()
+        {
+            { "17_01_00000", "Baby Steps! - Gear - Center" },
+            { "17_01_00003", "Baby Steps! - Gear - Above Boost Ramp" },
+            { "17_01_00004", "Baby Steps! - Gear - Lower Corner" },
+            { "17_01_00002", "Baby Steps! - Gear - Upper Corner" },
+        };
+
+        [Description("Baby Steps! - Pillar")]
+        public static Dictionary<string, string> BabyStepsPillar = new()
+        {
+            { "17_01_00001", "Baby Steps! - Gear - Pillar" },
+        };
+
+        #endregion
+
+        #region Time Trial: Getting Gud!
+
+        [Description("Getting Gud! - Starting Area")]
+        public static Dictionary<string, string> GettingGudStartingArea = new()
+        {
+            { string.Empty, nameof(GettingGudStartingArea) + " - !PLACEHOLDER!" },
+        };
+
+        public static Dictionary<string, string> GettingGudLowerSpikes = new()
+        {
+            { "18_01_00004", "Getting Gud! - Gear - In Spikes Left of Start" },
+            { "18_01_00005", "Getting Gud! - Gear - In Spikes Right of Start" },
+        };
+
+        public static Dictionary<string, string> GettingGudMiddleFloor = new()
+        {
+            { "18_01_00002", "Getting Gud! - Gear - In Front of Start" },
+            { "18_01_00005", "Getting Gud! - Gear - Behind Start" },
+        };
+
+        #endregion
+
+        #region Special Regions
+
+        // Regions that don't correspond to any level but need to exist for one reason or another
+        // Not handling these here, manually making the json in the APWorld. But need to make them for connection purposes
+
+        [Description("Any Hat World")]
+        public static Dictionary<string, string> AnyHatWorld = new()
+        {
+            { string.Empty, nameof(AnyHatWorld) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Propeller Cap Access")]
+        public static Dictionary<string, string> PropellerHatPurchasable = new()
+        {
+            { string.Empty, nameof(PropellerHatPurchasable) + " - !PLACEHOLDER!" },
+        };
+        
         #endregion
 
         public static List<Tuple<string, Dictionary<string, string>>> KnownIDs =
@@ -3891,6 +4254,7 @@ namespace YellowTaxiAP
             new (GetDescription(nameof(BombeachSuperboost)), BombeachSuperboost),
             new (GetDescription(nameof(BombeachOrangeBlockBridge)), BombeachOrangeBlockBridge),
             new (GetDescription(nameof(Cave)), Cave),
+            new (GetDescription(nameof(BombeachHatWorld)), BombeachHatWorld),
 
             // Arcade Panik Areas
             new(GetDescription(nameof(ArcadePlazaStartingArea)), ArcadePlazaStartingArea),
@@ -3912,6 +4276,19 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(FecalMattersBoostOrJump)), FecalMattersBoostOrJump),
             new(GetDescription(nameof(FecalMattersBoostOrBackflip)), FecalMattersBoostOrBackflip),
             new(GetDescription(nameof(FecalMattersHighestGround)), FecalMattersHighestGround),
+
+            // Flushed Away Areas
+            new(GetDescription(nameof(FlushedAwayStartingArea)), FlushedAwayStartingArea),
+            new(GetDescription(nameof(FlushedAwayCheckpointArea)), FlushedAwayCheckpointArea),
+            new(GetDescription(nameof(FlushedAwayPathSurroundingStartingArea)), FlushedAwayPathSurroundingStartingArea),
+            new(GetDescription(nameof(FlushedAwayPipeAboveStartingArea)), FlushedAwayPipeAboveStartingArea),
+            new(GetDescription(nameof(FlushedAwayLedgeAboveStartingArea)), FlushedAwayLedgeAboveStartingArea),
+            new(GetDescription(nameof(FlushedAwayPipeToUpperStartingArea)), FlushedAwayPipeToUpperStartingArea),
+            new(GetDescription(nameof(FlushedAwayHighGroundAroundCheckpoint)), FlushedAwayHighGroundAroundCheckpoint),
+            new(GetDescription(nameof(FlushedAwaySewageRamps)), FlushedAwaySewageRamps),
+            new(GetDescription(nameof(FlushedAwayAfterSewageRamps)), FlushedAwayAfterSewageRamps),
+            new(GetDescription(nameof(FlushedAwayBelowSewageRamps)), FlushedAwayBelowSewageRamps),
+            new(GetDescription(nameof(FlushedAwayPathFromRampsToMainRoom)), FlushedAwayPathFromRampsToMainRoom),
 
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
@@ -3937,9 +4314,19 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(CostipationStartingArea)), CostipationStartingArea),
             new(GetDescription(nameof(CostipationRoadwayGearArea)), CostipationRoadwayGearArea),
             new(GetDescription(nameof(CostipationIslandGearArea)), CostipationIslandGearArea),
+            new(GetDescription(nameof(CostipationHatArea)), CostipationHatArea),
             new(GetDescription(nameof(SmellySlimesStartingArea)), SmellySlimesStartingArea),
             new(GetDescription(nameof(SmellySlimesSidebars)), SmellySlimesSidebars),
+            new(GetDescription(nameof(SmellySlimesHatArea)), SmellySlimesHatArea),
             new(GetDescription(nameof(SmellySlimesExit)), SmellySlimesExit),
+
+            // Baby Steps! Areas
+            new(GetDescription(nameof(BabyStepsStartingArea)), BabyStepsStartingArea),
+            new(GetDescription(nameof(BabyStepsMainArea)), BabyStepsMainArea),
+            new(GetDescription(nameof(BabyStepsPillar)), BabyStepsPillar),
+
+            new(GetDescription(nameof(PropellerHatPurchasable)), PropellerHatPurchasable),
+            new(GetDescription(nameof(AnyHatWorld)), AnyHatWorld),
         ];
 
         public static Dictionary<string, Dictionary<string, string>> SpecialRules = new()
@@ -3949,6 +4336,7 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.L4_ArcadePanik), ArcadePanikSpecialRules },
             { nameof(Data.LevelId.L6_Gym), GymGearsSpecialRules },
             { nameof(Data.LevelId.L7_PoopWorld), FecalMattersSpecialRules },
+            { nameof(Data.LevelId.L8_Sewers), FlushedAwaySpecialRules },
             { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
         };
 
@@ -4039,6 +4427,19 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                nameof(Data.LevelId.L1_Bombeach),
+                [
+                    BombeachStartingArea,
+                    BombeachEasyBombJumps,
+                    BombeachExpert1BombJumps,
+                    BombeachJumpOrBoost,
+                    BombeachSuperboost,
+                    BombeachOrangeBlockBridge,
+                    Cave,
+                    BombeachHatWorld,
+                ]
+            },
+            {
                 nameof(Data.LevelId.L3_MoriosHome),
                 [
                     MoriosIslandStartingArea,
@@ -4100,15 +4501,19 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                nameof(Data.LevelId.L1_Bombeach),
+                nameof(Data.LevelId.L8_Sewers),
                 [
-                    BombeachStartingArea,
-                    BombeachEasyBombJumps,
-                    BombeachExpert1BombJumps,
-                    BombeachJumpOrBoost,
-                    BombeachSuperboost,
-                    BombeachOrangeBlockBridge,
-                    Cave,
+                    FlushedAwayStartingArea,
+                    FlushedAwayCheckpointArea,
+                    FlushedAwayPathSurroundingStartingArea,
+                    FlushedAwayPipeAboveStartingArea,
+                    FlushedAwayLedgeAboveStartingArea,
+                    FlushedAwayPipeToUpperStartingArea,
+                    FlushedAwayHighGroundAroundCheckpoint,
+                    FlushedAwaySewageRamps,
+                    FlushedAwayAfterSewageRamps,
+                    FlushedAwayBelowSewageRamps,
+                    FlushedAwayPathFromRampsToMainRoom,
                 ]
             },
             {
@@ -4137,11 +4542,21 @@ namespace YellowTaxiAP
                     CostipationStartingArea,
                     CostipationRoadwayGearArea,
                     CostipationIslandGearArea,
+                    CostipationHatArea,
                     SmellySlimesStartingArea,
                     SmellySlimesSidebars,
+                    SmellySlimesHatArea,
                     SmellySlimesExit,
                 ]
-            }
+            },
+            {
+                nameof(Data.LevelId.L17_TimeAttack01),
+                [
+                    BabyStepsStartingArea,
+                    BabyStepsMainArea,
+                    BabyStepsPillar,
+                ]
+            },
         };
 
         public enum ConnectionType
@@ -4329,7 +4744,8 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandSewerIsland)),
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland2, "OS"),
-                    new RegionConnection(GrannysIslandSewerIslandUpper, "X1/J1/B1")
+                    new RegionConnection(GrannysIslandSewerIslandUpper, "X1/J1/B1"),
+                    new RegionConnection("Granny's Island - Flushed Away Entrance", FlushedAwayStartingArea, ConnectionType.Warp, "PortalFlushedAway+SewerKey"),
                 ]
             },
             {
@@ -4408,6 +4824,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(HubHatWorld)),
                 [
                     new RegionConnection("Granny's Island Hat World - Exit", GrannysIslandMain, ConnectionType.Subwarp),
+                    new RegionConnection(AnyHatWorld),
                 ]
             },
             {
@@ -4448,7 +4865,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Morio's Lab - Front Door", GrannysIslandStart, ConnectionType.Subwarp, "LabKey"),
                     new RegionConnection("Morio's Lab - Back Door", GrannysIslandMoat, ConnectionType.Subwarp, "LabKey"),
-                    new RegionConnection("Morio's Lab - Wardrobe Entrance", MoriosWardrobe, ConnectionType.Subwarp),
+                    new RegionConnection("Morio's Lab - Wardrobe Entrance", MoriosWardrobe, ConnectionType.Subwarp, "WardrobeKey"),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "B2"),
                     new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
@@ -4563,7 +4980,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
-                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "J2"),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2"),
                 ]
             },
             {
@@ -4590,6 +5007,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "J1"),
                     new RegionConnection(MoriosLabFourthFloor, "GS+B1"),
                     new RegionConnection(MoriosLabSecondFloor),
+                    new RegionConnection("Morio's Lab - Baby Steps! TV", BabyStepsStartingArea, ConnectionType.Warp, "TT1"),
                 ]
             },
             {
@@ -4783,6 +5201,8 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosIslandSecondBunnyArch, "B2"),
                     new RegionConnection(MoriosIslandCenterIsland, "B1 & J1/X2 | J2+X1"),
                     new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1"),
+
+                    new RegionConnection(PropellerHatPurchasable),
                 ]
             },
             {
@@ -4923,6 +5343,7 @@ namespace YellowTaxiAP
                     new RegionConnection(BombeachJumpOrBoost, "J1/B1"),
                     new RegionConnection(BombeachSuperboost, "B2"),
                     new RegionConnection("Bombeach - Cave Entrance", Cave, ConnectionType.Subwarp),
+                    new RegionConnection("Bombeach - Hat World Entrance", BombeachHatWorld, ConnectionType.Subwarp),
                 ]
             },
             {
@@ -4963,6 +5384,13 @@ namespace YellowTaxiAP
                     new RegionConnection("Cave - Cave Exit", BombeachStartingArea, ConnectionType.Subwarp),
                 ]
             },
+            {
+                GetDescription(nameof(BombeachHatWorld)),
+                [
+                    new RegionConnection("Bombeach Hat World - Exit", BombeachStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(AnyHatWorld),
+                ]
+            },
 
             #endregion
 
@@ -4986,6 +5414,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ArcadePanikHatWorld)),
                 [
                     new RegionConnection("Arcade Panik Hat World - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(AnyHatWorld),
                 ]
             },
             {
@@ -5070,6 +5499,84 @@ namespace YellowTaxiAP
                 GetDescription(nameof(FecalMattersHighestGround)),
                 [
                     // Doesn't connect anywhere
+                ]
+            },
+
+            #endregion
+
+            #region Flushed Away Connections
+
+            {
+                GetDescription(nameof(FlushedAwayStartingArea)),
+                [
+                    new RegionConnection(FlushedAwayPathSurroundingStartingArea, "X1/B1/J1"),
+                    new RegionConnection(FlushedAwayPipeToUpperStartingArea, "X2+B2 | J1"),
+                    new RegionConnection(FlushedAwayCheckpointArea),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayPathSurroundingStartingArea)),
+                [
+                    new RegionConnection(FlushedAwayPipeAboveStartingArea, "X1+B2+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayPipeAboveStartingArea)),
+                [
+                    new RegionConnection(FlushedAwayStartingArea),
+                    new RegionConnection(FlushedAwayPathSurroundingStartingArea),
+                    new RegionConnection(FlushedAwayLedgeAboveStartingArea, "X1+B1 | J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayLedgeAboveStartingArea)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayPipeToUpperStartingArea)),
+                [
+                    new RegionConnection("Flushed Away - Pipe in Entrance Sewage Stream", FlushedAwayPipeAboveStartingArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCheckpointArea)),
+                [
+                    new RegionConnection(FlushedAwayStartingArea, "X1 & B1/J1"),
+                    new RegionConnection(FlushedAwayHighGroundAroundCheckpoint, "J1/B1"),
+                    new RegionConnection(FlushedAwaySewageRamps, "B1/J1"),
+                    new RegionConnection(FlushedAwayBelowSewageRamps),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayHighGroundAroundCheckpoint)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwaySewageRamps)),
+                [
+                    new RegionConnection(FlushedAwayAfterSewageRamps, "B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayAfterSewageRamps)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayBelowSewageRamps)),
+                [
+                    new RegionConnection(FlushedAwayPathFromRampsToMainRoom),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayPathFromRampsToMainRoom)),
+                [
+                    new RegionConnection(FlushedAwayBelowSewageRamps, "X1 & B1/J1"),
                 ]
             },
 
@@ -5221,6 +5728,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Costipation - Mosk's Rocket Portal", RocketFecalFlushedArea, ConnectionType.Subwarp),
                     new RegionConnection(CostipationRoadwayGearArea, "J1/B1"),
                     new RegionConnection(CostipationIslandGearArea, "B2"),
+                    new RegionConnection(CostipationHatArea, "B1"),
                 ]
             },
             {
@@ -5240,6 +5748,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Smelly Slimes - Entrance Mosk's Rocket Portal", RocketFecalFlushedArea, ConnectionType.Subwarp),
                     new RegionConnection(SmellySlimesSidebars, "X2/J1/B1"),
+                    new RegionConnection(SmellySlimesHatArea, "J1 | X2+B2"),
                     new RegionConnection(SmellySlimesExit, "B1+J1"),
                 ]
             },
@@ -5251,6 +5760,29 @@ namespace YellowTaxiAP
             },
             {
                 GetDescription(nameof(SmellySlimesExit)),
+                [
+                    // No connections
+                ]
+            },
+
+            #endregion
+
+            #region Baby Steps! Connections
+
+            {
+                GetDescription(nameof(BabyStepsStartingArea)),
+                [
+                    new RegionConnection(BabyStepsMainArea, "X1/J1/B1")
+                ]
+            },
+            {
+                GetDescription(nameof(BabyStepsMainArea)),
+                [
+                    new RegionConnection(BabyStepsPillar, "B1/J2 | X1+J1")
+                ]
+            },
+            {
+                GetDescription(nameof(BabyStepsPillar)),
                 [
                     // No connections
                 ]
@@ -5313,6 +5845,351 @@ namespace YellowTaxiAP
             }
 
             return result;
+        }
+
+        public static void GenerateJson(string name)
+        {
+            if (DebugLocationHelper.Enabled)
+            {
+                var bonuses = Object.FindObjectsByType<BonusScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(o =>
+                    (o.myIdentity is BonusScript.Identity.gear or BonusScript.Identity.bunny)
+                        || ((o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
+                        or BonusScript.Identity.bigCoin100) && o.coinIndex >= 0)).ToList();
+                var unknownBonuses = bonuses.Where(o => !DebugLocationHelper.CheckLocation(string.Empty, APCollectableManager.GetIDString(o))).ToList();
+                if (unknownBonuses.Count < 5)
+                {
+                    foreach (var bonus in unknownBonuses)
+                    {
+                        Plugin.Log($"Unknown {bonus.myIdentity} found at {bonus.transform.position}");
+                    }
+                }
+                var cheeses = Object.FindObjectsByType<CheeseScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
+                var checkpoints = CheckpointScript.list;
+                var hats = Object.FindObjectsByType<HatBuyScript>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                    .Count(o => !o.versioneArmadio);
+                var checkIds = new List<string>();
+                foreach (var checkpoint in checkpoints)
+                {
+                    var id = APCheckpointManager.GetCheckpointStringID(checkpoint);
+                    if (checkIds.Contains(id))
+                    {
+                        Plugin.Log("ERROR: CHECKPOINT ID NOT UNIQUE. NEW HASHING MECHANISM NEEDED.");
+                    }
+                    //var check = DebugLocationHelper.KnownIDs.FirstOrDefault(area => area.Item2.ContainsKey(id));
+                    //Plugin.Log(check == null
+                    //    ? $"Found unknown checkpoint at {self.transform.position}"
+                    //    : $"Found known checkpoint \"{check.Item2[id]}\"");
+                    checkIds.Add(id);
+                }
+
+                //var activeBonuses = Object.FindObjectsOfType<BonusScript>(false).Count(o =>
+                //    o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.gear or BonusScript.Identity.bunny
+                //        or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
+                //        or BonusScript.Identity.bigCoin100);
+                var documentedChecks = 0;
+                Plugin.Log("Before per level check");
+                if (DebugLocationHelper.PerLevelIDs.ContainsKey(GameplayMaster.instance.levelId.ToString()))
+                {
+                    Plugin.Log("After per level check");
+                    documentedChecks = DebugLocationHelper.PerLevelIDs[GameplayMaster.instance.levelId.ToString()].Sum(known => known.Count(o => !string.IsNullOrEmpty(o.Key)));
+
+                    Plugin.Log("Before JSON gen");
+                    var json = "{";
+                    //var i = 0;
+                    foreach (var subregion in DebugLocationHelper.PerLevelIDs[
+                                 GameplayMaster.instance.levelId.ToString()])
+                    {
+                        var regionName = DebugLocationHelper.KnownIDs.First(o => o.Item2.Equals(subregion)).Item1;
+                        if (regionName.Contains("Special Rules"))
+                        {
+                            continue;
+                        }
+
+                        var sublevelname = regionName;
+                        if (sublevelname.Contains(" - "))
+                        {
+                            sublevelname = sublevelname.Substring(0, sublevelname.IndexOf(" - ", StringComparison.Ordinal)).TrimEnd();
+                        }
+                        var regionItems = new List<KeyValuePair<string, string>>();
+                        var regionCoins = new List<KeyValuePair<string, string>>();
+                        var regionCoinbags = new List<KeyValuePair<string, string>>();
+                        var regionChests = new List<KeyValuePair<string, string>>();
+                        var regionSafes = new List<KeyValuePair<string, string>>();
+                        var regionCheeses = new List<KeyValuePair<string, string>>();
+                        var regionGears = new List<KeyValuePair<string, string>>();
+                        var regionBunnies = new List<KeyValuePair<string, string>>();
+                        var regionCheckpoints = new List<KeyValuePair<string, string>>();
+                        var regionHats = new List<KeyValuePair<string, string>>();
+                        var regionConnections = new List<DebugLocationHelper.RegionConnection>();
+                        var regionWarps = new List<DebugLocationHelper.RegionConnection>();
+                        var regionSubwarps = new List<DebugLocationHelper.RegionConnection>();
+                        foreach (var c in subregion)
+                        {
+                            if (string.IsNullOrEmpty(c.Key))
+                                continue; // Skip placeholders 
+                            if (c.Value.Contains("Bunny - "))
+                            {
+                                regionBunnies.Add(c);
+                            }
+                            else if (c.Value.Contains("Gear - "))
+                            {
+                                regionGears.Add(c);
+                            }
+                            else if (c.Value.Contains("Cheese "))
+                            {
+                                regionCheeses.Add(c);
+                            }
+                            else if (c.Value.Contains("Chest "))
+                            {
+                                regionChests.Add(c);
+                            }
+                            else if (c.Value.Contains("Safe "))
+                            {
+                                regionSafes.Add(c);
+                            }
+                            else if (c.Value.Contains("Coin Bag "))
+                            {
+                                regionCoinbags.Add(c);
+                            }
+                            else if (c.Value.Contains("Coin "))
+                            {
+                                regionCoins.Add(c);
+                            }
+                            else if (c.Value.Contains("Checkpoint"))
+                            {
+                                regionCheckpoints.Add(c);
+                            }
+                            else if (c.Value.EndsWith("Gear"))
+                            {
+                                regionGears.Add(c);
+                            }
+                            else if (c.Value.EndsWith("Bunny"))
+                            {
+                                regionBunnies.Add(c);
+                            }
+                            else if (c.Value.StartsWith("Purchase "))
+                            {
+                                regionHats.Add(c);
+                            }
+                            else
+                            {
+                                Plugin.Log($"WARNING: COULD NOT SORT \"{c.Value}\"");
+                            }
+                        }
+
+                        if (DebugLocationHelper.RegionConnections.ContainsKey(regionName))
+                        {
+                            foreach (var connection in DebugLocationHelper.RegionConnections[regionName])
+                            {
+                                switch (connection.ConnectingType)
+                                {
+                                    case DebugLocationHelper.ConnectionType.Connection:
+                                        regionConnections.Add(connection);
+                                        break;
+                                    case DebugLocationHelper.ConnectionType.Subwarp:
+                                        regionSubwarps.Add(connection);
+                                        break;
+                                    case DebugLocationHelper.ConnectionType.Warp:
+                                        regionWarps.Add(connection);
+                                        break;
+                                    default:
+                                        throw new ArgumentOutOfRangeException();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Plugin.Log($"WARNING: NO CONNECTION DATA FOUND FOR \"{regionName}\"");
+                        }
+
+                        json += $"\n  \"{regionName}\": {{";
+                        var level = GameplayMaster.instance.levelId == Data.LevelId.Hub
+                            ? "Hub"
+                            : Data.levelDataList[(int) GameplayMaster.instance.levelId].GetName();
+                        if (level.Equals(sublevelname, StringComparison.OrdinalIgnoreCase))
+                            level = sublevelname;
+                        json += $"\n    \"level\": \"{level}\",";
+                        json += $"\n    \"sublevel\": \"{sublevelname}\",";
+                        if (GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket)
+                        {
+                            json += $"\n    \"kaizolevel\": \"";
+                            switch (sublevelname)
+                            {
+                                case "Lab Memories":
+                                    json += "Hub";
+                                    break;
+                                case "Welcoming Climbs":
+                                    json += Data.levelDataList[(int)Data.LevelId.L3_MoriosHome].GetName();
+                                    break;
+                                case "Bomb-it":
+                                    json += Data.levelDataList[(int)Data.LevelId.L1_Bombeach].GetName();
+                                    break;
+                                case "Buttons Smashing":
+                                    json += Data.levelDataList[(int)Data.LevelId.L4_ArcadePanik].GetName();
+                                    break;
+                                case "Pepperoni":
+                                    json += Data.levelDataList[(int)Data.LevelId.L2_PizzaTime].GetName();
+                                    break;
+                                case "Stealthy":
+                                    json += Data.levelDataList[(int)Data.LevelId.L5_ToslaOffices].GetName();
+                                    break;
+                                case "Podium":
+                                    json += Data.levelDataList[(int)Data.LevelId.L6_Gym].GetName();
+                                    break;
+                                case "Costipation": // Typo present in-game
+                                case "Constipation":
+                                    json += Data.levelDataList[(int)Data.LevelId.L7_PoopWorld].GetName();
+                                    break;
+                                case "Smelly Slimes":
+                                    json += Data.levelDataList[(int)Data.LevelId.L8_Sewers].GetName();
+                                    break;
+                                case "Heroic Moves":
+                                    json += Data.levelDataList[(int)Data.LevelId.L9_City].GetName();
+                                    break;
+                                case "Conveyor Belts":
+                                    json += Data.levelDataList[(int)Data.LevelId.L10_CrashTestIndustries].GetName();
+                                    break;
+                                case "Eye surgery":
+                                case "Eye Surgery":
+                                    json += Data.levelDataList[(int)Data.LevelId.L12_MoriosMind].GetName();
+                                    break;
+                                case "Mid air":
+                                case "Mid Air":
+                                    json += Data.levelDataList[(int)Data.LevelId.L13_StarmanCastle].GetName();
+                                    break;
+                                case "Infiltration":
+                                    json += Data.levelDataList[(int)Data.LevelId.L14_ToslaHQ].GetName();
+                                    break;
+                                case "Far far away":
+                                case "Far Far Away":
+                                    json += Data.levelDataList[(int)Data.LevelId.L15_Moon].GetName();
+                                    break;
+                                case "Mosk's Rocket":
+                                default:
+                                    json += sublevelname;
+                                    break;
+                            }
+                            json += "\",";
+                        }
+                        json += "\n    \"gears\": {";
+                        if (regionGears.Any())
+                        {
+                            json = regionGears.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionGears);
+                        }
+                        json += "},";
+                        json += "\n    \"bunnies\": {";
+                        if (regionBunnies.Any())
+                        {
+                            json = regionBunnies.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionBunnies);
+                        }
+                        json += "},";
+                        json += "\n    \"safes\": {";
+                        if (regionSafes.Any())
+                        {
+                            json = regionSafes.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionSafes);
+                        }
+                        json += "},";
+                        json += "\n    \"chests\": {";
+                        if (regionChests.Any())
+                        {
+                            json = regionChests.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionChests);
+                        }
+                        json += "},";
+                        json += "\n    \"coinbags\": {";
+                        if (regionCoinbags.Any())
+                        {
+                            json = regionCoinbags.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionCoinbags);
+                        }
+                        json += "},";
+                        json += "\n    \"coins\": {";
+                        if (regionCoins.Any())
+                        {
+                            json = regionCoins.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionCoins);
+                        }
+                        json += "},";
+                        json += "\n    \"checkpoints\": {";
+                        if (regionCheckpoints.Any())
+                        {
+                            json = regionCheckpoints.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionCheckpoints);
+                        }
+                        json += "},";
+                        json += "\n    \"cheeses\": {";
+                        if (regionCheeses.Any())
+                        {
+                            json = regionCheeses.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionCheeses);
+                        }
+                        json += "},";
+                        json += "\n    \"hats\": {";
+                        if (regionHats.Any())
+                        {
+                            json = regionHats.Aggregate(json, (current, v) => current + $"\n      \"{v.Value.Substring("Purchase ".Length)}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = json.TrimEnd(',') + "\n    ";
+                            regionItems.AddRange(regionHats);
+                        }
+                        json += "},";
+                        json += "\n    \"connections\": {";
+                        if (regionConnections.Any())
+                        {
+                            json = regionConnections.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
+                            json = json.TrimEnd(',') + "\n    ";
+                        }
+                        json += "},";
+                        json += "\n    \"subwarps\": {";
+                        if (regionSubwarps.Any())
+                        {
+                            json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
+                            json = json.TrimEnd(',') + "\n    ";
+                        }
+                        json += "},";
+                        json += "\n    \"warps\": {";
+                        if (regionWarps.Any())
+                        {
+                            json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
+                            json = json.TrimEnd(',') + "\n    ";
+                        }
+                        json += "},";
+                        json += "\n    \"specialrules\": {";
+                        if (DebugLocationHelper.SpecialRules.ContainsKey(GameplayMaster.instance.levelId.ToString()))
+                        {
+                            var specialRules = DebugLocationHelper.SpecialRules[GameplayMaster.instance.levelId.ToString()].Where(ruleItem =>
+                                regionItems.Any(regionItem => regionItem.Value == ruleItem.Key)).ToArray();
+                            if (specialRules.Any())
+                            {
+                                json = specialRules.Aggregate(json, (current, v) => current + $"\n      \"{v.Key}\": \"{v.Value}\",");
+                                json = json.TrimEnd(',') + "\n    ";
+                            }
+                        }
+                        json += "}";
+                        json += "\n  },";
+                    }
+                    json = json.TrimEnd(',');
+
+                    json += "\n}";
+                    GUIUtility.systemCopyBuffer = json;
+                    Plugin.Log("JSON Generation successful");
+                }
+                else
+                {
+                    //GUIUtility.systemCopyBuffer = GameplayMaster.instance.levelId.ToString();
+                }
+                Plugin.Log($"{GameplayMaster.instance.levelId}: {name}. There are {bonuses.Count} AP collectables, {checkpoints.Count} checkpoints, {hats} purchasable hats, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses.Count + cheeses + checkpoints.Count + hats} likely checks. Currently {documentedChecks} have been sorted into regions.");
+            }
         }
     }
 #endif

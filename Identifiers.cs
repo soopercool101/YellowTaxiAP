@@ -49,6 +49,7 @@
             Coins10 = 4,
             Coins25 = 5,
             Coins100 = 6,
+            // Hats are handled separately, as to not flood this enum
             FlipOWill = 8_0_0,
             ProgressiveJump = 8_0_1,
             ProgressiveBoost = 8_0_2,

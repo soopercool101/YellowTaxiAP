@@ -80,6 +80,9 @@ public static class ArchipelagoConsole
         {
             buttonText = PlayerScript.instance.transform.position.ToString();
         }
+        // Show Show/Hide button only when in menus
+        if (!ArchipelagoClient.Authenticated || !PlayerScript.instance || MenuV2Script.instance || DebugLocationHelper.Enabled)
+        {
 #else
         // Show Show/Hide button only when in menus
         if (!ArchipelagoClient.Authenticated || !PlayerScript.instance || MenuV2Script.instance)
@@ -92,10 +95,8 @@ public static class ArchipelagoConsole
                 Hidden = !Hidden;
                 UpdateWindow();
             }
-#if !DEBUG
         }
-#endif
-        
+
         // draw client/server commands entry
         if (Hidden || !ArchipelagoClient.Authenticated || (PlayerScript.instance && !MenuV2Script.instance))
         {

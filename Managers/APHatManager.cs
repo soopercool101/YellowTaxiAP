@@ -1,9 +1,12 @@
-﻿using YellowTaxiAP.Behaviours;
+﻿using System.Collections.Generic;
+using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
 {
     public class APHatManager
     {
+        public static List<Data.Hat> ReceivedHats = new();
+
         public APHatManager()
         {
             //On.HatBuyScript.Update += AP_HatUpdate;
@@ -39,7 +42,7 @@ namespace YellowTaxiAP.Managers
             if (!self.versioneArmadio)
             {
 #if DEBUG
-                var id = $"0_{Identifiers.HAT_ID:D2}_{(int)self.myHatKind:D5}";
+                var id = $"{(int)GameplayMaster.instance.levelId}_{Identifiers.HAT_ID:D2}_{(int)self.myHatKind:D5}";
                 DebugLocationHelper.CheckLocation("hat", id);
 #endif
             }

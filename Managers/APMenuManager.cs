@@ -24,14 +24,17 @@ namespace YellowTaxiAP.Managers
         private string[] MenuV2Script_PauseMenuVoicesStringsGet(On.MenuV2Script.orig_PauseMenuVoicesStringsGet orig, MenuV2Script self)
         {
             var strings = orig(self);
-            var grannysString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND");
-            var labString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB");
-            for (var i = 0; i < strings.Length; i++)
+            if (GameplayMaster.instance && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
             {
-                if (strings[i].Equals(Plugin.SlotData.StartInLab ? grannysString : labString))
+                var grannysString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND");
+                var labString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB");
+                for (var i = 0; i < strings.Length; i++)
                 {
-                    strings[i] = Plugin.SlotData.StartInLab ? labString : grannysString;
-                    break;
+                    if (strings[i].Equals(Plugin.SlotData.StartInLab ? grannysString : labString))
+                    {
+                        strings[i] = Plugin.SlotData.StartInLab ? labString : grannysString;
+                        break;
+                    }
                 }
             }
 
@@ -41,7 +44,10 @@ namespace YellowTaxiAP.Managers
         private void MenuV2Script_MenuVoicesInit(On.MenuV2Script.orig_MenuVoicesInit orig, MenuV2Script self)
         {
             orig(self);
-            self.menuSubTitles[15] = LocalizationManager.GetTermTranslation(Plugin.SlotData.StartInLab ? "MENU_SUB_TITLE_HEAD_TO_LAB" : "MENU_SUB_TITLE_HEAD_TO_GRANNYS_ISLAND");
+            if (GameplayMaster.instance && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+            {
+                self.menuSubTitles[15] = LocalizationManager.GetTermTranslation(Plugin.SlotData.StartInLab ? "MENU_SUB_TITLE_HEAD_TO_LAB" : "MENU_SUB_TITLE_HEAD_TO_GRANNYS_ISLAND");
+            }
         }
 
         /// <summary>
@@ -153,7 +159,7 @@ namespace YellowTaxiAP.Managers
                     return;
                 }
             }
-            else if (self.menuIndex == 15 && self.voiceIndex == 0)
+            else if (self.menuIndex == 15 && self.voiceIndex == 0 && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
             {
                 // Override behavior to return to starting position in all cases
                 Data.lastHubPortalVisited[Data.gameDataIndex] = -1;

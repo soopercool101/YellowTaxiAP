@@ -2,6 +2,7 @@ using BepInEx;
 using BepInEx.Logging;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Steamworks;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string PluginGUID = "com.soopercool101.YellowTaxiAP";
     public const string PluginName = "YellowTaxiAP";
-    public const string PluginVersion = "0.2.0";
+    public const string PluginVersion = "0.3.0";
 
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
     public const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
@@ -165,7 +166,6 @@ public class Plugin : BaseUnityPlugin
                     origUpdate(selfBombCar);
                 }
             };
-
         };
         On.ModMaster.OnPlayerDie += (orig, self) =>
         {
@@ -218,6 +218,11 @@ public class Plugin : BaseUnityPlugin
             {
                 AllowLaser = !AllowLaser;
                 Log($"Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}", true);
+                var rivers = FindObjectsByType<RiverScript>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                foreach (var river in rivers)
+                {
+                    river.gameObject.SetActive(AllowLaser);
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
@@ -339,6 +344,85 @@ public class Plugin : BaseUnityPlugin
                 Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
             }
 
+            if (Input.GetKeyDown(KeyCode.KeypadMultiply))
+            {
+                Log($"Copying Known BG/Soundtrack");
+                var bgs = "";
+                foreach (var bg in APAreaStateManager.KnownBackgrounds.Keys)
+                {
+                    bgs += $"\"{bg}\", ";
+                }
+
+                bgs = bgs.TrimEnd(',', ' ');
+
+                var sts = "";
+                foreach (var st in APAreaStateManager.KnownSoundtracks.Keys)
+                {
+                    sts += $"\"{st}\", ";
+                }
+
+                sts = sts.TrimEnd(',', ' ');
+
+                GUIUtility.systemCopyBuffer = $"{bgs}\n{sts}";
+            }
+
+            if (false)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    try
+                    {
+                        bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
+                    }
+                    catch { }
+                    bgIndex--;
+                    if (bgIndex < 0)
+                        bgIndex = KnownBGs.Length - 1;
+                    Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                    BackgroundMaster.Change(KnownBGs[bgIndex]);
+                }
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    try
+                    {
+                        bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
+                    }
+                    catch { }
+                    bgIndex++;
+                    if (bgIndex >= KnownBGs.Length)
+                        bgIndex = 0;
+                    Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                    BackgroundMaster.Change(KnownBGs[bgIndex]);
+                }
+
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    try
+                    {
+                        songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
+                    }
+                    catch { }
+                    songIndex--;
+                    if (songIndex < 0)
+                        songIndex = KnownSongs.Length - 1;
+                    Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
+                    GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                }
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    try
+                    {
+                        songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
+                    }
+                    catch { }
+                    songIndex++;
+                    if (songIndex >= KnownSongs.Length)
+                        songIndex = 0;
+                    Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
+                    GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))
             {
                 ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled =
@@ -349,4 +433,65 @@ public class Plugin : BaseUnityPlugin
         };
 #endif
     }
+
+#if DEBUG
+    public int bgIndex = 0;
+    public static readonly string[] KnownBGs =
+    [
+        "Background Soffitto Laboratorio",
+        "Background Morio's Home Internal",
+        "Background Sea and Sky",
+        "Background Bonus Level",
+        "Background Panik Arcade Internal",
+        "Background Sea and Sky - Sunset",
+        "Background Pizza Time",
+        "Background Soffitto Castello",
+        "Background Sky Night Moon",
+        "Background Black",
+        "Background Space",
+        "Background Soffitto ToslaHQ",
+        "Background Sky Night Moon Tosla Hq",
+        "Background Morio's Island",
+        "Background Bombeach",
+        "Background Dark Sky Tosla Offices",
+        "Background Skyline Autumn",
+        "Background Sky Morio's Mind",
+        "Background Skyline Night",
+        "Backround Sky Poop World",
+        "Background Simulation",
+        "Background Panik Arcade Internal(Clone)",
+    ];
+
+    public int songIndex = 0;
+    public static readonly string[] KnownSongs =
+    [
+        "SoundtrackHubOutside",
+        "SoundtrackHubInside",
+        "SoundtrackMoriosHome",
+        "SoundtrackMoriosHomeInternal",
+        "SoundtrackBonusLevel",
+        "SoundtrackBombeach",
+        "SoundtrackBossFight1",
+        "MEGA_RAN_-_TAXI_REFERENCE",
+        "Fasten_your_Seatbelt_MASTER Silence Cut",
+        "CrGuitarfasten_your_seatbelts_wav",
+        "SoundtrackArcadePanik",
+        "SoundtrackHatShop",
+        "SoundtrackPizzaTime",
+        "SoundtrackTimeAttack",
+        "SoundtrackToslaOffices",
+        "SoundtrackBossFightImportant",
+        "SoundtrackCityLevel",
+        "SoundtrackCrashTestIndustries",
+        "SoundtrackMoriosMind",
+        "SoundtrackRuinedObservatory",
+        "SoundtrackRocket",
+        "SoundtrackToslaHQ",
+        "SoundtrackMoonTheme",
+        "SoundtrackBossFightFinal",
+        "SoundtrackGym",
+        "SoundtrackPoopWorld",
+        "SoundtrackSewers"
+    ];
+#endif
 }

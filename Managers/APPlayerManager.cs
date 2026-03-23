@@ -54,6 +54,33 @@ namespace YellowTaxiAP.Managers
                 self.glidingKeepTimer = float.MaxValue; // Prevent glide from working
             }
             orig(self);
+#if FALSE // Allow jump in overhead sections. Might make this an item idk
+            if (self.UsingPacmanInputs())
+            {
+                var _shouldFreezeCar = DialogueScript.instance || PersonParent.chargingClient ||
+                                       (bool)(UnityEngine.Object)PersonParent.droppedPerson ||
+                                       (MorioDreamMachineScript.instance &&
+                                        MorioDreamMachineScript.instance.animationRunning) ||
+                                       self.qBlockStopGoFreezingCar || self.ShouldHyperFreeze;
+                if (self.CanPerformInputs(_shouldFreezeCar))
+                {
+                    if ((Controls.GameActio0Press(0) || PlayerScript.modFlipOWillJustPressed) &&
+                        Data.flipOWillUnlockState[Data.gameDataIndex])
+                    {
+                        if (self.justJumpedTimer <= 0.0)
+                        {
+                            if ((Controls.GameActio0Press(0) || PlayerScript.modFlipOWillJustPressed) &&
+                                self.flipOWill_FlipTimer > -0.20000000298023224 &&
+                                self.flipOWill_FlipTimer < 0.5 && !self.flipOWilLDoubleInputPress)
+                            {
+                                double num3 = self.FlipOWillAbort();
+                            }
+                        }
+                    }
+                }
+            }
+#endif
+
             if (!SpinAttackEnabled)
             {
                 DisableFlipOWillSpinAttack(self); // Disables spin effects
