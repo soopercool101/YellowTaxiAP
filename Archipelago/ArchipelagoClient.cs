@@ -25,6 +25,7 @@ public class ArchipelagoClient
 
     public static ArchipelagoData ServerData = new();
     public static DeathLinkHandler DeathLinkHandler;
+    public static RingLinkHandler RingLinkHandler;
     private ArchipelagoSession session;
 
     /// <summary>
@@ -109,12 +110,17 @@ public class ArchipelagoClient
     public bool LocationNeedsScouting(long location)
     {
         return Enum.IsDefined(typeof(Identifiers.NotableLocations), location) || NonGearScouts.Contains(location) ||
-               (!AllClearedLocations.Contains(location) && LocationWasGear(location));
+               (!AllClearedLocations.Contains(location) && (LocationWasGear(location) || LocationWasHat(location)));
     }
 
     public bool LocationWasGear(long location)
     {
         return  location / 1000000 % 10 == 0 && location / 100000 % 10 == 1;
+    }
+
+    public bool LocationWasHat(long location)
+    {
+        return location / 1000000 % 10 == 0 && location / 100000 % 10 == 7;
     }
 
     /// <summary>
@@ -145,9 +151,11 @@ public class ArchipelagoClient
 
                 DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName,
                     Plugin.SlotData.DeathLink);
+                //RingLinkHandler = new RingLinkHandler()
+
                 //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
 
-                if (!Plugin.SlotData.Hatsanity)
+                if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled)
                 {
                     session.DataStorage[Scope.Slot, "UnlockedHats"].GetAsync().ContinueWith(x =>
                     {
@@ -166,6 +174,10 @@ public class ArchipelagoClient
                                     NeedsLoad = true
                                 };
                                 session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(1);
+                                if (!string.IsNullOrEmpty(Plugin.SlotData.FunnyFaces))
+                                {
+                                    APSaveController.HatSave.SetHatUnlocked(Data.Hat.Hat51_TvInfluencer);
+                                }
                                 Plugin.Log("Hat State initialized");
                             }
                             catch
@@ -221,12 +233,16 @@ public class ArchipelagoClient
                         Plugin.Log("Save Load Failed");
                         try
                         {
-                            APSaveController.MiscSave = new YTGVMiscSave(0)
+                            var save = new YTGVMiscSave(0);
+                            if (!string.IsNullOrEmpty(Plugin.SlotData.FunnyFaces))
                             {
-                                NeedsLoad = true
-                            };
-                            session.DataStorage[Scope.Slot, "Save"].Initialize(0);
-                            Plugin.Log("Save State initialized");
+                                save.CurrentHat = Data.Hat.Hat51_TvInfluencer;
+                                save.NeedsSave = false;
+                            }
+                            session.DataStorage[Scope.Slot, "Save"].Initialize(save.SaveData);
+                            APSaveController.MiscSave = save;
+                            APSaveController.MiscSave.NeedsLoad = true;
+                            Plugin.Log($"Save State initialized {save.SaveData}");
                         }
                         catch
                         {
@@ -236,6 +252,15 @@ public class ArchipelagoClient
                     }
                 });
                 session.DataStorage[Scope.Slot, "Save"].OnValueChanged += Save_OnValueChanged;
+
+                if (!string.IsNullOrEmpty(Plugin.SlotData.FunnyFaces))
+                {
+                    Data.HatSetUnlockedState((int)Data.Hat.Hat51_TvInfluencer, true);
+                    if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity)
+                    {
+                        Data.HatSetUnlockedState(0, APHatManager.ReceivedNoHatItem);
+                    }
+                }
 
                 session.DataStorage[Scope.Slot, "Wallet"].GetAsync().ContinueWith(x =>
                 {
@@ -441,6 +466,9 @@ public class ArchipelagoClient
                 Data.GetLevel(Data.LevelId.L15_Moon).bunniesUnlocked++;
                 ReceivedBunny();
                 break;
+            case Identifiers.ItemID.MoriosWardrobe:
+                APAreaStateManager.WardrobeUnlocked = true;
+                break;
             case Identifiers.ItemID.GelaToni:
                 APAreaStateManager.GelaToniReceived = true;
                 break;
@@ -486,9 +514,13 @@ public class ArchipelagoClient
                     if (PlayerScript.instance)
                     {
                         APSaveController.MiscSave.CurrentHat = hat;
+                        APSaveController.MiscSave.NeedsLoad = true;
                     }
-                    APHatManager.ReceivedHats.Add(hat);
-                    return;
+
+                    if (hat == Data.Hat.Noone)
+                        APHatManager.ReceivedNoHatItem = true;
+                    Data.HatSetUnlockedState((int)(receivedItem.ItemId - 700), true);
+                    break;
                 }
                 Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
                 throw new ArgumentOutOfRangeException();
@@ -576,7 +608,7 @@ public class ArchipelagoClient
     {
         lock (hatDataLock)
         {
-            if (Plugin.SlotData.Hatsanity)
+            if (Plugin.SlotData.Hatsanity != YTGVSlotData.HatsanityType.Disabled)
                 return;
 
             try

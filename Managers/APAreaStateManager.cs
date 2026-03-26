@@ -10,15 +10,16 @@ namespace YellowTaxiAP.Managers
 {
     public class APAreaStateManager
     {
-        public static bool RocketEnabled = false;
-        public static bool MindPasswordReceived = false;
         public static bool GelaToniReceived = false;
         public static bool PizzaKingReceived = false;
-        public static bool DoggoReceived = false;
-        public static bool FullGameUnlocked = false;
-        public static bool LabDoorUnlocked = false;
-        public static bool SewerDoorUnlocked = false;
+        public static bool MindPasswordReceived = false;
         public static bool GymMembership = false;
+        public static bool DoggoReceived = false;
+        public static bool SewerDoorUnlocked = false;
+        public static bool RocketEnabled = false;
+        public static bool LabDoorUnlocked = false;
+        public static bool WardrobeUnlocked = false;
+        public static bool FullGameUnlocked = false;
 
         public APAreaStateManager()
         {
@@ -28,6 +29,7 @@ namespace YellowTaxiAP.Managers
             On.DisableAreaScript_GoldenSpring.Start += DisableAreaScript_GoldenSpring_Start;
             On.DisableAreaScript_MorioMindPassword.Start += DisableAreaScript_MorioMindPassword_Start;
             On.MorioDreamMachineScript.FixedUpdate += MorioDreamMachineScript_FixedUpdate;
+            On.DisableAreaScript_GearsNumber.Awake += DisableAreaScript_GearsNumber_Awake;
             On.DisableAreaScript_GearsNumber.Start += DisableAreaScript_GearsNumber_Start;
             On.DisableAreaScript_EventMode.Start += DisableAreaScript_EventMode_Start;
             On.DisableAreaScript_GrannyIsland_IceCream.Start += DisableAreaScript_GrannyIsland_IceCream_Start;
@@ -239,6 +241,12 @@ namespace YellowTaxiAP.Managers
             }
         }
 
+        private void DisableAreaScript_GearsNumber_Awake(On.DisableAreaScript_GearsNumber.orig_Awake orig, DisableAreaScript_GearsNumber self)
+        {
+            orig(self);
+            self.gameObject.AddComponent<AreaStateOverride_Wardrobe>();
+        }
+
         /// <summary>
         /// Disables the hat wardrobe in the earlygame.
         /// Bizarrely, also disables the coins/gear on top of the rocket. Would think that would be handled by the rocket handler.
@@ -248,10 +256,10 @@ namespace YellowTaxiAP.Managers
         private void DisableAreaScript_GearsNumber_Start(On.DisableAreaScript_GearsNumber.orig_Start orig, DisableAreaScript_GearsNumber self)
         {
             Plugin.Log(self.gameObject.name + $" is attempting to disable and enable areas (Expected Gears: {self.activeWhenGearsLowerThanThis})");
-            orig(self);
-            foreach (var toDisable in self.disableThisAreaWhenActive)
+            foreach (var toDisable in self.disableThisAreaWhenActive.Where(o => o?.GetComponent<BonusScript>()))
             {
                 toDisable?.SetActive(true);
+                //Plugin.Log($"ToDisable: {toDisable?.name ?? "<null>"}");
                 //var bonus = toDisable.GetComponent<BonusScript>();
                 //Plugin.Log(bonus != null
                 //    ? $"ToDisable: {toDisable.name} | ID: {APCollectableManager.GetID(bonus)}"

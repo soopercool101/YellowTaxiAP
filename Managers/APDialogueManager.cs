@@ -114,6 +114,10 @@ namespace YellowTaxiAP.Managers
                 //Plugin.Log($"{self.transform.position} {self.dialoguePickup.name}");
                 self.transform.position = new Vector3(-850, 130, 470);
             }
+            else if (true && GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 515)
+            {
+                self.justWantToTalk = true;
+            }
 
 
             orig(self);
@@ -160,7 +164,7 @@ namespace YellowTaxiAP.Managers
             self.dialoguePickup = self.dialogue_initialNoGears;
         }
 
-        public string CurrentFont
+        public static string CurrentFont
         {
             get
             {
@@ -725,9 +729,10 @@ namespace YellowTaxiAP.Managers
             Spawn.Instance("Dialogue Rat Pickup Answer No", Vector3.zero);
         }
 
-        private enum DialogueColors
+        public enum DialogueColors
         {
             Black,
+            Acqua,
             Yellow,
             GreenYellow,
             OrangeYellow,
@@ -735,13 +740,13 @@ namespace YellowTaxiAP.Managers
             FullRed,
         }
 
-        private string SetTextColor(string text, DialogueColors color)
+        public static string SetTextColor(string text, DialogueColors color)
         {
             var font = CurrentFont;
             return $"<font=\"{font} Black\" material=\"{font} {color}\">{text}</font>";
         }
 
-        private string GetItemText(long itemId, bool includePlayer = true, bool includePrefixes = true)
+        public static string GetItemText(long itemId, bool includePlayer = true, bool includePrefixes = true)
         {
             ScoutedItemInfo item;
             try

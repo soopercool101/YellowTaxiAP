@@ -72,6 +72,15 @@ public class Plugin : BaseUnityPlugin
 
         BepinLogger.LogMessage($"{ModDisplayInfo} loaded!");
         ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
+        On.Master.Awake += (orig, self) =>
+        {
+            orig(self);
+            Master.influencerHatsAndGraphicsEnabled = true;
+        };
+        On.Master.InfluecerGraphicsCheatReset += _ =>
+        {
+            // Don't reset this cheat
+        };
         On.Master.Start += (orig, self) =>
         {
             DataHook = new APDataManager();
@@ -364,6 +373,11 @@ public class Plugin : BaseUnityPlugin
                 sts = sts.TrimEnd(',', ' ');
 
                 GUIUtility.systemCopyBuffer = $"{bgs}\n{sts}";
+            }
+
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                Plugin.Log($"DEBUG: Hat Burger {Data.HatGetUnlockedState((int)Data.Hat.Hat52_WishlistBurger)}", true);
             }
 
             if (false)

@@ -139,14 +139,19 @@ namespace YellowTaxiAP.Managers
         {
             if (unlockedState)
             {
-                if (!Plugin.SlotData.Hatsanity)
+                if (YTGVSlotData.Loaded && Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled)
                 {
                     APSaveController.HatSave.SetHatUnlocked((Data.Hat)hatIndex);
                 }
                 else
                 {
-                    Plugin.ArchipelagoClient.SendLocation(07_00000 + hatIndex);
+                    Plugin.Log($"HatSetUnlockedState {hatIndex}");
+                    orig(hatIndex, true);
                 }
+            }
+            else if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity && hatIndex == 0)
+            {
+                orig(hatIndex, false);
             }
             else
             {
@@ -156,7 +161,10 @@ namespace YellowTaxiAP.Managers
 
         private bool Data_HatGetUnlockedState(On.Data.orig_HatGetUnlockedState orig, int hatIndex)
         {
-            return APSaveController.HatSave.GetHatUnlocked((Data.Hat)hatIndex);
+            //Plugin.Log($"HatGetUnlockedState {hatIndex}");
+            return YTGVSlotData.Loaded && Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled
+                ? APSaveController.HatSave.GetHatUnlocked((Data.Hat) hatIndex)
+                : orig(hatIndex);
         }
 
         public static int TotalBunniesReceived = 0;
@@ -181,6 +189,7 @@ namespace YellowTaxiAP.Managers
             if (Data.levelDataList.Count == 0)
                 Data.CreateLevelData();
             Data.InitHatData();
+            Data.HatSetUnlockedState(0, true);
             Data.introCutscenePlayed[Data.gameDataIndex] = true;
             Data.cutscenePropellerFirstTimePickup[Data.gameDataIndex] = true;
             Data.goldenSpringUnlocked[Data.gameDataIndex] = true;
@@ -189,18 +198,13 @@ namespace YellowTaxiAP.Managers
             Data.morioMindPasswordGot[Data.gameDataIndex] = false;
             Data.gononoBombeachDelivered[Data.gameDataIndex] = true;
             Data.morioCutsceneToslaHQUnlocked[Data.gameDataIndex] = true;
+            Data.wishlistHatEquipped[Data.gameDataIndex] = true;
         }
 
         private void Data_SaveGame(On.Data.orig_SaveGame orig, bool forceSave)
         {
             // Prevent saving while mod is running
             Plugin.BepinLogger.LogMessage("Saving Intercepted");
-#if DEBUG
-            if (!ArchipelagoClient.Authenticated)
-            {
-                orig(forceSave);
-            }
-#endif
         }
     }
 }

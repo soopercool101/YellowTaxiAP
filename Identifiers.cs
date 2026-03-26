@@ -61,6 +61,7 @@
             GymMembership = 10_06,
             Doggo = 10_07,
             MosksRocket = 10_16,
+            MoriosWardrobe = 11_00,
             GelaToni = 11_01,
             PizzaKing = 11_02,
             OrangeSwitch = 11_10,

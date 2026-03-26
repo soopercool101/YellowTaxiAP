@@ -161,47 +161,22 @@ namespace YellowTaxiAP.Managers
             }
             else if (self.menuIndex == 15 && self.voiceIndex == 0 && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
             {
+                self.done = true;
+
                 // Override behavior to return to starting position in all cases
                 Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
-                if (!Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+
+                TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)Levels.GetHubIndex());
+                Data.LevelId hubLevelId = Data.GetHubLevelId();
+                LoadingScreenScript.WelcomeSetup(hubLevelId, Plugin.SlotData.StartInLab ? LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND_LAB") : LocalizationManager.GetTermTranslation("Hub")
+                    , 0, 0, false);
+                CheckpointScript.CheckpointDataReset();
+                GameplayMaster.SelfRespawnClear();
+                if (Plugin.SlotData.StartInLab)
                 {
-                    //Data.HubPortalSetLast();
-                    TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)Levels.GetHubIndex());
-                    Data.LevelId hubLevelId = Data.GetHubLevelId();
-                    LoadingScreenScript.WelcomeSetup(hubLevelId, Plugin.SlotData.StartInLab ? LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND_LAB") : LocalizationManager.GetTermTranslation("Hub")
-                        , 0, 0, false);
-                    CheckpointScript.CheckpointDataReset();
-                    GameplayMaster.SelfRespawnClear();
-                    if (Plugin.SlotData.StartInLab)
-                    {
-                        APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
-                    }
+                    APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
                 }
-                else
-                {
-                    Tick.Paused = false;
-                    Object.Destroy(self.gameObject);
-                    PlayerScript.instance.propellerUsesLeft = 0;
-                    GameplayMaster.SelfRespawnClear();
-                    if (!Plugin.SlotData.StartInLab)
-                    {
-                        var transitionScript = PortalTransitionScript.Spawn(new Vector3(0, 0, 0), 0);
-                        transitionScript.songChange = "SoundtrackHubOutside";
-                        transitionScript.backgroundChange = "Background Sea and Sky";
-                        transitionScript.desiredWaterState = true;
-                        transitionScript.desiredLightState = true;
-                        transitionScript.desiredZoneId = 0;
-                    }
-                    else
-                    {
-                        var transitionScript = PortalTransitionScript.Spawn(new Vector3(-750f, 10f, 680f), 0);
-                        transitionScript.songChange = "SoundtrackHubInside";
-                        transitionScript.backgroundChange = "Background Soffitto Laboratorio";
-                        transitionScript.desiredWaterState = false;
-                        transitionScript.desiredLightState = true;
-                        transitionScript.desiredZoneId = 2;
-                    }
-                }
+
                 return;
             }
 

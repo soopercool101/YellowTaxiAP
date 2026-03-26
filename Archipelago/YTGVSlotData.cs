@@ -22,11 +22,12 @@ namespace YellowTaxiAP.Archipelago
         /// Highest supported minor version in the highest supported major version.
         /// Should be up to date with latest APWorld whenever a new version is released.
         /// </summary>
-        public const int HighestSupportedMinorVersion = 2;
+        public const int HighestSupportedMinorVersion = 3;
         public bool FailedValidation { get; private set; }
         public long APWorldMajorVersion { get; set; }
         public long APWorldMinorVersion { get; set; }
         public long APWorldBuildVersion { get; set; }
+        public static bool Loaded { get; private set; }
 
         public enum GoalType : long
         {
@@ -56,7 +57,14 @@ namespace YellowTaxiAP.Archipelago
         public bool Coinbagsanity { get; private set; }
         public bool Coinsanity { get; private set; }
         public bool Cheesesanity { get; private set; }
-        public bool Hatsanity { get; private set; }
+
+        public enum HatsanityType : long
+        {
+            Disabled = 0,
+            Hatsanity = 1,
+            Shopsanity = 2,
+        }
+        public HatsanityType Hatsanity { get; private set; }
         public bool ExtraDemoCollectables { get; private set; }
         public bool ShuffleFlipOWill { get; private set; }
         public bool ShuffleGlide { get; private set; }
@@ -80,6 +88,9 @@ namespace YellowTaxiAP.Archipelago
         public bool OpenGrannysIsland { get; private set; }
         public bool LockedMoriosLab { get; private set; }
         public bool StartInLab { get; private set; }
+        public bool LockedMoriosWardrobe { get; private set; }
+
+        public string FunnyFaces { get; private set; }
 
         public enum LevelUnlockCondition : long
         {
@@ -319,11 +330,12 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("hatsanity"))
             {
-                Cheesesanity = (long)slotData["hatsanity"] == 1;
+                Hatsanity = (HatsanityType)(long)slotData["hatsanity"];
             }
             else
             {
                 Plugin.Log("No slot data for hatsanity found");
+                Hatsanity = HatsanityType.Disabled;
             }
 
             if (slotData.ContainsKey("shuffle_flip_o_will"))
@@ -536,6 +548,26 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for lab_start found");
             }
+
+            if (slotData.ContainsKey("locked_morios_wardrobe"))
+            {
+                LockedMoriosWardrobe = (long)slotData["locked_morios_wardrobe"] == 1;
+            }
+            else
+            {
+                Plugin.Log("No slot data for locked_morios_wardrobe found");
+            }
+
+            if (slotData.ContainsKey("funny_faces"))
+            {
+                FunnyFaces = slotData["funny_faces"].ToString();
+            }
+            else
+            {
+                Plugin.Log("No slot data for funny_faces found");
+            }
+
+            Loaded = true;
         }
     }
 }

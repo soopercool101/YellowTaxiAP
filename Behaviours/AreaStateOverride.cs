@@ -271,6 +271,7 @@ namespace YellowTaxiAP.Behaviours
                 {
                     continue;
                 }
+                Plugin.Log($"Setting portal state: {portal.name} | {!ExpectedState}");
                 portal.gameObject.SetActive(!ExpectedState);
             }
 
@@ -298,6 +299,28 @@ namespace YellowTaxiAP.Behaviours
                         throw new ArgumentOutOfRangeException();
                 }
             }
+        }
+
+        public override void FixedUpdate()
+        {
+            if (state == ExpectedState)
+                return;
+
+            foreach (var disable in toDisable)
+            {
+                if (!disable)
+                    continue;
+                disable.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
+            }
+
+            foreach (var enable in toEnable)
+            {
+                if (!enable)
+                    continue;
+                enable.SetActive(ExpectedState || enable.GetComponent<BonusScript>());
+            }
+
+            state = ExpectedState;
         }
     }
 
@@ -359,6 +382,20 @@ namespace YellowTaxiAP.Behaviours
             LabRenderer.material.mainTexture = ExpectedState ? LabOutsideLockedTexture : LabOutsideUnlockedTexture;
 
             state = ExpectedState;
+        }
+    }
+
+    public class AreaStateOverride_Wardrobe : AreaStateOverride
+    {
+        protected override bool ExpectedState => Plugin.SlotData.LockedMoriosWardrobe && !APAreaStateManager.WardrobeUnlocked;
+        public override void Awake()
+        {
+            var orig = gameObject.GetComponent<DisableAreaScript_GearsNumber>();
+            if (orig)
+            {
+                toDisable = orig.disableThisAreaWhenActive.Where(o => !o.GetComponent<BonusScript>()).ToArray();
+                toEnable = orig.enableThisAreaWhenActive;
+            }
         }
     }
 

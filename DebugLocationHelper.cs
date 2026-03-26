@@ -4986,7 +4986,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabMoriosRoomOutside)),
                 [
-                    new RegionConnection(MoriosLabMoriosRoomInside, "MorioHat")
+                    new RegionConnection(MoriosLabMoriosRoomInside, $"NHS+MorioHat | HS+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}")
                 ]
             },
             {
@@ -5107,7 +5107,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosLabPathToMoriosRoom, "FGU"),
                     new RegionConnection(MoriosLabMoriosRoomOutside, "FGU"),
-                    new RegionConnection(MoriosLabMoriosRoomInsideJump, "FGU+MorioHat"),
+                    new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+FGU+MorioHat | HS+FGU+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU/GS"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "GS+FGU"),

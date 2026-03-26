@@ -24,6 +24,9 @@ namespace YellowTaxiAP.Behaviours
 
         public void FixedUpdate()
         {
+            if (!YTGVSlotData.Loaded)
+                return;
+
             if (MiscSave.NeedsLoad)
             {
                 Plugin.Log("Loading save data");
@@ -112,7 +115,7 @@ namespace YellowTaxiAP.Behaviours
                 Plugin.ArchipelagoClient.SaveDSSaveData();
             }
 
-            if (!Plugin.SlotData.Hatsanity)
+            if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled)
             {
                 if (HatSave.NeedsLoad)
                 {
