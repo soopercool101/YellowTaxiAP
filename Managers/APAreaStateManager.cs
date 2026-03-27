@@ -20,6 +20,33 @@ namespace YellowTaxiAP.Managers
         public static bool LabDoorUnlocked = false;
         public static bool WardrobeUnlocked = false;
         public static bool FullGameUnlocked = false;
+        public static bool TimeTrial1Unlocked
+        {
+            get;
+            set
+            {
+                field = value;
+                TimeTrialsUnlockState[Data.LevelId.L17_TimeAttack01] = null;
+            }
+        }
+        public static bool TimeTrial2Unlocked
+        {
+            get;
+            set
+            {
+                field = value;
+                TimeTrialsUnlockState[Data.LevelId.L18_TimeAttack02] = null;
+            }
+        }
+        public static bool TimeTrial3Unlocked
+        {
+            get;
+            set
+            {
+                field = value;
+                TimeTrialsUnlockState[Data.LevelId.L19_TimeAttack03] = null;
+            }
+        }
 
         public APAreaStateManager()
         {
@@ -39,6 +66,7 @@ namespace YellowTaxiAP.Managers
             On.DisableAreaScript_Demo.Start += DisableAreaScript_Demo_Start;
             On.TrueDemoWallScript.OnCollisionEnter += TrueDemoWallScript_OnCollisionEnter;
             On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
+            On.TimeAttackComputerScript.Update += TimeAttackComputerScript_Update;
 #if DEBUG
             On.BackgroundMaster.Change += BackgroundMaster_Change;
             On.GameplayMaster.SoundtrackRoutine += GameplayMaster_SoundtrackRoutine;
@@ -52,6 +80,34 @@ namespace YellowTaxiAP.Managers
                 KnownBackgrounds[bg] = bg;
             }
 #endif
+        }
+
+        public static Dictionary<Data.LevelId, bool?> TimeTrialsUnlockState = new()
+        {
+            { Data.LevelId.L17_TimeAttack01, null },
+            { Data.LevelId.L18_TimeAttack02, null },
+            { Data.LevelId.L19_TimeAttack03, null },
+        };
+
+        private void TimeAttackComputerScript_Update(On.TimeAttackComputerScript.orig_Update orig, TimeAttackComputerScript self)
+        {
+            if (TimeTrialsUnlockState[self.timeAttackLevelId] == null)
+            {
+                TimeTrialsUnlockState[self.timeAttackLevelId] = self.timeAttackLevelId switch
+                {
+                    Data.LevelId.L17_TimeAttack01 => TimeTrial1Unlocked,
+                    Data.LevelId.L18_TimeAttack02 => TimeTrial2Unlocked,
+                    Data.LevelId.L19_TimeAttack03 => TimeTrial3Unlocked,
+                    _ => false
+                };
+                var unlocked = TimeTrialsUnlockState[self.timeAttackLevelId].Value;
+                self.ringRenderer.enabled = unlocked;
+            }
+            else if (!TimeTrialsUnlockState[self.timeAttackLevelId].Value)
+            {
+                self.activationDelay = Tick.Time * 5;
+            }
+            orig(self);
         }
 
 #if DEBUG

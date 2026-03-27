@@ -266,6 +266,7 @@ namespace YellowTaxiAP.Behaviours
                 // Use names rather than target level ids to avoid entrance rando shenanigans down the line
                 if (portal.gameObject.name.Equals("Portal Level Psycho Taxi 1") ||
                     portal.gameObject.name.Equals("Portal Level Poop World") ||
+                    portal.gameObject.name.Equals("Portal Level Sewers Fogne") ||
                     portal.gameObject.name.Equals("Portal Level Morio Mind") ||
                     portal.gameObject.name.Equals("Portal Level Rocket"))
                 {

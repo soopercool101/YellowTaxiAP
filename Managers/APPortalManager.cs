@@ -467,7 +467,7 @@ namespace YellowTaxiAP.Managers
 
         public static Dictionary<string, string> WarpRedirects = new()
         {
-            //{"Granny's Island - Morio's Lab Front Door", "Granny's Island - Flushed Away Entrance"},
+            {"Granny's Island - Morio's Lab Front Door", "Granny's Island - Flushed Away Entrance"},
             //{"Cave - Exit", "Morio's Lab - Portal to Bombeach"},
             //{"Bombeach - Morio's Lab Portal", "Cave - Exit"},
             //{"Bombeach - Hat World Entrance", "Morio's Home - Portal to Morio's Lab"},
@@ -478,7 +478,7 @@ namespace YellowTaxiAP.Managers
             //{"Granny's Island - Gym Gears Entrance", "Law Firm - Exit"},
             //{"Granny's Island - Law Firm Roof Entrance", "Granny's Island - Gym Gears Entrance"},
             //{"Granny's Island Hat World - Exit", "Granny's Island Hat World - Exit"},
-            //{"Morio's Lab - Front Door", "Granny's Island - Hat World Entrance"},
+            {"Morio's Lab - Front Door", "Granny's Island - Flushed Away Entrance"},
             //{"Granny's Island - Hat World Entrance", "Morio's Home - Door to Weird Tunnels"},
             //{"Morio's Home - Door to Weird Tunnels", "Granny's Island - Gym Gears Entrance"},
             //{"Morio's Lab - Portal to Morio's Island", "Morio's Home - Morio's Garage Exit"},

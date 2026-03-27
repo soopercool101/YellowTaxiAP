@@ -12,7 +12,7 @@ namespace YellowTaxiAP
 #if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => true;
+        public static bool Enabled => false;
 
         #region Hub
 
@@ -3605,7 +3605,44 @@ namespace YellowTaxiAP
             { "8_03_00302", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #3" },
             { "8_03_00303", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #4" },
             { "8_03_00304", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #5" },
-
+            { "8_03_00272", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #1" },
+            { "8_03_00271", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #2" },
+            { "8_03_00255", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #3" },
+            { "8_03_00237", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #4" },
+            { "8_03_00236", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #5" },
+            { "8_03_00263", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #1" },
+            { "8_03_00256", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #2" },
+            { "8_03_00264", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #3" },
+            { "8_03_00257", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #4" },
+            { "8_03_00265", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #5" },
+            { "8_03_00258", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #6" },
+            { "8_03_00259", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #7" },
+            { "8_03_00260", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #8" },
+            { "8_03_00261", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #9" },
+            { "8_03_00266", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #10" },
+            { "8_03_00262", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #11" },
+            { "8_03_00267", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #12" },
+            { "8_03_00269", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #13" },
+            { "8_03_00268", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #14" },
+            { "8_03_00270", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #15" },
+            { "8_03_00238", "Flushed Away - Coin in Sewage by Skeleton Dance Party #1" },
+            { "8_03_00239", "Flushed Away - Coin in Sewage by Skeleton Dance Party #2" },
+            { "8_03_00240", "Flushed Away - Coin in Sewage by Skeleton Dance Party #3" },
+            { "8_03_00241", "Flushed Away - Coin in Sewage by Skeleton Dance Party #4" },
+            { "8_03_00242", "Flushed Away - Coin in Sewage by Skeleton Dance Party #5" },
+            { "8_03_00243", "Flushed Away - Coin in Sewage by Skeleton Dance Party #6" },
+            { "8_03_00244", "Flushed Away - Coin in Sewage by Skeleton Dance Party #7" },
+            { "8_03_00248", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #1" },
+            { "8_03_00247", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #2" },
+            { "8_03_00246", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #3" },
+            { "8_03_00245", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #4" },
+            { "8_03_00229", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #5" },
+            { "8_03_00228", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #6" },
+            { "8_03_00227", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #7" },
+            { "8_03_00226", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #8" },
+            { "8_03_00225", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #9" },
+            // Can be obtained moveless by falling from the ledge above rather than in the river
+            { "8_02_00001", "Flushed Away - Bunny - Behind Waterfall" },
             // Slightly too high to grab without jump. Also can boost to it though this is less obvious
             { "8_01_00002", "Flushed Away - Gear - Skeleton Dance Party" },
         };
@@ -3699,6 +3736,7 @@ namespace YellowTaxiAP
             { "Flushed Away - Bunny - Above the Sewer Creatures", "X1/B1/J1" },
             { "Flushed Away - Chest on Roof Near Checkpoint", "X1/J1" },
             { "Flushed Away - Coin Bag on Roof Near Checkpoint", "X1/J1" },
+            { "Flushed Away - Bunny - Behind Waterfall", "X1/B1/J1" },
             { "Flushed Away - Gear - Skeleton Dance Party", "X1+B1 | J1" },
         };
         
@@ -4104,16 +4142,66 @@ namespace YellowTaxiAP
             { string.Empty, nameof(GettingGudStartingArea) + " - !PLACEHOLDER!" },
         };
 
+        [Description("Getting Gud! - Lower Spikes")]
         public static Dictionary<string, string> GettingGudLowerSpikes = new()
         {
             { "18_01_00004", "Getting Gud! - Gear - In Spikes Left of Start" },
             { "18_01_00005", "Getting Gud! - Gear - In Spikes Right of Start" },
         };
 
+        [Description("Getting Gud! - Middle Floor")]
         public static Dictionary<string, string> GettingGudMiddleFloor = new()
         {
             { "18_01_00002", "Getting Gud! - Gear - In Front of Start" },
-            { "18_01_00005", "Getting Gud! - Gear - Behind Start" },
+            { "18_01_00003", "Getting Gud! - Gear - Behind Start" },
+        };
+
+        [Description("Getting Gud! - High Ground")]
+        public static Dictionary<string, string> GettingGudHighGround = new()
+        {
+            { "18_01_00000", "Getting Gud! - Gear - High Platform" },
+            { "18_01_00001", "Getting Gud! - Gear - In the Air" },
+        };
+
+        #endregion
+
+        #region Time Trial: Pro Tricks!
+
+        [Description("Pro Tricks! - Starting Area")]
+        public static Dictionary<string, string> ProTricksStartingArea = new()
+        {
+            { "19_01_00007", "Pro Tricks! - Gear - #1 Near Spikes at Start" },
+            { "19_01_00008", "Pro Tricks! - Gear - #2 Above Ramps" }
+        };
+
+        [Description("Pro Tricks! - First Gap Ramp")]
+        public static Dictionary<string, string> ProTricksFirstGapRamp = new()
+        {
+            { "19_01_00002", "Pro Tricks! - Gear - #3 Above Gap" },
+            { "19_01_00001", "Pro Tricks! - Gear - #4 On Ramp Island" },
+        };
+
+        [Description("Pro Tricks! - Middle Section")]
+        public static Dictionary<string, string> ProTricksMiddleSection = new()
+        {
+            { "19_01_00003", "Pro Tricks! - Gear - #5 After Gap" },
+            { "19_01_00000", "Pro Tricks! - Gear - #6 Sharp Turn Through Spikes" },
+            { "19_01_00005", "Pro Tricks! - Gear - #7 On Flat Island" },
+        };
+
+        [Description("Pro Tricks! - Final Section")]
+        public static Dictionary<string, string> ProTricksFinalSection = new()
+        {
+            { "19_01_00006", "Pro Tricks! - Gear - #8 On Ramp Pillar" },
+            { "19_01_00004", "Pro Tricks! - Gear - #9 Cliff Above Start" },
+            { "<SPECIAL>", "Pro Tricks! - Complete Time Trial" }
+        };
+
+        public static Dictionary<string, string> ProTricksSpecialRules = new()
+        {
+            { "Pro Tricks! - Gear - #2 Above Ramps", "B1/J2" },
+            // Making sure you can reach middle and final section should be sufficient for time trial completion
+            { "Pro Tricks! - Complete Time Trial", $"{{{GetDescription(nameof(ProTricksMiddleSection))}}}" },
         };
 
         #endregion
@@ -4325,6 +4413,19 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(BabyStepsMainArea)), BabyStepsMainArea),
             new(GetDescription(nameof(BabyStepsPillar)), BabyStepsPillar),
 
+            // Getting Gud! Areas
+            new(GetDescription(nameof(GettingGudStartingArea)), GettingGudStartingArea),
+            new(GetDescription(nameof(GettingGudLowerSpikes)), GettingGudLowerSpikes),
+            new(GetDescription(nameof(GettingGudMiddleFloor)), GettingGudMiddleFloor),
+            new(GetDescription(nameof(GettingGudHighGround)), GettingGudHighGround),
+
+            // Pro Tricks! Areas
+            new(GetDescription(nameof(ProTricksStartingArea)), ProTricksStartingArea),
+            new(GetDescription(nameof(ProTricksFirstGapRamp)), ProTricksFirstGapRamp),
+            new(GetDescription(nameof(ProTricksMiddleSection)), ProTricksMiddleSection),
+            new(GetDescription(nameof(ProTricksFinalSection)), ProTricksFinalSection),
+
+            // Special Areas
             new(GetDescription(nameof(PropellerHatPurchasable)), PropellerHatPurchasable),
             new(GetDescription(nameof(AnyHatWorld)), AnyHatWorld),
         ];
@@ -4338,6 +4439,7 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.L7_PoopWorld), FecalMattersSpecialRules },
             { nameof(Data.LevelId.L8_Sewers), FlushedAwaySpecialRules },
             { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
+            { nameof(Data.LevelId.L19_TimeAttack03), ProTricksSpecialRules },
         };
 
         public static Dictionary<string, List<Dictionary<string, string>>> PerLevelIDs = new()
@@ -4557,6 +4659,24 @@ namespace YellowTaxiAP
                     BabyStepsPillar,
                 ]
             },
+            {
+                nameof(Data.LevelId.L18_TimeAttack02),
+                [
+                    GettingGudStartingArea,
+                    GettingGudLowerSpikes,
+                    GettingGudMiddleFloor,
+                    GettingGudHighGround,
+                ]
+            },
+            {
+                nameof(Data.LevelId.L19_TimeAttack03),
+                [
+                    ProTricksStartingArea,
+                    ProTricksFirstGapRamp,
+                    ProTricksMiddleSection,
+                    ProTricksFinalSection,
+                ]
+            },
         };
 
         public enum ConnectionType
@@ -4731,7 +4851,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "OS+J1 | B1"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland2Tree, "J1"),
-                    new RegionConnection(GrannysIslandSewerIsland, "OS"),
+                    new RegionConnection(GrannysIslandSewerIsland, "OS/EarlySewer"),
                 ]
             },
             {
@@ -4975,8 +5095,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabPathToMoriosRoom)),
                 [
                     new RegionConnection(MoriosLabMoriosRoomOutside, "B1"),
-                    new RegionConnection(MoriosLabGroundFloorBolts, "B1"),
-                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabGroundFloorBolts, "B1/J1"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
@@ -4986,7 +5105,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabMoriosRoomOutside)),
                 [
-                    new RegionConnection(MoriosLabMoriosRoomInside, $"NHS+MorioHat | HS+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}")
+                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabMoriosRoomInside, $"NHS+MorioHat | HS+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                 ]
             },
             {
@@ -5005,7 +5125,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabThirdFloor)),
                 [
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "J1"),
-                    new RegionConnection(MoriosLabFourthFloor, "GS+B1"),
+                    new RegionConnection(MoriosLabFourthFloor, "GS+B1 | X2+GS+J1"),
                     new RegionConnection(MoriosLabSecondFloor),
                     new RegionConnection("Morio's Lab - Baby Steps! TV", BabyStepsStartingArea, ConnectionType.Warp, "TT1"),
                 ]
@@ -5037,6 +5157,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
                     new RegionConnection(MoriosLabThirdFloor, "GS"),
                     new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "X1+GS+B2 | X2+B2+J2"),
+                    new RegionConnection("Morio's Lab - Getting Gud! TV", GettingGudStartingArea, ConnectionType.Warp, "TT2"),
                 ]
             },
             {
@@ -5075,6 +5196,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea, "Password"),
                     new RegionConnection(MoriosLabFifthFloorDreamMachine, "FGU"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea),
+                    new RegionConnection("Morio's Lab - Pro Tricks! TV", ProTricksStartingArea, ConnectionType.Warp, "TT3"),
                 ]
             },
             {
@@ -5789,6 +5911,66 @@ namespace YellowTaxiAP
             },
 
             #endregion
+
+            #region Getting Gud! Connections
+
+            {
+                GetDescription(nameof(GettingGudStartingArea)),
+                [
+                    new RegionConnection(GettingGudLowerSpikes, "J1/GP"),
+                    new RegionConnection(GettingGudMiddleFloor, "X1+J1 | B1+GS | J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(GettingGudLowerSpikes)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(GettingGudMiddleFloor)),
+                [
+                    new RegionConnection(GettingGudHighGround, "GS+B2 | J2")
+                ]
+            },
+            {
+                GetDescription(nameof(GettingGudHighGround)),
+                [
+                    // No connections
+                ]
+            },
+
+            #endregion
+
+            #region Pro Tricks! Regions
+            
+            {
+                GetDescription(nameof(ProTricksStartingArea)),
+                [
+                    new RegionConnection(ProTricksFirstGapRamp, "B1/J1"),
+                    new RegionConnection(ProTricksFinalSection, "J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(ProTricksFirstGapRamp)),
+                [
+                    new RegionConnection(ProTricksMiddleSection, "B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ProTricksMiddleSection)),
+                [
+                    new RegionConnection(ProTricksFinalSection, "X1/J1 & B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ProTricksFinalSection)),
+                [
+                    // No connections
+                ]
+            },
+
+            #endregion
         };
 
         public static bool CheckLocation(string type, string id)
@@ -5974,6 +6156,7 @@ namespace YellowTaxiAP
                             else
                             {
                                 Plugin.Log($"WARNING: COULD NOT SORT \"{c.Value}\"");
+                                regionItems.Add(c);
                             }
                         }
 
