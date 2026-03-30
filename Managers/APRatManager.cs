@@ -5,7 +5,7 @@ namespace YellowTaxiAP.Managers
     public class APRatManager
     {
         public static bool ReceivedRatItem = false;
-        public static bool SentRatLocation => Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.Michele);
+        public static bool SentRatLocation => Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.HubMichele);
 
         public APRatManager()
         {
@@ -62,6 +62,12 @@ namespace YellowTaxiAP.Managers
 
         private bool CheeseScript_IsAlreadyPickedUp(On.CheeseScript.orig_IsAlreadyPickedUp orig, CheeseScript self)
         {
+#if DEBUG
+            if (DebugLocationHelper.Enabled)
+            {
+                return false;
+            }
+#endif
             return !Plugin.SlotData.Cheesesanity
                 ? orig(self)
                 : Plugin.ArchipelagoClient.AllClearedLocations.Contains(
@@ -70,7 +76,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_SpecialMethod_OnAnswerYes_PickupRat(On.DialogueScript.orig_SpecialMethod_OnAnswerYes_PickupRat orig, DialogueScript self)
         {
-            if (!Plugin.SlotData.ShuffleRat)
+            if (GameplayMaster.instance.levelId != Data.LevelId.L8_Sewers && !Plugin.SlotData.ShuffleRat)
             {
                 RatPersonScript.RatPickUp();
             }
@@ -85,7 +91,10 @@ namespace YellowTaxiAP.Managers
 #if DEBUG
             DebugLocationHelper.CheckLocation("cheese", id);
 #endif
-            Plugin.ArchipelagoClient.SendLocation(long.Parse(id.Replace("_", string.Empty)));
+            if (Plugin.SlotData.Cheesesanity)
+            {
+                Plugin.ArchipelagoClient.SendLocation(long.Parse(id.Replace("_", string.Empty)));
+            }
             orig(self);
         }
 
@@ -126,6 +135,11 @@ namespace YellowTaxiAP.Managers
 
         private void RatPersonScript_Awake(On.RatPersonScript.orig_Awake orig, RatPersonScript self)
         {
+            if (GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers)
+            {
+                RatPersonScript.instance = self;
+                return;
+            }
             RatPersonScript.instance = self;
             if (!Plugin.SlotData.ShuffleRat)
             {

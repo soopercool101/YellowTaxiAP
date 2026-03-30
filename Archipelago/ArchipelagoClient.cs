@@ -484,6 +484,9 @@ public class ArchipelagoClient
             case Identifiers.ItemID.Doggo:
                 APAreaStateManager.DoggoReceived = true;
                 break;
+            case Identifiers.ItemID.SewerKey:
+                APAreaStateManager.SewerKeyReceived = true;
+                break;
             case Identifiers.ItemID.OrangeSwitch:
                 APSwitchManager.OrangeSwitchUnlocked = true;
                 break;
@@ -492,6 +495,33 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.MosksRocket:
                 APAreaStateManager.RocketEnabled = true;
+                break;
+            case Identifiers.ItemID.TimeTrialRemoteBabySteps:
+                APAreaStateManager.TimeTrial1Unlocked = true;
+                break;
+            case Identifiers.ItemID.TimeTrialRemoteGettingGud:
+                APAreaStateManager.TimeTrial2Unlocked = true;
+                break;
+            case Identifiers.ItemID.TimeTrialRemoteProTricks:
+                APAreaStateManager.TimeTrial3Unlocked = true;
+                break;
+            case Identifiers.ItemID.TimeTrialRemote:
+                APAreaStateManager.TimeTrial1Unlocked = APAreaStateManager.TimeTrial2Unlocked =
+                    APAreaStateManager.TimeTrial3Unlocked = true;
+                break;
+            case Identifiers.ItemID.ProgressiveTimeTrialRemote:
+                if (!APAreaStateManager.TimeTrial1Unlocked)
+                {
+                    APAreaStateManager.TimeTrial1Unlocked = true;
+                }
+                else if (!APAreaStateManager.TimeTrial2Unlocked)
+                {
+                    APAreaStateManager.TimeTrial2Unlocked = true;
+                }
+                else
+                {
+                    APAreaStateManager.TimeTrial3Unlocked = true;
+                }
                 break;
             case Identifiers.ItemID.PsychoTaxiCartridge:
                 Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] =
@@ -583,6 +613,10 @@ public class ArchipelagoClient
         session.Locations.CompleteLocationChecks(ids);
     }
 
+    public bool LocationUncleared(long location)
+    {
+        return AllLocations.Contains(location) && !AllClearedLocations.Contains(location);
+    }
     public System.Collections.ObjectModel.ReadOnlyCollection<long> AllClearedLocations => session.Locations.AllLocationsChecked;
     public System.Collections.ObjectModel.ReadOnlyCollection<long> AllLocations => session.Locations.AllLocations;
     public Dictionary<long, ScoutedItemInfo> ScoutedLocations { get; private set; }

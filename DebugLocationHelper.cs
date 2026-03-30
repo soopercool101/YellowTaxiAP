@@ -12,7 +12,9 @@ namespace YellowTaxiAP
 #if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => false;
+        public static bool Enabled => true;
+        public static bool ExtraZoneInfo => false;
+        public static bool ExtraClipboardInfo => false;
 
         #region Hub
 
@@ -3364,7 +3366,7 @@ namespace YellowTaxiAP
             { "7_03_00125", "Fecal Matters - Coin on Island Overlooking Main Road #23" },
             { "7_03_00129", "Fecal Matters - Coin on Island Overlooking Main Road #24" },
             { "7_03_00123", "Fecal Matters - Coin on Island Overlooking Main Road #25" },
-            { "7_03_00126", "Fecal Matters - Coin Bag on Overlooking Main Road" },
+            { "7_03_00126", "Fecal Matters - Coin Bag on Island Overlooking Main Road" },
             { "7_03_00130", "Fecal Matters - Coin on Island Overlooking Main Road #26" },
             { "7_03_00124", "Fecal Matters - Coin on Island Overlooking Main Road #27" },
             { "7_03_00127", "Fecal Matters - Coin on Island Overlooking Main Road #28" },
@@ -3605,46 +3607,158 @@ namespace YellowTaxiAP
             { "8_03_00302", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #3" },
             { "8_03_00303", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #4" },
             { "8_03_00304", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #5" },
-            { "8_03_00272", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #1" },
-            { "8_03_00271", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #2" },
-            { "8_03_00255", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #3" },
-            { "8_03_00237", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #4" },
-            { "8_03_00236", "Flushed Away - Coin Underneath Sewage Leading to Skeleton Dance Party #5" },
-            { "8_03_00263", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #1" },
-            { "8_03_00256", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #2" },
-            { "8_03_00264", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #3" },
-            { "8_03_00257", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #4" },
-            { "8_03_00265", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #5" },
-            { "8_03_00258", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #6" },
-            { "8_03_00259", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #7" },
-            { "8_03_00260", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #8" },
-            { "8_03_00261", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #9" },
-            { "8_03_00266", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #10" },
-            { "8_03_00262", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #11" },
-            { "8_03_00267", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #12" },
-            { "8_03_00269", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #13" },
-            { "8_03_00268", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #14" },
-            { "8_03_00270", "Flushed Away - Coin on Side Pathway Before Skeleton Dance Party #15" },
-            { "8_03_00238", "Flushed Away - Coin in Sewage by Skeleton Dance Party #1" },
-            { "8_03_00239", "Flushed Away - Coin in Sewage by Skeleton Dance Party #2" },
-            { "8_03_00240", "Flushed Away - Coin in Sewage by Skeleton Dance Party #3" },
-            { "8_03_00241", "Flushed Away - Coin in Sewage by Skeleton Dance Party #4" },
-            { "8_03_00242", "Flushed Away - Coin in Sewage by Skeleton Dance Party #5" },
-            { "8_03_00243", "Flushed Away - Coin in Sewage by Skeleton Dance Party #6" },
-            { "8_03_00244", "Flushed Away - Coin in Sewage by Skeleton Dance Party #7" },
-            { "8_03_00248", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #1" },
-            { "8_03_00247", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #2" },
-            { "8_03_00246", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #3" },
-            { "8_03_00245", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #4" },
-            { "8_03_00229", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #5" },
-            { "8_03_00228", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #6" },
-            { "8_03_00227", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #7" },
-            { "8_03_00226", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #8" },
-            { "8_03_00225", "Flushed Away - Coin in Sewage Path Right After Skeleton Dance Party #9" },
+            { "8_03_00272", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #1" },
+            { "8_03_00271", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #2" },
+            { "8_03_00255", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #3" },
+            { "8_03_00237", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #4" },
+            { "8_03_00236", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #5" },
+            { "8_03_00263", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #1" },
+            { "8_03_00256", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #2" },
+            { "8_03_00264", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #3" },
+            { "8_03_00257", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #4" },
+            { "8_03_00265", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #5" },
+            { "8_03_00258", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #6" },
+            { "8_03_00259", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #7" },
+            { "8_03_00260", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #8" },
+            { "8_03_00261", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #9" },
+            { "8_03_00266", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #10" },
+            { "8_03_00262", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #11" },
+            { "8_03_00267", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #12" },
+            { "8_03_00269", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #13" },
+            { "8_03_00268", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #14" },
+            { "8_03_00270", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #15" },
+            { "8_03_00238", "Flushed Away - Coin in Sewage by Skeletrone Dance Party #1" },
+            { "8_03_00239", "Flushed Away - Coin in Sewage by Skeletrone Dance Party #2" },
+            { "8_03_00240", "Flushed Away - Coin in Sewage by Skeletrone Dance Party #3" },
+            { "8_03_00241", "Flushed Away - Coin in Sewage by Skeletrone Dance Party #4" },
+            { "8_03_00242", "Flushed Away - Coin in Sewage by Skeletrone Dance Party #5" },
+            { "8_03_00243", "Flushed Away - Coin in Sewage by Skeletrone Dance Party #6" },
+            { "8_03_00244", "Flushed Away - Coin in Sewage by Skeletrone Dance Party #7" },
+            { "8_03_00248", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #1" },
+            { "8_03_00247", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #2" },
+            { "8_03_00246", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #3" },
+            { "8_03_00245", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #4" },
+            { "8_03_00229", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #5" },
+            { "8_03_00228", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #6" },
+            { "8_03_00227", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #7" },
+            { "8_03_00226", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #8" },
+            { "8_03_00225", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #9" },
+            { "8_03_00112", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #10" },
+            { "8_03_00111", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #11" },
+            { "8_03_00108", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #12" },
+            { "8_03_00107", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #13" },
+            { "8_03_00101", "Flushed Away - Coin in Sewage Path Right After Skeletrone Dance Party #14" },
+            { "8_03_00249", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #1" },
+            { "8_03_00250", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #2" },
+            { "8_03_00251", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #3" },
+            { "8_03_00252", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #4" },
+            { "8_03_00253", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #5" },
+            { "8_03_00230", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #6" },
+            { "8_03_00231", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #7" },
+            { "8_03_00232", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #8" },
+            { "8_03_00233", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #9" },
+            { "8_03_00234", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #10" },
+            { "8_03_00189", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #11" },
+            { "8_03_00188", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #12" },
+            { "8_03_00187", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #13" },
+            { "8_03_00186", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #14" },
+            { "8_03_00185", "Flushed Away - Coin in Sewage Path Left After Skeletrone Dance Party #15" },
+            { "8_21_00006", "Flushed Away - Cheese After Left Sewage Path After Skeletrone Dance Party" },
+            { "8_03_00204", "Flushed Away - Coin Near Toilet Hat #1" },
+            { "8_03_00203", "Flushed Away - Coin Near Toilet Hat #2" },
+            { "8_03_00202", "Flushed Away - Coin Near Toilet Hat #3" },
+            { "8_03_00201", "Flushed Away - Coin Near Toilet Hat #4" },
+            { "8_03_00200", "Flushed Away - Coin Near Toilet Hat #5" },
+            { "8_03_00199", "Flushed Away - Coin Near Toilet Hat #6" },
+            { "8_03_00198", "Flushed Away - Coin Near Toilet Hat #7" },
+            { "8_07_00020", "Purchase Toilet Hat" },
+            { "8_03_00179", "Flushed Away - Coin in Sewage Before Pillar Gear #1" },
+            { "8_03_00180", "Flushed Away - Coin in Sewage Before Pillar Gear #2" },
+            { "8_03_00181", "Flushed Away - Coin in Sewage Before Pillar Gear #3" },
+            { "8_03_00182", "Flushed Away - Coin in Sewage Before Pillar Gear #4" },
+            { "8_03_00183", "Flushed Away - Coin in Sewage Before Pillar Gear #5" },
+            { "8_03_00131", "Flushed Away - Coin in Sewage Left of Pillar Gear #1" },
+            { "8_03_00133", "Flushed Away - Coin in Sewage Left of Pillar Gear #2" },
+            { "8_03_00135", "Flushed Away - Coin in Sewage Left of Pillar Gear #3" },
+            { "8_03_00137", "Flushed Away - Coin in Sewage Left of Pillar Gear #4" },
+            { "8_03_00139", "Flushed Away - Coin in Sewage Left of Pillar Gear #5" },
+            { "8_03_00130", "Flushed Away - Coin in Sewage Right of Pillar Gear #1" },
+            { "8_03_00132", "Flushed Away - Coin in Sewage Right of Pillar Gear #2" },
+            { "8_03_00134", "Flushed Away - Coin in Sewage Right of Pillar Gear #3" },
+            { "8_03_00136", "Flushed Away - Coin in Sewage Right of Pillar Gear #4" },
+            { "8_03_00138", "Flushed Away - Coin in Sewage Right of Pillar Gear #5" },
+            { "8_03_00140", "Flushed Away - Coin in Sewage After Pillar Gear #1" },
+            { "8_03_00141", "Flushed Away - Coin in Sewage After Pillar Gear #2" },
+            { "8_03_00142", "Flushed Away - Coin in Sewage After Pillar Gear #3" },
+            { "8_03_00218", "Flushed Away - Coin in Sewage Path to Alligator Room #1" },
+            { "8_03_00217", "Flushed Away - Coin in Sewage Path to Alligator Room #2" },
+            { "8_03_00216", "Flushed Away - Coin in Sewage Path to Alligator Room #3" },
+            { "8_03_00215", "Flushed Away - Coin in Sewage Path to Alligator Room #4" },
+            { "8_03_00214", "Flushed Away - Coin in Sewage Path to Alligator Room #5" },
+            { "8_03_00213", "Flushed Away - Coin in Sewage Path to Alligator Room #6" },
+            { "8_03_00212", "Flushed Away - Coin in Sewage Path to Alligator Room #7" },
+            { "8_03_00211", "Flushed Away - Coin in Sewage Path to Alligator Room #8" },
+            { "8_03_00210", "Flushed Away - Coin in Sewage Path to Alligator Room #9" },
+            { "8_03_00209", "Flushed Away - Coin in Sewage Path to Alligator Room #10" },
+            { "8_03_00190", "Flushed Away - Coin in Sewage Path to Alligator Room #11" },
+            { "8_03_00191", "Flushed Away - Coin in Sewage Path to Alligator Room #12" },
+            { "8_03_00192", "Flushed Away - Coin in Sewage Path to Alligator Room #13" },
+            { "8_03_00193", "Flushed Away - Coin in Sewage Path to Alligator Room #14" },
+            { "8_03_00194", "Flushed Away - Coin in Sewage Path to Alligator Room #15" },
+            { "8_03_00154", "Flushed Away - Coin in Sewage Path to Alligator Room #16" },
+            { "8_03_00153", "Flushed Away - Coin in Sewage Path to Alligator Room #17" },
+            { "8_03_00152", "Flushed Away - Coin in Sewage Path to Alligator Room #18" },
+            { "8_03_00151", "Flushed Away - Coin in Sewage Path to Alligator Room #19" },
+            { "8_03_00150", "Flushed Away - Coin in Sewage Path to Alligator Room #20" },
+            { "8_03_00145", "Flushed Away - Coin in Sewage Path to Alligator Room #21" },
+            { "8_03_00146", "Flushed Away - Coin in Sewage Path to Alligator Room #22" },
+            { "8_03_00147", "Flushed Away - Coin in Sewage Path to Alligator Room #23" },
+            { "8_03_00148", "Flushed Away - Coin in Sewage Path to Alligator Room #24" },
+            { "8_03_00149", "Flushed Away - Coin in Sewage Path to Alligator Room #25" },
+            { "8_03_00155", "Flushed Away - Coin Surrounding Gear in Alligator Room #1" },
+            { "8_03_00158", "Flushed Away - Coin Surrounding Gear in Alligator Room #2" },
+            { "8_03_00161", "Flushed Away - Coin Surrounding Gear in Alligator Room #3" },
+            { "8_03_00156", "Flushed Away - Coin Surrounding Gear in Alligator Room #4" },
+            { "8_01_00004", "Flushed Away - Gear - In Alligator Room" },
+            { "8_03_00162", "Flushed Away - Coin Surrounding Gear in Alligator Room #5" },
+            { "8_03_00157", "Flushed Away - Coin Surrounding Gear in Alligator Room #6" },
+            { "8_03_00160", "Flushed Away - Coin Surrounding Gear in Alligator Room #7" },
+            { "8_03_00163", "Flushed Away - Coin Surrounding Gear in Alligator Room #8" },
+            { "8_21_00003", "Flushed Away - Cheese in Alligator Room" },
+            { "8_03_00219", "Flushed Away - Coin in Sewage Path Towards Bunny Waterfall #1" },
+            { "8_03_00220", "Flushed Away - Coin in Sewage Path Towards Bunny Waterfall #2" },
+            { "8_03_00221", "Flushed Away - Coin in Sewage Path Towards Bunny Waterfall #3" },
+            { "8_03_00222", "Flushed Away - Coin in Sewage Path Towards Bunny Waterfall #4" },
+            { "8_03_00223", "Flushed Away - Coin in Sewage Path Towards Bunny Waterfall #5" },
+            { "8_03_00119", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #1" },
+            { "8_03_00116", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #2" },
+            { "8_03_00115", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #3" },
+            { "8_03_00113", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #4" },
+            { "8_03_00114", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #5" },
+            { "8_03_00117", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #6" },
+            { "8_03_00118", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #7" },
+            { "8_03_00120", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #8" },
+            { "8_03_00121", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #9" },
+            { "8_03_00122", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #10" },
+            { "8_03_00123", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #11" },
+            { "8_03_00124", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #12" },
+            { "8_03_00125", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #13" },
+            { "8_03_00126", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #14" },
+            { "8_03_00128", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #15" },
+            { "8_03_00127", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #16" },
+            { "8_03_00106", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #17" },
+            { "8_03_00105", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #18" },
+            { "8_03_00104", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #19" },
+            { "8_03_00103", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #20" },
+            { "8_03_00102", "Flushed Away - Coin in Sewage Path After Bunny Waterfall #21" },
+            // Really needs jump in nonexpert
+            { "8_07_00021", "Purchase Bone Fish Hat" },
+            // Requires either jump, expert boost2, or expert2 alligator pushes
+            { "8_03_00196", "Flushed Away - Chest on Pipe in Alligator Room" },
             // Can be obtained moveless by falling from the ledge above rather than in the river
             { "8_02_00001", "Flushed Away - Bunny - Behind Waterfall" },
             // Slightly too high to grab without jump. Also can boost to it though this is less obvious
-            { "8_01_00002", "Flushed Away - Gear - Skeleton Dance Party" },
+            { "8_01_00002", "Flushed Away - Gear - Skeletrone Dance Party" },
         };
 
         [Description("Flushed Away - High Ground Near Checkpoint")]
@@ -3721,23 +3835,147 @@ namespace YellowTaxiAP
             { "8_03_00031", "Flushed Away - Coin Below Sewage Ramps #33" },
         };
 
-        [Description("Flushed Away - Sewage Path From Ramp Room to Pit Room")]
-        public static Dictionary<string, string> FlushedAwayPathFromRampsToMainRoom = new()
+        [Description("Flushed Away - Sewage Path From Ramp Room to Central Drain")]
+        public static Dictionary<string, string> FlushedAwayPathFromRampsToCentralDrain = new()
         {
-            { "8_03_00000", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #1" },
-            { "8_03_00001", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #2" },
-            { "8_03_00002", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #3" },
-            { "8_03_00003", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #4" },
-            { "8_03_00004", "Flushed Away - Coin in Sewage Path From Ramp Room to Pit Room #5" },
+            { "8_03_00000", "Flushed Away - Coin in Sewage Path From Ramp Room to Central Drain #1" },
+            { "8_03_00001", "Flushed Away - Coin in Sewage Path From Ramp Room to Central Drain #2" },
+            { "8_03_00002", "Flushed Away - Coin in Sewage Path From Ramp Room to Central Drain #3" },
+            { "8_03_00003", "Flushed Away - Coin in Sewage Path From Ramp Room to Central Drain #4" },
+            { "8_03_00004", "Flushed Away - Coin in Sewage Path From Ramp Room to Central Drain #5" },
+        };
+
+        [Description("Flushed Away - Gear Pillar")]
+        public static Dictionary<string, string> FlushedAwayGearPillar = new()
+        {
+            { "8_03_00165", "Flushed Away - Coin on Pillar Surrounding Gear #1" },
+            { "8_03_00168", "Flushed Away - Coin on Pillar Surrounding Gear #2" },
+            { "8_03_00167", "Flushed Away - Coin on Pillar Surrounding Gear #3" },
+            { "8_03_00166", "Flushed Away - Coin on Pillar Surrounding Gear #4" },
+            { "8_03_00173", "Flushed Away - Coin on Pillar Surrounding Gear #5" },
+            { "8_03_00172", "Flushed Away - Coin on Pillar Surrounding Gear #6" },
+            { "8_01_00003", "Flushed Away - Gear - On Pillar" },
+            { "8_03_00170", "Flushed Away - Coin on Pillar Surrounding Gear #7" },
+            { "8_03_00169", "Flushed Away - Coin on Pillar Surrounding Gear #8" },
+            { "8_03_00176", "Flushed Away - Coin on Pillar Surrounding Gear #9" },
+            { "8_03_00175", "Flushed Away - Coin on Pillar Surrounding Gear #10" },
+            { "8_03_00174", "Flushed Away - Coin on Pillar Surrounding Gear #11" },
+            { "8_03_00177", "Flushed Away - Coin on Pillar Surrounding Gear #12" },
+        };
+
+
+        [Description("Flushed Away - Central Drain")]
+        public static Dictionary<string, string> FlushedAwayCentralDrain = new()
+        {
+            { "8_03_00006", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #1" },
+            { "8_03_00007", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #2" },
+            { "8_03_00008", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #3" },
+            { "8_03_00009", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #4" },
+            { "8_03_00010", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #5" },
+            { "8_03_00011", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #6" },
+            { "8_03_00012", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #7" },
+            { "8_03_00013", "Flushed Away - Coin Behind Central Drain Skeleton Shacks Near Exit Pipe #8" },
+            { "8_03_00033", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #1" },
+            { "8_03_00036", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #2" },
+            { "8_03_00034", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #3" },
+            { "8_03_00032", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #4" },
+            { "8_03_00035", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #5" },
+            { "8_03_00038", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #6" },
+            { "8_03_00042", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #7" },
+            { "8_03_00039", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #8" },
+            { "8_03_00037", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #9" },
+            { "8_03_00040", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #10" },
+            { "8_03_00044", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #11" },
+            { "8_03_00047", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #12" },
+            { "8_03_00045", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #13" },
+            { "8_03_00043", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #14" },
+            { "8_03_00046", "Flushed Away - Coin on Central Drain Skeleton Shack Near Exit Pipe #15" },
+            { "8_03_00014", "Flushed Away - Coin in Ring Around Timer in Central Drain #1" },
+            { "8_03_00017", "Flushed Away - Coin in Ring Around Timer in Central Drain #2" },
+            { "8_03_00020", "Flushed Away - Coin in Ring Around Timer in Central Drain #3" },
+            { "8_03_00015", "Flushed Away - Coin in Ring Around Timer in Central Drain #4" },
+            { "8_03_00021", "Flushed Away - Coin in Ring Around Timer in Central Drain #5" },
+            { "8_03_00016", "Flushed Away - Coin in Ring Around Timer in Central Drain #6" },
+            { "8_03_00019", "Flushed Away - Coin in Ring Around Timer in Central Drain #7" },
+            { "8_03_00022", "Flushed Away - Coin in Ring Around Timer in Central Drain #8" },
+            { "8_21_00005", "Flushed Away - Cheese Near Central Drain Exit Pipe" },
+            { "8_21_00002", "Flushed Away - Cheese in Central Drain Sewage" },
+            // Can be obtained moveless in X1 by accelerating off the ramp
+            { "8_03_00041", "Flushed Away - Coin on Central Drain Skeleton Shack Between Shops" },
+        };
+
+        [Description("Flushed Away - Central Drain Archway")]
+        public static Dictionary<string, string> FlushedAwayCentralDrainArchway = new()
+        {
+            { string.Empty, nameof(FlushedAwayCentralDrainArchway) + " - !PLACEHOLDER!" }
+        };
+
+        [Description("Flushed Away - Central Drain Archway Accessible")]
+        public static Dictionary<string, string> FlushedAwayCentralDrainArchwayAccessible = new()
+        {
+            { "8_03_00049", "Flushed Away - Coin on Central Drain Skeleton Shack Stairway" }
+        };
+
+        [Description("Flushed Away - Central Drain Waterfall Accessible")]
+        public static Dictionary<string, string> FlushedAwayCentralDrainWaterfallAccessible = new()
+        {
+            { "8_03_00098", "Flushed Away - Coin Bag on Central Drain Shop Near Waterfall" },
+            { "8_03_00052", "Flushed Away - Coin Bag on Central Drain Lemonade Stand Near Waterfall" },
+            { "8_03_00053", "Flushed Away - Coin on Central Drain Lemonade Stand Near Waterfall #1" },
+            { "8_03_00054", "Flushed Away - Coin on Central Drain Lemonade Stand Near Waterfall #2" },
+            { "8_03_00055", "Flushed Away - Coin on Central Drain Lemonade Stand Near Waterfall #3" },
+            { "8_03_00056", "Flushed Away - Coin on Central Drain Lemonade Stand Near Waterfall #4" },
+            { "8_03_00057", "Flushed Away - Coin on Central Drain Lemonade Stand Near Waterfall #5" },
+        };
+
+        [Description("Flushed Away - Central Drain Waterfall and Archway Accessible")]
+        public static Dictionary<string, string> FlushedAwayCentralDrainWaterfallAndArchwayAccessible = new()
+        {
+            { "8_03_00048", "Flushed Away - Coin on Central Drain Skeleton Shack Between Waterfalls #1" },
+            { "8_03_00050", "Flushed Away - Coin on Central Drain Skeleton Shack Between Waterfalls #2" },
+        };
+
+        [Description("Flushed Away - Central Drain Bunny")]
+        public static Dictionary<string, string> FlushedAwayCentralDrainBunny = new()
+        {
+            { "8_02_00002", "Flushed Away - Bunny - In Central Drain" },
+        };
+
+        [Description("Flushed Away - Central Drain High Ground")]
+        public static Dictionary<string, string> FlushedAwayCentralDrainHighGround = new()
+        {
+            { "8_03_00058", "Flushed Away - Coin Bag on Central Drain Lemonade Stand Stairway" },
+            { "8_03_00100", "Flushed Away - Chest on Central Drain Shop Stairway" },
+            { "8_03_00097", "Flushed Away - Coin on Central Drain Shop Near Ramp Room Exit #1" },
+            { "8_03_00096", "Flushed Away - Coin on Central Drain Shop Near Ramp Room Exit #2" },
+            { "8_03_00095", "Flushed Away - Coin on Central Drain Shop Near Ramp Room Exit #3" },
+            { "8_03_00094", "Flushed Away - Coin on Central Drain Shop Near Ramp Room Exit #4" },
+            { "8_03_00093", "Flushed Away - Coin on Central Drain Shop Near Ramp Room Exit #5" },
+            { "8_03_00092", "Flushed Away - Coin on Central Drain Shop Near Exit Pipe #1" },
+            { "8_03_00091", "Flushed Away - Coin on Central Drain Shop Near Exit Pipe #2" },
+            { "8_03_00090", "Flushed Away - Coin Bag on Central Drain Shop Near Exit Pipe" },
+            { "8_03_00089", "Flushed Away - Coin on Central Drain Shop Near Exit Pipe #3" },
+            { "8_03_00088", "Flushed Away - Coin on Central Drain Shop Near Exit Pipe #4" },
+            { "8_03_00087", "Flushed Away - Coin Bag on Central Drain Exit Pipe #1" },
+            { "8_03_00086", "Flushed Away - Coin Bag on Central Drain Exit Pipe #2" },
+        };
+
+        [Description("Flushed Away - Above Central Drain")]
+        public static Dictionary<string, string> FlushedAwayAboveCentralDrain = new()
+        {
+            { "8_01_00006", "Flushed Away - Gear - Above Central Drain" }
         };
 
         public static Dictionary<string, string> FlushedAwaySpecialRules = new()
         {
+            { "Flushed Away - Coin on Central Drain Skeleton Shack Between Shops", "X1/B1/J1" },
             { "Flushed Away - Bunny - Above the Sewer Creatures", "X1/B1/J1" },
             { "Flushed Away - Chest on Roof Near Checkpoint", "X1/J1" },
             { "Flushed Away - Coin Bag on Roof Near Checkpoint", "X1/J1" },
             { "Flushed Away - Bunny - Behind Waterfall", "X1/B1/J1" },
-            { "Flushed Away - Gear - Skeleton Dance Party", "X1+B1 | J1" },
+            { "Flushed Away - Gear - Skeletrone Dance Party", "X1+B1 | J1" },
+            { "Bone Fish Hat", "X1/J1" },
+            { "Flushed Away - Chest on Pipe in Alligator Room", "X2/J1 | X1+B2" }
         };
         
         #endregion
@@ -4376,7 +4614,16 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(FlushedAwaySewageRamps)), FlushedAwaySewageRamps),
             new(GetDescription(nameof(FlushedAwayAfterSewageRamps)), FlushedAwayAfterSewageRamps),
             new(GetDescription(nameof(FlushedAwayBelowSewageRamps)), FlushedAwayBelowSewageRamps),
-            new(GetDescription(nameof(FlushedAwayPathFromRampsToMainRoom)), FlushedAwayPathFromRampsToMainRoom),
+            new(GetDescription(nameof(FlushedAwayPathFromRampsToCentralDrain)), FlushedAwayPathFromRampsToCentralDrain),
+            new(GetDescription(nameof(FlushedAwayGearPillar)), FlushedAwayGearPillar),
+            new(GetDescription(nameof(FlushedAwayCentralDrain)), FlushedAwayCentralDrain),
+            new(GetDescription(nameof(FlushedAwayCentralDrainArchway)), FlushedAwayCentralDrainArchway),
+            new(GetDescription(nameof(FlushedAwayCentralDrainArchwayAccessible)), FlushedAwayCentralDrainArchwayAccessible),
+            new(GetDescription(nameof(FlushedAwayCentralDrainWaterfallAccessible)), FlushedAwayCentralDrainWaterfallAccessible),
+            new(GetDescription(nameof(FlushedAwayCentralDrainWaterfallAndArchwayAccessible)), FlushedAwayCentralDrainWaterfallAndArchwayAccessible),
+            new(GetDescription(nameof(FlushedAwayCentralDrainBunny)), FlushedAwayCentralDrainBunny),
+            new(GetDescription(nameof(FlushedAwayCentralDrainHighGround)), FlushedAwayCentralDrainHighGround),
+            new(GetDescription(nameof(FlushedAwayAboveCentralDrain)), FlushedAwayAboveCentralDrain),
 
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
@@ -4615,7 +4862,16 @@ namespace YellowTaxiAP
                     FlushedAwaySewageRamps,
                     FlushedAwayAfterSewageRamps,
                     FlushedAwayBelowSewageRamps,
-                    FlushedAwayPathFromRampsToMainRoom,
+                    FlushedAwayPathFromRampsToCentralDrain,
+                    FlushedAwayGearPillar,
+                    FlushedAwayCentralDrain,
+                    FlushedAwayCentralDrainArchway,
+                    FlushedAwayCentralDrainArchwayAccessible,
+                    FlushedAwayCentralDrainWaterfallAccessible,
+                    FlushedAwayCentralDrainWaterfallAndArchwayAccessible,
+                    FlushedAwayCentralDrainBunny,
+                    FlushedAwayCentralDrainHighGround,
+                    FlushedAwayAboveCentralDrain,
                 ]
             },
             {
@@ -5319,7 +5575,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosIslandHighGround)),
                 [
                     new RegionConnection(MoriosIslandHomeIsland),
-                    new RegionConnection(MoriosIslandFirstBunnyArch, "X1/J1 & B1"),
+                    new RegionConnection(MoriosIslandFirstBunnyArch, "X1/J1 & B2 | J1+X1+B1 | X2+B1"),
                     new RegionConnection(MoriosIslandSecondBunnyArch, "B2"),
                     new RegionConnection(MoriosIslandCenterIsland, "B1 & J1/X2 | J2+X1"),
                     new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1"),
@@ -5669,6 +5925,14 @@ namespace YellowTaxiAP
                     new RegionConnection(FlushedAwayHighGroundAroundCheckpoint, "J1/B1"),
                     new RegionConnection(FlushedAwaySewageRamps, "B1/J1"),
                     new RegionConnection(FlushedAwayBelowSewageRamps),
+                    new RegionConnection("Flushed Away - Pipe in Front of Checkpoint", FlushedAwayStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(FlushedAwayCentralDrainArchway),
+                    new RegionConnection(FlushedAwayCentralDrainWaterfallAccessible, "X1"),
+                    new RegionConnection(FlushedAwayGearPillar, "J1/B1"),
+                    new RegionConnection("Flushed Away - Pipe Under Sewage Ramps", FlushedAwayAboveCentralDrain, ConnectionType.Subwarp),
+                    new RegionConnection("Flushed Away - Pit After Skeletrone Dance Party", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
+                    new RegionConnection("Flushed Away - Tunnel After Gear Pillar", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
+                    new RegionConnection("Flushed Away - Pipe in Alligator Room", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                 ]
             },
             {
@@ -5692,13 +5956,75 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(FlushedAwayBelowSewageRamps)),
                 [
-                    new RegionConnection(FlushedAwayPathFromRampsToMainRoom),
+                    new RegionConnection(FlushedAwayPathFromRampsToCentralDrain),
                 ]
             },
             {
-                GetDescription(nameof(FlushedAwayPathFromRampsToMainRoom)),
+                GetDescription(nameof(FlushedAwayPathFromRampsToCentralDrain)),
                 [
                     new RegionConnection(FlushedAwayBelowSewageRamps, "X1 & B1/J1"),
+                    new RegionConnection(FlushedAwayCentralDrain),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayGearPillar)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCentralDrain)),
+                [
+                    new RegionConnection(FlushedAwayCentralDrainHighGround, "B1/J1"),
+                    new RegionConnection(FlushedAwayCentralDrainBunny, "X1+B1 | J1"),
+                    new RegionConnection(FlushedAwayAboveCentralDrain, "B2"),
+                    new RegionConnection("Flushed Away - Central Drain Exit Pipe", FlushedAwayCheckpointArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCentralDrainArchway)),
+                [
+                    new RegionConnection(FlushedAwayCentralDrain),
+                    new RegionConnection(FlushedAwayCentralDrainArchwayAccessible, "X1"),
+                    new RegionConnection(FlushedAwayCentralDrainBunny, "X1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCentralDrainArchwayAccessible)),
+                [
+                    new RegionConnection(FlushedAwayCentralDrainWaterfallAndArchwayAccessible)
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCentralDrainWaterfallAccessible)),
+                [
+                    new RegionConnection(FlushedAwayCentralDrainWaterfallAndArchwayAccessible)
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCentralDrainWaterfallAndArchwayAccessible)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCentralDrainBunny)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayCentralDrainHighGround)),
+                [
+                    new RegionConnection(FlushedAwayCentralDrainArchwayAccessible),
+                    new RegionConnection(FlushedAwayCentralDrainWaterfallAccessible),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayAboveCentralDrain)),
+                [
+                    new RegionConnection(FlushedAwayCentralDrain),
+                    new RegionConnection(FlushedAwayCentralDrainBunny, "X1"),
                 ]
             },
 
@@ -5930,7 +6256,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GettingGudMiddleFloor)),
                 [
-                    new RegionConnection(GettingGudHighGround, "GS+B2 | J2")
+                    new RegionConnection(GettingGudHighGround, "GS+B2 | J2 & X1/B2")
                 ]
             },
             {
@@ -5982,7 +6308,20 @@ namespace YellowTaxiAP
             {
                 case 1:
                     if (!string.IsNullOrEmpty(type))
-                        Plugin.Log($"[KNOWN] Picked up \"{areas[0].Item2[id]}\" From area \"{areas[0].Item1}\". ID: {id}");
+                    {
+                        var specialRuleText = string.Empty;
+                        if (SpecialRules.ContainsKey(GameplayMaster.instance.levelId.ToString()))
+                        {
+                            if (SpecialRules[GameplayMaster.instance.levelId.ToString()]
+                                .ContainsKey(areas[0].Item2[id]))
+                            {
+                                specialRuleText = $" [SPECIAL RULE: {SpecialRules[GameplayMaster.instance.levelId.ToString()][areas[0].Item2[id]]}]";
+                            }
+                        }
+                        Plugin.Log($"[KNOWN] Picked up \"{areas[0].Item2[id]}\" from area \"{areas[0].Item1}\". ID: {id}{specialRuleText}");
+                        if (ExtraClipboardInfo)
+                            GUIUtility.systemCopyBuffer = areas[0].Item2[id];
+                    }
                     return true;
                 case > 1:
                     if (!string.IsNullOrEmpty(type))
@@ -6033,16 +6372,25 @@ namespace YellowTaxiAP
         {
             if (DebugLocationHelper.Enabled)
             {
+                Plugin.Log("Before bonuses");
                 var bonuses = Object.FindObjectsByType<BonusScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(o =>
                     (o.myIdentity is BonusScript.Identity.gear or BonusScript.Identity.bunny)
                         || ((o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
                         or BonusScript.Identity.bigCoin100) && o.coinIndex >= 0)).ToList();
                 var unknownBonuses = bonuses.Where(o => !DebugLocationHelper.CheckLocation(string.Empty, APCollectableManager.GetIDString(o))).ToList();
-                if (unknownBonuses.Count < 5)
+                if (unknownBonuses != null && unknownBonuses.Count < 10)
                 {
                     foreach (var bonus in unknownBonuses)
                     {
-                        Plugin.Log($"Unknown {bonus.myIdentity} found at {bonus.transform.position}");
+                        try
+                        {
+                            Plugin.Log(
+                                $"Unknown {bonus.myIdentity} found at {bonus.transform.position}. \"{bonus.transform.parent?.gameObject.name ?? "<null>"}\" -> \"{bonus.gameObject.name}\" LocalPos: {bonus.transform.localPosition}");
+                        }
+                        catch(Exception e)
+                        {
+                            Plugin.BepinLogger.LogWarning(e);
+                        }
                     }
                 }
                 var cheeses = Object.FindObjectsByType<CheeseScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
@@ -6151,7 +6499,7 @@ namespace YellowTaxiAP
                             }
                             else if (c.Value.StartsWith("Purchase "))
                             {
-                                regionHats.Add(c);
+                                regionHats.Add(new(c.Key, c.Value.Substring("Purchase ".Length)));
                             }
                             else
                             {
@@ -6321,7 +6669,7 @@ namespace YellowTaxiAP
                         json += "\n    \"hats\": {";
                         if (regionHats.Any())
                         {
-                            json = regionHats.Aggregate(json, (current, v) => current + $"\n      \"{v.Value.Substring("Purchase ".Length)}\": {ulong.Parse(v.Key.Replace("_", ""))},");
+                            json = regionHats.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionHats);
                         }

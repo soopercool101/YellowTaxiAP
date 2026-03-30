@@ -380,6 +380,7 @@ namespace YellowTaxiAP.Managers
                             {
                                 GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GearTimeAttack",
                                     freezePlayer: false);
+                                Plugin.ArchipelagoClient.SendLocation(id.Value);
                             }
                             else
                             {
@@ -538,7 +539,20 @@ namespace YellowTaxiAP.Managers
                 if (id.HasValue)
                 {
 #if DEBUG
-                    DebugLocationHelper.CheckLocation(coin.myIdentity.ToString(), GetIDString(coin));
+                    if (DebugLocationHelper.Enabled)
+                    {
+                        if (DebugLocationHelper.ExtraZoneInfo)
+                        {
+                            var zone = coin.transform.parent;
+                            Plugin.Log($"Object found in zone: {zone.gameObject.name}");
+                            GUIUtility.systemCopyBuffer = zone.gameObject.name;
+                        }
+                        DebugLocationHelper.CheckLocation(coin.myIdentity.ToString(), GetIDString(coin));
+                        Data.coinsCollected[Data.gameDataIndex] += amount;
+                        MenuEventLeaderboard.CoinsCollectedAdd(amount);
+                        if (ModMaster.instance.ModEnableGet())
+                            ModMaster.instance.OnPlayerOnCoinCollect(amount);
+                    }
 #endif
                     Plugin.ArchipelagoClient.SendLocation(id.Value);
                     PlayerScript.instance.CoinsSand(coin.transform);

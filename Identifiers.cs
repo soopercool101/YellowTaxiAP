@@ -60,6 +60,7 @@
             LabKey = 10_00,
             GymMembership = 10_06,
             Doggo = 10_07,
+            SewerKey = 10_08,
             MosksRocket = 10_16,
             TimeTrialRemoteBabySteps = 10_17,
             TimeTrialRemoteGettingGud = 10_18,
@@ -78,9 +79,10 @@
         public enum NotableLocations : long
         {
             DemoWall = 10_00011,
+            WardrobeMoriotron = 11_00000,
             GelaToni = 11_00001,
             PizzaKing = 11_00002,
-            Michele = 21_99999,
+            HubMichele = 21_99999,
             LabKey = 10_00000,
             Doggo = 10_00007,
             MoriosPassword = 11_00012,
@@ -90,6 +92,7 @@
             GoldenSpring = 11_00005,
             GoldenPropeller = 11_00013,
             UltraChadMembership = 6_10_00006,
+            FlushedAwayMichele = 8_10_00008,
         }
     }
 }

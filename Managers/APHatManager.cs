@@ -192,15 +192,15 @@ namespace YellowTaxiAP.Managers
 
             if (self.disabled || !Tick.IsGameRunning || self.buyDelay > 0.0 || !(other.gameObject == PlayerScript.instance.gameObject) || !(PlayerScript.instance != null))
                 return;
+#if DEBUG
+            var str_id = $"{(int)GameplayMaster.instance.levelId}_{Identifiers.HAT_ID:D2}_{(int)self.myHatKind:D5}";
+            DebugLocationHelper.CheckLocation("hat", str_id);
+#endif
             var id = 1_00_00000 * (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Hatsanity ? 99 : (long)GameplayMaster.instance.levelId) + 7_00000 + (long)self.myHatKind;
             self.disabled = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id);
             if (self.disabled)
                 return;
             HatBuyScript.currentBuyingHat = self;
-#if DEBUG
-            var str_id = $"{(int)GameplayMaster.instance.levelId}_{Identifiers.HAT_ID:D2}_{(int)self.myHatKind:D5}";
-            DebugLocationHelper.CheckLocation("hat", str_id);
-#endif
             HudMasterScript.instance.StartCoroutine(ShopsanityPurchaseCoroutine(id, self.price));
         }
 
@@ -221,7 +221,7 @@ namespace YellowTaxiAP.Managers
                     var id = 1_00_00000 * (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Hatsanity ? 99 : (long)GameplayMaster.instance.levelId) + 7_00000 + (long)self.myHatKind;
                     self.disabled = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id);
                 }
-                if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity)
+                if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity && !self.disabled)
                 {
                     self.hatModelTr.gameObject.SetActive(true);
                     self.hatModelTr.localPosition = new Vector3(0, 1.5f, 0);
@@ -238,6 +238,12 @@ namespace YellowTaxiAP.Managers
                     questionMark.text = "<sprite name=\"QuestionMark\">";
                     self.hatModelTr.gameObject.GetComponent<Renderer>()?.enabled = false;
                 }
+#if DEBUG
+                if (DebugLocationHelper.Enabled) 
+                {
+                    self.disabled = false;
+                }
+#endif
             }
         }
 

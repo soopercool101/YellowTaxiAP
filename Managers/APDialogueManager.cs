@@ -7,6 +7,7 @@ using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
+using static UnityEngine.UI.Image;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -36,6 +37,7 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnAnswerNo_AlienMoskGood_Question1 += DialogueScript_SpecialMethod_OnAnswerNo_AlienMoskGood_Question1;
 
             On.PersonParent.Awake += PersonParent_Awake;
+            On.PersonParent.JustTalkDefaultCoroutine += PersonParent_JustTalkDefaultCoroutine;
             
             // Morio Dialogue Overrides
             On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
@@ -44,10 +46,72 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
         }
 
+        private System.Collections.IEnumerator PersonParent_JustTalkDefaultCoroutine(On.PersonParent.orig_JustTalkDefaultCoroutine orig, PersonParent self)
+        {
+            Plugin.Log($"Talking to {self.gameObject.name} (ID: {self.myId})");
+            return orig(self);
+        }
+
         private void DialogueScript_SpecialMethod_OnAnswerNo_AlienMoskGood_Question1(On.DialogueScript.orig_SpecialMethod_OnAnswerNo_AlienMoskGood_Question1 orig, DialogueScript self)
         {
             // Don't ask the moon follow-up question
             self.SpecialMethod_OnAnswerNo_AlienMoskGood_Question2();
+        }
+
+        /// <summary>
+        /// Turns a lawyer into a rat
+        /// </summary>
+        /// <param name="original"></param>
+        private void Ratify(PersonParent original)
+        {
+            Plugin.Log($"Beginning Ratification process on {original.gameObject.name}");
+            // Convert a lawyer into a rat, giving a rat location on bomboss goal
+            var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>()
+                .First(r => r.name.Equals("Rats 1"));
+
+            var anims = Resources.FindObjectsOfTypeAll<AnimationClip>();
+            var deadAnim = anims.First(o => o.name.Equals("Rat Dies"));
+            var idleAnim = anims.First(o => o.name.Equals("Rat Idle.001"));
+            var walkAnim = anims.First(o => o.name.Equals("Rat Walk"));
+            // Rat talking and scared animations are not loaded outside of Pizza Time. Make do.
+            //var talkAnim = anims.First(o => o.name.Equals("Rat Talk"));
+            var talkAnim = idleAnim;
+            //var scaredAnim = anims.First(o => o.name.Equals("ArmaturaRat_Rat Bump"));
+            var scaredAnim = idleAnim;
+            original.gameObject.AddComponent<RatPersonScript>();
+            original.dialoguePickup = AssetMaster.GetPrefab("Dialogue Rat Pickup Question");
+            original.cannotDie = true;
+            original.forceCannotRunAway = true;
+            original.gameRelevantPerson = true;
+            var animator = original.modelHolder.GetComponentInChildren<Animator>(true);
+            var animatorController = animator.runtimeAnimatorController;
+            var sourceAnimator = sourceRenderer.GetComponentInParent<Animator>(true);
+
+            var newAnimator = Object.Instantiate(sourceAnimator, original.modelHolder);
+            newAnimator.runtimeAnimatorController = animatorController;
+            var animatorOverride = new AnimatorOverrideController(newAnimator.runtimeAnimatorController);
+
+            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+            animatorOverride.GetOverrides(overrides);
+            for (var i = 0; i < animatorOverride.overridesCount; i++)
+            {
+                var oldClip = overrides[i].Key;
+                var newClip = idleAnim;
+                if (oldClip.name.Contains("Talk"))
+                    newClip = talkAnim;
+                else if (oldClip.name.Contains("Morte"))
+                    newClip = deadAnim;
+                else if (oldClip.name.Contains("Spavento"))
+                    newClip = scaredAnim;
+                else if (oldClip.name.Contains("Walk") || oldClip.name.Contains("Run"))
+                    newClip = walkAnim;
+                overrides[i] = new KeyValuePair<AnimationClip, AnimationClip>(oldClip, newClip);
+            }
+            animatorOverride.ApplyOverrides(overrides);
+            newAnimator.runtimeAnimatorController = animatorOverride;
+
+            ObjectHelper.DestroyImmediateRecursive(animator.transform);
+            Plugin.Log("Ratification completed");
         }
 
         private void PersonParent_Awake(On.PersonParent.orig_Awake orig, PersonParent self)
@@ -55,58 +119,26 @@ namespace YellowTaxiAP.Managers
             if (Plugin.SlotData.EarlyRat &&
                 GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 512 &&
                 (Plugin.SlotData.ShuffleRat
-                    ? !Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.Michele)
-                    : RatPersonScript.IsRatPickedUp()))
+                    ? !Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.HubMichele)
+                    : !RatPersonScript.IsRatPickedUp()))
             {
-                // Convert a lawyer into a rat, giving a rat location on bomboss goal
-                var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>()
-                    .First(r => r.name.Equals("Rats 1"));
-
-                var anims = Resources.FindObjectsOfTypeAll<AnimationClip>();
-                var deadAnim = anims.First(o => o.name.Equals("Rat Dies"));
-                var idleAnim = anims.First(o => o.name.Equals("Rat Idle.001"));
-                var walkAnim = anims.First(o => o.name.Equals("Rat Walk"));
-                // Rat talking and scared animations are not loaded in the hub. Make do.
-                //var talkAnim = anims.First(o => o.name.Equals("Rat Talk"));
-                var talkAnim = idleAnim;
-                //var scaredAnim = anims.First(o => o.name.Equals("ArmaturaRat_Rat Bump"));
-                var scaredAnim = idleAnim;
+                Ratify(self);
                 self.transform.parent = null;
-                self.gameObject.transform.position = new Vector3(675, 20, -95);
-                self.dialoguePickup = AssetMaster.GetPrefab("Dialogue Rat Pickup Question");
-                self.cannotDie = true;
-                self.forceCannotRunAway = true;
+                self.transform.position = new Vector3(675, 20, -95);
+            }
+            else if (Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Item &&
+                     GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers && self.myId == 54 &&
+                     !Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.FlushedAwayMichele))
+            {
+                Ratify(self);
+            }
+            else if (Plugin.SlotData.EarlySewerIsland && GameplayMaster.instance.levelId == Data.LevelId.Hub &&
+                     self.myId == 474)
+            {
+                Plugin.Log("Moving Bob");
+                self.transform.parent = Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 1   Z: -3")).transform;
+                self.transform.position = new Vector3(167, 10, -460);
                 self.gameRelevantPerson = true;
-                self.gameObject.AddComponent<RatPersonScript>();
-
-                var animator = self.modelHolder.GetComponentInChildren<Animator>(true);
-                var animatorController = animator.runtimeAnimatorController;
-                var sourceAnimator = sourceRenderer.GetComponentInParent<Animator>(true);
-
-                var newAnimator = Object.Instantiate(sourceAnimator, self.modelHolder);
-                newAnimator.runtimeAnimatorController = animatorController;
-                var animatorOverride = new AnimatorOverrideController(newAnimator.runtimeAnimatorController);
-                
-                var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
-                animatorOverride.GetOverrides(overrides);
-                for (var i = 0; i < animatorOverride.overridesCount; i++)
-                {
-                    var oldClip = overrides[i].Key;
-                    var newClip = idleAnim;
-                    if (oldClip.name.Contains("Talk"))
-                        newClip = talkAnim;
-                    else if (oldClip.name.Contains("Morte"))
-                        newClip = deadAnim;
-                    else if (oldClip.name.Contains("Spavento"))
-                        newClip = scaredAnim;
-                    else if (oldClip.name.Contains("Walk") || oldClip.name.Contains("Run"))
-                        newClip = walkAnim;
-                    overrides[i] = new KeyValuePair<AnimationClip, AnimationClip>(oldClip, newClip);
-                }
-                animatorOverride.ApplyOverrides(overrides);
-                newAnimator.runtimeAnimatorController = animatorOverride;
-
-                ObjectHelper.DestroyImmediateRecursive(animator.transform);
             }
             else if (Plugin.SlotData.EarlyBackflip && GameplayMaster.instance.levelId == Data.LevelId.Hub &&
                      self.myId == 535 && self.dialoguePickup.name.Equals("00 Dialogue Pici Computer Man Backflip"))
@@ -321,10 +353,7 @@ namespace YellowTaxiAP.Managers
                         ];
                         moveRandoID = Identifiers.SPIN_ID;
                         break;
-                    case "DIALOGUE_RAT_PICKUP_QUESTION":
-                        if (!Plugin.SlotData.ShuffleRat)
-                            break;
-
+                    case "DIALOGUE_RAT_PICKUP_QUESTION" when GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers || Plugin.SlotData.ShuffleRat:
                         self.dialogues =
                         [
                             APRatManager.ReceivedRatItem
@@ -351,25 +380,29 @@ namespace YellowTaxiAP.Managers
                         ];
                         Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.UltraChadMembership);
                         break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_YES" when GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers:
+                        self.dialogues =
+                        [
+                            $"Michele handed you a particularly smelly {GetItemText((int)Identifiers.NotableLocations.FlushedAwayMichele, true, false)} before scurrying back into the sewage!"
+                        ];
+#if DEBUG
+                        DebugLocationHelper.CheckLocation("Michele (Flushed Away)", "8_10_00008");
+#endif
+                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.FlushedAwayMichele);
+                        break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES":
                         if (!Plugin.SlotData.ShuffleRat)
                             break;
-                        try
-                        {
-                            self.dialogues =
-                            [
-                                $"Michele handed you a particularly smelly {GetItemText((int)Identifiers.NotableLocations.Michele, true, false)} before scurrying back to the sewers!"
-                            ];
+                        self.dialogues =
+                        [
+                            $"Michele handed you a particularly smelly {GetItemText((int)Identifiers.NotableLocations.HubMichele, true, false)} before scurrying back to the sewers!"
+                        ];
 #if DEBUG
-                            DebugLocationHelper.CheckLocation("Michele", "21_99999");
+                        DebugLocationHelper.CheckLocation("Michele", "21_99999");
 #endif
-                            Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Michele);
-                        }
-                        catch (Exception ex)
-                        {
-                            Plugin.BepinLogger.LogWarning(ex);
-                        }
+                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.HubMichele);
                         break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_NO" when GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers:
                     case "DIALOGUE_RAT_PICKUP_ANWER_NO" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
                     case "DIALOGUE_RAT_PICKUP_ANWER_NO" when Plugin.SlotData.ShuffleRat:
                         self.dialogues =
@@ -386,9 +419,9 @@ namespace YellowTaxiAP.Managers
                             case YTGVSlotData.LevelUnlockCondition.Item:
                                 self.dialogues =
                                 [
-                                    "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
-                                    $"Woff woff woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
-                                    "Woff woff woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Go visit my home on Granny's Island!)" : "(I suppose you need it more than me! If you find my house keys meet me at my home on Granny's Island!)"),
+                                    "Woff Woff Woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
+                                    $"Woff Woff Woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
+                                    "Woff Woff Woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Go visit my home on Granny's Island!)" : "(I suppose you need it more than me! If you find my house keys meet me at my home on Granny's Island!)"),
                                 ];
                                 Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Doggo);
                                 break;
@@ -398,8 +431,8 @@ namespace YellowTaxiAP.Managers
                             default:
                                 self.dialogues =
                                 [
-                                    "Woff woff woff! (You didn't need to talk to me this seed!)",
-                                    "Woff woff woff! (Nice of you to do so anyway!)",
+                                    "Woff Woff Woff! (You didn't need to talk to me this seed!)",
+                                    "Woff Woff Woff! (Nice of you to do so anyway!)",
                                 ];
                                 break;
                         }
@@ -412,8 +445,8 @@ namespace YellowTaxiAP.Managers
 
                         self.dialogues =
                         [
-                            "Woff woff woff! (Still no luck finding my house keys?)",
-                            "Woff woff woff! (If you find them, please meet me at my home on Granny's Island!)"
+                            "Woff Woff Woff! (Still no luck finding my house keys?)",
+                            "Woff Woff Woff! (If you find them, please meet me at my home on Granny's Island!)"
                         ];
 
                         break;
@@ -469,6 +502,11 @@ namespace YellowTaxiAP.Managers
                             ];
                             Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GoldenPropeller);
                         }
+                        break;
+                    case "DIALOGUE_MORI_O_TRON_HAT_ARMADIO" when Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.WardrobeMoriotron):
+                        self.dialogues[1] =
+                            $"Also, while cleaning, I managed to find {GetItemText((long)Identifiers.NotableLocations.WardrobeMoriotron)}!";
+                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.WardrobeMoriotron);
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_ALIEN_MOSK_QEUSTION_1":
                         // Don't actually ask a question, don't want Mosk to take you anywhere directly
@@ -689,6 +727,21 @@ namespace YellowTaxiAP.Managers
                         ];
                         Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.LabKey);
                         break;
+                    case "DIALOGUE_NARRATOR_TIME_ATTACK_ASK_RETRY_NEGATIVE":
+                        self.dialogues =
+                        [
+                            "Would you like to try again?",
+                        ];
+                        break;
+                    case "DIALOUGE_GRANNY_ISLAND_OPERAIO_BUILDING_STUFF_1" when Plugin.SlotData.EarlySewerIsland:
+                        self.dialogues =
+                        [
+                            "Sorry, the bridge is out for the foreseeable future.",
+                            "I can bring you across if you want, just don't ask specifics of how it works!"
+                        ];
+                        self.askQuestion = true;
+                        self.onAnswerYes.AddListener(SpecialMethod_OnBobMattoneAnswerYes);
+                        break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
                         case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
@@ -719,6 +772,16 @@ namespace YellowTaxiAP.Managers
             orig(self);
         }
 
+        public void SpecialMethod_OnBobMattoneAnswerYes()
+        {
+            //, 270, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky", "LEVEL_NAME_GRANNY_ISLAND"),
+            var transitionScript = PortalTransitionScript.Spawn(new Vector3(175f, 10f, -695f), 90);
+            transitionScript.songChange = "SoundtrackHubOutside";
+            transitionScript.backgroundChange = "Background Sea and Sky";
+            transitionScript.desiredWaterState = true;
+            transitionScript.desiredLightState = true;
+            transitionScript.desiredZoneId = 0;
+        }
         public void SpecialMethod_OnUltraChadAnswerYes()
         {
             Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);

@@ -16,8 +16,8 @@ namespace YellowTaxiAP.Behaviours
     {
         protected abstract bool ExpectedState { get; }
         protected bool? state;
-        public GameObject[] toDisable;
-        public GameObject[] toEnable;
+        public GameObject[] toDisable = [];
+        public GameObject[] toEnable = [];
 
         public abstract void Awake(); // Need to properly populate toDisable/toEnable
 
@@ -397,6 +397,32 @@ namespace YellowTaxiAP.Behaviours
                 toDisable = orig.disableThisAreaWhenActive.Where(o => !o.GetComponent<BonusScript>()).ToArray();
                 toEnable = orig.enableThisAreaWhenActive;
             }
+        }
+    }
+
+    public class AreaStateOverride_Sewer : AreaStateOverride
+    {
+        protected override bool ExpectedState => SewerUnlocked;
+
+        public static bool SewerUnlocked
+        {
+            get
+            {
+                return Plugin.SlotData.GymGearsUnlockCondition switch
+                {
+                    YTGVSlotData.LevelUnlockCondition.Exclude => false,
+                    YTGVSlotData.LevelUnlockCondition.Open => true,
+                    YTGVSlotData.LevelUnlockCondition.Item => APAreaStateManager.SewerKeyReceived,
+                    YTGVSlotData.LevelUnlockCondition.FullGame => APAreaStateManager.FullGameUnlocked,
+                    YTGVSlotData.LevelUnlockCondition.Special => APSwitchManager.OrangeSwitchUnlocked &&
+                                                                 APAreaStateManager.FullGameUnlocked,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+        }
+        public override void Awake()
+        {
+            // Do nothing. This doesn't correspond to a real DisableAreaScript
         }
     }
 

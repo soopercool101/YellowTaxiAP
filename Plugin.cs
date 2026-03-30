@@ -48,6 +48,7 @@ public class Plugin : BaseUnityPlugin
     public APHUDManager HudHook;
     public APWalletManager WalletHook;
     public APMinimapManager MinimapHook;
+    public APTimeAttackManager TimeAttackHook;
 
     public bool AllowLaser = true;
 #if DEBUG
@@ -148,6 +149,7 @@ public class Plugin : BaseUnityPlugin
             HudHook = new APHUDManager();
             MinimapHook = new APMinimapManager();
             WalletHook = new APWalletManager();
+            TimeAttackHook = new APTimeAttackManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
             self.gameObject.AddComponent<GameStateUpdater>();
             self.gameObject.AddComponent<APSaveController>();

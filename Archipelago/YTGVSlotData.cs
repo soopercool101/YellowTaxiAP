@@ -82,6 +82,7 @@ namespace YellowTaxiAP.Archipelago
         public bool EarlyGoldenPropeller { get; private set; }
         public bool EarlyMoriosPassword { get; private set; }
         public bool EarlyRocket { get; private set; }
+        public bool EarlySewerIsland { get; private set; }
         public bool ExcludeSpikeBunny { get; private set; }
         public bool ExcludeTopBunny { get; private set; }
 
@@ -565,6 +566,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for funny_faces found");
+            }
+
+            if (slotData.ContainsKey("early_sewer_island"))
+            {
+                EarlySewerIsland = (bool)slotData["early_sewer_island"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_sewer_island found");
             }
 
             Loaded = true;

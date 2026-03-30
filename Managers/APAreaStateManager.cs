@@ -15,38 +15,14 @@ namespace YellowTaxiAP.Managers
         public static bool MindPasswordReceived = false;
         public static bool GymMembership = false;
         public static bool DoggoReceived = false;
-        public static bool SewerDoorUnlocked = false;
+        public static bool SewerKeyReceived = false;
         public static bool RocketEnabled = false;
         public static bool LabDoorUnlocked = false;
         public static bool WardrobeUnlocked = false;
         public static bool FullGameUnlocked = false;
-        public static bool TimeTrial1Unlocked
-        {
-            get;
-            set
-            {
-                field = value;
-                TimeTrialsUnlockState[Data.LevelId.L17_TimeAttack01] = null;
-            }
-        }
-        public static bool TimeTrial2Unlocked
-        {
-            get;
-            set
-            {
-                field = value;
-                TimeTrialsUnlockState[Data.LevelId.L18_TimeAttack02] = null;
-            }
-        }
-        public static bool TimeTrial3Unlocked
-        {
-            get;
-            set
-            {
-                field = value;
-                TimeTrialsUnlockState[Data.LevelId.L19_TimeAttack03] = null;
-            }
-        }
+        public static bool TimeTrial1Unlocked = false;
+        public static bool TimeTrial2Unlocked = false;
+        public static bool TimeTrial3Unlocked = false;
 
         public APAreaStateManager()
         {
@@ -82,28 +58,22 @@ namespace YellowTaxiAP.Managers
 #endif
         }
 
-        public static Dictionary<Data.LevelId, bool?> TimeTrialsUnlockState = new()
+        public static bool GetTimeTrialUnlockedState(Data.LevelId timeTrial)
         {
-            { Data.LevelId.L17_TimeAttack01, null },
-            { Data.LevelId.L18_TimeAttack02, null },
-            { Data.LevelId.L19_TimeAttack03, null },
-        };
+            return timeTrial switch
+            {
+                Data.LevelId.L17_TimeAttack01 => TimeTrial1Unlocked,
+                Data.LevelId.L18_TimeAttack02 => TimeTrial2Unlocked,
+                Data.LevelId.L19_TimeAttack03 => TimeTrial3Unlocked,
+                _ => false
+            };
+        }
 
         private void TimeAttackComputerScript_Update(On.TimeAttackComputerScript.orig_Update orig, TimeAttackComputerScript self)
         {
-            if (TimeTrialsUnlockState[self.timeAttackLevelId] == null)
-            {
-                TimeTrialsUnlockState[self.timeAttackLevelId] = self.timeAttackLevelId switch
-                {
-                    Data.LevelId.L17_TimeAttack01 => TimeTrial1Unlocked,
-                    Data.LevelId.L18_TimeAttack02 => TimeTrial2Unlocked,
-                    Data.LevelId.L19_TimeAttack03 => TimeTrial3Unlocked,
-                    _ => false
-                };
-                var unlocked = TimeTrialsUnlockState[self.timeAttackLevelId].Value;
-                self.ringRenderer.enabled = unlocked;
-            }
-            else if (!TimeTrialsUnlockState[self.timeAttackLevelId].Value)
+            var unlocked = GetTimeTrialUnlockedState(self.timeAttackLevelId);
+            self.ringRenderer.enabled = unlocked;
+            if (!unlocked)
             {
                 self.activationDelay = Tick.Time * 5;
             }
@@ -175,9 +145,7 @@ namespace YellowTaxiAP.Managers
                 }
 
                 var labDoorLocked = Plugin.SlotData.LockedMoriosLab && !LabDoorUnlocked;
-                var sewerDoorLocked = (Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.FullGame && !FullGameUnlocked) ||
-                                      (Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Item && !SewerDoorUnlocked) ||
-                                      Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude;
+                var sewerDoorLocked = !AreaStateOverride_Sewer.SewerUnlocked;
 
                 // Generate no entry signs where needed if needed
                 if (labDoorLocked || sewerDoorLocked)
@@ -208,7 +176,7 @@ namespace YellowTaxiAP.Managers
                         var enable = labEnableDisable.enableThisAreaWhenActive.ToList();
                         enable.Add(sign.gameObject);
                         var disable = labEnableDisable.disableThisAreaWhenActive.ToList();
-                        disable.Add(Object.FindObjectsOfType<PortalScript>().First(p => p.name.Equals("Portal Lab to Garden")).gameObject);
+                        disable.Add(Object.FindObjectsByType<PortalScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).First(p => p.name.Equals("Portal Lab to Garden")).gameObject);
                         var locker = self.gameObject.AddComponent<AreaStateOverride_LabLocked>();
                         locker.toDisable = disable.ToArray();
                         locker.toEnable = enable.ToArray();
@@ -220,6 +188,13 @@ namespace YellowTaxiAP.Managers
                             Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include,
                                 FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 1   Z: -4")).transform);
                         sign.transform.localPosition = new Vector3(15, 10, -67);
+                        var locker = self.gameObject.AddComponent<AreaStateOverride_Sewer>();
+                        locker.toDisable = [sign];
+                        locker.toEnable =
+                        [
+                            GameObject.FindObjectsByType<PortalScript>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                                .FirstOrDefault(o => o.targetLevelId == Data.LevelId.L8_Sewers).gameObject
+                        ];
                         //sign.transform.Rotate(0, 0, 0);
                     }
 

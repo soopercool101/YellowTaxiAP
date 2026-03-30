@@ -53,6 +53,7 @@ namespace YellowTaxiAP.Managers
             {
                 self.glidingKeepTimer = float.MaxValue; // Prevent glide from working
             }
+
             orig(self);
 #if FALSE // Allow jump in overhead sections. Might make this an item idk
             if (self.UsingPacmanInputs())

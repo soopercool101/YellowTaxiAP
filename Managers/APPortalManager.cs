@@ -121,13 +121,25 @@ namespace YellowTaxiAP.Managers
 
             self.transform.position = QueuedSubwarp.MoveTaxiHere + new Vector3(0.0f, 0.1f, 0.0f);
             self.transform.SetYAngle(QueuedSubwarp.Rotation);
-            LightDirectionalScript.instance.myLight.enabled = QueuedSubwarp.DesiredLightState;
-            WaterScript.instance.WaterEnable = QueuedSubwarp.DesiredWaterState;
+            LightDirectionalScript.instance?.myLight?.enabled = QueuedSubwarp.DesiredLightState;
+            WaterScript.instance?.WaterEnable = QueuedSubwarp.DesiredWaterState;
             self.myPausable.velBackup[0] = Vector3.zero;
             self.InstantCameraSet(0.0f);
             if (QueuedSubwarp.Zone >= 0)
                 ZoneMaster.currentZoneId = QueuedSubwarp.Zone;
             self.TeleportComputeZoneMaster(self.transform);
+            GameplayMaster.SelfRespawnClear();
+            //GameplayMaster.selfRespawnRecordingDataList.Add(new GameplayMaster.SelfRespawnRecordingData
+            //{
+            //    currentBackground = QueuedSubwarp.BackgroundChange,
+            //    currentMusic = QueuedSubwarp.SongChange,
+            //    currentZoneId = QueuedSubwarp.Zone,
+            //    lightState = QueuedSubwarp.DesiredLightState,
+            //    //currentTimer = GameplayMaster.instance.time
+            //    playerPosition = QueuedSubwarp.MoveTaxiHere,
+            //    playerYAngle = QueuedSubwarp.Rotation,
+            //    waterState = QueuedSubwarp.DesiredWaterState,
+            //});
 
             QueuedSubwarp = null;
         }
@@ -459,6 +471,10 @@ namespace YellowTaxiAP.Managers
             new WarpIdentifier("Pizza Time - 900° Oven", "900° - Exit", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-876.69f, 70f, 281.18f), new Vector3(-330f, 10f, -790f), -90, 5, true, false, "SoundtrackBonusLevel", "Background Bonus Level"),
             new WarpIdentifier("900° - Exit", "Pizza Time - 900° Oven", "", LevelId.L2_PizzaTime, Levels.Index.noone, LevelId.noone, new Vector3(-330f, 10f, -800f), new Vector3(-870f, 70f, 279.9f), 15, 0, true, true, "SoundtrackPizzaTime", "Background Pizza Time"),
 
+            // Flushed Away Warps
+            new WarpIdentifier("Flushed Away - Pipe Below Sewage Ramps", "", "", LevelId.L8_Sewers, Levels.Index.noone, LevelId.noone, new Vector3(915.0007f, 145.0004f, -189.9985f), new Vector3(955f, 100f, -5f), 0, 0, true, true, "SoundtrackSewers", "Background Black"),
+            new WarpIdentifier("Flushed Away - Pit After Skeletrone Dance Party", "", "", LevelId.L8_Sewers, Levels.Index.noone, LevelId.noone, new Vector3(1065f, 95f, 80f), new Vector3(1005f, 30f, -5f), 180, 0, true, true, "SoundtrackSewers", "Background Black"),
+
             // Rocket Warps
             new WarpIdentifier("Mosk's Rocket - Exit to Granny's Island", "Granny's Island - Rocket Entrance", "", LevelId.L16_Rocket, Levels.Index.level_HubDEMO, LevelId.Hub, new Vector3(-1150f, 0f, -1120f), new Vector3(190f, 20f, -30f), 90, 0, true, true, "SoundtrackHubOutside", "Background Sea and Sky"),
             new WarpIdentifier("Mosk's Rocket - Welcoming Climbs Portal", "Welcoming Climbs - Mosk's Rocket Portal", "", LevelId.L16_Rocket, Levels.Index.noone, LevelId.noone, new Vector3(-1045f, 30f, -1135f), new Vector3(-490f, 10f, -1120f), 0, 4, true, true, "SoundtrackRocket", "Background Bonus Level", LevelId.L3_MoriosHome),
@@ -468,6 +484,7 @@ namespace YellowTaxiAP.Managers
         public static Dictionary<string, string> WarpRedirects = new()
         {
             {"Granny's Island - Morio's Lab Front Door", "Granny's Island - Flushed Away Entrance"},
+            //{"Granny's Island - Morio's Lab Back Door", "Flushed Away - Pipe Below Sewage Ramps"},
             //{"Cave - Exit", "Morio's Lab - Portal to Bombeach"},
             //{"Bombeach - Morio's Lab Portal", "Cave - Exit"},
             //{"Bombeach - Hat World Entrance", "Morio's Home - Portal to Morio's Lab"},
@@ -478,7 +495,7 @@ namespace YellowTaxiAP.Managers
             //{"Granny's Island - Gym Gears Entrance", "Law Firm - Exit"},
             //{"Granny's Island - Law Firm Roof Entrance", "Granny's Island - Gym Gears Entrance"},
             //{"Granny's Island Hat World - Exit", "Granny's Island Hat World - Exit"},
-            {"Morio's Lab - Front Door", "Granny's Island - Flushed Away Entrance"},
+            //{"Morio's Lab - Front Door", "Granny's Island - Flushed Away Entrance"},
             //{"Granny's Island - Hat World Entrance", "Morio's Home - Door to Weird Tunnels"},
             //{"Morio's Home - Door to Weird Tunnels", "Granny's Island - Gym Gears Entrance"},
             //{"Morio's Lab - Portal to Morio's Island", "Morio's Home - Morio's Garage Exit"},
