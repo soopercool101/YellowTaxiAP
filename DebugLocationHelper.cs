@@ -1,3 +1,4 @@
+#if DEBUG
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,10 +10,9 @@ using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP
 {
-#if DEBUG
     public static class DebugLocationHelper
     {
-        public static bool Enabled => true;
+        public static bool Enabled => false;
         public static bool ExtraZoneInfo => false;
         public static bool ExtraClipboardInfo => false;
 
@@ -320,8 +320,8 @@ namespace YellowTaxiAP
             { "0_01_00011", "Granny's Island - Gear - Broken Pier" },
         };
 
-        [Description("Granny's Island - Lab Hill Expert1 High Ground")]
-        public static Dictionary<string, string> GrannysIslandLabHillExpert1HighGround = new() // Region Granny's Island Main & (EX1 | J1 | B1 | GP)
+        [Description("Granny's Island - Lab Hill Expert 2 High Ground")]
+        public static Dictionary<string, string> GrannysIslandLabHillExpert2HighGround = new() // Region Granny's Island Main & (EX1 | J1 | B1 | GP)
         {
             { "0_03_00363", "Granny's Island - Coin on Hill Near Lab #1" },
             { "0_03_00359", "Granny's Island - Coin on Hill Near Lab #2" },
@@ -409,7 +409,7 @@ namespace YellowTaxiAP
             { "0_03_00296", "Granny's Island - Coin on Cliff Behind Starting Area #7" },
         };
 
-        [Description("Granny's Island - Expert1 High Ground")]
+        [Description("Granny's Island - Expert 1 High Ground")]
         public static Dictionary<string, string> GrannysIslandExpert1HighGround = new() // Region Granny's Island Main & (EX1 | J1 | B1 | GP)
         {
             { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
@@ -463,8 +463,8 @@ namespace YellowTaxiAP
             { "0_03_00318", "Granny's Island - Coin Bag on Roofs Behind Granny's Statue" },
             { "0_03_00396", "Granny's Island - Chest on Roofs Behind Granny's Statue" },
         };
-
-        [Description("Granny's Island - Expert2 High Ground")]
+        
+        [Description("Granny's Island - Expert 2 High Ground")]
         public static Dictionary<string, string> GrannysIslandExpert2HighGround = new() // Region Granny's Island Main & (EX2 | J1 | B1 | GP)
         {
             // Requires one-off Bomb luring
@@ -483,8 +483,34 @@ namespace YellowTaxiAP
             { "0_03_00703", "Granny's Island - Coin Near MMA Champion #3" },
             { "0_03_00702", "Granny's Island - Coin Near MMA Champion #4" },
             { "0_03_00704", "Granny's Island - Coin Bag Near MMA Champion" },
+            // Repeatable but long-distance Bomb Luring
+            { "0_03_00422", "Granny's Island - Coin in Beach Cove #1" },
+            { "0_03_00421", "Granny's Island - Coin in Beach Cove #2" },
+            { "0_03_00420", "Granny's Island - Coin in Beach Cove #3" },
+            { "0_03_00418", "Granny's Island - Coin in Beach Cove #4" },
+            { "0_03_00417", "Granny's Island - Coin in Beach Cove #5" },
+            { "0_03_00416", "Granny's Island - Coin in Beach Cove #6" },
+            { "0_01_00002", "Granny's Island - Gear - Beach Cove" },
+            { "0_03_00394", "Granny's Island - Coin Bag on Roof by Spin Blocks #1" },
+            { "0_03_00395", "Granny's Island - Coin Bag on Roof by Spin Blocks #2" },
+            { "0_03_00397", "Granny's Island - Coin Bag on Roof by Spin Blocks #3" },
+            { "0_03_00382", "Granny's Island - Coin on Roof by Spin Blocks #1" },
+            { "0_03_00383", "Granny's Island - Coin on Roof by Spin Blocks #2" },
+            { "0_03_00381", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #1" },
+            { "0_03_00380", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #2" },
+            { "0_03_00393", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #3" },
+            { "0_03_00413", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #4" },
+            { "0_03_00425", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #5" },
+            { "0_03_00546", "Granny's Island - Coin on Roof by Oil Pump #1" },
+            { "0_03_00545", "Granny's Island - Coin on Roof by Oil Pump #2" },
+            { "0_03_00544", "Granny's Island - Coin on Roof by Oil Pump #3" },
+            { "0_01_00009", "Granny's Island - Gear - On Roof by Oil Pump" },
+            { "0_03_00414", "Granny's Island - Coin on Roof by Construction Site #1" },
+            { "0_03_00415", "Granny's Island - Coin on Roof by Construction Site #2" },
+            { "0_03_00460", "Granny's Island - Coin on Roof by Construction Site #3" },
+            { "0_03_00461", "Granny's Island - Coin Bag on Roof by Construction Site" },
         };
-
+        
         [Description("Granny's Island - High Ground")]
         public static Dictionary<string, string> GrannysIslandHighGround = new()
         {
@@ -505,11 +531,6 @@ namespace YellowTaxiAP
             { "0_03_00573", "Granny's Island - Coin Bag on Path to Granny's Statue" },
             { "0_01_00005", "Granny's Island - Gear - Granny's Statue" },
             { "0_01_00012", "Granny's Island - Gear - Gym Gears Roof" },
-            { "0_03_00381", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #1" },
-            { "0_03_00380", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #2" },
-            { "0_03_00393", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #3" },
-            { "0_03_00413", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #4" },
-            { "0_03_00425", "Granny's Island - Coin on Roof Ramp Towards Gym Gears #5" },
             { "0_03_00562", "Granny's Island - Coin Above Pipe on Hill by Lab #1" },
             { "0_03_00565", "Granny's Island - Coin Above Pipe on Hill by Lab #2" },
             { "0_03_00568", "Granny's Island - Coin Above Pipe on Hill by Lab #3" },
@@ -573,26 +594,6 @@ namespace YellowTaxiAP
             { "0_03_00801", "Granny's Island - Coin on Ramp Towards Lighthouse #5" },
             { "0_03_00802", "Granny's Island - Coin on Ramp Towards Lighthouse #6" },
             { "0_03_00804", "Granny's Island - Coin on Ramp Towards Lighthouse #7" },
-            { "0_03_00422", "Granny's Island - Coin in Beach Cove #1" },
-            { "0_03_00421", "Granny's Island - Coin in Beach Cove #2" },
-            { "0_03_00420", "Granny's Island - Coin in Beach Cove #3" },
-            { "0_03_00418", "Granny's Island - Coin in Beach Cove #4" },
-            { "0_03_00417", "Granny's Island - Coin in Beach Cove #5" },
-            { "0_03_00416", "Granny's Island - Coin in Beach Cove #6" },
-            { "0_01_00002", "Granny's Island - Gear - Beach Cove" },
-            { "0_03_00546", "Granny's Island - Coin on Roof by Oil Pump #1" },
-            { "0_03_00545", "Granny's Island - Coin on Roof by Oil Pump #2" },
-            { "0_03_00544", "Granny's Island - Coin on Roof by Oil Pump #3" },
-            { "0_01_00009", "Granny's Island - Gear - On Roof by Oil Pump" },
-            { "0_03_00414", "Granny's Island - Coin on Roof by Construction Site #1" },
-            { "0_03_00415", "Granny's Island - Coin on Roof by Construction Site #2" },
-            { "0_03_00460", "Granny's Island - Coin on Roof by Construction Site #3" },
-            { "0_03_00461", "Granny's Island - Coin Bag on Roof by Construction Site" },
-            { "0_03_00394", "Granny's Island - Coin Bag on Roof by Spin Blocks #1" },
-            { "0_03_00395", "Granny's Island - Coin Bag on Roof by Spin Blocks #2" },
-            { "0_03_00397", "Granny's Island - Coin Bag on Roof by Spin Blocks #3" },
-            { "0_03_00382", "Granny's Island - Coin on Roof by Spin Blocks #1" },
-            { "0_03_00383", "Granny's Island - Coin on Roof by Spin Blocks #2" },
             // Special Rules
             { "0_01_00001", "Granny's Island - Gear - Lighthouse" },                    // Region Granny's Island Higher Ground & (B2 | (B1 & GP))
             { "0_01_00015", "Granny's Island - Gear - In the Clouds" },                 // Region Granny's Island Higher Ground & ((B1 & GP) | (B2 & J1))
@@ -4473,7 +4474,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GrannysIslandBrokenPierShallow)), GrannysIslandBrokenPierShallow),
             new(GetDescription(nameof(GrannysIslandBrokenPierDeep)), GrannysIslandBrokenPierDeep),
             new(GetDescription(nameof(GrannysIslandBrokenPierExtraDeep)), GrannysIslandBrokenPierExtraDeep),
-            new(GetDescription(nameof(GrannysIslandLabHillExpert1HighGround)), GrannysIslandLabHillExpert1HighGround),
+            new(GetDescription(nameof(GrannysIslandLabHillExpert2HighGround)), GrannysIslandLabHillExpert2HighGround),
             new(GetDescription(nameof(GrannysIslandLabHillHighGround)), GrannysIslandLabHillHighGround),
             new(GetDescription(nameof(GrannysIslandExpert1HighGround)), GrannysIslandExpert1HighGround),
             new(GetDescription(nameof(GrannysIslandExpert2HighGround)), GrannysIslandExpert2HighGround),
@@ -4701,7 +4702,7 @@ namespace YellowTaxiAP
                     GrannysIslandBrokenPierShallow,
                     GrannysIslandBrokenPierDeep,
                     GrannysIslandBrokenPierExtraDeep,
-                    GrannysIslandLabHillExpert1HighGround,
+                    GrannysIslandLabHillExpert2HighGround,
                     GrannysIslandLabHillHighGround,
                     GrannysIslandExpert1HighGround,
                     GrannysIslandExpert2HighGround,
@@ -4999,7 +5000,7 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandExpert1HighGround, "X1/J1/B1/GP"),
                     new RegionConnection(GrannysIslandExpert2HighGround, "X2/J1/B1/GP"),
                     new RegionConnection(GrannysIslandHighGround, "J1/B1/GP"),
-                    new RegionConnection(GrannysIslandRocketTop, "Rocket+B2 | Rocket+B1 & X1/GP"),
+                    new RegionConnection(GrannysIslandRocketTop, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J2+GP"),
                     new RegionConnection(GrannysIslandConstructionArch, "B1 | GP+J1"),
                     new RegionConnection(GrannysIslandOceanPillar, "B1 | GP+OS"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | X2/J1 & GP+OS"),
@@ -5007,16 +5008,19 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
                     new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1"),
                     new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP"),
-                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | GP & OS & J2/B1"),
+                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | GP+OS & J2/B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears+GymKey"),
-                    new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP"),
+                    new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X3+Rocket+B2+GP"),
                     new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "PortalFecalMatters+Doggo"),
                     new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & J2/B1/GP | X1+Rocket+J1"),
-                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "GP+NSAR+LabKey"),
+                    // Golden Propeller non-area rando rules
+                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "NSAR+GP+LabKey"),
+                    new RegionConnection(HubLawFirmJump, "NSAR+GP"),
+                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+GelaToni+GP"),
                 ]
             },
             {
@@ -5045,7 +5049,7 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(GrannysIslandLabHillExpert1HighGround)),
+                GetDescription(nameof(GrannysIslandLabHillExpert2HighGround)),
                 [
                     // Doesn't connect anywhere
                 ]
@@ -5055,19 +5059,19 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(GrannysIslandCrashAgainIsland, "OS"),
                     new RegionConnection(GrannysIslandMain),
-                    new RegionConnection(GrannysIslandLabHillExpert1HighGround),
+                    new RegionConnection(GrannysIslandLabHillExpert2HighGround),
                 ]
             },
             {
                 GetDescription(nameof(GrannysIslandExpert1HighGround)),
                 [
-                    new RegionConnection(GrannysIslandLabHillExpert1HighGround),
+                    // Doesn't connect anywhere
                 ]
             },
             {
                 GetDescription(nameof(GrannysIslandExpert2HighGround)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection(GrannysIslandLabHillExpert2HighGround),
                 ]
             },
             {
@@ -6723,5 +6727,5 @@ namespace YellowTaxiAP
             }
         }
     }
-#endif
 }
+#endif

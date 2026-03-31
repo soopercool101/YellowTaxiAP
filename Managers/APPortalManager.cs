@@ -483,7 +483,7 @@ namespace YellowTaxiAP.Managers
 
         public static Dictionary<string, string> WarpRedirects = new()
         {
-            {"Granny's Island - Morio's Lab Front Door", "Granny's Island - Flushed Away Entrance"},
+            //{"Granny's Island - Morio's Lab Front Door", "Granny's Island - Flushed Away Entrance"},
             //{"Granny's Island - Morio's Lab Back Door", "Flushed Away - Pipe Below Sewage Ramps"},
             //{"Cave - Exit", "Morio's Lab - Portal to Bombeach"},
             //{"Bombeach - Morio's Lab Portal", "Cave - Exit"},
