@@ -123,7 +123,7 @@ namespace YellowTaxiAP.Managers
                     : !RatPersonScript.IsRatPickedUp()))
             {
                 Ratify(self);
-                self.transform.parent = null;
+                self.transform.parent = Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 4   Z: -1")).transform;
                 self.transform.position = new Vector3(675, 20, -95);
             }
             else if (Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Item &&
@@ -146,11 +146,6 @@ namespace YellowTaxiAP.Managers
                 //Plugin.Log($"{self.transform.position} {self.dialoguePickup.name}");
                 self.transform.position = new Vector3(-850, 130, 470);
             }
-            else if (true && GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 515)
-            {
-                self.justWantToTalk = true;
-            }
-
 
             orig(self);
         }

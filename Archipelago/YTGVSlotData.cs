@@ -577,6 +577,23 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for early_sewer_island found");
             }
 
+            if (slotData.ContainsKey("locked_time_trials"))
+            {
+                // We really only need to care if time trials are open or not
+                if ((long)slotData["locked_time_trials"] == 0)
+                {
+                    APAreaStateManager.TimeTrial1Unlocked = APAreaStateManager.TimeTrial2Unlocked =
+                        APAreaStateManager.TimeTrial3Unlocked = true;
+                }
+            }
+            else
+            {
+                // Bugfix, unlock all time trials. Would rather have 20 OoL checks than 20 unobtainable ones
+                Plugin.Log("No slot data for locked_time_trials found");
+                APAreaStateManager.TimeTrial1Unlocked = APAreaStateManager.TimeTrial2Unlocked =
+                    APAreaStateManager.TimeTrial3Unlocked = true;
+            }
+
             Loaded = true;
         }
     }
