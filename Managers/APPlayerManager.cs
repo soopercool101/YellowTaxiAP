@@ -22,6 +22,18 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.IsFlipOWillingExtraLong += FlipOWillExtraLong_AP;
             On.PlayerScript.FlipOWillAbort += FlipOWillAbort_AP;
             On.PlayerScript.BackFlip += FlipOWillBackFlip_AP;
+
+            On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
+        }
+
+        private void PlayerDamager_CollideWithPlayer(On.PlayerDamager.orig_CollideWithPlayer orig, PlayerDamager self, PlayerScript scr)
+        {
+            if (self.instantKill && self.canDamagePlayer && Master.cheat_PizzaWheels)
+            {
+                return;
+            }
+
+            orig(self, scr);
         }
 
         /// <summary>

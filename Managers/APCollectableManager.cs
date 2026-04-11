@@ -456,7 +456,7 @@ namespace YellowTaxiAP.Managers
 #endif
                             if (Plugin.SlotData.ShuffleMoriosPassword)
                             {
-                                Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.MoriosPassword);
+                                Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.HubMoriosPassword);
                             }
                             else
                             {

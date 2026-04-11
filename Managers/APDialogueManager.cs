@@ -37,6 +37,7 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnAnswerNo_AlienMoskGood_Question1 += DialogueScript_SpecialMethod_OnAnswerNo_AlienMoskGood_Question1;
 
             On.PersonParent.Awake += PersonParent_Awake;
+            On.PersonPizzaCheff.Awake += PersonPizzaCheff_Awake;
             On.PersonParent.JustTalkDefaultCoroutine += PersonParent_JustTalkDefaultCoroutine;
             
             // Morio Dialogue Overrides
@@ -44,6 +45,50 @@ namespace YellowTaxiAP.Managers
             On.PersonScenziatoV2.Update += PersonScenziatoV2_Update;
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
+        }
+
+        public static bool IsCloningPizzaMan = false;
+        private void PersonPizzaCheff_Awake(On.PersonPizzaCheff.orig_Awake orig, PersonPizzaCheff self)
+        {
+            if (GameplayMaster.instance.levelId == Data.LevelId.Hub && (self.myId == 10000 || IsCloningPizzaMan))
+            {
+                // Need to blank out the pepperoni list for the clone or the minigame will fail to work on the original
+                self.myPepperonies = [];
+            }
+            orig(self);
+            if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
+            {
+                if (self.myId == 10000 || IsCloningPizzaMan)
+                {
+                    Plugin.Log("Finalizing Pizza Man");
+                    self.pickupCorotuineOverride = null;
+                    self.modelHolder.GetChild(2).gameObject.SetActive(false);
+                }
+                else if (Plugin.SlotData.EarlyPizzaWheels)
+                {
+                    var newZoneMaster = Object
+                        .FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                        .First(o => o.name.Equals("ZM   X: -4   Z: 5")).transform;
+                    if (Plugin.SlotData.EarlyPizzaKing)
+                    {
+                        // If the pizza king is accessible, then we need to clone the pizza man
+                        Plugin.Log("Cloning Pizza Man");
+                        IsCloningPizzaMan = true; // Make sure the cloning process is executed once, clone shouldn't create more clones!
+                        var newPizzaMan = Object.Instantiate(self, newZoneMaster);
+                        newPizzaMan.myId = 10000;
+                        newPizzaMan.transform.localPosition = new Vector3(-80, 50, 10);
+                        IsCloningPizzaMan = false;
+                    }
+                    else
+                    {
+                        // If the pizza king is not accessible, we can move the pizza man
+                        self.transform.parent = newZoneMaster;
+                        self.transform.localPosition = new Vector3(-80, 50, 10);
+                        self.pickupCorotuineOverride = null;
+                        self.modelHolder.GetChild(2).gameObject.SetActive(false);
+                    }
+                }
+            }
         }
 
         private System.Collections.IEnumerator PersonParent_JustTalkDefaultCoroutine(On.PersonParent.orig_JustTalkDefaultCoroutine orig, PersonParent self)
@@ -373,7 +418,7 @@ namespace YellowTaxiAP.Managers
                         [
                             $"You received {GetItemText((long)Identifiers.NotableLocations.UltraChadMembership, true, false)} as a gift! Now to wait 4-7 business weeks for your membership card!"
                         ];
-                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.UltraChadMembership);
+                        QueuedItem = (long)Identifiers.NotableLocations.UltraChadMembership;
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers:
                         self.dialogues =
@@ -383,19 +428,20 @@ namespace YellowTaxiAP.Managers
 #if DEBUG
                         DebugLocationHelper.CheckLocation("Michele (Flushed Away)", "8_10_00008");
 #endif
-                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.FlushedAwayMichele);
+                        QueuedItem = (int)Identifiers.NotableLocations.FlushedAwayMichele;
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES":
                         if (!Plugin.SlotData.ShuffleRat)
                             break;
+                        var itemToSend = (long)Identifiers.NotableLocations.HubMichele;
                         self.dialogues =
                         [
-                            $"Michele handed you a particularly smelly {GetItemText((int)Identifiers.NotableLocations.HubMichele, true, false)} before scurrying back to the sewers!"
+                            $"Michele handed you a particularly smelly {GetItemText(itemToSend, true, false)} before scurrying back to the sewers!"
                         ];
 #if DEBUG
                         DebugLocationHelper.CheckLocation("Michele", "21_99999");
 #endif
-                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.HubMichele);
+                        QueuedItem = itemToSend;
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_NO" when GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers:
                     case "DIALOGUE_RAT_PICKUP_ANWER_NO" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
@@ -415,10 +461,10 @@ namespace YellowTaxiAP.Managers
                                 self.dialogues =
                                 [
                                     "Woff Woff Woff! " + (APAreaStateManager.DoggoReceived ? "(Hey, you found my house keys!)" : "(Have you seen my house keys?)"),
-                                    $"Woff Woff Woff! (I looked where I last left them, but found this {GetItemText((int)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
+                                    $"Woff Woff Woff! (I looked where I last left them, but found this {GetItemText((long)Identifiers.NotableLocations.Doggo, true, false)} instead!)",
                                     "Woff Woff Woff! " + (APAreaStateManager.DoggoReceived ? "(You can have it as a reward! Go visit my home on Granny's Island!)" : "(I suppose you need it more than me! If you find my house keys meet me at my home on Granny's Island!)"),
                                 ];
-                                Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.Doggo);
+                                QueuedItem = (long)Identifiers.NotableLocations.Doggo;
                                 break;
                             case YTGVSlotData.LevelUnlockCondition.Open:
                             case YTGVSlotData.LevelUnlockCondition.FullGame:
@@ -457,7 +503,7 @@ namespace YellowTaxiAP.Managers
                                 ? $"As a reward, here's {GetItemText((long)Identifiers.NotableLocations.DemoWall)}!"
                                 : $"You are stuck here now, but as consolation you can have this {GetItemText((long)Identifiers.NotableLocations.DemoWall)}!",
                         ];
-                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.DemoWall);
+                        QueuedItem = (long)Identifiers.NotableLocations.DemoWall;
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_NICK_JUST_TALK":
                         if (APPlayerManager.BoostLevel < 2 && APPlayerManager.JumpLevel < 2)
@@ -487,40 +533,40 @@ namespace YellowTaxiAP.Managers
                                 $"A {SetTextColor("Golden Propeller", DialogueColors.OrangeYellow)} could help you reach greater heights!",
                         ];
                         if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains((long) Identifiers.NotableLocations
-                                .GoldenPropeller))
+                                .HubGoldenPropeller))
                         {
                             self.dialogues =
                             [
                                 self.dialogues[0],
                                 self.dialogues[1],
-                                $"For managing to get up here{(APCollectableManager.GoldenPropellerActive ? string.Empty : " without one")}, here's {GetItemText((long) Identifiers.NotableLocations.GoldenPropeller)}!"
+                                $"For managing to get up here{(APCollectableManager.GoldenPropellerActive ? string.Empty : " without one")}, here's {GetItemText((long) Identifiers.NotableLocations.HubGoldenPropeller)}!"
                             ];
-                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GoldenPropeller);
+                            QueuedItem = (long)Identifiers.NotableLocations.HubGoldenPropeller;
                         }
                         break;
                     case "DIALOGUE_MORI_O_TRON_HAT_ARMADIO" when Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.WardrobeMoriotron):
                         self.dialogues[1] =
                             $"Also, while cleaning, I managed to find {GetItemText((long)Identifiers.NotableLocations.WardrobeMoriotron)}!";
-                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.WardrobeMoriotron);
+                        QueuedItem = (long)Identifiers.NotableLocations.WardrobeMoriotron;
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_ALIEN_MOSK_QEUSTION_1":
                         // Don't actually ask a question, don't want Mosk to take you anywhere directly
                         self.askQuestion = false;
                         self.askingQuestion = false;
-                        if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations.MosksRocket))
+                        if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations.HubMosksRocket))
                         {
                             self.dialogues =
                                 APAreaStateManager.RocketEnabled ?
                                     [
                                         "I know I shouldn't be here yet, but... hey those are the keys to my rocket!",
-                                        $"As a reward, you can have {GetItemText((long)Identifiers.NotableLocations.MosksRocket)}!",
+                                        $"As a reward, you can have {GetItemText((long)Identifiers.NotableLocations.HubMosksRocket)}!",
                                         "If you want to check out my rocket, use the front door!",
                                     ] :
                                     [
                                         "I know I shouldn't be here yet, but I lost the keys to my rocket. Keep an eye out for them!",
-                                        $"All I found instead was {GetItemText((long)Identifiers.NotableLocations.MosksRocket)}, but you can have it.",
+                                        $"All I found instead was {GetItemText((long)Identifiers.NotableLocations.HubMosksRocket)}, but you can have it.",
                                     ];
-                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.MosksRocket);
+                            QueuedItem = (long)Identifiers.NotableLocations.HubMosksRocket;
                         }
                         else
                         {
@@ -540,18 +586,18 @@ namespace YellowTaxiAP.Managers
                         if (!Plugin.SlotData.EarlyPizzaKing || !Plugin.SlotData.ShufflePizzaKing)
                             break;
                         if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
-                                (long) Identifiers.NotableLocations.PizzaKing))
+                                (long) Identifiers.NotableLocations.HubPizzaKing))
                         {
                             self.dialogues = APAreaStateManager.PizzaKingReceived ?
                             [
                                 "Hello friendly knight! Those keys you have... those are my vacation home keys!",
-                                $"As a reward for finding them, take {GetItemText((long)Identifiers.NotableLocations.PizzaKing)}!",
+                                $"As a reward for finding them, take {GetItemText((long)Identifiers.NotableLocations.HubPizzaKing)}!",
                             ]:
                             [
                                 "Hello friendly knight! Have you seen my vacation home keys anywhere? I appear to have misplaced them.",
-                                $"All I found instead is {GetItemText((long)Identifiers.NotableLocations.PizzaKing)}, but you can have it!",
+                                $"All I found instead is {GetItemText((long)Identifiers.NotableLocations.HubPizzaKing)}, but you can have it!",
                             ];
-                            Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.PizzaKing);
+                            QueuedItem = (long)Identifiers.NotableLocations.HubPizzaKing;
                         }
                         else
                         {
@@ -570,7 +616,7 @@ namespace YellowTaxiAP.Managers
                             break;
 
                         if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
-                                (long) Identifiers.NotableLocations.PsychoTaxi))
+                                (long) Identifiers.NotableLocations.HubPsychoTaxi))
                         {
                             self.textSoundNames =
                             [
@@ -585,9 +631,9 @@ namespace YellowTaxiAP.Managers
                             self.dialogues =
                             [
                                 self.dialogues[0],
-                                $"What's this? You found {GetItemText((long) Identifiers.NotableLocations.PsychoTaxi, true, false)} wedged in the cartridge slot!",
+                                $"What's this? You found {GetItemText((long) Identifiers.NotableLocations.HubPsychoTaxi, true, false)} wedged in the cartridge slot!",
                             ];
-                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.PsychoTaxi);
+                            QueuedItem = (long)Identifiers.NotableLocations.HubPsychoTaxi;
                         }
                         break;
                     case "PSYCHO_TAXI_CABINET_PLAY_QUESTION":
@@ -595,7 +641,7 @@ namespace YellowTaxiAP.Managers
                             break;
 
                         if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
-                                (long)Identifiers.NotableLocations.PsychoTaxi))
+                                (long)Identifiers.NotableLocations.HubPsychoTaxi))
                         {
                             self.textSoundNames =
                             [
@@ -609,19 +655,19 @@ namespace YellowTaxiAP.Managers
                             ];
                             self.dialogues =
                             [
-                                $"What's this? You found {GetItemText((long) Identifiers.NotableLocations.PsychoTaxi, true, false)} next to the machine!",
+                                $"What's this? You found {GetItemText((long) Identifiers.NotableLocations.HubPsychoTaxi, true, false)} next to the machine!",
                                 self.dialogues[0],
                             ];
-                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.PsychoTaxi);
+                            QueuedItem = (long)Identifiers.NotableLocations.HubPsychoTaxi;
                         }
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_OCRA_TAXI_MINIGAME_2":
                         if (!Plugin.SlotData.EarlyOrangeSwitch ||
-                            Plugin.ArchipelagoClient.AllClearedLocations.Contains((int) Identifiers.NotableLocations.OrangeSwitch))
+                            Plugin.ArchipelagoClient.AllClearedLocations.Contains((int) Identifiers.NotableLocations.HubOrangeSwitch))
                             break;
                         self.dialogues[1] =
-                            $"As a reward, please take {GetItemText((int) Identifiers.NotableLocations.OrangeSwitch)}!";
-                        Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.OrangeSwitch);
+                            $"As a reward, please take {GetItemText((int) Identifiers.NotableLocations.HubOrangeSwitch)}!";
+                        QueuedItem = (long)Identifiers.NotableLocations.HubOrangeSwitch;
                         break;
                     case "DIALOGUE_MORIO_DREAM_MACHINE_INACTIVE":
                         // TODO: If Morio's Mind is a level, dialogue should probably be tweaked here somewhat anyway
@@ -633,7 +679,7 @@ namespace YellowTaxiAP.Managers
                         [
                             self.dialogues[0],
                             APAreaStateManager.MindPasswordReceived ? $"Looks like you already found the {SetTextColor("password", DialogueColors.OrangeYellow)} to this safety door!" : self.dialogues[1],
-                            $"On an unrelated note, this machine will give you {GetItemText((int) Identifiers.NotableLocations.MoriosPassword)}!",
+                            $"On an unrelated note, this machine will give you {GetItemText((int) Identifiers.NotableLocations.HubMoriosPassword)}!",
                             $"I hope it's worth it, because this is quite painful!",
                         ];
 
@@ -652,18 +698,18 @@ namespace YellowTaxiAP.Managers
                             break;
 
                         if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(
-                                (long) Identifiers.NotableLocations.GelaToni))
+                                (long) Identifiers.NotableLocations.HubGelaToni))
                         {
                             self.dialogues = APAreaStateManager.GelaToniReceived ?
                                 [
                                     self.dialogues[0],
-                                    $"As a reward, you can have {GetItemText((long) Identifiers.NotableLocations.GelaToni)}!",
+                                    $"As a reward, you can have {GetItemText((long) Identifiers.NotableLocations.HubGelaToni)}!",
                                 ] :
                                 [
                                     "Hey hey! Have you seen an ice cream truck around here?",
-                                    $"I thought I parked it here, but found {GetItemText((long) Identifiers.NotableLocations.GelaToni)} in its place! It's yours if you want!",
+                                    $"I thought I parked it here, but found {GetItemText((long) Identifiers.NotableLocations.HubGelaToni)} in its place! It's yours if you want!",
                                 ];
-                            Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GelaToni);
+                            QueuedItem = (long)Identifiers.NotableLocations.HubGelaToni;
                         }
                         else if (!APAreaStateManager.GelaToniReceived)
                         {
@@ -675,17 +721,17 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_PRE_TOSLA":
                     case "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_POST_TOSLA":
-                        if (!Plugin.SlotData.EarlyGoldenSpring || Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations.GoldenSpring))
+                        if (!Plugin.SlotData.EarlyGoldenSpring || Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations.HubGoldenSpring))
                             break;
 
-                        self.dialogues[1] = $"On an unrelated note, I have {GetItemText((long)Identifiers.NotableLocations.GoldenSpring)}, please take it!";
-                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.GoldenSpring);
+                        self.dialogues[1] = $"On an unrelated note, I have {GetItemText((long)Identifiers.NotableLocations.HubGoldenSpring)}, please take it!";
+                        QueuedItem = (long)Identifiers.NotableLocations.HubGoldenSpring;
                         break;
                     case "BOBOMBOSS_2":
                         if (!Plugin.SlotData.EarlyGelaToni)
                         {
                             if (Plugin.SlotData.ShuffleGelaToni)
-                                Plugin.ArchipelagoClient.SendLocation(1_00_00000 + (long)Identifiers.NotableLocations.GelaToni);
+                                QueuedItem = 1_00_00000 + (long)Identifiers.NotableLocations.HubGelaToni;
                             else
                                 APSaveController.MiscSave.HasGelaToni = true;
                         }
@@ -720,7 +766,7 @@ namespace YellowTaxiAP.Managers
                             "Get out! Now!",
                             $"And take {GetItemText((long) Identifiers.NotableLocations.LabKey)} with you!",
                         ];
-                        Plugin.ArchipelagoClient.SendLocation((long)Identifiers.NotableLocations.LabKey);
+                        QueuedItem = (long)Identifiers.NotableLocations.LabKey;
                         break;
                     case "DIALOGUE_NARRATOR_TIME_ATTACK_ASK_RETRY_NEGATIVE":
                         self.dialogues =
@@ -737,6 +783,13 @@ namespace YellowTaxiAP.Managers
                         self.askQuestion = true;
                         self.onAnswerYes.AddListener(SpecialMethod_OnBobMattoneAnswerYes);
                         break;
+                    case "DIALOGUE_PIZZA_TIME_PIZZA_CHEFF_INITIAL_ADD_TIME" when MapArea.IsPlayerInsideLab():
+                        self.dialogues =
+                        [
+                            "This is a proof of concept"
+                        ];
+                        //self.onDialogueEnd.AddListener(SpecialMethod_SendQueuedItem);
+                        break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
                         case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
@@ -751,9 +804,16 @@ namespace YellowTaxiAP.Managers
                 {
                     try
                     {
-                        var id = ((int) GameplayMaster.instance.levelId * 1_00_00000) + 8_00000 + moveRandoID;
-                        self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you {GetItemText(id)}!";
-                        Plugin.ArchipelagoClient.SendLocation(id);
+                        var id = ((long) GameplayMaster.instance.levelId * 1_00_00000) + 8_00000 + moveRandoID;
+                        if (Plugin.ArchipelagoClient.LocationUncleared(id))
+                        {
+                            self.dialogues[self.dialogues.Length - 1] = $"Instead, I'll give you {GetItemText(id)}!";
+                            QueuedItem = id;
+                        }
+                        else
+                        {
+                            self.dialogues = self.dialogues.Take(self.dialogues.Length - 1).ToArray();
+                        }
                     }
                     catch(Exception ex)
                     {
@@ -763,8 +823,23 @@ namespace YellowTaxiAP.Managers
                     DebugLocationHelper.CheckLocation("Move Rando", $"{(int)GameplayMaster.instance.levelId}_{Identifiers.NPC_ID:D2}_{moveRandoID:D5}");
 #endif
                 }
+
+                if (QueuedItem != null)
+                {
+                    self.onDialogueEnd.AddListener(SpecialMethod_SendQueuedItem);
+                }
             }
             orig(self);
+        }
+
+        public static long? QueuedItem;
+        public void SpecialMethod_SendQueuedItem()
+        {
+            if (QueuedItem != null)
+            {
+                Plugin.ArchipelagoClient.SendLocation(QueuedItem.Value);
+                QueuedItem = null;
+            }
         }
 
         public void SpecialMethod_OnBobMattoneAnswerYes()

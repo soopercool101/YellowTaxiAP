@@ -379,7 +379,9 @@ public class Plugin : BaseUnityPlugin
 
             if (Input.GetKeyDown(KeyCode.H))
             {
-                Plugin.Log($"DEBUG: Hat Burger {Data.HatGetUnlockedState((int)Data.Hat.Hat52_WishlistBurger)}", true);
+                Master.cheat_PizzaWheels = !Master.cheat_PizzaWheels;
+                PlayerScript.instance.PizzaWheelsInit();
+                Log($"DEBUG: Pizza Wheels {(Master.cheat_PizzaWheels ? "enabled" : "disabled")}", true);
             }
 
             if (false)

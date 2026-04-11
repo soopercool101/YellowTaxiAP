@@ -83,6 +83,7 @@ namespace YellowTaxiAP.Archipelago
         public bool EarlyMoriosPassword { get; private set; }
         public bool EarlyRocket { get; private set; }
         public bool EarlySewerIsland { get; private set; }
+        public bool EarlyPizzaWheels { get; private set; }
         public bool ExcludeSpikeBunny { get; private set; }
         public bool ExcludeTopBunny { get; private set; }
 
@@ -592,6 +593,15 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for locked_time_trials found");
                 APAreaStateManager.TimeTrial1Unlocked = APAreaStateManager.TimeTrial2Unlocked =
                     APAreaStateManager.TimeTrial3Unlocked = true;
+            }
+
+            if (slotData.ContainsKey("early_pizza_wheels"))
+            {
+                EarlyPizzaWheels = (bool)slotData["early_pizza_wheels"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for early_pizza_wheels found");
             }
 
             Loaded = true;

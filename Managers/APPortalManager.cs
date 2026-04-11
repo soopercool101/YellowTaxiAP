@@ -33,7 +33,7 @@ namespace YellowTaxiAP.Managers
             if (Plugin.SlotData.EarlyMoriosPassword)
             {
                 Plugin.Log("Dream Machine activated");
-                Plugin.ArchipelagoClient.SendLocation((long) Identifiers.NotableLocations.MoriosPassword);
+                Plugin.ArchipelagoClient.SendLocation((long) Identifiers.NotableLocations.HubMoriosPassword);
             }
         }
 

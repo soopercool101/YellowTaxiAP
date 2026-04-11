@@ -1323,7 +1323,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> HubSpecialRules = new()
         {
             { "Granny's Island - Safe on Ocean Pillar", "B2 | B1+GP" },
-            { "Granny's Island - Safe on Granny's Statue", "J2 | J1+GP" },
+            { "Granny's Island - Safe on Granny's Statue", "J2 | J1+GP | B1+J1" },
             { "Granny's Island - Coin Bag on Pillar Towards Sewer", "B1/GP" },
             { "Granny's Island - Gear - Oil Pump", "SP | X2" },
             { "Granny's Island - Gear - Inside Spin Blocks", "SP" },
@@ -2835,7 +2835,11 @@ namespace YellowTaxiAP
         [Description("Arcade Panik Hat World")]
         public static Dictionary<string, string> ArcadePanikHatWorld = new()
         {
-            { string.Empty, nameof(ArcadePanikHatWorld) + " - !PLACEHOLDER!" },
+            { "4_07_00002", "Purchase Top Hat" },
+            { "4_07_00001", "Purchase Propeller Cap" },
+            { "4_07_00000", "Purchase No Hat" },
+            { "4_07_00012", "Purchase Slot Machine Hat" },
+            { "4_07_00011", "Purchase Joystick Hat" },
         };
 
         [Description("Arcade Panik - Starting Area")]
@@ -2888,8 +2892,10 @@ namespace YellowTaxiAP
             { "4_03_00135", "Arcade Panik - Coin on Ramp Behind Big Bowling #8" },
             { "4_03_00130", "Arcade Panik - Coin on Ramp Behind Big Bowling #9" },
             { "4_01_00021", "Arcade Panik - Gear - Under Purple Bridge to Big Bowling" },
+            { "4_21_00001", "Arcade Panik - Cheese Under Purple Bridge to Big Bowling" },
             { "4_09_00065", "Arcade Panik - Checkpoint Near Big Bowling" },
             { "4_01_00012", "Arcade Panik - Gear - Above Center Island" },
+            { "4_21_00004", "Arcade Panik - Cheese on Center Island Near Psycho Taxi Cartridge" },
             { "4_03_00006", "Arcade Panik - Chest on Big Bowling Pipe" },
             { "4_03_00007", "Arcade Panik - Chest on Arcade Zone Pipe" },
             { "4_03_00008", "Arcade Panik - Chest on Go Karts Pipes #1" },
@@ -2958,7 +2964,100 @@ namespace YellowTaxiAP
             { "4_03_00183", "Arcade Panik - Coin on Path to Arcade Zone #5" },
             { "4_01_00018", "Arcade Panik - Gear - Left Switch Path" },
             { "4_01_00013", "Arcade Panik - Gear - Right Switch Path" },
+            { "4_03_00188", "Arcade Panik - Coin on Button Before Arcade Zone #1" },
+            { "4_03_00193", "Arcade Panik - Coin on Button Before Arcade Zone #2" },
+            { "4_03_00202", "Arcade Panik - Coin on Button Before Arcade Zone #3" },
+            { "4_03_00225", "Arcade Panik - Coin on Button Before Arcade Zone #4" },
+            { "4_03_00251", "Arcade Panik - Coin on Button Before Arcade Zone #5" },
+            { "4_03_00189", "Arcade Panik - Coin on Floor Button in Arcade Zone #1" },
+            { "4_03_00194", "Arcade Panik - Coin on Floor Button in Arcade Zone #2" },
+            { "4_03_00203", "Arcade Panik - Coin on Floor Button in Arcade Zone #3" },
+            { "4_03_00226", "Arcade Panik - Coin on Floor Button in Arcade Zone #4" },
+            { "4_03_00252", "Arcade Panik - Coin on Floor Button in Arcade Zone #5" },
+            { "4_03_00244", "Arcade Panik - Coin on Right Arcade Machine Row in Arcade Zone #1" },
+            { "4_03_00243", "Arcade Panik - Coin on Right Arcade Machine Row in Arcade Zone #2" },
+            { "4_03_00242", "Arcade Panik - Coin on Right Arcade Machine Row in Arcade Zone #3" },
+            { "4_03_00241", "Arcade Panik - Coin on Right Arcade Machine Row in Arcade Zone #4" },
+            { "4_03_00240", "Arcade Panik - Coin on Right Arcade Machine Row in Arcade Zone #5" },
+            { "4_03_00239", "Arcade Panik - Coin on Right Arcade Machine Row in Arcade Zone #6" },
+            { "4_03_00238", "Arcade Panik - Coin Bag on Right Arcade Machine Row in Arcade Zone" },
+            { "4_03_00212", "Arcade Panik - Coin on Left Arcade Machine Row in Arcade Zone #1" },
+            { "4_03_00211", "Arcade Panik - Coin on Left Arcade Machine Row in Arcade Zone #2" },
+            { "4_03_00210", "Arcade Panik - Coin on Left Arcade Machine Row in Arcade Zone #3" },
+            { "4_03_00209", "Arcade Panik - Coin on Left Arcade Machine Row in Arcade Zone #4" },
+            { "4_03_00208", "Arcade Panik - Coin on Left Arcade Machine Row in Arcade Zone #5" },
+            { "4_03_00207", "Arcade Panik - Coin on Left Arcade Machine Row in Arcade Zone #6" },
+            { "4_03_00206", "Arcade Panik - Coin Bag on Left Arcade Machine Row in Arcade Zone" },
+            { "4_03_00227", "Arcade Panik - Coin Bag on Center Arcade Machine in Arcade Zone #1" },
+            { "4_03_00253", "Arcade Panik - Coin Bag on Center Arcade Machine in Arcade Zone #2" },
+            { "4_01_00016", "Arcade Panik - Gear - Arcade Zone Left Bomb Block Cage" },
+            { "4_01_00007", "Arcade Panik - Gear - Arcade Zone Right Bomb Block Cage" },
+            { "4_03_00228", "Arcade Panik - Coin on First Button Pillar in Arcade Zone #1" },
+            { "4_03_00254", "Arcade Panik - Coin on First Button Pillar in Arcade Zone #2" },
+            { "4_03_00264", "Arcade Panik - Coin on First Button Pillar in Arcade Zone #3" },
+            { "4_03_00273", "Arcade Panik - Coin on First Button Pillar in Arcade Zone #4" },
+            { "4_03_00284", "Arcade Panik - Coin Bag on First Button Pillar in Arcade Zone" },
+            { "4_03_00217", "Arcade Panik - Coin on Second Button Pillar in Arcade Zone #1" },
+            { "4_03_00248", "Arcade Panik - Coin on Second Button Pillar in Arcade Zone #2" },
+            { "4_03_00261", "Arcade Panik - Coin on Second Button Pillar in Arcade Zone #3" },
+            { "4_03_00270", "Arcade Panik - Coin on Second Button Pillar in Arcade Zone #4" },
+            { "4_03_00283", "Arcade Panik - Coin Bag on Second Button Pillar in Arcade Zone" },
+            { "4_03_00232", "Arcade Panik - Coin on Third Button Pillar in Arcade Zone #1" },
+            { "4_03_00258", "Arcade Panik - Coin on Third Button Pillar in Arcade Zone #2" },
+            { "4_03_00268", "Arcade Panik - Coin on Third Button Pillar in Arcade Zone #3" },
+            { "4_03_00277", "Arcade Panik - Coin on Third Button Pillar in Arcade Zone #4" },
+            { "4_03_00286", "Arcade Panik - Coin Bag on Third Button Pillar in Arcade Zone" },
+            { "4_03_00229", "Arcade Panik - Coin on Fourth Button Pillar in Arcade Zone #1" },
+            { "4_03_00255", "Arcade Panik - Coin on Fourth Button Pillar in Arcade Zone #2" },
+            { "4_03_00265", "Arcade Panik - Coin Bag on Fourth Button Pillar in Arcade Zone #1" },
+            { "4_03_00274", "Arcade Panik - Coin Bag on Fourth Button Pillar in Arcade Zone #2" },
+            { "4_01_00006", "Arcade Panik - Gear - Button Pillar in Arcade Zone" },
+            { "4_03_00213", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #1" },
+            { "4_03_00214", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #2" },
+            { "4_03_00215", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #3" },
+            { "4_03_00216", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #4" },
+            { "4_03_00218", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #5" },
+            { "4_03_00219", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #6" },
+            { "4_03_00230", "Arcade Panik - Coin Bag on Back Arcade Machine Row in Arcade Zone" },
+            { "4_03_00231", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #7" },
+            { "4_03_00233", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #8" },
+            { "4_03_00234", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #9" },
+            { "4_03_00235", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #10" },
+            { "4_03_00236", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #11" },
+            { "4_03_00237", "Arcade Panik - Coin on Back Arcade Machine Row in Arcade Zone #12" },
+            { "4_03_00256", "Arcade Panik - Coin on First Button Pillar Past Arcade Zone #1" },
+            { "4_03_00266", "Arcade Panik - Coin on First Button Pillar Past Arcade Zone #2" },
+            { "4_03_00275", "Arcade Panik - Coin on First Button Pillar Past Arcade Zone #3" },
+            { "4_03_00249", "Arcade Panik - Coin on Second Button Pillar Past Arcade Zone #1" },
+            { "4_03_00262", "Arcade Panik - Coin on Second Button Pillar Past Arcade Zone #2" },
+            { "4_03_00271", "Arcade Panik - Coin on Second Button Pillar Past Arcade Zone #3" },
+            { "4_03_00259", "Arcade Panik - Coin on Third Button Pillar Past Arcade Zone #1" },
+            { "4_03_00269", "Arcade Panik - Coin on Third Button Pillar Past Arcade Zone #2" },
+            { "4_03_00278", "Arcade Panik - Coin on Third Button Pillar Past Arcade Zone #3" },
+            { "4_03_00250", "Arcade Panik - Coin on Fourth Button Pillar Past Arcade Zone #1" },
+            { "4_03_00263", "Arcade Panik - Coin on Fourth Button Pillar Past Arcade Zone #2" },
+            { "4_03_00272", "Arcade Panik - Coin on Fourth Button Pillar Past Arcade Zone #3" },
+            { "4_03_00257", "Arcade Panik - Coin on Fifth Button Pillar Past Arcade Zone #1" },
+            { "4_03_00267", "Arcade Panik - Coin on Fifth Button Pillar Past Arcade Zone #2" },
+            { "4_03_00276", "Arcade Panik - Coin on Fifth Button Pillar Past Arcade Zone #3" },
+            { "4_01_00005", "Arcade Panik - Gear - Button Pillar Past Arcade Zone" },
+            { "4_03_00348", "Arcade Panik - Coin on Arcade Zone Wall #1" },
+            { "4_03_00347", "Arcade Panik - Coin on Arcade Zone Wall #2" },
+            { "4_03_00346", "Arcade Panik - Coin on Arcade Zone Wall #3" },
+            { "4_03_00345", "Arcade Panik - Coin on Arcade Zone Wall #4" },
+            { "4_03_00344", "Arcade Panik - Coin on Arcade Zone Wall #5" },
+            { "4_03_00343", "Arcade Panik - Coin Bag on Arcade Zone Wall #1" },
+            { "4_02_00002", "Arcade Panik - Bunny - On Arcade Zone Wall" },
+            { "4_03_00341", "Arcade Panik - Coin Bag on Arcade Zone Wall #2" },
+            { "4_03_00340", "Arcade Panik - Coin on Arcade Zone Wall #6" },
+            { "4_03_00339", "Arcade Panik - Coin on Arcade Zone Wall #7" },
+            { "4_03_00338", "Arcade Panik - Coin on Arcade Zone Wall #8" },
+            { "4_03_00337", "Arcade Panik - Coin on Arcade Zone Wall #9" },
+            { "4_03_00336", "Arcade Panik - Coin on Arcade Zone Wall #10" },
             //{ "4_20_99999", "Arcade Panik - Psycho Taxi Cartridge" }, // Irrelevant to this, placed by special handling
+            // Special Rules
+            { "4_03_00205", "Arcade Panik - Chest Inside Go Karts Pipe" },
+            { "4_02_00000", "Arcade Panik - Bunny - Above Go Karts Pipe" },
         };
 
         [Description("Arcade Panik - Expert 1 or Jump")]
@@ -2970,9 +3069,34 @@ namespace YellowTaxiAP
             { "4_03_00185", "Arcade Panik - Chest Behind Arcade Zone Entrance Right Arcade Machine" },
         };
 
+        [Description("Arcade Panik - Outside Pinball Door")]
+        public static Dictionary<string, string> ArcadePanikPinballArea = new()
+        {
+            { "4_01_00023", "Arcade Panik - Gear - Alcove Under Pinball Entrance" },
+        };
+
+        [Description("Arcade Panik - Upper Race Track")]
+        public static Dictionary<string, string> ArcadePanikRacetrackArea = new()
+        {
+            { string.Empty, nameof(ArcadePanikRacetrackArea) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Arcade Panik - Tire Pillars")]
+        public static Dictionary<string, string> ArcadePanikTirePillars = new()
+        {
+            { string.Empty, nameof(ArcadePanikTirePillars) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Flipper - Starting Area")]
+        public static Dictionary<string, string> FlipperStartingArea = new()
+        {
+            { string.Empty, nameof(FlipperStartingArea) + " - !PLACEHOLDER!" },
+        };
+
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
-
+            { "Arcade Panik - Chest Inside Go Karts Pipe", "X2/J1" },               // Can explosion jump off the nearby car with good timing
+            { "Arcade Panik - Bunny - Above Go Karts Pipe", "B2+J2 | X2+B2+J1" },   // Can superboost off the railings with just J1
         };
 
         #endregion
@@ -4589,6 +4713,10 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(ArcadePanikHatWorld)), ArcadePanikHatWorld),
             new(GetDescription(nameof(ArcadePanikStartingArea)), ArcadePanikStartingArea),
             new(GetDescription(nameof(ArcadePanikExpert1Jump)), ArcadePanikExpert1Jump),
+            new(GetDescription(nameof(ArcadePanikPinballArea)), ArcadePanikPinballArea),
+            new(GetDescription(nameof(ArcadePanikRacetrackArea)), ArcadePanikRacetrackArea),
+            new(GetDescription(nameof(ArcadePanikTirePillars)), ArcadePanikTirePillars),
+            new(GetDescription(nameof(FlipperStartingArea)), FlipperStartingArea),
 
             // Gym Gears Areas
             new(GetDescription(nameof(GymGearsStartingArea)), GymGearsStartingArea),
@@ -4828,6 +4956,11 @@ namespace YellowTaxiAP
 
                     ArcadePanikStartingArea,
                     ArcadePanikExpert1Jump,
+                    ArcadePanikPinballArea,
+                    ArcadePanikRacetrackArea,
+                    ArcadePanikTirePillars,
+
+                    FlipperStartingArea,
                 ]
             },
             {
@@ -5010,8 +5143,8 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP"),
                     new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | GP+OS & J2/B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
-                    new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
-                    new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
+                    new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "HubPizzaKing"),
+                    new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "HubGelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears+GymKey"),
                     new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X3+Rocket+B2+GP"),
@@ -5020,7 +5153,7 @@ namespace YellowTaxiAP
                     // Golden Propeller non-area rando rules
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "NSAR+GP+LabKey"),
                     new RegionConnection(HubLawFirmJump, "NSAR+GP"),
-                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+GelaToni+GP"),
+                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+HubGelaToni+GP"),
                 ]
             },
             {
@@ -5236,7 +5369,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "B1+FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "B1+FGU"),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
-                    new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+GS"),
+                    new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
                 ]
             },
             // Morio's Lab
@@ -5263,7 +5396,6 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabGroundFloorWrenches)),
                 [
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "J1+OS+FGU"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "J1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "J1+OS | J2"),
@@ -5282,14 +5414,14 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloorLowestBolt),
                     new RegionConnection(MoriosLabBunnyLedge, "J1 | X1+B1"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1+J2"),
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X1+J1+B2+FGU"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X1+B1+FGU & X2/J1"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "J1/B1"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabGroundFloorOrangeBlocks)),
                 [
-                    // No connections
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "OS+J1+FGU"),
                 ]
             },
             {
@@ -5385,7 +5517,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabThirdFloor)),
                 [
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "J1"),
-                    new RegionConnection(MoriosLabFourthFloor, "GS+B1 | X2+GS+J1"),
+                    new RegionConnection(MoriosLabFourthFloor, "Spike+B1 | X2+Spike+J1"),
                     new RegionConnection(MoriosLabSecondFloor),
                     new RegionConnection("Morio's Lab - Baby Steps! TV", BabyStepsStartingArea, ConnectionType.Warp, "TT1"),
                 ]
@@ -5412,11 +5544,11 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFourthFloor)),
                 [
-                    new RegionConnection(MoriosLabFourthFloorJumpSpikes, "GS+J1"),
+                    new RegionConnection(MoriosLabFourthFloorJumpSpikes, "Spike+J1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
-                    new RegionConnection(MoriosLabThirdFloor, "GS"),
-                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "X1+GS+B2 | X2+B2+J2"),
+                    new RegionConnection(MoriosLabThirdFloor, "Spike"),
+                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "X1+Spike+B2 | X2+B2+J2"),
                     new RegionConnection("Morio's Lab - Getting Gud! TV", GettingGudStartingArea, ConnectionType.Warp, "TT2"),
                 ]
             },
@@ -5490,16 +5622,16 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabPathToMoriosRoom, "FGU"),
                     new RegionConnection(MoriosLabMoriosRoomOutside, "FGU"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+FGU+MorioHat | HS+FGU+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU/GS"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU/Spike"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "GS+FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "Spike+FGU"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "FGU"),
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity),
-                    new RegionConnection(MoriosLabFourthFloorJumpSpikes, "GS"),
+                    new RegionConnection(MoriosLabFourthFloorJumpSpikes, "Spike"),
                     new RegionConnection(MoriosLabFifthFloorGoldenPropeller, "Password"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "GS"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "Spike"),
                 ]
             },
             {
@@ -5804,6 +5936,39 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Arcade Panik - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(ArcadePanikExpert1Jump, "X1/J1"),
+                    new RegionConnection(ArcadePanikPinballArea, "B2 & X1/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePanikExpert1Jump)),
+                [
+                    // Doesn't Connect Anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePanikPinballArea)),
+                [
+                    new RegionConnection(ArcadePanikStartingArea),
+                    new RegionConnection(ArcadePanikRacetrackArea, "B1 | X2+J2"),
+                    new RegionConnection("Arcade Panik - Pinball Entrance", FlipperStartingArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePanikRacetrackArea)),
+                [
+                    new RegionConnection(ArcadePanikTirePillars, "J1 & X1/B1")
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePanikTirePillars)),
+                [
+                    // Doesn't Connect Anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlipperStartingArea)),
+                [
+                    new RegionConnection("Flipper - Fall in Starting Area Pit", ArcadePanikPinballArea, ConnectionType.Subwarp)
                 ]
             },
 
@@ -6115,7 +6280,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(LabMemoriesStartingArea)),
                 [
                     new RegionConnection("Lab Memories - Mosk's Rocket Portal", RocketStartingArea, ConnectionType.Subwarp),
-                    new RegionConnection(LabMemoriesFirstStep, "J1+GS"),
+                    new RegionConnection(LabMemoriesFirstStep, "J1+Spike"),
                 ]
             },
             {
@@ -6248,7 +6413,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GettingGudStartingArea)),
                 [
                     new RegionConnection(GettingGudLowerSpikes, "J1/GP"),
-                    new RegionConnection(GettingGudMiddleFloor, "X1+J1 | B1+GS | J2"),
+                    new RegionConnection(GettingGudMiddleFloor, "X1+J1 | B1+Spike | J2"),
                 ]
             },
             {
@@ -6260,7 +6425,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GettingGudMiddleFloor)),
                 [
-                    new RegionConnection(GettingGudHighGround, "GS+B2 | J2 & X1/B2")
+                    new RegionConnection(GettingGudHighGround, "Spike+B2 | J2 & X1/B2")
                 ]
             },
             {
