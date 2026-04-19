@@ -786,7 +786,7 @@ namespace YellowTaxiAP.Managers
                     case "DIALOGUE_PIZZA_TIME_PIZZA_CHEFF_INITIAL_ADD_TIME" when MapArea.IsPlayerInsideLab():
                         self.dialogues =
                         [
-                            "This is a proof of concept"
+                            "This is a proof of concept!"
                         ];
                         //self.onDialogueEnd.AddListener(SpecialMethod_SendQueuedItem);
                         break;

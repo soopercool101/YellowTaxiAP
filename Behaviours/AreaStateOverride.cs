@@ -408,7 +408,7 @@ namespace YellowTaxiAP.Behaviours
         {
             get
             {
-                return Plugin.SlotData.GymGearsUnlockCondition switch
+                return Plugin.SlotData.FlushedAwayUnlockCondition switch
                 {
                     YTGVSlotData.LevelUnlockCondition.Exclude => false,
                     YTGVSlotData.LevelUnlockCondition.Open => true,

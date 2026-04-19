@@ -12,7 +12,7 @@ namespace YellowTaxiAP
 {
     public static class DebugLocationHelper
     {
-        public static bool Enabled => false;
+        public static bool Enabled { get; set; }
         public static bool ExtraZoneInfo => false;
         public static bool ExtraClipboardInfo => false;
 
@@ -3069,6 +3069,13 @@ namespace YellowTaxiAP
             { "4_03_00185", "Arcade Panik - Chest Behind Arcade Zone Entrance Right Arcade Machine" },
         };
 
+        [Description("Arcade Panik - Boost 2")]
+        public static Dictionary<string, string> ArcadePanikBoost2 = new()
+        {
+            { "4_03_00353", "Arcade Panik - Safe on Crazy Ballz Pipe" },
+            { "4_02_00001", "Arcade Panik - Bunny - Above Crazy Ballz Pachinko" },
+        };
+
         [Description("Arcade Panik - Outside Pinball Door")]
         public static Dictionary<string, string> ArcadePanikPinballArea = new()
         {
@@ -3085,6 +3092,28 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> ArcadePanikTirePillars = new()
         {
             { string.Empty, nameof(ArcadePanikTirePillars) + " - !PLACEHOLDER!" },
+        };
+
+        [Description("Arcade Panik - Cliff Above Crazy Ballz")]
+        public static Dictionary<string, string> ArcadePanikCliffAboveCrazyBallz = new()
+        {
+            { "4_03_00371", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #1" },
+            { "4_03_00372", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #2" },
+            { "4_03_00373", "Arcade Panik - Chest on Cliff in Crazy Ballz" },
+            { "4_03_00374", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #3" },
+            { "4_03_00375", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #4" },
+            { "4_03_00366", "Arcade Panik - Coin on Cliff in Crazy Ballz #1" },
+            { "4_03_00367", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #5" },
+            { "4_03_00368", "Arcade Panik - Coin on Cliff in Crazy Ballz #2" },
+            { "4_03_00363", "Arcade Panik - Coin on Cliff in Crazy Ballz #3" },
+            { "4_03_00364", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #6" },
+            { "4_03_00365", "Arcade Panik - Coin on Cliff in Crazy Ballz #4" },
+            { "4_03_00354", "Arcade Panik - Coin on Cliff in Crazy Ballz #5" },
+            { "4_03_00355", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #7" },
+            { "4_03_00356", "Arcade Panik - Coin on Cliff in Crazy Ballz #6" },
+            { "4_03_00349", "Arcade Panik - Coin on Cliff in Crazy Ballz #7" },
+            { "4_03_00350", "Arcade Panik - Coin Bag on Cliff in Crazy Ballz #8" },
+            { "4_03_00351", "Arcade Panik - Coin on Cliff in Crazy Ballz #8" },
         };
 
         [Description("Flipper - Starting Area")]
@@ -4713,9 +4742,11 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(ArcadePanikHatWorld)), ArcadePanikHatWorld),
             new(GetDescription(nameof(ArcadePanikStartingArea)), ArcadePanikStartingArea),
             new(GetDescription(nameof(ArcadePanikExpert1Jump)), ArcadePanikExpert1Jump),
+            new(GetDescription(nameof(ArcadePanikBoost2)), ArcadePanikBoost2),
             new(GetDescription(nameof(ArcadePanikPinballArea)), ArcadePanikPinballArea),
             new(GetDescription(nameof(ArcadePanikRacetrackArea)), ArcadePanikRacetrackArea),
             new(GetDescription(nameof(ArcadePanikTirePillars)), ArcadePanikTirePillars),
+            new(GetDescription(nameof(ArcadePanikCliffAboveCrazyBallz)), ArcadePanikCliffAboveCrazyBallz),
             new(GetDescription(nameof(FlipperStartingArea)), FlipperStartingArea),
 
             // Gym Gears Areas
@@ -4956,9 +4987,11 @@ namespace YellowTaxiAP
 
                     ArcadePanikStartingArea,
                     ArcadePanikExpert1Jump,
+                    ArcadePanikBoost2,
                     ArcadePanikPinballArea,
                     ArcadePanikRacetrackArea,
                     ArcadePanikTirePillars,
+                    ArcadePanikCliffAboveCrazyBallz,
 
                     FlipperStartingArea,
                 ]
@@ -5143,8 +5176,8 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP"),
                     new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | GP+OS & J2/B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
-                    new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "HubPizzaKing"),
-                    new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "HubGelaToni"),
+                    new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
+                    new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears+GymKey"),
                     new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X3+Rocket+B2+GP"),
@@ -5153,7 +5186,7 @@ namespace YellowTaxiAP
                     // Golden Propeller non-area rando rules
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "NSAR+GP+LabKey"),
                     new RegionConnection(HubLawFirmJump, "NSAR+GP"),
-                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+HubGelaToni+GP"),
+                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+GelaToni+GP"),
                 ]
             },
             {
@@ -5310,7 +5343,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(HubCrashAgainStartingArea)),
                 [
-                    new RegionConnection(HubCrashAgainEnd, "X1/B1 & X2/SP"),
+                    new RegionConnection(HubCrashAgainEnd, "X1/PMB & X2/SP | PMJ"),
                     new RegionConnection("Crash Again - Exit", GrannysIslandMain, ConnectionType.Subwarp),
                 ]
             },
@@ -5936,11 +5969,19 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Arcade Panik - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(ArcadePanikExpert1Jump, "X1/J1"),
+                    new RegionConnection(ArcadePanikBoost2, "B2"),
                     new RegionConnection(ArcadePanikPinballArea, "B2 & X1/J1"),
+                    new RegionConnection(ArcadePanikCliffAboveCrazyBallz, "B2 | X1/J1 & B1 | X2+J1"),
                 ]
             },
             {
                 GetDescription(nameof(ArcadePanikExpert1Jump)),
+                [
+                    // Doesn't Connect Anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(ArcadePanikBoost2)),
                 [
                     // Doesn't Connect Anywhere
                 ]

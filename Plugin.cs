@@ -384,6 +384,12 @@ public class Plugin : BaseUnityPlugin
                 Log($"DEBUG: Pizza Wheels {(Master.cheat_PizzaWheels ? "enabled" : "disabled")}", true);
             }
 
+            if (Input.GetKeyDown(KeyCode.Home))
+            {
+                DebugLocationHelper.Enabled = !DebugLocationHelper.Enabled;
+                Log($"DEBUG: Location Helper {(DebugLocationHelper.Enabled ? "enabled" : "disabled")}", true);
+            }
+
             if (false)
             {
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
