@@ -414,8 +414,7 @@ namespace YellowTaxiAP.Behaviours
                     YTGVSlotData.LevelUnlockCondition.Open => true,
                     YTGVSlotData.LevelUnlockCondition.Item => APAreaStateManager.SewerKeyReceived,
                     YTGVSlotData.LevelUnlockCondition.FullGame => APAreaStateManager.FullGameUnlocked,
-                    YTGVSlotData.LevelUnlockCondition.Special => APSwitchManager.OrangeSwitchUnlocked &&
-                                                                 APAreaStateManager.FullGameUnlocked,
+                    YTGVSlotData.LevelUnlockCondition.Special => APAreaStateManager.FullGameUnlocked,
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
