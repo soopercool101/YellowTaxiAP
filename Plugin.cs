@@ -17,7 +17,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string PluginGUID = "com.soopercool101.YellowTaxiAP";
     public const string PluginName = "YellowTaxiAP";
-    public const string PluginVersion = "0.3.3";
+    public const string PluginVersion = "0.5.0";
 
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
     public const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
@@ -49,6 +49,7 @@ public class Plugin : BaseUnityPlugin
     public APWalletManager WalletHook;
     public APMinimapManager MinimapHook;
     public APTimeAttackManager TimeAttackHook;
+    public APTVManager TVHook;
 
     public bool AllowLaser = true;
 #if DEBUG
@@ -150,6 +151,7 @@ public class Plugin : BaseUnityPlugin
             MinimapHook = new APMinimapManager();
             WalletHook = new APWalletManager();
             TimeAttackHook = new APTimeAttackManager();
+            TVHook = new APTVManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
             self.gameObject.AddComponent<GameStateUpdater>();
             self.gameObject.AddComponent<APSaveController>();
@@ -194,31 +196,37 @@ public class Plugin : BaseUnityPlugin
         {
             if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.BoostItems > 0)
             {
-                Log($"Flip-O-Will Boost Level lowered to {--APPlayerManager.BoostItems}", true);
+                Log($"DEBUG: Flip-O-Will Boost Level lowered to {--APPlayerManager.BoostItems}", true);
+                APTVManager.UpdateAPTVInfo();
             }
             if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.BoostItems < 2)
             {
-                Log($"Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}", true);
+                Log($"DEBUG: Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}", true);
+                APTVManager.UpdateAPTVInfo();
             }
 
             if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.JumpItems > 0)
             {
-                Log($"Flip-O-Will Jump Level lowered to {--APPlayerManager.JumpItems}", true);
+                Log($"DEBUG: Flip-O-Will Jump Level lowered to {--APPlayerManager.JumpItems}", true);
+                APTVManager.UpdateAPTVInfo();
             }
             if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.JumpItems < 2)
             {
-                Log($"Flip-O-Will Jump Level increased to {++APPlayerManager.JumpItems}", true);
+                Log($"DEBUG: Flip-O-Will Jump Level increased to {++APPlayerManager.JumpItems}", true);
+                APTVManager.UpdateAPTVInfo();
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 APPlayerManager.SpinAttackItem = !APPlayerManager.SpinAttackItem;
-                Log($"Flip-O-Will Spin Attack {(APPlayerManager.SpinAttackItem ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Flip-O-Will Spin Attack {(APPlayerManager.SpinAttackItem ? "enabled" : "disabled")}", true);
+                APTVManager.UpdateAPTVInfo();
             }
             if (Input.GetKeyDown(KeyCode.Backslash))
             {
                 APPlayerManager.GlideEnabledItem = !APPlayerManager.GlideEnabledItem;
-                Log($"Glide {(APPlayerManager.GlideEnabledItem ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Glide {(APPlayerManager.GlideEnabledItem ? "enabled" : "disabled")}", true);
+                APTVManager.UpdateAPTVInfo();
             }
             if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
             {
@@ -239,39 +247,39 @@ public class Plugin : BaseUnityPlugin
             if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
                 APCollectableManager.GoldenSpringActive = !APCollectableManager.GoldenSpringActive;
-                Log($"Golden Spring {(APCollectableManager.GoldenSpringActive ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Golden Spring {(APCollectableManager.GoldenSpringActive ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
                 APCollectableManager.GoldenPropellerActive = !APCollectableManager.GoldenPropellerActive;
-                Log($"Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
             {
                 APSwitchManager.OrangeSwitchUnlocked = !APSwitchManager.OrangeSwitchUnlocked;
-                Log($"Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
             {
                 APRatManager.ReceivedRatItem = !APRatManager.ReceivedRatItem;
                 GameStateUpdater.RatStateNeedsUpdate = true;
-                Log($"Rat {(APRatManager.ReceivedRatItem ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Rat {(APRatManager.ReceivedRatItem ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
             {
                 APSwitchManager.PurpleSwitchUnlocked = !APSwitchManager.PurpleSwitchUnlocked;
-                Log($"Purple Switch {(APSwitchManager.PurpleSwitchUnlocked ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Purple Switch {(APSwitchManager.PurpleSwitchUnlocked ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
             {
                 APSwitchManager.GreenSwitchUnlocked = !APSwitchManager.GreenSwitchUnlocked;
-                Log($"Green Switch {(APSwitchManager.GreenSwitchUnlocked ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Green Switch {(APSwitchManager.GreenSwitchUnlocked ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Delete))
             {
                 DeathLinkInProgress = true;
                 GameplayMaster.instance?.Die();
-                Log($"Attempting to kill player", true);
+                Log($"DEBUG: Attempting to kill player", true);
             }
             if (Input.GetKeyDown(KeyCode.B))
             {
@@ -281,50 +289,50 @@ public class Plugin : BaseUnityPlugin
             if (Input.GetKeyDown(KeyCode.P))
             {
                 PlayerScript.instance.propellerUsesLeft = 3;
-                Log($"Granting Propeller", true);
+                Log($"DEBUG: Granting Propeller", true);
             }
             if (Input.GetKeyDown(KeyCode.I))
             {
                 if (PlayerScript.instance.invincible)
                 {
                     PlayerScript.instance.InvincibleStop();
-                    Log($"Toggling invincibility off", true);
+                    Log($"DEBUG: Toggling invincibility off", true);
                 }
                 else
                 {
                     PlayerScript.instance.InvincibleSet(float.PositiveInfinity);
-                    Log($"Toggling invincibility on", true);
+                    Log($"DEBUG: Toggling invincibility on", true);
                 }
             }
             if (Input.GetKeyDown(KeyCode.R))
             {
                 APAreaStateManager.RocketEnabled = !APAreaStateManager.RocketEnabled;
-                Log($"Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.M))
             {
                 APAreaStateManager.MindPasswordReceived = !APAreaStateManager.MindPasswordReceived;
-                Log($"Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.O))
             {
                 APAreaStateManager.DoggoReceived = !APAreaStateManager.DoggoReceived;
-                Log($"Doggo {(APAreaStateManager.DoggoReceived ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Doggo {(APAreaStateManager.DoggoReceived ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.G))
             {
                 APAreaStateManager.GelaToniReceived = !APAreaStateManager.GelaToniReceived;
-                Log($"Gela-Toni {(APAreaStateManager.GelaToniReceived ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Gela-Toni {(APAreaStateManager.GelaToniReceived ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.K))
             {
                 APAreaStateManager.PizzaKingReceived = !APAreaStateManager.PizzaKingReceived;
-                Log($"Pizza King {(APAreaStateManager.PizzaKingReceived ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Pizza King {(APAreaStateManager.PizzaKingReceived ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.F))
             {
                 APAreaStateManager.FullGameUnlocked = !APAreaStateManager.FullGameUnlocked;
-                Log($"Full Game {(APAreaStateManager.FullGameUnlocked ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Full Game {(APAreaStateManager.FullGameUnlocked ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.L))
             {

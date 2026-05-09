@@ -37,11 +37,6 @@ namespace YellowTaxiAP.Managers
 
             On.GearAnimationScript.Update += GearAnimationScript_Update;
             On.GearAnimationScript.OnDestroy += GearAnimationScript_OnDestroy;
-
-            On.BunnyTv.Start += (_, _) =>
-            {
-                // Do nothing instead of deleting bunny tvs prior to final boss defeated
-            };
         }
 
         private void GearAnimationScript_OnDestroy(On.GearAnimationScript.orig_OnDestroy orig, GearAnimationScript self)

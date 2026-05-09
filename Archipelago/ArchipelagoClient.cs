@@ -17,7 +17,7 @@ namespace YellowTaxiAP.Archipelago;
 
 public class ArchipelagoClient
 {
-    public const string APVersion = "0.6.6";
+    public const string APVersion = "0.6.7";
     private const string Game = "Yellow Taxi Goes Vroom";
 
     public static bool Authenticated;
@@ -555,6 +555,28 @@ public class ArchipelagoClient
                 Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
                 throw new ArgumentOutOfRangeException();
         }
+
+        if (receivedItem.Flags != ItemFlags.None && !receivedItem.ItemDisplayName.Equals("Gear") &&
+            !receivedItem.ItemDisplayName.StartsWith("Bunny ("))
+        {
+            var itemColor = string.Empty;
+            if ((receivedItem.Flags & ItemFlags.Advancement) == ItemFlags.Advancement)
+            {
+                //new Color(221, 160, 221)
+                itemColor = "#DDA0DD";
+            }
+            else if ((receivedItem.Flags & ItemFlags.NeverExclude) == ItemFlags.NeverExclude)
+            {
+                //new Color(106, 90, 205)
+                itemColor = "#6A5ACD";
+            }
+            if (!string.IsNullOrEmpty(itemColor))
+            {
+                var playerColor = receivedItem.Player.Name.Equals(ArchipelagoClient.ServerData.SlotName) ? "#FF00FF" : "#FFFF00";
+                APTVManager.ImportantItems.Insert(0, $"<color={itemColor}>{receivedItem.ItemDisplayName}</color> from <color={playerColor}>{receivedItem.Player}</color>");
+            }
+        }
+        APTVManager.UpdateAPTVInfo();
     }
 
     private void ReceivedBunny()
@@ -601,6 +623,7 @@ public class ArchipelagoClient
     {
         Plugin.BepinLogger.LogMessage($"Sending location #{id}");
         session.Locations.CompleteLocationChecks(id);
+        APTVManager.UpdateAPTVInfo();
     }
 
     public void Win()
@@ -611,6 +634,7 @@ public class ArchipelagoClient
     public void SendLocations(long[] ids)
     {
         session.Locations.CompleteLocationChecks(ids);
+        APTVManager.UpdateAPTVInfo();
     }
 
     public bool LocationUncleared(long location)

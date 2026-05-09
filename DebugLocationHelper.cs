@@ -1006,6 +1006,12 @@ namespace YellowTaxiAP
             { "0_03_00431", "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3" },  // Region Morio's Lab Second Floor After Demo Wall & (X1 | FGU)
         };
 
+        [Description("Morio's Lab - Second Floor True Demo Wall")]
+        public static Dictionary<string, string> MoriosLabSecondFloorTrueDemoWall = new()
+        {
+            { string.Empty, nameof(MoriosLabSecondFloorTrueDemoWall) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Morio's Lab - Second Floor Inside True Demo Wall")]
         public static Dictionary<string, string> MoriosLabSecondFloorInTrueDemoWall = new()
         {
@@ -1323,7 +1329,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> HubSpecialRules = new()
         {
             { "Granny's Island - Safe on Ocean Pillar", "B2 | B1+GP" },
-            { "Granny's Island - Safe on Granny's Statue", "J2 | J1+GP | B1+J1" },
+            { "Granny's Island - Safe on Granny's Statue", "J2 | J1/B1 & GP | B1+J1" },
             { "Granny's Island - Coin Bag on Pillar Towards Sewer", "B1/GP" },
             { "Granny's Island - Gear - Oil Pump", "SP | X2" },
             { "Granny's Island - Gear - Inside Spin Blocks", "SP" },
@@ -1335,9 +1341,6 @@ namespace YellowTaxiAP
             { "Pizza Oven - Gear", "B1 & X1/J1" },
             { "Morio's Lab - Gear - Third Floor Wrenches", "J1" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1/FGU" },
-            { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #4", "FGU" },
-            { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #5", "FGU" },
-            { "Morio's Lab - Coin Bag on Second Floor", "FGU" },
         };
 
         #endregion
@@ -1881,9 +1884,9 @@ namespace YellowTaxiAP
             { "3_03_00529", "Morio's Home - Coin in Loft #27" },
             { "3_03_00530", "Morio's Home - Coin in Loft #28" },
             { "3_03_00535", "Morio's Home - Coin in Loft #29" },
-            { "3_03_00513", "Morio's Home - Coin in Loft #30" },
-            { "3_03_00523", "Morio's Home - Coin Bag in Loft #1" },
-            { "3_03_00533", "Morio's Home - Coin Bag in Loft #2" },
+            { "3_03_00513", "Morio's Home - Coin Bag in Loft #1" },
+            { "3_03_00523", "Morio's Home - Coin Bag in Loft #2" },
+            { "3_03_00533", "Morio's Home - Coin Bag in Loft #3" },
         };
 
         [Description("Morio's Home - Kitchen")]
@@ -2956,7 +2959,6 @@ namespace YellowTaxiAP
             { "4_03_00222", "Arcade Panik - Coin Before Go Karts Obstacle Course #3" },
             { "4_03_00223", "Arcade Panik - Coin Before Go Karts Obstacle Course #4" },
             { "4_03_00224", "Arcade Panik - Coin Before Go Karts Obstacle Course #5" },
-            { "4_01_00008", "Arcade Panik - Gear - Go Karts Obstacle Course" },
             { "4_03_00179", "Arcade Panik - Coin on Path to Arcade Zone #1" },
             { "4_03_00180", "Arcade Panik - Coin on Path to Arcade Zone #2" },
             { "4_03_00181", "Arcade Panik - Coin on Path to Arcade Zone #3" },
@@ -3054,10 +3056,29 @@ namespace YellowTaxiAP
             { "4_03_00338", "Arcade Panik - Coin on Arcade Zone Wall #8" },
             { "4_03_00337", "Arcade Panik - Coin on Arcade Zone Wall #9" },
             { "4_03_00336", "Arcade Panik - Coin on Arcade Zone Wall #10" },
+            { "4_21_00003", "Arcade Panik - Cheese in Arcade Zone" },
+            { "4_21_00002", "Arcade Panik - Cheese on Go Karts Track" },
+            { "4_21_00000", "Arcade Panik - Cheese in Crazy Ballz Area" },
             //{ "4_20_99999", "Arcade Panik - Psycho Taxi Cartridge" }, // Irrelevant to this, placed by special handling
             // Special Rules
+            { "4_01_00017", "Arcade Panik - Gear - Pipe Above Big Bowling Back Door" },
             { "4_03_00205", "Arcade Panik - Chest Inside Go Karts Pipe" },
             { "4_02_00000", "Arcade Panik - Bunny - Above Go Karts Pipe" },
+            { "4_01_00008", "Arcade Panik - Gear - Go Karts Obstacle Course" },
+            { "4_01_00023", "Arcade Panik - Gear - Alcove Under Pinball Entrance" },
+            { "4_03_00281", "Arcade Panik - Chest Inside Crazy Ballz Pipe #1" },
+            { "4_03_00369", "Arcade Panik - Chest Inside Crazy Ballz Pipe #2" },
+        };
+
+        [Description("Arcade Panik - Ledge Above Big Bowling Door")]
+        public static Dictionary<string, string> ArcadePanikBowlingAlleyLedge = new()
+        {
+            { "4_03_00200", "Arcade Panik - Coin on Ledge Above Big Bowling Door #1" },
+            { "4_03_00198", "Arcade Panik - Coin on Ledge Above Big Bowling Door #2" },
+            { "4_03_00199", "Arcade Panik - Coin on Ledge Above Big Bowling Door #3" },
+            { "4_03_00196", "Arcade Panik - Coin on Ledge Above Big Bowling Door #4" },
+            { "4_03_00197", "Arcade Panik - Coin on Ledge Above Big Bowling Door #5" },
+            { "4_01_00003", "Arcade Panik - Gear - On Ledge Above Big Bowling Door" },
         };
 
         [Description("Arcade Panik - Expert 1 or Jump")]
@@ -3079,19 +3100,76 @@ namespace YellowTaxiAP
         [Description("Arcade Panik - Outside Pinball Door")]
         public static Dictionary<string, string> ArcadePanikPinballArea = new()
         {
-            { "4_01_00023", "Arcade Panik - Gear - Alcove Under Pinball Entrance" },
+            { "4_03_00335", "Arcade Panik - Coin Outside Pinball Entrance #1" },
+            { "4_03_00334", "Arcade Panik - Coin Outside Pinball Entrance #2" },
+            { "4_03_00333", "Arcade Panik - Coin Outside Pinball Entrance #3" },
+            { "4_03_00332", "Arcade Panik - Coin Outside Pinball Entrance #4" },
+            { "4_03_00331", "Arcade Panik - Coin Outside Pinball Entrance #5" },
+            { "4_03_00357", "Arcade Panik - Coin on Arcade Machine Left of Pinball Entrance #1" },
+            { "4_03_00358", "Arcade Panik - Coin Bag on Arcade Machine Left of Pinball Entrance" },
+            { "4_03_00359", "Arcade Panik - Coin on Arcade Machine Left of Pinball Entrance #2" },
+            { "4_03_00360", "Arcade Panik - Coin on Arcade Machine Right of Pinball Entrance #1" },
+            { "4_03_00361", "Arcade Panik - Coin Bag on Arcade Machine Right of Pinball Entrance" },
+            { "4_03_00362", "Arcade Panik - Coin on Arcade Machine Right of Pinball Entrance #2" },
         };
 
         [Description("Arcade Panik - Upper Race Track")]
-        public static Dictionary<string, string> ArcadePanikRacetrackArea = new()
+        public static Dictionary<string, string> ArcadePanikRaceTrackArea = new()
         {
-            { string.Empty, nameof(ArcadePanikRacetrackArea) + " - !PLACEHOLDER!" },
+            { "4_03_00382", "Arcade Panik - Coin on Race Track Above Pinball Entrance #1" },
+            { "4_03_00381", "Arcade Panik - Coin on Race Track Above Pinball Entrance #2" },
+            { "4_03_00380", "Arcade Panik - Coin on Race Track Above Pinball Entrance #3" },
+            { "4_03_00385", "Arcade Panik - Coin on Race Track Above Pinball Entrance #4" },
+            { "4_03_00384", "Arcade Panik - Coin Bag on Race Track Above Pinball Entrance" },
+            { "4_03_00383", "Arcade Panik - Coin on Race Track Above Pinball Entrance #5" },
+            { "4_03_00388", "Arcade Panik - Coin on Race Track Above Pinball Entrance #6" },
+            { "4_03_00387", "Arcade Panik - Coin on Race Track Above Pinball Entrance #7" },
+            { "4_03_00386", "Arcade Panik - Coin on Race Track Above Pinball Entrance #8" },
+            { "4_03_00379", "Arcade Panik - Coin on Tire Pillar" },
+            { "4_03_00324", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #1" },
+            { "4_03_00323", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #2" },
+            { "4_03_00322", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #3" },
+            { "4_03_00330", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #4" },
+            { "4_03_00329", "Arcade Panik - Coin Bag Under Wall Pipe in Upper Race Track Area #1" },
+            { "4_03_00328", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #5" },
+            { "4_03_00321", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #6" },
+            { "4_03_00320", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #7" },
+            { "4_03_00319", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #8" },
+            { "4_03_00327", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #9" },
+            { "4_03_00326", "Arcade Panik - Coin Bag Under Wall Pipe in Upper Race Track Area #2" },
+            { "4_03_00325", "Arcade Panik - Coin Under Wall Pipe in Upper Race Track Area #10" },
+            { "4_03_00318", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #1" },
+            { "4_03_00310", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #2" },
+            { "4_03_00302", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #3" },
+            { "4_03_00317", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #4" },
+            { "4_03_00309", "Arcade Panik - Coin Bag Under Pipe Arch in Upper Race Track Area #1" },
+            { "4_03_00301", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #5" },
+            { "4_03_00316", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #6" },
+            { "4_03_00308", "Arcade Panik - Coin Bag Under Pipe Arch in Upper Race Track Area #2" },
+            { "4_03_00300", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #7" },
+            { "4_03_00315", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #8" },
+            { "4_03_00307", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #9" },
+            { "4_03_00299", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #10" },
+            { "4_03_00314", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #11" },
+            { "4_03_00306", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #12" },
+            { "4_03_00298", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #13" },
+            { "4_03_00313", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #14" },
+            { "4_03_00305", "Arcade Panik - Coin Bag Under Pipe Arch in Upper Race Track Area #3" },
+            { "4_03_00297", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #15" },
+            { "4_03_00312", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #16" },
+            { "4_03_00304", "Arcade Panik - Coin Bag Under Pipe Arch in Upper Race Track Area #4" },
+            { "4_03_00296", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #17" },
+            { "4_03_00311", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #18" },
+            { "4_03_00303", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #19" },
+            { "4_03_00295", "Arcade Panik - Coin Under Pipe Arch in Upper Race Track Area #20" },
         };
 
         [Description("Arcade Panik - Tire Pillars")]
         public static Dictionary<string, string> ArcadePanikTirePillars = new()
         {
-            { string.Empty, nameof(ArcadePanikTirePillars) + " - !PLACEHOLDER!" },
+            { "4_03_00378", "Arcade Panik - Coin Bag on Tire Pillar" },
+            { "4_03_00377", "Arcade Panik - Chest on Tire Pillar" },
+            { "4_01_00024", "Arcade Panik - Gear - On Tire Pillar" },
         };
 
         [Description("Arcade Panik - Cliff Above Crazy Ballz")]
@@ -3119,13 +3197,147 @@ namespace YellowTaxiAP
         [Description("Flipper - Starting Area")]
         public static Dictionary<string, string> FlipperStartingArea = new()
         {
-            { string.Empty, nameof(FlipperStartingArea) + " - !PLACEHOLDER!" },
+            { "4_03_00456", "Flipper - Coin on Ledge at Start #1" },
+            { "4_03_00458", "Flipper - Coin on Ledge at Start #2" },
+            { "4_03_00460", "Flipper - Coin on Ledge at Start #3" },
+            { "4_03_00462", "Flipper - Coin Bag on Ledge at Start #1" },
+            { "4_03_00464", "Flipper - Coin on Ledge at Start #4" },
+            { "4_03_00455", "Flipper - Coin on Ledge at Start #5" },
+            { "4_03_00457", "Flipper - Coin on Ledge at Start #6" },
+            { "4_03_00459", "Flipper - Coin on Ledge at Start #7" },
+            { "4_03_00461", "Flipper - Coin Bag on Ledge at Start #2" },
+            { "4_03_00463", "Flipper - Coin on Ledge at Start #8" },
+            { "4_03_00454", "Flipper - Coin Bag on Bumper at Start" },
+            { "4_03_00452", "Flipper - Coin on Bumper at Start #1" },
+            { "4_03_00451", "Flipper - Coin on Bumper at Start #2" },
+            { "4_03_00450", "Flipper - Coin on Bumper at Start #3" },
+            { "4_03_00449", "Flipper - Coin on Bumper at Start #4" },
+            { "4_03_00448", "Flipper - Coin on Bumper at Start #5" },
+            { "4_03_00447", "Flipper - Coin on Bumper at Start #6" },
+            { "4_03_00446", "Flipper - Coin on Bumper at Start #7" },
+            { "4_01_00009", "Flipper - Gear - Under Ledge at Start" },
+            { "4_01_00010", "Flipper - Gear - Falling From Start" },
+            { "4_03_00129", "Flipper - Coin on Track After Starting Pit #1" },
+            { "4_03_00128", "Flipper - Coin on Track After Starting Pit #2" },
+            { "4_03_00127", "Flipper - Coin on Track After Starting Pit #3" },
+            { "4_03_00126", "Flipper - Coin on Track After Starting Pit #4" },
+            { "4_03_00124", "Flipper - Coin on Track After Starting Pit #5" },
+            { "4_03_00123", "Flipper - Coin on Track After Starting Pit #6" },
+            { "4_03_00122", "Flipper - Coin on Track After Starting Pit #7" },
+            { "4_03_00121", "Flipper - Coin on Track After Starting Pit #8" },
+            { "4_09_00740", "Flipper - Checkpoint" },
+        };
+
+        [Description("Flipper - Path to the End")]
+        public static Dictionary<string, string> FlipperLaterArea = new()
+        {
+            { "4_01_00002", "Flipper - Gear - Bumper on Outside of Entrance Tower" },
+            { "4_03_00436", "Flipper - Coin Surrounding Gear After Ramps #1" },
+            { "4_03_00430", "Flipper - Coin Surrounding Gear After Ramps #2" },
+            { "4_03_00423", "Flipper - Coin Surrounding Gear After Ramps #3" },
+            { "4_03_00437", "Flipper - Coin Surrounding Gear After Ramps #4" },
+            { "4_03_00431", "Flipper - Coin Surrounding Gear After Ramps #5" },
+            { "4_03_00424", "Flipper - Coin Surrounding Gear After Ramps #6" },
+            { "4_03_00438", "Flipper - Coin Surrounding Gear After Ramps #7" },
+            { "4_03_00432", "Flipper - Coin Bag Surrounding Gear After Ramps #1" },
+            { "4_03_00425", "Flipper - Coin Surrounding Gear After Ramps #8" },
+            { "4_03_00439", "Flipper - Coin Surrounding Gear After Ramps #9" },
+            { "4_01_00011", "Flipper - Gear - After Ramps" },
+            { "4_03_00426", "Flipper - Coin Surrounding Gear After Ramps #10" },
+            { "4_03_00440", "Flipper - Coin Surrounding Gear After Ramps #11" },
+            { "4_03_00433", "Flipper - Coin Bag Surrounding Gear After Ramps #2" },
+            { "4_03_00427", "Flipper - Coin Surrounding Gear After Ramps #12" },
+            { "4_03_00441", "Flipper - Coin Surrounding Gear After Ramps #13" },
+            { "4_03_00434", "Flipper - Coin Surrounding Gear After Ramps #14" },
+            { "4_03_00428", "Flipper - Coin Surrounding Gear After Ramps #15" },
+            { "4_03_00442", "Flipper - Coin Surrounding Gear After Ramps #16" },
+            { "4_03_00435", "Flipper - Coin Surrounding Gear After Ramps #17" },
+            { "4_03_00429", "Flipper - Coin Surrounding Gear After Ramps #18" },
+            { "4_01_00000", "Flipper - Gear - Final Bumper Bounces" },
+        };
+
+        [Description("Flipper - Upper Area (EXPERTS ONLY)")]
+        public static Dictionary<string, string> FlipperUpperArea = new()
+        {
+            { "4_03_00421", "Flipper - Coin on Outside of Entrance Tower #1" },
+            { "4_03_00410", "Flipper - Coin on Outside of Entrance Tower #2" },
+            { "4_03_00399", "Flipper - Coin on Outside of Entrance Tower #3" },
+            { "4_03_00420", "Flipper - Coin on Outside of Entrance Tower #4" },
+            { "4_03_00409", "Flipper - Coin on Outside of Entrance Tower #5" },
+            { "4_03_00398", "Flipper - Coin on Outside of Entrance Tower #6" },
+            { "4_03_00419", "Flipper - Coin on Outside of Entrance Tower #7" },
+            { "4_03_00408", "Flipper - Coin on Outside of Entrance Tower #8" },
+            { "4_03_00397", "Flipper - Coin on Outside of Entrance Tower #9" },
+            { "4_03_00418", "Flipper - Coin on Outside of Entrance Tower #10" },
+            { "4_03_00407", "Flipper - Coin on Outside of Entrance Tower #11" },
+            { "4_03_00396", "Flipper - Coin on Outside of Entrance Tower #12" },
+            { "4_03_00417", "Flipper - Coin on Outside of Entrance Tower #13" },
+            { "4_03_00406", "Flipper - Coin Bag on Outside of Entrance Tower #1" },
+            { "4_03_00395", "Flipper - Coin on Outside of Entrance Tower #14" },
+            { "4_03_00416", "Flipper - Coin on Outside of Entrance Tower #15" },
+            { "4_03_00405", "Flipper - Coin Bag on Outside of Entrance Tower #2" },
+            { "4_03_00394", "Flipper - Coin on Outside of Entrance Tower #16" },
+            { "4_03_00415", "Flipper - Coin on Outside of Entrance Tower #17" },
+            { "4_03_00404", "Flipper - Coin Bag on Outside of Entrance Tower #3" },
+            { "4_03_00393", "Flipper - Coin on Outside of Entrance Tower #18" },
+            { "4_03_00414", "Flipper - Coin on Outside of Entrance Tower #19" },
+            { "4_03_00403", "Flipper - Coin on Outside of Entrance Tower #20" },
+            { "4_03_00392", "Flipper - Coin on Outside of Entrance Tower #21" },
+            { "4_03_00413", "Flipper - Coin on Outside of Entrance Tower #22" },
+            { "4_03_00402", "Flipper - Coin on Outside of Entrance Tower #23" },
+            { "4_03_00391", "Flipper - Coin on Outside of Entrance Tower #24" },
+            { "4_03_00412", "Flipper - Coin on Outside of Entrance Tower #25" },
+            { "4_03_00401", "Flipper - Coin on Outside of Entrance Tower #26" },
+            { "4_03_00390", "Flipper - Coin on Outside of Entrance Tower #27" },
+            { "4_03_00411", "Flipper - Coin on Outside of Entrance Tower #28" },
+            { "4_03_00400", "Flipper - Coin on Outside of Entrance Tower #29" },
+            { "4_03_00389", "Flipper - Coin on Outside of Entrance Tower #30" },
         };
 
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
             { "Arcade Panik - Chest Inside Go Karts Pipe", "X2/J1" },               // Can explosion jump off the nearby car with good timing
             { "Arcade Panik - Bunny - Above Go Karts Pipe", "B2+J2 | X2+B2+J1" },   // Can superboost off the railings with just J1
+            { "Arcade Panik - Gear - Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
+            { "Arcade Panik - Gear - Alcove Under Pinball Entrance", $"B2 | X1/B1/J1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
+            { "Arcade Panik - Gear - Go Karts Obstacle Course", "X1/J1" },
+            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #1", "J2" },
+            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #2", "J1 & X1/B1 | J2" },
+        };
+
+        #endregion
+
+        #region Pizza Time
+
+        [Description("Pizza Time - Starting Area")]
+        public static Dictionary<string, string> PizzaTimeStartingArea = new()
+        {
+            { "2_03_00075", "Pizza Time - Coin on Road at Start #1" },
+            { "2_03_00074", "Pizza Time - Coin on Road at Start #2" },
+            { "2_03_00073", "Pizza Time - Coin on Road at Start #3" },
+            { "2_03_00072", "Pizza Time - Coin on Road at Start #4" },
+            { "2_03_00071", "Pizza Time - Coin on Road at Start #5" },
+            { "2_03_00069", "Pizza Time - Coin on Path Behind Hat World #1" },
+            { "2_03_00067", "Pizza Time - Coin on Path Behind Hat World #2" },
+            { "2_03_00065", "Pizza Time - Coin on Path Behind Hat World #3" },
+            { "2_03_00064", "Pizza Time - Coin on Path Behind Hat World #4" },
+            { "2_03_00063", "Pizza Time - Coin on Path Behind Hat World #5" },
+            { "2_03_00070", "Pizza Time - Coin on Road After Hat World #1" },
+            { "2_03_00068", "Pizza Time - Coin on Road After Hat World #2" },
+            { "2_03_00066", "Pizza Time - Coin on Road After Hat World #3" },
+            { "2_03_00059", "Pizza Time - Coin on Roof Near First Oil Pump #1" },
+            { "2_03_00076", "Pizza Time - Coin on Roof Near First Oil Pump #2" },
+            { "2_03_00089", "Pizza Time - Coin on Roof Near First Oil Pump #3" },
+        };
+
+        [Description("Pizza Time Hat World")]
+        public static Dictionary<string, string> PizzaTimeHatWorld = new()
+        {
+            { "2_07_00002", "Purchase Top Hat" },
+            { "2_07_00001", "Purchase Propeller Cap" },
+            { "2_07_00000", "Purchase No Hat" },
+            { "2_07_00007", "Purchase Chef Hat" },
+            { "2_07_00008", "Purchase Spaghetti Hat" },
         };
 
         #endregion
@@ -4352,6 +4564,111 @@ namespace YellowTaxiAP
             { "16_07_00040", "Purchase Mushroom Cloud Hat" },
         };
 
+        [Description("Buttons Smashing - Starting Area")]
+        public static Dictionary<string, string> ButtonsSmashingStartingArea = new()
+        {
+            { "16_09_00470", "Buttons Smashing - Checkpoint" },
+        };
+
+        [Description("Buttons Smashing - Buttons")]
+        public static Dictionary<string, string> ButtonsSmashingButtons = new()
+        {
+            { "16_03_00163", "Buttons Smashing - Coin on Button #1" },
+            { "16_03_00174", "Buttons Smashing - Coin on Button #2" },
+            { "16_03_00201", "Buttons Smashing - Coin on Button #3" },
+            { "16_03_00228", "Buttons Smashing - Coin on Button #4" },
+            { "16_03_00247", "Buttons Smashing - Coin Bag on Button #1" },
+            { "16_03_00248", "Buttons Smashing - Coin on Button #5" },
+            { "16_03_00270", "Buttons Smashing - Coin on Button #6" },
+            { "16_03_00271", "Buttons Smashing - Coin on Button #7" },
+            { "16_03_00291", "Buttons Smashing - Coin on Button #8" },
+            { "16_03_00293", "Buttons Smashing - Coin Bag on Button #2" },
+            { "16_03_00294", "Buttons Smashing - Coin on Button #9" },
+            { "16_03_00310", "Buttons Smashing - Coin on Button #10" },
+            { "16_03_00311", "Buttons Smashing - Coin on Button #11" },
+            { "16_03_00325", "Buttons Smashing - Coin on Button #12" },
+            { "16_03_00327", "Buttons Smashing - Coin on Button #13" },
+            { "16_01_00008", "Buttons Smashing - Gear - On Button" },
+            { "16_01_00009", "Buttons Smashing - Gear - Top Platform" },
+        };
+
+        [Description("Buttons Smashing - Hat Platform")]
+        public static Dictionary<string, string> ButtonsSmashingHatPlatform = new()
+        {
+            { "16_07_00050", "Purchase Glitched Taxi Skin" },
+        };
+
+        [Description("Pepperoni - Starting Area")]
+        public static Dictionary<string, string> PepperoniStartingArea = new()
+        {
+            { "16_09_00765", "Pepperoni - Checkpoint" },
+            { "16_03_00052", "Pepperoni - Coin at Start #1" },
+            { "16_03_00054", "Pepperoni - Coin at Start #2" },
+            { "16_03_00068", "Pepperoni - Coin at Start #3" },
+            { "16_03_00069", "Pepperoni - Coin at Start #4" },
+            { "16_03_00084", "Pepperoni - Coin Bag at Start" },
+            { "16_01_00006", "Pepperoni - Gear - From Chef Pepe" },
+        };
+
+        [Description("Pepperoni - Pizza Ovens")]
+        public static Dictionary<string, string> PepperoniPizzaOvens = new()
+        {
+            { "16_03_00200", "Pepperoni - Coin Bag on Middle Pizza Oven" },
+            { "16_03_00297", "Pepperoni - Coin Bag on Top Pizza Oven #1" },
+            { "16_03_00296", "Pepperoni - Coin on Top Pizza Oven #1" },
+            { "16_03_00295", "Pepperoni - Coin Bag on Top Pizza Oven #2" },
+            { "16_03_00299", "Pepperoni - Coin on Top Pizza Oven #2" },
+            { "16_03_00298", "Pepperoni - Coin on Top Pizza Oven #3" },
+            { "16_03_00301", "Pepperoni - Coin on Top Pizza Oven #4" },
+            { "16_03_00300", "Pepperoni - Coin on Top Pizza Oven #5" },
+            { "16_03_00303", "Pepperoni - Coin on Top Pizza Oven #6" },
+            { "16_03_00302", "Pepperoni - Coin on Top Pizza Oven #7" },
+            { "16_03_00306", "Pepperoni - Coin Bag on Top Pizza Oven #3" },
+            { "16_03_00305", "Pepperoni - Coin on Top Pizza Oven #8" },
+            { "16_03_00304", "Pepperoni - Coin Bag on Top Pizza Oven #4" },
+            { "16_07_00045", "Purchase Pizza Man Hat" },
+            { "16_01_00007", "Pepperoni - Gear - In the Air" },
+        };
+
+        [Description("Stealthy - Starting Area")]
+        public static Dictionary<string, string> StealthyStartingArea = new()
+        {
+            { "16_09_00320", "Stealthy - Starting Checkpoint" },
+        };
+
+        [Description("Stealthy - Halfway Up")]
+        public static Dictionary<string, string> StealthyHalfwayUp = new()
+        {
+            { "16_09_00390", "Stealthy - Midway Checkpoint" },
+        };
+
+        [Description("Stealthy - Top of the Tower")]
+        public static Dictionary<string, string> StealthyTopArea = new()
+        {
+            { "16_03_00326", "Stealthy - Chest Near Midway Checkpoint" },
+            { "16_03_00348", "Stealthy - Safe Near Top" },
+            { "16_03_00377", "Stealthy - Coin Bag Surrounding Gear #1" },
+            { "16_03_00376", "Stealthy - Coin Surrounding Gear #1" },
+            { "16_03_00375", "Stealthy - Chest Surrounding Gear #1" },
+            { "16_03_00380", "Stealthy - Coin Surrounding Gear #2" },
+            { "16_01_00010", "Stealthy - Gear - Top of Tower" },
+            { "16_03_00378", "Stealthy - Coin Surrounding Gear #3" },
+            { "16_03_00383", "Stealthy - Chest Surrounding Gear #2" },
+            { "16_03_00382", "Stealthy - Coin Surrounding Gear #4" },
+            { "16_03_00381", "Stealthy - Coin Bag Surrounding Gear #2" },
+            { "16_07_00037", "Purchase Alien Mosk (Good) Hat" },
+            { "16_03_00370", "Stealthy - Coin on Ledge on Top of Tower #1" },
+            { "16_03_00369", "Stealthy - Coin on Ledge on Top of Tower #2" },
+            { "16_03_00368", "Stealthy - Coin on Ledge on Top of Tower #3" },
+            { "16_03_00373", "Stealthy - Coin on Ledge on Top of Tower #4" },
+            { "16_03_00372", "Stealthy - Coin on Ledge on Top of Tower #5" },
+            { "16_03_00371", "Stealthy - Coin on Ledge on Top of Tower #6" },
+            { "16_03_00386", "Stealthy - Coin on Ledge on Top of Tower #7" },
+            { "16_03_00385", "Stealthy - Coin on Ledge on Top of Tower #8" },
+            { "16_03_00384", "Stealthy - Coin on Ledge on Top of Tower #9" },
+            { "16_01_00011", "Stealthy - Gear - Shortcut Back Down" },
+        };
+
         [Description("Podium - Starting Area")]
         public static Dictionary<string, string> PodiumStartingArea = new()
         {
@@ -4496,6 +4813,9 @@ namespace YellowTaxiAP
         {
             { "Mosk's Rocket - Coin Bag on Steps to Final Floor", "J1/GP" },
             { "Bomb-it - Gear - Bomb Car Ramps", "X1/J1" },
+            { "Buttons Smashing - Gear - Top Platform", "X1/J1" },
+            { "Pepperoni - Gear - From Chef Pepe", "B1+J1" },
+            { "Stealthy - Gear - Shortcut Back Down", "GS/X1" },
             { "Smelly Slimes - Gear - Pipe Above Entrance", "B2 & X2/J1" },
         };
 
@@ -4553,6 +4873,11 @@ namespace YellowTaxiAP
         {
             { "18_01_00000", "Getting Gud! - Gear - High Platform" },
             { "18_01_00001", "Getting Gud! - Gear - In the Air" },
+        };
+
+        public static Dictionary<string, string> GettingGudSpecialRules = new()
+        {
+            { "Getting Gud! - Gear - In the Air", "J2/B2 | X3+B1" },
         };
 
         #endregion
@@ -4667,6 +4992,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabPsychoTaxi)), MoriosLabPsychoTaxi),
             new(GetDescription(nameof(MoriosLabSecondFloorAboveDemoWall)), MoriosLabSecondFloorAboveDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorAfterDemoWall)), MoriosLabSecondFloorAfterDemoWall),
+            new(GetDescription(nameof(MoriosLabSecondFloorTrueDemoWall)), MoriosLabSecondFloorTrueDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorInTrueDemoWall)), MoriosLabSecondFloorInTrueDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorAfterTrueDemoWall)), MoriosLabSecondFloorAfterTrueDemoWall),
             new(GetDescription(nameof(MoriosLabSecondFloorShortcutPipe)), MoriosLabSecondFloorShortcutPipe),
@@ -4741,13 +5067,20 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(ArcadePlazaOutskirts)), ArcadePlazaOutskirts),
             new(GetDescription(nameof(ArcadePanikHatWorld)), ArcadePanikHatWorld),
             new(GetDescription(nameof(ArcadePanikStartingArea)), ArcadePanikStartingArea),
+            new(GetDescription(nameof(ArcadePanikBowlingAlleyLedge)), ArcadePanikBowlingAlleyLedge),
             new(GetDescription(nameof(ArcadePanikExpert1Jump)), ArcadePanikExpert1Jump),
             new(GetDescription(nameof(ArcadePanikBoost2)), ArcadePanikBoost2),
             new(GetDescription(nameof(ArcadePanikPinballArea)), ArcadePanikPinballArea),
-            new(GetDescription(nameof(ArcadePanikRacetrackArea)), ArcadePanikRacetrackArea),
+            new(GetDescription(nameof(ArcadePanikRaceTrackArea)), ArcadePanikRaceTrackArea),
             new(GetDescription(nameof(ArcadePanikTirePillars)), ArcadePanikTirePillars),
             new(GetDescription(nameof(ArcadePanikCliffAboveCrazyBallz)), ArcadePanikCliffAboveCrazyBallz),
             new(GetDescription(nameof(FlipperStartingArea)), FlipperStartingArea),
+            new(GetDescription(nameof(FlipperLaterArea)), FlipperLaterArea),
+            new(GetDescription(nameof(FlipperUpperArea)), FlipperUpperArea),
+
+            // Pizza Time Areas
+            new(GetDescription(nameof(PizzaTimeStartingArea)), PizzaTimeStartingArea),
+            new(GetDescription(nameof(PizzaTimeHatWorld)), PizzaTimeHatWorld),
 
             // Gym Gears Areas
             new(GetDescription(nameof(GymGearsStartingArea)), GymGearsStartingArea),
@@ -4804,6 +5137,14 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(WelcomingClimbsSecondGearArea)), WelcomingClimbsSecondGearArea),
             new(GetDescription(nameof(BombitStartingArea)), BombitStartingArea),
             new(GetDescription(nameof(BombitOuterArea)), BombitOuterArea),
+            new(GetDescription(nameof(ButtonsSmashingStartingArea)), ButtonsSmashingStartingArea),
+            new(GetDescription(nameof(ButtonsSmashingButtons)), ButtonsSmashingButtons),
+            new(GetDescription(nameof(ButtonsSmashingHatPlatform)), ButtonsSmashingHatPlatform),
+            new(GetDescription(nameof(PepperoniStartingArea)), PepperoniStartingArea),
+            new(GetDescription(nameof(PepperoniPizzaOvens)), PepperoniPizzaOvens),
+            new(GetDescription(nameof(StealthyStartingArea)), StealthyStartingArea),
+            new(GetDescription(nameof(StealthyHalfwayUp)), StealthyHalfwayUp),
+            new(GetDescription(nameof(StealthyTopArea)), StealthyTopArea),
             new(GetDescription(nameof(PodiumStartingArea)), PodiumStartingArea),
             new(GetDescription(nameof(PodiumHighGround)), PodiumHighGround),
             new(GetDescription(nameof(CostipationStartingArea)), CostipationStartingArea),
@@ -4846,6 +5187,7 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.L7_PoopWorld), FecalMattersSpecialRules },
             { nameof(Data.LevelId.L8_Sewers), FlushedAwaySpecialRules },
             { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
+            { nameof(Data.LevelId.L18_TimeAttack02), GettingGudSpecialRules },
             { nameof(Data.LevelId.L19_TimeAttack03), ProTricksSpecialRules },
         };
 
@@ -4901,6 +5243,7 @@ namespace YellowTaxiAP
                     MoriosLabPsychoTaxi,
                     MoriosLabSecondFloorAboveDemoWall,
                     MoriosLabSecondFloorAfterDemoWall,
+                    MoriosLabSecondFloorTrueDemoWall,
                     MoriosLabSecondFloorInTrueDemoWall,
                     MoriosLabSecondFloorAfterTrueDemoWall,
                     MoriosLabSecondFloorShortcutPipeFalling,
@@ -4949,6 +5292,14 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                nameof(Data.LevelId.L2_PizzaTime),
+                [
+                    PizzaTimeStartingArea,
+
+                    PizzaTimeHatWorld,
+                ]
+            },
+            {
                 nameof(Data.LevelId.L3_MoriosHome),
                 [
                     MoriosIslandStartingArea,
@@ -4986,14 +5337,17 @@ namespace YellowTaxiAP
                     ArcadePanikHatWorld,
 
                     ArcadePanikStartingArea,
+                    ArcadePanikBowlingAlleyLedge,
                     ArcadePanikExpert1Jump,
                     ArcadePanikBoost2,
                     ArcadePanikPinballArea,
-                    ArcadePanikRacetrackArea,
+                    ArcadePanikRaceTrackArea,
                     ArcadePanikTirePillars,
                     ArcadePanikCliffAboveCrazyBallz,
 
                     FlipperStartingArea,
+                    FlipperLaterArea,
+                    FlipperUpperArea,
                 ]
             },
             {
@@ -5062,6 +5416,14 @@ namespace YellowTaxiAP
                     WelcomingClimbsSecondGearArea,
                     BombitStartingArea,
                     BombitOuterArea,
+                    ButtonsSmashingStartingArea,
+                    ButtonsSmashingButtons,
+                    ButtonsSmashingHatPlatform,
+                    PepperoniStartingArea,
+                    PepperoniPizzaOvens,
+                    StealthyStartingArea,
+                    StealthyHalfwayUp,
+                    StealthyTopArea,
                     PodiumStartingArea,
                     PodiumHighGround,
                     CostipationStartingArea,
@@ -5183,10 +5545,10 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X3+Rocket+B2+GP"),
                     new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "PortalFecalMatters+Doggo"),
                     new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & J2/B1/GP | X1+Rocket+J1"),
-                    // Golden Propeller non-area rando rules
-                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "NSAR+GP+LabKey"),
-                    new RegionConnection(HubLawFirmJump, "NSAR+GP"),
-                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+GelaToni+GP"),
+                    // Golden Propeller non-area rando rules. Expert 1 required to bring it through loading zones
+                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "NSAR+GP+LabKey+X1"),
+                    new RegionConnection(HubLawFirmJump, "NSAR+GP+X1"),
+                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+GelaToni+GP+X1"),
                 ]
             },
             {
@@ -5403,6 +5765,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "B1+FGU"),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
+                    new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                 ]
             },
             // Morio's Lab
@@ -5454,7 +5817,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabGroundFloorOrangeBlocks)),
                 [
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "OS+J1+FGU"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "OS+J1+FGU | X2+OS+B1+FGU"),
                 ]
             },
             {
@@ -5486,21 +5849,28 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabSecondFloorAfterDemoWall)),
                 [
                     new RegionConnection(MoriosLabSecondFloor, "FGU"),
-                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall),
+                    new RegionConnection(MoriosLabSecondFloorTrueDemoWall),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabSecondFloorTrueDemoWall)),
+                [
+                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall, "FGU"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabSecondFloorInTrueDemoWall)),
                 [
-                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
-                    new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall, "FGU"),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall),
+                    new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "X2+B1"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabSecondFloorAfterTrueDemoWall)),
                 [
-                    new RegionConnection(MoriosLabSecondFloorInTrueDemoWall),
-                    new RegionConnection(MoriosLabThirdFloor, "J1/B1"),
+                    new RegionConnection(MoriosLabSecondFloorTrueDemoWall),
+                    new RegionConnection(MoriosLabThirdFloor, "J1/B1/X2"),
                 ]
             },
             {
@@ -5524,7 +5894,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
-                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2"),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2 | X1+B1"),
                 ]
             },
             {
@@ -5537,7 +5907,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabMoriosRoomInside)),
                 [
-                    new RegionConnection(MoriosLabMoriosRoomInsideJump, "J1")
+                    new RegionConnection(MoriosLabMoriosRoomInsideJump, "J1 | X2+B1")
                 ]
             },
             {
@@ -5551,21 +5921,21 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "J1"),
                     new RegionConnection(MoriosLabFourthFloor, "Spike+B1 | X2+Spike+J1"),
-                    new RegionConnection(MoriosLabSecondFloor),
+                    new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall),
                     new RegionConnection("Morio's Lab - Baby Steps! TV", BabyStepsStartingArea, ConnectionType.Warp, "TT1"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)),
                 [
-                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "J1+FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+J1 | X2+FGU+B1"),
                     new RegionConnection(MoriosLabThirdFloor),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabThirdFloorWrenchesMiddle)),
                 [
-                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "J1"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "J1 | X2+B1"),
                 ]
             },
             {
@@ -5663,6 +6033,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "FGU"),
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity),
                     new RegionConnection(MoriosLabFourthFloorJumpSpikes, "Spike"),
+                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "Spike+B1"),
                     new RegionConnection(MoriosLabFifthFloorGoldenPropeller, "Password"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "Spike"),
                 ]
@@ -5795,7 +6166,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosHomeExpert1, "X1/J1/B1"),
                     new RegionConnection(MoriosHomeHighGround, "J1/B1"),
-                    new RegionConnection(MoriosHomeLoft, "J2 | B2+J1"),
+                    new RegionConnection(MoriosHomeLoft, "B2+J2 | X1+J2 | X1+B2+J1"),
                     new RegionConnection(MoriosHomeKitchen, "SP"),
                     new RegionConnection("Morio's Home - Door in Bedroom", WeirdTunnelsEntrance, ConnectionType.Subwarp),
                 ]
@@ -5836,7 +6207,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosHomeKitchenExpert1, "X1/B1/J1"),
                     new RegionConnection(MoriosHomeKitchenCabinets, "B1/J1"),
-                    new RegionConnection(MoriosHomeKitchenHighGround, "J1 | X1+B1"),
+                    new RegionConnection(MoriosHomeKitchenHighGround, "J1 | X1+B2 | X2+B1"),
                 ]
             },
             {
@@ -5968,6 +6339,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ArcadePanikStartingArea)),
                 [
                     new RegionConnection("Arcade Panik - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(ArcadePanikBowlingAlleyLedge, "J1 | X1+B1"),
                     new RegionConnection(ArcadePanikExpert1Jump, "X1/J1"),
                     new RegionConnection(ArcadePanikBoost2, "B2"),
                     new RegionConnection(ArcadePanikPinballArea, "B2 & X1/J1"),
@@ -5990,14 +6362,14 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ArcadePanikPinballArea)),
                 [
                     new RegionConnection(ArcadePanikStartingArea),
-                    new RegionConnection(ArcadePanikRacetrackArea, "B1 | X2+J2"),
+                    new RegionConnection(ArcadePanikRaceTrackArea, "B1 | X2+J2"),
                     new RegionConnection("Arcade Panik - Pinball Entrance", FlipperStartingArea, ConnectionType.Subwarp),
                 ]
             },
             {
-                GetDescription(nameof(ArcadePanikRacetrackArea)),
+                GetDescription(nameof(ArcadePanikRaceTrackArea)),
                 [
-                    new RegionConnection(ArcadePanikTirePillars, "J1 & X1/B1")
+                    new RegionConnection(ArcadePanikTirePillars, "J1 & X1/B1 | J2")
                 ]
             },
             {
@@ -6009,7 +6381,40 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(FlipperStartingArea)),
                 [
-                    new RegionConnection("Flipper - Fall in Starting Area Pit", ArcadePanikPinballArea, ConnectionType.Subwarp)
+                    new RegionConnection("Flipper - Fall in Starting Area Pit", ArcadePanikPinballArea, ConnectionType.Subwarp),
+                    new RegionConnection(FlipperLaterArea, "B1 | X1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FlipperLaterArea)),
+                [
+                    new RegionConnection(FlipperUpperArea, "J2"),   // Inherently expert only
+                    new RegionConnection("Flipper - Pipe After Ramps", ArcadePanikPinballArea, ConnectionType.Subwarp),
+                    new RegionConnection("Flipper - Pipe After Bumper Bounces", ArcadePanikPinballArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(FlipperUpperArea)),
+                [
+                    // Doesn't Connect Anywhere
+                ]
+            },
+
+            #endregion
+
+            #region Pizza Time Connections
+
+            {
+                GetDescription(nameof(PizzaTimeStartingArea)),
+                [
+                    new RegionConnection("Pizza Time - Morio's Lab Portal", MoriosLabSecondFloorAfterDemoWall, ConnectionType.Warp),
+                    new RegionConnection("Pizza Time - Hat World Entrance", PizzaTimeHatWorld, ConnectionType.Warp),
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeHatWorld)),
+                [
+                    new RegionConnection("Pizza Time Hat World - Exit", PizzaTimeStartingArea, ConnectionType.Warp),
                 ]
             },
 
@@ -6257,6 +6662,8 @@ namespace YellowTaxiAP
                     new RegionConnection(RocketStartingArea),
                     new RegionConnection(RocketToslaOfficesArea, "J1 | X2+B2"),
                     new RegionConnection("Mosk's Rocket - Bomb-it Portal", BombitStartingArea, ConnectionType.Subwarp, "Bunny-BB"),
+                    new RegionConnection("Mosk's Rocket - Buttons Smashing Portal", ButtonsSmashingStartingArea, ConnectionType.Subwarp, "Bunny-AP"),
+                    new RegionConnection("Mosk's Rocket - Pepperoni Portal", PepperoniStartingArea, ConnectionType.Subwarp, "Bunny-PT"),
                 ]
             },
             {
@@ -6264,6 +6671,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(RocketBombeachArcadePizzaArea),
                     new RegionConnection(RocketGymGearsArea, "J1"),
+                    new RegionConnection("Mosk's Rocket - Stealthy Portal", StealthyStartingArea, ConnectionType.Subwarp, "Bunny-TO"),
                 ]
             },
             {
@@ -6359,12 +6767,64 @@ namespace YellowTaxiAP
                 GetDescription(nameof(BombitStartingArea)),
                 [
                     new RegionConnection(BombitOuterArea, "J1/B1"),
+                    new RegionConnection("Bomb-it - Mosk's Rocket Portal", RocketBombeachArcadePizzaArea, ConnectionType.Subwarp, "J1/B1"),
                 ]
             },
             {
                 GetDescription(nameof(BombitOuterArea)),
                 [
-                    new RegionConnection("Bomb-it - Mosk's Rocket Portal", RocketBombeachArcadePizzaArea, ConnectionType.Subwarp),
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(ButtonsSmashingStartingArea)),
+                [
+                    new RegionConnection(ButtonsSmashingButtons, "X1+B1 | B2"),
+                    new RegionConnection("Buttons Smashing - Mosk's Rocket Portal", RocketBombeachArcadePizzaArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(ButtonsSmashingButtons)),
+                [
+                    new RegionConnection(ButtonsSmashingHatPlatform, "X2+B1 | J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ButtonsSmashingHatPlatform)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PepperoniStartingArea)),
+                [
+                    new RegionConnection(PepperoniPizzaOvens, "B1 & X1/J1"),
+                    new RegionConnection("Pepperoni - Mosk's Rocket Portal", RocketBombeachArcadePizzaArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(PepperoniPizzaOvens)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(StealthyStartingArea)),
+                [
+                    new RegionConnection(StealthyHalfwayUp, "B1 & X2/J1 | B2"),
+                    new RegionConnection("Stealthy - Mosk's Rocket Portal", RocketToslaOfficesArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(StealthyHalfwayUp)),
+                [
+                    new RegionConnection(StealthyTopArea, "J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(StealthyTopArea)),
+                [
+                    // No connections
                 ]
             },
             {
@@ -6453,7 +6913,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GettingGudStartingArea)),
                 [
-                    new RegionConnection(GettingGudLowerSpikes, "J1/GP"),
+                    new RegionConnection(GettingGudLowerSpikes, "J1/Spike | X2+B1"),
                     new RegionConnection(GettingGudMiddleFloor, "X1+J1 | B1+Spike | J2"),
                 ]
             },
@@ -6466,7 +6926,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GettingGudMiddleFloor)),
                 [
-                    new RegionConnection(GettingGudHighGround, "Spike+B2 | J2 & X1/B2")
+                    new RegionConnection(GettingGudHighGround, "B1 | X1+J2")
                 ]
             },
             {

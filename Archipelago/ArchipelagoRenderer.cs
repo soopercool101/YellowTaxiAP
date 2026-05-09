@@ -106,7 +106,11 @@ namespace YellowTaxiAP.Archipelago
                 statusMessage = " Status: Connected";
                 // show the mod is currently loaded in the corner
                 GUI.Label(new Rect(16, 16, 300, 20), Plugin.ModDisplayInfo);
-                GUI.Label(new Rect(16, 50, 300, 20), Plugin.APDisplayInfo + statusMessage);
+                GUI.Label(new Rect(16, 36, 300, 20), Plugin.APDisplayInfo + statusMessage);
+                if (YTGVSlotData.Loaded)
+                {
+                    GUI.Label(new Rect(16, 56, 300, 20), $"APWorld Version: v{Plugin.SlotData.APWorldMajorVersion}.{Plugin.SlotData.APWorldMinorVersion}.{Plugin.SlotData.APWorldBuildVersion}");
+                }
                 if (_lastClosedKeyboard > 0.01f) // Prevent repeated gamepad keyboard entry in same textbox
                 {
                     _lastClosedKeyboard = 0.0f;
