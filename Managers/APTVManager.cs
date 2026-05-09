@@ -44,6 +44,7 @@ namespace YellowTaxiAP.Managers
             if (self.turnedOn && !self.playerInside)
             {
                 self.TurnOff(false);
+                self.turnOnDelay = 0.0f;
             }
         }
 
@@ -61,7 +62,7 @@ namespace YellowTaxiAP.Managers
         private void AchievementsTvScript_Start(On.AchievementsTvScript.orig_Start orig, AchievementsTvScript self)
         {
             orig(self);
-            self.menuTitle.text = "Archipelago";
+            self.menuTitle.text = "ARCHIPELAGO";
             self.canBeTurnedOn = true;
             UpdateAPTVInfo();
         }
@@ -69,9 +70,10 @@ namespace YellowTaxiAP.Managers
         public static TextMeshProUGUI ItemsReceivedText;
         public static TextMeshProUGUI LocationsCheckedText;
         public static TextMeshProUGUI MovesUnlockText;
+        public static Image MovesUnlockImage;
         public static List<string> ImportantItems = [];
         public static TextMeshProUGUI[] ImportantItemsObjects;
-        public const int ImportantItemsListMax = 6;
+        public const int ImportantItemsListMax = 7;
 
         public static object APTVUpdateLock = new object();
         public static void UpdateAPTVInfo()
@@ -91,7 +93,7 @@ namespace YellowTaxiAP.Managers
                     LocationsCheckedText.fontSize = 0.4f;
                     LocationsCheckedText.fontSizeMin = 0.4f;
                     LocationsCheckedText.fontSizeMax = 0.4f;
-                    LocationsCheckedText.transform.localPosition -= new Vector3(0, 1.5f, 0);
+                    LocationsCheckedText.transform.localPosition -= new Vector3(0, 1.1f, 0);
                     LocationsCheckedText.alignment = TextAlignmentOptions.Left;
                     LocationsCheckedText.rectTransform.sizeDelta =
                         new Vector2(12, LocationsCheckedText.rectTransform.sizeDelta.y);
@@ -100,7 +102,7 @@ namespace YellowTaxiAP.Managers
                     AchievementsTvScript.instance.achievementsCapsuleToClone.SetActive(true);
                     var gameObject = Object.Instantiate(AchievementsTvScript.instance.achievementsCapsuleToClone, AchievementsTvScript.instance.menuTitle.transform.parent);
                     gameObject.SetActive(true);
-                    gameObject.transform.localPosition = new Vector3(0.0f, 1.75f, 0.0f);
+                    gameObject.transform.localPosition = new Vector3(0.0f, 2.25f, 0.0f);
                     gameObject.transform.localScale = Vector3.one;
                     gameObject.transform.localEulerAngles = Vector3.zero;
                     //gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
@@ -122,19 +124,19 @@ namespace YellowTaxiAP.Managers
                     }
                     gameObject = Object.Instantiate(AchievementsTvScript.instance.achievementsCapsuleToClone, AchievementsTvScript.instance.menuTitle.transform.parent);
                     gameObject.SetActive(true);
-                    gameObject.transform.localPosition = new Vector3(0.0f, -0.75f, 0.0f);
+                    gameObject.transform.localPosition = new Vector3(0.0f, -0.25f, 0.0f);
                     gameObject.transform.localScale = Vector3.one;
                     gameObject.transform.localEulerAngles = Vector3.zero;
                     gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "MOVES";
-                    gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = AchievementsMaster.GetAchievementSprite(AchievementsMaster.AchievementRelease.MorioSecretRoom);
+                    MovesUnlockImage = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>();
                     MovesUnlockText = gameObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                     var newItemsText = Object.Instantiate(AchievementsTvScript.instance.menuTitle,
                         AchievementsTvScript.instance.menuTitle.transform.parent);
-                    newItemsText.text = "Recent Important Items";
+                    newItemsText.text = "RECENT IMPORTANT ITEMS";
                     newItemsText.fontSize = 0.5f;
                     newItemsText.fontSizeMin = 0.5f;
                     newItemsText.fontSizeMax = 0.5f;
-                    newItemsText.transform.localPosition -= new Vector3(0, 7.5f, 0);
+                    newItemsText.transform.localPosition -= new Vector3(0, 6.9f, 0);
 
                     ImportantItemsObjects = new TextMeshProUGUI[ImportantItemsListMax];
                     for (var i = 0; i < ImportantItemsListMax; i++)
@@ -142,13 +144,22 @@ namespace YellowTaxiAP.Managers
                         ImportantItemsObjects[i] =
                             Object.Instantiate(LocationsCheckedText, LocationsCheckedText.transform.parent);
                         ImportantItemsObjects[i].text = string.Empty;
-                        ImportantItemsObjects[i].transform.localPosition = new Vector3(0, -3.2f + -0.5f * i, 0);
+                        ImportantItemsObjects[i].transform.localPosition = new Vector3(0, -2.6f + -0.52f * i, 0);
                     }
 
                     AchievementsTvScript.instance.achievementsCapsuleToClone.SetActive(false);
                 }
 
                 MovesUnlockText.text = $"Boost: {APPlayerManager.BoostLevel}\tJump: {APPlayerManager.JumpLevel}\nSpin: {(APPlayerManager.SpinAttackEnabled ? "Y" : "N")} \tGlide: {(APPlayerManager.GlideEnabled ? "Y" : "N")}";
+                MovesUnlockImage.sprite =
+                    (APPlayerManager.BoostLevel == 2 && APPlayerManager.JumpLevel == 2 &&
+                     APPlayerManager.SpinAttackEnabled && APPlayerManager.GlideEnabled)
+                        ? AchievementsMaster.GetAchievementSprite(AchievementsMaster.AchievementRelease.MoriOTronKill)
+                        : (APPlayerManager.BoostLevel == 0 && APPlayerManager.JumpLevel == 0 &&
+                           !APPlayerManager.SpinAttackEnabled && !APPlayerManager.GlideEnabled)
+                            ? AssetMaster.GetSprite("AchievementLocked")
+                            : AchievementsMaster.GetAchievementSprite(AchievementsMaster.AchievementRelease
+                                .MorioSecretRoom);
                 LocationsCheckedText.text = $"Locations Checked: {Plugin.ArchipelagoClient.AllClearedLocations.Count}/{Plugin.ArchipelagoClient.AllLocations.Count}";
                 ItemsReceivedText.text = $"Items Received: {ArchipelagoClient.ServerData.Index}";
 

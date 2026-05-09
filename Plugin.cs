@@ -19,7 +19,11 @@ public class Plugin : BaseUnityPlugin
     public const string PluginName = "YellowTaxiAP";
     public const string PluginVersion = "0.5.0";
 
+#if DEBUG
+    public const string ModDisplayInfo = $"{PluginName} v{PluginVersion} (DEBUG)";
+#else
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
+#endif
     public const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
     public static ManualLogSource BepinLogger;
     public static ArchipelagoClient ArchipelagoClient;
