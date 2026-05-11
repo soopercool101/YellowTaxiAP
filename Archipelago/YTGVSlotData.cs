@@ -22,7 +22,7 @@ namespace YellowTaxiAP.Archipelago
         /// Highest supported minor version in the highest supported major version.
         /// Should be up to date with latest APWorld whenever a new version is released.
         /// </summary>
-        public const int HighestSupportedMinorVersion = 3;
+        public const int HighestSupportedMinorVersion = 5;
         public bool FailedValidation { get; private set; }
         public long APWorldMajorVersion { get; set; }
         public long APWorldMinorVersion { get; set; }
@@ -48,14 +48,22 @@ namespace YellowTaxiAP.Archipelago
         public bool ShuffleMoriosPassword { get; private set; }
         public bool ShuffleRocket { get; private set; }
         public bool ShuffleFullGame { get; private set; }
+        public DemoPortalMode DemoPortalBehavior { get; private set; }
+        public enum DemoPortalMode : long
+        {
+            Open = 0,
+            Default = 1,
+            NextFest = 2,
+            Influencers = 3,
+        }
         public bool ShufflePsychoTaxi { get; private set; }
         public bool ShuffleRat { get; private set; }
         public bool Bunnysanity { get; private set; }
-        public bool Checkpointsanity { get; private set; }
-        public bool Safesanity { get; private set; }
-        public bool Chestsanity { get; private set; }
-        public bool Coinbagsanity { get; private set; }
-        public bool Coinsanity { get; private set; }
+        //public bool Checkpointsanity { get; private set; }
+        //public bool Safesanity { get; private set; }
+        //public bool Chestsanity { get; private set; }
+        //public bool Coinbagsanity { get; private set; }
+        //public bool Coinsanity { get; private set; }
         public bool Cheesesanity { get; private set; }
 
         public enum HatsanityType : long
@@ -249,6 +257,15 @@ namespace YellowTaxiAP.Archipelago
                 APAreaStateManager.FullGameUnlocked = true;
             }
 
+            if (slotData.ContainsKey("demo_portal_mode"))
+            {
+                DemoPortalBehavior = (DemoPortalMode)slotData["demo_portal_mode"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for demo_portal_mode found");
+            }
+
             if (slotData.ContainsKey("shuffle_psycho_taxi"))
             {
                 ShufflePsychoTaxi = (long)slotData["shuffle_psycho_taxi"] == 1;
@@ -275,7 +292,7 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for bunnysanity found");
             }
-
+            /*
             if (slotData.ContainsKey("checkpointsanity"))
             {
                 Checkpointsanity = (long)slotData["checkpointsanity"] == 1;
@@ -320,7 +337,7 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for coinsanity found");
             }
-
+            */
             if (slotData.ContainsKey("cheesesanity"))
             {
                 Cheesesanity = (long)slotData["cheesesanity"] == 1;

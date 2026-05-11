@@ -245,7 +245,8 @@ namespace YellowTaxiAP.Behaviours
                 //    enable.SetActive(false);
                 //    continue;
                 //}
-                if (enable.GetComponent<TrueDemoWallScript>()) // True demo wall needs to send the item, even in non-demo mode
+                if (enable
+                    .GetComponent<TrueDemoWallScript>()) // True demo wall needs to send the item, even in non-demo mode
                 {
                     enable.SetActive(true);
                     enable.gameObject.GetComponent<Collider>().isTrigger = !ExpectedState;
@@ -260,23 +261,37 @@ namespace YellowTaxiAP.Behaviours
                 }
             }
 
-            foreach (var portal in PortalScript.list.Where(p => !p.USE_IN_DEMO_))
+            if (Plugin.SlotData.DemoPortalBehavior != YTGVSlotData.DemoPortalMode.Open)
             {
-                // Don't toggle state of levels that are directly unlocked by other items, or Morio's Mind (you already can't talk to Dream Machine Morio to activate the portal in demo mode)
-                // Use names rather than target level ids to avoid entrance rando shenanigans down the line
-                if (portal.gameObject.name.Equals("Portal Level Psycho Taxi 1") ||
-                    portal.gameObject.name.Equals("Portal Level Poop World") ||
-                    portal.gameObject.name.Equals("Portal Level Sewers Fogne") ||
-                    portal.gameObject.name.Equals("Portal Level Morio Mind") ||
-                    portal.gameObject.name.Equals("Portal Level Rocket"))
+                foreach (var portal in PortalScript.list.Where(ShouldBeActiveForDemo))
                 {
-                    continue;
+                    // Don't toggle state of levels that are directly unlocked by other items, or Morio's Mind (you already can't talk to Dream Machine Morio to activate the portal in demo mode)
+                    // Use names rather than target level ids to avoid entrance rando shenanigans down the line
+                    if (portal.gameObject.name.Equals("Portal Level Psycho Taxi 1") ||
+                        portal.gameObject.name.Equals("Portal Level Poop World") ||
+                        portal.gameObject.name.Equals("Portal Level Sewers Fogne") ||
+                        portal.gameObject.name.Equals("Portal Level Morio Mind") ||
+                        portal.gameObject.name.Equals("Portal Level Rocket"))
+                    {
+                        continue;
+                    }
+                    Plugin.Log($"Setting portal state: {portal.name} | {!ExpectedState}");
+                    portal.gameObject.SetActive(!ExpectedState);
                 }
-                Plugin.Log($"Setting portal state: {portal.name} | {!ExpectedState}");
-                portal.gameObject.SetActive(!ExpectedState);
             }
 
             state = ExpectedState;
+        }
+
+        public bool ShouldBeActiveForDemo(PortalScript portal)
+        {
+            return Plugin.SlotData.DemoPortalBehavior switch
+            {
+                YTGVSlotData.DemoPortalMode.Default => portal.USE_IN_DEMO_,
+                YTGVSlotData.DemoPortalMode.NextFest => portal.USE_IN_DEMO_ || portal.USE_IN_DEMO_EXTRA,
+                YTGVSlotData.DemoPortalMode.Influencers => portal.USE_IN_DEMO_ || portal.USE_IN_DEMO_EXTRA_INFLUENCERS,
+                _ => true
+            };
         }
     }
 

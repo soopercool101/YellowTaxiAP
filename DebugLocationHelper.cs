@@ -3317,6 +3317,7 @@ namespace YellowTaxiAP
             { "2_03_00073", "Pizza Time - Coin on Road at Start #3" },
             { "2_03_00072", "Pizza Time - Coin on Road at Start #4" },
             { "2_03_00071", "Pizza Time - Coin on Road at Start #5" },
+            { "2_21_00005", "Pizza Time - Cheese Near Hat World" },
             { "2_03_00069", "Pizza Time - Coin on Path Behind Hat World #1" },
             { "2_03_00067", "Pizza Time - Coin on Path Behind Hat World #2" },
             { "2_03_00065", "Pizza Time - Coin on Path Behind Hat World #3" },
@@ -3328,6 +3329,23 @@ namespace YellowTaxiAP
             { "2_03_00059", "Pizza Time - Coin on Roof Near First Oil Pump #1" },
             { "2_03_00076", "Pizza Time - Coin on Roof Near First Oil Pump #2" },
             { "2_03_00089", "Pizza Time - Coin on Roof Near First Oil Pump #3" },
+            { "2_03_00062", "Pizza Time - Coin on Road After First Oil Pump #1" },
+            { "2_03_00061", "Pizza Time - Coin on Road After First Oil Pump #2" },
+            { "2_03_00060", "Pizza Time - Coin on Road After First Oil Pump #3" },
+            { "2_03_00058", "Pizza Time - Coin on Road After First Oil Pump #4" },
+            { "2_03_00056", "Pizza Time - Coin on Road After First Oil Pump #5" },
+            { "2_03_00045", "Pizza Time - Coin on Road Before First Hill #1" },
+            { "2_03_00046", "Pizza Time - Coin on Road Before First Hill #2" },
+            { "2_03_00047", "Pizza Time - Coin on Road Before First Hill #3" },
+            { "2_03_00048", "Pizza Time - Coin on Road Before First Hill #4" },
+            { "2_03_00049", "Pizza Time - Coin on Road Before First Hill #5" },
+            { "2_21_00003", "Pizza Time - Cheese on Top of First Hill" },
+        };
+
+        [Description("Pizza Time - Oil Pumps")]
+        public static Dictionary<string, string> PizzaTimeOilPumps = new()
+        {
+            { "2_01_00006", "Pizza Time - Gear - First Oil Pump" },
         };
 
         [Description("Pizza Time Hat World")]
@@ -5080,6 +5098,7 @@ namespace YellowTaxiAP
 
             // Pizza Time Areas
             new(GetDescription(nameof(PizzaTimeStartingArea)), PizzaTimeStartingArea),
+            new(GetDescription(nameof(PizzaTimeOilPumps)), PizzaTimeOilPumps),
             new(GetDescription(nameof(PizzaTimeHatWorld)), PizzaTimeHatWorld),
 
             // Gym Gears Areas
@@ -5295,6 +5314,7 @@ namespace YellowTaxiAP
                 nameof(Data.LevelId.L2_PizzaTime),
                 [
                     PizzaTimeStartingArea,
+                    PizzaTimeOilPumps,
 
                     PizzaTimeHatWorld,
                 ]
@@ -6409,6 +6429,13 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Pizza Time - Morio's Lab Portal", MoriosLabSecondFloorAfterDemoWall, ConnectionType.Warp),
                     new RegionConnection("Pizza Time - Hat World Entrance", PizzaTimeHatWorld, ConnectionType.Warp),
+                    new RegionConnection(PizzaTimeOilPumps, "SP"),
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeOilPumps)),
+                [
+                    // No connections
                 ]
             },
             {

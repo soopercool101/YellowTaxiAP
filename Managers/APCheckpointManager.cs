@@ -17,8 +17,8 @@ namespace YellowTaxiAP.Managers
         {
             orig(self);
             var id = GetCheckpointID(self);
-            if (!Plugin.SlotData.Checkpointsanity ||
-                Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id))
+            if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) ||
+                !Plugin.ArchipelagoClient.AllLocations.Contains(id))
             {
                 self.myCircleRend.material = new Material(GameplayMaster.instance.rainbowMaterials[0]);
                 self.myCircleRend.material.SetColor(Color1, new Color(1f, 1f, 1f, 0.5f));

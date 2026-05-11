@@ -193,7 +193,7 @@ namespace YellowTaxiAP.Managers
 
         private void AchievementsTvScript_Awake(On.AchievementsTvScript.orig_Awake orig, AchievementsTvScript self)
         {
-            if (!Plugin.SlotData.StartInLab)
+            if (!Plugin.SlotData.StartInLab && GameplayMaster.instance.levelId == Data.LevelId.Hub)
             {
                 Plugin.Log($"Moving {self.gameObject.name}");
                 self.transform.parent = Object
