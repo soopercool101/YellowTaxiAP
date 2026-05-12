@@ -3297,7 +3297,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
             { "Arcade Panik - Chest Inside Go Karts Pipe", "X2/J1" },               // Can explosion jump off the nearby car with good timing
-            { "Arcade Panik - Bunny - Above Go Karts Pipe", "B2+J2 | X2+B2+J1" },   // Can superboost off the railings with just J1
+            { "Arcade Panik - Bunny - Above Go Karts Pipe", "B2+J2 | X1+B2+J1" },
             { "Arcade Panik - Gear - Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Alcove Under Pinball Entrance", $"B2 | X1/B1/J1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Go Karts Obstacle Course", "X1/J1" },
@@ -3340,12 +3340,58 @@ namespace YellowTaxiAP
             { "2_03_00048", "Pizza Time - Coin on Road Before First Hill #4" },
             { "2_03_00049", "Pizza Time - Coin on Road Before First Hill #5" },
             { "2_21_00003", "Pizza Time - Cheese on Top of First Hill" },
+            { "2_03_00279", "Pizza Time - Coin Near House on Top of First Hill #1" },
+            { "2_03_00278", "Pizza Time - Coin Near House on Top of First Hill #2" },
+            { "2_03_00277", "Pizza Time - Coin Bag Near House on Top of First Hill" },
+            { "2_03_00276", "Pizza Time - Coin on Road Before First Checkpoint #1" },
+            { "2_03_00275", "Pizza Time - Coin on Road Before First Checkpoint #2" },
+            { "2_03_00274", "Pizza Time - Coin on Road Before First Checkpoint #3" },
+            { "2_03_00273", "Pizza Time - Coin on Road Before First Checkpoint #4" },
+            { "2_03_00272", "Pizza Time - Coin on Road Before First Checkpoint #5" },
+            { "2_09_00090", "Pizza Time - Checkpoint on First Bridge" },
+            { "2_03_00266", "Pizza Time - Coin on Road After First Checkpoint #1" },
+            { "2_03_00263", "Pizza Time - Coin on Road After First Checkpoint #2" },
+            { "2_03_00260", "Pizza Time - Coin on Road After First Checkpoint #3" },
+            { "2_03_00258", "Pizza Time - Coin on Road After First Checkpoint #4" },
+            { "2_03_00256", "Pizza Time - Coin on Road After First Checkpoint #5" },
+            { "2_03_00238", "Pizza Time - Coin on Road Near Second Oil Pump #1" },
+            { "2_03_00237", "Pizza Time - Coin on Road Near Second Oil Pump #2" },
+            { "2_03_00236", "Pizza Time - Coin on Road Near Second Oil Pump #3" },
+            { "2_03_00235", "Pizza Time - Coin on Road Near Second Oil Pump #4" },
+            { "2_03_00234", "Pizza Time - Coin on Road Near Second Oil Pump #5" },
+            { "2_03_00254", "Pizza Time - Coin on Road Before 600° Oven #1" },
+            { "2_03_00257", "Pizza Time - Coin on Road Before 600° Oven #2" },
+            { "2_03_00259", "Pizza Time - Coin on Road Before 600° Oven #3" },
+            { "2_03_00262", "Pizza Time - Coin on Road Before 600° Oven #4" },
+            { "2_03_00265", "Pizza Time - Coin on Road Before 600° Oven #5" },
+            { "2_03_00268", "Pizza Time - Coin on Road Before 600° Oven #6" },
+            { "2_03_00270", "Pizza Time - Coin on Road Before 600° Oven #7" },
+            { "2_03_00271", "Pizza Time - Coin Leading to 600° Oven #1" },
+            { "2_03_00269", "Pizza Time - Coin Leading to 600° Oven #2" },
+            { "2_03_00267", "Pizza Time - Coin Leading to 600° Oven #3" },
+            { "2_03_00264", "Pizza Time - Coin Leading to 600° Oven #4" },
+            { "2_03_00261", "Pizza Time - Coin Leading to 600° Oven #5" },
+            { "2_21_00000", "Pizza Time - Cheese Near 600° Oven" },
+            { "2_09_00500", "Pizza Time - Checkpoint Above 600° Oven" },
+            { "2_03_00391", "Pizza Time - Coin on Road Before Third Oil Pump #1" },
+            { "2_03_00387", "Pizza Time - Coin on Road Before Third Oil Pump #2" },
+            { "2_03_00382", "Pizza Time - Coin on Road Before Third Oil Pump #3" },
+            { "2_03_00378", "Pizza Time - Coin on Road Before Third Oil Pump #4" },
+            { "2_03_00375", "Pizza Time - Coin on Road Before Third Oil Pump #5" },
+            { "2_03_00368", "Pizza Time - Coin on Road After Third Oil Pump #1" },
+            { "2_03_00367", "Pizza Time - Coin on Road After Third Oil Pump #2" },
+            { "2_03_00366", "Pizza Time - Coin on Road After Third Oil Pump #3" },
+            { "2_03_00365", "Pizza Time - Coin on Road After Third Oil Pump #4" },
+            { "2_03_00364", "Pizza Time - Coin on Road After Third Oil Pump #5" },
         };
 
         [Description("Pizza Time - Oil Pumps")]
         public static Dictionary<string, string> PizzaTimeOilPumps = new()
         {
             { "2_01_00006", "Pizza Time - Gear - First Oil Pump" },
+            { "2_01_00005", "Pizza Time - Gear - Second Oil Pump" },
+            { "2_01_00004", "Pizza Time - Gear - Third Oil Pump" },
+            { "2_01_00003", "Pizza Time - Gear - Fourth Oil Pump" },
         };
 
         [Description("Pizza Time Hat World")]
@@ -3356,6 +3402,37 @@ namespace YellowTaxiAP
             { "2_07_00000", "Purchase No Hat" },
             { "2_07_00007", "Purchase Chef Hat" },
             { "2_07_00008", "Purchase Spaghetti Hat" },
+        };
+
+        [Description("400°")]
+        public static Dictionary<string, string> FourHundredDegrees = new()
+        {
+            { "2_01_00009", "400° - Gear" },
+        };
+
+        [Description("600°")]
+        public static Dictionary<string, string> SixHundredDegrees = new()
+        {
+            { "2_01_00010", "600° - Gear" },
+        };
+
+        [Description("900°")]
+        public static Dictionary<string, string> NineHundredDegrees = new()
+        {
+            { "2_01_00011", "900° - Gear" },
+        };
+
+        [Description("Pizza Time Sewer")]
+        public static Dictionary<string, string> PizzaTimeSewer = new()
+        {
+            { string.Empty, nameof(PizzaTimeSewer) + " - !PLACEHOLDER!" },
+        };
+
+        public static Dictionary<string, string> PizzaTimeSpecialRules = new()
+        {
+            { "400° - Gear", "B1/J1" },
+            { "600° - Gear", "B1/J1" },
+            { "900° - Gear", "B1 | X2+J2" },
         };
 
         #endregion
@@ -5099,7 +5176,14 @@ namespace YellowTaxiAP
             // Pizza Time Areas
             new(GetDescription(nameof(PizzaTimeStartingArea)), PizzaTimeStartingArea),
             new(GetDescription(nameof(PizzaTimeOilPumps)), PizzaTimeOilPumps),
+
             new(GetDescription(nameof(PizzaTimeHatWorld)), PizzaTimeHatWorld),
+
+            new(GetDescription(nameof(FourHundredDegrees)), FourHundredDegrees),
+            new(GetDescription(nameof(SixHundredDegrees)), SixHundredDegrees),
+            new(GetDescription(nameof(NineHundredDegrees)), NineHundredDegrees),
+
+            new(GetDescription(nameof(PizzaTimeSewer)), PizzaTimeSewer),
 
             // Gym Gears Areas
             new(GetDescription(nameof(GymGearsStartingArea)), GymGearsStartingArea),
@@ -5200,6 +5284,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, Dictionary<string, string>> SpecialRules = new()
         {
             { nameof(Data.LevelId.Hub), HubSpecialRules },
+            { nameof(Data.LevelId.L2_PizzaTime), PizzaTimeSpecialRules },
             { nameof(Data.LevelId.L3_MoriosHome), MoriosIslandSpecialRules },
             { nameof(Data.LevelId.L4_ArcadePanik), ArcadePanikSpecialRules },
             { nameof(Data.LevelId.L6_Gym), GymGearsSpecialRules },
@@ -5317,6 +5402,12 @@ namespace YellowTaxiAP
                     PizzaTimeOilPumps,
 
                     PizzaTimeHatWorld,
+
+                    FourHundredDegrees,
+                    SixHundredDegrees,
+                    NineHundredDegrees,
+
+                    PizzaTimeSewer,
                 ]
             },
             {
@@ -6429,6 +6520,9 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Pizza Time - Morio's Lab Portal", MoriosLabSecondFloorAfterDemoWall, ConnectionType.Warp),
                     new RegionConnection("Pizza Time - Hat World Entrance", PizzaTimeHatWorld, ConnectionType.Warp),
+                    new RegionConnection("Pizza Time - 400° Oven", FourHundredDegrees, ConnectionType.Subwarp),
+                    new RegionConnection("Pizza Time - 600° Oven", SixHundredDegrees, ConnectionType.Subwarp),
+                    new RegionConnection("Pizza Time - Sewer Entrance", PizzaTimeSewer, ConnectionType.Subwarp, "X1/B1/J1"),
                     new RegionConnection(PizzaTimeOilPumps, "SP"),
                 ]
             },
@@ -6442,6 +6536,18 @@ namespace YellowTaxiAP
                 GetDescription(nameof(PizzaTimeHatWorld)),
                 [
                     new RegionConnection("Pizza Time Hat World - Exit", PizzaTimeStartingArea, ConnectionType.Warp),
+                ]
+            },
+            {
+                GetDescription(nameof(FourHundredDegrees)),
+                [
+                    new RegionConnection("400° - Exit", PizzaTimeStartingArea, ConnectionType.Subwarp)
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeSewer)),
+                [
+                    new RegionConnection("Pizza Time Sewer - Exit", PizzaTimeStartingArea, ConnectionType.Subwarp)
                 ]
             },
 
@@ -7416,7 +7522,7 @@ namespace YellowTaxiAP
                 {
                     //GUIUtility.systemCopyBuffer = GameplayMaster.instance.levelId.ToString();
                 }
-                Plugin.Log($"{GameplayMaster.instance.levelId}: {name}. There are {bonuses.Count} AP collectables, {checkpoints.Count} checkpoints, {hats} purchasable hats, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses.Count + cheeses + checkpoints.Count + hats} likely checks. Currently {documentedChecks} have been sorted into regions.");
+                Plugin.Log($"{GameplayMaster.instance.levelId}: {name}. There are {bonuses.Count} AP collectables, {checkpoints.Count} checkpoints, {hats} purchasable hats, and {cheeses} remaining cheeses in all subareas here for a total of {bonuses.Count + cheeses + checkpoints.Count + hats} likely checks. Currently {documentedChecks} have been sorted into {DebugLocationHelper.PerLevelIDs[GameplayMaster.instance.levelId.ToString()].Count} regions.");
             }
         }
     }

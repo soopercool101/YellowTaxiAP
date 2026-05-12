@@ -263,7 +263,7 @@ namespace YellowTaxiAP.Behaviours
 
             if (Plugin.SlotData.DemoPortalBehavior != YTGVSlotData.DemoPortalMode.Open)
             {
-                foreach (var portal in PortalScript.list.Where(ShouldBeActiveForDemo))
+                foreach (var portal in PortalScript.list.Where(ShouldBeDisabledForDemo))
                 {
                     // Don't toggle state of levels that are directly unlocked by other items, or Morio's Mind (you already can't talk to Dream Machine Morio to activate the portal in demo mode)
                     // Use names rather than target level ids to avoid entrance rando shenanigans down the line
@@ -283,14 +283,14 @@ namespace YellowTaxiAP.Behaviours
             state = ExpectedState;
         }
 
-        public bool ShouldBeActiveForDemo(PortalScript portal)
+        public bool ShouldBeDisabledForDemo(PortalScript portal)
         {
             return Plugin.SlotData.DemoPortalBehavior switch
             {
-                YTGVSlotData.DemoPortalMode.Default => portal.USE_IN_DEMO_,
-                YTGVSlotData.DemoPortalMode.NextFest => portal.USE_IN_DEMO_ || portal.USE_IN_DEMO_EXTRA,
-                YTGVSlotData.DemoPortalMode.Influencers => portal.USE_IN_DEMO_ || portal.USE_IN_DEMO_EXTRA_INFLUENCERS,
-                _ => true
+                YTGVSlotData.DemoPortalMode.Default => !portal.USE_IN_DEMO_,
+                YTGVSlotData.DemoPortalMode.NextFest => !(portal.USE_IN_DEMO_ || portal.USE_IN_DEMO_EXTRA),
+                YTGVSlotData.DemoPortalMode.Influencers => !(portal.USE_IN_DEMO_ || portal.USE_IN_DEMO_EXTRA_INFLUENCERS),
+                _ => false
             };
         }
     }
