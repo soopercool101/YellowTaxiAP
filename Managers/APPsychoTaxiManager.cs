@@ -17,7 +17,7 @@ namespace YellowTaxiAP.Managers
             if (Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)GameplayMaster.instance.levelId * 1_00_00000 + (long) Identifiers.NotableLocations.HubPsychoTaxi) ||
                 (!Plugin.SlotData.ShufflePsychoTaxi && APSaveController.MiscSave.HasPsychoTaxi))
             {
-                Object.Destroy(self);
+                Object.Destroy(self.gameObject);
             }
         }
 

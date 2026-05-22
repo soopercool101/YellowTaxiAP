@@ -6,8 +6,12 @@ namespace YellowTaxiAP.Managers
     {
         public static int BoostLevel => Plugin.SlotData.ShuffleFlipOWill ? BoostItems : 2;
         public static int BoostItems = 0;
+        public static bool CanPacManBoost => BoostLevel >= 1;
+        public static bool PacManBoostItem = false;
         public static int JumpLevel => Plugin.SlotData.ShuffleFlipOWill ? JumpItems : 2;
         public static int JumpItems = 0;
+        public static bool CanPacManJump => PacManJumpItem;
+        public static bool PacManJumpItem = false;
         public static bool SpinAttackEnabled => !Plugin.SlotData.ShuffleFlipOWill || SpinAttackItem;
         public static bool SpinAttackItem = false;
         public static bool GlideEnabled => !Plugin.SlotData.ShuffleGlide || GlideEnabledItem;
@@ -24,6 +28,42 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.BackFlip += FlipOWillBackFlip_AP;
 
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
+
+            On.GameplayMaster.Die += GameplayMaster_Die;
+        }
+
+        private void GameplayMaster_Die(On.GameplayMaster.orig_Die orig, GameplayMaster self)
+        {
+            // Run checks first
+            if (self.gameOver || TransictionScript.instance != null ||
+                (self.timeAttackLevel && !self.timeAttackRunning) || CutsceneHolderScript.instance != null)
+            {
+                return;
+            }
+
+            if (Plugin.SlotData.DeathLink && !Plugin.DeathLinkInProgress)
+            {
+                if (++DeathLinkHandler.DeathLinkCount >= Plugin.SlotData.DeathLinkAmnesty)
+                {
+                    APHUDManager.DeathLinkMessage = "<size=6>TIME OUT</size>\n<size=2>Sending DeathLink!</size>";
+                }
+                else
+                {
+                    APHUDManager.DeathLinkMessage = $"<size=6>TIME OUT</size>\n<size=2>Amnesty ({DeathLinkHandler.DeathLinkCount}/{Plugin.SlotData.DeathLinkAmnesty})</size>";
+                }
+            }
+
+            orig(self);
+
+            if (Plugin.SlotData.DeathLink)
+            {
+                if (!Plugin.DeathLinkInProgress)
+                {
+                    ArchipelagoClient.DeathLinkHandler?.SendDeathLink();
+                }
+
+                Plugin.DeathLinkInProgress = false;
+            }
         }
 
         private void PlayerDamager_CollideWithPlayer(On.PlayerDamager.orig_CollideWithPlayer orig, PlayerDamager self, PlayerScript scr)
@@ -51,15 +91,27 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Update_AP(On.PlayerScript.orig_Update orig, PlayerScript self)
         {
-            if (BoostLevel < 1 && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time <= 0.0)
+            if (self.UsingPacmanInputs())
             {
-                self.flipOWill_FlipTimer -= Tick.Time * 10; // Prevents regular boost from working
-                self.flipOWill_CooldownTimer = self.OnGround ? 0.2f : self.flipOWill_CooldownTimerRESET;
-                self.flipOWill_CooldownTimerLastResetValue = self.flipOWill_CooldownTimer;
+                if (!CanPacManBoost && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time <= 0.0)
+                {
+                    self.flipOWill_FlipTimer -= Tick.Time * 10; // Prevents regular boost from working
+                    self.flipOWill_CooldownTimer = self.OnGround ? 0.2f : self.flipOWill_CooldownTimerRESET;
+                    self.flipOWill_CooldownTimerLastResetValue = self.flipOWill_CooldownTimer;
+                }
             }
-            if (BoostLevel < 2)
+            else
             {
-                self.flipOWillExtraBoostRuined = true; // Prevent superboost from working
+                if (BoostLevel < 1 && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time <= 0.0)
+                {
+                    self.flipOWill_FlipTimer -= Tick.Time * 10; // Prevents regular boost from working
+                    self.flipOWill_CooldownTimer = self.OnGround ? 0.2f : self.flipOWill_CooldownTimerRESET;
+                    self.flipOWill_CooldownTimerLastResetValue = self.flipOWill_CooldownTimer;
+                }
+                if (BoostLevel < 2)
+                {
+                    self.flipOWillExtraBoostRuined = true; // Prevent superboost from working
+                }
             }
             if (!GlideEnabled)
             {
@@ -67,8 +119,7 @@ namespace YellowTaxiAP.Managers
             }
 
             orig(self);
-#if FALSE // Allow jump in overhead sections. Might make this an item idk
-            if (self.UsingPacmanInputs())
+            if (CanPacManJump && self.UsingPacmanInputs())
             {
                 var _shouldFreezeCar = DialogueScript.instance || PersonParent.chargingClient ||
                                        (bool)(UnityEngine.Object)PersonParent.droppedPerson ||
@@ -86,13 +137,12 @@ namespace YellowTaxiAP.Managers
                                 self.flipOWill_FlipTimer > -0.20000000298023224 &&
                                 self.flipOWill_FlipTimer < 0.5 && !self.flipOWilLDoubleInputPress)
                             {
-                                double num3 = self.FlipOWillAbort();
+                                self.FlipOWillAbort();
                             }
                         }
                     }
                 }
             }
-#endif
 
             if (!SpinAttackEnabled)
             {

@@ -7,7 +7,7 @@ namespace YellowTaxiAP.Behaviours
         public Data.LevelId OriginalLevel { get; private set; }
         public Data.LevelId OriginalKaizoLevel { get; private set; }
 
-        public void Start()
+        public void Awake()
         {
             var portal = gameObject.GetComponent<PortalScript>();
             OriginalLevel = portal.targetLevelId;

@@ -129,17 +129,16 @@ namespace YellowTaxiAP.Managers
                 ZoneMaster.currentZoneId = QueuedSubwarp.Zone;
             self.TeleportComputeZoneMaster(self.transform);
             GameplayMaster.SelfRespawnClear();
-            //GameplayMaster.selfRespawnRecordingDataList.Add(new GameplayMaster.SelfRespawnRecordingData
-            //{
-            //    currentBackground = QueuedSubwarp.BackgroundChange,
-            //    currentMusic = QueuedSubwarp.SongChange,
-            //    currentZoneId = QueuedSubwarp.Zone,
-            //    lightState = QueuedSubwarp.DesiredLightState,
-            //    //currentTimer = GameplayMaster.instance.time
-            //    playerPosition = QueuedSubwarp.MoveTaxiHere,
-            //    playerYAngle = QueuedSubwarp.Rotation,
-            //    waterState = QueuedSubwarp.DesiredWaterState,
-            //});
+            GameplayMaster.instance.recordingIndex = 0;
+            GameplayMaster.selfRespawnRecordingDataList.Add(new GameplayMaster.SelfRespawnRecordingData());
+            GameplayMaster.selfRespawnRecordingDataList[0].playerPosition = QueuedSubwarp.MoveTaxiHere;
+            GameplayMaster.selfRespawnRecordingDataList[0].playerYAngle = QueuedSubwarp.Rotation;
+            GameplayMaster.selfRespawnRecordingDataList[0].currentBackground = QueuedSubwarp.BackgroundChange;
+            GameplayMaster.selfRespawnRecordingDataList[0].currentZoneId = QueuedSubwarp.Zone;
+            GameplayMaster.selfRespawnRecordingDataList[0].currentMusic = QueuedSubwarp.SongChange;
+            GameplayMaster.selfRespawnRecordingDataList[0].currentTimer = Mathf.Max(CheckpointScript.latestCheckpointTimerSet, GameplayMaster.instance.gameTimer, GameplayMaster.instance.gameTimerReset);
+            GameplayMaster.selfRespawnRecordingDataList[0].waterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
+            GameplayMaster.selfRespawnRecordingDataList[0].lightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
 
             QueuedSubwarp = null;
         }
@@ -226,7 +225,7 @@ namespace YellowTaxiAP.Managers
                 switch (target)
                 {
                     case LevelId.L2_PizzaTime when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
-                    case LevelId.L4_ArcadePanik when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
+                    //case LevelId.L4_ArcadePanik when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
                     //case LevelId.L20_PsychoTaxi when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && !Plugin.SlotData.ShufflePsychoTaxi:
                     case LevelId.L5_ToslaOffices when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
                     case LevelId.L8_Sewers when Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:

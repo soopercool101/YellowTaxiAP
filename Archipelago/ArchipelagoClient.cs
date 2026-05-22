@@ -25,7 +25,7 @@ public class ArchipelagoClient
 
     public static ArchipelagoData ServerData = new();
     public static DeathLinkHandler DeathLinkHandler;
-    public static RingLinkHandler RingLinkHandler;
+    public string Player => session?.Players.ActivePlayer.Alias ?? string.Empty;
     private ArchipelagoSession session;
 
     /// <summary>
@@ -149,9 +149,22 @@ public class ArchipelagoClient
                     Plugin.Log($"SlotData: {key} | {ServerData.SlotData[key]}");
                 }
 
+                var tags = new List<string>();
+                if (Plugin.SlotData.DeathLink)
+                {
+                    tags.Add("DeathLink");
+                }
+                if (Plugin.SlotData.RingLink)
+                {
+                    tags.Add("RingLink");
+                }
+
+                session.ConnectionInfo.UpdateConnectionOptions(session.ConnectionInfo.Tags
+                    .Concat(tags.Where(tag => Array.IndexOf(session.ConnectionInfo.Tags, tag) == -1)).ToArray());
+
                 DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName,
                     Plugin.SlotData.DeathLink);
-                //RingLinkHandler = new RingLinkHandler()
+                session.Socket.PacketReceived += Socket_PacketReceived;
 
                 //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
 
@@ -325,6 +338,45 @@ public class ArchipelagoClient
         finally
         {
             AttemptingConnection = false;
+        }
+    }
+
+    private void Socket_PacketReceived(ArchipelagoPacketBase packet)
+    {
+        try
+        {
+            switch (packet)
+            {
+                case BouncedPacket ring when ring.Tags.Contains("RingLink"):
+                    if (ring.Data["source"].Value<decimal>() != session.ConnectionInfo.Slot && PlayerScript.instance)
+                    {
+                        Plugin.Log($"Ring Link Received {ring.Data["amount"]} from {ring.Data["source"].Value<decimal>()}");
+                        Plugin.ArchipelagoClient.UpdateWallet(ring.Data["amount"].Value<int>(), false);
+                    }
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Plugin.Log(e.Message);
+        }
+    }
+
+    public void SendRingLink(int amount)
+    {
+        if (Plugin.SlotData.RingLink && amount != 0)
+        {
+            BouncePacket packet = new()
+            {
+                Tags = ["RingLink"],
+                Data = new()
+                {
+                    { "time", (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds },
+                    { "source", session.ConnectionInfo.Slot },
+                    { "amount", amount }
+                }
+            };
+            session.Socket.SendPacket(packet);
         }
     }
 
@@ -781,7 +833,7 @@ public class ArchipelagoClient
         }
     }
 
-    public void UpdateWallet(int amountChanged)
+    public void UpdateWallet(int amountChanged, bool sendRingLink = true)
     {
         try
         {
@@ -800,6 +852,11 @@ public class ArchipelagoClient
                 Plugin.Log("Could not save wallet");
                 throw;
             }
+        }
+
+        if (sendRingLink)
+        {
+            Plugin.ArchipelagoClient.SendRingLink(amountChanged);
         }
     }
 }

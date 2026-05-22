@@ -253,5 +253,12 @@ namespace YellowTaxiAP.Archipelago
             get => HasLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi);
             set => SetLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi, value);
         }
+
+        // Michele typically doesn't get saved to a save file, but this makes things less annoying for cheesesanity without shuffle rat
+        public bool HasRat
+        {
+            get => GetBit(28);
+            set => SetBit(28, value);
+        }
     }
 }

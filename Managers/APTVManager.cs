@@ -64,9 +64,11 @@ namespace YellowTaxiAP.Managers
             orig(self);
             self.menuTitle.text = "ARCHIPELAGO";
             self.canBeTurnedOn = true;
+            self.turnOnDelay = 0.5f; // deathlink on tv softlocks without some delay, this seems safe from tests
             UpdateAPTVInfo();
         }
 
+        public static TextMeshProUGUI GoalText;
         public static TextMeshProUGUI ItemsReceivedText;
         public static TextMeshProUGUI LocationsCheckedText;
         public static TextMeshProUGUI MovesUnlockText;
@@ -85,7 +87,7 @@ namespace YellowTaxiAP.Managers
                     return;
                 }
 
-                if (!ItemsReceivedText)
+                if (!GoalText)
                 {
                     LocationsCheckedText = Object.Instantiate(AchievementsTvScript.instance.menuTitle,
                         AchievementsTvScript.instance.menuTitle.transform.parent);
@@ -106,7 +108,7 @@ namespace YellowTaxiAP.Managers
                     gameObject.transform.localScale = Vector3.one;
                     gameObject.transform.localEulerAngles = Vector3.zero;
                     //gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
-                    gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "GOAL";
+                    GoalText = gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
                     switch (Plugin.SlotData.Goal)
                     {
                         case YTGVSlotData.GoalType.Bombeach:
@@ -150,6 +152,7 @@ namespace YellowTaxiAP.Managers
                     AchievementsTvScript.instance.achievementsCapsuleToClone.SetActive(false);
                 }
 
+                GoalText.text = $"GOAL ({Data.gearsUnlockedNumber[Data.gameDataIndex]}/{Plugin.SlotData.GoalPortalCost})";
                 MovesUnlockText.text = $"Boost: {APPlayerManager.BoostLevel}\tJump: {APPlayerManager.JumpLevel}\nSpin: {(APPlayerManager.SpinAttackEnabled ? "Y" : "N")} \tGlide: {(APPlayerManager.GlideEnabled ? "Y" : "N")}";
                 MovesUnlockImage.sprite =
                     (APPlayerManager.BoostLevel == 2 && APPlayerManager.JumpLevel == 2 &&

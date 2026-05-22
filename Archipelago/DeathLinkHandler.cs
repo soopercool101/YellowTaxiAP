@@ -2,6 +2,7 @@
 using BepInEx;
 using System;
 using System.Collections.Generic;
+using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago;
 
@@ -81,6 +82,14 @@ public class DeathLinkHandler
             var cause = deathLink.Cause.IsNullOrWhiteSpace() ? GetDeathLinkCause(deathLink) : deathLink.Cause;
 
             ArchipelagoConsole.LogMessage(cause);
+            if (!cause.Contains(deathLink.Source))
+            {
+                APHUDManager.DeathLinkMessage = $"{GetDeathLinkCause(deathLink)}\n\n{cause}";
+            }
+            else
+            {
+                APHUDManager.DeathLinkMessage = cause;
+            }
             Plugin.DeathLinkInProgress = true;
             GameplayMaster.instance.Die();
         }
@@ -100,20 +109,26 @@ public class DeathLinkHandler
         return $"Received death from {deathLink.Source}";
     }
 
+    public static int DeathLinkCount = 0;
     /// <summary>
     /// called to send a death link to the multiworld
     /// </summary>
-    public void SendDeathLink(string cause = "Time Out!")
+    public void SendDeathLink()
     {
         try
         {
             if (!deathLinkEnabled) return;
 
-            ArchipelagoConsole.LogMessage("Sending Death Link...");
+            // DeathLinkCount is incremented earlier in Die() for text purposes
+            if (DeathLinkCount >= Plugin.SlotData.DeathLinkAmnesty)
+            {
+                DeathLinkCount = 0;
+                Plugin.Log("Sending Death Link...");
 
-            var linkToSend = new DeathLink(slotName, cause);
+                var linkToSend = new DeathLink(slotName, $"{Plugin.ArchipelagoClient.Player} timed out!");
 
-            service.SendDeathLink(linkToSend);
+                service.SendDeathLink(linkToSend);
+            }
         }
         catch (Exception e)
         {

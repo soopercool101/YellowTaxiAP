@@ -42,6 +42,9 @@ namespace YellowTaxiAP.Archipelago
         public int GoalPortalCost { get; private set; }
 
         public bool DeathLink { get; private set; }
+        public int DeathLinkAmnesty { get; set; }
+        public bool RingLink { get; private set; }
+        public int PurchaseRebatePercent { get; private set; }
         public bool ShuffleGelaToni { get; private set; }
         public bool ShufflePizzaKing { get; private set; }
         public bool ShuffleOrangeSwitch { get; private set; }
@@ -196,6 +199,34 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for death_link found");
+            }
+
+            if (slotData.ContainsKey("death_link_amnesty"))
+            {
+                DeathLinkAmnesty = (int)(long)slotData["death_link_amnesty"];
+            }
+            else
+            {
+                DeathLinkAmnesty = 1;
+                Plugin.Log("No slot data for death_link_amnesty found");
+            }
+
+            if (slotData.ContainsKey("ring_link"))
+            {
+                RingLink = (long)slotData["ring_link"] == 1;
+            }
+            else
+            {
+                Plugin.Log("No slot data for ring_link found");
+            }
+
+            if (slotData.ContainsKey("purchase_rebate_percent"))
+            {
+                PurchaseRebatePercent = (int)(long)slotData["purchase_rebate_percent"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for purchase_rebate_percent found");
             }
 
             if (slotData.ContainsKey("shuffle_gela_toni"))

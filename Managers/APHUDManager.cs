@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Febucci.UI;
 using UnityEngine;
 
 namespace YellowTaxiAP.Managers
@@ -112,6 +113,8 @@ namespace YellowTaxiAP.Managers
                 .Count(id => Plugin.ArchipelagoClient.AllClearedLocations.Contains(id));
         }
 
+        public static string DeathLinkMessage = null;
+
         private void HudMasterScript_Update(On.HudMasterScript.orig_Update orig, HudMasterScript self)
         {
             orig(self);
@@ -120,6 +123,23 @@ namespace YellowTaxiAP.Managers
             {
                 self.coinsText.SetText(APWalletManager.ServerCoins.ToString(), false);
                 self.coinsOld = APWalletManager.ServerCoins;
+            }
+            // Add Deathlink message when applicable
+            if (self.timeOutText.gameObject.activeSelf)
+            {
+                if (GameplayMaster.instance.gameOver && !HudMasterScript.psychoTaxiJudgementScreenRunning)
+                {
+                    if (!string.IsNullOrEmpty(DeathLinkMessage))
+                    {
+                        self.timeOutText.SetText(DeathLinkMessage);
+                        self.timeOutText.GetComponent<TextAnimatorPlayer>().useTypeWriter = false;
+                        DeathLinkMessage = null;
+                    }
+                }
+            }
+            else
+            {
+                //self.timeOutText.GetComponent<TextAnimator>().res
             }
         }
     }

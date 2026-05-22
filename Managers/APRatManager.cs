@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
 {
@@ -116,6 +117,7 @@ namespace YellowTaxiAP.Managers
         {
             if (!Plugin.SlotData.ShuffleRat)
             {
+                APSaveController.MiscSave.HasRat = true;
                 orig();
                 return;
             }
@@ -130,7 +132,7 @@ namespace YellowTaxiAP.Managers
 
         private bool RatPersonScript_IsRatPickedUp(On.RatPersonScript.orig_IsRatPickedUp orig)
         {
-            return Plugin.SlotData.ShuffleRat ? ReceivedRatItem : orig();
+            return Plugin.SlotData.ShuffleRat ? ReceivedRatItem : APSaveController.MiscSave.HasRat;
         }
 
         private void RatPersonScript_Awake(On.RatPersonScript.orig_Awake orig, RatPersonScript self)

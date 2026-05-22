@@ -88,6 +88,11 @@ namespace YellowTaxiAP.Behaviours
                         Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = MiscSave.HasPsychoTaxi;
                 }
 
+                if (!Plugin.SlotData.ShuffleRat)
+                {
+                    RatPersonScript.pickedUp = MiscSave.HasRat;
+                }
+
                 // Update key cutscene states
                 Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex] =
                     MiscSave.HasLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
@@ -121,7 +126,6 @@ namespace YellowTaxiAP.Behaviours
                 {
                     Plugin.BepinLogger.LogWarning("Loading Hat Data");
                     HatSave.NeedsLoad = false;
-                    // Todo: update hat objects if needed?
                 }
 
                 if (HatSave.NeedsSave)

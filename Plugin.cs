@@ -184,17 +184,6 @@ public class Plugin : BaseUnityPlugin
                 }
             };
         };
-        On.ModMaster.OnPlayerDie += (orig, self) =>
-        {
-            orig(self);
-            if (!DeathLinkInProgress)
-            {
-                ArchipelagoClient.DeathLinkHandler?.SendDeathLink();
-                Log("Death Link Sent");
-            }
-
-            DeathLinkInProgress = false;
-        };
 #if DEBUG
         On.ModMaster.Update += (orig, self) =>
         {
@@ -207,6 +196,12 @@ public class Plugin : BaseUnityPlugin
             {
                 Log($"DEBUG: Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}", true);
                 APTVManager.UpdateAPTVInfo();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                APPlayerManager.PacManJumpItem = !APPlayerManager.PacManJumpItem;
+                Log($"DEBUG: Pac-Man Jump {(APPlayerManager.PacManJumpItem ? "enabled" : "disabled")}", true);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.JumpItems > 0)

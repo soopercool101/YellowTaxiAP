@@ -311,6 +311,7 @@ namespace YellowTaxiAP.Managers
             }
         }
 
+        public const int GymMembershipPrice = 500;
         private void DialogueScript_Start(On.DialogueScript.orig_Start orig, DialogueScript self)
         {
             var dialogueCapsule = !DialogueCapsule.dictionary.ContainsKey(self.dialgoueCapsuleKey)
@@ -404,7 +405,7 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
 
-                        if (APWalletManager.ServerCoins < 1000)
+                        if (APWalletManager.ServerCoins < GymMembershipPrice)
                         {
                             self.dialogues =
                             [
@@ -413,7 +414,7 @@ namespace YellowTaxiAP.Managers
                             break;
                         }
 
-                        Plugin.ArchipelagoClient.UpdateWallet(-1000);
+                        MenuEventLeaderboard.CoinsSpentAdd(GymMembershipPrice);
                         self.dialogues =
                         [
                             $"You received {GetItemText((long)Identifiers.NotableLocations.UltraChadMembership, true, false)} as a gift! Now to wait 4-7 business weeks for your membership card!"
@@ -432,7 +433,14 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES":
                         if (!Plugin.SlotData.ShuffleRat)
+                        {
+                            // Michele gets saved to the save file now, remove reference to that not being the case.
+                            self.dialogues =
+                            [
+                                "Michele joined you in your adventure!!!"
+                            ];
                             break;
+                        }
                         var itemToSend = (long)Identifiers.NotableLocations.HubMichele;
                         self.dialogues =
                         [
@@ -751,7 +759,7 @@ namespace YellowTaxiAP.Managers
                         self.dialogues =
                         [
                             $"Hey King! If you're really serious about working out, you should upgrade to our {SetTextColor("Super Deluxe Membership", DialogueColors.OrangeYellow)}!",
-                            $"It's only {SetTextColor("1000 coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
+                            $"It's only {SetTextColor($"{GymMembershipPrice} coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
                         ];
                         self.onAnswerYes.AddListener(SpecialMethod_OnUltraChadAnswerYes);
                         self.onAnswerNo.AddListener(SpecialMethod_OnUltraChadAnswerNo);

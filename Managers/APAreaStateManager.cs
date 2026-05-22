@@ -43,6 +43,7 @@ namespace YellowTaxiAP.Managers
             On.TrueDemoWallScript.OnCollisionEnter += TrueDemoWallScript_OnCollisionEnter;
             On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
             On.TimeAttackComputerScript.Update += TimeAttackComputerScript_Update;
+            On.LabFinalLevelWarningElement.Update += LabFinalLevelWarningElement_Update; ;
 #if DEBUG
             On.BackgroundMaster.Change += BackgroundMaster_Change;
             On.GameplayMaster.SoundtrackRoutine += GameplayMaster_SoundtrackRoutine;
@@ -56,6 +57,14 @@ namespace YellowTaxiAP.Managers
                 KnownBackgrounds[bg] = bg;
             }
 #endif
+        }
+
+        private void LabFinalLevelWarningElement_Update(On.LabFinalLevelWarningElement.orig_Update orig, LabFinalLevelWarningElement self)
+        {
+            if (GameplayMaster.instance.levelId == Data.LevelId.L15_Moon)
+            {
+                orig(self);
+            }
         }
 
         public static bool GetTimeTrialUnlockedState(Data.LevelId timeTrial)
