@@ -810,7 +810,7 @@ namespace YellowTaxiAP.Managers
                             if (Plugin.SlotData.ShuffleGoldenSpring)
                                 QueuedItem = 1_00_00000 * (long)GameplayMaster.instance.levelId +
                                              (long)Identifiers.NotableLocations.HubGoldenSpring;
-                            else
+                            else if (!(Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemoveGoalPortalLocations))
                                 APSaveController.MiscSave.HasGoldenSpring = true;
                         }
 
