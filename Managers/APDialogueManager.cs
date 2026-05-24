@@ -631,6 +631,37 @@ namespace YellowTaxiAP.Managers
                             ];
                         }
                         break;
+                    case "DIALOGUE_PIZZA_TIME_PIZZA_KING_REWARD":
+                        if (!Plugin.SlotData.ShufflePizzaKing)
+                        {
+                            APSaveController.MiscSave.HasPizzaKing = true;
+                            break;
+                        }
+                        var pizzaKingReward = (long)GameplayMaster.instance.levelId * 1_00_00000 +
+                                              (long)Identifiers.NotableLocations.HubPizzaKing;
+                        if (!Plugin.SlotData.ShufflePizzaKing ||
+                            Plugin.ArchipelagoClient.AllClearedLocations.Contains(pizzaKingReward))
+                            break;
+                        QueuedItem = pizzaKingReward;
+                        self.textSoundNames =
+                        [
+                            self.textSoundNames[0],
+                            self.textSoundNames[0],
+                            self.textSoundNames[0],
+                        ];
+                        self.names =
+                        [
+                            self.names[0],
+                            self.names[0],
+                            self.names[0],
+                        ];
+                        self.dialogues =
+                        [
+                            self.dialogues[0],
+                            self.dialogues[1],
+                            $"I also have {GetItemText(pizzaKingReward)}, take it as well!"
+                        ];
+                        break;
                     case "PSYCHO_TAXI_CABINET_NO_UNLOCK":
                         if (!Plugin.SlotData.EarlyPsychoTaxi || !Plugin.SlotData.ShufflePsychoTaxi)
                             break;

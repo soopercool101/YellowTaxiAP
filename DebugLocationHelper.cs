@@ -4068,6 +4068,231 @@ namespace YellowTaxiAP
             { "5_03_00165", "Tosla Square - Coin on Tosla Sign #4" },
         };
 
+        // Main thing separating this is what's technically accessible with J2
+        [Description("Tosla Square - Lower Buildings")]
+        public static Dictionary<string, string> ToslaSquareLowerBuildings = new()
+        {
+            { "5_09_00695", "Tosla Square - Checkpoint on Lower Buildings" },
+            { "5_09_00655", "Tosla Square - Checkpoint on Upper Buildings Before Homing Beacons" },
+            { "5_21_00001", "Tosla Square - Cheese on Lower Buildings" },
+            { "5_03_00209", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #1" },
+            { "5_03_00210", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #2" },
+            { "5_03_00218", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #3" },
+            { "5_03_00222", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #4" },
+            { "5_03_00223", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #5" },
+            { "5_03_00224", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #6" },
+            { "5_03_00245", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #7" },
+            { "5_03_00247", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #8" },
+            { "5_03_00249", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #9" },
+            { "5_03_00254", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #10" },
+            { "5_03_00255", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #11" },
+            { "5_03_00256", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #12" },
+            { "5_03_00262", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #13" },
+            { "5_03_00263", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #14" },
+            { "5_03_00264", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #15" },
+            { "5_03_00220", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #1" },
+            { "5_03_00219", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #2" },
+            { "5_03_00225", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #3" },
+            { "5_03_00250", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #4" },
+            { "5_03_00257", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #5" },
+            { "5_03_00267", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #6" },
+            { "5_03_00265", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #7" },
+            { "5_03_00266", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #8" },
+            { "5_03_00268", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #9" },
+            { "5_03_00269", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #10" },
+            { "5_03_00270", "Tosla Square - Coin Bag on Path Right of Checkpoint on Lower Buildings" },
+            { "5_03_00271", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #11" },
+            { "5_03_00272", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #12" },
+            { "5_03_00273", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #13" },
+            { "5_03_00274", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #14" },
+            { "5_03_00275", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #15" },
+            { "5_03_00276", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #16" },
+            { "5_03_00277", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #17" },
+            { "5_03_00279", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #18" },
+            { "5_03_00280", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #19" },
+            { "5_03_00281", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #20" },
+            { "5_03_00282", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #21" },
+            { "5_03_00278", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #22" },
+            { "5_03_00283", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #23" },
+            { "5_03_00284", "Tosla Square - Coin on Path Right of Checkpoint on Lower Buildings #24" },
+            { "5_01_00003", "Tosla Square - Gear - In Lower Building Alcove" },
+            { "5_03_00231", "Tosla Square - Coin on Ramp Towards Gelatin Hat #1" },
+            { "5_03_00232", "Tosla Square - Coin on Ramp Towards Gelatin Hat #2" },
+            { "5_03_00233", "Tosla Square - Coin on Ramp Towards Gelatin Hat #3" },
+            { "5_03_00251", "Tosla Square - Coin on Ramp Towards Gelatin Hat #4" },
+            { "5_03_00252", "Tosla Square - Coin on Ramp Towards Gelatin Hat #5" },
+            { "5_03_00253", "Tosla Square - Coin on Ramp Towards Gelatin Hat #6" },
+            { "5_03_00259", "Tosla Square - Coin on Ramp Towards Gelatin Hat #7" },
+            { "5_03_00260", "Tosla Square - Coin on Ramp Towards Gelatin Hat #8" },
+            { "5_03_00261", "Tosla Square - Coin on Ramp Towards Gelatin Hat #9" },
+            { "5_03_00310", "Tosla Square - Coin Surrounding Gelatin Hat #1" },
+            { "5_03_00311", "Tosla Square - Coin Bag Surrounding Gelatin Hat #1" },
+            { "5_03_00312", "Tosla Square - Coin Surrounding Gelatin Hat #2" },
+            { "5_03_00308", "Tosla Square - Coin Surrounding Gelatin Hat #3" },
+            { "5_03_00309", "Tosla Square - Coin Surrounding Gelatin Hat #4" },
+            { "5_03_00306", "Tosla Square - Coin Bag Surrounding Gelatin Hat #2" },
+            { "5_07_00013", "Purchase Gelatin Hat" },
+            { "5_03_00307", "Tosla Square - Coin Bag Surrounding Gelatin Hat #3" },
+            { "5_03_00304", "Tosla Square - Coin Surrounding Gelatin Hat #5" },
+            { "5_03_00305", "Tosla Square - Coin Surrounding Gelatin Hat #6" },
+            { "5_03_00301", "Tosla Square - Coin Surrounding Gelatin Hat #7" },
+            { "5_03_00302", "Tosla Square - Coin Bag Surrounding Gelatin Hat #4" },
+            { "5_03_00303", "Tosla Square - Coin Surrounding Gelatin Hat #8" },
+            { "5_03_00198", "Tosla Square - Coin on Building Under Gelatin Hat #1" },
+            { "5_03_00199", "Tosla Square - Coin on Building Under Gelatin Hat #2" },
+            { "5_03_00200", "Tosla Square - Coin Bag on Building Under Gelatin Hat" },
+            { "5_03_00201", "Tosla Square - Coin on Building Under Gelatin Hat #3" },
+            { "5_03_00202", "Tosla Square - Coin on Building Under Gelatin Hat #4" },
+            { "5_03_00320", "Tosla Square - Coin Surrounding Tosla Employee Hat #1" },
+            { "5_03_00322", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #1" },
+            { "5_03_00324", "Tosla Square - Coin Surrounding Tosla Employee Hat #2" },
+            { "5_03_00317", "Tosla Square - Coin Surrounding Tosla Employee Hat #3" },
+            { "5_03_00326", "Tosla Square - Coin Surrounding Tosla Employee Hat #4" },
+            { "5_03_00318", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #2" },
+            { "5_07_00015", "Purchase Tosla Employee Hat" },
+            { "5_03_00327", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #3" },
+            { "5_03_00319", "Tosla Square - Coin Surrounding Tosla Employee Hat #5" },
+            { "5_03_00328", "Tosla Square - Coin Surrounding Tosla Employee Hat #6" },
+            { "5_03_00321", "Tosla Square - Coin Surrounding Tosla Employee Hat #7" },
+            { "5_03_00323", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #4" },
+            { "5_03_00325", "Tosla Square - Coin Surrounding Tosla Employee Hat #8" },
+            { "5_03_00287", "Tosla Square - Coin on Building Below Tosla Employee Hat #1" },
+            { "5_03_00286", "Tosla Square - Coin on Building Below Tosla Employee Hat #2" },
+            { "5_03_00285", "Tosla Square - Coin on Building Below Tosla Employee Hat #3" },
+            { "5_03_00290", "Tosla Square - Coin on Building Below Tosla Employee Hat #4" },
+            { "5_03_00289", "Tosla Square - Coin on Building Below Tosla Employee Hat #5" },
+            { "5_03_00288", "Tosla Square - Coin on Building Below Tosla Employee Hat #6" },
+            { "5_03_00293", "Tosla Square - Coin on Building Below Tosla Employee Hat #7" },
+            { "5_03_00292", "Tosla Square - Coin Bag on Building Below Tosla Employee Hat" },
+            { "5_03_00291", "Tosla Square - Coin on Building Below Tosla Employee Hat #8" },
+            { "5_03_00296", "Tosla Square - Coin on Building Below Tosla Employee Hat #9" },
+            { "5_03_00295", "Tosla Square - Coin on Building Below Tosla Employee Hat #10" },
+            { "5_03_00294", "Tosla Square - Coin on Building Below Tosla Employee Hat #11" },
+            { "5_03_00299", "Tosla Square - Coin on Building Below Tosla Employee Hat #12" },
+            { "5_03_00298", "Tosla Square - Coin on Building Below Tosla Employee Hat #13" },
+            { "5_03_00297", "Tosla Square - Coin on Building Below Tosla Employee Hat #14" },
+            { "5_03_00211", "Tosla Square - Coin on Buildings Below Homing Beacon Gear Path #1" },
+            { "5_03_00212", "Tosla Square - Coin on Buildings Below Homing Beacon Gear Path #2" },
+            { "5_03_00213", "Tosla Square - Coin on Buildings Below Homing Beacon Gear Path #3" },
+            { "5_03_00214", "Tosla Square - Coin on Buildings Below Homing Beacon Gear Path #4" },
+            { "5_03_00215", "Tosla Square - Coin on Buildings Below Homing Beacon Gear Path #5" },
+            { "5_03_00216", "Tosla Square - Coin on Buildings Below Homing Beacon Gear Path #6" },
+            { "5_03_00217", "Tosla Square - Coin on Buildings Below Homing Beacon Gear Path #7" },
+            { "5_03_00226", "Tosla Square - Coin on Building Bump Below Homing Beacon Gear Path #1" },
+            { "5_03_00227", "Tosla Square - Coin on Building Bump Below Homing Beacon Gear Path #2" },
+            { "5_03_00228", "Tosla Square - Coin on Building Bump Below Homing Beacon Gear Path #3" },
+            { "5_03_00229", "Tosla Square - Coin on Building Bump Below Homing Beacon Gear Path #4" },
+            { "5_03_00230", "Tosla Square - Coin on Building Bump Below Homing Beacon Gear Path #5" },
+            { "5_03_00203", "Tosla Square - Coin on Building Below Homing Beacon Path Gear #1" },
+            { "5_03_00204", "Tosla Square - Coin on Building Below Homing Beacon Path Gear #2" },
+            { "5_03_00205", "Tosla Square - Coin Bag on Building Below Homing Beacon Path Gear" },
+            { "5_03_00206", "Tosla Square - Coin on Building Below Homing Beacon Path Gear #3" },
+            { "5_03_00207", "Tosla Square - Coin on Building Below Homing Beacon Path Gear #4" },
+            { "5_03_00243", "Tosla Square - Coin in Large Arrow Formation on Building #1" },
+            { "5_03_00242", "Tosla Square - Coin in Large Arrow Formation on Building #2" },
+            { "5_03_00241", "Tosla Square - Coin in Large Arrow Formation on Building #3" },
+            { "5_03_00240", "Tosla Square - Coin in Large Arrow Formation on Building #4" },
+            { "5_03_00239", "Tosla Square - Coin in Large Arrow Formation on Building #5" },
+            { "5_03_00238", "Tosla Square - Coin in Large Arrow Formation on Building #6" },
+            { "5_03_00248", "Tosla Square - Coin in Large Arrow Formation on Building #7" },
+            { "5_03_00246", "Tosla Square - Coin in Large Arrow Formation on Building #8" },
+            { "5_03_00244", "Tosla Square - Coin in Large Arrow Formation on Building #9" },
+            { "5_03_00237", "Tosla Square - Coin in Large Arrow Formation on Building #10" },
+            { "5_03_00236", "Tosla Square - Coin in Large Arrow Formation on Building #11" },
+            { "5_03_00235", "Tosla Square - Coin in Large Arrow Formation on Building #12" },
+            { "5_03_00234", "Tosla Square - Coin in Large Arrow Formation on Building #13" },
+        };
+
+        [Description("Tosla Square - High Ground")]
+        public static Dictionary<string, string> ToslaSquareHighGround = new()
+        {
+            { "5_01_00000", "Tosla Square - Gear - Homing Beacon Path" },
+            { "5_21_00002", "Tosla Square - Cheese on Higher Building After Highest Homing Beacons" },
+            { "5_03_00372", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #1" },
+            { "5_03_00373", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #2" },
+            { "5_03_00374", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #3" },
+            { "5_03_00376", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #4" },
+            { "5_03_00377", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #5" },
+            { "5_03_00378", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #6" },
+            { "5_03_00379", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #7" },
+            { "5_03_00380", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #8" },
+            { "5_03_00381", "Tosla Square - Coin on Higher Building Ramp After Highest Homing Beacons #9" },
+            { "5_03_00402", "Tosla Square - Coin on Highest Non-Tosla Building #1" },
+            { "5_03_00403", "Tosla Square - Coin on Highest Non-Tosla Building #2" },
+            { "5_03_00404", "Tosla Square - Coin on Highest Non-Tosla Building #3" },
+            { "5_03_00405", "Tosla Square - Coin on Highest Non-Tosla Building #4" },
+            { "5_03_00406", "Tosla Square - Coin on Highest Non-Tosla Building #5" },
+            { "5_03_00397", "Tosla Square - Coin on Highest Non-Tosla Building #6" },
+            { "5_03_00398", "Tosla Square - Coin on Highest Non-Tosla Building #7" },
+            { "5_03_00399", "Tosla Square - Coin Bag on Highest Non-Tosla Building" },
+            { "5_03_00400", "Tosla Square - Coin on Highest Non-Tosla Building #8" },
+            { "5_03_00401", "Tosla Square - Coin on Highest Non-Tosla Building #9" },
+            { "5_03_00392", "Tosla Square - Coin on Highest Non-Tosla Building #10" },
+            { "5_03_00393", "Tosla Square - Coin on Highest Non-Tosla Building #11" },
+            { "5_03_00394", "Tosla Square - Coin on Highest Non-Tosla Building #12" },
+            { "5_03_00395", "Tosla Square - Coin on Highest Non-Tosla Building #13" },
+            { "5_03_00396", "Tosla Square - Coin on Highest Non-Tosla Building #14" },
+            { "5_09_00560", "Tosla Square - Checkpoint on Final Building Before Suspended Scaffoldings" },
+            { "5_03_00364", "Tosla Square - Coin Leading to Gear in Higher Building Alcove #1" },
+            { "5_03_00365", "Tosla Square - Coin Leading to Gear in Higher Building Alcove #2" },
+            { "5_03_00366", "Tosla Square - Coin Leading to Gear in Higher Building Alcove #3" },
+            { "5_03_00367", "Tosla Square - Coin Leading to Gear in Higher Building Alcove #4" },
+            { "5_03_00368", "Tosla Square - Coin Leading to Gear in Higher Building Alcove #5" },
+            { "5_03_00369", "Tosla Square - Coin Leading to Gear in Higher Building Alcove #6" },
+            { "5_03_00370", "Tosla Square - Coin Leading to Gear in Higher Building Alcove #7" },
+            { "5_01_00004", "Tosla Square - Gear - In Higher Building Alcove" },
+            { "5_03_00363", "Tosla Square - Coin on Marble Pillar Connected to Building #1" },
+            { "5_03_00362", "Tosla Square - Coin on Marble Pillar Connected to Building #2" },
+            { "5_03_00361", "Tosla Square - Coin on Marble Pillar Connected to Building #3" },
+            { "5_03_00360", "Tosla Square - Coin on Marble Pillar Connected to Building #4" },
+            { "5_03_00359", "Tosla Square - Coin on Marble Pillar Connected to Building #5" },
+            { "5_02_00000", "Tosla Square - Bunny - In Marble Pillar Alcove" },
+            { "5_03_00358", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #1" },
+            { "5_03_00355", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #2" },
+            { "5_03_00356", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #3" },
+            { "5_03_00357", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #4" },
+            { "5_03_00352", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #5" },
+            { "5_03_00353", "Tosla Square - Coin Bag on Marble Pillar in Back-Right Corner" },
+            { "5_03_00354", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #6" },
+            { "5_03_00349", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #7" },
+            { "5_03_00350", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #8" },
+            { "5_03_00351", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #9" },
+            { "5_03_00348", "Tosla Square - Coin on Marble Pillar in Back-Right Corner #10" },
+            { "5_01_00002", "Tosla Square - Gear - Under Marble Arch" },
+            { "5_03_00346", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #1" },
+            { "5_03_00343", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #2" },
+            { "5_03_00344", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #3" },
+            { "5_03_00345", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #4" },
+            { "5_03_00338", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #5" },
+            { "5_03_00339", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #6" },
+            { "5_03_00340", "Tosla Square - Coin Bag on Marble Pillar Directly Behind Office Building" },
+            { "5_03_00341", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #7" },
+            { "5_03_00342", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #8" },
+            { "5_03_00335", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #9" },
+            { "5_03_00336", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #10" },
+            { "5_03_00337", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #11" },
+            { "5_03_00334", "Tosla Square - Coin on Marble Pillar Directly Behind Office Building #12" },
+            { "5_01_00005", "Tosla Square - Gear - In Giant Gear Logo" },
+        };
+
+        [Description("Tosla Square - Highest Ground")]
+        public static Dictionary<string, string> ToslaSquareHighestGround = new()
+        {
+            { "5_09_01145", "Tosla Square - Checkpoint on Marble Pillar" },
+            { "5_02_00001", "Tosla Square - Bunny - On High Building" },
+            { "5_03_00383", "Tosla Square - Coin on Suspended Scaffolding #1" },
+            { "5_03_00385", "Tosla Square - Coin on Suspended Scaffolding #2" },
+            { "5_03_00387", "Tosla Square - Coin on Suspended Scaffolding #3" },
+            { "5_03_00389", "Tosla Square - Coin on Suspended Scaffolding #4" },
+            { "5_03_00390", "Tosla Square - Coin on Suspended Scaffolding #5" },
+            { "5_03_00391", "Tosla Square - Coin on Suspended Scaffolding #6" },
+            { "5_03_00407", "Tosla Square - Coin on Suspended Scaffolding #7" },
+            { "5_03_00408", "Tosla Square - Coin on Suspended Scaffolding #8" },
+            { "5_03_00409", "Tosla Square - Coin on Suspended Scaffolding #9" },
+            { "5_03_00410", "Tosla Square - Coin on Suspended Scaffolding #10" },
+            { "5_01_00001", "Tosla Square - Gear - On Suspended Scaffolding" },
+        };
+
         [Description("Tosla Offices (Ground Floor)")]
         public static Dictionary<string, string> ToslaOfficesGroundFloor = new()
         {
@@ -4220,37 +4445,119 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> ToslaOfficesFifthFloorStartingArea = new()
         {
             { "5_09_01595", "Tosla Offices (Fifth Floor) - Checkpoint" },
+            { "5_03_00060", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #1" },
+            { "5_03_00059", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #2" },
+            { "5_03_00058", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #3" },
+            { "5_03_00057", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #4" },
+            { "5_03_00056", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #5" },
+            { "5_03_00055", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #6" },
+            { "5_03_00054", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #7" },
+            { "5_03_00053", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #8" },
+            { "5_03_00052", "Tosla Offices (Fifth Floor) - Coin Leading to First Golden Spring #9" },
+            { "5_01_00010", "Tosla Offices (Fifth Floor) - Gear - On Pillar" },
         };
 
         [Description("Tosla Offices (Fifth Floor) - Golden Spring Area")]
         public static Dictionary<string, string> ToslaOfficesFifthFloorGoldenSpringArea = new()
         {
+            { "5_03_00045", "Tosla Offices (Fifth Floor) - Coin Bag Between Upper Desks #1" },
+            { "5_03_00035", "Tosla Offices (Fifth Floor) - Coin Bag Between Upper Desks #2" },
+            { "5_03_00044", "Tosla Offices (Fifth Floor) - Coin Bag Between Lower Desks #1" },
+            { "5_03_00034", "Tosla Offices (Fifth Floor) - Coin Bag Between Lower Desks #2" },
+            { "5_03_00026", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #1" },
+            { "5_03_00028", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #2" },
+            { "5_03_00030", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #3" },
+            { "5_03_00032", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #4" },
+            { "5_03_00036", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #5" },
+            { "5_03_00038", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #6" },
+            { "5_03_00040", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #7" },
+            { "5_03_00042", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #8" },
+            { "5_03_00046", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #9" },
+            { "5_03_00048", "Tosla Offices (Fifth Floor) - Coin Leading to Golden Spring in Desk Maze #10" },
+            { "5_03_00025", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #1" },
+            { "5_03_00027", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #2" },
+            { "5_03_00029", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #3" },
+            { "5_03_00031", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #4" },
+            { "5_03_00033", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #5" },
+            { "5_03_00037", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #6" },
+            { "5_03_00039", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #7" },
+            { "5_03_00041", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #8" },
+            { "5_03_00043", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #9" },
+            { "5_03_00047", "Tosla Offices (Fifth Floor) - Coin Leading to Gear in Desk Maze #10" },
+            { "5_01_00009", "Tosla Offices (Fifth Floor) - Gear - In Desk Maze" },
+            { "5_03_00018", "Tosla Offices (Fifth Floor) - Coin Leading to Upper Chest in Desk Maze #1" },
+            { "5_03_00019", "Tosla Offices (Fifth Floor) - Coin Leading to Upper Chest in Desk Maze #2" },
+            { "5_03_00020", "Tosla Offices (Fifth Floor) - Coin Leading to Upper Chest in Desk Maze #3" },
+            { "5_03_00021", "Tosla Offices (Fifth Floor) - Coin Leading to Upper Chest in Desk Maze #4" },
+            { "5_03_00022", "Tosla Offices (Fifth Floor) - Coin Leading to Upper Chest in Desk Maze #5" },
+            { "5_03_00023", "Tosla Offices (Fifth Floor) - Coin Leading to Upper Chest in Desk Maze #6" },
+            { "5_03_00024", "Tosla Offices (Fifth Floor) - Chest in Top Half of Desk Maze" },
+            { "5_03_00017", "Tosla Offices (Fifth Floor) - Coin Leading to Lower Chest in Desk Maze #1" },
+            { "5_03_00016", "Tosla Offices (Fifth Floor) - Coin Leading to Lower Chest in Desk Maze #2" },
+            { "5_03_00015", "Tosla Offices (Fifth Floor) - Coin Leading to Lower Chest in Desk Maze #3" },
+            { "5_03_00014", "Tosla Offices (Fifth Floor) - Coin Leading to Lower Chest in Desk Maze #4" },
+            { "5_03_00013", "Tosla Offices (Fifth Floor) - Coin Leading to Lower Chest in Desk Maze #5" },
+            { "5_03_00012", "Tosla Offices (Fifth Floor) - Coin Leading to Lower Chest in Desk Maze #6" },
+            { "5_03_00011", "Tosla Offices (Fifth Floor) - Chest in Bottom Half of Desk Maze" },
         };
 
         [Description("Tosla Offices (Fifth Floor) - Exit Area")]
         public static Dictionary<string, string> ToslaOfficesFifthFloorExitArea = new()
         {
+            { string.Empty, nameof(ToslaOfficesFifthFloorExitArea) + " - !PLACEHOLDER!" }
         };
 
         [Description("Tosla Offices (Final Floor) - Starting Area")]
         public static Dictionary<string, string> ToslaOfficesFinalFloorStartingArea = new()
         {
+            { "5_09_01260", "Tosla Offices (Final Floor) - Checkpoint" },
         };
 
         [Description("Tosla Offices (Final Floor) - Boss Fight")]
         public static Dictionary<string, string> ToslaOfficesFinalFloorBossFight = new()
         {
+            { string.Empty, nameof(ToslaOfficesFinalFloorBossFight) + " - !PLACEHOLDER!" }
         };
 
         [Description("Tosla Offices (Employees Only) - Starting Area")]
         public static Dictionary<string, string> ToslaOfficesEmployeesOnlyStartingArea = new()
         {
+            { "5_03_00010", "Tosla Offices (Employees Only) - Coin Near Entrance #1" },
+            { "5_03_00009", "Tosla Offices (Employees Only) - Coin Near Entrance #2" },
+            { "5_03_00008", "Tosla Offices (Employees Only) - Coin Near Entrance #3" },
+            { "5_03_00007", "Tosla Offices (Employees Only) - Coin Near Entrance #4" },
+            { "5_03_00006", "Tosla Offices (Employees Only) - Coin Near Entrance #5" },
+            { "5_03_00005", "Tosla Offices (Employees Only) - Coin Near Entrance #6" },
+            { "5_03_00004", "Tosla Offices (Employees Only) - Coin Near Entrance #7" },
+            { "5_03_00003", "Tosla Offices (Employees Only) - Coin Near Entrance #8" },
+            { "5_03_00002", "Tosla Offices (Employees Only) - Coin Near Entrance #9" },
+            { "5_03_00001", "Tosla Offices (Employees Only) - Coin Near Entrance #10" },
+            { "5_03_00074", "Tosla Offices (Employees Only) - Coin on Right Path Before Spikes #1" },
+            { "5_03_00075", "Tosla Offices (Employees Only) - Coin on Right Path Before Spikes #2" },
+            { "5_03_00076", "Tosla Offices (Employees Only) - Coin on Right Path Above Spikes #1" },
+            { "5_03_00077", "Tosla Offices (Employees Only) - Coin on Right Path Above Spikes #2" },
+            { "5_03_00078", "Tosla Offices (Employees Only) - Coin on Left Path #1" },
+            { "5_03_00079", "Tosla Offices (Employees Only) - Coin on Left Path #2" },
+            { "5_03_00080", "Tosla Offices (Employees Only) - Coin on Left Path #3" },
+            { "5_03_00081", "Tosla Offices (Employees Only) - Coin on Left Path #4" },
+            { "5_03_00082", "Tosla Offices (Employees Only) - Coin on Left Path #5" },
+            { "5_03_00083", "Tosla Offices (Employees Only) - Coin on Left Path #6" },
+            { "5_03_00084", "Tosla Offices (Employees Only) - Coin on Left Path #7" },
+            { "5_03_00085", "Tosla Offices (Employees Only) - Coin on Left Path #8" },
+            { "5_03_00086", "Tosla Offices (Employees Only) - Coin on Left Path #9" },
+            { "5_03_00087", "Tosla Offices (Employees Only) - Coin on Left Path #10" },
+            { "5_03_00088", "Tosla Offices (Employees Only) - Chest on Left Path" },
         };
 
         [Description("Tosla Offices (Employees Only) - Higher Ground")]
         public static Dictionary<string, string> ToslaOfficesEmployeesOnlyHigherGround = new()
         {
-            { "5_02_00002", "Tosla Offices (Employees Only) - Bunny" }
+            { "5_02_00002", "Tosla Offices (Employees Only) - Bunny" },
+            { "5_03_00069", "Tosla Offices (Employees Only) - Coin on Right Path After Spikes #1" },
+            { "5_03_00070", "Tosla Offices (Employees Only) - Coin on Right Path After Spikes #2" },
+            { "5_03_00071", "Tosla Offices (Employees Only) - Coin on Right Path After Spikes #3" },
+            { "5_03_00072", "Tosla Offices (Employees Only) - Coin on Right Path After Spikes #4" },
+            { "5_03_00073", "Tosla Offices (Employees Only) - Coin on Right Path After Spikes #5" },
         };
 
         public static Dictionary<string, string> ToslaOfficesSpecialRules = new()
@@ -4258,6 +4565,10 @@ namespace YellowTaxiAP
             { "Tosla Square - Gear - Oil Pump", "SP" },
             { "Tosla Offices (Ground Floor) - Gear - Above Exit", "X1/OS & J1 | J2" },
             { "Tosla Offices (Employees Only) - Bunny", "PMB" },
+            { "Tosla Offices (Fifth Floor) - Gear - On Pillar", "PMB/PMJ" },
+            { "Tosla Offices (Employees Only) - Coin on Right Path Above Spikes #1", "X1/PMJ/PMB" },
+            { "Tosla Offices (Employees Only) - Coin on Right Path Above Spikes #2", "X3/PMJ/PMB" },
+            { "Tosla Square - Bunny - On High Building", "B2 & X1/J1" },
         };
 
         #endregion
@@ -6032,6 +6343,9 @@ namespace YellowTaxiAP
             // Tosla's Offices Areas
             new(GetDescription(nameof(ToslaSquareStartingArea)), ToslaSquareStartingArea),
             new(GetDescription(nameof(ToslaSquareToslaSign)), ToslaSquareToslaSign),
+            new(GetDescription(nameof(ToslaSquareLowerBuildings)), ToslaSquareLowerBuildings),
+            new(GetDescription(nameof(ToslaSquareHighGround)), ToslaSquareHighGround),
+            new(GetDescription(nameof(ToslaSquareHighestGround)), ToslaSquareHighestGround),
             new(GetDescription(nameof(ToslaOfficesGroundFloor)), ToslaOfficesGroundFloor),
             new(GetDescription(nameof(ToslaOfficesSecondFloor)), ToslaOfficesSecondFloor),
             new(GetDescription(nameof(ToslaOfficesThirdFloorStartingArea)), ToslaOfficesThirdFloorStartingArea),
@@ -6345,6 +6659,9 @@ namespace YellowTaxiAP
                 [
                     ToslaSquareStartingArea,
                     ToslaSquareToslaSign,
+                    ToslaSquareLowerBuildings,
+                    ToslaSquareHighGround,
+                    ToslaSquareHighestGround,
                     ToslaOfficesGroundFloor,
                     ToslaOfficesSecondFloor,
                     ToslaOfficesThirdFloorStartingArea,
@@ -6888,7 +7205,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabSecondFloorAfterTrueDemoWall)),
                 [
                     new RegionConnection(MoriosLabSecondFloorTrueDemoWall),
-                    new RegionConnection(MoriosLabThirdFloor, "J1/B1/X2"),
+                    new RegionConnection(MoriosLabThirdFloor, "X2/J1/B1"),
                 ]
             },
             {
@@ -7559,10 +7876,30 @@ namespace YellowTaxiAP
                     new RegionConnection("Tosla Square - Morio's Lab Portal", MoriosLabThirdFloor, ConnectionType.Warp),
                     new RegionConnection("Tosla Square - Tosla Offices Entrance", ToslaOfficesGroundFloor, ConnectionType.Subwarp),
                     new RegionConnection(ToslaSquareToslaSign, "J1/B1"),
+                    new RegionConnection(ToslaSquareLowerBuildings, "B1 | X2+J2"),
                 ]
             },
             {
                 GetDescription(nameof(ToslaSquareToslaSign)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(ToslaSquareLowerBuildings)),
+                [
+                    new RegionConnection(ToslaSquareHighGround, "B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ToslaSquareHighGround)),
+                [
+                    // X3 still implies B1 at this point. Change if that changes!
+                    new RegionConnection(ToslaSquareHighestGround, "X3/B2"),
+                ]
+            },
+            {
+                GetDescription(nameof(ToslaSquareHighestGround)),
                 [
                     // No connections
                 ]
@@ -7636,7 +7973,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Tosla Offices (Fifth Floor) - Down Elevator", ToslaOfficesFourthFloorAfterGoldenSpring, ConnectionType.Subwarp),
                     new RegionConnection("Tosla Offices (Fifth Floor) - Employees Only Door", ToslaOfficesEmployeesOnlyStartingArea, ConnectionType.Subwarp, "EmployeeHat"),
-                    new RegionConnection(ToslaOfficesFifthFloorGoldenSpringArea, "X2/GST/PMJ"),
+                    new RegionConnection(ToslaOfficesFifthFloorGoldenSpringArea, "X3/GST/PMJ"),
                     new RegionConnection(ToslaOfficesFifthFloorExitArea, "SpikeT | X1+PMJ"),
                 ]
             },
@@ -7671,6 +8008,12 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Tosla Offices (Employees Only) - Exit", ToslaOfficesFifthFloorStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(ToslaOfficesEmployeesOnlyHigherGround, "PMB/PMJ"),
+                ]
+            },
+            {
+                GetDescription(nameof(ToslaOfficesEmployeesOnlyHigherGround)),
+                [
+                    // No connections
                 ]
             },
 
@@ -8382,31 +8725,35 @@ namespace YellowTaxiAP
                         {
                             if (string.IsNullOrEmpty(c.Key))
                                 continue; // Skip placeholders 
-                            if (c.Value.Contains("Bunny - "))
+                            if (c.Value.StartsWith("Purchase "))
+                            {
+                                regionHats.Add(new(c.Key, c.Value.Substring("Purchase ".Length)));
+                            }
+                            else if (c.Value.Contains("- Bunny - "))
                             {
                                 regionBunnies.Add(c);
                             }
-                            else if (c.Value.Contains("Gear - "))
+                            else if (c.Value.Contains("- Gear - "))
                             {
                                 regionGears.Add(c);
                             }
-                            else if (c.Value.Contains("Cheese "))
+                            else if (c.Value.Contains("- Cheese"))
                             {
                                 regionCheeses.Add(c);
                             }
-                            else if (c.Value.Contains("Chest "))
+                            else if (c.Value.Contains("- Chest"))
                             {
                                 regionChests.Add(c);
                             }
-                            else if (c.Value.Contains("Safe "))
+                            else if (c.Value.Contains("- Safe"))
                             {
                                 regionSafes.Add(c);
                             }
-                            else if (c.Value.Contains("Coin Bag "))
+                            else if (c.Value.Contains("- Coin Bag"))
                             {
                                 regionCoinbags.Add(c);
                             }
-                            else if (c.Value.Contains("Coin "))
+                            else if (c.Value.Contains("- Coin"))
                             {
                                 regionCoins.Add(c);
                             }
@@ -8414,17 +8761,17 @@ namespace YellowTaxiAP
                             {
                                 regionCheckpoints.Add(c);
                             }
-                            else if (c.Value.EndsWith("Gear"))
+                            else if (c.Value.EndsWith("- Gear"))
                             {
                                 regionGears.Add(c);
                             }
-                            else if (c.Value.EndsWith("Bunny"))
+                            else if (c.Value.EndsWith("- Bunny"))
                             {
                                 regionBunnies.Add(c);
                             }
-                            else if (c.Value.StartsWith("Purchase "))
+                            else if (c.Value.Contains("Checkpoint"))
                             {
-                                regionHats.Add(new(c.Key, c.Value.Substring("Purchase ".Length)));
+                                regionCheckpoints.Add(c);
                             }
                             else
                             {
