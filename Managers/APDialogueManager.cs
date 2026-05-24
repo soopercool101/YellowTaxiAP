@@ -45,6 +45,13 @@ namespace YellowTaxiAP.Managers
             On.PersonScenziatoV2.Update += PersonScenziatoV2_Update;
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
+            On.DialogueScript.SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio += DialogueScript_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio;
+        }
+
+        private void DialogueScript_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio(On.DialogueScript.orig_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio orig, DialogueScript self)
+        {
+            // TODO: Implement the remaining dialogue when adding final portal
+            self.dialgoueCapsuleKey = "DIALOGUE_MORIO_AT_TOSLA_HQ_PORTAL_LOCKED";
         }
 
         public static bool IsCloningPizzaMan = false;
@@ -191,6 +198,11 @@ namespace YellowTaxiAP.Managers
                 //Plugin.Log($"{self.transform.position} {self.dialoguePickup.name}");
                 self.transform.position = new Vector3(-850, 130, 470);
             }
+            else if (GameplayMaster.instance.levelId == Data.LevelId.L2_PizzaTime && self.myId == 91 &&
+                     Plugin.SlotData.PizzaWheels != YTGVSlotData.PizzaWheelsMode.Disabled)
+            {
+                self.gameRelevantPerson = true;
+            }
 
             orig(self);
         }
@@ -206,7 +218,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 orig, DialogueScript self)
         {
-            if (APCollectableManager.GoldenSpringActive)
+            if (APCollectableManager.GoldenSpringReceived)
                 self.dialgoueCapsuleKey = "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_POST_TOSLA";
             else
                 self.dialgoueCapsuleKey = "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_PRE_TOSLA";
@@ -441,7 +453,7 @@ namespace YellowTaxiAP.Managers
                             ];
                             break;
                         }
-                        var itemToSend = (long)Identifiers.NotableLocations.HubMichele;
+                        var itemToSend = (long)GameplayMaster.instance.levelId * 1_00_00000 + (long)Identifiers.NotableLocations.HubMichele;
                         self.dialogues =
                         [
                             $"Michele handed you a particularly smelly {GetItemText(itemToSend, true, false)} before scurrying back to the sewers!"
@@ -509,7 +521,7 @@ namespace YellowTaxiAP.Managers
                                 : self.dialogues[0],
                             APAreaStateManager.FullGameUnlocked
                                 ? $"As a reward, here's {GetItemText((long)Identifiers.NotableLocations.DemoWall)}!"
-                                : $"You are stuck here now, but as consolation you can have this {GetItemText((long)Identifiers.NotableLocations.DemoWall)}!",
+                                : $"You are stuck here now, but as consolation you can have {GetItemText((long)Identifiers.NotableLocations.DemoWall)}!",
                         ];
                         QueuedItem = (long)Identifiers.NotableLocations.DemoWall;
                         break;
@@ -701,6 +713,21 @@ namespace YellowTaxiAP.Managers
                             self.dialogues[0],
                         ];
                         break;
+                    case "DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK":
+                        if (Plugin.SlotData.PizzaWheels == YTGVSlotData.PizzaWheelsMode.Disabled)
+                            break;
+
+                        var pizzaWheelLocation = (1_00_00000 * (long)GameplayMaster.instance.levelId) +
+                                                 (long)Identifiers.NotableLocations.HubPizzaWheels;
+
+                        if (!Plugin.ArchipelagoClient.AllClearedLocations.Contains(pizzaWheelLocation))
+                        {
+                            QueuedItem = pizzaWheelLocation;
+                            self.dialogues[2] = Master.cheat_PizzaWheels ?
+                                $"You're the chosen one with pizzas for wheels! Take {GetItemText(pizzaWheelLocation)}!" :
+                                $"Keep an eye out for the fabled pizza wheels! Perhaps {GetItemText(pizzaWheelLocation)} will help your search!";
+                        }
+                        break;
                     case "DIALOGUE_GRANNY_ISLAND_GELATAIO_THANKS":
                         if (!Plugin.SlotData.EarlyGelaToni)
                             break;
@@ -744,6 +771,19 @@ namespace YellowTaxiAP.Managers
                                 APSaveController.MiscSave.HasGelaToni = true;
                         }
                         if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach)
+                            Plugin.ArchipelagoClient.Win();
+                        break;
+                    case "DIALOGUE_ALIEN_MOSK_TOSLA_OFFICES_BOSSFIGHT_END_1":
+                        if (!Plugin.SlotData.EarlyGoldenSpring)
+                        {
+                            if (Plugin.SlotData.ShuffleGoldenSpring)
+                                QueuedItem = 1_00_00000 * (long)GameplayMaster.instance.levelId +
+                                             (long)Identifiers.NotableLocations.HubGoldenSpring;
+                            else
+                                APSaveController.MiscSave.HasGoldenSpring = true;
+                        }
+
+                        if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices)
                             Plugin.ArchipelagoClient.Win();
                         break;
                     case "DIALOGUE_MOON_END":
@@ -792,21 +832,38 @@ namespace YellowTaxiAP.Managers
                         self.onAnswerYes.AddListener(SpecialMethod_OnBobMattoneAnswerYes);
                         break;
                     case "DIALOGUE_PIZZA_TIME_PIZZA_CHEFF_INITIAL_ADD_TIME" when MapArea.IsPlayerInsideLab():
+                        if (Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations
+                                .HubPizzaWheels))
+                        {
+                            self.dialogues =
+                            [
+                                $" {(Master.cheat_PizzaWheels ? "Grazie mille my friend! Those pizza wheels look great on you!" : "Keep searching for my pizza wheels!")}"
+                            ];
+                            break;
+                        }
+                        QueuedItem = (long)Identifiers.NotableLocations.HubPizzaWheels;
                         self.dialogues =
                         [
-                            "This is a proof of concept!"
+                            Master.cheat_PizzaWheels ? "Buongiornissimo!!! I see you found my pizza wheels!" : "Buongiornissimo!!! I cooked up some delicious pizza wheels, but lost them!",
+                            $"Perhaps {GetItemText((long)Identifiers.NotableLocations.HubPizzaWheels)} will help you on your quest!"
                         ];
-                        //self.onDialogueEnd.AddListener(SpecialMethod_SendQueuedItem);
+                        break;
+                    case "DIALOGUE_MORIO_AT_TOSLA_HQ_PORTAL_LOCKED":
+                        // TODO: Update dialogue when v1.0.0 comes out. Hopefully this year.
+                        self.dialogues[1] = "Surely v1.0.0 will be out this year!";
                         break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
-                        case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
-                            break;
-                        default:
+                    case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
+                        break;
+                    default:
+                        if (DebugLocationHelper.Enabled)
+                        {
                             GUIUtility.systemCopyBuffer = dialogueCapsule.key;
-                            break;
-#endif
                         }
+                        break;
+#endif
+                }
 
                 if (moveRandoID > 0)
                 {

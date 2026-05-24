@@ -224,32 +224,20 @@ namespace YellowTaxiAP.Managers
                 // Delete portals that are excluded
                 switch (target)
                 {
-                    case LevelId.L2_PizzaTime when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
-                    //case LevelId.L4_ArcadePanik when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
-                    //case LevelId.L20_PsychoTaxi when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && !Plugin.SlotData.ShufflePsychoTaxi:
-                    case LevelId.L5_ToslaOffices when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices:
+                    case LevelId.L2_PizzaTime when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L4_ArcadePanik when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L5_ToslaOffices when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L6_Gym when Plugin.SlotData.GymGearsUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
+                    case LevelId.L7_PoopWorld when Plugin.SlotData.FecalMattersUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
                     case LevelId.L8_Sewers when Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
-                    case LevelId.L9_City when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
-                    case LevelId.L10_CrashTestIndustries when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
-                    case LevelId.L12_MoriosMind when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
-                    case LevelId.L13_StarmanCastle when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
-                    case LevelId.L14_ToslaHQ when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
-                    case LevelId.L15_Moon when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon:
+                    case LevelId.L9_City: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L10_CrashTestIndustries: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L12_MoriosMind: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L13_StarmanCastle: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L14_ToslaHQ: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L15_Moon: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
 #if DEBUG
-                        if (!DebugLocationHelper.Enabled)
-                        {
-                            // Disable level cost. This fixes issues with main menu.
-                            // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
-                            if (self.PortalIsLevelPortal)
-                            {
-                                levelDataList[(int)self.targetLevelId].levelCost = -1;
-                                GetLevel(self.targetLevelId).everOpened = false;
-                                self.CostUpdateTry();
-                            }
-                            ObjectHelper.DestroyRecursive(self.transform);
-                            return;
-                        }
-                        if (self.PortalIsLevelPortal)
+                        if (DebugLocationHelper.Enabled && self.PortalIsLevelPortal)
                         {
                             levelDataList[(int)self.targetLevelId].levelCost = -1;
                             GetLevel(self.targetLevelId).everOpened = true;
@@ -258,8 +246,7 @@ namespace YellowTaxiAP.Managers
                             self.UpdatePortalToLevelName();
                             return;
                         }
-                        break;
-#else
+#endif
                         // Disable level cost. This fixes issues with main menu.
                         // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
                         if (self.PortalIsLevelPortal)
@@ -270,7 +257,6 @@ namespace YellowTaxiAP.Managers
                         }
                         ObjectHelper.DestroyRecursive(self.transform);
                         return;
-#endif
                 }
             }
 

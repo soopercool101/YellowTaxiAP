@@ -105,6 +105,12 @@ public class ArchipelagoClient
         (long)Identifiers.NotableLocations.Doggo + 10000,
         // Arcade Panik Psycho Taxi Cartridge
         (long)Identifiers.NotableLocations.HubPsychoTaxi + (1_00_00000 * (long)Data.LevelId.L4_ArcadePanik),
+        // Michele
+        (long)Identifiers.NotableLocations.HubMichele + (1_00_00000 * (long)Data.LevelId.L2_PizzaTime),
+        // Pizza Wheels
+        (long)Identifiers.NotableLocations.HubPizzaWheels + (1_00_00000 * (long)Data.LevelId.L2_PizzaTime),
+        // Pizza King
+        (long)Identifiers.NotableLocations.HubPizzaKing + (1_00_00000 * (long)Data.LevelId.L2_PizzaTime),
     ];
 
     public bool LocationNeedsScouting(long location)
@@ -445,10 +451,13 @@ public class ArchipelagoClient
                 APPlayerManager.GlideEnabledItem = true;
                 break;
             case Identifiers.ItemID.GoldenSpringUnlock:
-                APCollectableManager.GoldenSpringActive = true;
+                APCollectableManager.GoldenSpringReceived = true;
                 break;
             case Identifiers.ItemID.GoldenPropellerUnlock:
                 APCollectableManager.GoldenPropellerActive = true;
+                break;
+            case Identifiers.ItemID.PizzaWheels:
+                Master.cheat_PizzaWheels = true;
                 break;
             case Identifiers.ItemID.Bunny:
                 APDataManager.TotalBunniesReceived++;
@@ -837,14 +846,23 @@ public class ArchipelagoClient
     {
         try
         {
-            session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
+            if (amountChanged < 0 && Math.Abs(amountChanged) > APWalletManager.ServerCoins)
+            {
+                amountChanged = -APWalletManager.ServerCoins;
+                session.DataStorage[Scope.Slot, "Wallet"] = 0;
+            }
+            else
+            {
+                session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
+            }
         }
         catch
         {
             try
             {
-                session.DataStorage[Scope.Slot, "Wallet"].Initialize(Math.Min(Data.coinsCollected[Data.gameDataIndex], 0));
-                APWalletManager.ServerCoins = Data.coinsCollected[Data.gameDataIndex];
+                var amount = Math.Max(Data.coinsCollected[Data.gameDataIndex], 0);
+                session.DataStorage[Scope.Slot, "Wallet"].Initialize(amount);
+                APWalletManager.ServerCoins = Data.coinsCollected[Data.gameDataIndex] = amount;
                 //Plugin.Log($"Initialized wallet: {Data.coinsCollected[Data.gameDataIndex]}");
             }
             catch

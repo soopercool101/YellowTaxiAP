@@ -230,12 +230,12 @@ public class Plugin : BaseUnityPlugin
             if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
             {
                 GameplayMaster.instance.useGameTimer = !GameplayMaster.instance.useGameTimer;
-                Log($"Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Comma))
             {
                 AllowLaser = !AllowLaser;
-                Log($"Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}", true);
+                Log($"DEBUG: Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}", true);
                 var rivers = FindObjectsByType<RiverScript>(FindObjectsInactive.Include, FindObjectsSortMode.None);
                 foreach (var river in rivers)
                 {
@@ -245,8 +245,8 @@ public class Plugin : BaseUnityPlugin
 
             if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
             {
-                APCollectableManager.GoldenSpringActive = !APCollectableManager.GoldenSpringActive;
-                Log($"DEBUG: Golden Spring {(APCollectableManager.GoldenSpringActive ? "enabled" : "disabled")}", true);
+                APCollectableManager.GoldenSpringReceived = !APCollectableManager.GoldenSpringReceived;
+                Log($"DEBUG: Golden Spring {(APCollectableManager.GoldenSpringReceived ? "enabled" : "disabled")}", true);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
             {
@@ -359,6 +359,7 @@ public class Plugin : BaseUnityPlugin
 
             if (Input.GetKeyDown(KeyCode.T))
             {
+                Log("DEBUG: Activating Wishlist Trap", true);
                 Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
             }
 

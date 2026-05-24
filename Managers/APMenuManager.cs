@@ -83,7 +83,7 @@ namespace YellowTaxiAP.Managers
         {
             if (MenuV2Script.instance.isPauseMenu || !startText) return;
             if (Plugin.SlotData.FailedValidation)
-                startText.textAnimator.SetText("Update Required", false);
+                startText.textAnimator.SetText($"Unsupported APWorld v{Plugin.SlotData.APWorldVersionString}", false);
             else if (Plugin.ArchipelagoClient.AttemptingConnection)
                 startText.textAnimator.SetText("Connecting...", false);
             else if (!ArchipelagoClient.Authenticated)

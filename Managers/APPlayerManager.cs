@@ -1,4 +1,5 @@
-﻿using YellowTaxiAP.Archipelago;
+﻿using System;
+using YellowTaxiAP.Archipelago;
 
 namespace YellowTaxiAP.Managers
 {
@@ -17,6 +18,26 @@ namespace YellowTaxiAP.Managers
         public static bool GlideEnabled => !Plugin.SlotData.ShuffleGlide || GlideEnabledItem;
         public static bool GlideEnabledItem = false;
 
+        public static bool PizzaWheelProtection
+        {
+            get
+            {
+                if (!Master.cheat_PizzaWheels)
+                    return false;
+
+                switch (Plugin.SlotData.PizzaWheels)
+                {
+                    case YTGVSlotData.PizzaWheelsMode.Useful:
+                        return APCollectableManager.GoldenSpringReceived;
+                    case YTGVSlotData.PizzaWheelsMode.Progression:
+                        return true;
+                    case YTGVSlotData.PizzaWheelsMode.Disabled:
+                    case YTGVSlotData.PizzaWheelsMode.Filler:
+                    default:
+                        return false;
+                }
+            }
+        }
         public APPlayerManager()
         {
             // PlayerScript hooks
@@ -68,7 +89,7 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerDamager_CollideWithPlayer(On.PlayerDamager.orig_CollideWithPlayer orig, PlayerDamager self, PlayerScript scr)
         {
-            if (self.instantKill && self.canDamagePlayer && Master.cheat_PizzaWheels)
+            if (self.instantKill && self.canDamagePlayer && PizzaWheelProtection)
             {
                 return;
             }

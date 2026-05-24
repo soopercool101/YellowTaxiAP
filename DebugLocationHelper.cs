@@ -1084,7 +1084,7 @@ namespace YellowTaxiAP
         [Description("Morio's Lab - Inside Morio's Room")]
         public static Dictionary<string, string> MoriosLabMoriosRoomInside = new()
         {
-            { string.Empty, nameof(MoriosLabSecondFloorShortcutPipe) + " - !PLACEHOLDER!" }
+            { string.Empty, nameof(MoriosLabMoriosRoomInside) + " - !PLACEHOLDER!" }
         };
 
         [Description("Morio's Lab - Inside Morio's Room Jump")]
@@ -1137,14 +1137,18 @@ namespace YellowTaxiAP
             { "0_03_00686", "Morio's Lab - Coin on Third Floor Wrenches #13" },
             { "0_03_00684", "Morio's Lab - Coin on Third Floor Wrenches #14" },
             { "0_03_00683", "Morio's Lab - Coin on Third Floor Wrenches #15" },
-            // Special Rules
-            { "0_01_00024", "Morio's Lab - Gear - Third Floor Wrenches" },              // Region Morio's Lab Third Floor Wrenches Upper & J1
+        };
+
+        [Description("Morio's Lab - Third Floor Gear Wrench")]
+        public static Dictionary<string, string> MoriosLabThirdFloorGearWrench = new()
+        {
+            { "0_01_00024", "Morio's Lab - Gear - Third Floor Wrenches" },
         };
 
         [Description("Morio's Lab - Fourth Floor")]
         public static Dictionary<string, string> MoriosLabFourthFloor = new()
         {
-            { string.Empty, nameof(MoriosLabSecondFloorShortcutPipe) + " - !PLACEHOLDER!" }
+            { string.Empty, nameof(MoriosLabFourthFloor) + " - !PLACEHOLDER!" }
         };
 
         [Description("Morio's Lab - Fourth Floor Expert Jump Spikes")]
@@ -1339,7 +1343,6 @@ namespace YellowTaxiAP
             { "Granny's Island - Coin Bag on Brown Cliffside Cabin", "X1/J1/GP" },
             { "Granny's Island - Coin Bag on Green Cliffside Cabin", "X1/J1/GP" },
             { "Pizza Oven - Gear", "B1 & X1/J1" },
-            { "Morio's Lab - Gear - Third Floor Wrenches", "J1" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1/FGU" },
         };
 
@@ -2017,6 +2020,8 @@ namespace YellowTaxiAP
         {
             { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1 | X1+B1" },
             { "Morio's Home - Gear - In Hidden Side Room", "X2/J1/B1" },
+            { "Morio's Home - Gear - Above Hallway", "X1/B1/J2" },
+            { "Morio's Home - Gear - Above Kitchen", "X1/B1/J2" },
         };
 
         #endregion
@@ -2611,6 +2616,11 @@ namespace YellowTaxiAP
             { "1_03_00646", "Bombeach - Coin in Row on Second High Ocean Pillar #5" },
             { "1_03_00660", "Bombeach - Coin in Row on Second High Ocean Pillar #6" },
             { "1_03_00677", "Bombeach - Coin in Row on Second High Ocean Pillar #7" },
+        };
+
+        [Description("Bombeach - Distant High Islands")]
+        public static Dictionary<string, string> BombeachDistantHighIslands = new()
+        {
             { "1_03_00681", "Bombeach - Coin in Ring Around High Ocean Pillar Gear #1" },
             { "1_03_00680", "Bombeach - Coin in Ring Around High Ocean Pillar Gear #2" },
             { "1_03_00679", "Bombeach - Coin in Ring Around High Ocean Pillar Gear #3" },
@@ -3301,8 +3311,8 @@ namespace YellowTaxiAP
             { "Arcade Panik - Gear - Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Alcove Under Pinball Entrance", $"B2 | X1/B1/J1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Go Karts Obstacle Course", "X1/J1" },
-            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #1", "J2" },
-            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #2", "J1 & X1/B1 | J2" },
+            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #1", "J2 | X2+J1" },
+            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #2", $"J2 | J1 & {{{GetDescription(nameof(ArcadePanikCliffAboveCrazyBallz))}}}" },
         };
 
         #endregion
@@ -3323,18 +3333,18 @@ namespace YellowTaxiAP
             { "2_03_00065", "Pizza Time - Coin on Path Behind Hat World #3" },
             { "2_03_00064", "Pizza Time - Coin on Path Behind Hat World #4" },
             { "2_03_00063", "Pizza Time - Coin on Path Behind Hat World #5" },
-            { "2_03_00057", "Pizza Time - Coin on Path Behind Plateau Near Start #1" },
-            { "2_03_00055", "Pizza Time - Coin on Path Behind Plateau Near Start #2" },
-            { "2_03_00054", "Pizza Time - Coin on Path Behind Plateau Near Start #3" },
-            { "2_03_00053", "Pizza Time - Coin on Path Behind Plateau Near Start #4" },
-            { "2_03_00052", "Pizza Time - Coin on Path Behind Plateau Near Start #5" },
-            { "2_03_00051", "Pizza Time - Coin on Path Behind Plateau Near Start #6" },
-            { "2_03_00050", "Pizza Time - Coin on Path Behind Plateau Near Start #7" },
-            { "2_03_00044", "Pizza Time - Coin on Path Behind Plateau Near Start #8" },
-            { "2_03_00043", "Pizza Time - Coin on Path Behind Plateau Near Start #9" },
-            { "2_03_00041", "Pizza Time - Coin on Path Behind Plateau Near Start #10" },
-            { "2_03_00037", "Pizza Time - Coin on Path Behind Plateau Near Start #11" },
-            { "2_03_00031", "Pizza Time - Coin on Path Behind Plateau Near Start #12" },
+            { "2_03_00057", "Pizza Time - Coin on Path Behind Plateau on First Main Island #1" },
+            { "2_03_00055", "Pizza Time - Coin on Path Behind Plateau on First Main Island #2" },
+            { "2_03_00054", "Pizza Time - Coin on Path Behind Plateau on First Main Island #3" },
+            { "2_03_00053", "Pizza Time - Coin on Path Behind Plateau on First Main Island #4" },
+            { "2_03_00052", "Pizza Time - Coin on Path Behind Plateau on First Main Island #5" },
+            { "2_03_00051", "Pizza Time - Coin on Path Behind Plateau on First Main Island #6" },
+            { "2_03_00050", "Pizza Time - Coin on Path Behind Plateau on First Main Island #7" },
+            { "2_03_00044", "Pizza Time - Coin on Path Behind Plateau on First Main Island #8" },
+            { "2_03_00043", "Pizza Time - Coin on Path Behind Plateau on First Main Island #9" },
+            { "2_03_00041", "Pizza Time - Coin on Path Behind Plateau on First Main Island #10" },
+            { "2_03_00037", "Pizza Time - Coin on Path Behind Plateau on First Main Island #11" },
+            { "2_03_00031", "Pizza Time - Coin on Path Behind Plateau on First Main Island #12" },
             { "2_03_00070", "Pizza Time - Coin on Road After Hat World #1" },
             { "2_03_00068", "Pizza Time - Coin on Road After Hat World #2" },
             { "2_03_00066", "Pizza Time - Coin on Road After Hat World #3" },
@@ -3659,15 +3669,15 @@ namespace YellowTaxiAP
             { "2_03_00100", "Pizza Time - Coin on Cliff Path Behind Third Main Island #15" },
             { "2_03_00157", "Pizza Time - Coin on Cliff Path Behind Third Main Island #16" },
             { "2_03_00156", "Pizza Time - Coin on Cliff Path Behind Third Main Island #17" },
-            { "2_03_00421", "Pizza Time - Coin on Pizza King's Path #8" },
-            { "2_03_00420", "Pizza Time - Coin on Pizza King's Path #9" },
-            { "2_03_00419", "Pizza Time - Coin on Pizza King's Path #10" },
-            { "2_03_00418", "Pizza Time - Coin on Pizza King's Path #11" },
-            { "2_03_00417", "Pizza Time - Coin on Pizza King's Path #12" },
-            { "2_03_00487", "Pizza Time - Coin Near Mario's Pizza on Pizza King's Path #1" },
-            { "2_03_00488", "Pizza Time - Coin Near Mario's Pizza on Pizza King's Path #2" },
-            { "2_03_00556", "Pizza Time - Coin Near Mario's Pizza on Pizza King's Path #3" },
-            { "2_03_00558", "Pizza Time - Coin Near Mario's Pizza on Pizza King's Path #4" },
+            { "2_03_00421", "Pizza Time - Coin on the Pizza King's Path #8" },
+            { "2_03_00420", "Pizza Time - Coin on the Pizza King's Path #9" },
+            { "2_03_00419", "Pizza Time - Coin on the Pizza King's Path #10" },
+            { "2_03_00418", "Pizza Time - Coin on the Pizza King's Path #11" },
+            { "2_03_00417", "Pizza Time - Coin on the Pizza King's Path #12" },
+            { "2_03_00487", "Pizza Time - Coin Near Mario's Pizza on the Pizza King's Path #1" },
+            { "2_03_00488", "Pizza Time - Coin Near Mario's Pizza on the Pizza King's Path #2" },
+            { "2_03_00556", "Pizza Time - Coin Near Mario's Pizza on the Pizza King's Path #3" },
+            { "2_03_00558", "Pizza Time - Coin Near Mario's Pizza on the Pizza King's Path #4" },
             { "2_03_00562", "Pizza Time - Coin Surrounding Pizza Slice Near Mario's Pizza #1" },
             { "2_03_00559", "Pizza Time - Coin Surrounding Pizza Slice Near Mario's Pizza #2" },
             { "2_03_00563", "Pizza Time - Coin Surrounding Pizza Slice Near Mario's Pizza #3" },
@@ -3678,6 +3688,43 @@ namespace YellowTaxiAP
             { "2_03_00565", "Pizza Time - Coin Surrounding Pizza Slice Near Mario's Pizza #8" },
             { "2_03_00569", "Pizza Time - Coin Surrounding Pizza Slice Near Mario's Pizza #9" },
             { "2_03_00566", "Pizza Time - Coin Surrounding Pizza Slice Near Mario's Pizza #10" },
+        };
+
+        [Description("Pizza Time - Less Accessible Ledges")]
+        public static Dictionary<string, string> PizzaTimeLessAccessibleLedges = new()
+        {
+            { "2_03_00438", "Pizza Time - Coin on Ledge on Fourth Main Island #1" },
+            { "2_03_00437", "Pizza Time - Coin on Ledge on Fourth Main Island #2" },
+            { "2_03_00436", "Pizza Time - Coin on Ledge on Fourth Main Island #3" },
+            { "2_03_00435", "Pizza Time - Coin on Ledge on Fourth Main Island #4" },
+            { "2_03_00434", "Pizza Time - Coin on Ledge on Fourth Main Island #5" },
+            { "2_03_00426", "Pizza Time - Coin Bag on Ledge on Fourth Main Island #1" },
+            { "2_03_00424", "Pizza Time - Coin Bag on Ledge on Fourth Main Island #2" },
+            { "2_03_00422", "Pizza Time - Coin on Ledge on Fourth Main Island #6" },
+            { "2_03_00423", "Pizza Time - Coin on Ledge on Fourth Main Island #7" },
+            { "2_03_00425", "Pizza Time - Coin on Ledge on Fourth Main Island #8" },
+            { "2_03_00427", "Pizza Time - Coin on Ledge on Fourth Main Island #9" },
+            { "2_03_00298", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #1" },
+            { "2_03_00301", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #2" },
+            { "2_03_00299", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #3" },
+            { "2_03_00295", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #4" },
+            { "2_03_00300", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #5" },
+            { "2_03_00296", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #6" },
+            { "2_03_00293", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #7" },
+            { "2_03_00297", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #8" },
+            { "2_03_00294", "Pizza Time - Coin on Pizza Island Near Fourth Main Island #9" },
+            { "2_03_00166", "Pizza Time - Coin on Cliff Path on Fourth Main Island #1" },
+            { "2_03_00167", "Pizza Time - Coin on Cliff Path on Fourth Main Island #2" },
+            { "2_03_00168", "Pizza Time - Coin on Cliff Path on Fourth Main Island #3" },
+            { "2_03_00169", "Pizza Time - Coin on Cliff Path on Fourth Main Island #4" },
+            { "2_03_00170", "Pizza Time - Coin on Cliff Path on Fourth Main Island #5" },
+            { "2_03_00287", "Pizza Time - Coin on Cliff Path on Fifth Main Island #1" },
+            { "2_03_00288", "Pizza Time - Coin on Cliff Path on Fifth Main Island #2" },
+            { "2_03_00289", "Pizza Time - Coin on Cliff Path on Fifth Main Island #3" },
+            { "2_03_00290", "Pizza Time - Coin on Cliff Path on Fifth Main Island #4" },
+            { "2_03_00291", "Pizza Time - Coin on Cliff Path on Fifth Main Island #5" },
+            { "2_03_00331", "Pizza Time - Coin on Cliff on Final Main Island #1" },
+            { "2_03_00333", "Pizza Time - Coin on Cliff on Final Main Island #2" },
         };
 
         [Description("Pizza Time - Orange Block Bridge")]
@@ -3729,11 +3776,11 @@ namespace YellowTaxiAP
             { "2_03_00572", "Pizza Time - Coin on Ledge Left of Final Roundabout #6" },
             { "2_03_00571", "Pizza Time - Coin on Ledge Left of Final Roundabout #7" },
             { "2_03_00570", "Pizza Time - Chest on Ledge Left of Final Roundabout" },
-            { "2_03_00165", "Pizza Time - Coin on Cliffside Left of Final Main Island #1" },
-            { "2_03_00164", "Pizza Time - Coin on Cliffside Left of Final Main Island #2" },
-            { "2_03_00163", "Pizza Time - Coin on Cliffside Left of Final Main Island #3" },
-            { "2_03_00285", "Pizza Time - Coin on Cliffside Left of Final Main Island #4" },
-            { "2_03_00284", "Pizza Time - Coin on Cliffside Left of Final Main Island #5" },
+            { "2_03_00165", "Pizza Time - Coin on Cliff Path on Final Main Island #1" },
+            { "2_03_00164", "Pizza Time - Coin on Cliff Path on Final Main Island #2" },
+            { "2_03_00163", "Pizza Time - Coin on Cliff Path on Final Main Island #3" },
+            { "2_03_00285", "Pizza Time - Coin on Cliff Path on Final Main Island #4" },
+            { "2_03_00284", "Pizza Time - Coin on Cliff Path on Final Main Island #5" },
             { "2_03_00151", "Pizza Time - Coin on Gem-Shaped Island Left of Final Main Island #1" },
             { "2_03_00150", "Pizza Time - Coin on Gem-Shaped Island Left of Final Main Island #2" },
             { "2_03_00149", "Pizza Time - Coin on Gem-Shaped Island Left of Final Main Island #3" },
@@ -3741,6 +3788,211 @@ namespace YellowTaxiAP
             { "2_03_00147", "Pizza Time - Coin on Gem-Shaped Island Left of Final Main Island #4" },
             { "2_03_00146", "Pizza Time - Coin on Gem-Shaped Island Left of Final Main Island #5" },
             { "2_03_00145", "Pizza Time - Coin on Gem-Shaped Island Left of Final Main Island #6" },
+        };
+
+        [Description("Pizza Time - High Ground")]
+        public static Dictionary<string, string> PizzaTimeHighGround = new()
+        {
+            { "2_21_00004", "Pizza Time - Cheese on Plateau on First Main Island" },
+            { "2_01_00013", "Pizza Time - Gear - Column on Plateau on First Main Island" },
+            { "2_03_00124", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #1" },
+            { "2_03_00119", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #2" },
+            { "2_03_00123", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #3" },
+            { "2_03_00118", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #4" },
+            { "2_03_00122", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #5" },
+            { "2_03_00117", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #6" },
+            { "2_03_00121", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #7" },
+            { "2_03_00116", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #8" },
+            { "2_03_00120", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #9" },
+            { "2_03_00115", "Pizza Time - Coin Next to Ramp on Plateau on First Main Island #10" },
+            { "2_03_00136", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #1" },
+            { "2_03_00132", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #2" },
+            { "2_03_00128", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #3" },
+            { "2_03_00135", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #4" },
+            { "2_03_00127", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #5" },
+            { "2_03_00134", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #6" },
+            { "2_03_00126", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #7" },
+            { "2_03_00133", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #8" },
+            { "2_03_00129", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #9" },
+            { "2_03_00125", "Pizza Time - Coin Behind Ramp on Plateau on First Main Island #10" },
+            { "2_03_00343", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #1" },
+            { "2_03_00340", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #2" },
+            { "2_03_00346", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #3" },
+            { "2_03_00342", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #4" },
+            { "2_03_00339", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #5" },
+            { "2_03_00348", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #6" },
+            { "2_03_00345", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #7" },
+            { "2_03_00341", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #8" },
+            { "2_03_00347", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #9" },
+            { "2_03_00344", "Pizza Time - Coin on Highest Column on Plateau on First Main Island #10" },
+            { "2_03_00323", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #1" },
+            { "2_03_00326", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #2" },
+            { "2_03_00322", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #3" },
+            { "2_03_00325", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #4" },
+            { "2_03_00328", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #5" },
+            { "2_03_00324", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #6" },
+            { "2_03_00327", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #7" },
+            { "2_03_00161", "Pizza Time - Coin Bag on Gear House on First Main Island" },
+            { "2_03_00160", "Pizza Time - Coin on Gear House on First Main Island #1" },
+            { "2_03_00159", "Pizza Time - Coin on Gear House on First Main Island #2" },
+            { "2_03_00158", "Pizza Time - Coin on Gear House on First Main Island #3" },
+            { "2_03_00162", "Pizza Time - Coin on Gear House on First Main Island #4" },
+            { "2_03_00282", "Pizza Time - Coin on Gear House on First Main Island #5" },
+            { "2_03_00281", "Pizza Time - Coin on Gear House on First Main Island #6" },
+            { "2_01_00012", "Pizza Time - Gear - On House on First Main Island" },
+            { "2_03_00351", "Pizza Time - Chest on House on Top of First Hill" },
+            { "2_03_00413", "Pizza Time - Coin Bag on Spire on Top of First Hill" },
+            { "2_02_00001", "Pizza Time - Bunny - Under Arch on Second Main Island" },
+            { "2_03_00305", "Pizza Time - Coin on House Near Bunny Arch #1" },
+            { "2_03_00306", "Pizza Time - Coin on House Near Bunny Arch #2" },
+            { "2_03_00329", "Pizza Time - Coin on House Near Bunny Arch #3" },
+            { "2_03_00334", "Pizza Time - Coin on House Near Bunny Arch #4" },
+            { "2_03_00349", "Pizza Time - Coin Bag on House Near Bunny Arch" },
+            { "2_01_00014", "Pizza Time - Gear - On 400° Oven" },
+            { "2_03_00330", "Pizza Time - Coin on Morco's Pizza Roof #1" },
+            { "2_03_00336", "Pizza Time - Coin on Morco's Pizza Roof #2" },
+            { "2_03_00337", "Pizza Time - Coin on Morco's Pizza Roof #3" },
+            { "2_03_00338", "Pizza Time - Coin on Morco's Pizza Roof #4" },
+            { "2_03_00350", "Pizza Time - Coin on Morco's Pizza Roof #5" },
+            { "2_03_00392", "Pizza Time - Coin on Morco's Pizza Roof #6" },
+            { "2_03_00412", "Pizza Time - Coin Bag on Morco's Pizza Roof" },
+            { "2_03_00396", "Pizza Time - Coin Bag on House Near Morco's Pizza" },
+            { "2_01_00008", "Pizza Time - Gear - On 600° Oven" },
+            { "2_03_00586", "Pizza Time - Coin on Roof Left Before Final Roundabout" },
+            { "2_03_00589", "Pizza Time - Coin Bag on Roof Left in Final Roundabout" },
+            { "2_03_00590", "Pizza Time - Coin Bag on Roof Right in Final Roundabout" },
+            { "2_02_00002", "Pizza Time - Bunny - Above Final Roundabout" },
+            { "2_03_00618", "Pizza Time - Chest on 900° Oven" },
+            { "2_03_00608", "Pizza Time - Coin on Mario's Pizza #1" },
+            { "2_03_00615", "Pizza Time - Coin on Mario's Pizza #2" },
+            { "2_03_00490", "Pizza Time - Coin Behind Mountain on the Pizza King's Path #1" },
+            { "2_03_00491", "Pizza Time - Coin Behind Mountain on the Pizza King's Path #2" },
+            { "2_03_00492", "Pizza Time - Coin Behind Mountain on the Pizza King's Path #3" },
+            { "2_03_00501", "Pizza Time - Coin Behind Mountain on the Pizza King's Path #4" },
+            { "2_03_00502", "Pizza Time - Coin Behind Mountain on the Pizza King's Path #5" },
+            { "2_03_00503", "Pizza Time - Coin Behind Mountain on the Pizza King's Path #6" },
+            { "2_03_00309", "Pizza Time - Coin on Island Between First and Third Main Islands #1" },
+            { "2_03_00312", "Pizza Time - Coin on Island Between First and Third Main Islands #2" },
+            { "2_03_00308", "Pizza Time - Coin on Island Between First and Third Main Islands #3" },
+            { "2_03_00311", "Pizza Time - Coin on Island Between First and Third Main Islands #4" },
+            { "2_03_00316", "Pizza Time - Coin on Island Between First and Third Main Islands #5" },
+            { "2_03_00310", "Pizza Time - Coin on Island Between First and Third Main Islands #6" },
+            { "2_03_00315", "Pizza Time - Coin on Island Between First and Third Main Islands #7" },
+            { "2_03_00314", "Pizza Time - Coin on Island Between First and Third Main Islands #8" },
+            { "2_03_00319", "Pizza Time - Coin on Island Between First and Third Main Islands #9" },
+            { "2_03_00313", "Pizza Time - Coin on Island Between First and Third Main Islands #10" },
+            { "2_03_00318", "Pizza Time - Coin on Island Between First and Third Main Islands #11" },
+            { "2_03_00321", "Pizza Time - Coin on Island Between First and Third Main Islands #12" },
+            { "2_03_00317", "Pizza Time - Coin on Island Between First and Third Main Islands #13" },
+            { "2_03_00320", "Pizza Time - Coin on Island Between First and Third Main Islands #14" },
+            { "2_03_00362", "Pizza Time - Coin on Island Between Second and Final Main Islands #1" },
+            { "2_03_00359", "Pizza Time - Coin on Island Between Second and Final Main Islands #2" },
+            { "2_03_00363", "Pizza Time - Coin on Island Between Second and Final Main Islands #3" },
+            { "2_03_00360", "Pizza Time - Coin on Island Between Second and Final Main Islands #4" },
+            { "2_03_00357", "Pizza Time - Coin on Island Between Second and Final Main Islands #5" },
+            { "2_03_00361", "Pizza Time - Coin on Island Between Second and Final Main Islands #6" },
+            { "2_03_00358", "Pizza Time - Coin on Island Between Second and Final Main Islands #7" },
+            { "2_03_00581", "Pizza Time - Coin on Bunny Arch #1" },
+            { "2_03_00582", "Pizza Time - Coin on Bunny Arch #2" },
+            { "2_03_00583", "Pizza Time - Coin on Bunny Arch #3" },
+            { "2_03_00448", "Pizza Time - Coin on Second Main Island Mountain #1" },
+            { "2_03_00453", "Pizza Time - Coin on Second Main Island Mountain #2" },
+            { "2_03_00449", "Pizza Time - Coin on Second Main Island Mountain #3" },
+            { "2_03_00454", "Pizza Time - Coin on Second Main Island Mountain #4" },
+            { "2_03_00450", "Pizza Time - Coin on Second Main Island Mountain #5" },
+            { "2_03_00455", "Pizza Time - Coin on Second Main Island Mountain #6" },
+            { "2_03_00451", "Pizza Time - Coin on Second Main Island Mountain #7" },
+            { "2_03_00456", "Pizza Time - Coin on Second Main Island Mountain #8" },
+            { "2_03_00452", "Pizza Time - Coin on Second Main Island Mountain #9" },
+            { "2_03_00457", "Pizza Time - Coin on Second Main Island Mountain #10" },
+            { "2_03_00393", "Pizza Time - Coin Bag on Roof Before 600° Oven" },
+        };
+
+        [Description("Pizza Time - Second Main Island Mountain")]
+        public static Dictionary<string, string> PizzaTimeSecondMainIslandMountain = new()
+        {
+            { "2_03_00609", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #1" },
+            { "2_03_00610", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #2" },
+            { "2_03_00611", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #3" },
+            { "2_03_00612", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #4" },
+            { "2_03_00613", "Pizza Time - Coin Bag on Second Main Island Mountain" },
+            { "2_03_00614", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #5" },
+            { "2_03_00620", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #6" },
+            { "2_03_00621", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #7" },
+            { "2_03_00622", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #8" },
+            { "2_03_00627", "Pizza Time - Coin Near Gear on Second Main Island Mountain #1" },
+            { "2_03_00632", "Pizza Time - Coin Near Gear on Second Main Island Mountain #2" },
+            { "2_03_00637", "Pizza Time - Coin Near Gear on Second Main Island Mountain #3" },
+            { "2_03_00640", "Pizza Time - Coin Near Gear on Second Main Island Mountain #4" },
+            { "2_03_00624", "Pizza Time - Coin Near Gear on Second Main Island Mountain #5" },
+            { "2_03_00628", "Pizza Time - Coin Near Gear on Second Main Island Mountain #6" },
+            { "2_03_00633", "Pizza Time - Coin Near Gear on Second Main Island Mountain #7" },
+            { "2_03_00638", "Pizza Time - Coin Near Gear on Second Main Island Mountain #8" },
+            { "2_03_00641", "Pizza Time - Coin Near Gear on Second Main Island Mountain #9" },
+            { "2_03_00625", "Pizza Time - Coin Near Gear on Second Main Island Mountain #10" },
+            { "2_03_00629", "Pizza Time - Coin Near Gear on Second Main Island Mountain #11" },
+            { "2_03_00634", "Pizza Time - Coin Near Gear on Second Main Island Mountain #12" },
+            { "2_03_00639", "Pizza Time - Coin Near Gear on Second Main Island Mountain #13" },
+            { "2_03_00626", "Pizza Time - Coin Near Gear on Second Main Island Mountain #14" },
+            { "2_01_00000", "Pizza Time - Gear - On Second Main Island Mountain" },
+            { "2_03_00635", "Pizza Time - Coin Near Gear on Second Main Island Mountain #15" },
+            { "2_03_00631", "Pizza Time - Coin Near Gear on Second Main Island Mountain #16" },
+            { "2_03_00636", "Pizza Time - Coin Near Gear on Second Main Island Mountain #17" },
+        };
+
+        [Description("Pizza Time - Bunny Island")]
+        public static Dictionary<string, string> PizzaTimeBunnyIsland = new()
+        {
+            { "2_02_00000", "Pizza Time - Bunny - On Tall Island Between First and Third Main Islands" },
+            { "2_03_00479", "Pizza Time - Coin on Bunny Island #1" },
+            { "2_03_00478", "Pizza Time - Coin on Bunny Island #2" },
+            { "2_03_00477", "Pizza Time - Coin on Bunny Island #3" },
+            { "2_03_00476", "Pizza Time - Chest on Bunny Island" },
+            { "2_03_00475", "Pizza Time - Coin on Bunny Island #4" },
+            { "2_03_00474", "Pizza Time - Coin on Bunny Island #5" },
+            { "2_03_00473", "Pizza Time - Coin on Bunny Island #6" },
+        };
+
+        [Description("Pizza Time - Floating Orange Island")]
+        public static Dictionary<string, string> PizzaTimeFloatingOrangeIsland = new()
+        {
+            { "2_03_00602", "Pizza Time - Coin on Floating Orange Block Island #1" },
+            { "2_03_00605", "Pizza Time - Coin on Floating Orange Block Island #2" },
+            { "2_03_00601", "Pizza Time - Coin on Floating Orange Block Island #3" },
+            { "2_03_00597", "Pizza Time - Coin on Floating Orange Block Island #4" },
+            { "2_03_00606", "Pizza Time - Coin on Floating Orange Block Island #5" },
+            { "2_03_00604", "Pizza Time - Coin on Floating Orange Block Island #6" },
+            { "2_03_00600", "Pizza Time - Safe on Floating Orange Block Island" },
+            { "2_03_00596", "Pizza Time - Coin on Floating Orange Block Island #7" },
+            { "2_03_00594", "Pizza Time - Coin on Floating Orange Block Island #8" },
+            { "2_03_00603", "Pizza Time - Coin on Floating Orange Block Island #9" },
+            { "2_03_00599", "Pizza Time - Coin on Floating Orange Block Island #10" },
+            { "2_03_00595", "Pizza Time - Coin on Floating Orange Block Island #11" },
+            { "2_03_00598", "Pizza Time - Coin on Floating Orange Block Island #12" },
+        };
+
+        [Description("Pizza Time - Spires Near Start")]
+        public static Dictionary<string, string> PizzaTimeSpiresNearStart = new()
+        {
+            { "2_03_00557", "Pizza Time - Coin Bag on Spire Near Start" },
+            { "2_03_00408", "Pizza Time - Coin Surrounding Chest on Spire Near Start #1" },
+            { "2_03_00407", "Pizza Time - Coin Surrounding Chest on Spire Near Start #2" },
+            { "2_03_00409", "Pizza Time - Chest on Spire Near Start" },
+            { "2_03_00411", "Pizza Time - Coin Surrounding Chest on Spire Near Start #3" },
+            { "2_03_00410", "Pizza Time - Coin Surrounding Chest on Spire Near Start #4" },
+            { "2_03_00142", "Pizza Time - Coin Surrounding Safe on Spire Near Start #1" },
+            { "2_03_00139", "Pizza Time - Coin Surrounding Safe on Spire Near Start #2" },
+            { "2_03_00143", "Pizza Time - Coin Surrounding Safe on Spire Near Start #3" },
+            { "2_03_00140", "Pizza Time - Safe on Spire Near Start" },
+            { "2_03_00137", "Pizza Time - Coin Surrounding Safe on Spire Near Start #4" },
+            { "2_03_00141", "Pizza Time - Coin Surrounding Safe on Spire Near Start #5" },
+            { "2_03_00138", "Pizza Time - Coin Surrounding Safe on Spire Near Start #6" },
+        };
+
+        [Description("Pizza Time - Pizza King's Quest")]
+        public static Dictionary<string, string> PizzaTimePizzaKing = new()
+        {
+            { "2_01_00007", "Pizza Time - Gear - From Pizza King" },
         };
 
         [Description("Pizza Time Hat World")]
@@ -3771,7 +4023,7 @@ namespace YellowTaxiAP
             { "2_01_00011", "900° - Gear" },
         };
 
-        [Description("Pizza Time Sewer")]
+        [Description("Pizza Time Sewers")]
         public static Dictionary<string, string> PizzaTimeSewer = new()
         {
             { string.Empty, nameof(PizzaTimeSewer) + " - !PLACEHOLDER!" },
@@ -3796,6 +4048,24 @@ namespace YellowTaxiAP
             { "5_21_00000", "Tosla Square - Cheese in Alley Left of Start" },
             { "5_21_00003", "Tosla Square - Cheese in Alley Right of Start" },
             { "5_01_00011", "Tosla Square - Gear - Oil Pump" },
+            { "5_03_00062", "Tosla Square - Coin on Ramp in Alley #1" },
+            { "5_03_00061", "Tosla Square - Coin on Ramp in Alley #2" },
+            { "5_03_00064", "Tosla Square - Coin on Ramp in Alley #3" },
+            { "5_03_00063", "Tosla Square - Coin on Ramp in Alley #4" },
+            { "5_03_00066", "Tosla Square - Coin on Ramp in Alley #5" },
+            { "5_03_00065", "Tosla Square - Coin on Ramp in Alley #6" },
+            { "5_03_00068", "Tosla Square - Coin on Ramp in Alley #7" },
+            { "5_03_00067", "Tosla Square - Coin on Ramp in Alley #8" },
+        };
+
+        [Description("Tosla Square - Tosla Sign")]
+        public static Dictionary<string, string> ToslaSquareToslaSign = new()
+        {
+            { "5_03_00161", "Tosla Square - Coin on Tosla Sign #1" },
+            { "5_03_00162", "Tosla Square - Coin on Tosla Sign #2" },
+            { "5_03_00163", "Tosla Square - Coin Bag on Tosla Sign" },
+            { "5_03_00164", "Tosla Square - Coin on Tosla Sign #3" },
+            { "5_03_00165", "Tosla Square - Coin on Tosla Sign #4" },
         };
 
         [Description("Tosla Offices (Ground Floor)")]
@@ -5609,6 +5879,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)), MoriosLabThirdFloorWrenchesLower),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesMiddle)), MoriosLabThirdFloorWrenchesMiddle),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesUpper)), MoriosLabThirdFloorWrenchesUpper),
+            new(GetDescription(nameof(MoriosLabThirdFloorGearWrench)), MoriosLabThirdFloorGearWrench),
             new(GetDescription(nameof(MoriosLabFourthFloor)), MoriosLabFourthFloor),
             new(GetDescription(nameof(MoriosLabFourthFloorExpertJumpSpikes)), MoriosLabFourthFloorExpertJumpSpikes),
             new(GetDescription(nameof(MoriosLabFourthFloorJumpSpikes)), MoriosLabFourthFloorJumpSpikes),
@@ -5661,6 +5932,7 @@ namespace YellowTaxiAP
             new (GetDescription(nameof(BombeachEasyBombJumps)), BombeachEasyBombJumps),
             new (GetDescription(nameof(BombeachExpert1BombJumps)), BombeachExpert1BombJumps),
             new (GetDescription(nameof(BombeachJumpOrBoost)), BombeachJumpOrBoost),
+            new (GetDescription(nameof(BombeachDistantHighIslands)), BombeachDistantHighIslands),
             new (GetDescription(nameof(BombeachSuperboost)), BombeachSuperboost),
             new (GetDescription(nameof(BombeachOrangeBlockBridge)), BombeachOrangeBlockBridge),
             new (GetDescription(nameof(Cave)), Cave),
@@ -5686,9 +5958,16 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(PizzaTimeStartingArea)), PizzaTimeStartingArea),
             new(GetDescription(nameof(PizzaTimeOilPumps)), PizzaTimeOilPumps),
             new(GetDescription(nameof(PizzaTimeAccessibleLedges)), PizzaTimeAccessibleLedges),
+            new(GetDescription(nameof(PizzaTimeLessAccessibleLedges)), PizzaTimeLessAccessibleLedges),
+            new(GetDescription(nameof(PizzaTimeLedgeLeftOfFinalRoundabout)), PizzaTimeLedgeLeftOfFinalRoundabout),
+            new(GetDescription(nameof(PizzaTimeHighGround)), PizzaTimeHighGround),
+            new(GetDescription(nameof(PizzaTimeSecondMainIslandMountain)), PizzaTimeSecondMainIslandMountain),
+            new(GetDescription(nameof(PizzaTimeBunnyIsland)), PizzaTimeBunnyIsland),
+            new(GetDescription(nameof(PizzaTimeFloatingOrangeIsland)), PizzaTimeFloatingOrangeIsland),
+            new(GetDescription(nameof(PizzaTimeSpiresNearStart)), PizzaTimeSpiresNearStart),
+            new(GetDescription(nameof(PizzaTimePizzaKing)), PizzaTimePizzaKing),
             new(GetDescription(nameof(PizzaTimeOrangeBlockBridge)), PizzaTimeOrangeBlockBridge),
             new(GetDescription(nameof(PizzaTimeIslandAfterOrangeBlockBridge)), PizzaTimeIslandAfterOrangeBlockBridge),
-            new(GetDescription(nameof(PizzaTimeLedgeLeftOfFinalRoundabout)), PizzaTimeLedgeLeftOfFinalRoundabout),
 
             new(GetDescription(nameof(PizzaTimeHatWorld)), PizzaTimeHatWorld),
 
@@ -5700,6 +5979,7 @@ namespace YellowTaxiAP
 
             // Tosla's Offices Areas
             new(GetDescription(nameof(ToslaSquareStartingArea)), ToslaSquareStartingArea),
+            new(GetDescription(nameof(ToslaSquareToslaSign)), ToslaSquareToslaSign),
             new(GetDescription(nameof(ToslaOfficesGroundFloor)), ToslaOfficesGroundFloor),
             new(GetDescription(nameof(ToslaOfficesSecondFloor)), ToslaOfficesSecondFloor),
             new(GetDescription(nameof(ToslaOfficesThirdFloorStartingArea)), ToslaOfficesThirdFloorStartingArea),
@@ -5894,6 +6174,7 @@ namespace YellowTaxiAP
                     MoriosLabThirdFloorWrenchesLower,
                     MoriosLabThirdFloorWrenchesMiddle,
                     MoriosLabThirdFloorWrenchesUpper,
+                    MoriosLabThirdFloorGearWrench,
                     MoriosLabFourthFloor,
                     MoriosLabFourthFloorExpertJumpSpikes,
                     MoriosLabFourthFloorJumpSpikes,
@@ -5923,6 +6204,7 @@ namespace YellowTaxiAP
                     BombeachEasyBombJumps,
                     BombeachExpert1BombJumps,
                     BombeachJumpOrBoost,
+                    BombeachDistantHighIslands,
                     BombeachSuperboost,
                     BombeachOrangeBlockBridge,
                     Cave,
@@ -5935,9 +6217,16 @@ namespace YellowTaxiAP
                     PizzaTimeStartingArea,
                     PizzaTimeOilPumps,
                     PizzaTimeAccessibleLedges,
+                    PizzaTimeLessAccessibleLedges,
+                    PizzaTimeLedgeLeftOfFinalRoundabout,
+                    PizzaTimeHighGround,
+                    PizzaTimeSecondMainIslandMountain,
+                    PizzaTimeBunnyIsland,
+                    PizzaTimeFloatingOrangeIsland,
+                    PizzaTimeSpiresNearStart,
+                    PizzaTimePizzaKing,
                     PizzaTimeOrangeBlockBridge,
                     PizzaTimeIslandAfterOrangeBlockBridge,
-                    PizzaTimeLedgeLeftOfFinalRoundabout,
 
                     PizzaTimeHatWorld,
 
@@ -6003,6 +6292,7 @@ namespace YellowTaxiAP
                 nameof(Data.LevelId.L5_ToslaOffices),
                 [
                     ToslaSquareStartingArea,
+                    ToslaSquareToslaSign,
                     ToslaOfficesGroundFloor,
                     ToslaOfficesSecondFloor,
                     ToslaOfficesThirdFloorStartingArea,
@@ -6436,6 +6726,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "B1/X2 & FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "B1+FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "B1+FGU"),
+                    new RegionConnection(MoriosLabThirdFloorGearWrench, "B1+FGU"),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
@@ -6485,6 +6776,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1+J2"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X1+B1+FGU & X2/J1"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "J1/B1"),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X3 & B1/J1"),
                 ]
             },
             {
@@ -6568,7 +6860,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
-                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2 | X1+B1"),
+                    new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2 | X1 & B1/J1"),
                 ]
             },
             {
@@ -6616,7 +6908,13 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabThirdFloorWrenchesUpper)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection(MoriosLabThirdFloorGearWrench, "J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabThirdFloorGearWrench)),
+                [
+                    // No connections
                 ]
             },
             {
@@ -6703,6 +7001,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU/Spike"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "Spike+FGU"),
+                    new RegionConnection(MoriosLabThirdFloorGearWrench, "Spike+B1"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "FGU"),
@@ -6956,6 +7255,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(BombeachExpert1BombJumps),
                     new RegionConnection(BombeachOrangeBlockBridge),
+                    new RegionConnection(BombeachDistantHighIslands, "X1+J1 | J2 | B1"),
                 ]
             },
             {
@@ -7086,11 +7386,17 @@ namespace YellowTaxiAP
                     new RegionConnection("Pizza Time - Hat World Entrance", PizzaTimeHatWorld, ConnectionType.Warp),
                     new RegionConnection("Pizza Time - 400° Oven", FourHundredDegrees, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - 600° Oven", SixHundredDegrees, ConnectionType.Subwarp),
+                    new RegionConnection("Pizza Time - 900° Oven", NineHundredDegrees, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - Sewer Entrance", PizzaTimeSewer, ConnectionType.Subwarp, "X1/B1/J1"),
                     new RegionConnection(PizzaTimeOilPumps, "SP"),
+                    new RegionConnection(PizzaTimeSpiresNearStart, "B1 & X2/J1"),
                     new RegionConnection(PizzaTimeAccessibleLedges, "X1/J1/B1"),
+                    new RegionConnection(PizzaTimeLessAccessibleLedges, "X2/J1/B1"),
                     new RegionConnection(PizzaTimeOrangeBlockBridge, "OS"),
-                    new RegionConnection(PizzaTimeLedgeLeftOfFinalRoundabout, "X1+NHPR | X2/J1/B1")
+                    new RegionConnection(PizzaTimeLedgeLeftOfFinalRoundabout, "X1+NHPR | X2/J1/B1"),
+                    new RegionConnection(PizzaTimeHighGround, "J1/B1"),
+                    new RegionConnection(PizzaTimeBunnyIsland, "NOS+B2+J2 | X1+J2 | X2+J1"),
+                    new RegionConnection(PizzaTimeFloatingOrangeIsland, "B2 & X1/OS | B1+J1+OS | NOS+B2+J1"),
                 ]
             },
             {
@@ -7103,6 +7409,25 @@ namespace YellowTaxiAP
                 GetDescription(nameof(PizzaTimeAccessibleLedges)),
                 [
                     // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeLessAccessibleLedges)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeHighGround)),
+                [
+                    new RegionConnection(PizzaTimePizzaKing, "X1/B1"),
+                    new RegionConnection(PizzaTimeSecondMainIslandMountain, "B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeSecondMainIslandMountain)),
+                [
+                    new RegionConnection(PizzaTimeIslandAfterOrangeBlockBridge, "NOS/X1 & B2 & J1/X1 | X2+B1+J1"),
                 ]
             },
             {
@@ -7121,6 +7446,24 @@ namespace YellowTaxiAP
                 GetDescription(nameof(PizzaTimeLedgeLeftOfFinalRoundabout)),
                 [
                     // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimePizzaKing)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeBunnyIsland)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeFloatingOrangeIsland)),
+                [
+                    new RegionConnection(PizzaTimeBunnyIsland, "OS+B1"),
                 ]
             },
             {
@@ -7163,6 +7506,13 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Tosla Square - Morio's Lab Portal", MoriosLabThirdFloor, ConnectionType.Warp),
                     new RegionConnection("Tosla Square - Tosla Offices Entrance", ToslaOfficesGroundFloor, ConnectionType.Subwarp),
+                    new RegionConnection(ToslaSquareToslaSign, "J1/B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ToslaSquareToslaSign)),
+                [
+                    // No connections
                 ]
             },
             {
@@ -7784,7 +8134,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GettingGudHighGround)),
                 [
-                    new RegionConnection(GettingGudInTheAir, "J2/B2 | X3+B1"),
+                    new RegionConnection(GettingGudInTheAir, "X1+J1 | J2/B2 | X3+B1"),
                 ]
             },
 

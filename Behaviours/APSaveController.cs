@@ -71,7 +71,7 @@ namespace YellowTaxiAP.Behaviours
                 // Update collectable states
                 if (!Plugin.SlotData.ShuffleGoldenSpring)
                 {
-                    APCollectableManager.GoldenSpringActive = MiscSave.HasGoldenSpring;
+                    APCollectableManager.GoldenSpringReceived = MiscSave.HasGoldenSpring;
                 }
                 if (!Plugin.SlotData.ShuffleGoldenPropeller)
                 {
@@ -94,8 +94,17 @@ namespace YellowTaxiAP.Behaviours
                 }
 
                 // Update key cutscene states
-                Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex] =
-                    MiscSave.HasLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
+                if (Plugin.SlotData.EarlyMoriosPassword)
+                {
+                    Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex] =
+                        Plugin.ArchipelagoClient.AllClearedLocations.Contains((long)Identifiers.NotableLocations
+                            .HubMoriosPassword);
+                }
+                else
+                {
+                    Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex] =
+                        MiscSave.HasLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
+                }
 
                 foreach (var portal in PortalScript.list)
                 {

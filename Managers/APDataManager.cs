@@ -197,6 +197,7 @@ namespace YellowTaxiAP.Managers
             Data.activeState_OrangeSwitch[Data.gameDataIndex] = true;
             Data.flipOWillUnlockState[Data.gameDataIndex] = true;
             Data.morioMindPasswordGot[Data.gameDataIndex] = false;
+            Data.gononoBombeachDelivered[Data.gameDataIndex] = true;
             Data.morioCutsceneToslaHQUnlocked[Data.gameDataIndex] = true;
             Data.wishlistHatEquipped[Data.gameDataIndex] = true;
         }

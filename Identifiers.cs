@@ -57,6 +57,7 @@
             Glide = 8_0_4,
             GoldenSpringUnlock = 8_1_0,
             GoldenPropellerUnlock = 8_2_0,
+            PizzaWheels = 8_9_9,
             LabKey = 10_00,
             GymMembership = 10_06,
             Doggo = 10_07,
@@ -78,6 +79,7 @@
         }
         public enum NotableLocations : long
         {
+            HubPizzaWheels = 7_99999,
             DemoWall = 10_00011,
             WardrobeMoriotron = 11_00000,
             HubGelaToni = 11_00001,

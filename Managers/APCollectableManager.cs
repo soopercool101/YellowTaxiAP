@@ -14,7 +14,7 @@ namespace YellowTaxiAP.Managers
     public class APCollectableManager
     {
         public static bool GoldenPropellerActive = false;
-        public static bool GoldenSpringActive = false;
+        public static bool GoldenSpringReceived = false;
 
         public APCollectableManager()
         {
@@ -178,6 +178,11 @@ namespace YellowTaxiAP.Managers
             {
                 ObjectHelper.DestroyImmediateRecursive(self.transform);
                 return;
+            }
+
+            if (self.killCondition_GononoBombeach && Plugin.ArchipelagoClient.LocationUncleared(10100001))
+            {
+                self.KillMe();
             }
             orig(self);
             if (self.smallDemoZoneMaster >= 0 && self.smallDdemoPositionOffset == new Vector3(0, 0, 0))
@@ -615,8 +620,7 @@ namespace YellowTaxiAP.Managers
 
         private void Update_AP(On.BonusScript.orig_Update orig, BonusScript self)
         {
-            if ((self.myIdentity == BonusScript.Identity.goldenPropeller && !GoldenPropellerActive) ||
-                (self.myIdentity == BonusScript.Identity.invincibilitySpring && !GoldenSpringActive))
+            if (self.myIdentity == BonusScript.Identity.goldenPropeller && !GoldenPropellerActive)
             {
                 return;
             }

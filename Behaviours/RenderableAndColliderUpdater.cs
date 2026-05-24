@@ -30,6 +30,15 @@ namespace YellowTaxiAP.Behaviours
 
     public class GoldenSpringUpdater : RenderableAndColliderUpdater
     {
-        protected override bool EnabledState => APCollectableManager.GoldenSpringActive;
+        protected override bool EnabledState
+        {
+            get
+            {
+                if (!Plugin.SlotData.ShuffleGoldenSpring &&
+                    GameplayMaster.instance.levelId == Data.LevelId.L5_ToslaOffices)
+                    return true;
+                return APCollectableManager.GoldenSpringReceived;
+            }
+        }
     }
 }

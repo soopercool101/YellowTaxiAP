@@ -12,7 +12,7 @@ namespace YellowTaxiAP.Archipelago
         /// <summary>
         /// Backwards compatibility. Lowest supported minor version in the lowest supported major version.
         /// </summary>
-        public const int LowestSupportedMinorVersion = 2;
+        public const int LowestSupportedMinorVersion = 5;
         /// <summary>
         /// Highest x.y.# version supported, where y is in the highest supported minor version
         /// Should be up to date with latest APWorld whenever a new version is released.
@@ -27,6 +27,7 @@ namespace YellowTaxiAP.Archipelago
         public long APWorldMajorVersion { get; set; }
         public long APWorldMinorVersion { get; set; }
         public long APWorldBuildVersion { get; set; }
+        public string APWorldVersionString { get; set; }
         public static bool Loaded { get; private set; }
 
         public enum GoalType : long
@@ -40,6 +41,7 @@ namespace YellowTaxiAP.Archipelago
         public int TotalGears { get; private set; }
         public int TotalBunnies { get; private set; }
         public int GoalPortalCost { get; private set; }
+        public bool RemovePostGoalPortals { get; private set; }
 
         public bool DeathLink { get; private set; }
         public int DeathLinkAmnesty { get; set; }
@@ -59,6 +61,7 @@ namespace YellowTaxiAP.Archipelago
             NextFest = 2,
             Influencers = 3,
         }
+
         public bool ShufflePsychoTaxi { get; private set; }
         public bool ShuffleRat { get; private set; }
         public bool Bunnysanity { get; private set; }
@@ -81,6 +84,16 @@ namespace YellowTaxiAP.Archipelago
         public bool ShuffleGlide { get; private set; }
         public bool ShuffleGoldenSpring { get; private set; }
         public bool ShuffleGoldenPropeller { get; private set; }
+
+        public enum PizzaWheelsMode : long
+        {
+            Disabled = 0,
+            Progression = 3,
+            Useful = 2,
+            Filler = 1,
+        }
+
+        public PizzaWheelsMode PizzaWheels { get; private set; }
 
         // Early location states, and explicitly excluded hubworld items
         public bool EarlyGelaToni { get; private set; }
@@ -124,6 +137,7 @@ namespace YellowTaxiAP.Archipelago
 
         public YTGVSlotData(Dictionary<string, object> slotData)
         {
+            Plugin.Log("Getting Slot Data", true);
             if (slotData.TryGetValue("minor_version", out var minorVersion) && slotData.TryGetValue("major_version", out var majorVersion))
             {
                 APWorldMajorVersion = (long)majorVersion;
@@ -134,31 +148,36 @@ namespace YellowTaxiAP.Archipelago
                     APWorldBuildVersion = (long)buildVersion;
                     buildVersionString = APWorldBuildVersion.ToString();
                 }
+
+                APWorldVersionString = $"{APWorldMajorVersion}.{APWorldMinorVersion}.{buildVersionString}";
                 if (APWorldMajorVersion < LowestSupportedMajorVersion || (APWorldMajorVersion == LowestSupportedMajorVersion && APWorldMinorVersion < LowestSupportedMinorVersion))
                 {
                     ArchipelagoClient.Authenticated = false;
-                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.{buildVersionString} which is lower than lowest supported APWorld version {LowestSupportedMajorVersion}.{LowestSupportedMinorVersion}.0. Please update your APWorld or use an older version of the mod.", true);
+                    Plugin.Log($"ERROR: Game was generated on version {APWorldVersionString} which is lower than lowest supported APWorld version {LowestSupportedMajorVersion}.{LowestSupportedMinorVersion}.0. Please update your APWorld or use an older version of the mod.", true);
                     FailedValidation = true;
                     return;
                 }
                 if (APWorldMajorVersion > HighestSupportedMajorVersion || (APWorldMajorVersion == HighestSupportedMajorVersion && APWorldMinorVersion > HighestSupportedMinorVersion))
                 {
                     ArchipelagoClient.Authenticated = false;
-                    Plugin.Log($"ERROR: Game was generated on version {APWorldMajorVersion}.{APWorldMinorVersion}.{buildVersionString} which is higher than highest supported APWorld version {HighestSupportedMajorVersion}.{HighestSupportedMinorVersion}.X. Please update your game mod.", true);
+                    Plugin.Log($"ERROR: Game was generated on version {APWorldVersionString} which is higher than highest supported APWorld version {HighestSupportedMajorVersion}.{HighestSupportedMinorVersion}.X. Please update your game mod.", true);
                     FailedValidation = true;
                     return;
                 }
             }
             else
             {
+                APWorldVersionString = "Unknown";
                 Plugin.Log("No slot data for version found");
+                ArchipelagoClient.Authenticated = false;
                 Plugin.Log("ERROR: Game was generated on an unknown version, make sure your APWorld and game mod are up-to-date!", true);
                 FailedValidation = true;
+                return;
             }
 
             if (slotData.ContainsKey("goal"))
             {
-                Goal = (GoalType)slotData["goal"];
+                Goal = (GoalType) slotData["goal"];
             }
             else
             {
@@ -192,9 +211,18 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for goal_portal_cost found");
             }
 
+            if (slotData.ContainsKey("remove_post_goal_portals"))
+            {
+                RemovePostGoalPortals = (bool)slotData["remove_post_goal_portals"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for remove_post_goal_portals found");
+            }
+
             if (slotData.ContainsKey("death_link"))
             {
-                DeathLink = (long)slotData["death_link"] == 1;
+                DeathLink = (bool) slotData["death_link"];
             }
             else
             {
@@ -203,7 +231,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("death_link_amnesty"))
             {
-                DeathLinkAmnesty = (int)(long)slotData["death_link_amnesty"];
+                DeathLinkAmnesty = (int)(long) slotData["death_link_amnesty"];
             }
             else
             {
@@ -213,7 +241,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("ring_link"))
             {
-                RingLink = (long)slotData["ring_link"] == 1;
+                RingLink = (bool) slotData["ring_link"];
             }
             else
             {
@@ -222,7 +250,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("purchase_rebate_percent"))
             {
-                PurchaseRebatePercent = (int)(long)slotData["purchase_rebate_percent"];
+                PurchaseRebatePercent = (int)(long) slotData["purchase_rebate_percent"];
             }
             else
             {
@@ -231,7 +259,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_gela_toni"))
             {
-                ShuffleGelaToni = (long)slotData["shuffle_gela_toni"] == 1;
+                ShuffleGelaToni = (bool) slotData["shuffle_gela_toni"];
             }
             else
             {
@@ -240,7 +268,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_pizza_king"))
             {
-                ShufflePizzaKing = (long)slotData["shuffle_pizza_king"] == 1;
+                ShufflePizzaKing = (bool) slotData["shuffle_pizza_king"];
             }
             else
             {
@@ -249,7 +277,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_orange_switch"))
             {
-                ShuffleOrangeSwitch = (long)slotData["shuffle_orange_switch"] == 1;
+                ShuffleOrangeSwitch = (bool) slotData["shuffle_orange_switch"];
             }
             else
             {
@@ -258,7 +286,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_morios_password"))
             {
-                ShuffleMoriosPassword = (long)slotData["shuffle_morios_password"] == 1;
+                ShuffleMoriosPassword = (bool) slotData["shuffle_morios_password"];
             }
             else
             {
@@ -267,7 +295,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_rocket"))
             {
-                ShuffleRocket = (long)slotData["shuffle_rocket"] == 1;
+                ShuffleRocket = (bool) slotData["shuffle_rocket"];
             }
             else
             {
@@ -276,7 +304,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_full_game"))
             {
-                ShuffleFullGame = (long)slotData["shuffle_full_game"] == 1;
+                ShuffleFullGame = (bool) slotData["shuffle_full_game"];
             }
             else
             {
@@ -290,7 +318,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("demo_portal_mode"))
             {
-                DemoPortalBehavior = (DemoPortalMode)slotData["demo_portal_mode"];
+                DemoPortalBehavior = (DemoPortalMode) slotData["demo_portal_mode"];
             }
             else
             {
@@ -299,7 +327,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_psycho_taxi"))
             {
-                ShufflePsychoTaxi = (long)slotData["shuffle_psycho_taxi"] == 1;
+                ShufflePsychoTaxi = (bool) slotData["shuffle_psycho_taxi"];
             }
             else
             {
@@ -308,7 +336,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_rat"))
             {
-                ShuffleRat = (long)slotData["shuffle_rat"] == 1;
+                ShuffleRat = (bool) slotData["shuffle_rat"];
             }
             else
             {
@@ -317,61 +345,15 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("bunnysanity"))
             {
-                Bunnysanity = (long)slotData["bunnysanity"] == 1;
+                Bunnysanity = (bool) slotData["bunnysanity"];
             }
             else
             {
                 Plugin.Log("No slot data for bunnysanity found");
             }
-            /*
-            if (slotData.ContainsKey("checkpointsanity"))
-            {
-                Checkpointsanity = (long)slotData["checkpointsanity"] == 1;
-            }
-            else
-            {
-                Plugin.Log("No slot data for checkpointsanity found");
-            }
-
-            if (slotData.ContainsKey("safesanity"))
-            {
-                Safesanity = (long)slotData["safesanity"] == 1;
-            }
-            else
-            {
-                Plugin.Log("No slot data for safesanity found");
-            }
-
-            if (slotData.ContainsKey("chestsanity"))
-            {
-                Chestsanity = (long)slotData["chestsanity"] == 1;
-            }
-            else
-            {
-                Plugin.Log("No slot data for chestsanity found");
-            }
-
-            if (slotData.ContainsKey("coinbagsanity"))
-            {
-                Coinbagsanity = (long)slotData["coinbagsanity"] == 1;
-            }
-            else
-            {
-                Plugin.Log("No slot data for coinbagsanity found");
-            }
-
-            if (slotData.ContainsKey("coinsanity"))
-            {
-                Coinsanity = (long)slotData["coinsanity"] == 1;
-            }
-            else
-            {
-                Plugin.Log("No slot data for coinsanity found");
-            }
-            */
             if (slotData.ContainsKey("cheesesanity"))
             {
-                Cheesesanity = (long)slotData["cheesesanity"] == 1;
+                Cheesesanity = (bool) slotData["cheesesanity"];
             }
             else
             {
@@ -380,7 +362,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("hatsanity"))
             {
-                Hatsanity = (HatsanityType)(long)slotData["hatsanity"];
+                Hatsanity = (HatsanityType)(long) slotData["hatsanity"];
             }
             else
             {
@@ -390,7 +372,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_flip_o_will"))
             {
-                ShuffleFlipOWill = (long)slotData["shuffle_flip_o_will"] != 0;
+                ShuffleFlipOWill = (long) slotData["shuffle_flip_o_will"] != 0;
             }
             else
             {
@@ -399,7 +381,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_glide"))
             {
-                ShuffleGlide = (long)slotData["shuffle_glide"] == 1;
+                ShuffleGlide = (bool) slotData["shuffle_glide"];
             }
             else
             {
@@ -408,16 +390,25 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_golden_spring"))
             {
-                ShuffleGoldenSpring = (long)slotData["shuffle_golden_spring"] == 1;
+                ShuffleGoldenSpring = (bool) slotData["shuffle_golden_spring"];
             }
             else
             {
                 Plugin.Log("No slot data for shuffle_golden_spring found");
             }
 
+            if (slotData.ContainsKey("pizza_wheels"))
+            {
+                PizzaWheels = (PizzaWheelsMode)(long) slotData["pizza_wheels"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for pizza_wheels found");
+            }
+
             if (slotData.ContainsKey("shuffle_golden_propeller"))
             {
-                ShuffleGoldenPropeller = (long)slotData["shuffle_golden_propeller"] == 1;
+                ShuffleGoldenPropeller = (bool) slotData["shuffle_golden_propeller"];
             }
             else
             {
@@ -426,7 +417,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("extra_demo_collectables"))
             {
-                ExtraDemoCollectables = (long) slotData["extra_demo_collectables"] == 1;
+                ExtraDemoCollectables = (bool) slotData["extra_demo_collectables"];
             }
             else
             {
@@ -435,7 +426,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("early_gela_toni"))
             {
-                EarlyGelaToni = (bool)slotData["early_gela_toni"];
+                EarlyGelaToni = (bool) slotData["early_gela_toni"];
             }
             else
             {
@@ -544,7 +535,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("open_grannys_island"))
             {
-                OpenGrannysIsland = (long) slotData["open_grannys_island"] == 1;
+                OpenGrannysIsland = (bool) slotData["open_grannys_island"];
             }
             else
             {
@@ -553,7 +544,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("locked_morios_lab"))
             {
-                LockedMoriosLab = (long)slotData["locked_morios_lab"] == 1;
+                LockedMoriosLab = (bool) slotData["locked_morios_lab"];
             }
             else
             {
@@ -572,7 +563,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("fecal_matters_unlock_condition"))
             {
-                FecalMattersUnlockCondition = (LevelUnlockCondition)(long)slotData["fecal_matters_unlock_condition"];
+                FecalMattersUnlockCondition = (LevelUnlockCondition)(long) slotData["fecal_matters_unlock_condition"];
             }
             else
             {
@@ -582,7 +573,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("flushed_away_unlock_condition"))
             {
-                FlushedAwayUnlockCondition = (LevelUnlockCondition)(long)slotData["flushed_away_unlock_condition"];
+                FlushedAwayUnlockCondition = (LevelUnlockCondition)(long) slotData["flushed_away_unlock_condition"];
             }
             else
             {
@@ -601,7 +592,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("locked_morios_wardrobe"))
             {
-                LockedMoriosWardrobe = (long)slotData["locked_morios_wardrobe"] == 1;
+                LockedMoriosWardrobe = (bool) slotData["locked_morios_wardrobe"];
             }
             else
             {
@@ -619,7 +610,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("early_sewer_island"))
             {
-                EarlySewerIsland = (bool)slotData["early_sewer_island"];
+                EarlySewerIsland = (bool) slotData["early_sewer_island"];
             }
             else
             {
@@ -629,7 +620,7 @@ namespace YellowTaxiAP.Archipelago
             if (slotData.ContainsKey("locked_time_trials"))
             {
                 // We really only need to care if time trials are open or not
-                if ((long)slotData["locked_time_trials"] == 0)
+                if ((long) slotData["locked_time_trials"] == 0)
                 {
                     APAreaStateManager.TimeTrial1Unlocked = APAreaStateManager.TimeTrial2Unlocked =
                         APAreaStateManager.TimeTrial3Unlocked = true;
@@ -645,7 +636,7 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("early_pizza_wheels"))
             {
-                EarlyPizzaWheels = (bool)slotData["early_pizza_wheels"];
+                EarlyPizzaWheels = (bool) slotData["early_pizza_wheels"];
             }
             else
             {
