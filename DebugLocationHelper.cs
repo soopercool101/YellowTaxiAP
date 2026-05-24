@@ -4148,20 +4148,72 @@ namespace YellowTaxiAP
             { "5_01_00008", "Tosla Offices (Fourth Floor) - Gear - Ledge Near Start" }
         };
 
-        [Description("Tosla Offices (Fourth Floor) - After Ramp")]
-        public static Dictionary<string, string> ToslaOfficesFourthFloorAfterRamp = new()
+        [Description("Tosla Offices (Fourth Floor) - After Ledge")]
+        public static Dictionary<string, string> ToslaOfficesFourthFloorAfterLedge = new()
         {
+            { "5_03_00160", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #1" },
+            { "5_03_00159", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #2" },
+            { "5_03_00158", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #3" },
+            { "5_03_00157", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #4" },
+            { "5_03_00156", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #5" },
+            { "5_03_00155", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #6" },
+            { "5_03_00154", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #7" },
+            { "5_03_00153", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #8" },
+            { "5_03_00152", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #9" },
+            { "5_03_00151", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #10" },
+            { "5_03_00150", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #11" },
+            { "5_03_00149", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #12" },
+            { "5_03_00148", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #13" },
+            { "5_03_00147", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #14" },
+            { "5_03_00146", "Tosla Offices (Fourth Floor) - Coin on Spiky Ledge #15" },
+            { "5_03_00145", "Tosla Offices (Fourth Floor) - Chest on Spiky Ledge" },
+            { "5_03_00140", "Tosla Offices (Fourth Floor) - Safe" },
+            { "5_03_00136", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #1" },
+            { "5_03_00134", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #2" },
+            { "5_03_00133", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #3" },
+            { "5_03_00132", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #4" },
+            { "5_03_00131", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #5" },
+            { "5_03_00130", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #6" },
+            { "5_03_00129", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #7" },
+            { "5_03_00128", "Tosla Offices (Fourth Floor) - Coin After Spiky Ledge #8" },
+            { "5_03_00119", "Tosla Offices (Fourth Floor) - Coin Bag After Spiky Ledge" },
+            { "5_03_00135", "Tosla Offices (Fourth Floor) - Coin Bag Behind Window #1" },
+            { "5_03_00137", "Tosla Offices (Fourth Floor) - Chest Behind Window" },
+            { "5_03_00138", "Tosla Offices (Fourth Floor) - Coin Bag Behind Window #2" },
         };
 
 
         [Description("Tosla Offices (Fourth Floor) - High Ground")]
         public static Dictionary<string, string> ToslaOfficesFourthFloorHighGround = new()
         {
+            { "5_03_00189", "Tosla Offices (Fourth Floor) - Coin on High Ledge #1" },
+            { "5_03_00190", "Tosla Offices (Fourth Floor) - Coin on High Ledge #2" },
+            { "5_03_00191", "Tosla Offices (Fourth Floor) - Coin on High Ledge #3" },
+            { "5_03_00192", "Tosla Offices (Fourth Floor) - Coin on High Ledge #4" },
+            { "5_03_00193", "Tosla Offices (Fourth Floor) - Coin on High Ledge #5" },
+            { "5_03_00194", "Tosla Offices (Fourth Floor) - Coin on High Ledge #6" },
+            { "5_03_00195", "Tosla Offices (Fourth Floor) - Coin on High Ledge #7" },
+            { "5_03_00196", "Tosla Offices (Fourth Floor) - Coin on High Ledge #8" },
+            { "5_03_00197", "Tosla Offices (Fourth Floor) - Coin on High Ledge #9" },
+            { "5_07_00014", "Purchase Mug Hat" }
         };
 
         [Description("Tosla Offices (Fourth Floor) - After Golden Spring")]
         public static Dictionary<string, string> ToslaOfficesFourthFloorAfterGoldenSpring = new()
         {
+            { "5_03_00126", "Tosla Offices (Fourth Floor) - Coin in Spike Hallway #1" },
+            { "5_03_00125", "Tosla Offices (Fourth Floor) - Coin in Spike Hallway #2" },
+            { "5_03_00124", "Tosla Offices (Fourth Floor) - Coin in Spike Hallway #3" },
+            { "5_03_00123", "Tosla Offices (Fourth Floor) - Coin in Spike Hallway #4" },
+            { "5_03_00122", "Tosla Offices (Fourth Floor) - Coin in Spike Hallway #5" },
+            { "5_03_00121", "Tosla Offices (Fourth Floor) - Coin in Spike Hallway #6" },
+            { "5_03_00120", "Tosla Offices (Fourth Floor) - Coin in Spike Hallway #7" },
+            { "5_03_00113", "Tosla Offices (Fourth Floor) - Coin Near Up Elevator #1" },
+            { "5_03_00114", "Tosla Offices (Fourth Floor) - Coin Near Up Elevator #2" },
+            { "5_03_00115", "Tosla Offices (Fourth Floor) - Coin Bag Near Up Elevator" },
+            { "5_03_00168", "Tosla Offices (Fourth Floor) - Coin on High Filing Cabinets #1" },
+            { "5_03_00170", "Tosla Offices (Fourth Floor) - Coin on High Filing Cabinets #2" },
+            { "5_03_00172", "Tosla Offices (Fourth Floor) - Coin Bag on High Filing Cabinets" },
         };
 
         [Description("Tosla Offices (Fifth Floor) - Starting Area")]
@@ -5986,7 +6038,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(ToslaOfficesThirdFloorPostSpring)), ToslaOfficesThirdFloorPostSpring),
             new(GetDescription(nameof(ToslaOfficesFourthFloorStartingArea)), ToslaOfficesFourthFloorStartingArea),
             new(GetDescription(nameof(ToslaOfficesFourthFloorLedgeNearStart)), ToslaOfficesFourthFloorLedgeNearStart),
-            new(GetDescription(nameof(ToslaOfficesFourthFloorAfterRamp)), ToslaOfficesFourthFloorAfterRamp),
+            new(GetDescription(nameof(ToslaOfficesFourthFloorAfterLedge)), ToslaOfficesFourthFloorAfterLedge),
             new(GetDescription(nameof(ToslaOfficesFourthFloorAfterGoldenSpring)), ToslaOfficesFourthFloorAfterGoldenSpring),
             new(GetDescription(nameof(ToslaOfficesFourthFloorHighGround)), ToslaOfficesFourthFloorHighGround),
             new(GetDescription(nameof(ToslaOfficesFifthFloorStartingArea)), ToslaOfficesFifthFloorStartingArea),
@@ -6299,7 +6351,7 @@ namespace YellowTaxiAP
                     ToslaOfficesThirdFloorPostSpring,
                     ToslaOfficesFourthFloorStartingArea,
                     ToslaOfficesFourthFloorLedgeNearStart,
-                    ToslaOfficesFourthFloorAfterRamp,
+                    ToslaOfficesFourthFloorAfterLedge,
                     ToslaOfficesFourthFloorAfterGoldenSpring,
                     ToslaOfficesFourthFloorHighGround,
                     ToslaOfficesFifthFloorStartingArea,
@@ -7548,8 +7600,8 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Tosla Offices (Fourth Floor) - Down Elevator", ToslaOfficesThirdFloorPostSpring, ConnectionType.Subwarp),
                     new RegionConnection(ToslaOfficesFourthFloorLedgeNearStart, "PMB/PMJ"),
-                    new RegionConnection(ToslaOfficesFourthFloorAfterRamp, "J1/PMJ/PMB"),
-                    new RegionConnection(ToslaOfficesFourthFloorHighGround, "X1/J1 & PMB | PMJ"),
+                    new RegionConnection(ToslaOfficesFourthFloorAfterLedge, "J1/PMJ/PMB"),
+                    new RegionConnection(ToslaOfficesFourthFloorHighGround, "X1/J1 & PMB"),
                 ]
             },
             {
@@ -7559,7 +7611,7 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(ToslaOfficesFourthFloorAfterRamp)),
+                GetDescription(nameof(ToslaOfficesFourthFloorAfterLedge)),
                 [
                     new RegionConnection(ToslaOfficesFourthFloorStartingArea),
                     new RegionConnection(ToslaOfficesFourthFloorAfterGoldenSpring, "GST | X2+PW | PMJ"),
@@ -7574,7 +7626,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ToslaOfficesFourthFloorAfterGoldenSpring)),
                 [
-                    new RegionConnection(ToslaOfficesFourthFloorAfterRamp),
+                    new RegionConnection(ToslaOfficesFourthFloorAfterLedge),
+                    new RegionConnection(ToslaOfficesFourthFloorHighGround, "PMJ"),
                     new RegionConnection("Tosla Offices (Fourth Floor) - Up Elevator", ToslaOfficesFifthFloorStartingArea, ConnectionType.Subwarp),
                 ]
             },
