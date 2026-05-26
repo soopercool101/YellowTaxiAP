@@ -3,6 +3,7 @@ using System.Linq;
 using BepInEx;
 using Steamworks;
 using UnityEngine;
+using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago;
 
@@ -48,6 +49,9 @@ public static class ArchipelagoConsole
         UpdateWindow();
     }
 
+    public static bool InMenu => !PlayerScript.instance || MenuV2Script.instance ||
+                          (AchievementsTvScript.instance && AchievementsTvScript.instance.turnedOn);
+
     public static void OnGUI()
     {
         if (logLines.Count == 0) return;
@@ -76,16 +80,16 @@ public static class ArchipelagoConsole
 
 #if DEBUG
         var buttonText = Hidden ? "Show" : "Hide";
-        if (PlayerScript.instance && !MenuV2Script.instance)
+        if (!InMenu)
         {
             buttonText = PlayerScript.instance.transform.position.ToString();
         }
         // Show Show/Hide button only when in menus
-        if (!ArchipelagoClient.Authenticated || !PlayerScript.instance || MenuV2Script.instance || DebugLocationHelper.Enabled)
+        if (InMenu || DebugLocationHelper.Enabled)
         {
 #else
         // Show Show/Hide button only when in menus
-        if (!ArchipelagoClient.Authenticated || !PlayerScript.instance || MenuV2Script.instance)
+        if (InMenu)
         {
             var buttonText = Hidden ? "Show" : "Hide";
 #endif
@@ -93,12 +97,15 @@ public static class ArchipelagoConsole
             if (GUI.Button(hideShowButton, buttonText))
             {
                 Hidden = !Hidden;
+                GUI.FocusControl(null);
+                MenuV2Script.instance?.suspendInputs = false;
+                APTVManager.BlockControls = false;
                 UpdateWindow();
             }
         }
 
         // draw client/server commands entry
-        if (Hidden || !ArchipelagoClient.Authenticated || (PlayerScript.instance && !MenuV2Script.instance))
+        if (Hidden || !ArchipelagoClient.Authenticated || !InMenu)
         {
             return;
         }
@@ -127,6 +134,7 @@ public static class ArchipelagoConsole
             }
         }
         MenuV2Script.instance?.suspendInputs = typingCommand;
+        APTVManager.BlockControls = typingCommand;
         if (!CommandText.IsNullOrWhiteSpace())
         {
             GUI.Box(SendCommandButton, string.Empty);

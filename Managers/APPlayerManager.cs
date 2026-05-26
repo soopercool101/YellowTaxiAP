@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using YellowTaxiAP.Archipelago;
 
 namespace YellowTaxiAP.Managers
@@ -17,6 +17,7 @@ namespace YellowTaxiAP.Managers
         public static bool SpinAttackItem = false;
         public static bool GlideEnabled => !Plugin.SlotData.ShuffleGlide || GlideEnabledItem;
         public static bool GlideEnabledItem = false;
+        public static bool PizzaWheelsItem = false;
 
         public static bool PizzaWheelProtection
         {

@@ -148,6 +148,7 @@ public class ArchipelagoClient
 
                 var scouting = session.Locations.ScoutLocationsAsync(HintCreationPolicy.None,
                     AllLocations.Where(LocationNeedsScouting).ToArray());
+                session.DataStorage.TrackClientStatus(UpdateHasWon);
 
                 Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
                 foreach (var key in ServerData.SlotData.Keys)
@@ -306,7 +307,6 @@ public class ArchipelagoClient
                     }
                 });
                 session.DataStorage[Scope.Slot, "Wallet"].OnValueChanged += Wallet_OnValueChanged;
-
                 outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
 
                 try
@@ -345,6 +345,12 @@ public class ArchipelagoClient
         {
             AttemptingConnection = false;
         }
+    }
+
+    private void UpdateHasWon(ArchipelagoClientState state)
+    {
+        HasWon = state == ArchipelagoClientState.ClientGoal;
+        APTVManager.UpdateAPTVInfo();
     }
 
     private void Socket_PacketReceived(ArchipelagoPacketBase packet)
@@ -457,7 +463,7 @@ public class ArchipelagoClient
                 APCollectableManager.GoldenPropellerActive = true;
                 break;
             case Identifiers.ItemID.PizzaWheels:
-                Master.cheat_PizzaWheels = true;
+                APPlayerManager.PizzaWheelsItem = Master.cheat_PizzaWheels = true;
                 break;
             case Identifiers.ItemID.Bunny:
                 APDataManager.TotalBunniesReceived++;
@@ -690,7 +696,10 @@ public class ArchipelagoClient
     public void Win()
     {
         session.SetGoalAchieved();
+        HasWon = true;
     }
+
+    public bool HasWon { get; private set; }
 
     public void SendLocations(long[] ids)
     {

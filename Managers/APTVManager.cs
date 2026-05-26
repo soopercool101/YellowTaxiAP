@@ -64,7 +64,7 @@ namespace YellowTaxiAP.Managers
             orig(self);
             self.menuTitle.text = "ARCHIPELAGO";
             self.canBeTurnedOn = true;
-            self.turnOnDelay = 0.5f; // deathlink on tv softlocks without some delay, this seems safe from tests
+            self.turnOnDelay = 1.0f; // deathlink on tv softlocks without some delay, this seems safe from tests
             UpdateAPTVInfo();
         }
 
@@ -80,13 +80,13 @@ namespace YellowTaxiAP.Managers
         public static object APTVUpdateLock = new object();
         public static void UpdateAPTVInfo()
         {
+            if (!AchievementsTvScript.instance)
+            {
+                return;
+            }
+
             lock (APTVUpdateLock)
             {
-                if (!AchievementsTvScript.instance)
-                {
-                    return;
-                }
-
                 if (!GoalText)
                 {
                     LocationsCheckedText = Object.Instantiate(AchievementsTvScript.instance.menuTitle,
@@ -152,7 +152,7 @@ namespace YellowTaxiAP.Managers
                     AchievementsTvScript.instance.achievementsCapsuleToClone.SetActive(false);
                 }
 
-                GoalText.text = $"GOAL ({Data.gearsUnlockedNumber[Data.gameDataIndex]}/{Plugin.SlotData.GoalPortalCost})";
+                GoalText.text = Plugin.ArchipelagoClient.HasWon ? "GOAL <color=#008000>(COMPLETE!)</color>" : $"GOAL ({Data.gearsUnlockedNumber[Data.gameDataIndex]}/{Plugin.SlotData.GoalPortalCost})";
                 MovesUnlockText.text = $"Boost: {APPlayerManager.BoostLevel}\tJump: {APPlayerManager.JumpLevel}\nSpin: {(APPlayerManager.SpinAttackEnabled ? "Y" : "N")} \tGlide: {(APPlayerManager.GlideEnabled ? "Y" : "N")}";
                 MovesUnlockImage.sprite =
                     (APPlayerManager.BoostLevel == 2 && APPlayerManager.JumpLevel == 2 &&
@@ -188,10 +188,20 @@ namespace YellowTaxiAP.Managers
             yield return null;
         }
 
+        public static bool BlockControls { get; set; }
         private void AchievementsTvScript_MenuUpdate(On.AchievementsTvScript.orig_MenuUpdate orig, AchievementsTvScript self)
         {
-            if (Controls.MenuPausePress(0) || Controls.MenuBackPress(0))
-                self.TurnOff(true);
+            if (self.turnedOn)
+            {
+                if (!BlockControls && (Controls.MenuPausePress(0) || Controls.MenuBackPress(0)))
+                    self.TurnOff(true);
+                else if (GameplayMaster.instance.gameOver)
+                {
+                    self.turnedOn = false;
+                    if (DebugMaster.state_GameUiToggle)
+                        HudMasterScript.HudEnable();
+                }
+            }
         }
 
         private void AchievementsTvScript_Awake(On.AchievementsTvScript.orig_Awake orig, AchievementsTvScript self)

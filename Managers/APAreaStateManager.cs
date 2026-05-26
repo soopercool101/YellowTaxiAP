@@ -120,6 +120,7 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
         {
+            Master.cheat_PizzaWheels = APPlayerManager.PizzaWheelsItem;
             // Hubworld state changes
             if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
             {

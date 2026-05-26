@@ -2018,7 +2018,7 @@ namespace YellowTaxiAP
         [Description("Morio's Island - Special Rules")]
         public static Dictionary<string, string> MoriosIslandSpecialRules = new()
         {
-            { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1 | X1+B1" },
+            { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1 | X2+B1" },
             { "Morio's Home - Gear - In Hidden Side Room", "X2/J1/B1" },
             { "Morio's Home - Gear - Above Hallway", "X1/B1/J2" },
             { "Morio's Home - Gear - Above Kitchen", "X1/B1/J2" },
@@ -7080,7 +7080,7 @@ namespace YellowTaxiAP
                     // Doesn't connect anywhere
                 ]
             },
-            // Grannys
+            // Morio's Lab
             {
                 GetDescription(nameof(MoriosLabGroundFloorGoldenPropeller)),
                 [
@@ -7101,7 +7101,6 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                 ]
             },
-            // Morio's Lab
             {
                 GetDescription(nameof(MoriosLabGroundFloor)),
                 [
@@ -7133,6 +7132,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabGroundFloorLowestBolt)),
                 [
+                    new RegionConnection(MoriosLabGroundFloorWrenches),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X1+B1"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "X1+B1"),
                 ]
@@ -7158,7 +7158,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabSecondFloor)),
                 [
                     new RegionConnection("Morio's Lab - Arcade Panik Portal", ArcadePlazaStartingArea, ConnectionType.Warp, "PortalArcadePanik"),
-                    new RegionConnection(MoriosLabPathToMoriosRoom, "B1"),
+                    new RegionConnection(MoriosLabPathToMoriosRoom, "B1 | X2+J1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X2+B1+J1 | X1+B2+J1 | X1+B1+J2"),
                     new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2"),

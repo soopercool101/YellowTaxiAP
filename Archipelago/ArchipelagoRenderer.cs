@@ -102,7 +102,7 @@ namespace YellowTaxiAP.Archipelago
             if (ArchipelagoClient.Authenticated)
             {
                 // show cursor only in menus
-                Cursor.visible = !PlayerScript.instance || MenuV2Script.instance;
+                Cursor.visible = ArchipelagoConsole.InMenu;
                 statusMessage = " Status: Connected";
                 // show the mod is currently loaded in the corner
                 GUI.Label(new Rect(16, 16, 300, 20), Plugin.ModDisplayInfo);
