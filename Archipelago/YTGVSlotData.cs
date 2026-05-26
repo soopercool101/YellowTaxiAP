@@ -57,10 +57,10 @@ namespace YellowTaxiAP.Archipelago
         public DemoPortalMode DemoPortalBehavior { get; private set; }
         public enum DemoPortalMode : long
         {
-            Open = 0,
-            Default = 1,
-            NextFest = 2,
-            Influencers = 3,
+            Open = -1,
+            Default = 2,
+            NextFest = 3,
+            Influencers = 4,
         }
 
         public bool ShufflePsychoTaxi { get; private set; }

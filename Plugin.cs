@@ -190,12 +190,12 @@ public class Plugin : BaseUnityPlugin
             if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.BoostItems > 0)
             {
                 Log($"DEBUG: Flip-O-Will Boost Level lowered to {--APPlayerManager.BoostItems}", true);
-                APTVManager.UpdateAPTVInfo();
+                APTVManager.FlagTvNeedsUpdate();
             }
             if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.BoostItems < 2)
             {
                 Log($"DEBUG: Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}", true);
-                APTVManager.UpdateAPTVInfo();
+                APTVManager.FlagTvNeedsUpdate();
             }
 
             if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
@@ -207,25 +207,25 @@ public class Plugin : BaseUnityPlugin
             if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.JumpItems > 0)
             {
                 Log($"DEBUG: Flip-O-Will Jump Level lowered to {--APPlayerManager.JumpItems}", true);
-                APTVManager.UpdateAPTVInfo();
+                APTVManager.FlagTvNeedsUpdate();
             }
             if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.JumpItems < 2)
             {
                 Log($"DEBUG: Flip-O-Will Jump Level increased to {++APPlayerManager.JumpItems}", true);
-                APTVManager.UpdateAPTVInfo();
+                APTVManager.FlagTvNeedsUpdate();
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 APPlayerManager.SpinAttackItem = !APPlayerManager.SpinAttackItem;
                 Log($"DEBUG: Flip-O-Will Spin Attack {(APPlayerManager.SpinAttackItem ? "enabled" : "disabled")}", true);
-                APTVManager.UpdateAPTVInfo();
+                APTVManager.FlagTvNeedsUpdate();
             }
             if (Input.GetKeyDown(KeyCode.Backslash))
             {
                 APPlayerManager.GlideEnabledItem = !APPlayerManager.GlideEnabledItem;
                 Log($"DEBUG: Glide {(APPlayerManager.GlideEnabledItem ? "enabled" : "disabled")}", true);
-                APTVManager.UpdateAPTVInfo();
+                APTVManager.FlagTvNeedsUpdate();
             }
             if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
             {

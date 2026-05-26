@@ -142,9 +142,6 @@ namespace YellowTaxiAP.Managers
                                 };
                                 //mesh.transform.localRotation = new Quaternion(-45, 0, 0, 0);
                                 mesh.transform.Rotate(0, 0, -225);
-                                Plugin.Log($"Rotation: {mesh.transform.rotation}");
-                                Plugin.Log($"Local Rotation: {mesh.transform.localRotation}");
-                                Plugin.Log(mesh.mesh.name + " Moved!");
                                 count++;
 
                                 if (count >= 2)
@@ -162,11 +159,7 @@ namespace YellowTaxiAP.Managers
                 {
                     var originalSign = Object.FindObjectsOfType<MeshFilter>()
                         .Last(o => o.gameObject.name.Equals("ModelObjectSign") && o.transform.parent.name.Equals("Sign Right"));
-                    Plugin.Log(originalSign.transform.parent.parent.gameObject.name);
                     var noSign = Object.FindObjectsOfType<DisableAreaScript_EventMode>()[0].enableThisAreaWhenActive[0].transform.GetChild(0);
-                    Plugin.Log(originalSign.gameObject.GetComponent<MeshRenderer>()?.material.name ?? "<NULL>");
-                    Plugin.Log(originalSign.name);
-                    Plugin.Log("Parent: " + originalSign.gameObject.transform.parent.gameObject.name);
                     var noEntrySignTemplate = Object.Instantiate(originalSign.gameObject.transform.parent.gameObject, originalSign.transform.parent.parent);
                     noEntrySignTemplate.GetComponentInChildren<MeshRenderer>().material = noSign.gameObject.GetComponent<MeshRenderer>().material;
                     noEntrySignTemplate.transform.position = new Vector3(0, -10000, 0);

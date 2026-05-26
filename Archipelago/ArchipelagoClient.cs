@@ -350,7 +350,7 @@ public class ArchipelagoClient
     private void UpdateHasWon(ArchipelagoClientState state)
     {
         HasWon = state == ArchipelagoClientState.ClientGoal;
-        APTVManager.UpdateAPTVInfo();
+        APTVManager.FlagTvNeedsUpdate();
     }
 
     private void Socket_PacketReceived(ArchipelagoPacketBase packet)
@@ -643,7 +643,7 @@ public class ArchipelagoClient
                 APTVManager.ImportantItems.Insert(0, $"<color={itemColor}>{receivedItem.ItemDisplayName}</color> from <color={playerColor}>{receivedItem.Player}</color>");
             }
         }
-        APTVManager.UpdateAPTVInfo();
+        APTVManager.FlagTvNeedsUpdate();
     }
 
     private void ReceivedBunny()
@@ -690,7 +690,7 @@ public class ArchipelagoClient
     {
         Plugin.BepinLogger.LogMessage($"Sending location #{id}");
         session.Locations.CompleteLocationChecks(id);
-        APTVManager.UpdateAPTVInfo();
+        APTVManager.FlagTvNeedsUpdate();
     }
 
     public void Win()
@@ -704,7 +704,7 @@ public class ArchipelagoClient
     public void SendLocations(long[] ids)
     {
         session.Locations.CompleteLocationChecks(ids);
-        APTVManager.UpdateAPTVInfo();
+        APTVManager.FlagTvNeedsUpdate();
     }
 
     public bool LocationUncleared(long location)
