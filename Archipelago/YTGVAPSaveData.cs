@@ -171,7 +171,7 @@ namespace YellowTaxiAP.Archipelago
             SaveData &= ~(uint)0xFF;
         }
 
-        // Portal unlocks. Somewhat reserves bits 8-27. Unused portal states are reused as other bools.
+        // Portal unlocks. Somewhat reserves bits 8-28. Unused portal states are reused as other bools.
         // All unused portals are reserved for other bools below, excluding Moon which may be added as an extra portal.
         public bool HasLevelPortalUnlocked(Data.LevelId level)
         {
@@ -257,8 +257,8 @@ namespace YellowTaxiAP.Archipelago
         // Michele typically doesn't get saved to a save file, but this makes things less annoying for cheesesanity without shuffle rat
         public bool HasRat
         {
-            get => GetBit(28);
-            set => SetBit(28, value);
+            get => GetBit(29);
+            set => SetBit(29, value);
         }
     }
 }

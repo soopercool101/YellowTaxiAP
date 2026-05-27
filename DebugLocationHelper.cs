@@ -1345,6 +1345,7 @@ namespace YellowTaxiAP
             { "Granny's Island - Coin Bag on Green Cliffside Cabin", "X1/J1/GP" },
             { "Pizza Oven - Gear", "B1 & X1/J1" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1/FGU" },
+            { "Ice Cream Truck - Gear - Lower Path in Bomb Block", $"X1/J1 | {{{GetDescription(nameof(HubIceCreamTruckHighGround))}}}" },
         };
 
         #endregion
@@ -6891,9 +6892,9 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "PortalFecalMatters+Doggo"),
                     new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & J2/B1/GP | X1+Rocket+J1"),
                     // Golden Propeller non-area rando rules. Expert 1 required to bring it through loading zones
-                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "NSAR+GP+LabKey+X1"),
-                    new RegionConnection(HubLawFirmJump, "NSAR+GP+X1"),
-                    new RegionConnection(HubIceCreamTruckHighGround, "NSAR+GelaToni+GP+X1"),
+                    new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "X1+NSAR+GP+LabKey"),
+                    new RegionConnection(HubLawFirmJump, "X1+NSAR+GP"),
+                    new RegionConnection(HubIceCreamTruckHighGround, "X1+NSAR+GelaToni+GP"),
                 ]
             },
             {
@@ -7065,7 +7066,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(HubIceCreamTruckBase)),
                 [
                     new RegionConnection("Ice Cream Truck - Exit", GrannysIslandMain, ConnectionType.Subwarp),
-                    new RegionConnection(HubIceCreamTruckHighGround, "B1/J2"),
+                    new RegionConnection(HubIceCreamTruckHighGround, "X2/B1/J2 | X1+J1"),
                 ]
             },
             {

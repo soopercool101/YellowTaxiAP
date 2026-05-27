@@ -18,6 +18,7 @@ namespace YellowTaxiAP.Managers
         public static bool GlideEnabled => !Plugin.SlotData.ShuffleGlide || GlideEnabledItem;
         public static bool GlideEnabledItem = false;
         public static bool PizzaWheelsItem = false;
+        public static bool PizzaWheelsInitialized = false;
 
         public static bool PizzaWheelProtection
         {
@@ -48,12 +49,19 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.IsFlipOWillingExtraLong += FlipOWillExtraLong_AP;
             On.PlayerScript.FlipOWillAbort += FlipOWillAbort_AP;
             On.PlayerScript.BackFlip += FlipOWillBackFlip_AP;
+            On.PlayerScript.PizzaWheelsInit += PlayerScript_PizzaWheelsInit;
 
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
 
             On.GameplayMaster.Die += GameplayMaster_Die;
             // Don't reset pizza wheels!
             On.Master.CheatsOthers_Reset += _ => { };
+        }
+
+        private void PlayerScript_PizzaWheelsInit(On.PlayerScript.orig_PizzaWheelsInit orig, PlayerScript self)
+        {
+            orig(self);
+            PizzaWheelsInitialized = PizzaWheelsItem;
         }
 
         private void GameplayMaster_Die(On.GameplayMaster.orig_Die orig, GameplayMaster self)
@@ -177,6 +185,11 @@ namespace YellowTaxiAP.Managers
             {
                 self.targettedFlipPowerup = null;
                 self.flipTargetLineRenderer.enabled = false;
+            }
+
+            if (PizzaWheelsItem != PizzaWheelsInitialized)
+            {
+                self.PizzaWheelsInit();
             }
 
             ArchipelagoClient.DeathLinkHandler?.KillPlayer();

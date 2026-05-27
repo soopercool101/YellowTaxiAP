@@ -464,10 +464,6 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.PizzaWheels:
                 APPlayerManager.PizzaWheelsItem = Master.cheat_PizzaWheels = true;
-                if (PlayerScript.instance)
-                {
-                    PlayerScript.instance.PizzaWheelsInit();
-                }
                 break;
             case Identifiers.ItemID.Bunny:
                 APDataManager.TotalBunniesReceived++;
@@ -843,6 +839,8 @@ public class ArchipelagoClient
                     throw;
                 }
             }
+            // Flag as needing loading to ensure variables are set correctly
+            APSaveController.MiscSave.NeedsLoad = true;
         }
     }
 

@@ -187,279 +187,281 @@ public class Plugin : BaseUnityPlugin
 #if DEBUG
         On.ModMaster.Update += (orig, self) =>
         {
-            if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.BoostItems > 0)
-            {
-                Log($"DEBUG: Flip-O-Will Boost Level lowered to {--APPlayerManager.BoostItems}", true);
-                APTVManager.FlagTvNeedsUpdate();
-            }
-            if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.BoostItems < 2)
-            {
-                Log($"DEBUG: Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}", true);
-                APTVManager.FlagTvNeedsUpdate();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                APPlayerManager.PacManJumpItem = !APPlayerManager.PacManJumpItem;
-                Log($"DEBUG: Pac-Man Jump {(APPlayerManager.PacManJumpItem ? "enabled" : "disabled")}", true);
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.JumpItems > 0)
-            {
-                Log($"DEBUG: Flip-O-Will Jump Level lowered to {--APPlayerManager.JumpItems}", true);
-                APTVManager.FlagTvNeedsUpdate();
-            }
-            if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.JumpItems < 2)
-            {
-                Log($"DEBUG: Flip-O-Will Jump Level increased to {++APPlayerManager.JumpItems}", true);
-                APTVManager.FlagTvNeedsUpdate();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-                APPlayerManager.SpinAttackItem = !APPlayerManager.SpinAttackItem;
-                Log($"DEBUG: Flip-O-Will Spin Attack {(APPlayerManager.SpinAttackItem ? "enabled" : "disabled")}", true);
-                APTVManager.FlagTvNeedsUpdate();
-            }
-            if (Input.GetKeyDown(KeyCode.Backslash))
-            {
-                APPlayerManager.GlideEnabledItem = !APPlayerManager.GlideEnabledItem;
-                Log($"DEBUG: Glide {(APPlayerManager.GlideEnabledItem ? "enabled" : "disabled")}", true);
-                APTVManager.FlagTvNeedsUpdate();
-            }
-            if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
-            {
-                GameplayMaster.instance.useGameTimer = !GameplayMaster.instance.useGameTimer;
-                Log($"DEBUG: Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Comma))
-            {
-                AllowLaser = !AllowLaser;
-                Log($"DEBUG: Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}", true);
-                var rivers = FindObjectsByType<RiverScript>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-                foreach (var river in rivers)
-                {
-                    river.gameObject.SetActive(AllowLaser);
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-            {
-                APCollectableManager.GoldenSpringReceived = !APCollectableManager.GoldenSpringReceived;
-                Log($"DEBUG: Golden Spring {(APCollectableManager.GoldenSpringReceived ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-            {
-                APCollectableManager.GoldenPropellerActive = !APCollectableManager.GoldenPropellerActive;
-                Log($"DEBUG: Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
-            {
-                APSwitchManager.OrangeSwitchUnlocked = !APSwitchManager.OrangeSwitchUnlocked;
-                Log($"DEBUG: Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
-            {
-                APRatManager.ReceivedRatItem = !APRatManager.ReceivedRatItem;
-                GameStateUpdater.RatStateNeedsUpdate = true;
-                Log($"DEBUG: Rat {(APRatManager.ReceivedRatItem ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
-            {
-                APSwitchManager.PurpleSwitchUnlocked = !APSwitchManager.PurpleSwitchUnlocked;
-                Log($"DEBUG: Purple Switch {(APSwitchManager.PurpleSwitchUnlocked ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
-            {
-                APSwitchManager.GreenSwitchUnlocked = !APSwitchManager.GreenSwitchUnlocked;
-                Log($"DEBUG: Green Switch {(APSwitchManager.GreenSwitchUnlocked ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.Delete))
-            {
-                DeathLinkInProgress = true;
-                GameplayMaster.instance?.Die();
-                Log($"DEBUG: Attempting to kill player", true);
-            }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                ExplosionScript.SpawnNew(PlayerScript.instance.transform.position - new Vector3(0, 3, 0));
-                //Log($"Spawning explosion at player");
-            }
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                PlayerScript.instance.propellerUsesLeft = 3;
-                Log($"DEBUG: Granting Propeller", true);
-            }
-            if (Input.GetKeyDown(KeyCode.I))
-            {
-                if (PlayerScript.instance.invincible)
-                {
-                    PlayerScript.instance.InvincibleStop();
-                    Log($"DEBUG: Toggling invincibility off", true);
-                }
-                else
-                {
-                    PlayerScript.instance.InvincibleSet(float.PositiveInfinity);
-                    Log($"DEBUG: Toggling invincibility on", true);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                APAreaStateManager.RocketEnabled = !APAreaStateManager.RocketEnabled;
-                Log($"DEBUG: Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                APAreaStateManager.MindPasswordReceived = !APAreaStateManager.MindPasswordReceived;
-                Log($"DEBUG: Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                APAreaStateManager.DoggoReceived = !APAreaStateManager.DoggoReceived;
-                Log($"DEBUG: Doggo {(APAreaStateManager.DoggoReceived ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                APAreaStateManager.GelaToniReceived = !APAreaStateManager.GelaToniReceived;
-                Log($"DEBUG: Gela-Toni {(APAreaStateManager.GelaToniReceived ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                APAreaStateManager.PizzaKingReceived = !APAreaStateManager.PizzaKingReceived;
-                Log($"DEBUG: Pizza King {(APAreaStateManager.PizzaKingReceived ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                APAreaStateManager.FullGameUnlocked = !APAreaStateManager.FullGameUnlocked;
-                Log($"DEBUG: Full Game {(APAreaStateManager.FullGameUnlocked ? "enabled" : "disabled")}", true);
-            }
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                APAreaStateManager.LabDoorUnlocked = !APAreaStateManager.LabDoorUnlocked;
-                Log($"DEBUG: Lab Key {(APAreaStateManager.LabDoorUnlocked ? "enabled" : "disabled")}", true);
-            }
-
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                var rotation = (int)Math.Round(PlayerScript.instance?.transform?.GetYAngle() ?? 0);
-                if (rotation == 360)
-                    rotation = 0;
-                var zoneVals =
-                    $"new Vector3({Math.Round(PlayerScript.instance?.transform?.position.x ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.y ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.z ?? 0, 1)}f), {rotation}, {ZoneMaster.currentZoneId}, {LightDirectionalScript.instance?.myLight?.enabled.ToString().ToLower() ?? "false"}, {WaterScript.instance?.WaterEnable.ToString().ToLower() ?? "false"}, \"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\", \"{HudMasterScript.instance.currentMapAreaScriptableObject.areaName}\"),";
-                Log($"Copying current zone values ({zoneVals}", true);
-                GUIUtility.systemCopyBuffer = zoneVals;
-            }
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                var zoneVals =
-                    $"\"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\"),";
-                Log($"Copying current music/bg values ({zoneVals}", true);
-                GUIUtility.systemCopyBuffer = zoneVals;
-            }
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                Log("DEBUG: Activating Wishlist Trap", true);
-                Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
-            }
-
-            if (Input.GetKeyDown(KeyCode.KeypadMultiply))
-            {
-                Log($"Copying Known BG/Soundtrack");
-                var bgs = "";
-                foreach (var bg in APAreaStateManager.KnownBackgrounds.Keys)
-                {
-                    bgs += $"\"{bg}\", ";
-                }
-
-                bgs = bgs.TrimEnd(',', ' ');
-
-                var sts = "";
-                foreach (var st in APAreaStateManager.KnownSoundtracks.Keys)
-                {
-                    sts += $"\"{st}\", ";
-                }
-
-                sts = sts.TrimEnd(',', ' ');
-
-                GUIUtility.systemCopyBuffer = $"{bgs}\n{sts}";
-            }
-
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                Master.cheat_PizzaWheels = !Master.cheat_PizzaWheels;
-                PlayerScript.instance.PizzaWheelsInit();
-                Log($"DEBUG: Pizza Wheels {(Master.cheat_PizzaWheels ? "enabled" : "disabled")}", true);
-            }
-
             if (Input.GetKeyDown(KeyCode.Home))
             {
                 DebugLocationHelper.Enabled = !DebugLocationHelper.Enabled;
                 Log($"DEBUG: Location Helper {(DebugLocationHelper.Enabled ? "enabled" : "disabled")}", true);
             }
 
-            if (false)
+            if (DebugLocationHelper.Enabled)
             {
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.BoostItems > 0)
                 {
-                    try
-                    {
-                        bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
-                    }
-                    catch { }
-                    bgIndex--;
-                    if (bgIndex < 0)
-                        bgIndex = KnownBGs.Length - 1;
-                    Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
-                    BackgroundMaster.Change(KnownBGs[bgIndex]);
+                    Log($"DEBUG: Flip-O-Will Boost Level lowered to {--APPlayerManager.BoostItems}", true);
+                    APTVManager.FlagTvNeedsUpdate();
                 }
-                if (Input.GetKeyDown(KeyCode.RightArrow))
+                if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.BoostItems < 2)
                 {
-                    try
-                    {
-                        bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
-                    }
-                    catch { }
-                    bgIndex++;
-                    if (bgIndex >= KnownBGs.Length)
-                        bgIndex = 0;
-                    Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
-                    BackgroundMaster.Change(KnownBGs[bgIndex]);
+                    Log($"DEBUG: Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}", true);
+                    APTVManager.FlagTvNeedsUpdate();
                 }
 
-                if (Input.GetKeyDown(KeyCode.DownArrow))
+                if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
                 {
-                    try
-                    {
-                        songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
-                    }
-                    catch { }
-                    songIndex--;
-                    if (songIndex < 0)
-                        songIndex = KnownSongs.Length - 1;
-                    Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
-                    GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                    APPlayerManager.PacManJumpItem = !APPlayerManager.PacManJumpItem;
+                    Log($"DEBUG: Pac-Man Jump {(APPlayerManager.PacManJumpItem ? "enabled" : "disabled")}", true);
                 }
-                if (Input.GetKeyDown(KeyCode.UpArrow))
-                {
-                    try
-                    {
-                        songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
-                    }
-                    catch { }
-                    songIndex++;
-                    if (songIndex >= KnownSongs.Length)
-                        songIndex = 0;
-                    Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
-                    GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
-                }
-            }
 
-            if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))
-            {
-                ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled =
-                    !ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled;
-                Log($"Archipelago rendering {(ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled ? "enabled" : "disabled")}", true);
+                if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.JumpItems > 0)
+                {
+                    Log($"DEBUG: Flip-O-Will Jump Level lowered to {--APPlayerManager.JumpItems}", true);
+                    APTVManager.FlagTvNeedsUpdate();
+                }
+                if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.JumpItems < 2)
+                {
+                    Log($"DEBUG: Flip-O-Will Jump Level increased to {++APPlayerManager.JumpItems}", true);
+                    APTVManager.FlagTvNeedsUpdate();
+                }
+
+                if (Input.GetKeyDown(KeyCode.Backspace))
+                {
+                    APPlayerManager.SpinAttackItem = !APPlayerManager.SpinAttackItem;
+                    Log($"DEBUG: Flip-O-Will Spin Attack {(APPlayerManager.SpinAttackItem ? "enabled" : "disabled")}", true);
+                    APTVManager.FlagTvNeedsUpdate();
+                }
+                if (Input.GetKeyDown(KeyCode.Backslash))
+                {
+                    APPlayerManager.GlideEnabledItem = !APPlayerManager.GlideEnabledItem;
+                    Log($"DEBUG: Glide {(APPlayerManager.GlideEnabledItem ? "enabled" : "disabled")}", true);
+                    APTVManager.FlagTvNeedsUpdate();
+                }
+                if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
+                {
+                    GameplayMaster.instance.useGameTimer = !GameplayMaster.instance.useGameTimer;
+                    Log($"DEBUG: Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.Comma))
+                {
+                    AllowLaser = !AllowLaser;
+                    Log($"DEBUG: Dream Gigalaser {(AllowLaser ? "enabled" : "disabled")}", true);
+                    var rivers = FindObjectsByType<RiverScript>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                    foreach (var river in rivers)
+                    {
+                        river.gameObject.SetActive(AllowLaser);
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                {
+                    APCollectableManager.GoldenSpringReceived = !APCollectableManager.GoldenSpringReceived;
+                    Log($"DEBUG: Golden Spring {(APCollectableManager.GoldenSpringReceived ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    APCollectableManager.GoldenPropellerActive = !APCollectableManager.GoldenPropellerActive;
+                    Log($"DEBUG: Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                {
+                    APSwitchManager.OrangeSwitchUnlocked = !APSwitchManager.OrangeSwitchUnlocked;
+                    Log($"DEBUG: Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                {
+                    APRatManager.ReceivedRatItem = !APRatManager.ReceivedRatItem;
+                    GameStateUpdater.RatStateNeedsUpdate = true;
+                    Log($"DEBUG: Rat {(APRatManager.ReceivedRatItem ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                {
+                    APSwitchManager.PurpleSwitchUnlocked = !APSwitchManager.PurpleSwitchUnlocked;
+                    Log($"DEBUG: Purple Switch {(APSwitchManager.PurpleSwitchUnlocked ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                {
+                    APSwitchManager.GreenSwitchUnlocked = !APSwitchManager.GreenSwitchUnlocked;
+                    Log($"DEBUG: Green Switch {(APSwitchManager.GreenSwitchUnlocked ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.Delete))
+                {
+                    DeathLinkInProgress = true;
+                    GameplayMaster.instance?.Die();
+                    Log($"DEBUG: Attempting to kill player", true);
+                }
+                if (Input.GetKeyDown(KeyCode.B))
+                {
+                    ExplosionScript.SpawnNew(PlayerScript.instance.transform.position - new Vector3(0, 3, 0));
+                    //Log($"Spawning explosion at player");
+                }
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    PlayerScript.instance.propellerUsesLeft = 3;
+                    Log($"DEBUG: Granting Propeller", true);
+                }
+                if (Input.GetKeyDown(KeyCode.I))
+                {
+                    if (PlayerScript.instance.invincible)
+                    {
+                        PlayerScript.instance.InvincibleStop();
+                        Log($"DEBUG: Toggling invincibility off", true);
+                    }
+                    else
+                    {
+                        PlayerScript.instance.InvincibleSet(float.PositiveInfinity);
+                        Log($"DEBUG: Toggling invincibility on", true);
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    APAreaStateManager.RocketEnabled = !APAreaStateManager.RocketEnabled;
+                    Log($"DEBUG: Mosk Rocket {(APAreaStateManager.RocketEnabled ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.M))
+                {
+                    APAreaStateManager.MindPasswordReceived = !APAreaStateManager.MindPasswordReceived;
+                    Log($"DEBUG: Morio's Password {(APAreaStateManager.MindPasswordReceived ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.O))
+                {
+                    APAreaStateManager.DoggoReceived = !APAreaStateManager.DoggoReceived;
+                    Log($"DEBUG: Doggo {(APAreaStateManager.DoggoReceived ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    APAreaStateManager.GelaToniReceived = !APAreaStateManager.GelaToniReceived;
+                    Log($"DEBUG: Gela-Toni {(APAreaStateManager.GelaToniReceived ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    APAreaStateManager.PizzaKingReceived = !APAreaStateManager.PizzaKingReceived;
+                    Log($"DEBUG: Pizza King {(APAreaStateManager.PizzaKingReceived ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    APAreaStateManager.FullGameUnlocked = !APAreaStateManager.FullGameUnlocked;
+                    Log($"DEBUG: Full Game {(APAreaStateManager.FullGameUnlocked ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    APAreaStateManager.LabDoorUnlocked = !APAreaStateManager.LabDoorUnlocked;
+                    Log($"DEBUG: Lab Key {(APAreaStateManager.LabDoorUnlocked ? "enabled" : "disabled")}", true);
+                }
+
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    var rotation = (int)Math.Round(PlayerScript.instance?.transform?.GetYAngle() ?? 0);
+                    if (rotation == 360)
+                        rotation = 0;
+                    var zoneVals =
+                        $"new Vector3({Math.Round(PlayerScript.instance?.transform?.position.x ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.y ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.z ?? 0, 1)}f), {rotation}, {ZoneMaster.currentZoneId}, {LightDirectionalScript.instance?.myLight?.enabled.ToString().ToLower() ?? "false"}, {WaterScript.instance?.WaterEnable.ToString().ToLower() ?? "false"}, \"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\", \"{HudMasterScript.instance.currentMapAreaScriptableObject.areaName}\"),";
+                    Log($"Copying current zone values ({zoneVals}", true);
+                    GUIUtility.systemCopyBuffer = zoneVals;
+                }
+                if (Input.GetKeyDown(KeyCode.V))
+                {
+                    var zoneVals =
+                        $"\"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\"),";
+                    Log($"Copying current music/bg values ({zoneVals}", true);
+                    GUIUtility.systemCopyBuffer = zoneVals;
+                }
+
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    Log("DEBUG: Activating Wishlist Trap", true);
+                    Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
+                }
+
+                if (Input.GetKeyDown(KeyCode.KeypadMultiply))
+                {
+                    Log($"Copying Known BG/Soundtrack");
+                    var bgs = "";
+                    foreach (var bg in APAreaStateManager.KnownBackgrounds.Keys)
+                    {
+                        bgs += $"\"{bg}\", ";
+                    }
+
+                    bgs = bgs.TrimEnd(',', ' ');
+
+                    var sts = "";
+                    foreach (var st in APAreaStateManager.KnownSoundtracks.Keys)
+                    {
+                        sts += $"\"{st}\", ";
+                    }
+
+                    sts = sts.TrimEnd(',', ' ');
+
+                    GUIUtility.systemCopyBuffer = $"{bgs}\n{sts}";
+                }
+
+                if (Input.GetKeyDown(KeyCode.H))
+                {
+                    APPlayerManager.PizzaWheelsItem = Master.cheat_PizzaWheels = !Master.cheat_PizzaWheels;
+                    Log($"DEBUG: Pizza Wheels {(Master.cheat_PizzaWheels ? "enabled" : "disabled")}", true);
+                }
+
+                if (false)
+                {
+                    if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        try
+                        {
+                            bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
+                        }
+                        catch { }
+                        bgIndex--;
+                        if (bgIndex < 0)
+                            bgIndex = KnownBGs.Length - 1;
+                        Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                        BackgroundMaster.Change(KnownBGs[bgIndex]);
+                    }
+                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    {
+                        try
+                        {
+                            bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
+                        }
+                        catch { }
+                        bgIndex++;
+                        if (bgIndex >= KnownBGs.Length)
+                            bgIndex = 0;
+                        Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                        BackgroundMaster.Change(KnownBGs[bgIndex]);
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+                        try
+                        {
+                            songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
+                        }
+                        catch { }
+                        songIndex--;
+                        if (songIndex < 0)
+                            songIndex = KnownSongs.Length - 1;
+                        Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
+                        GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                    }
+                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        try
+                        {
+                            songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
+                        }
+                        catch { }
+                        songIndex++;
+                        if (songIndex >= KnownSongs.Length)
+                            songIndex = 0;
+                        Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
+                        GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))
+                {
+                    ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled =
+                        !ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled;
+                    Log($"Archipelago rendering {(ModMaster.instance.gameObject.GetComponent<ArchipelagoRenderer>().enabled ? "enabled" : "disabled")}", true);
+                }
             }
             orig(self);
         };
