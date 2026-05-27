@@ -412,7 +412,6 @@ namespace YellowTaxiAP
         [Description("Granny's Island - Expert 1 High Ground")]
         public static Dictionary<string, string> GrannysIslandExpert1HighGround = new() // Region Granny's Island Main & (EX1 | J1 | B1 | GP)
         {
-            { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
             { "0_03_00300", "Granny's Island - Coin on Roofs Behind Granny's Statue"},
             // Everything below this requires an explosion bounce.
             // Not *too* precise but definitely silly to require moveless
@@ -462,11 +461,27 @@ namespace YellowTaxiAP
             // Requires short-range bomb luring of repeatable bombs
             { "0_03_00318", "Granny's Island - Coin Bag on Roofs Behind Granny's Statue" },
             { "0_03_00396", "Granny's Island - Chest on Roofs Behind Granny's Statue" },
+            { "0_03_00465", "Granny's Island - Coin on Path to Granny's Statue #1" },
+            { "0_03_00466", "Granny's Island - Coin on Path to Granny's Statue #2" },
+            { "0_03_00467", "Granny's Island - Coin on Path to Granny's Statue #3" },
+            { "0_03_00469", "Granny's Island - Coin on Path to Granny's Statue #4" },
+            { "0_03_00468", "Granny's Island - Coin on Path to Granny's Statue #5" },
+            { "0_03_00547", "Granny's Island - Coin on Path to Granny's Statue #6" },
+            { "0_03_00574", "Granny's Island - Coin on Path to Granny's Statue #7" },
+            { "0_03_00573", "Granny's Island - Coin Bag on Path to Granny's Statue" },
+            { "0_01_00005", "Granny's Island - Gear - Granny's Statue" },
+            { "0_03_00462", "Granny's Island - Coin on Roof in Front of Granny's Statue #1" },
+            { "0_03_00463", "Granny's Island - Coin on Roof in Front of Granny's Statue #2" },
+            { "0_03_00473", "Granny's Island - Coin on Roof in Front of Granny's Statue #3" },
+            { "0_03_00464", "Granny's Island - Coin on Roof in Front of Granny's Statue #4" },
+            { "0_03_00474", "Granny's Island - Coin Bag on Roof in Front of Granny's Statue" },
         };
         
         [Description("Granny's Island - Expert 2 High Ground")]
         public static Dictionary<string, string> GrannysIslandExpert2HighGround = new() // Region Granny's Island Main & (EX2 | J1 | B1 | GP)
         {
+            // Drive along the railing
+            { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
             // Requires one-off Bomb luring
             { "0_03_00424", "Granny's Island - Coin on Hill By Cloro-Phil #1" },
             { "0_03_00423", "Granny's Island - Coin on Hill By Cloro-Phil #2" },
@@ -521,15 +536,6 @@ namespace YellowTaxiAP
             { "0_03_00278", "Granny's Island - Coin on Stone Island #5" },
             { "0_03_00279", "Granny's Island - Coin on Stone Island #6" },
             { "0_03_00276", "Granny's Island - Coin Bag on Stone Island" },
-            { "0_03_00465", "Granny's Island - Coin on Path to Granny's Statue #1" },
-            { "0_03_00466", "Granny's Island - Coin on Path to Granny's Statue #2" },
-            { "0_03_00467", "Granny's Island - Coin on Path to Granny's Statue #3" },
-            { "0_03_00469", "Granny's Island - Coin on Path to Granny's Statue #4" },
-            { "0_03_00468", "Granny's Island - Coin on Path to Granny's Statue #5" },
-            { "0_03_00547", "Granny's Island - Coin on Path to Granny's Statue #6" },
-            { "0_03_00574", "Granny's Island - Coin on Path to Granny's Statue #7" },
-            { "0_03_00573", "Granny's Island - Coin Bag on Path to Granny's Statue" },
-            { "0_01_00005", "Granny's Island - Gear - Granny's Statue" },
             { "0_01_00012", "Granny's Island - Gear - Gym Gears Roof" },
             { "0_03_00562", "Granny's Island - Coin Above Pipe on Hill by Lab #1" },
             { "0_03_00565", "Granny's Island - Coin Above Pipe on Hill by Lab #2" },
@@ -540,11 +546,6 @@ namespace YellowTaxiAP
             { "0_03_00564", "Granny's Island - Coin Above Pipe on Hill by Lab #7" },
             { "0_03_00567", "Granny's Island - Coin Above Pipe on Hill by Lab #8" },
             { "0_03_00570", "Granny's Island - Coin Above Pipe on Hill by Lab #9" },
-            { "0_03_00462", "Granny's Island - Coin on Roof in Front of Granny's Statue #1" },
-            { "0_03_00463", "Granny's Island - Coin on Roof in Front of Granny's Statue #2" },
-            { "0_03_00473", "Granny's Island - Coin on Roof in Front of Granny's Statue #3" },
-            { "0_03_00464", "Granny's Island - Coin on Roof in Front of Granny's Statue #4" },
-            { "0_03_00474", "Granny's Island - Coin Bag on Roof in Front of Granny's Statue" },
             { "0_03_00767", "Granny's Island - Coin on Stone Arch on Top of Mountain #1" },
             { "0_03_00765", "Granny's Island - Coin on Stone Arch on Top of Mountain #2" },
             { "0_03_00764", "Granny's Island - Coin on Stone Arch on Top of Mountain #3" },
@@ -2749,6 +2750,11 @@ namespace YellowTaxiAP
             { "1_07_00006", "Purchase Drink Hat" },
         };
 
+        public static Dictionary<string, string> BombeachSpecialRules = new()
+        {
+            { "Bombeach - Bunny - On Ocean Pillar", "X2/J1/OS" }
+        };
+
         #endregion
 
         #region Arcade Panik
@@ -4699,6 +4705,19 @@ namespace YellowTaxiAP
             { "6_03_00118", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #3" },
         };
 
+        [Description("Gym Gears - Expert 2 Boost")]
+        public static Dictionary<string, string> GymGearsExpert2Boost = new()
+        {
+            { "6_03_00103", "Gym Gears - Coin Bag on Broken Pillar in Ultra Chad Room" },
+            { "6_03_00107", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #1" },
+            { "6_03_00113", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #2" },
+            { "6_03_00120", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #3" },
+            { "6_03_00106", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #1" },
+            { "6_03_00112", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #2" },
+            { "6_03_00119", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #3" },
+            { "6_01_00001", "Gym Gears - Gear - Back Left Corner of Main Area" },
+        };
+
         [Description("Gym Gears - Jump")]
         public static Dictionary<string, string> GymGearsJump = new()
         {
@@ -4717,10 +4736,6 @@ namespace YellowTaxiAP
             { "6_03_00130", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #1" },
             { "6_01_00000", "Gym Gears - Gear - Beam Above Entrance Weightlifting Area" },
             { "6_03_00132", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #2" },
-            { "6_03_00106", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #1" },
-            { "6_03_00112", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #2" },
-            { "6_03_00119", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #3" },
-            { "6_01_00001", "Gym Gears - Gear - Back Left Corner of Main Area" },
             { "6_03_00134", "Gym Gears - Coin on 20 Tons Block Towards Bunny #1" },
             { "6_03_00139", "Gym Gears - Coin on 20 Tons Block Towards Bunny #2" },
             { "6_03_00152", "Gym Gears - Coin on 20 Tons Block Towards Bunny #3" },
@@ -4729,9 +4744,6 @@ namespace YellowTaxiAP
             { "6_03_00153", "Gym Gears - Coin on 20 Tons Block Towards Bunny #6" },
             { "6_09_00360", "Gym Gears - Checkpoint Near Bunny" },
             { "6_02_00001", "Gym Gears - Bunny - Back of Main Area" },
-            { "6_03_00107", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #1" },
-            { "6_03_00113", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #2" },
-            { "6_03_00120", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #3" },
             { "6_03_00109", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #1" },
             { "6_03_00115", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #2" },
             { "6_03_00123", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #3" },
@@ -4829,7 +4841,6 @@ namespace YellowTaxiAP
             { "6_03_00188", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #11" },
             { "6_03_00191", "Gym Gears - Coin on 20 Tons Block in Alcove Above Entrance to Main Area #12" },
             { "6_01_00002", "Gym Gears - Gear - Alcove Above Entrance to Main Area" },
-            { "6_03_00103", "Gym Gears - Coin Bag on Broken Pillar in Ultra Chad Room" },
             { "6_03_00116", "Gym Gears - Coin Bag on Pillar in Ultra Chad Room" },
             { "6_01_00004", "Gym Gears - Gear - Ultra Chad Room" },
             { "6_02_00002", "Gym Gears - Bunny - Ultra Chad Room" },
@@ -6367,6 +6378,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GymGearsStartingArea)), GymGearsStartingArea),
             new(GetDescription(nameof(GymGearsExpert1)), GymGearsExpert1),
             new(GetDescription(nameof(GymGearsExpert2)), GymGearsExpert2),
+            new(GetDescription(nameof(GymGearsExpert2Boost)), GymGearsExpert2Boost),
             new(GetDescription(nameof(GymGearsJump)), GymGearsJump),
 
             // Fecal Matters Areas
@@ -6463,6 +6475,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, Dictionary<string, string>> SpecialRules = new()
         {
             { nameof(Data.LevelId.Hub), HubSpecialRules },
+            { nameof(Data.LevelId.L1_Bombeach), BombeachSpecialRules },
             { nameof(Data.LevelId.L2_PizzaTime), PizzaTimeSpecialRules },
             { nameof(Data.LevelId.L3_MoriosHome), MoriosIslandSpecialRules },
             { nameof(Data.LevelId.L4_ArcadePanik), ArcadePanikSpecialRules },
@@ -6686,6 +6699,7 @@ namespace YellowTaxiAP
                     GymGearsStartingArea,
                     GymGearsExpert1,
                     GymGearsExpert2,
+                    GymGearsExpert2Boost,
                     GymGearsJump,
                 ]
             },
@@ -7839,6 +7853,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(PizzaTimeHatWorld)),
                 [
                     new RegionConnection("Pizza Time Hat World - Exit", PizzaTimeStartingArea, ConnectionType.Warp),
+                    new RegionConnection(AnyHatWorld),
                 ]
             },
             {
@@ -8025,8 +8040,9 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GymGearsStartingArea)),
                 [
                     new RegionConnection("Gym Gears - Granny's Island Portal", GrannysIslandMain, ConnectionType.Warp),
-                    new RegionConnection(GymGearsExpert1 , "X1/J1"),
-                    new RegionConnection(GymGearsExpert2 , "X2/J1"),
+                    new RegionConnection(GymGearsExpert1, "X1/J1"),
+                    new RegionConnection(GymGearsExpert2, "X2/J1"),
+                    new RegionConnection(GymGearsExpert2Boost, "X2+B1 | J1"),
                     new RegionConnection(GymGearsJump, "J1"),
                 ]
             },
@@ -8038,6 +8054,12 @@ namespace YellowTaxiAP
             },
             {
                 GetDescription(nameof(GymGearsExpert2)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(GymGearsExpert2Boost)),
                 [
                     // Doesn't connect anywhere
                 ]

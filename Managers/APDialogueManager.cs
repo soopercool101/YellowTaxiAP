@@ -201,7 +201,8 @@ namespace YellowTaxiAP.Managers
             else if (GameplayMaster.instance.levelId == Data.LevelId.L2_PizzaTime && self.myId == 91 &&
                      Plugin.SlotData.PizzaWheels != YTGVSlotData.PizzaWheelsMode.Disabled)
             {
-                self.gameRelevantPerson = true;
+                self.gameRelevantPerson = !Plugin.ArchipelagoClient.AllClearedLocations.Contains(1_00_00000 * (long)GameplayMaster.instance.levelId +
+                    (long)Identifiers.NotableLocations.HubPizzaWheels);
             }
 
             orig(self);
@@ -805,14 +806,11 @@ namespace YellowTaxiAP.Managers
                             Plugin.ArchipelagoClient.Win();
                         break;
                     case "DIALOGUE_ALIEN_MOSK_TOSLA_OFFICES_BOSSFIGHT_END_1":
-                        if (!Plugin.SlotData.EarlyGoldenSpring)
-                        {
-                            if (Plugin.SlotData.ShuffleGoldenSpring)
-                                QueuedItem = 1_00_00000 * (long)GameplayMaster.instance.levelId +
-                                             (long)Identifiers.NotableLocations.HubGoldenSpring;
-                            else if (!(Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemoveGoalPortalLocations))
-                                APSaveController.MiscSave.HasGoldenSpring = true;
-                        }
+                        if (Plugin.SlotData.ShuffleGoldenSpring)
+                            QueuedItem = 1_00_00000 * (long)GameplayMaster.instance.levelId +
+                                         (long)Identifiers.NotableLocations.HubGoldenSpring;
+                        else if (!(Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemoveGoalPortalLocations))
+                            APSaveController.MiscSave.HasGoldenSpring = true;
 
                         if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices)
                             Plugin.ArchipelagoClient.Win();

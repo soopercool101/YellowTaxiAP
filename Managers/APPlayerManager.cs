@@ -52,6 +52,8 @@ namespace YellowTaxiAP.Managers
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
 
             On.GameplayMaster.Die += GameplayMaster_Die;
+            // Don't reset pizza wheels!
+            On.Master.CheatsOthers_Reset += _ => { };
         }
 
         private void GameplayMaster_Die(On.GameplayMaster.orig_Die orig, GameplayMaster self)
