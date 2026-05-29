@@ -2916,11 +2916,11 @@ namespace YellowTaxiAP
             { "4_09_00065", "Arcade Panik - Checkpoint Near Big Bowling" },
             { "4_01_00012", "Arcade Panik - Gear - Above Center Island" },
             { "4_21_00004", "Arcade Panik - Cheese on Center Island Near Psycho Taxi Cartridge" },
-            { "4_03_00006", "Arcade Panik - Chest on Big Bowling Pipe" },
-            { "4_03_00007", "Arcade Panik - Chest on Arcade Zone Pipe" },
-            { "4_03_00008", "Arcade Panik - Chest on Go Karts Pipes #1" },
-            { "4_03_00079", "Arcade Panik - Chest on Go Karts Pipes #2" },
-            { "4_03_00131", "Arcade Panik - Chest on Go Karts Pipes #3" },
+            { "4_03_00006", "Arcade Panik - Chest on Big Bowling Green Pipes" },
+            { "4_03_00007", "Arcade Panik - Chest on Arcade Zone Green Pipes" },
+            { "4_03_00008", "Arcade Panik - Chest on Go Karts Green Pipes #1" },
+            { "4_03_00079", "Arcade Panik - Chest on Go Karts Green Pipes #2" },
+            { "4_03_00131", "Arcade Panik - Chest on Go Karts Green Pipes #3" },
             { "4_01_00022", "Arcade Panik - Gear - Crazy Ballz Short Strike" },
             { "4_03_00279", "Arcade Panik - Coin on Switch Overlooking Crazy Ballz Long Strike #1" },
             { "4_03_00287", "Arcade Panik - Coin on Switch Overlooking Crazy Ballz Long Strike #2" },
@@ -3078,13 +3078,13 @@ namespace YellowTaxiAP
             { "4_21_00000", "Arcade Panik - Cheese in Crazy Ballz Area" },
             //{ "4_20_99999", "Arcade Panik - Psycho Taxi Cartridge" }, // Irrelevant to this, placed by special handling
             // Special Rules
-            { "4_01_00017", "Arcade Panik - Gear - Pipe Above Big Bowling Back Door" },
-            { "4_03_00205", "Arcade Panik - Chest Inside Go Karts Pipe" },
-            { "4_02_00000", "Arcade Panik - Bunny - Above Go Karts Pipe" },
+            { "4_01_00017", "Arcade Panik - Gear - Green Pipe Above Big Bowling Back Door" },
+            { "4_03_00205", "Arcade Panik - Chest Inside Go Karts Bowling Ball Pipe" },
+            { "4_02_00000", "Arcade Panik - Bunny - Above Go Karts Bowling Ball Pipe" },
             { "4_01_00008", "Arcade Panik - Gear - Go Karts Obstacle Course" },
             { "4_01_00023", "Arcade Panik - Gear - Alcove Under Pinball Entrance" },
-            { "4_03_00281", "Arcade Panik - Chest Inside Crazy Ballz Pipe #1" },
-            { "4_03_00369", "Arcade Panik - Chest Inside Crazy Ballz Pipe #2" },
+            { "4_03_00281", "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #1" },
+            { "4_03_00369", "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #2" },
         };
 
         [Description("Arcade Panik - Ledge Above Big Bowling Door")]
@@ -3101,8 +3101,8 @@ namespace YellowTaxiAP
         [Description("Arcade Panik - Expert 1 or Jump")]
         public static Dictionary<string, string> ArcadePanikExpert1Jump = new()
         {
-            { "4_03_00005", "Arcade Panik - Chest on Crazy Ballz Pipes #1" },
-            { "4_03_00009", "Arcade Panik - Chest on Crazy Ballz Pipes #2" },
+            { "4_03_00005", "Arcade Panik - Chest on Crazy Ballz Green Pipes #1" },
+            { "4_03_00009", "Arcade Panik - Chest on Crazy Ballz Green Pipes #2" },
             { "4_03_00167", "Arcade Panik - Chest Behind Arcade Zone Entrance Left Arcade Machine" },
             { "4_03_00185", "Arcade Panik - Chest Behind Arcade Zone Entrance Right Arcade Machine" },
         };
@@ -3313,13 +3313,13 @@ namespace YellowTaxiAP
 
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
-            { "Arcade Panik - Chest Inside Go Karts Pipe", "X2/J1" },               // Can explosion jump off the nearby car with good timing
-            { "Arcade Panik - Bunny - Above Go Karts Pipe", "B2+J2 | X1+B2+J1" },
-            { "Arcade Panik - Gear - Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
+            { "Arcade Panik - Chest Inside Go Karts Bowling Ball Pipe", "X2/J1" },               // Can explosion jump off the nearby car with good timing
+            { "Arcade Panik - Bunny - Above Go Karts Bowling Ball Pipe", "B2+J2 | X1+B2+J1" },
+            { "Arcade Panik - Gear - Green Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Alcove Under Pinball Entrance", $"B2 | X1/B1/J1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Go Karts Obstacle Course", "X1/J1" },
-            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #1", "J2 | X2+J1" },
-            { "Arcade Panik - Chest Inside Crazy Ballz Pipe #2", $"J2 | J1 & {{{GetDescription(nameof(ArcadePanikCliffAboveCrazyBallz))}}}" },
+            { "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #1", "J2 | X2+J1" },
+            { "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #2", $"J2 | J1 & {{{GetDescription(nameof(ArcadePanikCliffAboveCrazyBallz))}}}" },
         };
 
         #endregion

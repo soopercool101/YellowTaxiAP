@@ -54,6 +54,7 @@ public class Plugin : BaseUnityPlugin
     public APMinimapManager MinimapHook;
     public APTimeAttackManager TimeAttackHook;
     public APTVManager TVHook;
+    public APBossManager BossHook;
 
     public bool AllowLaser = true;
 #if DEBUG
@@ -156,6 +157,7 @@ public class Plugin : BaseUnityPlugin
             WalletHook = new APWalletManager();
             TimeAttackHook = new APTimeAttackManager();
             TVHook = new APTVManager();
+            BossHook = new APBossManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
             self.gameObject.AddComponent<GameStateUpdater>();
             self.gameObject.AddComponent<APSaveController>();

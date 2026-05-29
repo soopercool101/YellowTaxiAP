@@ -119,6 +119,8 @@ namespace YellowTaxiAP.Archipelago
 
         public string FunnyFaces { get; private set; }
 
+        public bool EasyAlienMosk { get; private set; }
+
         public enum LevelUnlockCondition : long
         {
             Special = -1,
@@ -625,6 +627,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for early_sewer_island found");
+            }
+
+            if (slotData.ContainsKey("easy_alien_mosk"))
+            {
+                EasyAlienMosk = (bool)slotData["easy_alien_mosk"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for easy_alien_mosk found");
             }
 
             if (slotData.ContainsKey("locked_time_trials"))
