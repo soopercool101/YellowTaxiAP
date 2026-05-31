@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
@@ -47,6 +48,7 @@ namespace YellowTaxiAP.Archipelago
         public bool DeathLink { get; private set; }
         public int DeathLinkAmnesty { get; set; }
         public bool RingLink { get; private set; }
+        public bool TrapLink { get; private set; }
         public int PurchaseRebatePercent { get; private set; }
         public bool ShuffleGelaToni { get; private set; }
         public bool ShufflePizzaKing { get; private set; }
@@ -257,6 +259,16 @@ namespace YellowTaxiAP.Archipelago
             }
             else
             {
+                Plugin.Log("No slot data for ring_link found");
+            }
+
+            if (slotData.ContainsKey("trap_link"))
+            {
+                TrapLink = (bool)slotData["trap_link"];
+            }
+            else
+            {
+                TrapLink = true; // TODO: Remove this as default
                 Plugin.Log("No slot data for ring_link found");
             }
 

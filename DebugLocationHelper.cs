@@ -2916,11 +2916,6 @@ namespace YellowTaxiAP
             { "4_09_00065", "Arcade Panik - Checkpoint Near Big Bowling" },
             { "4_01_00012", "Arcade Panik - Gear - Above Center Island" },
             { "4_21_00004", "Arcade Panik - Cheese on Center Island Near Psycho Taxi Cartridge" },
-            { "4_03_00006", "Arcade Panik - Chest on Big Bowling Green Pipes" },
-            { "4_03_00007", "Arcade Panik - Chest on Arcade Zone Green Pipes" },
-            { "4_03_00008", "Arcade Panik - Chest on Go Karts Green Pipes #1" },
-            { "4_03_00079", "Arcade Panik - Chest on Go Karts Green Pipes #2" },
-            { "4_03_00131", "Arcade Panik - Chest on Go Karts Green Pipes #3" },
             { "4_01_00022", "Arcade Panik - Gear - Crazy Ballz Short Strike" },
             { "4_03_00279", "Arcade Panik - Coin on Switch Overlooking Crazy Ballz Long Strike #1" },
             { "4_03_00287", "Arcade Panik - Coin on Switch Overlooking Crazy Ballz Long Strike #2" },
@@ -3105,6 +3100,11 @@ namespace YellowTaxiAP
             { "4_03_00009", "Arcade Panik - Chest on Crazy Ballz Green Pipes #2" },
             { "4_03_00167", "Arcade Panik - Chest Behind Arcade Zone Entrance Left Arcade Machine" },
             { "4_03_00185", "Arcade Panik - Chest Behind Arcade Zone Entrance Right Arcade Machine" },
+            { "4_03_00006", "Arcade Panik - Chest on Big Bowling Green Pipes" },
+            { "4_03_00007", "Arcade Panik - Chest on Arcade Zone Green Pipes" },
+            { "4_03_00008", "Arcade Panik - Chest on Go Karts Green Pipes #1" },
+            { "4_03_00079", "Arcade Panik - Chest on Go Karts Green Pipes #2" },
+            { "4_03_00131", "Arcade Panik - Chest on Go Karts Green Pipes #3" },
         };
 
         [Description("Arcade Panik - Boost 2")]
@@ -6888,7 +6888,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears+GymKey"),
-                    new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X3+Rocket+B2+GP | X3+B2+J1"),
+                    new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X3+Rocket+B2+GP | X2+B2+J1"),
                     new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "PortalFecalMatters+Doggo"),
                     new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & J2/B1/GP | X1+Rocket+J1"),
                     // Golden Propeller non-area rando rules. Expert 1 required to bring it through loading zones
@@ -6984,7 +6984,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandTowardsSewerIsland2)),
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "OS+J1 | B1"),
-                    new RegionConnection(GrannysIslandTowardsSewerIsland2Tree, "J1"),
+                    new RegionConnection(GrannysIslandTowardsSewerIsland2Tree, "J1 | X1+B1"),
                     new RegionConnection(GrannysIslandSewerIsland, "OS/EarlySewer"),
                 ]
             },
@@ -6992,6 +6992,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandTowardsSewerIsland2Tree)),
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland2),
+                    new RegionConnection(GrannysIslandSewerIsland, "X3+B2"),
                 ]
             },
             {
@@ -7697,7 +7698,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ArcadePanikStartingArea)),
                 [
                     new RegionConnection("Arcade Panik - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
-                    new RegionConnection(ArcadePanikBowlingAlleyLedge, "J1 | X1+B1"),
+                    new RegionConnection(ArcadePanikBowlingAlleyLedge, "J2 | X1 & J1/B1"),
                     new RegionConnection(ArcadePanikExpert1Jump, "X1/J1"),
                     new RegionConnection(ArcadePanikBoost2, "B2"),
                     new RegionConnection(ArcadePanikPinballArea, "B2 & X1/J1"),

@@ -165,6 +165,7 @@ public class ArchipelagoClient
                 {
                     tags.Add("RingLink");
                 }
+                tags.Add("TrapLink");
 
                 session.ConnectionInfo.UpdateConnectionOptions(session.ConnectionInfo.Tags
                     .Concat(tags.Where(tag => Array.IndexOf(session.ConnectionInfo.Tags, tag) == -1)).ToArray());
@@ -366,6 +367,12 @@ public class ArchipelagoClient
                         Plugin.ArchipelagoClient.UpdateWallet(ring.Data["amount"].Value<int>(), false);
                     }
                     break;
+                case BouncedPacket trap when trap.Tags.Contains("TrapLink"):
+                    if (!trap.Data["source"].Value<string>().Equals(Plugin.ArchipelagoClient.Player))
+                    {
+                        APTrapController.ActivateTrap(trap.Data["trap_name"].Value<string>(), true);
+                    }
+                    break;
             }
         }
         catch (Exception e)
@@ -386,6 +393,24 @@ public class ArchipelagoClient
                     { "time", (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds },
                     { "source", session.ConnectionInfo.Slot },
                     { "amount", amount }
+                }
+            };
+            session.Socket.SendPacket(packet);
+        }
+    }
+
+    public void SendTrapLink(string trap)
+    {
+        if (Plugin.SlotData.TrapLink && !string.IsNullOrEmpty(trap))
+        {
+            BouncePacket packet = new()
+            {
+                Tags = ["TrapLink"],
+                Data = new()
+                {
+                    { "trap", (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds },
+                    { "source", Player },
+                    { "trap_name", trap }
                 }
             };
             session.Socket.SendPacket(packet);

@@ -162,6 +162,7 @@ public class Plugin : BaseUnityPlugin
             self.gameObject.AddComponent<GameStateUpdater>();
             self.gameObject.AddComponent<APSaveController>();
             self.gameObject.AddComponent<OrangeSwitchController>();
+            self.gameObject.AddComponent<APTrapController>();
             On.GigaMorioScript.Update += (origUpdate, selfGigaMorio) =>
             {
                 if (!AllowLaser)
