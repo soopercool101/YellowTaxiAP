@@ -308,11 +308,6 @@ namespace YellowTaxiAP
             { "0_03_00060", "Granny's Island - Coin on Broken Pier #11" },
             { "0_03_00061", "Granny's Island - Coin on Broken Pier #12" },
             { "0_03_00063", "Granny's Island - Coin on Broken Pier #13" },
-        };
-
-        [Description("Granny's Island - Broken Pier Extra Deep")]
-        public static Dictionary<string, string> GrannysIslandBrokenPierExtraDeep = new()
-        {
             { "0_03_00042", "Granny's Island - Coin on Broken Pier #14" },
             { "0_03_00041", "Granny's Island - Coin on Broken Pier #15" },
             { "0_03_00044", "Granny's Island - Coin on Broken Pier #16" },
@@ -320,8 +315,8 @@ namespace YellowTaxiAP
             { "0_01_00011", "Granny's Island - Gear - Broken Pier" },
         };
 
-        [Description("Granny's Island - Lab Hill Expert 2 High Ground")]
-        public static Dictionary<string, string> GrannysIslandLabHillExpert2HighGround = new() // Region Granny's Island Main & (EX1 | J1 | B1 | GP)
+        [Description("Granny's Island - Lab Hill High Ground")]
+        public static Dictionary<string, string> GrannysIslandLabHillHighGround = new()
         {
             { "0_03_00363", "Granny's Island - Coin on Hill Near Lab #1" },
             { "0_03_00359", "Granny's Island - Coin on Hill Near Lab #2" },
@@ -336,11 +331,6 @@ namespace YellowTaxiAP
             { "0_03_00348", "Granny's Island - Coin on Hill Near Lab #11" },
             { "0_03_00353", "Granny's Island - Coin on Hill Near Lab #12" },
             { "0_03_00349", "Granny's Island - Coin on Hill Near Lab #13" },
-        };
-
-        [Description("Granny's Island - Lab Hill High Ground")]
-        public static Dictionary<string, string> GrannysIslandLabHillHighGround = new()
-        {
             { "0_03_00539", "Granny's Island - Coin on Starting Area Walls #1" },
             { "0_03_00540", "Granny's Island - Coin on Starting Area Walls #2" },
             { "0_03_00541", "Granny's Island - Coin on Starting Area Walls #3" },
@@ -475,13 +465,13 @@ namespace YellowTaxiAP
             { "0_03_00473", "Granny's Island - Coin on Roof in Front of Granny's Statue #3" },
             { "0_03_00464", "Granny's Island - Coin on Roof in Front of Granny's Statue #4" },
             { "0_03_00474", "Granny's Island - Coin Bag on Roof in Front of Granny's Statue" },
+            // Drive along the railing
+            { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
         };
         
         [Description("Granny's Island - Expert 2 High Ground")]
         public static Dictionary<string, string> GrannysIslandExpert2HighGround = new() // Region Granny's Island Main & (EX2 | J1 | B1 | GP)
         {
-            // Drive along the railing
-            { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
             // Requires one-off Bomb luring
             { "0_03_00424", "Granny's Island - Coin on Hill By Cloro-Phil #1" },
             { "0_03_00423", "Granny's Island - Coin on Hill By Cloro-Phil #2" },
@@ -524,6 +514,18 @@ namespace YellowTaxiAP
             { "0_03_00415", "Granny's Island - Coin on Roof by Construction Site #2" },
             { "0_03_00460", "Granny's Island - Coin on Roof by Construction Site #3" },
             { "0_03_00461", "Granny's Island - Coin Bag on Roof by Construction Site" },
+            { "0_03_00298", "Granny's Island - Coin on Roof Next to Pizza Oven #1" },
+            { "0_03_00307", "Granny's Island - Coin on Roof Next to Pizza Oven #2" },
+            { "0_03_00315", "Granny's Island - Coin on Roof Next to Pizza Oven #3" },
+            { "0_03_00368", "Granny's Island - Coin on Roof Next to Pizza Oven #4" },
+            { "0_03_00369", "Granny's Island - Coin Bag on Roof Next to Pizza Oven" },
+            { "0_03_00453", "Granny's Island - Coin on Stone Arch on Beach #1" },
+            { "0_03_00455", "Granny's Island - Coin on Stone Arch on Beach #2" },
+            { "0_03_00458", "Granny's Island - Coin on Stone Arch on Beach #3" },
+            { "0_03_00457", "Granny's Island - Coin on Stone Arch on Beach #4" },
+            { "0_03_00456", "Granny's Island - Coin on Stone Arch on Beach #5" },
+            { "0_03_00454", "Granny's Island - Coin Bag on Stone Arch on Beach" },
+            { "0_01_00012", "Granny's Island - Gear - Gym Gears Roof" },
         };
         
         [Description("Granny's Island - High Ground")]
@@ -536,7 +538,6 @@ namespace YellowTaxiAP
             { "0_03_00278", "Granny's Island - Coin on Stone Island #5" },
             { "0_03_00279", "Granny's Island - Coin on Stone Island #6" },
             { "0_03_00276", "Granny's Island - Coin Bag on Stone Island" },
-            { "0_01_00012", "Granny's Island - Gear - Gym Gears Roof" },
             { "0_03_00562", "Granny's Island - Coin Above Pipe on Hill by Lab #1" },
             { "0_03_00565", "Granny's Island - Coin Above Pipe on Hill by Lab #2" },
             { "0_03_00568", "Granny's Island - Coin Above Pipe on Hill by Lab #3" },
@@ -553,17 +554,6 @@ namespace YellowTaxiAP
             { "0_03_00791", "Granny's Island - Coin on Stone Arch on Top of Mountain #5" },
             { "0_03_00795", "Granny's Island - Coin on Stone Arch on Top of Mountain #6" },
             { "0_03_00794", "Granny's Island - Coin on Stone Arch on Top of Mountain #7" },
-            { "0_03_00298", "Granny's Island - Coin on Roof Next to Pizza Oven #1" },
-            { "0_03_00307", "Granny's Island - Coin on Roof Next to Pizza Oven #2" },
-            { "0_03_00315", "Granny's Island - Coin on Roof Next to Pizza Oven #3" },
-            { "0_03_00368", "Granny's Island - Coin on Roof Next to Pizza Oven #4" },
-            { "0_03_00369", "Granny's Island - Coin Bag on Roof Next to Pizza Oven" },
-            { "0_03_00453", "Granny's Island - Coin on Stone Arch on Beach #1" },
-            { "0_03_00455", "Granny's Island - Coin on Stone Arch on Beach #2" },
-            { "0_03_00458", "Granny's Island - Coin on Stone Arch on Beach #3" },
-            { "0_03_00457", "Granny's Island - Coin on Stone Arch on Beach #4" },
-            { "0_03_00456", "Granny's Island - Coin on Stone Arch on Beach #5" },
-            { "0_03_00454", "Granny's Island - Coin Bag on Stone Arch on Beach" },
             { "0_03_00366", "Granny's Island - Chest on Stone Arch in Water" },
             { "0_03_00367", "Granny's Island - Coin on Stone Arch in Water #1" },
             { "0_03_00392", "Granny's Island - Coin on Stone Arch in Water #2" },
@@ -595,9 +585,13 @@ namespace YellowTaxiAP
             { "0_03_00801", "Granny's Island - Coin on Ramp Towards Lighthouse #5" },
             { "0_03_00802", "Granny's Island - Coin on Ramp Towards Lighthouse #6" },
             { "0_03_00804", "Granny's Island - Coin on Ramp Towards Lighthouse #7" },
-            // Special Rules
-            { "0_01_00001", "Granny's Island - Gear - Lighthouse" },                    // Region Granny's Island Higher Ground & (B2 | (B1 & GP))
-            { "0_01_00015", "Granny's Island - Gear - In the Clouds" },                 // Region Granny's Island Higher Ground & ((B1 & GP) | (B2 & J1))
+        };
+
+        [Description("Granny's Island - In the Sky")]
+        public static Dictionary<string, string> GrannysIslandInTheSky = new()
+        {
+            { "0_01_00001", "Granny's Island - Gear - Lighthouse" },
+            { "0_01_00015", "Granny's Island - Gear - In the Clouds" },
         };
 
         [Description("Granny's Island - Arch Near Construction Site")]
@@ -927,14 +921,19 @@ namespace YellowTaxiAP
             { "0_03_00065", "Morio's Wardrobe - Coin #5" },
         };
 
-        [Description("Morio's Lab - Ground Floor Wrenches")]
-        public static Dictionary<string, string> MoriosLabGroundFloorWrenches = new()
+        [Description("Morio's Lab - Ground Floor First Wrench")]
+        public static Dictionary<string, string> MoriosLabGroundFloorFirstWrench = new()
         {
             { "0_03_00603", "Morio's Lab - Coin on Ground Floor Wrench #1" },
             { "0_03_00602", "Morio's Lab - Coin on Ground Floor Wrench #2" },
             { "0_03_00601", "Morio's Lab - Coin on Ground Floor Wrench #3" },
             { "0_03_00600", "Morio's Lab - Coin on Ground Floor Wrench #4" },
             { "0_03_00599", "Morio's Lab - Coin on Ground Floor Wrench #5" },
+        };
+
+        [Description("Morio's Lab - Ground Floor Second Wrench")]
+        public static Dictionary<string, string> MoriosLabGroundFloorSecondWrench = new()
+        {
             { "0_03_00618", "Morio's Lab - Coin on Ground Floor Wrench #6" },
             { "0_03_00617", "Morio's Lab - Coin on Ground Floor Wrench #7" },
             { "0_03_00616", "Morio's Lab - Coin on Ground Floor Wrench #8" },
@@ -955,7 +954,6 @@ namespace YellowTaxiAP
             { "0_03_00663", "Morio's Lab - Coin Bag in Nut Above Ground Floor #1" },
             { "0_03_00648", "Morio's Lab - Coin Bag in Nut Above Ground Floor #2" },
             { "0_03_00631", "Morio's Lab - Coin Bag in Nut Above Ground Floor #3" },
-            { "0_08_00006", "Morio's Lab - PICI Glide Tutorial" },
         };
 
         [Description("Morio's Lab - Alcove Above Arcade Panik")]
@@ -1030,7 +1028,6 @@ namespace YellowTaxiAP
             { "0_03_00551", "Morio's Lab - Coin on Second to Third Floor Stairway #4" },
             { "0_03_00476", "Morio's Lab - Coin Bag on Second to Third Floor Stairway #1" },
             { "0_03_00550", "Morio's Lab - Coin Bag on Second to Third Floor Stairway #2" },
-            { "0_08_00003", "Morio's Lab - PICI Flip Tutorial" },
         };
 
         [Description("Morio's Lab - Second Floor Falling From Shortcut Pipe")]
@@ -1056,7 +1053,6 @@ namespace YellowTaxiAP
             { "0_03_00691", "Morio's Lab - Coin on Ledge Near Superboost PICI #3" },
             { "0_03_00690", "Morio's Lab - Coin on Ledge Near Superboost PICI #4" },
             { "0_03_00689", "Morio's Lab - Coin on Ledge Near Superboost PICI #5" },
-            { "0_08_00002", "Morio's Lab - PICI Superboost Tutorial" },
             { "0_03_00669", "Morio's Lab - Coin on Corner Ledge Towards Morio's Room #1" },
             { "0_03_00670", "Morio's Lab - Coin on Corner Ledge Towards Morio's Room #2" },
             { "0_03_00671", "Morio's Lab - Coin on Corner Ledge Towards Morio's Room #3" },
@@ -1106,7 +1102,6 @@ namespace YellowTaxiAP
             { "0_03_00582", "Morio's Lab - Coin on Second to Third Floor Stairway #6" },
             { "0_03_00581", "Morio's Lab - Chest on Second to Third Floor Stairway" },
             { "0_09_00080", "Morio's Lab - Checkpoint Before Spikes" },
-            { "0_08_00005", "Morio's Lab - PICI Spin Attack Tutorial" },
         };
 
         [Description("Morio's Lab - Third Floor Wrenches Lower")]
@@ -1130,13 +1125,18 @@ namespace YellowTaxiAP
             { "0_03_00665", "Morio's Lab - Coin on Third Floor Wrenches #10" },
         };
 
-        [Description("Morio's Lab - Third Floor Wrenches Upper")]
-        public static Dictionary<string, string> MoriosLabThirdFloorWrenchesUpper = new()
+        [Description("Morio's Lab - Third Floor Wrenches Upper In True Demo Wall")]
+        public static Dictionary<string, string> MoriosLabThirdFloorWrenchesUpperInTrueDemoWall = new()
         {
             { "0_03_00685", "Morio's Lab - Coin on Third Floor Wrenches #11" },
             { "0_03_00687", "Morio's Lab - Coin on Third Floor Wrenches #12" },
             { "0_03_00686", "Morio's Lab - Coin on Third Floor Wrenches #13" },
             { "0_03_00684", "Morio's Lab - Coin on Third Floor Wrenches #14" },
+        };
+
+        [Description("Morio's Lab - Third Floor Wrenches Upper")]
+        public static Dictionary<string, string> MoriosLabThirdFloorWrenchesUpper = new()
+        {
             { "0_03_00683", "Morio's Lab - Coin on Third Floor Wrenches #15" },
         };
 
@@ -1152,14 +1152,14 @@ namespace YellowTaxiAP
             { string.Empty, nameof(MoriosLabFourthFloor) + " - !PLACEHOLDER!" }
         };
 
-        [Description("Morio's Lab - Fourth Floor Expert Jump Spikes")]
-        public static Dictionary<string, string> MoriosLabFourthFloorExpertJumpSpikes = new()
+        [Description("Morio's Lab - Fourth Floor Spiky Cliffs")]
+        public static Dictionary<string, string> MoriosLabFourthFloorSpikyCliffs = new()
         {
             { "0_01_00019", "Morio's Lab - Gear - On Spiky Cliffs" },
         };
 
-        [Description("Morio's Lab - Fourth Floor Jump Spikes")]
-        public static Dictionary<string, string> MoriosLabFourthFloorJumpSpikes = new()
+        [Description("Morio's Lab - Fourth Floor Spiky Bunny Alcove")]
+        public static Dictionary<string, string> MoriosLabFourthFloorSpikyBunnyAlcove = new()
         {
             { "0_03_00789", "Morio's Lab - Coin Bag in Spiky Alcove" },
             { "0_02_00001", "Morio's Lab - Bunny - In Spiky Alcove" },
@@ -1221,10 +1221,16 @@ namespace YellowTaxiAP
             { string.Empty, nameof(MoriosLabFifthFloorGoldenPropeller) + " - !PLACEHOLDER!" }
         };
 
-        [Description("Morio's Lab - Middle Floors Golden Propeller")]
+        [Description("Morio's Lab - Middle Floors 3 Golden Propellers")]
         public static Dictionary<string, string> MoriosLabMiddleFloorsGoldenPropeller = new()
         {
             { string.Empty, nameof(MoriosLabMiddleFloorsGoldenPropeller) + " - !PLACEHOLDER!" }
+        };
+
+        [Description("Morio's Lab - Middle Floors 2 Golden Propellers")]
+        public static Dictionary<string, string> MoriosLabMiddleFloorsGoldenPropellerTwo = new()
+        {
+            { string.Empty, nameof(MoriosLabMiddleFloorsGoldenPropellerTwo) + " - !PLACEHOLDER!" }
         };
 
         [Description("Morio's Lab - Fifth Floor Inside Shortcut Pipe")]
@@ -1298,7 +1304,7 @@ namespace YellowTaxiAP
         [Description("Morio's Lab - Final Floor")]
         public static Dictionary<string, string> MoriosLabFinalFloor = new()
         {
-            { "0_08_00004", "Morio's Lab - PICI Backflip Tutorial" },
+            { string.Empty, nameof(MoriosLabFinalFloor) + " - !PLACEHOLDER!" }
         };
 
         [Description("Morio's Lab - Final Floor Pipes")]
@@ -1308,7 +1314,17 @@ namespace YellowTaxiAP
             { "0_03_00861", "Morio's Lab - Coin Bag on Pipes on Final Floor #2" },
             { "0_03_00862", "Morio's Lab - Chest on Pipes on Final Floor #1" },
             { "0_03_00863", "Morio's Lab - Chest on Pipes on Final Floor #2" },
+        };
+
+        [Description("Morio's Lab - Final Floor Bunny Shortcut Upper")]
+        public static Dictionary<string, string> MoriosLabFinalFloorBunnyShortcutUpper = new()
+        {
             { "0_02_00002", "Morio's Lab - Bunny - Shortcut From Final Floor" },
+        };
+
+        [Description("Morio's Lab - Final Floor Bunny Shortcut Lower")]
+        public static Dictionary<string, string> MoriosLabFinalFloorBunnyShortcutLower = new()
+        {
             { "0_03_00845", "Morio's Lab - Coin in Shortcut From Final Floor #1" },
             { "0_03_00846", "Morio's Lab - Coin in Shortcut From Final Floor #2" },
             { "0_03_00847", "Morio's Lab - Coin in Shortcut From Final Floor #3" },
@@ -1330,20 +1346,25 @@ namespace YellowTaxiAP
             { "0_03_00872", "Morio's Lab - Coin Bag on Catwalk Above Tosla HQ Portal #3" },
         };
 
+        [Description("Morio's Lab - Out-of-Bounds (EXPERTS ONLY)")]
+        public static Dictionary<string, string> MoriosLabOutOfBounds = new()
+        {
+            { string.Empty, nameof(MoriosLabOutOfBounds) + " - !PLACEHOLDER!" }
+        };
+
         [Description("Hub - Special Rules")]
         public static Dictionary<string, string> HubSpecialRules = new()
         {
             { "Granny's Island - Safe on Ocean Pillar", "B2 | B1+GP" },
-            { "Granny's Island - Safe on Granny's Statue", "J2 | J1/B1 & GP | B1+J1" },
-            { "Granny's Island - Coin Bag on Pillar Towards Sewer", "B1/GP" },
+            { "Granny's Island - Safe on Granny's Statue", "J2 | J1/B1 & GP | X1/B1 & J1 | X1+B2 | X2+B1" },
+            { "Granny's Island - Coin Bag on Pillar Towards Sewer", "X2/B1/GP" },
             { "Granny's Island - Gear - Oil Pump", "SP | X2" },
-            { "Granny's Island - Gear - Inside Spin Blocks", "SP" },
-            { "Granny's Island - Gear - Lighthouse", "B2 | X1/B1 & GP" },
-            { "Granny's Island - Gear - In the Clouds", "B1+GP | B2+J1" },
+            { "Granny's Island - Gear - Inside Spin Blocks", "X3/SP" },
+            { "Granny's Island - Gear - In the Clouds", "B1 & GP/J1 | X2+J1 | X3+B1" },
             { "Granny's Island - Gear - High Pillar by Lab", "X2/J1/GP" },
             { "Granny's Island - Coin Bag on Brown Cliffside Cabin", "X1/J1/GP" },
             { "Granny's Island - Coin Bag on Green Cliffside Cabin", "X1/J1/GP" },
-            { "Pizza Oven - Gear", "B1 & X1/J1" },
+            { "Pizza Oven - Gear", "B1 & X1/J1 | X2+NSAR+GP+J1 | X3+J1" },
             { "Morio's Lab - Coin on Second Floor After Pizza Time Portal #3", "X1/FGU" },
             { "Ice Cream Truck - Gear - Lower Path in Bomb Block", $"X1/J1 | {{{GetDescription(nameof(HubIceCreamTruckHighGround))}}}" },
         };
@@ -2021,7 +2042,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> MoriosIslandSpecialRules = new()
         {
             { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1 | X2+B1" },
-            { "Morio's Home - Gear - In Hidden Side Room", "X2/J1/B1" },
+            { "Morio's Home - Gear - In Hidden Room Near Garage", "X2/J1/B1" },
             { "Morio's Home - Gear - Above Hallway", "X1/B1/J2" },
             { "Morio's Home - Gear - Above Kitchen", "X1/B1/J2" },
         };
@@ -2451,7 +2472,9 @@ namespace YellowTaxiAP
             { "1_03_00123", "Bombeach - Coin in Ocean Behind Island Near Cave Entrance #9" },
             { "1_03_00124", "Bombeach - Coin in Ocean Behind Island Near Cave Entrance #10" },
             { "1_03_00125", "Bombeach - Coin in Ocean Behind Island Near Cave Entrance #11" },
-            { "1_01_00015", "Bombeach - Gear - Defeat Bomboss" }
+            { "1_01_00015", "Bombeach - Gear - Defeat Bomboss" },
+            // Special rules
+            { "1_02_00001", "Bombeach - Bunny - Under Mountain Hotel" },
         };
 
         [Description("Bombeach - Easy Bomb Jumps")]
@@ -2600,7 +2623,6 @@ namespace YellowTaxiAP
         [Description("Bombeach - Jump or Boost")]
         public static Dictionary<string, string> BombeachJumpOrBoost = new()
         {
-            { "1_02_00001", "Bombeach - Bunny - Under Mountain Hotel" },
             { "1_03_00141", "Bombeach - Coin in Secret Ocean Area Past Gem-Shaped Islands #1" },
             { "1_03_00146", "Bombeach - Coin in Secret Ocean Area Past Gem-Shaped Islands #2" },
             { "1_03_00149", "Bombeach - Coin in Secret Ocean Area Past Gem-Shaped Islands #3" },
@@ -2673,13 +2695,18 @@ namespace YellowTaxiAP
             { "1_03_00595", "Bombeach - Coin on Orange Block Bridge #6" },
         };
 
-        [Description("Bombeach - Superboost Only")]
-        public static Dictionary<string, string> BombeachSuperboost = new()
+        [Description("Bombeach - Orange Block Island")]
+        public static Dictionary<string, string> BombeachOrangeBlockIsland = new()
         {
             { "1_03_00695", "Bombeach - Coin Bag on Floating Orange Blocks #1" },
             { "1_03_00697", "Bombeach - Coin on Floating Orange Blocks #1" },
             { "1_03_00696", "Bombeach - Coin on Floating Orange Blocks #2" },
             { "1_03_00698", "Bombeach - Coin Bag on Floating Orange Blocks #2" },
+        };
+
+        [Description("Bombeach - Bunny Pillar")]
+        public static Dictionary<string, string> BombeachBunnyPillar = new()
+        {
             { "1_02_00000", "Bombeach - Bunny - On Ocean Pillar" },
         };
 
@@ -2753,7 +2780,7 @@ namespace YellowTaxiAP
 
         public static Dictionary<string, string> BombeachSpecialRules = new()
         {
-            { "Bombeach - Bunny - On Ocean Pillar", "X2/J1/OS" }
+            { "Bombeach - Bunny - Under Mountain Hotel", "X2/J1/B1" },
         };
 
         #endregion
@@ -2937,40 +2964,40 @@ namespace YellowTaxiAP
             { "4_01_00015", "Arcade Panik - Gear - Crazy Ballz Left Prize" },
             { "4_01_00019", "Arcade Panik - Gear - Crazy Ballz Middle Prize" },
             { "4_01_00004", "Arcade Panik - Gear - Crazy Ballz Right Prize" },
-            { "4_03_00178", "Arcade Panik - Coin Near Go Karts Entrance #1" },
-            { "4_03_00177", "Arcade Panik - Coin Near Go Karts Entrance #2" },
-            { "4_03_00176", "Arcade Panik - Coin Near Go Karts Entrance #3" },
-            { "4_03_00175", "Arcade Panik - Coin Near Go Karts Entrance #4" },
-            { "4_03_00174", "Arcade Panik - Coin Near Go Karts Entrance #5" },
-            { "4_03_00173", "Arcade Panik - Coin on Go Karts Path #1" },
-            { "4_03_00172", "Arcade Panik - Coin on Go Karts Path #2" },
-            { "4_03_00171", "Arcade Panik - Coin on Go Karts Path #3" },
-            { "4_03_00170", "Arcade Panik - Coin on Go Karts Path #4" },
-            { "4_03_00169", "Arcade Panik - Coin on Go Karts Path #5" },
-            { "4_03_00164", "Arcade Panik - Coin on Go Karts Ramp to Switch #1" },
-            { "4_03_00165", "Arcade Panik - Coin on Go Karts Ramp to Switch #2" },
-            { "4_03_00166", "Arcade Panik - Coin on Go Karts Ramp to Switch #3" },
-            { "4_03_00186", "Arcade Panik - Coin on Go Karts Ramp to Switch #4" },
-            { "4_03_00187", "Arcade Panik - Coin on Go Karts Ramp to Switch #5" },
-            { "4_03_00190", "Arcade Panik - Coin on Go Karts Ramp to Switch #6" },
-            { "4_03_00192", "Arcade Panik - Coin on Go Karts Ramp to Switch #7" },
-            { "4_03_00191", "Arcade Panik - Coin on Go Karts Switch #1" },
-            { "4_03_00201", "Arcade Panik - Coin on Go Karts Switch #2" },
-            { "4_03_00204", "Arcade Panik - Coin on Go Karts Switch #3" },
-            { "4_03_00247", "Arcade Panik - Coin on Go Karts Switch #4" },
-            { "4_03_00260", "Arcade Panik - Coin on Go Karts Switch #5" },
-            { "4_01_00020", "Arcade Panik - Gear - Go Karts Strike" },
-            { "4_03_00140", "Arcade Panik - Coin on Go Karts Curved Ramp #1" },
-            { "4_03_00139", "Arcade Panik - Coin on Go Karts Curved Ramp #2" },
-            { "4_03_00138", "Arcade Panik - Coin on Go Karts Curved Ramp #3" },
-            { "4_03_00137", "Arcade Panik - Coin on Go Karts Curved Ramp #4" },
-            { "4_03_00136", "Arcade Panik - Coin on Go Karts Curved Ramp #5" },
-            { "4_09_00415", "Arcade Panik - Checkpoint by Go Karts" },
-            { "4_03_00220", "Arcade Panik - Coin Before Go Karts Obstacle Course #1" },
-            { "4_03_00221", "Arcade Panik - Coin Before Go Karts Obstacle Course #2" },
-            { "4_03_00222", "Arcade Panik - Coin Before Go Karts Obstacle Course #3" },
-            { "4_03_00223", "Arcade Panik - Coin Before Go Karts Obstacle Course #4" },
-            { "4_03_00224", "Arcade Panik - Coin Before Go Karts Obstacle Course #5" },
+            { "4_03_00178", "Arcade Panik - Coin Near Go-Karts Entrance #1" },
+            { "4_03_00177", "Arcade Panik - Coin Near Go-Karts Entrance #2" },
+            { "4_03_00176", "Arcade Panik - Coin Near Go-Karts Entrance #3" },
+            { "4_03_00175", "Arcade Panik - Coin Near Go-Karts Entrance #4" },
+            { "4_03_00174", "Arcade Panik - Coin Near Go-Karts Entrance #5" },
+            { "4_03_00173", "Arcade Panik - Coin on Go-Karts Path #1" },
+            { "4_03_00172", "Arcade Panik - Coin on Go-Karts Path #2" },
+            { "4_03_00171", "Arcade Panik - Coin on Go-Karts Path #3" },
+            { "4_03_00170", "Arcade Panik - Coin on Go-Karts Path #4" },
+            { "4_03_00169", "Arcade Panik - Coin on Go-Karts Path #5" },
+            { "4_03_00164", "Arcade Panik - Coin on Go-Karts Ramp to Switch #1" },
+            { "4_03_00165", "Arcade Panik - Coin on Go-Karts Ramp to Switch #2" },
+            { "4_03_00166", "Arcade Panik - Coin on Go-Karts Ramp to Switch #3" },
+            { "4_03_00186", "Arcade Panik - Coin on Go-Karts Ramp to Switch #4" },
+            { "4_03_00187", "Arcade Panik - Coin on Go-Karts Ramp to Switch #5" },
+            { "4_03_00190", "Arcade Panik - Coin on Go-Karts Ramp to Switch #6" },
+            { "4_03_00192", "Arcade Panik - Coin on Go-Karts Ramp to Switch #7" },
+            { "4_03_00191", "Arcade Panik - Coin on Go-Karts Switch #1" },
+            { "4_03_00201", "Arcade Panik - Coin on Go-Karts Switch #2" },
+            { "4_03_00204", "Arcade Panik - Coin on Go-Karts Switch #3" },
+            { "4_03_00247", "Arcade Panik - Coin on Go-Karts Switch #4" },
+            { "4_03_00260", "Arcade Panik - Coin on Go-Karts Switch #5" },
+            { "4_01_00020", "Arcade Panik - Gear - Go-Karts Strike" },
+            { "4_03_00140", "Arcade Panik - Coin on Go-Karts Curved Ramp #1" },
+            { "4_03_00139", "Arcade Panik - Coin on Go-Karts Curved Ramp #2" },
+            { "4_03_00138", "Arcade Panik - Coin on Go-Karts Curved Ramp #3" },
+            { "4_03_00137", "Arcade Panik - Coin on Go-Karts Curved Ramp #4" },
+            { "4_03_00136", "Arcade Panik - Coin on Go-Karts Curved Ramp #5" },
+            { "4_09_00415", "Arcade Panik - Checkpoint by Go-Karts" },
+            { "4_03_00220", "Arcade Panik - Coin Before Go-Karts Obstacle Course #1" },
+            { "4_03_00221", "Arcade Panik - Coin Before Go-Karts Obstacle Course #2" },
+            { "4_03_00222", "Arcade Panik - Coin Before Go-Karts Obstacle Course #3" },
+            { "4_03_00223", "Arcade Panik - Coin Before Go-Karts Obstacle Course #4" },
+            { "4_03_00224", "Arcade Panik - Coin Before Go-Karts Obstacle Course #5" },
             { "4_03_00179", "Arcade Panik - Coin on Path to Arcade Zone #1" },
             { "4_03_00180", "Arcade Panik - Coin on Path to Arcade Zone #2" },
             { "4_03_00181", "Arcade Panik - Coin on Path to Arcade Zone #3" },
@@ -3069,17 +3096,19 @@ namespace YellowTaxiAP
             { "4_03_00337", "Arcade Panik - Coin on Arcade Zone Wall #9" },
             { "4_03_00336", "Arcade Panik - Coin on Arcade Zone Wall #10" },
             { "4_21_00003", "Arcade Panik - Cheese in Arcade Zone" },
-            { "4_21_00002", "Arcade Panik - Cheese on Go Karts Track" },
+            { "4_21_00002", "Arcade Panik - Cheese on Go-Karts Track" },
             { "4_21_00000", "Arcade Panik - Cheese in Crazy Ballz Area" },
             //{ "4_20_99999", "Arcade Panik - Psycho Taxi Cartridge" }, // Irrelevant to this, placed by special handling
             // Special Rules
             { "4_01_00017", "Arcade Panik - Gear - Green Pipe Above Big Bowling Back Door" },
-            { "4_03_00205", "Arcade Panik - Chest Inside Go Karts Bowling Ball Pipe" },
-            { "4_02_00000", "Arcade Panik - Bunny - Above Go Karts Bowling Ball Pipe" },
-            { "4_01_00008", "Arcade Panik - Gear - Go Karts Obstacle Course" },
+            { "4_03_00205", "Arcade Panik - Chest Inside Go-Karts Bowling Ball Pipe" },
+            { "4_02_00000", "Arcade Panik - Bunny - Above Go-Karts Bowling Ball Pipe" },
+            { "4_01_00008", "Arcade Panik - Gear - Go-Karts Obstacle Course" },
             { "4_01_00023", "Arcade Panik - Gear - Alcove Under Pinball Entrance" },
             { "4_03_00281", "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #1" },
             { "4_03_00369", "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #2" },
+            { "4_03_00353", "Arcade Panik - Safe on Crazy Ballz Pipe" },
+            { "4_02_00001", "Arcade Panik - Bunny - Above Crazy Ballz Pachinko" },
         };
 
         [Description("Arcade Panik - Ledge Above Big Bowling Door")]
@@ -3102,16 +3131,9 @@ namespace YellowTaxiAP
             { "4_03_00185", "Arcade Panik - Chest Behind Arcade Zone Entrance Right Arcade Machine" },
             { "4_03_00006", "Arcade Panik - Chest on Big Bowling Green Pipes" },
             { "4_03_00007", "Arcade Panik - Chest on Arcade Zone Green Pipes" },
-            { "4_03_00008", "Arcade Panik - Chest on Go Karts Green Pipes #1" },
-            { "4_03_00079", "Arcade Panik - Chest on Go Karts Green Pipes #2" },
-            { "4_03_00131", "Arcade Panik - Chest on Go Karts Green Pipes #3" },
-        };
-
-        [Description("Arcade Panik - Boost 2")]
-        public static Dictionary<string, string> ArcadePanikBoost2 = new()
-        {
-            { "4_03_00353", "Arcade Panik - Safe on Crazy Ballz Pipe" },
-            { "4_02_00001", "Arcade Panik - Bunny - Above Crazy Ballz Pachinko" },
+            { "4_03_00008", "Arcade Panik - Chest on Go-Karts Green Pipes #1" },
+            { "4_03_00079", "Arcade Panik - Chest on Go-Karts Green Pipes #2" },
+            { "4_03_00131", "Arcade Panik - Chest on Go-Karts Green Pipes #3" },
         };
 
         [Description("Arcade Panik - Outside Pinball Door")]
@@ -3313,13 +3335,16 @@ namespace YellowTaxiAP
 
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
-            { "Arcade Panik - Chest Inside Go Karts Bowling Ball Pipe", "X2/J1" },               // Can explosion jump off the nearby car with good timing
-            { "Arcade Panik - Bunny - Above Go Karts Bowling Ball Pipe", "B2+J2 | X1+B2+J1" },
+            { "Arcade Panik - Chest Inside Go-Karts Bowling Ball Pipe", "X2/J1 | X1+B1" }, // Can explosion jump off the nearby car with good timing
+            { "Arcade Panik - Bunny - Above Go-Karts Bowling Ball Pipe", "B2+J1 | B1+J2 | X1+B1+J1" },
             { "Arcade Panik - Gear - Green Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
-            { "Arcade Panik - Gear - Alcove Under Pinball Entrance", $"B2 | X1/B1/J1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
-            { "Arcade Panik - Gear - Go Karts Obstacle Course", "X1/J1" },
+            { "Arcade Panik - Gear - Alcove Under Pinball Entrance", $"X1/B1/J1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
+            { "Arcade Panik - Gear - Go-Karts Obstacle Course", "X1/J1" },
             { "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #1", "J2 | X2+J1" },
             { "Arcade Panik - Chest Inside Crazy Ballz Bowling Ball Pipe #2", $"J2 | J1 & {{{GetDescription(nameof(ArcadePanikCliffAboveCrazyBallz))}}}" },
+            { "Arcade Panik - Safe on Crazy Ballz Pipe", "B1 & X1/J1 | B2" },
+            { "Arcade Panik - Bunny - Above Crazy Ballz Pachinko", "B2 & X1/J1 | X3/J1 & X2+B1" }
+
         };
 
         #endregion
@@ -3632,6 +3657,19 @@ namespace YellowTaxiAP
             { "2_01_00003", "Pizza Time - Gear - Fourth Oil Pump" },
         };
 
+        [Description("Pizza Time - House on First Island")]
+        public static Dictionary<string, string> PizzaTimeHouseOnFirstIsland = new()
+        {
+            { "2_03_00161", "Pizza Time - Coin Bag on Gear House on First Main Island" },
+            { "2_03_00160", "Pizza Time - Coin on Gear House on First Main Island #1" },
+            { "2_03_00159", "Pizza Time - Coin on Gear House on First Main Island #2" },
+            { "2_03_00158", "Pizza Time - Coin on Gear House on First Main Island #3" },
+            { "2_03_00162", "Pizza Time - Coin on Gear House on First Main Island #4" },
+            { "2_03_00282", "Pizza Time - Coin on Gear House on First Main Island #5" },
+            { "2_03_00281", "Pizza Time - Coin on Gear House on First Main Island #6" },
+            { "2_01_00012", "Pizza Time - Gear - On House on First Main Island" },
+        };
+
         [Description("Pizza Time - Accessible Ledges")]
         public static Dictionary<string, string> PizzaTimeAccessibleLedges = new()
         {
@@ -3839,14 +3877,6 @@ namespace YellowTaxiAP
             { "2_03_00328", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #5" },
             { "2_03_00324", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #6" },
             { "2_03_00327", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #7" },
-            { "2_03_00161", "Pizza Time - Coin Bag on Gear House on First Main Island" },
-            { "2_03_00160", "Pizza Time - Coin on Gear House on First Main Island #1" },
-            { "2_03_00159", "Pizza Time - Coin on Gear House on First Main Island #2" },
-            { "2_03_00158", "Pizza Time - Coin on Gear House on First Main Island #3" },
-            { "2_03_00162", "Pizza Time - Coin on Gear House on First Main Island #4" },
-            { "2_03_00282", "Pizza Time - Coin on Gear House on First Main Island #5" },
-            { "2_03_00281", "Pizza Time - Coin on Gear House on First Main Island #6" },
-            { "2_01_00012", "Pizza Time - Gear - On House on First Main Island" },
             { "2_03_00351", "Pizza Time - Chest on House on Top of First Hill" },
             { "2_03_00413", "Pizza Time - Coin Bag on Spire on Top of First Hill" },
             { "2_02_00001", "Pizza Time - Bunny - Under Arch on Second Main Island" },
@@ -3865,7 +3895,7 @@ namespace YellowTaxiAP
             { "2_03_00412", "Pizza Time - Coin Bag on Morco's Pizza Roof" },
             { "2_03_00396", "Pizza Time - Coin Bag on House Near Morco's Pizza" },
             { "2_01_00008", "Pizza Time - Gear - On 600° Oven" },
-            { "2_03_00586", "Pizza Time - Coin on Roof Left Before Final Roundabout" },
+            { "2_03_00586", "Pizza Time - Coin Bag on Roof Left Before Final Roundabout" },
             { "2_03_00589", "Pizza Time - Coin Bag on Roof Left in Final Roundabout" },
             { "2_03_00590", "Pizza Time - Coin Bag on Roof Right in Final Roundabout" },
             { "2_02_00002", "Pizza Time - Bunny - Above Final Roundabout" },
@@ -3947,10 +3977,15 @@ namespace YellowTaxiAP
             { "2_03_00636", "Pizza Time - Coin Near Gear on Second Main Island Mountain #17" },
         };
 
-        [Description("Pizza Time - Bunny Island")]
-        public static Dictionary<string, string> PizzaTimeBunnyIsland = new()
+        [Description("Pizza Time - Bunny Island Lower")]
+        public static Dictionary<string, string> PizzaTimeBunnyIslandLower = new()
         {
             { "2_02_00000", "Pizza Time - Bunny - On Tall Island Between First and Third Main Islands" },
+        };
+
+        [Description("Pizza Time - Bunny Island Upper")]
+        public static Dictionary<string, string> PizzaTimeBunnyIslandUpper = new()
+        {
             { "2_03_00479", "Pizza Time - Coin on Bunny Island #1" },
             { "2_03_00478", "Pizza Time - Coin on Bunny Island #2" },
             { "2_03_00477", "Pizza Time - Coin on Bunny Island #3" },
@@ -4040,7 +4075,7 @@ namespace YellowTaxiAP
         {
             { "400° - Gear", "B1/J1" },
             { "600° - Gear", "B1/J1" },
-            { "900° - Gear", "B1 | X2+J2" },
+            { "900° - Gear", "B1 | X2+J1" },
         };
 
         #endregion
@@ -4075,12 +4110,11 @@ namespace YellowTaxiAP
             { "5_03_00165", "Tosla Square - Coin on Tosla Sign #4" },
         };
 
-        // Main thing separating this is what's technically accessible with J2
+        // Main thing separating this is what's technically accessible with J1
         [Description("Tosla Square - Lower Buildings")]
         public static Dictionary<string, string> ToslaSquareLowerBuildings = new()
         {
             { "5_09_00695", "Tosla Square - Checkpoint on Lower Buildings" },
-            { "5_09_00655", "Tosla Square - Checkpoint on Upper Buildings Before Homing Beacons" },
             { "5_21_00001", "Tosla Square - Cheese on Lower Buildings" },
             { "5_03_00209", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #1" },
             { "5_03_00210", "Tosla Square - Coin on Ramp Left of Checkpoint on Lower Buildings #2" },
@@ -4150,19 +4184,6 @@ namespace YellowTaxiAP
             { "5_03_00200", "Tosla Square - Coin Bag on Building Under Gelatin Hat" },
             { "5_03_00201", "Tosla Square - Coin on Building Under Gelatin Hat #3" },
             { "5_03_00202", "Tosla Square - Coin on Building Under Gelatin Hat #4" },
-            { "5_03_00320", "Tosla Square - Coin Surrounding Tosla Employee Hat #1" },
-            { "5_03_00322", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #1" },
-            { "5_03_00324", "Tosla Square - Coin Surrounding Tosla Employee Hat #2" },
-            { "5_03_00317", "Tosla Square - Coin Surrounding Tosla Employee Hat #3" },
-            { "5_03_00326", "Tosla Square - Coin Surrounding Tosla Employee Hat #4" },
-            { "5_03_00318", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #2" },
-            { "5_07_00015", "Purchase Tosla Employee Hat" },
-            { "5_03_00327", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #3" },
-            { "5_03_00319", "Tosla Square - Coin Surrounding Tosla Employee Hat #5" },
-            { "5_03_00328", "Tosla Square - Coin Surrounding Tosla Employee Hat #6" },
-            { "5_03_00321", "Tosla Square - Coin Surrounding Tosla Employee Hat #7" },
-            { "5_03_00323", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #4" },
-            { "5_03_00325", "Tosla Square - Coin Surrounding Tosla Employee Hat #8" },
             { "5_03_00287", "Tosla Square - Coin on Building Below Tosla Employee Hat #1" },
             { "5_03_00286", "Tosla Square - Coin on Building Below Tosla Employee Hat #2" },
             { "5_03_00285", "Tosla Square - Coin on Building Below Tosla Employee Hat #3" },
@@ -4208,6 +4229,26 @@ namespace YellowTaxiAP
             { "5_03_00236", "Tosla Square - Coin in Large Arrow Formation on Building #11" },
             { "5_03_00235", "Tosla Square - Coin in Large Arrow Formation on Building #12" },
             { "5_03_00234", "Tosla Square - Coin in Large Arrow Formation on Building #13" },
+        };
+
+        // Main thing separating this is what's technically accessible with J2
+        [Description("Tosla Square - Medium High Buildings")]
+        public static Dictionary<string, string> ToslaSquareMediumHighBuildings = new()
+        {
+            { "5_09_00655", "Tosla Square - Checkpoint on Upper Buildings Before Homing Beacons" },
+            { "5_03_00320", "Tosla Square - Coin Surrounding Tosla Employee Hat #1" },
+            { "5_03_00322", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #1" },
+            { "5_03_00324", "Tosla Square - Coin Surrounding Tosla Employee Hat #2" },
+            { "5_03_00317", "Tosla Square - Coin Surrounding Tosla Employee Hat #3" },
+            { "5_03_00326", "Tosla Square - Coin Surrounding Tosla Employee Hat #4" },
+            { "5_03_00318", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #2" },
+            { "5_07_00015", "Purchase Tosla Employee Hat" },
+            { "5_03_00327", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #3" },
+            { "5_03_00319", "Tosla Square - Coin Surrounding Tosla Employee Hat #5" },
+            { "5_03_00328", "Tosla Square - Coin Surrounding Tosla Employee Hat #6" },
+            { "5_03_00321", "Tosla Square - Coin Surrounding Tosla Employee Hat #7" },
+            { "5_03_00323", "Tosla Square - Coin Bag Surrounding Tosla Employee Hat #4" },
+            { "5_03_00325", "Tosla Square - Coin Surrounding Tosla Employee Hat #8" },
         };
 
         [Description("Tosla Square - High Ground")]
@@ -4591,7 +4632,6 @@ namespace YellowTaxiAP
             { "6_03_00003", "Gym Gears - Coin in Entrance Hallway #4" },
             { "6_03_00004", "Gym Gears - Coin in Entrance Hallway #5" },
             { "6_03_00006", "Gym Gears - Coin in Entrance Hallway #6" },
-            { "6_03_00005", "Gym Gears - Coin Inside Entrance Pillar" },
             { "6_03_00012", "Gym Gears - Coin Between Entrance Pillars #1" },
             { "6_03_00016", "Gym Gears - Coin Bag Between Entrance Pillars" },
             { "6_03_00017", "Gym Gears - Coin Between Entrance Pillars #2" },
@@ -4604,8 +4644,6 @@ namespace YellowTaxiAP
             { "6_03_00008", "Gym Gears - Coin in Entrance Weightlifting Area #7" },
             { "6_03_00007", "Gym Gears - Coin in Entrance Weightlifting Area #8" },
             { "6_21_00002", "Gym Gears - Cheese in Entrance Weightlifting Area" },
-            { "6_03_00018", "Gym Gears - Coin Inside Entrance Weightlifting Area Exit Hallway Pillar #1" },
-            { "6_03_00026", "Gym Gears - Coin Inside Entrance Weightlifting Area Exit Hallway Pillar #2" },
             { "6_03_00019", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #1" },
             { "6_03_00020", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #2" },
             { "6_03_00021", "Gym Gears - Coin Between Entrance Weightlifting Area Exit Hallway Pillars #3" },
@@ -4690,42 +4728,17 @@ namespace YellowTaxiAP
             { "6_03_00098", "Gym Gears - Coin in Ultra Chad Hallway #7" },
         };
 
-        [Description("Gym Gears - Expert 1")]
+        [Description("Gym Gears - Jump or Expert 1")]
         public static Dictionary<string, string> GymGearsExpert1 = new()
         {
             { "6_03_00099", "Gym Gears - Coin on Steps in Entrance Weightlifting Area #1" },
             { "6_03_00100", "Gym Gears - Coin on Left Side Steps in Main Area #1" },
         };
 
-        [Description("Gym Gears - Expert 2")]
+        [Description("Gym Gears - Jump or Expert 2")]
         public static Dictionary<string, string> GymGearsExpert2 = new()
         {
-            { "6_03_00102", "Gym Gears - Coin on Left Side Steps in Main Area #2" },
-            { "6_03_00105", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #1" },
-            { "6_03_00111", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #2" },
-            { "6_03_00118", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #3" },
-        };
-
-        [Description("Gym Gears - Expert 2 Boost")]
-        public static Dictionary<string, string> GymGearsExpert2Boost = new()
-        {
-            { "6_03_00103", "Gym Gears - Coin Bag on Broken Pillar in Ultra Chad Room" },
-            { "6_03_00107", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #1" },
-            { "6_03_00113", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #2" },
-            { "6_03_00120", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #3" },
-            { "6_03_00106", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #1" },
-            { "6_03_00112", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #2" },
-            { "6_03_00119", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #3" },
-            { "6_01_00001", "Gym Gears - Gear - Back Left Corner of Main Area" },
-        };
-
-        [Description("Gym Gears - Jump")]
-        public static Dictionary<string, string> GymGearsJump = new()
-        {
             { "6_03_00101", "Gym Gears - Coin on Steps in Entrance Weightlifting Area #2" },
-            { "6_03_00104", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #1" },
-            { "6_03_00110", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #2" },
-            { "6_03_00117", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #3" },
             { "6_03_00108", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #1" },
             { "6_03_00114", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #2" },
             { "6_03_00121", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #3" },
@@ -4734,17 +4747,10 @@ namespace YellowTaxiAP
             { "6_03_00127", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #5" },
             { "6_03_00133", "Gym Gears - Coin on 20 Tons Block Steps in Entrance Weightlifting Area #6" },
             { "6_03_00138", "Gym Gears - Chest on 20 Tons Block in Entrance Weightlifting Area" },
-            { "6_03_00130", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #1" },
-            { "6_01_00000", "Gym Gears - Gear - Beam Above Entrance Weightlifting Area" },
-            { "6_03_00132", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #2" },
-            { "6_03_00134", "Gym Gears - Coin on 20 Tons Block Towards Bunny #1" },
-            { "6_03_00139", "Gym Gears - Coin on 20 Tons Block Towards Bunny #2" },
-            { "6_03_00152", "Gym Gears - Coin on 20 Tons Block Towards Bunny #3" },
-            { "6_03_00135", "Gym Gears - Coin on 20 Tons Block Towards Bunny #4" },
-            { "6_03_00140", "Gym Gears - Coin on 20 Tons Block Towards Bunny #5" },
-            { "6_03_00153", "Gym Gears - Coin on 20 Tons Block Towards Bunny #6" },
-            { "6_09_00360", "Gym Gears - Checkpoint Near Bunny" },
-            { "6_02_00001", "Gym Gears - Bunny - Back of Main Area" },
+            { "6_03_00102", "Gym Gears - Coin on Left Side Steps in Main Area #2" },
+            { "6_03_00105", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #1" },
+            { "6_03_00111", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #2" },
+            { "6_03_00118", "Gym Gears - Coin on Left Side Steps 20 Tons Block in Main Area #3" },
             { "6_03_00109", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #1" },
             { "6_03_00115", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #2" },
             { "6_03_00123", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #3" },
@@ -4774,6 +4780,39 @@ namespace YellowTaxiAP
             { "6_03_00175", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #23" },
             { "6_03_00179", "Gym Gears - Coin on 20 Tons Block Stairway to Upper Area #24" },
             { "6_01_00003", "Gym Gears - Gear - Top of 20 Tons Block Stairway to Upper Area" },
+            { "6_02_00001", "Gym Gears - Bunny - Back of Main Area" },
+        };
+
+        [Description("Gym Gears - Jump or Expert 2 Boost")]
+        public static Dictionary<string, string> GymGearsExpert2Boost = new()
+        {
+            { "6_03_00104", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #1" },
+            { "6_03_00110", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #2" },
+            { "6_03_00117", "Gym Gears - Coin on 20 Tons Block Near Hat in Entrance Weightlifting Area #3" },
+            { "6_03_00103", "Gym Gears - Coin Bag on Broken Pillar in Ultra Chad Room" },
+            { "6_03_00107", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #1" },
+            { "6_03_00113", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #2" },
+            { "6_03_00120", "Gym Gears - Coin on Left Back 20 Tons Block in Main Area #3" },
+            { "6_03_00106", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #1" },
+            { "6_03_00112", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #2" },
+            { "6_03_00119", "Gym Gears - Coin on Left Center 20 Tons Block in Main Area #3" },
+            { "6_01_00001", "Gym Gears - Gear - Back Left Corner of Main Area" },
+            { "6_03_00134", "Gym Gears - Coin on 20 Tons Block Towards Bunny #1" },
+            { "6_03_00139", "Gym Gears - Coin on 20 Tons Block Towards Bunny #2" },
+            { "6_03_00152", "Gym Gears - Coin on 20 Tons Block Towards Bunny #3" },
+            { "6_03_00135", "Gym Gears - Coin on 20 Tons Block Towards Bunny #4" },
+            { "6_03_00140", "Gym Gears - Coin on 20 Tons Block Towards Bunny #5" },
+            { "6_03_00153", "Gym Gears - Coin on 20 Tons Block Towards Bunny #6" },
+            { "6_09_00360", "Gym Gears - Checkpoint Near Bunny" },
+        };
+
+        [Description("Gym Gears - Jump or Expert 3 Boost")]
+        public static Dictionary<string, string> GymGearsExpert3Boost = new()
+        {
+            { "6_07_00017", "Purchase Syringe Hat" },
+            { "6_03_00130", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #1" },
+            { "6_01_00000", "Gym Gears - Gear - Beam Above Entrance Weightlifting Area" },
+            { "6_03_00132", "Gym Gears - Coin on Beam Above Entrance Weightlifting Area #2" },
             { "6_03_00185", "Gym Gears - Coin on Upper Area Stairway #1" },
             { "6_03_00190", "Gym Gears - Coin on Upper Area Stairway #2" },
             { "6_03_00194", "Gym Gears - Coin on Upper Area Stairway #3" },
@@ -4845,13 +4884,21 @@ namespace YellowTaxiAP
             { "6_03_00116", "Gym Gears - Coin Bag on Pillar in Ultra Chad Room" },
             { "6_01_00004", "Gym Gears - Gear - Ultra Chad Room" },
             { "6_02_00002", "Gym Gears - Bunny - Ultra Chad Room" },
-            { "6_07_00017", "Purchase Syringe Hat" },
             { "6_07_00016", "Purchase Flexing Hat" },
+        };
+
+        [Description("Gym Gears - Hidden Coins")]
+        public static Dictionary<string, string> GymGearsHiddenCoins = new()
+        {
+            { "6_03_00005", "Gym Gears - Coin Inside Entrance Pillar" },
+            { "6_03_00018", "Gym Gears - Coin Inside Entrance Weightlifting Area Exit Hallway Pillar #1" },
+            { "6_03_00026", "Gym Gears - Coin Inside Entrance Weightlifting Area Exit Hallway Pillar #2" },
         };
 
         public static Dictionary<string, string> GymGearsSpecialRules = new()
         {
-            { "Gym Gears - Bunny - Ultra Chad Room", "X1/J2" },
+            { "Gym Gears - Bunny - Ultra Chad Room", "X1+J1 | X3/J2" },
+            { "Gym Gears - Bunny - Back of Main Area", "X3/J1/B1" },
         };
 
         #endregion
@@ -5575,6 +5622,13 @@ namespace YellowTaxiAP
             { "8_01_00006", "Flushed Away - Gear - Above Central Drain" }
         };
 
+
+        [Description("Flushed Away - Out-of-Bounds (EXPERTS ONLY)")]
+        public static Dictionary<string, string> FlushedAwayOutOfBounds = new()
+        {
+            { "8_03_00110", "Flushed Away - Coin Far Out-of-Bounds Near Ramps" },
+        };
+
         public static Dictionary<string, string> FlushedAwaySpecialRules = new()
         {
             { "Flushed Away - Coin on Central Drain Skeleton Shack Between Shops", "X1/B1/J1" },
@@ -5586,7 +5640,86 @@ namespace YellowTaxiAP
             { "Bone Fish Hat", "X1/J1" },
             { "Flushed Away - Chest on Pipe in Alligator Room", "X2/J1 | X1+B2" }
         };
-        
+
+        #endregion
+
+        #region Maurizio's City
+
+        [Description("Maurizio's City - Starting Area")]
+        public static Dictionary<string, string> MauriziosCityStartingArea = new()
+        {
+            { "9_01_00016", "Maurizio's City - Gear - Escort Umarell From Lowest Level"  },
+            { "9_21_00006", "Maurizio's City - Cheese Under Cliff Near Vladeroni on Lowest Level" },
+            { "9_09_00058", "Maurizio's City - Checkpoint - Plaza on Lowest Level" },
+            { "9_03_00016", "Maurizio's City - Coin on Main Road on Lowest Level #1" },
+            { "9_03_00015", "Maurizio's City - Coin on Main Road on Lowest Level #2" },
+            { "9_03_00014", "Maurizio's City - Coin on Main Road on Lowest Level #3" },
+            { "9_03_00013", "Maurizio's City - Coin on Main Road on Lowest Level #4" },
+            { "9_03_00012", "Maurizio's City - Coin on Main Road on Lowest Level #5" },
+            { "9_01_00014", "Maurizio's City - Gear - Escort Shaboiardo" },
+            { "9_01_00012", "Maurizio's City - Gear - Escort Busy Man From Lowest Level" },
+            { "9_03_00020", "Maurizio's City - Coin in Building Alcove on Lowest Level #1" },
+            { "9_03_00021", "Maurizio's City - Coin in Building Alcove on Lowest Level #2" },
+            { "9_03_00022", "Maurizio's City - Coin in Building Alcove on Lowest Level #3" },
+            { "9_03_00025", "Maurizio's City - Coin in Building Alcove on Lowest Level #4" },
+            { "9_03_00024", "Maurizio's City - Coin in Building Alcove on Lowest Level #5" },
+            { "9_03_00023", "Maurizio's City - Coin in Building Alcove on Lowest Level #6" },
+            { "9_03_00026", "Maurizio's City - Coin in Building Alcove on Lowest Level #7" },
+            { "9_03_00027", "Maurizio's City - Coin in Building Alcove on Lowest Level #8" },
+            { "9_03_00028", "Maurizio's City - Coin in Building Alcove on Lowest Level #9" },
+            { "9_03_00038", "Maurizio's City - Coin on House Roof in Building Alcove on Lowest Level #1" },
+            { "9_03_00039", "Maurizio's City - Coin on House Roof in Building Alcove on Lowest Level #2" },
+            { "9_21_00005", "Maurizio's City - Cheese in Building Alcove on Lowest Level" },
+            { "9_21_00002", "Maurizio's City - Cheese Near Cliff on Lowest Level" },
+            { "9_03_00017", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #1" },
+            { "9_03_00018", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #2" },
+            { "9_03_00019", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #3" },
+            { "9_03_00029", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #4" },
+            { "9_03_00030", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #5" },
+            { "9_03_00031", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #6" },
+            { "9_03_00032", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #7" },
+            { "9_03_00036", "Maurizio's City - Coin Left of Main Road Ramp From Lowest Level" },
+            { "9_03_00035", "Maurizio's City - Coin Right of Main Road Ramp From Lowest Level" },
+            { "9_03_00037", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #8" },
+            { "9_03_00041", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #9" },
+            { "9_03_00043", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #10" },
+            { "9_03_00044", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #11" },
+            { "9_03_00047", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #12" },
+            { "9_01_00007", "Maurizio's City - Gear - Escort Busy Man From Lower Middle Level" },
+        };
+
+        [Description("Maurizio's City - Oil Pumps")]
+        public static Dictionary<string, string> MauriziosCitySpin = new()
+        {
+            { "9_01_00002", "Maurizio's City - Gear - Oil Pump on Lowest Level" },
+            { "9_01_00001", "Maurizio's City - Gear - Oil Pump on Lower Middle Level" },
+            { "9_01_00003", "Maurizio's City - Gear - Oil Pump on Higher Middle Level" },
+            { "9_01_00000", "Maurizio's City - Gear - Oil Pump on Highest Level" },
+        };
+
+        [Description("Purple Tunnel")]
+        public static Dictionary<string, string> PurpleTunnel = new()
+        {
+            { "9_01_00005", "Purple Tunnel - Gear" },
+            { "9_02_00001", "Purple Tunnel - Bunny" },
+        };
+
+        [Description("Maurizio's City Hat World")]
+        public static Dictionary<string, string> MauriziosCityHatWorld = new()
+        {
+            { "9_07_00002", "Purchase Top Hat" },
+            { "9_07_00001", "Purchase Propeller Cap" },
+            { "9_07_00000", "Purchase No Hat" },
+            { "9_07_00022", "Purchase Spoiler" },
+            { "9_07_00023", "Purchase Police Lights" },
+        };
+
+        public static Dictionary<string, string> MauriziosCitySpecialRules = new()
+        {
+            { "Purple Tunnel - Gear", "B1/J1" },
+            { "Purple Tunnel - Bunny", "B1/J2 | X1+J1" },
+        };
+
         #endregion
 
         #region Mosk's Rocket
@@ -5631,8 +5764,8 @@ namespace YellowTaxiAP
             { "16_03_00337", "Mosk's Rocket - Coin Bag Near Podium Portal" },
         };
 
-        [Description("Mosk's Rocket - Fecal Matters/Flushed Away Area")]
-        public static Dictionary<string, string> RocketFecalFlushedArea = new()
+        [Description("Mosk's Rocket - Flushed Away Area")]
+        public static Dictionary<string, string> RocketFlushedArea = new()
         {
             { "16_03_00353", "Mosk's Rocket - Coin Near Smelly Slimes Portal #1" },
             { "16_03_00352", "Mosk's Rocket - Coin Near Smelly Slimes Portal #2" },
@@ -5640,6 +5773,12 @@ namespace YellowTaxiAP
             { "16_03_00350", "Mosk's Rocket - Coin Near Smelly Slimes Portal #4" },
             { "16_03_00349", "Mosk's Rocket - Coin Near Smelly Slimes Portal #5" },
             { "16_21_00001", "Mosk's Rocket - Cheese Under Homing Beacons" }
+        };
+
+        [Description("Mosk's Rocket - Fecal Matters Area")]
+        public static Dictionary<string, string> RocketFecalArea = new()
+        {
+            { string.Empty, nameof(RocketFecalArea) + " - !PLACEHOLDER!" },
         };
 
         [Description("Mosk's Rocket - Maurizio's City/Crash Test Industries/Morio's Mind Area")]
@@ -6057,9 +6196,9 @@ namespace YellowTaxiAP
             { "Mosk's Rocket - Coin Bag on Steps to Final Floor", "J1/GP" },
             { "Bomb-it - Gear - Bomb Car Ramps", "X1/J1" },
             { "Buttons Smashing - Gear - Top Platform", "X1/J1" },
-            { "Pepperoni - Gear - From Chef Pepe", "B1+J1" },
+            { "Pepperoni - Gear - From Chef Pepe", "X3/J1 & B1" },
             { "Stealthy - Gear - Shortcut Back Down", "GS/X1" },
-            { "Smelly Slimes - Gear - Pipe Above Entrance", "B2 & X2/J1" },
+            { "Smelly Slimes - Gear - Pipe Above Entrance", $"B2 & X2/J1 | X2+B1 & {{{GetDescription(nameof(SmellySlimesExit))}}} | X3+J1" },
         };
 
         #endregion
@@ -6165,9 +6304,8 @@ namespace YellowTaxiAP
 
         public static Dictionary<string, string> ProTricksSpecialRules = new()
         {
-            { "Pro Tricks! - Gear - #2 Above Ramps", "B1/J2" },
-            // Making sure you can reach middle and final section should be sufficient for time trial completion
-            { "Pro Tricks! - Complete Time Trial", $"{{{GetDescription(nameof(ProTricksMiddleSection))}}}" },
+            { "Pro Tricks! - Gear - #2 Above Ramps", "B1/J2 | X2+J1" },
+            { "Pro Tricks! - Complete Time Trial", $"B1 | X3+J1" },
         };
 
         #endregion
@@ -6200,12 +6338,11 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GrannysIslandPipeArea)), GrannysIslandPipeArea),
             new(GetDescription(nameof(GrannysIslandBrokenPierShallow)), GrannysIslandBrokenPierShallow),
             new(GetDescription(nameof(GrannysIslandBrokenPierDeep)), GrannysIslandBrokenPierDeep),
-            new(GetDescription(nameof(GrannysIslandBrokenPierExtraDeep)), GrannysIslandBrokenPierExtraDeep),
-            new(GetDescription(nameof(GrannysIslandLabHillExpert2HighGround)), GrannysIslandLabHillExpert2HighGround),
             new(GetDescription(nameof(GrannysIslandLabHillHighGround)), GrannysIslandLabHillHighGround),
             new(GetDescription(nameof(GrannysIslandExpert1HighGround)), GrannysIslandExpert1HighGround),
             new(GetDescription(nameof(GrannysIslandExpert2HighGround)), GrannysIslandExpert2HighGround),
             new(GetDescription(nameof(GrannysIslandHighGround)), GrannysIslandHighGround),
+            new(GetDescription(nameof(GrannysIslandInTheSky)), GrannysIslandInTheSky),
             new(GetDescription(nameof(GrannysIslandRocketTop)), GrannysIslandRocketTop),
             new(GetDescription(nameof(GrannysIslandConstructionArch)), GrannysIslandConstructionArch),
             new(GetDescription(nameof(GrannysIslandOceanPillar)), GrannysIslandOceanPillar),
@@ -6219,6 +6356,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GrannysIslandCrashAgainIsland)), GrannysIslandCrashAgainIsland),
             new(GetDescription(nameof(GrannysIslandCrashAgainRoof)), GrannysIslandCrashAgainRoof),
 
+            new(GetDescription(nameof(HubHatWorld)), HubHatWorld),
             new(GetDescription(nameof(HubLawFirm)), HubLawFirm),
             new(GetDescription(nameof(HubLawFirmJump)), HubLawFirmJump),
             new(GetDescription(nameof(HubCrashAgainStartingArea)), HubCrashAgainStartingArea),
@@ -6227,11 +6365,11 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(HubIceCreamTruckHighGround)), HubIceCreamTruckHighGround),
             new(GetDescription(nameof(HubPizzaOven)), HubPizzaOven),
             new(GetDescription(nameof(HubPizzaOvenPillar)), HubPizzaOvenPillar),
-            new(GetDescription(nameof(HubHatWorld)), HubHatWorld),
 
             new(GetDescription(nameof(MoriosLabGroundFloor)), MoriosLabGroundFloor),
             new(GetDescription(nameof(MoriosWardrobe)), MoriosWardrobe),
-            new(GetDescription(nameof(MoriosLabGroundFloorWrenches)), MoriosLabGroundFloorWrenches),
+            new(GetDescription(nameof(MoriosLabGroundFloorFirstWrench)), MoriosLabGroundFloorFirstWrench),
+            new(GetDescription(nameof(MoriosLabGroundFloorSecondWrench)), MoriosLabGroundFloorSecondWrench),
             new(GetDescription(nameof(MoriosLabGroundFloorLowestBolt)), MoriosLabGroundFloorLowestBolt),
             new(GetDescription(nameof(MoriosLabGroundFloorBolts)), MoriosLabGroundFloorBolts),
             new(GetDescription(nameof(MoriosLabGroundFloorArcadeGearAlcove)), MoriosLabGroundFloorArcadeGearAlcove),
@@ -6253,11 +6391,12 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabThirdFloor)), MoriosLabThirdFloor),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)), MoriosLabThirdFloorWrenchesLower),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesMiddle)), MoriosLabThirdFloorWrenchesMiddle),
+            new(GetDescription(nameof(MoriosLabThirdFloorWrenchesUpperInTrueDemoWall)), MoriosLabThirdFloorWrenchesUpperInTrueDemoWall),
             new(GetDescription(nameof(MoriosLabThirdFloorWrenchesUpper)), MoriosLabThirdFloorWrenchesUpper),
             new(GetDescription(nameof(MoriosLabThirdFloorGearWrench)), MoriosLabThirdFloorGearWrench),
             new(GetDescription(nameof(MoriosLabFourthFloor)), MoriosLabFourthFloor),
-            new(GetDescription(nameof(MoriosLabFourthFloorExpertJumpSpikes)), MoriosLabFourthFloorExpertJumpSpikes),
-            new(GetDescription(nameof(MoriosLabFourthFloorJumpSpikes)), MoriosLabFourthFloorJumpSpikes),
+            new(GetDescription(nameof(MoriosLabFourthFloorSpikyCliffs)), MoriosLabFourthFloorSpikyCliffs),
+            new(GetDescription(nameof(MoriosLabFourthFloorSpikyBunnyAlcove)), MoriosLabFourthFloorSpikyBunnyAlcove),
             new(GetDescription(nameof(MoriosLabLedgeAboveMauriziosCity)), MoriosLabLedgeAboveMauriziosCity),
             new(GetDescription(nameof(MoriosLabFifthFloorCrashTestArea)), MoriosLabFifthFloorCrashTestArea),
             new(GetDescription(nameof(MoriosLabFifthFloorMoriosMindArea)), MoriosLabFifthFloorMoriosMindArea),
@@ -6265,6 +6404,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabFifthFloorRuinedObservatoryArea)), MoriosLabFifthFloorRuinedObservatoryArea),
             new(GetDescription(nameof(MoriosLabFifthFloorGoldenPropeller)), MoriosLabFifthFloorGoldenPropeller),
             new(GetDescription(nameof(MoriosLabMiddleFloorsGoldenPropeller)), MoriosLabMiddleFloorsGoldenPropeller),
+            new(GetDescription(nameof(MoriosLabMiddleFloorsGoldenPropellerTwo)), MoriosLabMiddleFloorsGoldenPropellerTwo),
             new(GetDescription(nameof(MoriosLabFifthFloorShortcutPipe)), MoriosLabFifthFloorShortcutPipe),
             new(GetDescription(nameof(MoriosLabFifthFloorLowerLedge)), MoriosLabFifthFloorLowerLedge),
             new(GetDescription(nameof(MoriosLabFifthToSixthFloorStair)), MoriosLabFifthToSixthFloorStair),
@@ -6272,7 +6412,10 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosLabFifthFloorHighPillars)), MoriosLabFifthFloorHighPillars),
             new(GetDescription(nameof(MoriosLabFinalFloor)), MoriosLabFinalFloor),
             new(GetDescription(nameof(MoriosLabFinalFloorPipes)), MoriosLabFinalFloorPipes),
+            new(GetDescription(nameof(MoriosLabFinalFloorBunnyShortcutUpper)), MoriosLabFinalFloorBunnyShortcutUpper),
+            new(GetDescription(nameof(MoriosLabFinalFloorBunnyShortcutLower)), MoriosLabFinalFloorBunnyShortcutLower),
             new(GetDescription(nameof(MoriosLabFinalFloorCatwalk)), MoriosLabFinalFloorCatwalk),
+            new(GetDescription(nameof(MoriosLabOutOfBounds)), MoriosLabOutOfBounds),
 
             new(GetDescription(nameof(MoriosLabGroundFloorGoldenPropeller)), MoriosLabGroundFloorGoldenPropeller),
 
@@ -6308,7 +6451,8 @@ namespace YellowTaxiAP
             new (GetDescription(nameof(BombeachExpert1BombJumps)), BombeachExpert1BombJumps),
             new (GetDescription(nameof(BombeachJumpOrBoost)), BombeachJumpOrBoost),
             new (GetDescription(nameof(BombeachDistantHighIslands)), BombeachDistantHighIslands),
-            new (GetDescription(nameof(BombeachSuperboost)), BombeachSuperboost),
+            new (GetDescription(nameof(BombeachOrangeBlockIsland)), BombeachOrangeBlockIsland),
+            new (GetDescription(nameof(BombeachBunnyPillar)), BombeachBunnyPillar),
             new (GetDescription(nameof(BombeachOrangeBlockBridge)), BombeachOrangeBlockBridge),
             new (GetDescription(nameof(Cave)), Cave),
             new (GetDescription(nameof(BombeachHatWorld)), BombeachHatWorld),
@@ -6320,7 +6464,6 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(ArcadePanikStartingArea)), ArcadePanikStartingArea),
             new(GetDescription(nameof(ArcadePanikBowlingAlleyLedge)), ArcadePanikBowlingAlleyLedge),
             new(GetDescription(nameof(ArcadePanikExpert1Jump)), ArcadePanikExpert1Jump),
-            new(GetDescription(nameof(ArcadePanikBoost2)), ArcadePanikBoost2),
             new(GetDescription(nameof(ArcadePanikPinballArea)), ArcadePanikPinballArea),
             new(GetDescription(nameof(ArcadePanikRaceTrackArea)), ArcadePanikRaceTrackArea),
             new(GetDescription(nameof(ArcadePanikTirePillars)), ArcadePanikTirePillars),
@@ -6332,12 +6475,14 @@ namespace YellowTaxiAP
             // Pizza Time Areas
             new(GetDescription(nameof(PizzaTimeStartingArea)), PizzaTimeStartingArea),
             new(GetDescription(nameof(PizzaTimeOilPumps)), PizzaTimeOilPumps),
+            new(GetDescription(nameof(PizzaTimeHouseOnFirstIsland)), PizzaTimeHouseOnFirstIsland),
             new(GetDescription(nameof(PizzaTimeAccessibleLedges)), PizzaTimeAccessibleLedges),
             new(GetDescription(nameof(PizzaTimeLessAccessibleLedges)), PizzaTimeLessAccessibleLedges),
             new(GetDescription(nameof(PizzaTimeLedgeLeftOfFinalRoundabout)), PizzaTimeLedgeLeftOfFinalRoundabout),
             new(GetDescription(nameof(PizzaTimeHighGround)), PizzaTimeHighGround),
             new(GetDescription(nameof(PizzaTimeSecondMainIslandMountain)), PizzaTimeSecondMainIslandMountain),
-            new(GetDescription(nameof(PizzaTimeBunnyIsland)), PizzaTimeBunnyIsland),
+            new(GetDescription(nameof(PizzaTimeBunnyIslandUpper)), PizzaTimeBunnyIslandUpper),
+            new(GetDescription(nameof(PizzaTimeBunnyIslandLower)), PizzaTimeBunnyIslandLower),
             new(GetDescription(nameof(PizzaTimeFloatingOrangeIsland)), PizzaTimeFloatingOrangeIsland),
             new(GetDescription(nameof(PizzaTimeSpiresNearStart)), PizzaTimeSpiresNearStart),
             new(GetDescription(nameof(PizzaTimePizzaKing)), PizzaTimePizzaKing),
@@ -6356,6 +6501,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(ToslaSquareStartingArea)), ToslaSquareStartingArea),
             new(GetDescription(nameof(ToslaSquareToslaSign)), ToslaSquareToslaSign),
             new(GetDescription(nameof(ToslaSquareLowerBuildings)), ToslaSquareLowerBuildings),
+            new(GetDescription(nameof(ToslaSquareMediumHighBuildings)), ToslaSquareMediumHighBuildings),
             new(GetDescription(nameof(ToslaSquareHighGround)), ToslaSquareHighGround),
             new(GetDescription(nameof(ToslaSquareHighestGround)), ToslaSquareHighestGround),
             new(GetDescription(nameof(ToslaOfficesGroundFloor)), ToslaOfficesGroundFloor),
@@ -6380,7 +6526,8 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GymGearsExpert1)), GymGearsExpert1),
             new(GetDescription(nameof(GymGearsExpert2)), GymGearsExpert2),
             new(GetDescription(nameof(GymGearsExpert2Boost)), GymGearsExpert2Boost),
-            new(GetDescription(nameof(GymGearsJump)), GymGearsJump),
+            new(GetDescription(nameof(GymGearsExpert3Boost)), GymGearsExpert3Boost),
+            new(GetDescription(nameof(GymGearsHiddenCoins)), GymGearsHiddenCoins),
 
             // Fecal Matters Areas
             new(GetDescription(nameof(FecalMattersStartingArea)), FecalMattersStartingArea),
@@ -6411,13 +6558,21 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(FlushedAwayCentralDrainBunny)), FlushedAwayCentralDrainBunny),
             new(GetDescription(nameof(FlushedAwayCentralDrainHighGround)), FlushedAwayCentralDrainHighGround),
             new(GetDescription(nameof(FlushedAwayAboveCentralDrain)), FlushedAwayAboveCentralDrain),
+            new(GetDescription(nameof(FlushedAwayOutOfBounds)), FlushedAwayOutOfBounds),
+
+            // Maurizio's City Areas
+            new(GetDescription(nameof(MauriziosCityStartingArea)), MauriziosCityStartingArea),
+            new(GetDescription(nameof(MauriziosCitySpin)), MauriziosCitySpin),
+            new(GetDescription(nameof(MauriziosCityHatWorld)), MauriziosCityHatWorld),
+            new(GetDescription(nameof(PurpleTunnel)), PurpleTunnel),
 
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
             new(GetDescription(nameof(RocketBombeachArcadePizzaArea)), RocketBombeachArcadePizzaArea),
             new(GetDescription(nameof(RocketToslaOfficesArea)), RocketToslaOfficesArea),
             new(GetDescription(nameof(RocketGymGearsArea)), RocketGymGearsArea),
-            new(GetDescription(nameof(RocketFecalFlushedArea)), RocketFecalFlushedArea),
+            new(GetDescription(nameof(RocketFlushedArea)), RocketFlushedArea),
+            new(GetDescription(nameof(RocketFecalArea)), RocketFecalArea),
             new(GetDescription(nameof(RocketCityCrashMindArea)), RocketCityCrashMindArea),
             new(GetDescription(nameof(RocketCoinsToFinalFloor)), RocketCoinsToFinalFloor),
             new(GetDescription(nameof(RocketToslaHQArea)), RocketToslaHQArea),
@@ -6484,6 +6639,7 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.L6_Gym), GymGearsSpecialRules },
             { nameof(Data.LevelId.L7_PoopWorld), FecalMattersSpecialRules },
             { nameof(Data.LevelId.L8_Sewers), FlushedAwaySpecialRules },
+            { nameof(Data.LevelId.L9_City), MauriziosCitySpecialRules },
             { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
             { nameof(Data.LevelId.L18_TimeAttack02), GettingGudSpecialRules },
             { nameof(Data.LevelId.L19_TimeAttack03), ProTricksSpecialRules },
@@ -6500,12 +6656,11 @@ namespace YellowTaxiAP
                     GrannysIslandPipeArea,
                     GrannysIslandBrokenPierShallow,
                     GrannysIslandBrokenPierDeep,
-                    GrannysIslandBrokenPierExtraDeep,
-                    GrannysIslandLabHillExpert2HighGround,
                     GrannysIslandLabHillHighGround,
                     GrannysIslandExpert1HighGround,
                     GrannysIslandExpert2HighGround,
                     GrannysIslandHighGround,
+                    GrannysIslandInTheSky,
                     GrannysIslandRocketTop,
                     GrannysIslandConstructionArch,
                     GrannysIslandOceanPillar,
@@ -6519,6 +6674,7 @@ namespace YellowTaxiAP
                     GrannysIslandCrashAgainIsland,
                     GrannysIslandCrashAgainRoof,
 
+                    HubHatWorld,
                     HubLawFirm,
                     HubLawFirmJump,
                     HubCrashAgainStartingArea,
@@ -6527,11 +6683,11 @@ namespace YellowTaxiAP
                     HubIceCreamTruckHighGround,
                     HubPizzaOven,
                     HubPizzaOvenPillar,
-                    HubHatWorld,
 
                     MoriosLabGroundFloor,
                     MoriosWardrobe,
-                    MoriosLabGroundFloorWrenches,
+                    MoriosLabGroundFloorFirstWrench,
+                    MoriosLabGroundFloorSecondWrench,
                     MoriosLabGroundFloorLowestBolt,
                     MoriosLabGroundFloorBolts,
                     MoriosLabGroundFloorArcadeGearAlcove,
@@ -6553,11 +6709,12 @@ namespace YellowTaxiAP
                     MoriosLabThirdFloor,
                     MoriosLabThirdFloorWrenchesLower,
                     MoriosLabThirdFloorWrenchesMiddle,
+                    MoriosLabThirdFloorWrenchesUpperInTrueDemoWall,
                     MoriosLabThirdFloorWrenchesUpper,
                     MoriosLabThirdFloorGearWrench,
                     MoriosLabFourthFloor,
-                    MoriosLabFourthFloorExpertJumpSpikes,
-                    MoriosLabFourthFloorJumpSpikes,
+                    MoriosLabFourthFloorSpikyCliffs,
+                    MoriosLabFourthFloorSpikyBunnyAlcove,
                     MoriosLabLedgeAboveMauriziosCity,
                     MoriosLabFifthFloorCrashTestArea,
                     MoriosLabFifthFloorMoriosMindArea,
@@ -6565,6 +6722,7 @@ namespace YellowTaxiAP
                     MoriosLabFifthFloorRuinedObservatoryArea,
                     MoriosLabFifthFloorGoldenPropeller,
                     MoriosLabMiddleFloorsGoldenPropeller,
+                    MoriosLabMiddleFloorsGoldenPropellerTwo,
                     MoriosLabFifthFloorShortcutPipe,
                     MoriosLabFifthFloorLowerLedge,
                     MoriosLabFifthToSixthFloorStair,
@@ -6572,7 +6730,10 @@ namespace YellowTaxiAP
                     MoriosLabFifthFloorHighPillars,
                     MoriosLabFinalFloor,
                     MoriosLabFinalFloorPipes,
+                    MoriosLabFinalFloorBunnyShortcutUpper,
+                    MoriosLabFinalFloorBunnyShortcutLower,
                     MoriosLabFinalFloorCatwalk,
+                    MoriosLabOutOfBounds,
 
                     MoriosLabGroundFloorGoldenPropeller,
                 ]
@@ -6585,7 +6746,8 @@ namespace YellowTaxiAP
                     BombeachExpert1BombJumps,
                     BombeachJumpOrBoost,
                     BombeachDistantHighIslands,
-                    BombeachSuperboost,
+                    BombeachOrangeBlockIsland,
+                    BombeachBunnyPillar,
                     BombeachOrangeBlockBridge,
                     Cave,
                     BombeachHatWorld,
@@ -6596,12 +6758,14 @@ namespace YellowTaxiAP
                 [
                     PizzaTimeStartingArea,
                     PizzaTimeOilPumps,
+                    PizzaTimeHouseOnFirstIsland,
                     PizzaTimeAccessibleLedges,
                     PizzaTimeLessAccessibleLedges,
                     PizzaTimeLedgeLeftOfFinalRoundabout,
                     PizzaTimeHighGround,
                     PizzaTimeSecondMainIslandMountain,
-                    PizzaTimeBunnyIsland,
+                    PizzaTimeBunnyIslandUpper,
+                    PizzaTimeBunnyIslandLower,
                     PizzaTimeFloatingOrangeIsland,
                     PizzaTimeSpiresNearStart,
                     PizzaTimePizzaKing,
@@ -6657,7 +6821,6 @@ namespace YellowTaxiAP
                     ArcadePanikStartingArea,
                     ArcadePanikBowlingAlleyLedge,
                     ArcadePanikExpert1Jump,
-                    ArcadePanikBoost2,
                     ArcadePanikPinballArea,
                     ArcadePanikRaceTrackArea,
                     ArcadePanikTirePillars,
@@ -6674,6 +6837,7 @@ namespace YellowTaxiAP
                     ToslaSquareStartingArea,
                     ToslaSquareToslaSign,
                     ToslaSquareLowerBuildings,
+                    ToslaSquareMediumHighBuildings,
                     ToslaSquareHighGround,
                     ToslaSquareHighestGround,
                     ToslaOfficesGroundFloor,
@@ -6701,7 +6865,8 @@ namespace YellowTaxiAP
                     GymGearsExpert1,
                     GymGearsExpert2,
                     GymGearsExpert2Boost,
-                    GymGearsJump,
+                    GymGearsExpert3Boost,
+                    GymGearsHiddenCoins,
                 ]
             },
             {
@@ -6738,6 +6903,16 @@ namespace YellowTaxiAP
                     FlushedAwayCentralDrainBunny,
                     FlushedAwayCentralDrainHighGround,
                     FlushedAwayAboveCentralDrain,
+                    FlushedAwayOutOfBounds,
+                ]
+            },
+            {
+                nameof(Data.LevelId.L9_City),
+                [
+                    MauriziosCityStartingArea,
+                    MauriziosCitySpin,
+                    MauriziosCityHatWorld,
+                    PurpleTunnel,
                 ]
             },
             {
@@ -6747,7 +6922,8 @@ namespace YellowTaxiAP
                     RocketBombeachArcadePizzaArea,
                     RocketToslaOfficesArea,
                     RocketGymGearsArea,
-                    RocketFecalFlushedArea,
+                    RocketFlushedArea,
+                    RocketFecalArea,
                     RocketCityCrashMindArea,
                     RocketCoinsToFinalFloor,
                     RocketToslaHQArea,
@@ -6860,7 +7036,6 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandStart),
                     new RegionConnection(GrannysIslandPipeArea, "J1/B1"),
                     new RegionConnection(GrannysIslandMain, "OGI"),
-                    new RegionConnection(GrannysIslandStart, "OGI"),
                 ]
             },
             {
@@ -6870,27 +7045,26 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Beach Pipe", GrannysIslandPipeArea, ConnectionType.Subwarp),
                     new RegionConnection(GrannysIslandBrokenPierShallow, "X1+B1 | J1 | GP"),
                     new RegionConnection(GrannysIslandBrokenPierDeep, "X1+B2 | X1/B1 & J1 | GP | J2"),
-                    new RegionConnection(GrannysIslandBrokenPierExtraDeep, "X1/B1 & J1 | GP | J2"),
                     new RegionConnection(GrannysIslandExpert1HighGround, "X1/J1/B1/GP"),
                     new RegionConnection(GrannysIslandExpert2HighGround, "X2/J1/B1/GP"),
                     new RegionConnection(GrannysIslandHighGround, "J1/B1/GP"),
-                    new RegionConnection(GrannysIslandRocketTop, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J2+GP"),
+                    new RegionConnection(GrannysIslandRocketTop, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J1 | X3+B1+GP"),
                     new RegionConnection(GrannysIslandConstructionArch, "B1 | GP+J1"),
-                    new RegionConnection(GrannysIslandOceanPillar, "B1 | GP+OS"),
-                    new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | X2/J1 & GP+OS"),
-                    new RegionConnection(GrannysIslandTowardsSewerIsland2, "B1 & OS/GP/J1"),
+                    new RegionConnection(GrannysIslandOceanPillar, "B1 | X2/GP & OS | X2+J1 & X3/GP"),
+                    new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+J1+OS | X1+GP"),
+                    new RegionConnection(GrannysIslandTowardsSewerIsland2, "B1 & X2/OS/GP/J1 | X1+GP+OS"),
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
-                    new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1"),
-                    new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP | X3+B2+J1"),
-                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | GP+OS & J2/B1"),
+                    new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1 | NSAR+X1+GP+J1 | X1+GP+J2 | X3+J1"),
+                    new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP | X2+B2 & X3/J1 | X2+GP & X3/B1 | X3+J1"),
+                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | X3+GP+B1 | GP+OS+B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears+GymKey"),
-                    new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X3+Rocket+B2+GP | X2+B2+J1"),
+                    new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X2+B2+J1 | X2+B1+GP"),
                     new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "PortalFecalMatters+Doggo"),
-                    new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & J2/B1/GP | X1+Rocket+J1"),
+                    new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & X2/J2/B1/GP | X1+Rocket+J1"),
                     // Golden Propeller non-area rando rules. Expert 1 required to bring it through loading zones
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "X1+NSAR+GP+LabKey"),
                     new RegionConnection(HubLawFirmJump, "X1+NSAR+GP"),
@@ -6917,23 +7091,10 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(GrannysIslandBrokenPierExtraDeep)),
-                [
-                    // Connections to other piers are handled by Granny's Island Main
-                ]
-            },
-            {
-                GetDescription(nameof(GrannysIslandLabHillExpert2HighGround)),
-                [
-                    // Doesn't connect anywhere
-                ]
-            },
-            {
                 GetDescription(nameof(GrannysIslandLabHillHighGround)),
                 [
                     new RegionConnection(GrannysIslandCrashAgainIsland, "OS"),
                     new RegionConnection(GrannysIslandMain),
-                    new RegionConnection(GrannysIslandLabHillExpert2HighGround),
                 ]
             },
             {
@@ -6945,20 +7106,26 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandExpert2HighGround)),
                 [
-                    new RegionConnection(GrannysIslandLabHillExpert2HighGround),
+                    new RegionConnection(GrannysIslandLabHillHighGround),
                 ]
             },
             {
                 GetDescription(nameof(GrannysIslandHighGround)),
                 [
-                    new RegionConnection(GrannysIslandLabHillHighGround)
+                    new RegionConnection(GrannysIslandInTheSky, "X1/J1 & B2 | X1/B1 & GP | X2+J1+B1 | X3 & B1/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(GrannysIslandInTheSky)),
+                [
+                    // No connections
                 ]
             },
             {
                 GetDescription(nameof(GrannysIslandRocketTop)),
                 [
-                    new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1"),
-                    new RegionConnection(GrannysIslandTowardsSewerIsland2Tree, "B1+GP"),
+                    new RegionConnection(GrannysIslandTowardsSewerIsland1, "Rocket+B1"),
+                    new RegionConnection(GrannysIslandTowardsSewerIsland2Tree, "Rocket+B1+GP"),
                 ]
             },
             {
@@ -6992,7 +7159,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandTowardsSewerIsland2Tree)),
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland2),
-                    new RegionConnection(GrannysIslandSewerIsland, "X3+B2"),
+                    new RegionConnection(GrannysIslandSewerIsland, "X3+B2 | X3+B1+J1+GL"),
                 ]
             },
             {
@@ -7041,7 +7208,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(HubLawFirm)),
                 [
                     new RegionConnection("Law Firm - Exit", GrannysIslandMain, ConnectionType.Subwarp),
-                    new RegionConnection(HubLawFirmJump, "J1"),
+                    new RegionConnection(HubLawFirmJump, "J1 | X3+B1"),
                 ]
             },
             {
@@ -7100,21 +7267,23 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabGroundFloorGoldenPropeller)),
                 [
-                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabGroundFloorSecondWrench),
                     new RegionConnection(MoriosLabGroundFloorLowestBolt),
                     new RegionConnection(MoriosLabSecondFloor),
-                    new RegionConnection(MoriosLabGroundFloorBolts, "B1/X1"),
+                    new RegionConnection(MoriosLabGroundFloorBolts, "X1/B1"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1"),
                     new RegionConnection(MoriosLabBunnyLedge, "B1+X1"),
-                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B1"),
+                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B1 | X1+J2"),
                     new RegionConnection(MoriosLabThirdFloor, "FGU"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "B1/X2 & FGU"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "B1+FGU"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "B1+FGU"),
-                    new RegionConnection(MoriosLabThirdFloorGearWrench, "B1+FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "X2/B1 & FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "X2/B1 & FGU"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "X2/B1 & FGU"),
+                    new RegionConnection(MoriosLabThirdFloorGearWrench, "X2/B1 & FGU"),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
+                    // Can get to fourth floor with only two golden propellers relatively easy, but lengthy reset
+                    new RegionConnection(MoriosLabMiddleFloorsGoldenPropellerTwo, "X2+FGU+B1"),
                 ]
             },
             {
@@ -7124,7 +7293,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Morio's Lab - Back Door", GrannysIslandMoat, ConnectionType.Subwarp, "LabKey"),
                     new RegionConnection("Morio's Lab - Wardrobe Entrance", MoriosWardrobe, ConnectionType.Subwarp, "WardrobeKey"),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "B2"),
-                    new RegionConnection(MoriosLabGroundFloorWrenches, "B1/J2"),
+                    new RegionConnection(MoriosLabGroundFloorSecondWrench, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X2+B2+FGU | B2+J2+FGU"),
                     new RegionConnection("Morio's Lab - Morio's Home Portal", MoriosIslandStartingArea, ConnectionType.Warp, "PortalMorioHome"),
@@ -7138,17 +7307,24 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(MoriosLabGroundFloorWrenches)),
+                GetDescription(nameof(MoriosLabGroundFloorFirstWrench)),
                 [
-                    new RegionConnection(MoriosLabGroundFloorBolts, "J1"),
+                    new RegionConnection(MoriosLabGroundFloorSecondWrench, "J1"),
                     new RegionConnection(MoriosLabGroundFloor),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabGroundFloorSecondWrench)),
+                [
+                    new RegionConnection(MoriosLabGroundFloorFirstWrench),
+                    new RegionConnection(MoriosLabGroundFloorBolts, "J1"),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "J1+OS | J2"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabGroundFloorLowestBolt)),
                 [
-                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabGroundFloorSecondWrench),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X1+B1"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "X1+B1"),
                 ]
@@ -7165,9 +7341,25 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                GetDescription(nameof(MoriosLabGroundFloorArcadeGearAlcove)),
+                [
+                    new RegionConnection(MoriosLabThirdFloor, "X2+B1+OOB"),
+                ]
+            },
+            {
                 GetDescription(nameof(MoriosLabGroundFloorOrangeBlocks)),
                 [
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "OS+J1+FGU | X2+OS+B1+FGU"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabBunnyLedge)),
+                [
+                    new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X1+J1"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X3+J1"),
+                    new RegionConnection(MoriosLabOutOfBounds, "SCOOB"),
+                    new RegionConnection(MoriosLabFourthFloor, "X3+OOB+B1"),
+                    new RegionConnection(MoriosLabFinalFloorBunnyShortcutLower, "X3+J1"),
                 ]
             },
             {
@@ -7177,15 +7369,15 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1 | X2+J1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X2+B1+J1 | X1+B2+J1 | X1+B1+J2"),
-                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2"),
+                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2 | X3+J1"),
                     new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
-                    new RegionConnection(MoriosLabPsychoTaxi, "FGU"),
+                    new RegionConnection(MoriosLabPsychoTaxi, "FGU | X2+OOB+B1"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabPsychoTaxi)),
                 [
-                    new RegionConnection(MoriosLabSecondFloor, "FGU"),
+                    new RegionConnection(MoriosLabSecondFloor, "FGU | X1+OOB+B1"),
                     // TODO: Connect to Psycho Taxi region whenever it becomes logically relevant
                 ]
             },
@@ -7240,7 +7432,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabPathToMoriosRoom)),
                 [
-                    new RegionConnection(MoriosLabMoriosRoomOutside, "B1"),
+                    new RegionConnection(MoriosLabMoriosRoomOutside, "B1 | X3+J1"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "B1/J1"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
@@ -7251,7 +7443,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabMoriosRoomOutside)),
                 [
-                    new RegionConnection(MoriosLabGroundFloorWrenches),
+                    new RegionConnection(MoriosLabGroundFloorSecondWrench),
                     new RegionConnection(MoriosLabMoriosRoomInside, $"NHS+MorioHat | HS+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                 ]
             },
@@ -7271,7 +7463,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabThirdFloor)),
                 [
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "J1"),
-                    new RegionConnection(MoriosLabFourthFloor, "Spike+B1 | X2+Spike+J1"),
+                    new RegionConnection(MoriosLabFourthFloor, "Spike+B1 | X2+Spike+J1 | X3+J1"),
                     new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall),
                     new RegionConnection("Morio's Lab - Tosla's Offices Portal", ToslaSquareStartingArea, ConnectionType.Warp, "PortalToslaOffices"),
                     new RegionConnection("Morio's Lab - Baby Steps! TV", BabyStepsStartingArea, ConnectionType.Warp, "TT1"),
@@ -7281,6 +7473,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabThirdFloorWrenchesLower)),
                 [
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+J1 | X2+FGU+B1"),
+                    new RegionConnection(MoriosLabThirdFloorGearWrench, "J2 | X2+J1"),
                     new RegionConnection(MoriosLabThirdFloor),
                 ]
             },
@@ -7291,38 +7484,46 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(MoriosLabThirdFloorWrenchesUpper)),
-                [
-                    new RegionConnection(MoriosLabThirdFloorGearWrench, "J1"),
-                ]
-            },
-            {
-                GetDescription(nameof(MoriosLabThirdFloorGearWrench)),
+                GetDescription(nameof(MoriosLabThirdFloorWrenchesUpperInTrueDemoWall)),
                 [
                     // No connections
                 ]
             },
             {
-                GetDescription(nameof(MoriosLabFourthFloor)),
+                GetDescription(nameof(MoriosLabThirdFloorWrenchesUpper)),
                 [
-                    new RegionConnection(MoriosLabFourthFloorJumpSpikes, "Spike+J1"),
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
-                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
-                    new RegionConnection(MoriosLabThirdFloor, "Spike"),
-                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes, "X1+Spike+B2 | X2+B2+J2"),
-                    new RegionConnection("Morio's Lab - Getting Gud! TV", GettingGudStartingArea, ConnectionType.Warp, "TT2"),
+                    new RegionConnection(MoriosLabThirdFloorGearWrench, "J1"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpperInTrueDemoWall, "FGU"),
                 ]
             },
             {
-                GetDescription(nameof(MoriosLabFourthFloorExpertJumpSpikes)),
+                GetDescription(nameof(MoriosLabThirdFloorGearWrench)),
+                [
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabFourthFloor)),
+                [
+                    new RegionConnection(MoriosLabFourthFloorSpikyBunnyAlcove, "X3/Spike & J1"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
+                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
+                    new RegionConnection(MoriosLabThirdFloor, "Spike"),
+                    new RegionConnection(MoriosLabFourthFloorSpikyCliffs, "X3/Spike & J1 | X1+Spike+B2 | X2+B2+J2"),
+                    new RegionConnection("Morio's Lab - Getting Gud! TV", GettingGudStartingArea, ConnectionType.Warp, "TT2"),
+                    new RegionConnection("Morio's Lab - Maurizio's City Portal", MauriziosCityStartingArea, ConnectionType.Warp, "PortalMauriziosCity"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabFourthFloorSpikyCliffs)),
                 [
                     // Doesn't connect anywhere
                 ]
             },
             {
-                GetDescription(nameof(MoriosLabFourthFloorJumpSpikes)),
+                GetDescription(nameof(MoriosLabFourthFloorSpikyBunnyAlcove)),
                 [
-                    new RegionConnection(MoriosLabFourthFloorExpertJumpSpikes),
+                    // Doesn't connect anywhere
                 ]
             },
             {
@@ -7334,19 +7535,19 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFifthFloorCrashTestArea)),
                 [
-                    new RegionConnection(MoriosLabFifthFloorMoriosMindArea, "OS/J2 | X2+B1"),
+                    new RegionConnection(MoriosLabFifthFloorMoriosMindArea, "OS/J2 | X2+B1 | X3+J1"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "B1/J1"),
                     new RegionConnection(MoriosLabFourthFloor),
                     new RegionConnection(MoriosLabSecondFloor, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorLowestBolt, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "FGU"),
-                    new RegionConnection(MoriosLabGroundFloorWrenches, "FGU"),
+                    new RegionConnection(MoriosLabGroundFloorSecondWrench, "FGU | X3+B1"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabFifthFloorMoriosMindArea)),
                 [
-                    new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea, "Password"),
+                    new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea, "Password | X3+OOB+B1"),
                     new RegionConnection(MoriosLabFifthFloorDreamMachine, "FGU"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea),
                     new RegionConnection("Morio's Lab - Pro Tricks! TV", ProTricksStartingArea, ConnectionType.Warp, "TT3"),
@@ -7375,6 +7576,8 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFinalFloor),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "Password"),
                     new RegionConnection(MoriosLabFifthFloorShortcutPipe, "Password"),
+                    new RegionConnection(MoriosLabThirdFloor, "X3+NSAR+OOB+Password"),
+                    new RegionConnection(MoriosLabFinalFloorBunnyShortcutUpper, "X1+B1 & X3/Password"), // Password typically required because shortcut pipe is covered by invisible blocks
                 ]
             },
             {
@@ -7385,15 +7588,21 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+FGU+MorioHat | HS+FGU+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU/Spike"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "Spike+FGU"),
-                    new RegionConnection(MoriosLabThirdFloorGearWrench, "Spike+B1"),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "Spike"),
+                    new RegionConnection(MoriosLabThirdFloorGearWrench, "Spike"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "FGU"),
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "FGU"),
-                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity),
-                    new RegionConnection(MoriosLabFourthFloorJumpSpikes, "Spike"),
+                    new RegionConnection(MoriosLabMiddleFloorsGoldenPropellerTwo),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabMiddleFloorsGoldenPropellerTwo)),
+                [
+                    new RegionConnection(MoriosLabFourthFloorSpikyBunnyAlcove, "X3/Spike"),
+                    new RegionConnection(MoriosLabFourthFloorSpikyCliffs, "Spike | X2+B1"),
                     new RegionConnection(MoriosLabFifthFloorGoldenPropeller, "Password"),
-                    new RegionConnection(MoriosLabThirdFloorWrenchesLower, "Spike"),
+                    new RegionConnection(MoriosLabLedgeAboveMauriziosCity),
                 ]
             },
             {
@@ -7406,15 +7615,16 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFifthFloorLowerLedge)),
                 [
-                    new RegionConnection(MoriosLabFifthToSixthFloorStair, "J1"),
-                    new RegionConnection(MoriosLabFifthFloorLowPillars, "J1"),
+                    new RegionConnection(MoriosLabFifthToSixthFloorStair, "J1 | X3+B1"),
+                    new RegionConnection(MoriosLabFifthFloorLowPillars, "J1 | X1+B1"),
+                    new RegionConnection(MoriosLabFinalFloorBunnyShortcutUpper, "X3+B1"),
                     new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabFifthToSixthFloorStair)),
                 [
-                    new RegionConnection(MoriosLabFinalFloor, "J2 | X1+J1"),
+                    new RegionConnection(MoriosLabFinalFloor, "J2 | X1+J1 | X3+B1"),
                     new RegionConnection(MoriosLabFifthFloorLowerLedge),
                 ]
             },
@@ -7433,7 +7643,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFinalFloor)),
                 [
-                    new RegionConnection(MoriosLabFifthFloorHighPillars, "J1 | B1+X1"),
+                    new RegionConnection(MoriosLabFifthFloorHighPillars, "J1 | X1+B1"),
                     new RegionConnection(MoriosLabFinalFloorPipes, "J1"),
                     new RegionConnection(MoriosLabFinalFloorCatwalk, "J2 | J1+X1"),
                     new RegionConnection(MoriosLabFifthToSixthFloorStair),
@@ -7442,14 +7652,51 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFinalFloorPipes)),
                 [
-                    new RegionConnection(MoriosLabGroundFloorWrenches, "FGU"),
+                    new RegionConnection(MoriosLabFinalFloorBunnyShortcutUpper),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabFinalFloorBunnyShortcutUpper)),
+                [
+                    new RegionConnection(MoriosLabFinalFloor),
+                    new RegionConnection(MoriosLabFinalFloorBunnyShortcutLower),
+                    new RegionConnection(MoriosLabFifthFloorLowPillars),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosLabFinalFloorBunnyShortcutLower)),
+                [
+                    new RegionConnection(MoriosLabFinalFloorBunnyShortcutUpper, "X3+J1"),
+                    new RegionConnection(MoriosLabGroundFloorFirstWrench, "FGU"),
                     new RegionConnection(MoriosLabBunnyLedge, "FGU"),
+                    new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "FGU"),
+                    new RegionConnection(MoriosLabMoriosRoomOutside, "FGU+J1"),
+                    new RegionConnection(MoriosLabOutOfBounds, "SCOOB"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosLabFinalFloorCatwalk)),
                 [
                     // Doesn't connect anywhere
+                ]
+            },
+            {
+                // Current assumption is, for the most part, that if you can clip out of bounds you can clip back in
+                // Hopefully this holds!
+                GetDescription(nameof(MoriosLabOutOfBounds)),
+                [
+                    new RegionConnection(MoriosWardrobe, "X2 & X3/B1 & J1"),
+                    new RegionConnection(MoriosLabGroundFloorSecondWrench),
+                    new RegionConnection(MoriosLabMoriosRoomOutside),
+                    new RegionConnection(MoriosLabMoriosRoomInside),
+                    new RegionConnection(MoriosLabThirdFloor),
+                    new RegionConnection(MoriosLabThirdFloorWrenchesLower),
+                    new RegionConnection(MoriosLabThirdFloorGearWrench),
+                    new RegionConnection(MoriosLabFourthFloor),
+                    new RegionConnection(MoriosLabFourthFloorSpikyCliffs),
+                    new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea),
+                    new RegionConnection(MoriosLabFifthFloorLowPillars),
+                    new RegionConnection(MoriosLabFinalFloorBunnyShortcutLower),
                 ]
             },
 
@@ -7474,9 +7721,9 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosIslandHomeIsland),
                     new RegionConnection(MoriosIslandFirstBunnyArch, "X1/J1 & B2 | J1+X1+B1 | X2+B1"),
-                    new RegionConnection(MoriosIslandSecondBunnyArch, "B2"),
-                    new RegionConnection(MoriosIslandCenterIsland, "B1 & J1/X2 | J2+X1"),
-                    new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1"),
+                    new RegionConnection(MoriosIslandSecondBunnyArch, "B2 | X2+B1 & X3/J1"),
+                    new RegionConnection(MoriosIslandCenterIsland, "X1+B1 & J1/X2 | J2+X2 | B2 & J1/X1"),
+                    new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1 | X3+J1"),
 
                     new RegionConnection(PropellerHatPurchasable),
                 ]
@@ -7516,7 +7763,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosIslandHighestGround)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection(MoriosIslandCenterIsland), // A move is needed for low expert level, but implied
                 ]
             },
             {
@@ -7524,7 +7771,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosHomeExpert1, "X1/J1/B1"),
                     new RegionConnection(MoriosHomeHighGround, "J1/B1"),
-                    new RegionConnection(MoriosHomeLoft, "B2+J2 | X1+J2 | X1+B2+J1"),
+                    new RegionConnection(MoriosHomeLoft, "B2 & X2/J2 | X1+J2 | X1+B2+J1 | X3+B1+J1"),
                     new RegionConnection(MoriosHomeKitchen, "SP"),
                     new RegionConnection("Morio's Home - Door in Bedroom", WeirdTunnelsEntrance, ConnectionType.Subwarp),
                 ]
@@ -7538,14 +7785,14 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosHomeHighGround)),
                 [
-                    new RegionConnection(MoriosHomeBeforeBedPillars),
+                    new RegionConnection(MoriosHomeBeforeBedPillars, "X1/B1/J2"),
                 ]
             },
             {
                 GetDescription(nameof(MoriosHomeBeforeBedPillars)),
                 [
                     new RegionConnection(MoriosHomeStartingArea),
-                    new RegionConnection(MoriosHomeBedPillars, "B1 & X1/J1"),
+                    new RegionConnection(MoriosHomeBedPillars, "B1 & X1/J1 | X3+J1"),
                 ]
             },
             {
@@ -7557,7 +7804,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosHomeLoft)),
                 [
-                    new RegionConnection(MoriosHomeKitchen),
+                    new RegionConnection(MoriosHomeKitchenHighGround),
                 ]
             },
             {
@@ -7583,7 +7830,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosHomeKitchenHighGround)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection(MoriosHomeKitchen),
                 ]
             },
             {
@@ -7617,7 +7864,6 @@ namespace YellowTaxiAP
                     new RegionConnection(BombeachEasyBombJumps),
                     new RegionConnection(BombeachExpert1BombJumps, "X1"),
                     new RegionConnection(BombeachJumpOrBoost, "J1/B1"),
-                    new RegionConnection(BombeachSuperboost, "B2"),
                     new RegionConnection("Bombeach - Cave Entrance", Cave, ConnectionType.Subwarp),
                     new RegionConnection("Bombeach - Hat World Entrance", BombeachHatWorld, ConnectionType.Subwarp),
                 ]
@@ -7644,9 +7890,16 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(BombeachSuperboost)),
+                GetDescription(nameof(BombeachDistantHighIslands)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection(BombeachOrangeBlockIsland, "B2"),
+                    new RegionConnection(BombeachBunnyPillar, "B1+J1 | X3 & J1/B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(BombeachOrangeBlockIsland)),
+                [
+                    new RegionConnection(BombeachBunnyPillar),
                 ]
             },
             {
@@ -7676,7 +7929,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ArcadePlazaStartingArea)),
                 [
-                    new RegionConnection(ArcadePlazaOutskirts, "J1"),
+                    new RegionConnection(ArcadePlazaOutskirts, "J1 | X3+B1"),
                     new RegionConnection("Arcade Plaza - Hat World Entrance", ArcadePanikHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Arcade Plaza - Arcade Panik Entrance", ArcadePanikStartingArea, ConnectionType.Subwarp),
                 ]
@@ -7700,19 +7953,12 @@ namespace YellowTaxiAP
                     new RegionConnection("Arcade Panik - Exit", ArcadePlazaStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(ArcadePanikBowlingAlleyLedge, "J2 | X1 & J1/B1"),
                     new RegionConnection(ArcadePanikExpert1Jump, "X1/J1"),
-                    new RegionConnection(ArcadePanikBoost2, "B2"),
-                    new RegionConnection(ArcadePanikPinballArea, "B2 & X1/J1"),
+                    new RegionConnection(ArcadePanikPinballArea, "B2 & X1/J1 | X2+B1 & X3/J1 | X3+J1"),
                     new RegionConnection(ArcadePanikCliffAboveCrazyBallz, "B2 | X1/J1 & B1 | X2+J1"),
                 ]
             },
             {
                 GetDescription(nameof(ArcadePanikExpert1Jump)),
-                [
-                    // Doesn't Connect Anywhere
-                ]
-            },
-            {
-                GetDescription(nameof(ArcadePanikBoost2)),
                 [
                     // Doesn't Connect Anywhere
                 ]
@@ -7728,7 +7974,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ArcadePanikRaceTrackArea)),
                 [
-                    new RegionConnection(ArcadePanikTirePillars, "J1 & X1/B1 | J2")
+                    new RegionConnection(ArcadePanikTirePillars, "X1/B1 & J1 | J2 | X2+B2 | X3+B1")
                 ]
             },
             {
@@ -7742,6 +7988,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Flipper - Fall in Starting Area Pit", ArcadePanikPinballArea, ConnectionType.Subwarp),
                     new RegionConnection(FlipperLaterArea, "B1 | X1+J1"),
+                    new RegionConnection(FlipperUpperArea, "X1+B2+OOB | X2+B1+OOB"),
                 ]
             },
             {
@@ -7768,24 +8015,31 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Pizza Time - Morio's Lab Portal Near Hat World", MoriosLabSecondFloorAfterDemoWall, ConnectionType.Warp),
                     new RegionConnection("Pizza Time - Morio's Lab Portal Near Pizza King", MoriosLabSecondFloorAfterDemoWall, ConnectionType.Warp),
-                    new RegionConnection("Pizza Time - Hat World Entrance", PizzaTimeHatWorld, ConnectionType.Warp),
+                    new RegionConnection("Pizza Time - Hat World Entrance", PizzaTimeHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - 400° Oven", FourHundredDegrees, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - 600° Oven", SixHundredDegrees, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - 900° Oven", NineHundredDegrees, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - Sewer Entrance", PizzaTimeSewer, ConnectionType.Subwarp, "X1/B1/J1"),
                     new RegionConnection(PizzaTimeOilPumps, "SP"),
-                    new RegionConnection(PizzaTimeSpiresNearStart, "B1 & X2/J1"),
+                    new RegionConnection(PizzaTimeHouseOnFirstIsland, "X3/J1/B1"),
+                    new RegionConnection(PizzaTimeSpiresNearStart, "B1 & X2/J1 | X2+J1"),
                     new RegionConnection(PizzaTimeAccessibleLedges, "X1/J1/B1"),
                     new RegionConnection(PizzaTimeLessAccessibleLedges, "X2/J1/B1"),
                     new RegionConnection(PizzaTimeOrangeBlockBridge, "OS"),
                     new RegionConnection(PizzaTimeLedgeLeftOfFinalRoundabout, "X1+NHPR | X2/J1/B1"),
                     new RegionConnection(PizzaTimeHighGround, "J1/B1"),
-                    new RegionConnection(PizzaTimeBunnyIsland, "NOS+B2+J2 | X1+J2 | X2+J1"),
-                    new RegionConnection(PizzaTimeFloatingOrangeIsland, "B2 & X1/OS | B1+J1+OS | NOS+B2+J1"),
+                    new RegionConnection(PizzaTimeBunnyIslandUpper, "NOS+B2+J2 | X1+J2 | X2+J1"),
+                    new RegionConnection(PizzaTimeFloatingOrangeIsland, "B2 & X1/OS | B1+J1+OS | NOS+B2+J1 | X2+B1 & NOS/X3"),
                 ]
             },
             {
                 GetDescription(nameof(PizzaTimeOilPumps)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeHouseOnFirstIsland)),
                 [
                     // No connections
                 ]
@@ -7806,13 +8060,15 @@ namespace YellowTaxiAP
                 GetDescription(nameof(PizzaTimeHighGround)),
                 [
                     new RegionConnection(PizzaTimePizzaKing, "X1/B1"),
-                    new RegionConnection(PizzaTimeSecondMainIslandMountain, "B1"),
+                    new RegionConnection(PizzaTimeSecondMainIslandMountain, "B1 | X1+J1"),
+                    new RegionConnection(PizzaTimeBunnyIslandLower, "X2+B1"),
                 ]
             },
             {
                 GetDescription(nameof(PizzaTimeSecondMainIslandMountain)),
                 [
-                    new RegionConnection(PizzaTimeIslandAfterOrangeBlockBridge, "NOS/X1 & B2 & J1/X1 | X2+B1+J1"),
+                    new RegionConnection(PizzaTimeIslandAfterOrangeBlockBridge, "NOS/X1 & B2 & X1/J1 | X2+B1 & X3/J1 | X3+J1"),
+                    new RegionConnection(PizzaTimeOrangeBlockBridge, "X3 & B1/J1"),
                 ]
             },
             {
@@ -7840,21 +8096,27 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(PizzaTimeBunnyIsland)),
+                GetDescription(nameof(PizzaTimeBunnyIslandLower)),
                 [
                     // No connections
                 ]
             },
             {
+                GetDescription(nameof(PizzaTimeBunnyIslandUpper)),
+                [
+                    new RegionConnection(PizzaTimeBunnyIslandLower)
+                ]
+            },
+            {
                 GetDescription(nameof(PizzaTimeFloatingOrangeIsland)),
                 [
-                    new RegionConnection(PizzaTimeBunnyIsland, "OS+B1"),
+                    new RegionConnection(PizzaTimeBunnyIslandUpper, "OS+B1"),
                 ]
             },
             {
                 GetDescription(nameof(PizzaTimeHatWorld)),
                 [
-                    new RegionConnection("Pizza Time Hat World - Exit", PizzaTimeStartingArea, ConnectionType.Warp),
+                    new RegionConnection("Pizza Time Hat World - Exit", PizzaTimeStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(AnyHatWorld),
                 ]
             },
@@ -7893,7 +8155,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Tosla Square - Morio's Lab Portal", MoriosLabThirdFloor, ConnectionType.Warp),
                     new RegionConnection("Tosla Square - Tosla Offices Entrance", ToslaOfficesGroundFloor, ConnectionType.Subwarp),
                     new RegionConnection(ToslaSquareToslaSign, "J1/B1"),
-                    new RegionConnection(ToslaSquareLowerBuildings, "B1 | X2+J2"),
+                    new RegionConnection(ToslaSquareLowerBuildings, "B1 | X2+J2 | X3+J1"),
                 ]
             },
             {
@@ -7905,13 +8167,20 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ToslaSquareLowerBuildings)),
                 [
+                    new RegionConnection(ToslaSquareMediumHighBuildings, "B1/J2 | X3+J1"),
+                    new RegionConnection(ToslaSquareHighGround, "X3+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ToslaSquareMediumHighBuildings)),
+                [
                     new RegionConnection(ToslaSquareHighGround, "B1"),
                 ]
             },
             {
                 GetDescription(nameof(ToslaSquareHighGround)),
                 [
-                    // X3 still implies B1 at this point. Change if that changes!
+                    // X3 still implies B1 or J1 here
                     new RegionConnection(ToslaSquareHighestGround, "X3/B2"),
                 ]
             },
@@ -7955,7 +8224,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Tosla Offices (Fourth Floor) - Down Elevator", ToslaOfficesThirdFloorPostSpring, ConnectionType.Subwarp),
                     new RegionConnection(ToslaOfficesFourthFloorLedgeNearStart, "PMB/PMJ"),
                     new RegionConnection(ToslaOfficesFourthFloorAfterLedge, "J1/PMJ/PMB"),
-                    new RegionConnection(ToslaOfficesFourthFloorHighGround, "X1/J1 & PMB"),
+                    new RegionConnection(ToslaOfficesFourthFloorHighGround, "J1+PMB"),
                 ]
             },
             {
@@ -7968,6 +8237,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ToslaOfficesFourthFloorAfterLedge)),
                 [
                     new RegionConnection(ToslaOfficesFourthFloorStartingArea),
+                    new RegionConnection(ToslaOfficesFourthFloorHighGround, "X1+PMB"),
                     new RegionConnection(ToslaOfficesFourthFloorAfterGoldenSpring, "GST | X2+PW | PMJ"),
                 ]
             },
@@ -8045,7 +8315,8 @@ namespace YellowTaxiAP
                     new RegionConnection(GymGearsExpert1, "X1/J1"),
                     new RegionConnection(GymGearsExpert2, "X2/J1"),
                     new RegionConnection(GymGearsExpert2Boost, "X2+B1 | J1"),
-                    new RegionConnection(GymGearsJump, "J1"),
+                    new RegionConnection(GymGearsExpert3Boost, "X3+B1 | J1"),
+                    new RegionConnection(GymGearsHiddenCoins),
                 ]
             },
             {
@@ -8067,7 +8338,13 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(GymGearsJump)),
+                GetDescription(nameof(GymGearsExpert3Boost)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(GymGearsHiddenCoins)),
                 [
                     // Doesn't connect anywhere
                 ]
@@ -8082,7 +8359,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Fecal Matters - Roundabout Portal to Granny's Island", GrannysIslandMain, ConnectionType.Warp),
                     new RegionConnection(FecalMattersRoundaboutHillTier1, "J1/B1 | X1+NHPR"),
-                    new RegionConnection(FecalMattersRoundaboutHillTier3, "J1/B2"),
+                    new RegionConnection(FecalMattersRoundaboutHillTier3, "J1/B2 | X2+B1"),
                     new RegionConnection(FecalMattersBoostOrJump, "J1/B1"),
                 ]
             },
@@ -8125,7 +8402,9 @@ namespace YellowTaxiAP
                 GetDescription(nameof(FlushedAwayStartingArea)),
                 [
                     new RegionConnection(FlushedAwayPathSurroundingStartingArea, "X1/B1/J1"),
-                    new RegionConnection(FlushedAwayPipeToUpperStartingArea, "X2+B2 | J1"),
+                    new RegionConnection(FlushedAwayPipeToUpperStartingArea, "X2+B2 | J1 | X3+B1"),
+                    new RegionConnection(FlushedAwayPipeAboveStartingArea, "X2+B1"),
+                    new RegionConnection(FlushedAwayLedgeAboveStartingArea, "X2+B1"),
                     new RegionConnection(FlushedAwayCheckpointArea),
                 ]
             },
@@ -8170,6 +8449,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Flushed Away - Pit After Skeletrone Dance Party", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Tunnel After Gear Pillar", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Pipe in Alligator Room", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
+                    new RegionConnection(FlushedAwayOutOfBounds, "X1+OOB+B1 & J1/X2"),
                 ]
             },
             {
@@ -8194,6 +8474,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(FlushedAwayBelowSewageRamps)),
                 [
                     new RegionConnection(FlushedAwayPathFromRampsToCentralDrain),
+                    new RegionConnection(FlushedAwayOutOfBounds, "X3+B1+J1"),
                 ]
             },
             {
@@ -8267,6 +8548,36 @@ namespace YellowTaxiAP
 
             #endregion
 
+            #region Maurizio's City Connections
+
+            {
+                GetDescription(nameof(MauriziosCityStartingArea)),
+                [
+                    new RegionConnection(MauriziosCitySpin, "SP"),
+                    new RegionConnection("Maurizio's City - Painted Tunnel", PurpleTunnel, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCitySpin)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PurpleTunnel)),
+                [
+                    new RegionConnection("Purple Tunnel - Exit", MauriziosCityStartingArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityHatWorld)),
+                [
+                    new RegionConnection("Maurizio's City Hat World - Exit", MauriziosCityStartingArea, ConnectionType.Subwarp),
+                ]
+            },
+
+            #endregion
+
             #region Rocket Connections
 
             {
@@ -8276,13 +8587,14 @@ namespace YellowTaxiAP
                     new RegionConnection(RocketBombeachArcadePizzaArea, "J1/B1"),
                     new RegionConnection("Mosk's Rocket - Lab Memories Portal", LabMemoriesStartingArea, ConnectionType.Subwarp, "Bunny-Hub"),
                     new RegionConnection("Mosk's Rocket - Welcoming Climbs Portal", WelcomingClimbsStartingArea, ConnectionType.Subwarp, "Bunny-MH"),
+                    new RegionConnection(RocketGymGearsArea, "X3+B1")
                 ]
             },
             {
                 GetDescription(nameof(RocketBombeachArcadePizzaArea)),
                 [
                     new RegionConnection(RocketStartingArea),
-                    new RegionConnection(RocketToslaOfficesArea, "J1 | X2+B2"),
+                    new RegionConnection(RocketToslaOfficesArea, "J1 | X2+B2 | X3+B1"),
                     new RegionConnection("Mosk's Rocket - Bomb-it Portal", BombitStartingArea, ConnectionType.Subwarp, "Bunny-BB"),
                     new RegionConnection("Mosk's Rocket - Buttons Smashing Portal", ButtonsSmashingStartingArea, ConnectionType.Subwarp, "Bunny-AP"),
                     new RegionConnection("Mosk's Rocket - Pepperoni Portal", PepperoniStartingArea, ConnectionType.Subwarp, "Bunny-PT"),
@@ -8292,7 +8604,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(RocketToslaOfficesArea)),
                 [
                     new RegionConnection(RocketBombeachArcadePizzaArea),
-                    new RegionConnection(RocketGymGearsArea, "J1"),
+                    new RegionConnection(RocketGymGearsArea, "X1/B1 & J1"),
                     new RegionConnection("Mosk's Rocket - Stealthy Portal", StealthyStartingArea, ConnectionType.Subwarp, "Bunny-TO"),
                 ]
             },
@@ -8300,23 +8612,29 @@ namespace YellowTaxiAP
                 GetDescription(nameof(RocketGymGearsArea)),
                 [
                     new RegionConnection(RocketBombeachArcadePizzaArea),
-                    new RegionConnection(RocketFecalFlushedArea, "B1/J2"),
+                    new RegionConnection(RocketFlushedArea, "B1/J2 | X1+J1"),
                     new RegionConnection("Mosk's Rocket - Podium Portal", PodiumStartingArea, ConnectionType.Subwarp, "Bunny-GG"),
                 ]
             },
             {
-                GetDescription(nameof(RocketFecalFlushedArea)),
+                GetDescription(nameof(RocketFlushedArea)),
                 [
                     new RegionConnection(RocketGymGearsArea),
-                    new RegionConnection(RocketCityCrashMindArea, "B1 | X1+J2"),
-                    new RegionConnection("Mosk's Rocket - Costipation Portal", CostipationStartingArea, ConnectionType.Subwarp, "J1/B2 & Bunny-FM"),
+                    new RegionConnection(RocketCityCrashMindArea, "B1 | X1+J2 | X2+J1"),
+                    new RegionConnection(RocketFecalArea, "J1/B2 | X3+B1"),
                     new RegionConnection("Mosk's Rocket - Smelly Slimes Portal", SmellySlimesStartingArea, ConnectionType.Subwarp, "Bunny-FA"),
+                ]
+            },
+            {
+                GetDescription(nameof(RocketFecalArea)),
+                [
+                    new RegionConnection("Mosk's Rocket - Costipation Portal", CostipationStartingArea, ConnectionType.Subwarp, "Bunny-FM"),
                 ]
             },
             {
                 GetDescription(nameof(RocketCityCrashMindArea)),
                 [
-                    new RegionConnection(RocketFecalFlushedArea),
+                    new RegionConnection(RocketFlushedArea),
                     new RegionConnection(RocketCoinsToFinalFloor, "J1 | X1+B2"),
                     new RegionConnection(RocketToslaHQArea, "GP/J2"),
                 ]
@@ -8352,31 +8670,32 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Lab Memories - Mosk's Rocket Portal", RocketStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(LabMemoriesFirstStep, "J1+Spike"),
+                    new RegionConnection(LabMemoriesHighGround, "X3+J1"),
                 ]
             },
             {
                 GetDescription(nameof(LabMemoriesFirstStep)),
                 [
-                    new RegionConnection(LabMemoriesHighGround, "J2"),
+                    new RegionConnection(LabMemoriesHighGround, "J2 | X2+J1"),
                 ]
             },
             {
                 GetDescription(nameof(LabMemoriesHighGround)),
                 [
-                    // No connections
+                    new RegionConnection(LabMemoriesFirstStep, "X3"),
                 ]
             },
             {
                 GetDescription(nameof(WelcomingClimbsStartingArea)),
                 [
                     new RegionConnection("Welcoming Climbs - Mosk's Rocket Portal", RocketStartingArea, ConnectionType.Subwarp),
-                    new RegionConnection(WelcomingClimbsFirstGearArea, "B2 & X1/J1")
+                    new RegionConnection(WelcomingClimbsFirstGearArea, "B2 & X1/J1 | X3+J1")
                 ]
             },
             {
                 GetDescription(nameof(WelcomingClimbsFirstGearArea)),
                 [
-                    new RegionConnection(WelcomingClimbsSecondGearArea, "B2+J1"),
+                    new RegionConnection(WelcomingClimbsSecondGearArea, "B2 & X2/J1 | X3+J1+B1"),
                 ]
             },
             {
@@ -8403,6 +8722,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(ButtonsSmashingButtons, "X1+B1 | B2"),
                     new RegionConnection("Buttons Smashing - Mosk's Rocket Portal", RocketBombeachArcadePizzaArea, ConnectionType.Subwarp),
+                    new RegionConnection(ButtonsSmashingHatPlatform, "X2+J1")
                 ]
             },
             {
@@ -8414,13 +8734,13 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ButtonsSmashingHatPlatform)),
                 [
-                    // No connections
+                    new RegionConnection(ButtonsSmashingButtons)
                 ]
             },
             {
                 GetDescription(nameof(PepperoniStartingArea)),
                 [
-                    new RegionConnection(PepperoniPizzaOvens, "B1 & X1/J1"),
+                    new RegionConnection(PepperoniPizzaOvens, "B1 & X1/J1 | X1+J1"),
                     new RegionConnection("Pepperoni - Mosk's Rocket Portal", RocketBombeachArcadePizzaArea, ConnectionType.Subwarp),
                 ]
             },
@@ -8433,7 +8753,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(StealthyStartingArea)),
                 [
-                    new RegionConnection(StealthyHalfwayUp, "B1 & X2/J1 | B2"),
+                    new RegionConnection(StealthyHalfwayUp, "B1 & X2/J1 | B2 | X3+J1"),
                     new RegionConnection("Stealthy - Mosk's Rocket Portal", RocketToslaOfficesArea, ConnectionType.Subwarp),
                 ]
             },
@@ -8465,10 +8785,10 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(CostipationStartingArea)),
                 [
-                    new RegionConnection("Costipation - Mosk's Rocket Portal", RocketFecalFlushedArea, ConnectionType.Subwarp),
-                    new RegionConnection(CostipationRoadwayGearArea, "J1/B1"),
-                    new RegionConnection(CostipationIslandGearArea, "B2"),
-                    new RegionConnection(CostipationHatArea, "B1"),
+                    new RegionConnection("Costipation - Mosk's Rocket Portal", RocketFlushedArea, ConnectionType.Subwarp),
+                    new RegionConnection(CostipationRoadwayGearArea, "B1 | X1+J1"),
+                    new RegionConnection(CostipationIslandGearArea, "B2 | X2+B1 | X3+J1"),
+                    new RegionConnection(CostipationHatArea, "B1 | X3+J1"),
                 ]
             },
             {
@@ -8486,10 +8806,10 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(SmellySlimesStartingArea)),
                 [
-                    new RegionConnection("Smelly Slimes - Entrance Mosk's Rocket Portal", RocketFecalFlushedArea, ConnectionType.Subwarp),
+                    new RegionConnection("Smelly Slimes - Entrance Mosk's Rocket Portal", RocketFlushedArea, ConnectionType.Subwarp),
                     new RegionConnection(SmellySlimesSidebars, "X2/J1/B1"),
                     new RegionConnection(SmellySlimesHatArea, "J1 | X2+B2"),
-                    new RegionConnection(SmellySlimesExit, "B1+J1"),
+                    new RegionConnection(SmellySlimesExit, "B1+J1 | X3 & B1/J1"),
                 ]
             },
             {
@@ -8548,13 +8868,14 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GettingGudMiddleFloor)),
                 [
-                    new RegionConnection(GettingGudHighGround, "B1 | X1+J2")
+                    new RegionConnection(GettingGudHighGround, "B1 | X1+J2 | X3+J1"),
+                    new RegionConnection(GettingGudInTheAir, "X1+B1"),
                 ]
             },
             {
                 GetDescription(nameof(GettingGudHighGround)),
                 [
-                    new RegionConnection(GettingGudInTheAir, "X1+J1 | J2/B2 | X3+B1"),
+                    new RegionConnection(GettingGudInTheAir, "X1+J1 | J2/B2"),
                 ]
             },
 
@@ -8566,13 +8887,13 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ProTricksStartingArea)),
                 [
                     new RegionConnection(ProTricksFirstGapRamp, "B1/J1"),
-                    new RegionConnection(ProTricksFinalSection, "J2"),
+                    new RegionConnection(ProTricksFinalSection, "J2 | X2+J1"),
                 ]
             },
             {
                 GetDescription(nameof(ProTricksFirstGapRamp)),
                 [
-                    new RegionConnection(ProTricksMiddleSection, "B1"),
+                    new RegionConnection(ProTricksMiddleSection, "B1 | X1+J1"),
                 ]
             },
             {

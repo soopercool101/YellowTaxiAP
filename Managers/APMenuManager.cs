@@ -18,7 +18,59 @@ namespace YellowTaxiAP.Managers
 
             On.MenuV2Script.PauseMenuVoicesStringsGet += MenuV2Script_PauseMenuVoicesStringsGet;
 
+            On.MenuV2PhotoModeController.Update += MenuV2PhotoModeController_Update;
+
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
+        }
+
+        /// <summary>
+        /// Reimplementation ignoring physics raycast and max distance from player
+        /// </summary>
+        private void MenuV2PhotoModeController_Update(On.MenuV2PhotoModeController.orig_Update orig, MenuV2PhotoModeController self)
+        {
+            if (Controls.MenuBackPress(0))
+            {
+                MenuV2Script.instance.gameObject.SetActive(true);
+                Sound.Play_Unpausable("SoundMenuBack");
+                Object.Destroy(self.gameObject);
+            }
+            else
+            {
+                var zero = Vector2.zero;
+                if (Controls.MenuLeftHold(0))
+                    --zero.x;
+                if (Controls.MenuRightHold(0))
+                    ++zero.x;
+                if (Controls.MenuUpHold(0))
+                    ++zero.y;
+                if (Controls.MenuDownHold(0))
+                    --zero.y;
+                var num1 = 0.0f;
+                if (Controls.MenuCameraUp(0))
+                    ++num1;
+                if (Controls.MenuCameraDown(0))
+                    --num1;
+                var vector2 = Controls.GameCameraAxis(0);
+                if (zero != Vector2.zero || vector2 != Vector2.zero || num1 != 0.0)
+                {
+                    self.cameraDesiredPosition += (CameraGame.instance.transform.right * zero.x + CameraGame.instance.transform.forward * zero.y + CameraGame.instance.transform.up * num1) * self.cameraMovementSpeed * Tick.Time;
+                    self.cameraDesiredEulers += new Vector3(-vector2.y, vector2.x, 0.0f) * self.cameraRotationSpeed * Tick.Time;
+                    self.cameraDesiredEulers.x = Mathf.Clamp(self.cameraDesiredEulers.x, -89f, 89f);
+                    if (self.cameraDesiredEulers.y < -180.0)
+                        self.cameraDesiredEulers.y += 360f;
+                    if (self.cameraDesiredEulers.y > 180.0)
+                        self.cameraDesiredEulers.y -= 360f;
+                }
+                CameraGame.instance.SetTarget(null, self.cameraDesiredPosition, self.cameraDesiredEulers.y, self.cameraDesiredEulers.x, 0.0f, 0.0f, 0.0f, 75f);
+                CameraGame.instance.SetChagesSpeedMagnitude(0.75f, 0.75f, 0.75f, 1f, 0.1f);
+                if (zero != Vector2.zero && !Sound.IsPlaying("SoundMenuPanTick"))
+                    Sound.Play_Unpausable("SoundMenuPanTick");
+                self.textAlpha -= Tick.Time;
+                self.textAlpha = Mathf.Max(self.textAlpha, 0.0f);
+                if (zero != Vector2.zero)
+                    self.textAlpha = 2f;
+                self.textTitle.alpha = self.textAlpha;
+            }
         }
 
         private string[] MenuV2Script_PauseMenuVoicesStringsGet(On.MenuV2Script.orig_PauseMenuVoicesStringsGet orig, MenuV2Script self)

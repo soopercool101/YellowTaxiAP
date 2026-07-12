@@ -24,8 +24,18 @@ namespace YellowTaxiAP.Managers
             On.HatWBurger.Start += HatWBurger_Start;
             //On.HatScript.RemoveHat += HatScript_RemoveHat;
             On.HatScript.Instantiate += HatScript_Instantiate;
+            On.HatScript.Update += HatScript_Update;
             On.InfluencerPictureScript.Start += InfluencerPictureScript_Start;
             On.InfluencerPictureScript.Refresh += InfluencerPictureScript_Refresh;
+        }
+
+        private void HatScript_Update(On.HatScript.orig_Update orig, HatScript self)
+        {
+            orig(self);
+            if (InvisibleTrap.Active)
+            {
+                self.hatHolderTr.gameObject.SetActive(false);
+            }
         }
 
         /// <summary>

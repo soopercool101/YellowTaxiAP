@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
@@ -23,7 +22,7 @@ namespace YellowTaxiAP.Archipelago
         /// Highest supported minor version in the highest supported major version.
         /// Should be up to date with latest APWorld whenever a new version is released.
         /// </summary>
-        public const int HighestSupportedMinorVersion = 5;
+        public const int HighestSupportedMinorVersion = 6;
         public bool FailedValidation { get; private set; }
         public long APWorldMajorVersion { get; set; }
         public long APWorldMinorVersion { get; set; }

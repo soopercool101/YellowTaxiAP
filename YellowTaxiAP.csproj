@@ -34,11 +34,7 @@
     </Target>
 
     <ItemGroup>
-      <None Remove="Resources\lab_door_closed.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="Resources\lab_door_closed.png" />
+      <EmbeddedResource Include="Resources\lab_door_closed" />
     </ItemGroup>
 
     <ItemGroup>

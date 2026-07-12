@@ -165,7 +165,10 @@ public class ArchipelagoClient
                 {
                     tags.Add("RingLink");
                 }
-                tags.Add("TrapLink");
+                if (Plugin.SlotData.TrapLink)
+                {
+                    tags.Add("TrapLink");
+                }
 
                 session.ConnectionInfo.UpdateConnectionOptions(session.ConnectionInfo.Tags
                     .Concat(tags.Where(tag => Array.IndexOf(session.ConnectionInfo.Tags, tag) == -1)).ToArray());
@@ -370,7 +373,7 @@ public class ArchipelagoClient
                 case BouncedPacket trap when trap.Tags.Contains("TrapLink"):
                     if (!trap.Data["source"].Value<string>().Equals(Plugin.ArchipelagoClient.Player))
                     {
-                        APTrapController.ActivateTrap(trap.Data["trap_name"].Value<string>(), true);
+                        APTrapController.ActivateTrap(trap.Data["trap_name"].Value<string>(), trap.Data["source"].Value<string>());
                     }
                     break;
             }

@@ -218,6 +218,17 @@ namespace YellowTaxiAP.Managers
 
             self.hubPortalForceEnabled = true;
             self.gameObject.AddComponent<TruePortalId>(); // Keep track of unaltered portal values
+#if DEBUG
+            if (DebugLocationHelper.Enabled && self.PortalIsLevelPortal)
+            {
+                levelDataList[(int)self.targetLevelId].levelCost = -1;
+                GetLevel(self.targetLevelId).everOpened = true;
+                self.CostUpdateTry();
+                orig(self);
+                self.UpdatePortalToLevelName();
+                return;
+            }
+#endif
             if (self.PortalIsLevelPortal || self.kaizoLevelId != LevelId.noone)
             {
                 var target = self.kaizoLevelId != LevelId.noone ? self.kaizoLevelId : self.targetLevelId;
@@ -236,17 +247,6 @@ namespace YellowTaxiAP.Managers
                     case LevelId.L13_StarmanCastle: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
                     case LevelId.L14_ToslaHQ: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
                     case LevelId.L15_Moon: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
-#if DEBUG
-                        if (DebugLocationHelper.Enabled && self.PortalIsLevelPortal)
-                        {
-                            levelDataList[(int)self.targetLevelId].levelCost = -1;
-                            GetLevel(self.targetLevelId).everOpened = true;
-                            self.CostUpdateTry();
-                            orig(self);
-                            self.UpdatePortalToLevelName();
-                            return;
-                        }
-#endif
                         // Disable level cost. This fixes issues with main menu.
                         // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
                         if (self.PortalIsLevelPortal)
@@ -375,7 +375,7 @@ namespace YellowTaxiAP.Managers
         }
 
         public static WarpIdentifier LabStart =
-            new WarpIdentifier("Granny's Island - Morio's Lab Front Door", "Morio's Lab - Front Door", "", LevelId.Hub,
+            new("Granny's Island - Morio's Lab Front Door", "Morio's Lab - Front Door", "", LevelId.Hub,
                 Levels.Index.noone, LevelId.noone, new Vector3(80f, 20f, 0f), new Vector3(-750f, 10f, 680f), 0, 2, true,
                 false, "SoundtrackHubInside", "Background Soffitto Laboratorio");
 
@@ -522,10 +522,11 @@ namespace YellowTaxiAP.Managers
         public static string IdentifyOriginalWarp(PortalScript warp)
         {
             var warpIdentifier = new WarpIdentifier(warp);
-            var knownWarp = KnownWarps.FirstOrDefault(o => o.Equals(warpIdentifier));
+            var knownWarpIndex = KnownWarps.FindIndex(o => o.Equals(warpIdentifier));
+            var knownWarp = knownWarpIndex == -1 ? null : KnownWarps[knownWarpIndex];
             if (knownWarp != null && knownWarp.Zone != -1 && !string.IsNullOrEmpty(knownWarp.SongChange) && !string.IsNullOrEmpty(knownWarp.BackgroundChange))
             {
-                return $"Known Warp: {knownWarp.Name}" + (string.IsNullOrEmpty(knownWarp.ExitGroup)
+                return $"Known Warp [{knownWarpIndex}]: {knownWarp.Name}" + (string.IsNullOrEmpty(knownWarp.ExitGroup)
                         ? string.Empty
                         : $" (Group: {knownWarp.ExitGroup})");
             }
@@ -568,7 +569,7 @@ namespace YellowTaxiAP.Managers
 
             if (knownWarp != null)
             {
-                return $"(Probably?) Known Warp: {knownWarp.Name}";
+                return $"(Probably?) Known Warp [{knownWarpIndex}]: {knownWarp.Name}";
             }
 
             if (warp.targetLevel != Levels.Index.noone)

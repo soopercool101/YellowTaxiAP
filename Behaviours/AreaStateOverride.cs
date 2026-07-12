@@ -300,6 +300,12 @@ namespace YellowTaxiAP.Behaviours
         protected override bool ExpectedState {
             get
             {
+#if DEBUG
+                if (DebugLocationHelper.Enabled)
+                {
+                    return false;
+                }
+#endif
                 switch (Plugin.SlotData.GymGearsUnlockCondition)
                 {
                     case YTGVSlotData.LevelUnlockCondition.Exclude:
@@ -358,7 +364,7 @@ namespace YellowTaxiAP.Behaviours
             LabRenderer = FindObjectsOfType<MeshRenderer>().First(o => o.name.Equals("MODELlab"));
             LabOutsideUnlockedTexture = LabRenderer.material.mainTexture;
 
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("YellowTaxiAP.Resources.lab_door_closed.png"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("YellowTaxiAP.Resources.lab_door_closed"))
             {
                 Plugin.Log("Reading Texture");
                 var data = new byte[stream.Length];
@@ -423,6 +429,12 @@ namespace YellowTaxiAP.Behaviours
         {
             get
             {
+#if DEBUG
+                if (DebugLocationHelper.Enabled)
+                {
+                    return true;
+                }
+#endif
                 return Plugin.SlotData.FlushedAwayUnlockCondition switch
                 {
                     YTGVSlotData.LevelUnlockCondition.Exclude => false,

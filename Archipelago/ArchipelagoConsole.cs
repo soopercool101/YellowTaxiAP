@@ -49,7 +49,7 @@ public static class ArchipelagoConsole
         UpdateWindow();
     }
 
-    public static bool InMenu => !PlayerScript.instance || MenuV2Script.instance ||
+    public static bool InMenu => !PlayerScript.instance || (MenuV2Script.instance && !MenuV2PhotoModeController.instance) ||
                           (AchievementsTvScript.instance && AchievementsTvScript.instance.turnedOn);
 
     public static void OnGUI()

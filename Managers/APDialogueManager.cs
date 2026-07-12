@@ -1,5 +1,8 @@
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Models;
+using BepInEx.Logging;
+using JetBrains.Annotations;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +10,7 @@ using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
+using static Levels;
 using static UnityEngine.UI.Image;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -262,6 +266,7 @@ namespace YellowTaxiAP.Managers
                 }
                 catch
                 {
+                    Plugin.Log($"Fallback font needed!");
                     return "Psycho Taxi 1 SDF";
                 }
             }
@@ -324,6 +329,395 @@ namespace YellowTaxiAP.Managers
             }
         }
 
+        public enum DialogueTrapType
+        {
+            None,
+            Literature,
+            Spam,
+            Phone,
+        }
+
+        #region Literature Traps
+
+        // Also includes ebook # from project gutenberg and a gag line for spam traps
+        public static readonly Tuple<int, string[], string>[] LiteratureTraps =
+        [
+            // Moby Dick
+            // Spam Trap Gag: Fishmael instead of Ishmael
+            new(2701, [
+                "Moby Dick; Or, The Whale\nBy Herman Melville",
+                "CHAPTER 1.\nLoomings.",
+                "Call me Ishmael.",
+                "Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+                "It is a way I have of driving off the spleen and regulating the circulation.",
+                "Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off—then, I account it high time to get to sea as soon as I can.",
+                "This is my substitute for pistol and ball.",
+                "With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship.",
+                "There is nothing surprising in this.",
+                "If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.",
+            ], "Call me Fishmael."),
+            // Alice’s Adventures in Wonderland
+            // Spam Trap Gag: First line of Disney movie
+            new(11, [
+                "Alice’s Adventures in Wonderland\nBy Lewis Carroll",
+                "CHAPTER I.\nDown the Rabbit-Hole",
+                "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”",
+                "So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.",
+                "There was nothing so very remarkable in that; nor did Alice think it so very much out of the way to hear the Rabbit say to itself, “Oh dear! Oh dear! I shall be late!”",
+                "(when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually took a watch out of its waistcoat-pocket, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge.",
+                "In another moment down went Alice after it, never once considering how in the world she was to get out again.",
+                "The rabbit-hole went straight on like a tunnel for some way, and then dipped suddenly down, so suddenly that Alice had not a moment to think about stopping herself before she found herself falling down a very deep well.",
+            ], "“…leaders, and had been of late much accustomed to usurpation and conquest. Edwin and Morcar, the earls of Mercia and Northumbria declared for him, and even Stigand… Alice!”"),
+            // The Great Gatsby
+            // Spam Trap Gag: Intro to "The Wolf of Wall Street" movie.
+            new(64317, [
+                "The Great Gatsby\nBy F. Scott Fitzgerald",
+                "I",
+                "In my younger and more vulnerable years my father gave me some advice that I’ve been turning over in my mind ever since.",
+                "“Whenever you feel like criticizing anyone,” he told me, “just remember that all the people in this world haven’t had the advantages that you’ve had.”",
+                "He didn’t say any more, but we’ve always been unusually communicative in a reserved way, and I understood that he meant a great deal more than that.",
+                "In consequence, I’m inclined to reserve all judgements, a habit that has opened up many curious natures to me and also made me the victim of not a few veteran bores.",
+                "The abnormal mind is quick to detect and attach itself to this quality when it appears in a normal person, and so it came about that in college I was unjustly accused of being a politician, because I was privy to the secret griefs of wild, unknown men.",
+                "Most of the confidences were unsought—frequently I have feigned sleep, preoccupation, or a hostile levity when I realized by some unmistakable sign that an intimate revelation was quivering on the horizon; for the intimate revelations of young men, or at least the terms in which they express them, are usually plagiaristic and marred by obvious suppressions.",
+                "Reserving judgements is a matter of infinite hope.",
+                "I am still a little afraid of missing something if I forget that, as my father snobbishly suggested, and I snobbishly repeat, a sense of the fundamental decencies is parcelled out unequally at birth.",
+            ], "The world of investing can be a jungle. Bulls. Bears. Danger at every turn. That's why we at Stratton Oakmont pride ourselves on being the best. Trained professionals to guide you through the financial wilderness. Stratton Oakmont. Stability. Integrity. Pride."),
+            // The Picture of Dorian Gray
+            // Spam Trap Gag: Excerpt a contemporary review
+            new(174, [
+                "The Picture of Dorian Gray\nBy Oscar Wilde",
+                "CHAPTER I.",
+                "The studio was filled with the rich odour of roses, and when the light summer wind stirred amidst the trees of the garden, there came through the open door the heavy scent of the lilac, or the more delicate perfume of the pink-flowering thorn.",
+                "From the corner of the divan of Persian saddle-bags on which he was lying, smoking, as was his custom, innumerable cigarettes, Lord Henry Wotton could just catch the gleam of the honey-sweet and honey-coloured blossoms of a laburnum, whose tremulous branches seemed hardly able to bear the burden of a beauty so flamelike as theirs; and now and then the fantastic shadows of birds in flight flitted across the long tussore-silk curtains that were stretched in front of the huge window, producing a kind of momentary Japanese effect, and making him think of those pallid, jade-faced painters of Tokyo who, through the medium of an art that is necessarily immobile, seek to convey the sense of swiftness and motion.",
+                "The sullen murmur of the bees shouldering their way through the long unmown grass, or circling with monotonous insistence round the dusty gilt horns of the straggling woodbine, seemed to make the stillness more oppressive.",
+                "The dim roar of London was like the bourdon note of a distant organ.",
+                "In the centre of the room, clamped to an upright easel, stood the full-length portrait of a young man of extraordinary personal beauty, and in front of it, some little distance away, was sitting the artist himself, Basil Hallward, whose sudden disappearance some years ago caused, at the time, such public excitement and gave rise to so many strange conjectures.",
+                "As the painter looked at the gracious and comely form he had so skilfully mirrored in his art, a smile of pleasure passed across his face, and seemed about to linger there.",
+                "But he suddenly started up, and closing his eyes, placed his fingers upon the lids, as though he sought to imprison within his brain some curious dream from which he feared he might awake.",
+            ], "This novel contains one element which will taint every young mind that comes in contact with it."),
+            // Frankenstein
+            // Spam Trap Gag: Intro warning from the 1931 film
+            new(84, [
+                "Frankenstein; or, the Modern Prometheus\nBy Mary Wollstonecraft (Godwin) Shelley",
+                "Chapter 1",
+                "I am by birth a Genevese, and my family is one of the most distinguished of that republic.",
+                "My ancestors had been for many years counsellors and syndics, and my father had filled several public situations with honour and reputation.",
+                "He was respected by all who knew him for his integrity and indefatigable attention to public business.",
+                "He passed his younger days perpetually occupied by the affairs of his country; a variety of circumstances had prevented his marrying early, nor was it until the decline of life that he became a husband and the father of a family.",
+                "As the circumstances of his marriage illustrate his character, I cannot refrain from relating them.",
+                "One of his most intimate friends was a merchant who, from a flourishing state, fell, through numerous mischances, into poverty.",
+                "This man, whose name was Beaufort, was of a proud and unbending disposition and could not bear to live in poverty and oblivion in the same country where he had formerly been distinguished for his rank and magnificence.",
+                "Having paid his debts, therefore, in the most honourable manner, he retreated with his daughter to the town of Lucerne, where he lived unknown and in wretchedness.",
+                "My father loved Beaufort with the truest friendship and was deeply grieved by his retreat in these unfortunate circumstances.",
+                "He bitterly deplored the false pride which led his friend to a conduct so little worthy of the affection that united them.",
+                "He lost no time in endeavouring to seek him out, with the hope of persuading him to begin the world again through his credit and assistance.",
+            ], "How do you do? Mr. Carl Laemmle feels it would be a little unkind to present this picture without just a word of friendly warning. We are about to unfold the story of Frankenstein, a man of science who sought to create a man after his own image, without reckoning upon God."),
+            // Pride and Prejudice
+            // Spam Trap Gag: First line from Pride and Prejudice and Zombies
+            new(1342, [
+                "Pride and Prejudice\nBy Jane Austen",
+                "Chapter I.",
+                "It is a truth universally acknowledged, that a single man in possession of a good fortune must be in want of a wife.",
+                "However little known the feelings or views of such a man may be on his first entering a neighbourhood, this truth is so well fixed in the minds of the surrounding families, that he is considered as the rightful property of some one or other of their daughters.",
+                "“My dear Mr. Bennet,” said his lady to him one day, “have you heard that Netherfield Park is let at last?”",
+                "Mr. Bennet replied that he had not.",
+                "“But it is,” returned she; “for Mrs. Long has just been here, and she told me all about it.”",
+                "Mr. Bennet made no answer.",
+                "“Do not you want to know who has taken it?” cried his wife, impatiently.",
+                "“You want to tell me, and I have no objection to hearing it.”",
+            ], "It is a truth universally acknowledged that a zombie in possession of brains must be in want of more brains."),
+            // Little Women
+            // Spam Trap Gag: Simpsons line
+            new(37106, [
+                "Little Women; or Meg, Jo, Beth and Amy\nBy Louisa M. Alcott",
+                "I.\nPlaying Pilgrims.",
+                "“Christmas won't be Christmas without any presents,” grumbled Jo, lying on the rug.",
+                "“It's so dreadful to be poor!” sighed Meg, looking down at her old dress.",
+                "“I don't think it's fair for some girls to have plenty of pretty things, and other girls nothing at all,” added little Amy, with an injured sniff.",
+                "“We've got father and mother and each other,” said Beth contentedly, from her corner.",
+                "The four young faces on which the firelight shone brightened at the cheerful words, but darkened again as Jo said sadly,—",
+                "“We haven't got father, and shall not have him for a long time.” She didn't say \"perhaps never,\" but each silently added it, thinking of father far away, where the fighting was.",
+            ], "…and then they realized, they were no longer little girls, they were Little Women."),
+            // Romeo and Juliet
+            // Spam Trap Gag: Lyrics from "Check Yes Juliet" by We the Kings
+            new(1513,[
+                "The Tragedy of Romeo and Juliet\nBy William Shakespeare",
+                "Act II, Scene II\nCapulet’s Garden.",
+                """
+                Romeo:
+                He jests at scars that never felt a wound.
+                But soft, what light through yonder window breaks?
+                It is the east, and Juliet is the sun!
+                Arise fair sun and kill the envious moon,
+                Who is already sick and pale with grief,
+                That thou her maid art far more fair than she.
+                Be not her maid since she is envious;
+                Her vestal livery is but sick and green,
+                And none but fools do wear it; cast it off.
+                It is my lady, O it is my love!
+                O, that she knew she were!
+                She speaks, yet she says nothing. What of that?
+                Her eye discourses, I will answer it.
+                I am too bold, ’tis not to me she speaks.
+                Two of the fairest stars in all the heaven,
+                Having some business, do entreat her eyes
+                To twinkle in their spheres till they return.
+                What if her eyes were there, they in her head?
+                The brightness of her cheek would shame those stars,
+                As daylight doth a lamp; her eyes in heaven
+                Would through the airy region stream so bright
+                That birds would sing and think it were not night.
+                See how she leans her cheek upon her hand.
+                O that I were a glove upon that hand,
+                That I might touch that cheek.
+                """,
+                "Juliet:\nAy me.",
+                """
+                Romeo:
+                She speaks.
+                O speak again bright angel, for thou art
+                As glorious to this night, being o’er my head,
+                As is a winged messenger of heaven
+                Unto the white-upturned wondering eyes
+                Of mortals that fall back to gaze on him
+                When he bestrides the lazy-puffing clouds
+                And sails upon the bosom of the air.
+                """,
+                """
+                Juliet:
+                O Romeo, Romeo, wherefore art thou Romeo?
+                Deny thy father and refuse thy name.
+                Or if thou wilt not, be but sworn my love,
+                And I’ll no longer be a Capulet.
+                """
+            ], "Check yes, Juliet, are you with me?\nRain is falling down on the sidewalk.\nI won't go until you come outside."),
+        ];
+
+        #endregion
+
+        #region Spam Traps
+
+        public static Tuple<string, string, string[], string>[] SpamTraps =>
+        [
+            new("HAWT TAXIS NEAR YOU", "SoundTextNarrator", [$"Looking for single taxis in your area? Click {SetTextColor("here", DialogueColors.FullRed)} to browse our latest selection!"], "https://www.google.com/search?q=taxi&udm=2"),
+            new("HAWT TAXIS NEAR YOU", "SoundTextNarrator", [$"Want to see what makes these taxis tick? Click {SetTextColor("here", DialogueColors.FullRed)}!"], "https://en.wikipedia.org/wiki/Taxi"),
+            new("Shameless Plug", "SoundTextNarrator", [$"Did you know there's an official {SetTextColor("Yellow Taxi Goes Vroom", DialogueColors.OrangeYellow)} {SetTextColor("Taxi Plush", DialogueColors.GreenYellow)} Buy now!"], "https://www.symbiotestudios.com/products/yellow-taxi-goes-vroom-taxi-plush"),
+            new("Shameless Plug", "SoundTextNarrator", [$"Did you know there's an official {SetTextColor("Yellow Taxi Goes Vroom", DialogueColors.OrangeYellow)} {SetTextColor("Morio Pin", DialogueColors.GreenYellow)}? Buy now!"], "https://www.symbiotestudios.com/products/yellow-taxi-goes-vroom-morio-enamel-pin"),
+            new("Shameless Plug", "SoundTextNarrator", [$"{SetTextColor("CloverPit", DialogueColors.OrangeYellow)} is now available! Buy today!"], "https://store.steampowered.com/app/3314790/CloverPit/"),
+            new("Shameless Plug", "SoundTextNarrator", [$"Did you know I used to mod Brawl before this? Check out {SetTextColor("BrawlCrate", DialogueColors.OrangeYellow)}!"], "https://github.com/soopercool101/BrawlCrate"),
+            new("Shameless Plug", "SoundTextNarrator", [$"This game can also be purchased on {SetTextColor(Plugin.IsSteam ? "GOG" : "Steam", DialogueColors.GreenYellow)}, why not double dip?"], Plugin.IsSteam ? "https://www.gog.com/en/game/yellow_taxi_goes_vroom" : "https://store.steampowered.com/app/2011780/Yellow_Taxi_Goes_Vroom/"),
+            new("Archipelago", "SoundTextNarrator", ["Are you sure you're mod is up too date? I might of fixed the grammar in this spam trap!"], "https://github.com/soopercool101/YellowTaxiAP/releases/latest"),
+            new("Important!", "SoundTextNarrator", [$"The fate of the universe relies on you clicking {SetTextColor("this specific link", DialogueColors.FullRed)}!"], "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        ];
+
+        public static string[] FakeLiteratureTrapMessages =
+        [
+            "Take a look, it's in a book!",
+            "This'll learn you to skip through fine literature!",
+            "Lol jk this is a spam trap, are you skipping the text?",
+            "Your free trial of this book has expired! Read more?",
+            "Visit your local library today!",
+            "Reading is succeeding!",
+        ];
+
+        #endregion
+
+        #region Phone Traps
+
+        public static CharacterPhoneTraps[] PhoneTraps =>
+        [
+            new(Strings.I2_LocalizationReformatted("NAME_MORIO"), "SoundDialogueScenziatoVoice", GetMorioPhoneTraps()),
+            new(Strings.I2_LocalizationReformatted("NAME_RAT"), "SoundRatTalk", [
+                ["Squit Squit! I'm looking sharper than before! I doubt there's a rat as cool as this guy travelling with you!"],
+                ["Squit Squit! I'm different from regular rats! It's like I'm in the top percentage of all rats!"],
+            ]),
+            new(Strings.I2_LocalizationReformatted("NAME_MACKANZIE"), "SoundTextFemaleDefault", [
+                [Strings.I2_LocalizationReformatted("DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK_1"), "Have you joined the Pizza King's cause? All Pizza Men are required to help increase pizza production!"],
+                [Strings.I2_LocalizationReformatted("DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK_1"), "Did you know that prior to the Pizza King's rule, the level was just called \"Time\"?"],
+            ]),
+            new(Strings.I2_LocalizationReformatted("NAME_PIZZA_KING"), "SoundDialoguePizzaKingVoice", [
+                [$"Hello noble knight! Are you keeping your eye out for more {SetTextColor("pizza slices", DialogueColors.OrangeYellow)} <sprite name=\"Pizza\">?", "I believe they're all together but things are so mixed up these days!"],
+                ["Hello powerful knight! When you're through with your quest, perhaps a profession in pizza delivery would suit you?"],
+            ]),
+            new(Strings.I2_LocalizationReformatted("NAME_HAT_SELLER"), "SoundDialogueCappellaioVoice", [
+                [Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled ? "Hats not being checks this run doesn't mean you shouldn't still buy them!" : $"You should buy my wares, what if I have {GetRandomWare()}?"],
+                Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity ? ["I still don't know where these question marks came from!", "Who cares, they fetch a nice price!!!"] : [$"You should enable {SetTextColor("Shopsanity", DialogueColors.OrangeYellow)} next run!", "I need you to buy more!!!"],
+                ["My shop's been in such high demand these days!", "I might start charging a membership fee!!!"]
+            ]),
+            new(Strings.I2_LocalizationReformatted("NAME_LAWYER_TAG"), "SoundTextMaleDefault", [
+                [Strings.I2_LocalizationReformatted("DISCLAIMER_CASUAL_REFERENCES")],
+            ]),
+            new(Strings.I2_LocalizationReformatted("NAME_ALIEN_MOSK"), "<MOSK>", [
+                ["Is your refrigerator running?", $"It should be running on {SetTextColor("oil", DialogueColors.OrangeYellow)}!"],
+                [$"Morio claims I stole the blueprints for the {SetTextColor("Golden Spring", DialogueColors.OrangeYellow)}, but he couldn't be more wrong!", "I got them from an esteemed colleague!"],
+                [$"Your wind-up power stands no chance against my {SetTextColor("oil", DialogueColors.OrangeYellow)}!", "The superior energy source will win in the end!"]
+            ]),
+        ];
+
+        public static string[][] GetMorioPhoneTraps()
+        {
+            var hintIntro = (Plugin.SlotData.ShuffleFlipOWill || Plugin.SlotData.ShuffleGlide)
+                ? "Hello my creature! Have you learned all your moves yet?"
+                : "Hello my creature! Have you been using your moves to their fullest?";
+            var dialogues = new List<string[]>();
+            if (APPlayerManager.BoostLevel >= 2)
+            {
+                dialogues.Add([
+                    hintIntro,
+                    $"Did you know you can perform a {SetTextColor("super boost", DialogueColors.OrangeYellow)}?",
+                    $"Press the {SetTextColor("acceleration button", DialogueColors.OrangeYellow)} right {SetTextColor("after", DialogueColors.OrangeYellow)} you start dashing forward!",
+                    "You can launch to new heights beyond what a regular boost can do!",
+                ]);
+            }
+
+            if (APPlayerManager.BoostLevel >= 1)
+            {
+                dialogues.Add([
+                    hintIntro,
+                    $"Remember that holding the {SetTextColor("acceleration button", DialogueColors.OrangeYellow)} while boosting will let you go further!",
+                ]);
+            }
+
+            if (APPlayerManager.JumpLevel >= 2)
+            {
+                dialogues.Add([
+                    hintIntro,
+                    $"Did you know you can {SetTextColor("backflip", DialogueColors.OrangeYellow)}?",
+                    $"Press the {SetTextColor("brake button", DialogueColors.OrangeYellow)} when performing a {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}!",
+                    $"You can even perform a {SetTextColor("sideflip", DialogueColors.OrangeYellow)} if you hold left or right while you do so!"
+                ]);
+            }
+
+            if (APPlayerManager.JumpLevel >= 1)
+            {
+                dialogues.Add([
+                    hintIntro,
+                    $"Did you know you can interrupt a {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}?",
+                    $"This will let you {SetTextColor("flip upwards", DialogueColors.OrangeYellow)} to reach new heights!",
+                    $"I've heard that it's possible to do one shortly after {SetTextColor("leaving the ground", DialogueColors.OrangeYellow)} or even {SetTextColor("boosting", DialogueColors.OrangeYellow)}! I'd bet you could go far with that!",
+                ]);
+            }
+
+            if (APPlayerManager.SpinAttackEnabled)
+            {
+                dialogues.Add([
+                    hintIntro,
+                    $"See that trail around you when you spin during your {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}?",
+                    $"That {SetTextColor("spin attack", DialogueColors.OrangeYellow)} can knock some enemies back and break certain blocks!",
+                    $"You can even break corrupted {SetTextColor("oil pumps ®", DialogueColors.GreenYellow)}!"
+                ]);
+            }
+
+            if (APPlayerManager.GlideEnabled)
+            {
+                dialogues.Add([
+                    hintIntro,
+                    $"You can {SetTextColor("glide", DialogueColors.OrangeYellow)} by tapping the {SetTextColor("acceleration button", DialogueColors.OrangeYellow)} repeatedly in the air!",
+                    $"It may not seem like much at first, but these days it's {SetTextColor("critical", DialogueColors.GreenYellow)} for {SetTextColor("advanced techniques", DialogueColors.OrangeYellow)}!",
+                ]);
+            }
+
+            if (dialogues.Count == 0)
+            {
+                dialogues.Add([
+                    hintIntro,
+                    "What? You haven't learned any?",
+                    $"Keep looking, though it's possible you may need to ask someone {SetTextColor("off world", DialogueColors.OrangeYellow)}!",
+                    $"I've been told that you can {SetTextColor("!hint", DialogueColors.OrangeYellow)} {SetTextColor("Move", DialogueColors.GreenYellow)}, but I don't know what that means!",
+                ]);
+            }
+
+            dialogues.Add([$"Hello my creature! Have you been keeping an eye out for {SetTextColor("Gears ®", DialogueColors.GreenYellow)}?", "Feels like they could be anywhere these days!"]);
+
+            return dialogues.ToArray();
+        }
+
+        public static string GetRandomWare()
+        {
+            var wares = new List<string>
+            {
+                $"someone's {SetTextColor("Master Sword", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Oak's Parcel", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("HM03 Surf", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Hard Mode", DialogueColors.FullRed)}",
+                $"someone's {SetTextColor("Progressive Stage", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Progressive Era", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Progressive Powerup", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Progressive Key", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Progressive Tools", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Progressive Cup", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Yoshi", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Long Gump", DialogueColors.GreenYellow)}… I mean {SetTextColor("Long Jump", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Cluster 29", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Swim", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Ocarina", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Upgraded Portal Gun", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Moon Pearl", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Cruise Bubble", DialogueColors.GreenYellow)}",
+                $"someone's {SetTextColor("Gun", DialogueColors.GreenYellow)}",
+            };
+
+            if (APPlayerManager.BoostLevel < 2)
+            {
+                wares.Add($"your {SetTextColor("Progressive Boost", DialogueColors.OrangeYellow)}");
+            }
+
+            if (APPlayerManager.JumpLevel < 2)
+            {
+                wares.Add($"your {SetTextColor("Progressive Jump", DialogueColors.OrangeYellow)}");
+            }
+
+            if (!APPlayerManager.SpinAttackEnabled)
+            {
+                wares.Add($"your {SetTextColor("Spin Attack", DialogueColors.OrangeYellow)}");
+            }
+
+            if (!APPlayerManager.GlideEnabled)
+            {
+                wares.Add($"your {SetTextColor("Glide", DialogueColors.OrangeYellow)}");
+            }
+
+            return wares[Random.RandomRangeInt(0, wares.Count)];
+        }
+
+        public static Tuple<int,string>[] PhoneTrapRings =
+        [
+            new(6, "Ring!"),
+            new(3, "Ringring!"),
+            new(2, "Brrrrrriiiing!"),
+        ];
+
+        public string GetRandomPhoneRing()
+        {
+            var ringData = PhoneTrapRings[Random.RandomRangeInt(0, PhoneTrapRings.Length)];
+            var ringString = ringData.Item2;
+            for (var i = 0; i < Random.RandomRangeInt(0, ringData.Item1); i++)
+            {
+                ringString += $" {ringData.Item2}";
+            }
+
+            return ringString;
+        }
+
+        public class CharacterPhoneTraps
+        {
+            public string CharacterName;
+            public string DialogueSound;
+            public string[][] Messages;
+
+            public CharacterPhoneTraps(string name, string sound, string[][] msg)
+            {
+                CharacterName = name;
+                DialogueSound = sound;
+                Messages = msg;
+            }
+        }
+
+        #endregion
+
+
+        public static DialogueTrapType ActiveDialogueTrapType = DialogueTrapType.None;
+
         public const int GymMembershipPrice = 500;
         private void DialogueScript_Start(On.DialogueScript.orig_Start orig, DialogueScript self)
         {
@@ -333,6 +727,18 @@ namespace YellowTaxiAP.Managers
             if (dialogueCapsule != null)
             {
                 Plugin.Log($"Initiating dialogue with key: {dialogueCapsule.key}  {self.textSoundNames[0]}");
+
+                if (DebugLocationHelper.Enabled)
+                {
+                    GUIUtility.systemCopyBuffer = dialogueCapsule.key;
+                    for (var i = 0; i < self.dialogues.Length; i++)
+                    {
+                        if (i < dialogueCapsule.subKeysNames.Length)
+                            Plugin.Log(dialogueCapsule.subKeysNames[i]);
+                        Plugin.Log(dialogueCapsule.subKeysDialogues[i], false);
+                        Plugin.Log(self.dialogues[i], false);
+                    }
+                }
 
                 var moveRandoID = -1;
                 switch (dialogueCapsule.key)
@@ -415,6 +821,133 @@ namespace YellowTaxiAP.Managers
                                 : "Squit squit! I was looking for cheese, but found a check!!!",
                             "Would you like this shiny thing I found?!?"
                         ];
+                        break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Literature:
+                        ActiveDialogueTrapType = DialogueTrapType.None;
+                        self.dialogues = LiteratureTraps[Random.RandomRangeInt(0, LiteratureTraps.Length)].Item2;
+                        self.requiresSilence = true;
+                        self.names = ["Literature Trap"];
+                        var litNarratorSound = self.textSoundNames[0];
+                        self.overrideCamera = false;
+                        self.textSoundNames = new string[self.dialogues.Length];
+                        self.unskippableDialogues = new bool[self.dialogues.Length];
+                        //self.forceEndWait = new float[self.dialogues.Length];
+                        self.endDialogueDelay = 0.5f;
+                        for (var i = 0; i < self.textSoundNames.Length; i++)
+                        {
+                            self.textSoundNames[i] = litNarratorSound;
+                            //self.unskippableDialogues[i] = true;
+                            //self.forceEndWait[i] = 2;
+                        }
+                        break;
+                    case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Spam:
+                        ActiveDialogueTrapType = DialogueTrapType.None;
+                        var index = Random.RandomRangeInt(-3, SpamTraps.Length);
+                        string url;
+                        self.askQuestion = true;
+                        self.overrideCamera = false;
+                        if (index < 0) // Fake literature trap
+                        {
+                            var lit = LiteratureTraps[Random.RandomRangeInt(0, LiteratureTraps.Length)];
+                            self.dialogues =
+                            [
+                                lit.Item2[0],
+                                lit.Item2[1],
+                                lit.Item3,
+                                FakeLiteratureTrapMessages[Random.RandomRangeInt(0, FakeLiteratureTrapMessages.Length)],
+                            ];
+                            self.names =
+                            [
+                                "Litareture Trap",
+                                "Litareture Trap",
+                                "Litareture Trap",
+                                "Spam Trap!",
+                            ];
+                            self.textSoundNames =
+                            [
+                                "SoundTextNarrator",
+                                "SoundTextNarrator",
+                                "SoundTextNarrator",
+                                "SoundTextNarrator",
+                            ];
+                            url = $"https://www.gutenberg.org/ebooks/{lit.Item1}";
+                        }
+                        else
+                        {
+                            var spam = SpamTraps[index];
+                            self.dialogues = spam.Item3;
+                            self.names = [spam.Item1];
+                            self.textSoundNames = new string[self.dialogues.Length];
+                            for (var i = 0; i < self.textSoundNames.Length; i++)
+                            {
+                                self.textSoundNames[i] = spam.Item2;
+                            }
+
+                            url = spam.Item4;
+                        }
+
+                        self.onAnswerYes.AddListener(SpamYesAnswer);
+                        break;
+
+                        void SpamYesAnswer()
+                        {
+                            if (Plugin.IsSteam)
+                            {
+                                try
+                                {
+                                    SteamFriends.OpenWebOverlay(url);
+                                    return;
+                                }
+                                catch
+                                {
+                                    // Do nothing
+                                }
+                            }
+                            Application.OpenURL(url);
+                        }
+                    case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Phone:
+                        ActiveDialogueTrapType = DialogueTrapType.None;
+                        var phoneTrapIndex = Random.RandomRangeInt(-2, PhoneTraps.Length);
+                        if (phoneTrapIndex < 0) // Weight morio phone calls higher
+                        {
+                            phoneTrapIndex = 0;
+                        }
+
+                        var phoneTrap = PhoneTraps[phoneTrapIndex];
+                        self.names = ["Phone Trap", phoneTrap.CharacterName];
+                        var phoneDialogues = phoneTrap.Messages[Random.RandomRangeInt(0, phoneTrap.Messages.Length)].ToList();
+                        phoneDialogues.Insert(0, GetRandomPhoneRing());
+                        self.dialogues = phoneDialogues.ToArray();
+                        self.textSoundNames = new string[self.dialogues.Length];
+                        self.unskippableDialogues = new bool[self.dialogues.Length];
+                        self.endDialogueDelay = 0.5f;
+                        self.textSoundNames[0] = "SoundCoin10";
+                        var dialogueSound = phoneTrap.DialogueSound;
+                        if (dialogueSound.Equals("<MOSK>")) // Mosk's voice isn't in all levels. Make do.
+                        {
+                            if (AssetMaster.GetSound("SoundDialogueAlienMoskVoice"))
+                            {
+                                dialogueSound = "SoundDialogueAlienMoskVoice";
+                            }
+                            else if (AssetMaster.GetSound("SoundDialogueAlienMoskGoodVoice"))
+                            {
+                                dialogueSound = "SoundDialogueAlienMoskGoodVoice";
+                            }
+                            else
+                            {
+                                dialogueSound = "SoundTextMaleDefault";
+                            }
+                        }
+                        if (!AssetMaster.GetSound(dialogueSound)) // Use default sound if sound isn't present. Otherwise dialogue fails to load past the first character.
+                        {
+                            dialogueSound = "SoundTextMaleDefault";
+                        }
+                        for (var i = 1; i < self.textSoundNames.Length; i++)
+                        {
+                            self.textSoundNames[i] = dialogueSound;
+                            self.unskippableDialogues[i] = true;
+                        }
+
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when GameplayMaster.instance.levelId == Data.LevelId.L6_Gym:
 
@@ -805,16 +1338,6 @@ namespace YellowTaxiAP.Managers
                         if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach)
                             Plugin.ArchipelagoClient.Win();
                         break;
-                    case "DIALOGUE_ALIEN_MOSK_TOSLA_OFFICES_BOSSFIGHT_END_1":
-                        if (Plugin.SlotData.ShuffleGoldenSpring)
-                            QueuedItem = 1_00_00000 * (long)GameplayMaster.instance.levelId +
-                                         (long)Identifiers.NotableLocations.HubGoldenSpring;
-                        else if (!(Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemoveGoalPortalLocations))
-                            APSaveController.MiscSave.HasGoldenSpring = true;
-
-                        if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices)
-                            Plugin.ArchipelagoClient.Win();
-                        break;
                     case "DIALOGUE_MOON_END":
                         if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon)
                             Plugin.ArchipelagoClient.Win();
@@ -884,12 +1407,6 @@ namespace YellowTaxiAP.Managers
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
                     case "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT":
-                        break;
-                    default:
-                        if (DebugLocationHelper.Enabled)
-                        {
-                            GUIUtility.systemCopyBuffer = dialogueCapsule.key;
-                        }
                         break;
 #endif
                 }
