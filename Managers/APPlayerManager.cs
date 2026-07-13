@@ -124,7 +124,6 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Update_AP(On.PlayerScript.orig_Update orig, PlayerScript self)
         {
-            var originalCooldown = self.flipOWill_CooldownTimer;
             if (self.UsingPacmanInputs())
             {
                 if (!CanPacManBoost && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time <= 0.0)
@@ -192,12 +191,6 @@ namespace YellowTaxiAP.Managers
             if (PizzaWheelsItem != PizzaWheelsInitialized)
             {
                 self.PizzaWheelsInit();
-            }
-
-            // Don't reduce cooldown while in stun trap
-            if (self.myRb.isKinematic)
-            {
-                self.flipOWill_CooldownTimer = originalCooldown;
             }
 
             ArchipelagoClient.DeathLinkHandler?.KillPlayer();

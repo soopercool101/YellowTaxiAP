@@ -41,7 +41,7 @@ namespace YellowTaxiAP.Behaviours
                 case "bomb":
                 case "tnt":
                 case "tnt barrel":
-                    newTrap = new BombTrap();
+                    newTrap = new ExplosionTrap();
                     break;
                 case "bald":
                 case "no hat":
@@ -176,7 +176,7 @@ namespace YellowTaxiAP.Behaviours
         }
 
         public static bool ShouldNotUpdateTraps => !PlayerScript.instance || MenuV2Script.instance ||
-                                                LoadingScreenScript.instance || MenuV2PhotoModeController.instance;
+                                                LoadingScreenScript.instance || MenuV2PhotoModeController.instance || Tick.Paused;
 
         public void Update()
         {
@@ -208,6 +208,8 @@ namespace YellowTaxiAP.Behaviours
     public abstract class Trap : MonoBehaviour
     {
         public virtual string Name { get; }
+        public virtual bool FreezeFlipOWillCooldown => false;
+        public float OriginalFlipOWillCooldown;
         public bool FromTrapLink;
         public float DurationSeconds;
 
@@ -215,6 +217,10 @@ namespace YellowTaxiAP.Behaviours
         {
             Plugin.Log($"Activating {Name}");
             TrapActivate();
+            if (FreezeFlipOWillCooldown)
+            {
+                OriginalFlipOWillCooldown = PlayerScript.instance?.flipOWill_CooldownTimer ?? -1;
+            }
         }
 
         public virtual void TrapActivate()
@@ -226,6 +232,9 @@ namespace YellowTaxiAP.Behaviours
         {
             if (APTrapController.ShouldNotUpdateTraps)
                 return; // Don't do anything while in menus
+            // Freeze Flip-O-Will cooldown as necessary, to prevent traps from potentially giving positive resets
+            if (FreezeFlipOWillCooldown && OriginalFlipOWillCooldown > 0)
+                PlayerScript.instance?.flipOWill_CooldownTimer = OriginalFlipOWillCooldown;
             TrapUpdate();
             if (CameraLevelIntroController.instance || DialogueScript.instance)
                 return; // Don't tick timer during camera overview or dialogue
@@ -259,6 +268,8 @@ namespace YellowTaxiAP.Behaviours
             component.transform.parent = PlayerScript.instance.modelHolderTransform.GetChild(0).GetChild(0);
             component.transform.localPosition = component.myPositionOnHead;
             component.transform.localEulerAngles = Vector3.zero;
+            if (PlayerScript.instance.myHat)
+                Destroy(PlayerScript.instance.myHat.gameObject);
             PlayerScript.instance.myHat = component;
         }
     }
@@ -273,13 +284,14 @@ namespace YellowTaxiAP.Behaviours
         }
     }
 
-    public class BombTrap : Trap
+    public class ExplosionTrap : Trap
     {
-        public override string Name => "Bomb Trap";
+        public override string Name => "Explosion Trap";
 
         public override void TrapActivate()
         {
-            ExplosionScript.SpawnNew(PlayerScript.instance.transform.position + new Vector3(0, 3, 0));
+            var yOffset = PlayerScript.instance.onGround ? 10 : 3;
+            ExplosionScript.SpawnNew(PlayerScript.instance.transform.position + new Vector3(0, yOffset, 0));
         }
     }
 
@@ -340,6 +352,7 @@ namespace YellowTaxiAP.Behaviours
 
         public override void TrapActivate()
         {
+            PlayerScript.instance.myRb.velocity = new Vector3(0, 0, 0);
             switch (Random.RandomRangeInt(0, 4))
             {
                 case 0:
@@ -747,6 +760,7 @@ namespace YellowTaxiAP.Behaviours
     public class StunTrap : Trap
     {
         public override string Name => "Stun Trap";
+        public override bool FreezeFlipOWillCooldown => true;
         public static StunTrap Instance { get; set; }
 
         public override void TrapActivate()
@@ -857,19 +871,35 @@ namespace YellowTaxiAP.Behaviours
     public class WhirlpoolTrap : Trap
     {
         public override string Name => "Whirlpool Trap";
+        public override bool FreezeFlipOWillCooldown => true;
 
+        public GameObject Whirlpool;
         public override void TrapActivate()
         {
             DurationSeconds = APTrapController.DefaultTrapDuration;
+            // Kill player momentum to ensure you stay on the hydrant
+            PlayerScript.instance.myRb.velocity = new Vector3(0, 0, 0);
+            // Spawn hydrant
+            var yOffset = PlayerScript.instance.onGround ? 8.2f : 11f;
+            Whirlpool = Spawn.FromPool("Dettaglio Idrante Rotto",
+                PlayerScript.instance.transform.position - new Vector3(0, yOffset, 0), Pool.instance.transform);
         }
 
         public override void TrapUpdate()
         {
             if (!PlayerScript.instance.slipped)
                 PlayerScript.instance.SlipperySet();
-            PlayerScript.instance.WaterEffectsAndSound();
+            if (!Whirlpool) // Exiting course among other things can cause it to despawn. Player is typically not immediately in correct position to spawn again
+                PlayerScript.instance.WaterEffectsAndSound();
+        }
+
+        public override void TrapDeactivate()
+        {
+            if (Whirlpool)
+                Pool.Destroy(Whirlpool);
         }
     }
+
     public class BoostTrap : Trap
     {
         public override string Name => "Boost Trap";

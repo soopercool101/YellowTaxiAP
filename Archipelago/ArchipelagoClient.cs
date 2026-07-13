@@ -647,6 +647,17 @@ public class ArchipelagoClient
                     Data.HatSetUnlockedState((int)(receivedItem.ItemId - 700), true);
                     break;
                 }
+                // Traps. 666_999 is reserved for "Additional Expert Logic Level", which the mod does not recognize
+                if (receivedItem.ItemId is >= 666_000 and < 666_999)
+                {
+                    var trapIndex = receivedItem.ItemId - 666_000;
+                    if (trapIndex < Traps.Length)
+                    {
+                        APTrapController.ActivateTrap(Traps[trapIndex]);
+                        break;
+                    }
+                }
+
                 Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
                 throw new ArgumentOutOfRangeException();
         }
@@ -673,6 +684,24 @@ public class ArchipelagoClient
         }
         APTVManager.FlagTvNeedsUpdate();
     }
+
+    public static readonly string[] Traps = [
+        "Burger Hat Trap",
+        "Cutscene Trap",
+        "Explosion Trap",
+        "Fast Trap",
+        "Invisible Trap",
+        "Literature Trap",
+        "No Hat Trap",
+        "Phone Trap",
+        "Pixelate Trap",
+        "Screen Flip Trap",
+        "Slip Trap",
+        "Slow Trap",
+        "Spam Trap",
+        "Stun Trap",
+        "Whirlpool Trap",
+    ];
 
     private void ReceivedBunny()
     {
