@@ -267,8 +267,7 @@ namespace YellowTaxiAP.Archipelago
             }
             else
             {
-                TrapLink = true; // TODO: Remove this as default
-                Plugin.Log("No slot data for ring_link found");
+                Plugin.Log("No slot data for trap_link found");
             }
 
             if (slotData.ContainsKey("purchase_rebate_percent"))

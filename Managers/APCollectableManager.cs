@@ -558,9 +558,15 @@ namespace YellowTaxiAP.Managers
                     PlayerScript.instance.CoinsSand(coin.transform);
                 }
             }
-
-            GameplayMaster.instance.coinsCollectedTimerBonusCounter += amount;
-            PlayerScript.instance.CoinsLimit25Reached();
+            
+            // Only update the coins collected bonus timer if timer is active
+            // Otherwise it gets stored to be used if timer trap activates, resulting in a massive time increase immediately
+            if (GameplayMaster.instance.useGameTimer)
+            {
+                GameplayMaster.instance.coinsCollectedTimerBonusCounter += amount;
+                PlayerScript.instance.CoinsLimit25Reached();
+                HudMasterScript.instance.shouldUpdateCoinsText = true;
+            }
 
             coin.KillMe();
         }

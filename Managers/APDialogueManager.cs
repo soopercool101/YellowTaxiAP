@@ -1,7 +1,5 @@
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Models;
-using BepInEx.Logging;
-using JetBrains.Annotations;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -10,8 +8,6 @@ using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
-using static Levels;
-using static UnityEngine.UI.Image;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 

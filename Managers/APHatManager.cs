@@ -22,7 +22,7 @@ namespace YellowTaxiAP.Managers
             On.HatBuyScript.Buy += AP_BuyHat;
             On.HatBuyScript.OnTriggerEnter += HatBuyScript_OnTriggerEnter;
             On.HatWBurger.Start += HatWBurger_Start;
-            //On.HatScript.RemoveHat += HatScript_RemoveHat;
+            On.HatScript.RemoveHat += HatScript_RemoveHat;
             On.HatScript.Instantiate += HatScript_Instantiate;
             On.HatScript.Update += HatScript_Update;
             On.InfluencerPictureScript.Start += InfluencerPictureScript_Start;
@@ -259,7 +259,11 @@ namespace YellowTaxiAP.Managers
 
         private void HatScript_RemoveHat(On.HatScript.orig_RemoveHat orig, bool removeHatFromData)
         {
-            orig(false);
+            if (removeHatFromData)
+            {
+                APSaveController.MiscSave.CurrentHat = Hat.Noone;
+            }
+            orig(removeHatFromData);
         }
 
         private HatScript HatScript_Instantiate(On.HatScript.orig_Instantiate orig, Data.Hat hatKind)
@@ -348,6 +352,7 @@ namespace YellowTaxiAP.Managers
             HudMasterScript.instance.hatBuyHolder.SetActive(false);
             Tick.Paused = false;
             HudMasterScript.instance.buyingHat = false;
+            HatBuyScript.currentBuyingHat = null;
         }
     }
 }

@@ -644,6 +644,10 @@ public class ArchipelagoClient
 
                     if (hat == Data.Hat.Noone)
                         APHatManager.ReceivedNoHatItem = true;
+
+                    if (hat == Data.Hat.Hat52_WishlistBurger)
+                        SendTrapLink("Burger Hat Trap");
+
                     Data.HatSetUnlockedState((int)(receivedItem.ItemId - 700), true);
                     break;
                 }
@@ -700,6 +704,7 @@ public class ArchipelagoClient
         "Slow Trap",
         "Spam Trap",
         "Stun Trap",
+        "Timer Trap",
         "Whirlpool Trap",
     ];
 

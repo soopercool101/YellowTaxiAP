@@ -151,7 +151,22 @@ namespace YellowTaxiAP.Behaviours
                     newTrap = new SpamTrap();
                     break;
                 case "phone":
+                case "exposition":
                     newTrap = new PhoneTrap();
+                    break;
+                case "text":
+                    newTrap = Random.RandomRangeInt(0, 3) switch
+                    {
+                        0 => new LiteratureTrap(),
+                        1 => new SpamTrap(),
+                        _ => new PhoneTrap()
+                    };
+                    break;
+                case "timer":
+                case "time":
+                case "time limit":
+                case "time warp":
+                    newTrap = new TimerTrap();
                     break;
             }
 
@@ -200,6 +215,7 @@ namespace YellowTaxiAP.Behaviours
 
             if (!trap.FromTrapLink)
             {
+                //Plugin.Log($"Sending linked {trap.Name}");
                 Plugin.ArchipelagoClient.SendTrapLink(trap.Name);
             }
         }
@@ -215,7 +231,7 @@ namespace YellowTaxiAP.Behaviours
 
         public void Awake()
         {
-            Plugin.Log($"Activating {Name}");
+            //Plugin.Log($"Activating {Name}");
             TrapActivate();
             if (FreezeFlipOWillCooldown)
             {
@@ -241,7 +257,7 @@ namespace YellowTaxiAP.Behaviours
             DurationSeconds -= Time.deltaTime;
             if (DurationSeconds <= 0.0f)
             {
-                Plugin.Log($"Deactivating {Name}");
+                //Plugin.Log($"Deactivating {Name}");
                 TrapDeactivate();
                 Destroy(gameObject);
             }
@@ -280,7 +296,7 @@ namespace YellowTaxiAP.Behaviours
 
         public override void TrapActivate()
         {
-            HatScript.RemoveHat(false);
+            HatScript.RemoveHat(true);
         }
     }
 
@@ -290,8 +306,8 @@ namespace YellowTaxiAP.Behaviours
 
         public override void TrapActivate()
         {
-            var yOffset = PlayerScript.instance.onGround ? 10 : 3;
-            ExplosionScript.SpawnNew(PlayerScript.instance.transform.position + new Vector3(0, yOffset, 0));
+            var offset = new Vector3(PlayerScript.instance.myRb.velocity.x / 8, PlayerScript.instance.onGround ? 8 : 4, PlayerScript.instance.myRb.velocity.z / 8);
+            ExplosionScript.SpawnNew(PlayerScript.instance.transform.position + offset);
         }
     }
 
@@ -611,10 +627,10 @@ namespace YellowTaxiAP.Behaviours
         {
             if (Instance == null)
             {
+                Instance = this;
                 CurrentLevel = GameplayMaster.instance.levelId;
                 DurationSeconds = APTrapController.DefaultTrapDuration;
                 FlipHorizontal();
-                Instance = this;
             }
             else
             {
@@ -640,17 +656,18 @@ namespace YellowTaxiAP.Behaviours
 
         public override void TrapDeactivate()
         {
+            Instance = null;
             if (!NeedsRefresh)
             {
                 FlipHorizontal();
             }
-            Instance = null;
         }
 
         public static void FlipHorizontal()
         {
             CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
             GL.invertCulling = !GL.invertCulling;
+            BackgroundMaster.instance.UpdateDistanceFromCamera();
         }
     }
 
@@ -876,7 +893,7 @@ namespace YellowTaxiAP.Behaviours
         public GameObject Whirlpool;
         public override void TrapActivate()
         {
-            DurationSeconds = APTrapController.DefaultTrapDuration;
+            DurationSeconds = APTrapController.DefaultTrapDuration / 2;
             // Kill player momentum to ensure you stay on the hydrant
             PlayerScript.instance.myRb.velocity = new Vector3(0, 0, 0);
             // Spawn hydrant
@@ -947,7 +964,7 @@ namespace YellowTaxiAP.Behaviours
             Activated = false;
             DurationSeconds = 5;
             Id = LatestId++;
-            if (LatestId == 5)
+            if (LatestId == ulong.MaxValue)
             {
                 LatestId = 0;
             }
@@ -960,16 +977,17 @@ namespace YellowTaxiAP.Behaviours
                 DurationSeconds = 5;
                 if (Id < CurrentId)
                 {
+                    Plugin.Log("Awaiting queued trap");
                     return;
                 }
-                if (!DialogueScript.instance && !HatBuyScript.currentBuyingHat && APDialogueManager.ActiveDialogueTrapType == APDialogueManager.DialogueTrapType.None)
+                if (!DialogueScript.instance && !HudMasterScript.instance.buyingHat && APDialogueManager.ActiveDialogueTrapType == APDialogueManager.DialogueTrapType.None)
                 {
                     APDialogueManager.ActiveDialogueTrapType = DialogueTrapType;
                     Spawn.Instance("Dialogue Rat Pickup Answer Yes", Vector3.zero);
                     DurationSeconds = 0;
                     Activated = true;
                     CurrentId++;
-                    if (CurrentId == 5)
+                    if (CurrentId == ulong.MaxValue)
                     {
                         CurrentId = 0;
                     }
@@ -1000,5 +1018,28 @@ namespace YellowTaxiAP.Behaviours
 
         public override APDialogueManager.DialogueTrapType DialogueTrapType =>
             APDialogueManager.DialogueTrapType.Phone;
+    }
+
+    public class TimerTrap : Trap
+    {
+        public override string Name => "Timer Trap";
+
+        public override void TrapActivate()
+        {
+            // Time attack levels can't have a timer active
+            //if (GameplayMaster.instance.timeAttackLevel)
+            //    return;
+
+            if (!GameplayMaster.instance.useGameTimer)
+            {
+                GameplayMaster.instance.useGameTimer = true;
+                GameplayMaster.instance.gameTimer = 50;
+                HudMasterScript.instance.PizzaTimerHudEnableSet(true);
+            }
+            else
+            {
+                GameplayMaster.instance.gameTimer = Math.Min(GameplayMaster.instance.gameTimer, 10);
+            }
+        }
     }
 }

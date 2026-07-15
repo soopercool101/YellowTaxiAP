@@ -7273,7 +7273,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloorBolts, "X1/B1"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1"),
                     new RegionConnection(MoriosLabBunnyLedge, "B1+X1"),
-                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B1 | X1+J2"),
+                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "X1 & B1/J2"),
                     new RegionConnection(MoriosLabThirdFloor, "FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "X2/B1 & FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "X2/B1 & FGU"),
@@ -7369,7 +7369,6 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1 | X2+J1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X2+B1+J1 | X1+B2+J1 | X1+B1+J2"),
-                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2 | X3+J1"),
                     new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
                     new RegionConnection(MoriosLabPsychoTaxi, "FGU | X2+OOB+B1"),
                 ]
@@ -7437,6 +7436,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU+B2"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "FGU+B2"),
+                    new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "B2 | X3+J1"),
                     new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "J2 | X1 & B1/J1"),
                 ]
             },
