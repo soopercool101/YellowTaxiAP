@@ -122,9 +122,11 @@ namespace YellowTaxiAP.Behaviours
                     newTrap = new StunTrap();
                     break;
                 case "slip":
+                    newTrap = new SlipTrap();
+                    break;
                 case "banana peel":
                 case "banana":
-                    newTrap = new SlipTrap();
+                    newTrap = new BananaTrap();
                     break;
                 case "underwater":
                     newTrap = new UnderwaterTrap();
@@ -167,6 +169,20 @@ namespace YellowTaxiAP.Behaviours
                 case "time limit":
                 case "time warp":
                     newTrap = new TimerTrap();
+                    break;
+                case "zoom":
+                    newTrap = Random.Range(0, 2) == 0 ? new ZoomInTrap() : new ZoomOutTrap();
+                    break;
+                case "zoom in":
+                    newTrap = new ZoomInTrap();
+                    break;
+                case "zoom out":
+                    newTrap = new ZoomOutTrap();
+                    break;
+                case "angry car":
+                case "tarr":
+                case "thwimp":
+                    newTrap = new AngryCarTrap();
                     break;
             }
 
@@ -228,14 +244,25 @@ namespace YellowTaxiAP.Behaviours
         public float OriginalFlipOWillCooldown;
         public bool FromTrapLink;
         public float DurationSeconds;
+        public virtual bool ExtraActivationRequirements => true;
 
+        private bool _activated = false;
         public void Awake()
         {
             //Plugin.Log($"Activating {Name}");
-            TrapActivate();
-            if (FreezeFlipOWillCooldown)
+            InitialActivation();
+        }
+
+        private void InitialActivation()
+        {
+            if (ExtraActivationRequirements && !APTrapController.ShouldNotUpdateTraps)
             {
-                OriginalFlipOWillCooldown = PlayerScript.instance?.flipOWill_CooldownTimer ?? -1;
+                TrapActivate();
+                _activated = true;
+                if (FreezeFlipOWillCooldown)
+                {
+                    OriginalFlipOWillCooldown = PlayerScript.instance?.flipOWill_CooldownTimer ?? -1;
+                }
             }
         }
 
@@ -248,6 +275,11 @@ namespace YellowTaxiAP.Behaviours
         {
             if (APTrapController.ShouldNotUpdateTraps)
                 return; // Don't do anything while in menus
+            if (!_activated)
+            {
+                InitialActivation();
+                return;
+            }
             // Freeze Flip-O-Will cooldown as necessary, to prevent traps from potentially giving positive resets
             if (FreezeFlipOWillCooldown && OriginalFlipOWillCooldown > 0)
                 PlayerScript.instance?.flipOWill_CooldownTimer = OriginalFlipOWillCooldown;
@@ -667,7 +699,6 @@ namespace YellowTaxiAP.Behaviours
         {
             CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
             GL.invertCulling = !GL.invertCulling;
-            BackgroundMaster.instance.UpdateDistanceFromCamera();
         }
     }
 
@@ -810,12 +841,26 @@ namespace YellowTaxiAP.Behaviours
     public class SlipTrap : Trap
     {
         public override string Name => "Slip Trap";
+        public virtual bool IsBanana => false;
 
         public override void TrapActivate()
         {
             PlayerScript.instance.SlipperySet();
             Sound.Play("SoundPlayerDamageDefault");
+            if (IsBanana)
+            {
+                Spawn.FromPool("EffectGarbage1",
+                        PlayerScript.instance.transform.position +
+                        new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f)))
+                    .GetComponent<EffectScript>().SetVelocity(PlayerScript.instance.myRb.velocity.normalized * 32f + new Vector3(0.0f, 32f, 0.0f));
+            }
         }
+    }
+
+    public class BananaTrap : SlipTrap
+    {
+        public override string Name => "Banana Trap";
+        public override bool IsBanana => true;
     }
 
     public class UnderwaterTrap : Trap
@@ -836,6 +881,7 @@ namespace YellowTaxiAP.Behaviours
             else
             {
                 PlayerScript.instance.underwaterDesiredState = true;
+                CameraGame.instance.underwater = true;
             }
         }
     }
@@ -885,6 +931,7 @@ namespace YellowTaxiAP.Behaviours
             PlayerScript.instance.PizzaWheelsInit();
         }
     }
+
     public class WhirlpoolTrap : Trap
     {
         public override string Name => "Whirlpool Trap";
@@ -1023,23 +1070,65 @@ namespace YellowTaxiAP.Behaviours
     public class TimerTrap : Trap
     {
         public override string Name => "Timer Trap";
+        // Time attack levels can't have a timer active
+        public override bool ExtraActivationRequirements => !GameplayMaster.instance.timeAttackLevel;
 
         public override void TrapActivate()
         {
-            // Time attack levels can't have a timer active
-            //if (GameplayMaster.instance.timeAttackLevel)
-            //    return;
-
             if (!GameplayMaster.instance.useGameTimer)
             {
                 GameplayMaster.instance.useGameTimer = true;
-                GameplayMaster.instance.gameTimer = 50;
+                GameplayMaster.instance.gameTimer = Math.Max(GameplayMaster.instance.gameTimer, 30);
                 HudMasterScript.instance.PizzaTimerHudEnableSet(true);
             }
             else
             {
                 GameplayMaster.instance.gameTimer = Math.Min(GameplayMaster.instance.gameTimer, 10);
             }
+        }
+    }
+
+    public class ZoomInTrap : Trap
+    {
+        public override string Name => "Zoom In Trap";
+        public static int NumberActive = 0;
+
+        public override void TrapActivate()
+        {
+            NumberActive++;
+            DurationSeconds = APTrapController.DefaultTrapDuration;
+        }
+
+        public override void TrapDeactivate()
+        {
+            NumberActive--;
+        }
+    }
+
+    public class ZoomOutTrap : Trap
+    {
+        public override string Name => "Zoom Out Trap";
+        public static int NumberActive = 0;
+
+        public override void TrapActivate()
+        {
+            NumberActive++;
+            DurationSeconds = APTrapController.DefaultTrapDuration;
+        }
+
+        public override void TrapDeactivate()
+        {
+            NumberActive--;
+        }
+    }
+
+    public class AngryCarTrap : Trap
+    {
+        public override string Name => "Angry Car Trap";
+
+        public override void TrapActivate()
+        {
+            Spawn.Instance("Car Angry", PlayerScript.instance.transform.position + new Vector3(0, 5, 0));
         }
     }
 }

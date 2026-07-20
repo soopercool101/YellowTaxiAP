@@ -104,6 +104,7 @@ public class Plugin : BaseUnityPlugin
             moriosIslandMap.bunniesId.Add(3);       // Above Morio's Home Portal
             moriosIslandMap.bunniesId.Add(4);       // Above Demo Wall
         };
+        On.CameraGame.SetTarget += CameraGame_SetTarget;
         On.ModMaster.Start += (orig, self) =>
         {
             if (Master.instance.isDemo)
@@ -471,6 +472,20 @@ public class Plugin : BaseUnityPlugin
             orig(self);
         };
 #endif
+    }
+
+    private void CameraGame_SetTarget(On.CameraGame.orig_SetTarget orig, CameraGame self, Transform targetTr, Vector3 offset, float angY, float angX, float desiredDistance, float angYOffset, float angXOffset, float fovDesiredValue)
+    {
+        if (ZoomOutTrap.NumberActive > 0)
+        {
+            desiredDistance *= 2 * ZoomOutTrap.NumberActive;
+        }
+
+        if (ZoomInTrap.NumberActive > 0)
+        {
+            desiredDistance /= 2 * ZoomInTrap.NumberActive;
+        }
+        orig(self, targetTr, offset, angY, angX, desiredDistance, angYOffset, angXOffset, fovDesiredValue);
     }
 
 #if DEBUG

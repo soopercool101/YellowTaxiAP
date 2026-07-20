@@ -5686,6 +5686,7 @@ namespace YellowTaxiAP
             { "9_03_00044", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #11" },
             { "9_03_00047", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #12" },
             { "9_01_00007", "Maurizio's City - Gear - Escort Busy Man From Lower Middle Level" },
+            { "9_21_00003", "Maurizio's City - Cheese Near Oil Pump on Lower Middle Level" },
         };
 
         [Description("Maurizio's City - Oil Pumps")]
