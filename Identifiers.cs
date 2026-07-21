@@ -1,100 +1,100 @@
-﻿namespace YellowTaxiAP
+﻿namespace YellowTaxiAP;
+
+public static class Identifiers
 {
-    public static class Identifiers
+    public const int
+        PASSWORD_ID = 0; // Only used by one level in vanilla, will never be used for level 0 so good fit
+
+    public const int GEAR_ID = 1;
+    public const int BUNNY_ID = 2;
+    public const int COIN_ID = 3;
+    public const int COINBAG_ID = 3;
+    public const int CHEST_ID = 3;
+    public const int SAFE_ID = 3;
+    public const int HAT_ID = 7;
+    public const int NPC_ID = 8;
+    public const int CHECKPOINT_ID = 9;
+    public const int PSYCHO_ID = 20;
+    public const int CHEESE_ID = 21;
+
+    // Move rando IDs
+    public const int BOOST_ID = 1;
+    public const int SUPERBOOST_ID = 2;
+    public const int JUMP_ID = 3;
+    public const int BACKFLIP_ID = 4;
+    public const int SPIN_ID = 5;
+    public const int GLIDE_ID = 6;
+
+    public enum ItemID
     {
-        public const int
-            PASSWORD_ID = 0; // Only used by one level in vanilla, will never be used for level 0 so good fit
+        Gear = 1,
+        Bunny = 2,
+        BunnyMoriosLab = 2_00,
+        BunnyBombeach = 2_01,
+        BunnyPizzaTime = 2_02,
+        BunnyMoriosHome = 2_03,
+        BunnyArcadePanik = 2_04,
+        BunnyToslasOffices = 2_05,
+        BunnyGymGears = 2_06,
+        BunnyFecalMatters = 2_07,
+        BunnyFlushedAway = 2_08,
+        BunnyMauriziosCity = 2_09,
+        BunnyCrashTestIndustries = 2_10,
+        BunnyDemo = 2_11,
+        BunnyMoriosMind = 2_12,
+        BunnyRuinedObservatory = 2_13,
+        BunnyToslaHQ = 2_14,
+        BunnyMoon = 2_15,
+        Coin1 = 3,
+        Coins10 = 4,
+        Coins25 = 5,
+        Coins100 = 6,
+        // Hats are handled separately, as to not flood this enum
+        FlipOWill = 8_0_0,
+        ProgressiveJump = 8_0_1,
+        ProgressiveBoost = 8_0_2,
+        SpinAttack = 8_0_3,
+        Glide = 8_0_4,
+        GoldenSpringUnlock = 8_1_0,
+        GoldenPropellerUnlock = 8_2_0,
+        PizzaWheels = 8_9_9,
+        LabKey = 10_00,
+        GymMembership = 10_06,
+        Doggo = 10_07,
+        SewerKey = 10_08,
+        MosksRocket = 10_16,
+        TimeTrialRemoteBabySteps = 10_17,
+        TimeTrialRemoteGettingGud = 10_18,
+        TimeTrialRemoteProTricks = 10_19,
+        MoriosWardrobe = 11_00,
+        GelaToni = 11_01,
+        PizzaKing = 11_02,
+        OrangeSwitch = 11_10,
+        FullGameUnlock = 11_11,
+        MoriosPassword = 11_12,
+        TimeTrialRemote = 11_17,
+        ProgressiveTimeTrialRemote = 11_18,
+        PsychoTaxiCartridge = 20_01,
+        Michele = 20_02,
+    }
 
-        public const int GEAR_ID = 1;
-        public const int BUNNY_ID = 2;
-        public const int COIN_ID = 3;
-        public const int COINBAG_ID = 3;
-        public const int CHEST_ID = 3;
-        public const int SAFE_ID = 3;
-        public const int HAT_ID = 7;
-        public const int NPC_ID = 8;
-        public const int CHECKPOINT_ID = 9;
-        public const int PSYCHO_ID = 20;
-        public const int CHEESE_ID = 21;
-
-        // Move rando IDs
-        public const int BOOST_ID = 1;
-        public const int SUPERBOOST_ID = 2;
-        public const int JUMP_ID = 3;
-        public const int BACKFLIP_ID = 4;
-        public const int SPIN_ID = 5;
-        public const int GLIDE_ID = 6;
-
-        public enum ItemID
-        {
-            Gear = 1,
-            Bunny = 2,
-            BunnyMoriosLab = 2_00,
-            BunnyBombeach = 2_01,
-            BunnyPizzaTime = 2_02,
-            BunnyMoriosHome = 2_03,
-            BunnyArcadePanik = 2_04,
-            BunnyToslasOffices = 2_05,
-            BunnyGymGears = 2_06,
-            BunnyFecalMatters = 2_07,
-            BunnyFlushedAway = 2_08,
-            BunnyMauriziosCity = 2_09,
-            BunnyCrashTestIndustries = 2_10,
-            BunnyDemo = 2_11,
-            BunnyMoriosMind = 2_12,
-            BunnyRuinedObservatory = 2_13,
-            BunnyToslaHQ = 2_14,
-            BunnyMoon = 2_15,
-            Coin1 = 3,
-            Coins10 = 4,
-            Coins25 = 5,
-            Coins100 = 6,
-            // Hats are handled separately, as to not flood this enum
-            FlipOWill = 8_0_0,
-            ProgressiveJump = 8_0_1,
-            ProgressiveBoost = 8_0_2,
-            SpinAttack = 8_0_3,
-            Glide = 8_0_4,
-            GoldenSpringUnlock = 8_1_0,
-            GoldenPropellerUnlock = 8_2_0,
-            PizzaWheels = 8_9_9,
-            LabKey = 10_00,
-            GymMembership = 10_06,
-            Doggo = 10_07,
-            SewerKey = 10_08,
-            MosksRocket = 10_16,
-            TimeTrialRemoteBabySteps = 10_17,
-            TimeTrialRemoteGettingGud = 10_18,
-            TimeTrialRemoteProTricks = 10_19,
-            MoriosWardrobe = 11_00,
-            GelaToni = 11_01,
-            PizzaKing = 11_02,
-            OrangeSwitch = 11_10,
-            FullGameUnlock = 11_11,
-            MoriosPassword = 11_12,
-            TimeTrialRemote = 11_17,
-            ProgressiveTimeTrialRemote = 11_18,
-            PsychoTaxiCartridge = 20_01,
-            Michele = 20_02,
-        }
-        public enum NotableLocations : long
-        {
-            HubPizzaWheels = 7_99999,
-            DemoWall = 10_00011,
-            WardrobeMoriotron = 11_00000,
-            HubGelaToni = 11_00001,
-            HubPizzaKing = 11_00002,
-            HubMichele = 21_99999,
-            LabKey = 10_00000,
-            Doggo = 10_00007,
-            HubMoriosPassword = 11_00012,
-            HubMosksRocket = 10_00016,
-            HubPsychoTaxi = 20_99999,
-            HubOrangeSwitch = 11_00010,
-            HubGoldenSpring = 11_00005,
-            HubGoldenPropeller = 11_00013,
-            UltraChadMembership = 6_10_00006,
-            FlushedAwayMichele = 8_10_00008,
-        }
+    public enum NotableLocations : long
+    {
+        HubPizzaWheels = 7_99999,
+        DemoWall = 10_00011,
+        WardrobeMoriotron = 11_00000,
+        HubGelaToni = 11_00001,
+        HubPizzaKing = 11_00002,
+        HubMichele = 21_99999,
+        LabKey = 10_00000,
+        Doggo = 10_00007,
+        HubMoriosPassword = 11_00012,
+        HubMosksRocket = 10_00016,
+        HubPsychoTaxi = 20_99999,
+        HubOrangeSwitch = 11_00010,
+        HubGoldenSpring = 11_00005,
+        HubGoldenPropeller = 11_00013,
+        UltraChadMembership = 6_10_00006,
+        FlushedAwayMichele = 8_10_00008,
     }
 }

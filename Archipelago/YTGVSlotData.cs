@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
@@ -48,6 +50,8 @@ namespace YellowTaxiAP.Archipelago
         public int DeathLinkAmnesty { get; set; }
         public bool RingLink { get; private set; }
         public bool TrapLink { get; private set; }
+        public bool TrapLinkUsesWhitelist { get; private set; }
+        public List<string> TrapLinkWhiteList { get; private set; }
         public int PurchaseRebatePercent { get; private set; }
         public bool ShuffleGelaToni { get; private set; }
         public bool ShufflePizzaKing { get; private set; }
@@ -268,6 +272,33 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for trap_link found");
+            }
+
+            if (slotData.ContainsKey("trap_link_whitelist"))
+            {
+                Plugin.Log("Trap Link Whitelist Loading");
+                Plugin.Log(slotData["trap_link_whitelist"].GetType().ToString());
+                TrapLinkWhiteList = [];
+                TrapLinkUsesWhitelist = true;
+                foreach (var trap in (JArray)slotData["trap_link_whitelist"])
+                {
+                    TrapLinkWhiteList.Add(trap.ToString());
+                    // Ensure basic variants are accounted for
+                    if (trap.ToString().Equals("Screen Flip Trap"))
+                    {
+                        TrapLinkWhiteList.Add("Flip Horizontal Trap");
+                        TrapLinkWhiteList.Add("Flip Vertical Trap");
+                    }
+                    else if (trap.ToString().Equals("Slip Trap"))
+                    {
+                        TrapLinkWhiteList.Add("Banana Trap");
+                    }
+                }
+            }
+            else
+            {
+                TrapLinkUsesWhitelist = false;
+                Plugin.Log("No slot data for trap_link_whitelist found");
             }
 
             if (slotData.ContainsKey("purchase_rebate_percent"))

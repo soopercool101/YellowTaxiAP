@@ -37,6 +37,7 @@ namespace YellowTaxiAP.Behaviours
             Trap newTrap = null;
             switch (trapName.ToLowerInvariant())
             {
+                case "explode":
                 case "explosion":
                 case "bomb":
                 case "tnt":
@@ -156,6 +157,7 @@ namespace YellowTaxiAP.Behaviours
                 case "exposition":
                     newTrap = new PhoneTrap();
                     break;
+                case "dialogue":
                 case "text":
                     newTrap = Random.RandomRangeInt(0, 3) switch
                     {
@@ -184,6 +186,11 @@ namespace YellowTaxiAP.Behaviours
                 case "thwimp":
                     newTrap = new AngryCarTrap();
                     break;
+                case "crt":
+                case "crt filter":
+                case "vintage":
+                    newTrap = new CRTFilterTrap();
+                    break;
             }
 
             // I have no earthly idea why a null check didn't work here, but this does so whatever
@@ -193,6 +200,11 @@ namespace YellowTaxiAP.Behaviours
                 {
                     var printTrapName =
                         $"\"{originalTrapName}\"{(originalTrapName.Equals(newTrap.Name) ? string.Empty : $" as \"{newTrap.Name}\"")}";
+                    if (Plugin.SlotData.TrapLinkUsesWhitelist && !Plugin.SlotData.TrapLinkWhiteList.Contains(newTrap.Name))
+                    {
+                        Plugin.Log($"Ignoring linked {printTrapName}");
+                        return;
+                    }
                     Plugin.Log($"Received linked {printTrapName} from {trapLinkSource}", true);
                     newTrap.FromTrapLink = true;
                 }
@@ -404,19 +416,15 @@ namespace YellowTaxiAP.Behaviours
             switch (Random.RandomRangeInt(0, 4))
             {
                 case 0:
-                    Plugin.Log("case 0");
                     Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
                     break;
                 case 1:
-                    Plugin.Log("case 1");
                     Spawn.Instance("CutsceneHolder_ToslaHQUnlocked", new Vector3(0.0f, 500f, 0.0f));
                     break;
                 case 2:
-                    Plugin.Log("case 2");
                     Spawn.Instance("CutsceneHolder_StartGame", new Vector3(PlayerScript.instance.transform.position.x, 1000f, PlayerScript.instance.transform.position.z));
                     break;
                 case 3:
-                    Plugin.Log("case 3");
                     Spawn.Instance("CutsceneHolder_Game100PercentComplete", new Vector3(PlayerScript.instance.transform.position.x, 1000f, PlayerScript.instance.transform.position.z));
                     break;
             }
@@ -572,14 +580,12 @@ namespace YellowTaxiAP.Behaviours
             {
                 DurationSeconds = APTrapController.DefaultTrapDuration;
 
-                RenderTexture renderTexture = new RenderTexture(256, 144, 24);
-                renderTexture.antiAliasing = Master.instance.PlatformManager == null || !Master.instance.PlatformManager.UseAntialiasing ? 1 : 4;
-                renderTexture.filterMode = FilterMode.Point;
-                if (renderTexture == null)
+                var renderTexture = new RenderTexture(256, 144, 24)
                 {
-                    Debug.Log("newRenderTexture == null!");
-                }
-                else
+                    antiAliasing = Master.instance.PlatformManager == null || !Master.instance.PlatformManager.UseAntialiasing ? 1 : 4,
+                    filterMode = FilterMode.Point
+                };
+                if (renderTexture != null)
                 {
                     CameraGame.instance.myCamera.targetTexture.Release();
                     CameraGame.instance.myCamera.targetTexture = renderTexture;
@@ -1071,7 +1077,7 @@ namespace YellowTaxiAP.Behaviours
     {
         public override string Name => "Timer Trap";
         // Time attack levels can't have a timer active
-        public override bool ExtraActivationRequirements => !GameplayMaster.instance.timeAttackLevel;
+        public override bool ExtraActivationRequirements => !GameplayMaster.instance.timeAttackLevel && !(GameplayMaster.instance.useGameTimer && GameplayMaster.instance.gameTimer <= 10);
 
         public override void TrapActivate()
         {
@@ -1129,6 +1135,17 @@ namespace YellowTaxiAP.Behaviours
         public override void TrapActivate()
         {
             Spawn.Instance("Car Angry", PlayerScript.instance.transform.position + new Vector3(0, 5, 0));
+        }
+    }
+
+    public class CRTFilterTrap : Trap
+    {
+        public override string Name => "CRT Filter Trap";
+
+        public override void TrapActivate()
+        {
+            Settings.retroStyleCurrent = Settings.RetroStyle.crtAdvanced;
+            CameraPostProcess.instance.RetroStylesEnable();
         }
     }
 }

@@ -614,8 +614,8 @@ namespace YellowTaxiAP
             { "0_01_00006", "Granny's Island - Gear - On Ocean Pillar Towards Sewer" },
         };
 
-        [Description("Granny's Island - Top of Rocket")]
-        public static Dictionary<string, string> GrannysIslandRocketTop = new()
+        [Description("Granny's Island - Coins on Top of Rocket")]
+        public static Dictionary<string, string> GrannysIslandRocketTopCoins = new()
         {
             { "0_03_00798", "Granny's Island - Chest on Top of Rocket" },
             { "0_03_00800", "Granny's Island - Coin on Top of Rocket #1" },
@@ -623,6 +623,11 @@ namespace YellowTaxiAP
             { "0_03_00807", "Granny's Island - Coin on Top of Rocket #3" },
             { "0_03_00808", "Granny's Island - Coin on Top of Rocket #4" },
             { "0_03_00834", "Granny's Island - Coin on Top of Rocket #5" },
+        };
+
+        [Description("Granny's Island - Gear on Top of Rocket")]
+        public static Dictionary<string, string> GrannysIslandRocketTopGear = new()
+        {
             { "0_01_00020", "Granny's Island - Gear - On Top of Rocket" },
         };
 
@@ -1355,7 +1360,7 @@ namespace YellowTaxiAP
         [Description("Hub - Special Rules")]
         public static Dictionary<string, string> HubSpecialRules = new()
         {
-            { "Granny's Island - Safe on Ocean Pillar", "B2 | B1+GP" },
+            { "Granny's Island - Safe on Ocean Pillar", "B2 | B1+GP | X2+J1 & X3/B1" },
             { "Granny's Island - Safe on Granny's Statue", "J2 | J1/B1 & GP | X1/B1 & J1 | X1+B2 | X2+B1" },
             { "Granny's Island - Coin Bag on Pillar Towards Sewer", "X2/B1/GP" },
             { "Granny's Island - Gear - Oil Pump", "SP | X2" },
@@ -1974,8 +1979,8 @@ namespace YellowTaxiAP
             { "3_03_00072", "Weird Tunnels - Coin on Path Before First Boosts #5" },
         };
 
-        [Description("Weird Tunnels - Expert 1")]
-        public static Dictionary<string, string> WeirdTunnelsExpert1 = new()
+        [Description("Weird Tunnels - Expert 2")]
+        public static Dictionary<string, string> WeirdTunnelsExpert2 = new()
         {
             { "3_03_00073", "Weird Tunnels - Coin on Path Before Second Boosts #1" },
             { "3_03_00074", "Weird Tunnels - Coin on Path Before Second Boosts #2" },
@@ -1984,14 +1989,40 @@ namespace YellowTaxiAP
             { "3_03_00077", "Weird Tunnels - Coin on Path Before Second Boosts #5" },
         };
 
-        [Description("Weird Tunnels - High Ground")]
-        public static Dictionary<string, string> WeirdTunnelsHighGround = new()
+        [Description("Weird Tunnels - Expert 3")]
+        public static Dictionary<string, string> WeirdTunnelsExpert3 = new()
         {
             { "3_03_00225", "Weird Tunnels - Coin on Left Upper Path #1" },
             { "3_03_00226", "Weird Tunnels - Coin on Left Upper Path #2" },
             { "3_03_00227", "Weird Tunnels - Coin on Left Upper Path #3" },
             { "3_03_00228", "Weird Tunnels - Coin on Left Upper Path #4" },
             { "3_03_00229", "Weird Tunnels - Coin on Left Upper Path #5" },
+            { "3_03_00022", "Weird Tunnels - Coin Surrounding Lower Gear #1" },
+            { "3_03_00025", "Weird Tunnels - Coin Surrounding Lower Gear #2" },
+            { "3_03_00024", "Weird Tunnels - Coin Bag Near Lower Gear #1" },
+            { "3_03_00023", "Weird Tunnels - Coin Surrounding Lower Gear #3" },
+            { "3_03_00028", "Weird Tunnels - Coin Surrounding Lower Gear #4" },
+            { "3_03_00027", "Weird Tunnels - Coin Surrounding Lower Gear #5" },
+            { "3_03_00026", "Weird Tunnels - Coin Surrounding Lower Gear #6" },
+            { "3_03_00031", "Weird Tunnels - Coin Surrounding Lower Gear #7" },
+            { "3_01_00005", "Weird Tunnels - Gear - On Lower Path" },
+            { "3_03_00029", "Weird Tunnels - Coin Surrounding Lower Gear #8" },
+            { "3_03_00034", "Weird Tunnels - Coin Surrounding Lower Gear #9" },
+            { "3_03_00033", "Weird Tunnels - Coin Surrounding Lower Gear #10" },
+            { "3_03_00032", "Weird Tunnels - Coin Surrounding Lower Gear #11" },
+            { "3_03_00037", "Weird Tunnels - Coin Surrounding Lower Gear #12" },
+            { "3_03_00036", "Weird Tunnels - Coin Bag Near Lower Gear #2" },
+            { "3_03_00035", "Weird Tunnels - Coin Surrounding Lower Gear #13" },
+            { "3_03_00038", "Weird Tunnels - Coin Surrounding Lower Gear #14" },
+            { "3_03_00039", "Weird Tunnels - Coin Leading Towards Exit #1" },
+            { "3_03_00040", "Weird Tunnels - Coin Leading Towards Exit #2" },
+            { "3_03_00041", "Weird Tunnels - Coin Leading Towards Exit #3" },
+            { "3_03_00042", "Weird Tunnels - Coin Leading Towards Exit #4" },
+        };
+
+        [Description("Weird Tunnels - High Ground")]
+        public static Dictionary<string, string> WeirdTunnelsHighGround = new()
+        {
             { "3_03_00234", "Weird Tunnels - Coin on Right Upper Path #1" },
             { "3_03_00233", "Weird Tunnels - Coin on Right Upper Path #2" },
             { "3_03_00232", "Weird Tunnels - Coin on Right Upper Path #3" },
@@ -2014,27 +2045,6 @@ namespace YellowTaxiAP
             { "3_03_00249", "Weird Tunnels - Coin on Right Upper Path #18" },
             { "3_03_00248", "Weird Tunnels - Coin on Right Upper Path #19" },
             { "3_03_00251", "Weird Tunnels - Coin Bag on Right Upper Path #2" },
-            { "3_03_00022", "Weird Tunnels - Coin Surrounding Lower Gear #1" },
-            { "3_03_00025", "Weird Tunnels - Coin Surrounding Lower Gear #2" },
-            { "3_03_00024", "Weird Tunnels - Coin Bag Near Lower Gear #1" },
-            { "3_03_00023", "Weird Tunnels - Coin Surrounding Lower Gear #3" },
-            { "3_03_00028", "Weird Tunnels - Coin Surrounding Lower Gear #4" },
-            { "3_03_00027", "Weird Tunnels - Coin Surrounding Lower Gear #5" },
-            { "3_03_00026", "Weird Tunnels - Coin Surrounding Lower Gear #6" },
-            { "3_03_00031", "Weird Tunnels - Coin Surrounding Lower Gear #7" },
-            { "3_01_00005", "Weird Tunnels - Gear - On Lower Path" },
-            { "3_03_00029", "Weird Tunnels - Coin Surrounding Lower Gear #8" },
-            { "3_03_00034", "Weird Tunnels - Coin Surrounding Lower Gear #9" },
-            { "3_03_00033", "Weird Tunnels - Coin Surrounding Lower Gear #10" },
-            { "3_03_00032", "Weird Tunnels - Coin Surrounding Lower Gear #11" },
-            { "3_03_00037", "Weird Tunnels - Coin Surrounding Lower Gear #12" },
-            { "3_03_00036", "Weird Tunnels - Coin Bag Near Lower Gear #2" },
-            { "3_03_00035", "Weird Tunnels - Coin Surrounding Lower Gear #13" },
-            { "3_03_00038", "Weird Tunnels - Coin Surrounding Lower Gear #14" },
-            { "3_03_00039", "Weird Tunnels - Coin Leading Towards Exit #1" },
-            { "3_03_00040", "Weird Tunnels - Coin Leading Towards Exit #2" },
-            { "3_03_00041", "Weird Tunnels - Coin Leading Towards Exit #3" },
-            { "3_03_00042", "Weird Tunnels - Coin Leading Towards Exit #4" },
         };
 
 
@@ -5263,11 +5273,6 @@ namespace YellowTaxiAP
             { "8_03_00302", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #3" },
             { "8_03_00303", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #4" },
             { "8_03_00304", "Flushed Away - Coin in Sewage Path in Front of Checkpoint #5" },
-            { "8_03_00272", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #1" },
-            { "8_03_00271", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #2" },
-            { "8_03_00255", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #3" },
-            { "8_03_00237", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #4" },
-            { "8_03_00236", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #5" },
             { "8_03_00263", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #1" },
             { "8_03_00256", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #2" },
             { "8_03_00264", "Flushed Away - Coin on Side Pathway Before Skeletrone Dance Party #3" },
@@ -5620,6 +5625,17 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> FlushedAwayAboveCentralDrain = new()
         {
             { "8_01_00006", "Flushed Away - Gear - Above Central Drain" }
+        };
+
+
+        [Description("Flushed Away - Barely Out-of-Bounds")]
+        public static Dictionary<string, string> FlushedAwayBarelyOutOfBounds = new()
+        {
+            { "8_03_00272", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #1" },
+            { "8_03_00271", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #2" },
+            { "8_03_00255", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #3" },
+            { "8_03_00237", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #4" },
+            { "8_03_00236", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #5" },
         };
 
 
@@ -6344,7 +6360,8 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(GrannysIslandExpert2HighGround)), GrannysIslandExpert2HighGround),
             new(GetDescription(nameof(GrannysIslandHighGround)), GrannysIslandHighGround),
             new(GetDescription(nameof(GrannysIslandInTheSky)), GrannysIslandInTheSky),
-            new(GetDescription(nameof(GrannysIslandRocketTop)), GrannysIslandRocketTop),
+            new(GetDescription(nameof(GrannysIslandRocketTopCoins)), GrannysIslandRocketTopCoins),
+            new(GetDescription(nameof(GrannysIslandRocketTopGear)), GrannysIslandRocketTopGear),
             new(GetDescription(nameof(GrannysIslandConstructionArch)), GrannysIslandConstructionArch),
             new(GetDescription(nameof(GrannysIslandOceanPillar)), GrannysIslandOceanPillar),
             new(GetDescription(nameof(GrannysIslandTowardsSewerIsland1)), GrannysIslandTowardsSewerIsland1),
@@ -6443,7 +6460,8 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosHomeKitchenHighGround)), MoriosHomeKitchenHighGround),
 
             new(GetDescription(nameof(WeirdTunnelsEntrance)), WeirdTunnelsEntrance),
-            new(GetDescription(nameof(WeirdTunnelsExpert1)), WeirdTunnelsExpert1),
+            new(GetDescription(nameof(WeirdTunnelsExpert2)), WeirdTunnelsExpert2),
+            new(GetDescription(nameof(WeirdTunnelsExpert3)), WeirdTunnelsExpert3),
             new(GetDescription(nameof(WeirdTunnelsHighGround)), WeirdTunnelsHighGround),
 
             // Bombeach Areas
@@ -6559,6 +6577,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(FlushedAwayCentralDrainBunny)), FlushedAwayCentralDrainBunny),
             new(GetDescription(nameof(FlushedAwayCentralDrainHighGround)), FlushedAwayCentralDrainHighGround),
             new(GetDescription(nameof(FlushedAwayAboveCentralDrain)), FlushedAwayAboveCentralDrain),
+            new(GetDescription(nameof(FlushedAwayBarelyOutOfBounds)), FlushedAwayBarelyOutOfBounds),
             new(GetDescription(nameof(FlushedAwayOutOfBounds)), FlushedAwayOutOfBounds),
 
             // Maurizio's City Areas
@@ -6662,7 +6681,8 @@ namespace YellowTaxiAP
                     GrannysIslandExpert2HighGround,
                     GrannysIslandHighGround,
                     GrannysIslandInTheSky,
-                    GrannysIslandRocketTop,
+                    GrannysIslandRocketTopCoins,
+                    GrannysIslandRocketTopGear,
                     GrannysIslandConstructionArch,
                     GrannysIslandOceanPillar,
                     GrannysIslandTowardsSewerIsland1,
@@ -6807,7 +6827,8 @@ namespace YellowTaxiAP
                     MoriosHomeKitchenHighGround,
 
                     WeirdTunnelsEntrance,
-                    WeirdTunnelsExpert1,
+                    WeirdTunnelsExpert2,
+                    WeirdTunnelsExpert3,
                     WeirdTunnelsHighGround,
                 ]
             },
@@ -6904,6 +6925,7 @@ namespace YellowTaxiAP
                     FlushedAwayCentralDrainBunny,
                     FlushedAwayCentralDrainHighGround,
                     FlushedAwayAboveCentralDrain,
+                    FlushedAwayBarelyOutOfBounds,
                     FlushedAwayOutOfBounds,
                 ]
             },
@@ -6993,6 +7015,7 @@ namespace YellowTaxiAP
             Subwarp,
             Warp,
             MoriOTron,
+            Cutscene,
         }
 
         public class RegionConnection
@@ -7009,12 +7032,25 @@ namespace YellowTaxiAP
                 ConnectingType = type;
                 Rules = rules;
             }
+
             public RegionConnection(Dictionary<string, string> destinationRegion, string rules = "")
             {
                 Name = string.Empty;
                 DestinationRegion = KnownIDs.First(o => o.Item2.Equals(destinationRegion)).Item1;
                 ConnectingType = ConnectionType.Connection;
                 Rules = rules;
+            }
+        }
+
+        public class RegionConnectionExit : RegionConnection
+        {
+            public string CorrespondingEntrance;
+
+            public RegionConnectionExit(string name, string correspondingEntrance,
+                Dictionary<string, string> destinationRegion, ConnectionType type, string rules = "") : base(name,
+                destinationRegion, type, rules)
+            {
+                CorrespondingEntrance = correspondingEntrance;
             }
         }
 
@@ -7049,7 +7085,8 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandExpert1HighGround, "X1/J1/B1/GP"),
                     new RegionConnection(GrannysIslandExpert2HighGround, "X2/J1/B1/GP"),
                     new RegionConnection(GrannysIslandHighGround, "J1/B1/GP"),
-                    new RegionConnection(GrannysIslandRocketTop, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J1 | X3+B1+GP"),
+                    new RegionConnection(GrannysIslandRocketTopCoins, "X1+Rocket+J1 & X3/GP"),
+                    new RegionConnection(GrannysIslandRocketTopGear, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J1 | X3+B1+GP"),
                     new RegionConnection(GrannysIslandConstructionArch, "B1 | GP+J1"),
                     new RegionConnection(GrannysIslandOceanPillar, "B1 | X2/GP & OS | X2+J1 & X3/GP"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+J1+OS | X1+GP"),
@@ -7123,8 +7160,15 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(GrannysIslandRocketTop)),
+                GetDescription(nameof(GrannysIslandRocketTopCoins)),
                 [
+                    new RegionConnection(GrannysIslandRocketTopGear, "X2+Rocket+J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(GrannysIslandRocketTopGear)),
+                [
+                    new RegionConnection(GrannysIslandRocketTopCoins),
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "Rocket+B1"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland2Tree, "Rocket+B1+GP"),
                 ]
@@ -7160,7 +7204,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandTowardsSewerIsland2Tree)),
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland2),
-                    new RegionConnection(GrannysIslandSewerIsland, "X3+B2 | X3+B1+J1+GL"),
+                    new RegionConnection(GrannysIslandSewerIsland, "X3+B2 | X3+B1+J1"),
                 ]
             },
             {
@@ -7192,7 +7236,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandCrashAgainIsland)),
                 [
-                    new RegionConnection("Crash Again - Entrance", HubCrashAgainStartingArea, ConnectionType.Subwarp, "FGU"),
+                    new RegionConnection("Granny's Island - Crash Again Entrance", HubCrashAgainStartingArea, ConnectionType.Subwarp, "FGU"),
                     new RegionConnection(GrannysIslandCrashAgainRoof, "J2 | X2+J1"),
                     new RegionConnection(GrannysIslandLabHillHighGround, "OS"),
                     new RegionConnection(GrannysIslandMain, "X3+B2+J1"),
@@ -7722,7 +7766,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosIslandHomeIsland),
                     new RegionConnection(MoriosIslandFirstBunnyArch, "X1/J1 & B2 | J1+X1+B1 | X2+B1"),
-                    new RegionConnection(MoriosIslandSecondBunnyArch, "B2 | X2+B1 & X3/J1"),
+                    new RegionConnection(MoriosIslandSecondBunnyArch, "B2 | X2+B1 & X3/J1 | X3+J1"),
                     new RegionConnection(MoriosIslandCenterIsland, "X1+B1 & J1/X2 | J2+X2 | B2 & J1/X1"),
                     new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1 | X3+J1"),
 
@@ -7837,14 +7881,19 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(WeirdTunnelsEntrance)),
                 [
-                    new RegionConnection(WeirdTunnelsExpert1, "X1/B1/J1"),
-                    new RegionConnection(WeirdTunnelsHighGround, "B1/J1"),
+                    new RegionConnection(WeirdTunnelsExpert2, "X2/B1/J1"),
                 ]
             },
             {
-                GetDescription(nameof(WeirdTunnelsExpert1)),
+                GetDescription(nameof(WeirdTunnelsExpert2)),
                 [
-                    // Doesn't connect anywhere
+                    new RegionConnection(WeirdTunnelsExpert3, "X3/B1/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(WeirdTunnelsExpert3)),
+                [
+                    new RegionConnection(WeirdTunnelsHighGround, "B1/J1"),
                 ]
             },
             {
@@ -8450,6 +8499,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Flushed Away - Pit After Skeletrone Dance Party", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Tunnel After Gear Pillar", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Pipe in Alligator Room", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
+                    new RegionConnection(FlushedAwayBarelyOutOfBounds, "OOB"),
                     new RegionConnection(FlushedAwayOutOfBounds, "X1+OOB+B1 & J1/X2"),
                 ]
             },
@@ -8544,6 +8594,18 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(FlushedAwayCentralDrain),
                     new RegionConnection(FlushedAwayCentralDrainBunny, "X1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayBarelyOutOfBounds)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
+                GetDescription(nameof(FlushedAwayOutOfBounds)),
+                [
+                    // Doesn't connect anywhere
                 ]
             },
 
@@ -9065,8 +9127,8 @@ namespace YellowTaxiAP
                         var regionCheckpoints = new List<KeyValuePair<string, string>>();
                         var regionHats = new List<KeyValuePair<string, string>>();
                         var regionConnections = new List<DebugLocationHelper.RegionConnection>();
-                        var regionWarps = new List<DebugLocationHelper.RegionConnection>();
-                        var regionSubwarps = new List<DebugLocationHelper.RegionConnection>();
+                        var regionWarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpIdentifier>> ();
+                        var regionSubwarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpIdentifier>>();
                         foreach (var c in subregion)
                         {
                             if (string.IsNullOrEmpty(c.Key))
@@ -9130,16 +9192,22 @@ namespace YellowTaxiAP
                         {
                             foreach (var connection in DebugLocationHelper.RegionConnections[regionName])
                             {
+                                var warpId =
+                                    WarpIdentifier.KnownWarps.FirstOrDefault(o => o.Name.Equals(connection.Name));
                                 switch (connection.ConnectingType)
                                 {
                                     case DebugLocationHelper.ConnectionType.Connection:
                                         regionConnections.Add(connection);
                                         break;
                                     case DebugLocationHelper.ConnectionType.Subwarp:
-                                        regionSubwarps.Add(connection);
+                                        if (warpId == null)
+                                            Plugin.Log($"WARNING: {connection.Name} not found in WarpIdentifiers!", true);
+                                        regionSubwarps.Add(new(connection, warpId));
                                         break;
                                     case DebugLocationHelper.ConnectionType.Warp:
-                                        regionWarps.Add(connection);
+                                        if (warpId == null)
+                                            Plugin.Log($"WARNING: {connection.Name} not found in WarpIdentifiers!", true);
+                                        regionWarps.Add(new(connection, warpId));
                                         break;
                                     default:
                                         throw new ArgumentOutOfRangeException();
@@ -9302,14 +9370,14 @@ namespace YellowTaxiAP
                         json += "\n    \"subwarps\": {";
                         if (regionSubwarps.Any())
                         {
-                            json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
+                            json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Item1.Name}\": [\"{v.Item1.DestinationRegion}\", \"{v.Item1.Rules}\"],");
                             json = json.TrimEnd(',') + "\n    ";
                         }
                         json += "},";
                         json += "\n    \"warps\": {";
                         if (regionWarps.Any())
                         {
-                            json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": [\"{v.DestinationRegion}\", \"{v.Rules}\"],");
+                            json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Item1.Name}\": [\"{v.Item1.DestinationRegion}\", \"{v.Item1.Rules}\"],");
                             json = json.TrimEnd(',') + "\n    ";
                         }
                         json += "},";

@@ -497,8 +497,8 @@ namespace YellowTaxiAP.Managers
         [
             new("HAWT TAXIS NEAR YOU", "SoundTextNarrator", [$"Looking for single taxis in your area? Click {SetTextColor("here", DialogueColors.FullRed)} to browse our latest selection!"], "https://www.google.com/search?q=taxi&udm=2"),
             new("HAWT TAXIS NEAR YOU", "SoundTextNarrator", [$"Want to see what makes these taxis tick? Click {SetTextColor("here", DialogueColors.FullRed)}!"], "https://en.wikipedia.org/wiki/Taxi"),
-            new("Shameless Plug", "SoundTextNarrator", [$"Did you know there's an official {SetTextColor("Yellow Taxi Goes Vroom", DialogueColors.OrangeYellow)} {SetTextColor("Taxi Plush", DialogueColors.GreenYellow)}? Buy now!"], "https://www.symbiotestudios.com/products/yellow-taxi-goes-vroom-taxi-plush"),
-            new("Shameless Plug", "SoundTextNarrator", [$"Did you know there's an official {SetTextColor("Yellow Taxi Goes Vroom", DialogueColors.OrangeYellow)} {SetTextColor("Morio Pin", DialogueColors.GreenYellow)}? Buy now!"], "https://www.symbiotestudios.com/products/yellow-taxi-goes-vroom-morio-enamel-pin"),
+            new("Shameless Plug", "SoundTextNarrator", [$"Did you know there's an official {SetTextColor("Yellow Taxi Goes Vroom", DialogueColors.OrangeYellow)} {SetTextColor("Taxi Plush", DialogueColors.GreenYellow)}? It's discontinued but look at it anyway!"], "https://www.symbiotestudios.com/blogs/news/🚕-hit-the-streets-with-the-yellow-taxi-goes-vroom-taxi-plush"),
+            new("Shameless Plug", "SoundTextNarrator", [$"Did you know there's an official {SetTextColor("Yellow Taxi Goes Vroom", DialogueColors.OrangeYellow)} {SetTextColor("Morio Pin", DialogueColors.GreenYellow)}? Buy now while supplies last!"], "https://www.symbiotestudios.com/products/yellow-taxi-goes-vroom-morio-enamel-pin"),
             new("Shameless Plug", "SoundTextNarrator", [$"{SetTextColor("CloverPit", DialogueColors.OrangeYellow)} is now available! Buy today!"], "https://store.steampowered.com/app/3314790/CloverPit/"),
             new("Shameless Plug", "SoundTextNarrator", [$"Did you know I used to mod Brawl before this? Check out {SetTextColor("BrawlCrate", DialogueColors.OrangeYellow)}!"], "https://github.com/soopercool101/BrawlCrate"),
             new("Shameless Plug", "SoundTextNarrator", [$"This game can also be purchased on {SetTextColor(Plugin.IsSteam ? "GOG" : "Steam", DialogueColors.GreenYellow)}, why not double dip?"], Plugin.IsSteam ? "https://www.gog.com/en/game/yellow_taxi_goes_vroom" : "https://store.steampowered.com/app/2011780/Yellow_Taxi_Goes_Vroom/"),
@@ -609,7 +609,7 @@ namespace YellowTaxiAP.Managers
                 dialogues.Add([
                     hintIntro,
                     $"You can {SetTextColor("glide", DialogueColors.OrangeYellow)} by tapping the {SetTextColor("acceleration button", DialogueColors.OrangeYellow)} repeatedly in the air!",
-                    $"It may not seem like much at first, but these days it's {SetTextColor("critical", DialogueColors.GreenYellow)} for {SetTextColor("advanced techniques", DialogueColors.OrangeYellow)}!",
+                    $"It can sometimes be {SetTextColor("useful", DialogueColors.OrangeYellow)}, though I've yet to find anywhere it's {SetTextColor("necessary", DialogueColors.GreenYellow)}!",
                 ]);
             }
 

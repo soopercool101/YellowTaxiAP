@@ -1,6 +1,7 @@
 using BepInEx;
 using BepInEx.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -105,6 +106,7 @@ public class Plugin : BaseUnityPlugin
             moriosIslandMap.bunniesId.Add(4);       // Above Demo Wall
         };
         On.CameraGame.SetTarget += CameraGame_SetTarget;
+        On.Music._ApplyPitchToMusicCapsule += Music__ApplyPitchToMusicCapsule;
         On.ModMaster.Start += (orig, self) =>
         {
             if (Master.instance.isDemo)
@@ -370,6 +372,22 @@ public class Plugin : BaseUnityPlugin
                     Log($"Copying current music/bg values ({zoneVals}", true);
                     GUIUtility.systemCopyBuffer = zoneVals;
                 }
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    var knownWarpsStr = "";
+                    var knownWarps = new List<string>();
+                    foreach (var warp in WarpIdentifier.KnownWarps)
+                    {
+                        if (!knownWarps.Contains(warp.LinkedExit))
+                        {
+                            knownWarps.Add(warp.Name);
+                            knownWarpsStr += $"{warp.Name}\n";
+                        }
+                    }
+
+                    Log("Copying current known entrances list", true);
+                    GUIUtility.systemCopyBuffer = knownWarpsStr.TrimEnd('\n');
+                }
 
                 if (Input.GetKeyDown(KeyCode.T))
                 {
@@ -472,6 +490,20 @@ public class Plugin : BaseUnityPlugin
             orig(self);
         };
 #endif
+    }
+
+    private void Music__ApplyPitchToMusicCapsule(On.Music.orig__ApplyPitchToMusicCapsule orig, Music.MusicCapsule capsule)
+    {
+        var pitch = Music.pitch;
+        if (SlowTimeTrap.Instance)
+        {
+            pitch /= 1.5f;
+        }
+        if (FastTimeTrap.Instance)
+        {
+            pitch *= 1.5f;
+        }
+        capsule.myAudioSource.pitch = pitch;
     }
 
     private void CameraGame_SetTarget(On.CameraGame.orig_SetTarget orig, CameraGame self, Transform targetTr, Vector3 offset, float angY, float angX, float desiredDistance, float angYOffset, float angXOffset, float fovDesiredValue)
