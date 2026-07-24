@@ -101,7 +101,9 @@ namespace YellowTaxiAP.Managers
         private void PlayerScript_Start(On.PlayerScript.orig_Start orig, PlayerScript self)
         {
             orig(self);
-            if (QueuedSubwarp == null) return;
+            if (QueuedSubwarp == null || (GameplayMaster.selfRespawnRecordingDataList.Count > 0 && QueuedSubwarpLoaded))
+                return;
+
             Plugin.Log($"Loading Queued Subwarp ({QueuedSubwarp.Name})");
             if (!string.IsNullOrEmpty(QueuedSubwarp.BackgroundChange) &&
                 !QueuedSubwarp.BackgroundChange.Equals("default",

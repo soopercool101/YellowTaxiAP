@@ -11,17 +11,6 @@ namespace YellowTaxiAP.Managers
         {
             On.CheckpointScript.Awake += CheckpointScript_Awake;
             On.CheckpointScript.OnTriggerEnter += CheckpointScript_OnTriggerEnter;
-            On.GameplayMaster.SelfRespawnRecording += GameplayMaster_SelfRespawnRecording;
-        }
-
-        private void GameplayMaster_SelfRespawnRecording(On.GameplayMaster.orig_SelfRespawnRecording orig, GameplayMaster self, float time)
-        {
-            orig(self, time);
-            if (GameplayMaster.selfRespawnRecordingDataList.Count > 0 && APPortalManager.QueuedSubwarpLoaded)
-            {
-                Plugin.Log("Clearing Subwarp");
-                APPortalManager.QueuedSubwarp = null;
-            }
         }
 
         private void CheckpointScript_Awake(On.CheckpointScript.orig_Awake orig, CheckpointScript self)
