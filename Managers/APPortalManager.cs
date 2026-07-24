@@ -140,11 +140,16 @@ namespace YellowTaxiAP.Managers
             GameplayMaster.selfRespawnRecordingDataList[0].waterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
             GameplayMaster.selfRespawnRecordingDataList[0].lightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
 
-            QueuedSubwarp = null;
+            //QueuedSubwarp = null;
+            QueuedSubwarpLoaded = true;
         }
 
         private void LoadingScreenScript_WelcomeSetup(On.LoadingScreenScript.orig_WelcomeSetup orig, LevelId targetLevelId, string levelName, int gearsCollected, int maxGearsInsideLevel, bool enableCameraLevelIntro)
         {
+            if (QueuedSubwarpLoaded)
+            {
+                QueuedSubwarp = null;
+            }
             orig(targetLevelId, levelName, gearsCollected, maxGearsInsideLevel, enableCameraLevelIntro && QueuedSubwarp == null);
         }
 
@@ -159,7 +164,18 @@ namespace YellowTaxiAP.Managers
             return orig(self);
         }
 
-        public static WarpIdentifier QueuedSubwarp;
+        private static WarpIdentifier _queuedSubwarp;
+        public static bool QueuedSubwarpLoaded { get; private set; }
+
+        public static WarpIdentifier QueuedSubwarp
+        {
+            get => _queuedSubwarp;
+            set
+            {
+                _queuedSubwarp = value;
+                QueuedSubwarpLoaded = false;
+            }
+        }
 
         private void PortalScript_OnTriggerEnter(On.PortalScript.orig_OnTriggerEnter orig, PortalScript self, Collider other)
         {
