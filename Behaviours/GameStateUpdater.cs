@@ -10,7 +10,6 @@ namespace YellowTaxiAP.Behaviours
         public static GameStateUpdater Instance { get; private set; }
 
         public static bool GearStateNeedsUpdate { get; set; }
-        public static bool BunnyStateNeedsUpdate { get; set; }
         public static bool RatStateNeedsUpdate { get; set; }
 
         public void Awake()
@@ -32,11 +31,6 @@ namespace YellowTaxiAP.Behaviours
                     t.UpdatePortalToLevelName();
                 }
                 GearStateNeedsUpdate = false;
-            }
-
-            if (BunnyStateNeedsUpdate)
-            {
-                BunnyStateNeedsUpdate = false;
             }
 
             if (RatStateNeedsUpdate)
