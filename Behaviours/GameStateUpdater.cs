@@ -10,6 +10,7 @@ namespace YellowTaxiAP.Behaviours
         public static GameStateUpdater Instance { get; private set; }
 
         public static bool GearStateNeedsUpdate { get; set; }
+        public static bool BunnyStateNeedsUpdate { get; set; }
         public static bool RatStateNeedsUpdate { get; set; }
 
         public void Awake()
@@ -31,6 +32,18 @@ namespace YellowTaxiAP.Behaviours
                     t.UpdatePortalToLevelName();
                 }
                 GearStateNeedsUpdate = false;
+            }
+
+            if (BunnyStateNeedsUpdate)
+            {
+                if (GameplayMaster.instance?.levelId == Data.LevelId.L16_Rocket)
+                {
+                    foreach (var t in PortalScript.list.Where(t => t))
+                    {
+                        t.CostUpdateTry();
+                    }
+                }
+                BunnyStateNeedsUpdate = false;
             }
 
             if (RatStateNeedsUpdate)

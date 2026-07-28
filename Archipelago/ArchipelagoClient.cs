@@ -713,10 +713,7 @@ public class ArchipelagoClient
         APDataManager.TotalBunniesReceived++;
         if (!GameplayMaster.instance || GameplayMaster.instance.levelId != Data.LevelId.L16_Rocket)
             return;
-        foreach (var portal in PortalScript.list)
-        {
-            portal.CostUpdateTry();
-        }
+        GameStateUpdater.BunnyStateNeedsUpdate = true;
     }
 
     private void ReceiveCoins(int coinCount)
