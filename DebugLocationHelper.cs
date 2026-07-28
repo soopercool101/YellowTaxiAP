@@ -7067,8 +7067,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(GrannysIslandStart)),
                 [
                     new RegionConnection("Granny's Island - Morio's Lab Front Door", MoriosLabGroundFloor, ConnectionType.Subwarp, "LabKey"),
-                    new RegionConnection(GrannysIslandPipeArea, "J1/B1"),
-                    new RegionConnection(GrannysIslandMoat, "OGI"),
+                    new RegionConnection(GrannysIslandMoat, "OGI | J1/B1"),
                 ]
             },
             {
@@ -7077,7 +7076,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Granny's Island - Morio's Lab Back Door", MoriosLabGroundFloor, ConnectionType.Subwarp, "LabKey"),
                     new RegionConnection(GrannysIslandStart),
                     new RegionConnection(GrannysIslandPipeArea, "J1/B1"),
-                    new RegionConnection(GrannysIslandMain, "OGI"),
+                    new RegionConnection(GrannysIslandMain, "X3/OGI/J1/B1"),
                 ]
             },
             {
