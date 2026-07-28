@@ -16,34 +16,43 @@ namespace YellowTaxiAP.Managers
         {
             switch (_id)
             {
-                case Data.LevelId.L8_Sewers when !APSwitchManager.OrangeSwitchUnlocked:
                 case Data.LevelId.L12_MoriosMind when !Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex]:
                 case Data.LevelId.L13_StarmanCastle when !APAreaStateManager.MindPasswordReceived:
                 case Data.LevelId.L15_Moon when Data.gearsUnlockedNumber[Data.gameDataIndex] < 130:
                 case Data.LevelId.L16_Rocket when !APAreaStateManager.RocketEnabled:
                     return null;
-            }
-
-            if (_id == Data.LevelId.L6_Gym)
-            {
-                switch (Plugin.SlotData.GymGearsUnlockCondition)
-                {
-                    case YTGVSlotData.LevelUnlockCondition.Exclude:
-                    case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
-                    case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.GymMembership:
-                        return null;
-                }
-            }
-            else if (_id == Data.LevelId.L7_PoopWorld)
-            {
-                switch (Plugin.SlotData.FecalMattersUnlockCondition)
-                {
-                    case YTGVSlotData.LevelUnlockCondition.Exclude:
-                    case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
-                    case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.DoggoReceived:
-                    case YTGVSlotData.LevelUnlockCondition.Special when !APSaveController.MiscSave.HasDoggo:
-                        return null;
-                }
+                case Data.LevelId.L6_Gym:
+                    switch (Plugin.SlotData.GymGearsUnlockCondition)
+                    {
+                        case YTGVSlotData.LevelUnlockCondition.Exclude:
+                        case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
+                        case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.GymMembership:
+                            return null;
+                    }
+                    break;
+                case Data.LevelId.L7_PoopWorld:
+                    switch (Plugin.SlotData.FecalMattersUnlockCondition)
+                    {
+                        case YTGVSlotData.LevelUnlockCondition.Exclude:
+                        case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
+                        case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.DoggoReceived:
+                        case YTGVSlotData.LevelUnlockCondition.Special when !APSaveController.MiscSave.HasDoggo:
+                            return null;
+                    }
+                    break;
+                case Data.LevelId.L8_Sewers:
+                    switch (Plugin.SlotData.FlushedAwayUnlockCondition)
+                    {
+                        case YTGVSlotData.LevelUnlockCondition.Exclude:
+                        case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
+                        case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.SewerKeyReceived:
+                            return null;
+                        default:
+                            if (!(APSwitchManager.OrangeSwitchUnlocked || Plugin.SlotData.EarlySewerIsland))
+                                return null;
+                            break;
+                    }
+                    break;
             }
 
             if (Data.IsLevelTimeAttack(_id) || Data.IsLevelPsychoTaxiMode(_id))

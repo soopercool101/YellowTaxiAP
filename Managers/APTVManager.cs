@@ -129,6 +129,11 @@ namespace YellowTaxiAP.Managers
                         gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = AchievementsMaster.GetAchievementSprite(AchievementsMaster.AchievementRelease.ToslaOfficesBeated);
                         gameObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Defeat Alien Mosk in Tosla Offices";
                         break;
+                    case YTGVSlotData.GoalType.MauriziosCity:
+                        gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = AchievementsMaster.GetAchievementSprite(AchievementsMaster.AchievementRelease.MaurizioHelped);
+                        gameObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = AchievementsMaster.GetAchievementDescription_Full(AchievementsMaster.AchievementRelease.MaurizioHelped);
+                        break;
+
                     case YTGVSlotData.GoalType.Moon:
                         gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = AchievementsMaster.GetAchievementSprite(AchievementsMaster.AchievementRelease.MoonGrandmaDiscovered);
                         gameObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Defeat Granny on the Moon";

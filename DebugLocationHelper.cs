@@ -1360,7 +1360,7 @@ namespace YellowTaxiAP
         [Description("Hub - Special Rules")]
         public static Dictionary<string, string> HubSpecialRules = new()
         {
-            { "Granny's Island - Safe on Ocean Pillar", "B2 | B1+GP | X2+J1 & X3/B1" },
+            { "Granny's Island - Safe on Ocean Pillar", "B2 | B1 & X3/GP | X2+J1 & X3/B1" },
             { "Granny's Island - Safe on Granny's Statue", "J2 | J1/B1 & GP | X1/B1 & J1 | X1+B2 | X2+B1" },
             { "Granny's Island - Coin Bag on Pillar Towards Sewer", "X2/B1/GP" },
             { "Granny's Island - Gear - Oil Pump", "SP | X2" },
@@ -5701,6 +5701,11 @@ namespace YellowTaxiAP
             { "9_03_00043", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #10" },
             { "9_03_00044", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #11" },
             { "9_03_00047", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #12" },
+            { "9_03_00049", "Maurizio's City - Coin Near Hydrant Left of Main Road Ramp From Lowest Level #1" },
+            { "9_03_00048", "Maurizio's City - Coin Near Hydrant Left of Main Road Ramp From Lowest Level #2" },
+            { "9_03_00057", "Maurizio's City - Coin on Roof Left of Main Road Ramp From Lowest Level #1" },
+            { "9_03_00056", "Maurizio's City - Coin on Roof Left of Main Road Ramp From Lowest Level #2" },
+            { "9_03_00055", "Maurizio's City - Coin Bag on Roof Left of Main Road Ramp From Lowest Level" },
             { "9_01_00007", "Maurizio's City - Gear - Escort Busy Man From Lower Middle Level" },
             { "9_21_00003", "Maurizio's City - Cheese Near Oil Pump on Lower Middle Level" },
         };
@@ -8273,7 +8278,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Tosla Offices (Fourth Floor) - Down Elevator", ToslaOfficesThirdFloorPostSpring, ConnectionType.Subwarp),
                     new RegionConnection(ToslaOfficesFourthFloorLedgeNearStart, "PMB/PMJ"),
-                    new RegionConnection(ToslaOfficesFourthFloorAfterLedge, "J1/PMJ/PMB"),
+                    new RegionConnection(ToslaOfficesFourthFloorAfterLedge, "X2/J1/PMJ/PMB"),
                     new RegionConnection(ToslaOfficesFourthFloorHighGround, "J1+PMB"),
                 ]
             },
@@ -8288,7 +8293,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(ToslaOfficesFourthFloorStartingArea),
                     new RegionConnection(ToslaOfficesFourthFloorHighGround, "X1+PMB"),
-                    new RegionConnection(ToslaOfficesFourthFloorAfterGoldenSpring, "GST | X2+PW | PMJ"),
+                    new RegionConnection(ToslaOfficesFourthFloorAfterGoldenSpring, "GST/PMJ | X2 & PW/OOB"),
                 ]
             },
             {

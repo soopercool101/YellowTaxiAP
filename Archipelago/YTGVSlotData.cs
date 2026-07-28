@@ -36,7 +36,8 @@ namespace YellowTaxiAP.Archipelago
         {
             Bombeach = 0,
             ToslaOffices = 1,
-            Moon = 2,
+            MauriziosCity = 2,
+            Moon = 3,
         }
         public GoalType Goal { get; private set; }
 
