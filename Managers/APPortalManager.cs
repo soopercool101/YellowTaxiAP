@@ -80,7 +80,7 @@ namespace YellowTaxiAP.Managers
             {
                 self.kaizoEnabled = BunniesGetLevelCollectedNumber(self.kaizoLevelId) >= BunniesGetLevelMaxNumber(self.kaizoLevelId) || self.kaizoLevelId == LevelId.L16_Rocket;
 #if DEBUG
-                if (DebugLocationHelper.Enabled && (levelDataList[(int) self.kaizoLevelId].levelCost == -1 || self.kaizoLevelId == LevelId.L1_Bombeach))
+                if (DebugLocationHelper.Enabled)
                 {
                     self.kaizoEnabled = true;
                 }
@@ -237,14 +237,23 @@ namespace YellowTaxiAP.Managers
             self.hubPortalForceEnabled = true;
             self.gameObject.AddComponent<TruePortalId>(); // Keep track of unaltered portal values
 #if DEBUG
-            if (DebugLocationHelper.Enabled && self.PortalIsLevelPortal)
+            if (DebugLocationHelper.Enabled)
             {
-                levelDataList[(int)self.targetLevelId].levelCost = -1;
-                GetLevel(self.targetLevelId).everOpened = true;
-                self.CostUpdateTry();
-                orig(self);
-                self.UpdatePortalToLevelName();
-                return;
+                if (self.PortalIsLevelPortal)
+                {
+                    levelDataList[(int)self.targetLevelId].levelCost = -1;
+                    GetLevel(self.targetLevelId).everOpened = true;
+                    self.CostUpdateTry();
+                    orig(self);
+                    self.UpdatePortalToLevelName();
+                    return;
+                }
+
+                if (self.kaizoLevelId != LevelId.noone)
+                {
+                    orig(self);
+                    return;
+                }
             }
 #endif
             if (self.PortalIsLevelPortal || self.kaizoLevelId != LevelId.noone)
