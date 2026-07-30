@@ -1830,27 +1830,27 @@ namespace YellowTaxiAP
             { "3_01_00007", "Morio's Home - Gear - In Bedroom Corner" },
             // Special rules
             { "3_03_00395", "Morio's Home - Coin Bag on Garage Wall Shelf" },       // J1
-            { "3_01_00013", "Morio's Home - Gear - In Hidden Room Near Garage" },   // X2/J1/B1
         };
 
-        [Description("Morio's Home - Expert 1 High Ground")]
-        public static Dictionary<string, string> MoriosHomeExpert1 = new()
+        [Description("Morio's Home - Expert 2 High Ground")]
+        public static Dictionary<string, string> MoriosHomeExpert2 = new()
         {
-            { "3_03_00356", "Morio's Home - Coin on Garage Shelf #1" },
-            { "3_03_00357", "Morio's Home - Coin on Garage Shelf #2" },
-            { "3_03_00358", "Morio's Home - Coin on Garage Shelf #3" },
-            { "3_03_00366", "Morio's Home - Coin on Garage Shelf #4" },
+            { "3_03_00356", "Morio's Home - Coin on Garage Shelf Near Gear #1" },
+            { "3_03_00357", "Morio's Home - Coin on Garage Shelf Near Gear #2" },
+            { "3_03_00358", "Morio's Home - Coin on Garage Shelf Near Gear #3" },
+            { "3_03_00366", "Morio's Home - Coin on Garage Shelf Near Gear #4" },
+            { "3_03_00297", "Morio's Home - Coin on Garage Shelf Near Tire #1" },
+            { "3_03_00298", "Morio's Home - Coin on Garage Shelf Near Tire #2" },
+            { "3_03_00299", "Morio's Home - Coin Bag on Garage Shelf Near Tire" },
+            { "3_03_00300", "Morio's Home - Chest on Garage Shelf Near Tire" },
             { "3_03_00264", "Morio's Home - Safe in Hidden Room Near Garage" },
+            { "3_01_00013", "Morio's Home - Gear - In Hidden Room Near Garage" },
         };
 
         [Description("Morio's Home - High Ground")]
         public static Dictionary<string, string> MoriosHomeHighGround = new()
         {
             { "3_01_00015", "Morio's Home - Gear - On Garage Shelf" },
-            { "3_03_00297", "Morio's Home - Coin on Garage Shelf #5" },
-            { "3_03_00298", "Morio's Home - Coin on Garage Shelf #6" },
-            { "3_03_00299", "Morio's Home - Coin Bag on Garage Standing Shelf" },
-            { "3_03_00300", "Morio's Home - Chest on Garage Shelf" },
             { "3_03_00365", "Morio's Home - Coin Bag on Hallway Ledge #1" },
             { "3_03_00364", "Morio's Home - Coin on Hallway Ledge #1" },
             { "3_03_00363", "Morio's Home - Coin on Hallway Ledge #2" },
@@ -1931,20 +1931,15 @@ namespace YellowTaxiAP
             { "3_03_00147", "Morio's Home - Coin on Dining Room Cupboard #1" },
             { "3_03_00148", "Morio's Home - Coin on Dining Room Cupboard #2" },
             { "3_01_00001", "Morio's Home - Gear - In Dining Room Nook" },
+            { "3_07_00010", "Purchase Lasagna Hat" },
         };
 
-        [Description("Morio's Home - Kitchen Expert 1")]
-        public static Dictionary<string, string> MoriosHomeKitchenExpert1 = new()
+        [Description("Morio's Home - Kitchen Expert 2")]
+        public static Dictionary<string, string> MoriosHomeKitchenExpert2 = new()
         {
             { "3_03_00222", "Morio's Home - Coin on Dining Room Pantry #1" },
             { "3_03_00223", "Morio's Home - Coin on Dining Room Pantry #2" },
             { "3_03_00224", "Morio's Home - Chest on Dining Room Pantry" },
-            { "3_07_00010", "Purchase Lasagna Hat" },
-        };
-
-        [Description("Morio's Home - Kitchen Cabinets")]
-        public static Dictionary<string, string> MoriosHomeKitchenCabinets = new()
-        {
             { "3_03_00354", "Morio's Home - Coin on Kitchen Cabinet #1" },
             { "3_03_00353", "Morio's Home - Coin Bag on Kitchen Cabinet #1" },
             { "3_03_00352", "Morio's Home - Coin Bag on Kitchen Cabinet #2" },
@@ -2052,7 +2047,6 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> MoriosIslandSpecialRules = new()
         {
             { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1 | X2+B1" },
-            { "Morio's Home - Gear - In Hidden Room Near Garage", "X2/J1/B1" },
             { "Morio's Home - Gear - Above Hallway", "X1/B1/J2" },
             { "Morio's Home - Gear - Above Kitchen", "X1/B1/J2" },
         };
@@ -3346,7 +3340,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
             { "Arcade Panik - Chest Inside Go-Karts Bowling Ball Pipe", "X2/J1 | X1+B1" }, // Can explosion jump off the nearby car with good timing
-            { "Arcade Panik - Bunny - Above Go-Karts Bowling Ball Pipe", "B2+J1 | B1+J2 | X1+B1+J1" },
+            { "Arcade Panik - Bunny - Above Go-Karts Bowling Ball Pipe", "B2+J1 | B1+J2 | X1+B1 & X3/J1" },
             { "Arcade Panik - Gear - Green Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Alcove Under Pinball Entrance", $"X1/B1/J1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
             { "Arcade Panik - Gear - Go-Karts Obstacle Course", "X1/J1" },
@@ -5628,8 +5622,8 @@ namespace YellowTaxiAP
         };
 
 
-        [Description("Flushed Away - Barely Out-of-Bounds")]
-        public static Dictionary<string, string> FlushedAwayBarelyOutOfBounds = new()
+        [Description("Flushed Away - Hidden Coins")]
+        public static Dictionary<string, string> FlushedAwayHiddenCoins = new()
         {
             { "8_03_00272", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #1" },
             { "8_03_00271", "Flushed Away - Coin Underneath Sewage Leading to Skeletrone Dance Party #2" },
@@ -5865,6 +5859,12 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> RocketCityCrashMindArea = new()
         {
             { "16_21_00002", "Mosk's Rocket - Cheese Near Conveyor Belts Portal" },
+        };
+
+        [Description("Mosk's Rocket - Golden Propeller")]
+        public static Dictionary<string, string> RocketGoldenPropeller = new()
+        {
+            { string.Empty, nameof(RocketGoldenPropeller) + " - !PLACEHOLDER!" },
         };
 
         [Description("Mosk's Rocket - Coins Leading to Final Floor")]
@@ -6137,14 +6137,19 @@ namespace YellowTaxiAP
             { "16_09_00145", "Podium - Checkpoint" },
         };
 
-        [Description("Podium - High Ground")]
-        public static Dictionary<string, string> PodiumHighGround = new()
+        [Description("Podium - First Gear Pillar")]
+        public static Dictionary<string, string> PodiumFirstGearPillar = new()
         {
             { "16_03_00276", "Podium - Coin by First Gear #1" },
             { "16_03_00275", "Podium - Coin by First Gear #2" },
             { "16_03_00274", "Podium - Coin by First Gear #3" },
             { "16_03_00273", "Podium - Coin Bag by First Gear" },
             { "16_01_00012", "Podium - Gear - First Gear" },
+        };
+
+        [Description("Podium - High Ground")]
+        public static Dictionary<string, string> PodiumHighGround = new()
+        {
             { "16_03_00331", "Podium - Coin by Hat #1" },
             { "16_03_00330", "Podium - Coin by Hat #2" },
             { "16_03_00329", "Podium - Coin by Hat #3" },
@@ -6268,6 +6273,54 @@ namespace YellowTaxiAP
             { "16_03_00155", "Smelly Slimes - Coin on Right of Exit Gear #5" },
             { "16_03_00161", "Smelly Slimes - Coin Bag on Right of Exit Gear" },
             { "16_09_00998", "Smelly Slimes - Checkpoint by Exit" },
+        };
+
+        [Description("Heroic Moves - Starting Area")]
+        public static Dictionary<string, string> HeroicMovesStartingArea = new()
+        {
+            { "16_09_01130", "Heroic Moves - Checkpoint" },
+            { "16_03_00202", "Heroic Moves - Coin on Beam Ramp #1" },
+            { "16_03_00227", "Heroic Moves - Coin on Beam Ramp #2" },
+            { "16_03_00245", "Heroic Moves - Coin Bag on Beam Ramp" },
+        };
+
+        [Description("Heroic Moves - Building")]
+        public static Dictionary<string, string> HeroicMovesEnd = new()
+        {
+            { "16_03_00357", "Heroic Moves - Coin on Top of Building #1" },
+            { "16_03_00359", "Heroic Moves - Coin Bag on Top of Building #1" },
+            { "16_03_00362", "Heroic Moves - Coin on Top of Building #2" },
+            { "16_03_00354", "Heroic Moves - Coin on Top of Building #3" },
+            { "16_03_00364", "Heroic Moves - Coin on Top of Building #4" },
+            { "16_03_00355", "Heroic Moves - Coin Bag on Top of Building #2" },
+            { "16_01_00019", "Heroic Moves - Gear - On Top of Building" },
+            { "16_03_00365", "Heroic Moves - Coin Bag on Top of Building #3" },
+            { "16_03_00356", "Heroic Moves - Coin on Top of Building #5" },
+            { "16_03_00366", "Heroic Moves - Coin on Top of Building #6" },
+            { "16_03_00358", "Heroic Moves - Coin on Top of Building #7" },
+            { "16_03_00361", "Heroic Moves - Coin Bag on Top of Building #4" },
+            { "16_03_00363", "Heroic Moves - Coin on Top of Building #8" },
+            { "16_03_00012", "Heroic Moves - Coin on Bottom of Building #1" },
+            { "16_03_00017", "Heroic Moves - Coin on Bottom of Building #2" },
+            { "16_03_00022", "Heroic Moves - Coin on Bottom of Building #3" },
+            { "16_03_00009", "Heroic Moves - Coin on Bottom of Building #4" },
+            { "16_03_00013", "Heroic Moves - Coin Bag on Bottom of Building #1" },
+            { "16_03_00018", "Heroic Moves - Coin on Bottom of Building #5" },
+            { "16_03_00023", "Heroic Moves - Coin Bag on Bottom of Building #2" },
+            { "16_03_00027", "Heroic Moves - Coin on Bottom of Building #6" },
+            { "16_03_00010", "Heroic Moves - Coin on Bottom of Building #7" },
+            { "16_03_00014", "Heroic Moves - Coin on Bottom of Building #8" },
+            { "16_01_00018", "Heroic Moves - Gear - On Bottom of Building" },
+            { "16_03_00024", "Heroic Moves - Coin on Bottom of Building #9" },
+            { "16_03_00028", "Heroic Moves - Coin on Bottom of Building #10" },
+            { "16_03_00011", "Heroic Moves - Coin on Bottom of Building #11" },
+            { "16_03_00015", "Heroic Moves - Coin Bag on Bottom of Building #3" },
+            { "16_03_00020", "Heroic Moves - Coin on Bottom of Building #12" },
+            { "16_03_00025", "Heroic Moves - Coin Bag on Bottom of Building #4" },
+            { "16_03_00029", "Heroic Moves - Coin on Bottom of Building #13" },
+            { "16_03_00016", "Heroic Moves - Coin on Bottom of Building #14" },
+            { "16_03_00021", "Heroic Moves - Coin on Bottom of Building #15" },
+            { "16_03_00026", "Heroic Moves - Coin on Bottom of Building #16" },
         };
 
         [Description("Mosk's Rocket - Special Rules")]
@@ -6512,14 +6565,13 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosIslandHighestGround)), MoriosIslandHighestGround),
 
             new(GetDescription(nameof(MoriosHomeStartingArea)), MoriosHomeStartingArea),
-            new(GetDescription(nameof(MoriosHomeExpert1)), MoriosHomeExpert1),
+            new(GetDescription(nameof(MoriosHomeExpert2)), MoriosHomeExpert2),
             new(GetDescription(nameof(MoriosHomeHighGround)), MoriosHomeHighGround),
             new(GetDescription(nameof(MoriosHomeBeforeBedPillars)), MoriosHomeBeforeBedPillars),
             new(GetDescription(nameof(MoriosHomeBedPillars)), MoriosHomeBedPillars),
             new(GetDescription(nameof(MoriosHomeLoft)), MoriosHomeLoft),
             new(GetDescription(nameof(MoriosHomeKitchen)), MoriosHomeKitchen),
-            new(GetDescription(nameof(MoriosHomeKitchenExpert1)), MoriosHomeKitchenExpert1),
-            new(GetDescription(nameof(MoriosHomeKitchenCabinets)), MoriosHomeKitchenCabinets),
+            new(GetDescription(nameof(MoriosHomeKitchenExpert2)), MoriosHomeKitchenExpert2),
             new(GetDescription(nameof(MoriosHomeKitchenHighGround)), MoriosHomeKitchenHighGround),
 
             new(GetDescription(nameof(WeirdTunnelsEntrance)), WeirdTunnelsEntrance),
@@ -6640,7 +6692,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(FlushedAwayCentralDrainBunny)), FlushedAwayCentralDrainBunny),
             new(GetDescription(nameof(FlushedAwayCentralDrainHighGround)), FlushedAwayCentralDrainHighGround),
             new(GetDescription(nameof(FlushedAwayAboveCentralDrain)), FlushedAwayAboveCentralDrain),
-            new(GetDescription(nameof(FlushedAwayBarelyOutOfBounds)), FlushedAwayBarelyOutOfBounds),
+            new(GetDescription(nameof(FlushedAwayHiddenCoins)), FlushedAwayHiddenCoins),
             new(GetDescription(nameof(FlushedAwayOutOfBounds)), FlushedAwayOutOfBounds),
 
             // Maurizio's City Areas
@@ -6657,6 +6709,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(RocketFlushedArea)), RocketFlushedArea),
             new(GetDescription(nameof(RocketFecalArea)), RocketFecalArea),
             new(GetDescription(nameof(RocketCityCrashMindArea)), RocketCityCrashMindArea),
+            new(GetDescription(nameof(RocketGoldenPropeller)), RocketGoldenPropeller),
             new(GetDescription(nameof(RocketCoinsToFinalFloor)), RocketCoinsToFinalFloor),
             new(GetDescription(nameof(RocketToslaHQArea)), RocketToslaHQArea),
             new(GetDescription(nameof(RocketFinalFloorCheese)), RocketFinalFloorCheese),
@@ -6678,6 +6731,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(StealthyHalfwayUp)), StealthyHalfwayUp),
             new(GetDescription(nameof(StealthyTopArea)), StealthyTopArea),
             new(GetDescription(nameof(PodiumStartingArea)), PodiumStartingArea),
+            new(GetDescription(nameof(PodiumFirstGearPillar)), PodiumFirstGearPillar),
             new(GetDescription(nameof(PodiumHighGround)), PodiumHighGround),
             new(GetDescription(nameof(CostipationStartingArea)), CostipationStartingArea),
             new(GetDescription(nameof(CostipationRoadwayGearArea)), CostipationRoadwayGearArea),
@@ -6687,6 +6741,8 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(SmellySlimesSidebars)), SmellySlimesSidebars),
             new(GetDescription(nameof(SmellySlimesHatArea)), SmellySlimesHatArea),
             new(GetDescription(nameof(SmellySlimesExit)), SmellySlimesExit),
+            new(GetDescription(nameof(HeroicMovesStartingArea)), HeroicMovesStartingArea),
+            new(GetDescription(nameof(HeroicMovesEnd)), HeroicMovesEnd),
 
             // Baby Steps! Areas
             new(GetDescription(nameof(BabyStepsStartingArea)), BabyStepsStartingArea),
@@ -6879,14 +6935,13 @@ namespace YellowTaxiAP
                     MoriosIslandHighestGround,
 
                     MoriosHomeStartingArea,
-                    MoriosHomeExpert1,
+                    MoriosHomeExpert2,
                     MoriosHomeHighGround,
                     MoriosHomeBeforeBedPillars,
                     MoriosHomeBedPillars,
                     MoriosHomeLoft,
                     MoriosHomeKitchen,
-                    MoriosHomeKitchenExpert1,
-                    MoriosHomeKitchenCabinets,
+                    MoriosHomeKitchenExpert2,
                     MoriosHomeKitchenHighGround,
 
                     WeirdTunnelsEntrance,
@@ -6988,7 +7043,7 @@ namespace YellowTaxiAP
                     FlushedAwayCentralDrainBunny,
                     FlushedAwayCentralDrainHighGround,
                     FlushedAwayAboveCentralDrain,
-                    FlushedAwayBarelyOutOfBounds,
+                    FlushedAwayHiddenCoins,
                     FlushedAwayOutOfBounds,
                 ]
             },
@@ -7011,6 +7066,7 @@ namespace YellowTaxiAP
                     RocketFlushedArea,
                     RocketFecalArea,
                     RocketCityCrashMindArea,
+                    RocketGoldenPropeller,
                     RocketCoinsToFinalFloor,
                     RocketToslaHQArea,
                     RocketFinalFloorCheese,
@@ -7032,6 +7088,7 @@ namespace YellowTaxiAP
                     StealthyHalfwayUp,
                     StealthyTopArea,
                     PodiumStartingArea,
+                    PodiumFirstGearPillar,
                     PodiumHighGround,
                     CostipationStartingArea,
                     CostipationRoadwayGearArea,
@@ -7041,6 +7098,8 @@ namespace YellowTaxiAP
                     SmellySlimesSidebars,
                     SmellySlimesHatArea,
                     SmellySlimesExit,
+                    HeroicMovesStartingArea,
+                    HeroicMovesEnd,
                 ]
             },
             {
@@ -7151,7 +7210,7 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandRocketTopGear, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J1 | X3+B1+GP"),
                     new RegionConnection(GrannysIslandConstructionArch, "B1 | GP+J1"),
                     new RegionConnection(GrannysIslandOceanPillar, "B1 | X2/GP & OS | X2+J1 & X3/GP"),
-                    new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+J1+OS | X1+GP"),
+                    new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+J1+OS | X1+GP | X2+J1"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland2, "B1 & X2/OS/GP/J1 | X1+GP+OS"),
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
                     new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1 | NSAR+X1+GP+J1 | X1+GP+J2 | X3+J1"),
@@ -7212,7 +7271,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GrannysIslandHighGround)),
                 [
-                    new RegionConnection(GrannysIslandInTheSky, "X1/J1 & B2 | X1/B1 & GP | X2+J1+B1 | X3 & B1/J1"),
+                    new RegionConnection(GrannysIslandInTheSky, "X1/J1/GP & B2 | X1+B1+GP | X2+J1+B1 | X3 & B1/J1"),
                 ]
             },
             {
@@ -7839,7 +7898,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosIslandHomeIsland)),
                 [
                     new RegionConnection(MoriosIslandStartingArea, "J1/B1"),
-                    new RegionConnection(MoriosIslandLowStoneArch, "B1 | X1+J2"),
+                    new RegionConnection(MoriosIslandLowStoneArch, "B1 | X1+J1"),
                     new RegionConnection("Morio's Island - Morio's Garage", MoriosHomeStartingArea, ConnectionType.Subwarp),
                 ]
             },
@@ -7876,7 +7935,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosHomeStartingArea)),
                 [
-                    new RegionConnection(MoriosHomeExpert1, "X1/J1/B1"),
+                    new RegionConnection(MoriosHomeExpert2, "X2/J1/B1"),
                     new RegionConnection(MoriosHomeHighGround, "J1/B1"),
                     new RegionConnection(MoriosHomeLoft, "B2 & X2/J2 | X1+J2 | X1+B2+J1 | X3+B1+J1"),
                     new RegionConnection(MoriosHomeKitchen, "SP"),
@@ -7884,7 +7943,7 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(MoriosHomeExpert1)),
+                GetDescription(nameof(MoriosHomeExpert2)),
                 [
                     // Doesn't connect anywhere
                 ]
@@ -7917,19 +7976,12 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosHomeKitchen)),
                 [
-                    new RegionConnection(MoriosHomeKitchenExpert1, "X1/B1/J1"),
-                    new RegionConnection(MoriosHomeKitchenCabinets, "B1/J1"),
+                    new RegionConnection(MoriosHomeKitchenExpert2, "X2/B1/J1"),
                     new RegionConnection(MoriosHomeKitchenHighGround, "J1 | X1+B2 | X2+B1"),
                 ]
             },
             {
-                GetDescription(nameof(MoriosHomeKitchenExpert1)),
-                [
-                    // Doesn't connect anywhere
-                ]
-            },
-            {
-                GetDescription(nameof(MoriosHomeKitchenCabinets)),
+                GetDescription(nameof(MoriosHomeKitchenExpert2)),
                 [
                     // Doesn't connect anywhere
                 ]
@@ -8561,7 +8613,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Flushed Away - Pit After Skeletrone Dance Party", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Tunnel After Gear Pillar", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Pipe in Alligator Room", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
-                    new RegionConnection(FlushedAwayBarelyOutOfBounds, "OOB"),
+                    new RegionConnection(FlushedAwayHiddenCoins),
                     new RegionConnection(FlushedAwayOutOfBounds, "X1+OOB+B1 & J1/X2"),
                 ]
             },
@@ -8574,7 +8626,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(FlushedAwaySewageRamps)),
                 [
-                    new RegionConnection(FlushedAwayAfterSewageRamps, "B1"),
+                    new RegionConnection(FlushedAwayAfterSewageRamps, "B1 | X3+J1"),
                 ]
             },
             {
@@ -8659,7 +8711,7 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(FlushedAwayBarelyOutOfBounds)),
+                GetDescription(nameof(FlushedAwayHiddenCoins)),
                 [
                     // Doesn't connect anywhere
                 ]
@@ -8761,7 +8813,24 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(RocketFlushedArea),
                     new RegionConnection(RocketCoinsToFinalFloor, "J1 | X1+B2"),
-                    new RegionConnection(RocketToslaHQArea, "GP/J2"),
+                    new RegionConnection(RocketToslaHQArea, "J2"),
+                    new RegionConnection(RocketGoldenPropeller, "GP"),
+                    new RegionConnection("Mosk's Rocket - Heroic Moves Portal", HeroicMovesStartingArea, ConnectionType.Subwarp, "J1/B1/GP & Bunny-MC")
+                ]
+            },
+            {
+                GetDescription(nameof(RocketGoldenPropeller)),
+                [
+                    new RegionConnection(RocketToslaHQArea),
+                    new RegionConnection(LabMemoriesHighGround, $"X2+NSAR+J1 & {{{GetDescription(nameof(WelcomingClimbsStartingArea))}}}"),
+                    new RegionConnection(WelcomingClimbsFirstGearArea, $"X2+NSAR & {{{GetDescription(nameof(WelcomingClimbsStartingArea))}}}"),
+                    new RegionConnection(ButtonsSmashingHatPlatform, $"X2+NSAR & {{{GetDescription(nameof(ButtonsSmashingStartingArea))}}}"),
+                    new RegionConnection(StealthyHalfwayUp, $"X1+NSAR & {{{GetDescription(nameof(StealthyStartingArea))}}}"),
+                    new RegionConnection(PodiumFirstGearPillar, $"X1+NSAR & {{{GetDescription(nameof(PodiumStartingArea))}}}"),
+                    new RegionConnection(CostipationHatArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
+                    new RegionConnection(CostipationRoadwayGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
+                    new RegionConnection(CostipationIslandGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
+                    new RegionConnection(HeroicMovesEnd, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
                 ]
             },
             {
@@ -8897,8 +8966,15 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(PodiumStartingArea)),
                 [
+                    new RegionConnection(PodiumFirstGearPillar, "X2+J1 | J2"),
                     new RegionConnection(PodiumHighGround, "X2+J1 | J2"),
                     new RegionConnection("Podium - Mosk's Rocket Portal", RocketGymGearsArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(PodiumFirstGearPillar)),
+                [
+                    // No connections
                 ]
             },
             {
@@ -8929,6 +9005,12 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                GetDescription(nameof(CostipationHatArea)),
+                [
+                    // No connections
+                ]
+            },
+            {
                 GetDescription(nameof(SmellySlimesStartingArea)),
                 [
                     new RegionConnection("Smelly Slimes - Entrance Mosk's Rocket Portal", RocketFlushedArea, ConnectionType.Subwarp),
@@ -8947,6 +9029,19 @@ namespace YellowTaxiAP
                 GetDescription(nameof(SmellySlimesExit)),
                 [
                     // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(HeroicMovesStartingArea)),
+                [
+                    new RegionConnection("Heroic Moves - Mosk's Rocket Portal", RocketCityCrashMindArea, ConnectionType.Subwarp),
+                    new RegionConnection(HeroicMovesEnd, "X3/J1/B1")
+                ]
+            },
+            {
+                GetDescription(nameof(HeroicMovesEnd)),
+                [
+                    new RegionConnection("Heroic Moves - Mori-O-Tron", HeroicMovesStartingArea, ConnectionType.MoriOTron)
                 ]
             },
 
@@ -9191,6 +9286,7 @@ namespace YellowTaxiAP
                         var regionConnections = new List<DebugLocationHelper.RegionConnection>();
                         var regionWarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpIdentifier>> ();
                         var regionSubwarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpIdentifier>>();
+                        var regionMoriOTrons = new List<DebugLocationHelper.RegionConnection>();
                         foreach (var c in subregion)
                         {
                             if (string.IsNullOrEmpty(c.Key))
@@ -9271,8 +9367,11 @@ namespace YellowTaxiAP
                                             Plugin.Log($"WARNING: {connection.Name} not found in WarpIdentifiers!", true);
                                         regionWarps.Add(new(connection, warpId));
                                         break;
+                                    case DebugLocationHelper.ConnectionType.MoriOTron:
+                                        regionMoriOTrons.Add(connection);
+                                        break;
                                     default:
-                                        throw new ArgumentOutOfRangeException();
+                                        throw new ArgumentOutOfRangeException($"Unknown Warp Type {connection.ConnectingType} for {connection.Name}");
                                 }
                             }
                         }
@@ -9350,111 +9449,119 @@ namespace YellowTaxiAP
                             }
                             json += "\",";
                         }
-                        json += "\n    \"gears\": {";
                         if (regionGears.Any())
                         {
+                            json += "\n    \"gears\": {";
                             json = regionGears.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionGears);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"bunnies\": {";
                         if (regionBunnies.Any())
                         {
+                            json += "\n    \"bunnies\": {";
                             json = regionBunnies.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionBunnies);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"safes\": {";
                         if (regionSafes.Any())
                         {
+                            json += "\n    \"safes\": {";
                             json = regionSafes.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionSafes);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"chests\": {";
                         if (regionChests.Any())
                         {
+                            json += "\n    \"chests\": {";
                             json = regionChests.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionChests);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"coinbags\": {";
                         if (regionCoinbags.Any())
                         {
+                            json += "\n    \"coinbags\": {";
                             json = regionCoinbags.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionCoinbags);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"coins\": {";
                         if (regionCoins.Any())
                         {
+                            json += "\n    \"coins\": {";
                             json = regionCoins.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionCoins);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"checkpoints\": {";
                         if (regionCheckpoints.Any())
                         {
+                            json += "\n    \"checkpoints\": {";
                             json = regionCheckpoints.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionCheckpoints);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"cheeses\": {";
                         if (regionCheeses.Any())
                         {
+                            json += "\n    \"cheeses\": {";
                             json = regionCheeses.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionCheeses);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"hats\": {";
                         if (regionHats.Any())
                         {
+                            json += "\n    \"hats\": {";
                             json = regionHats.Aggregate(json, (current, v) => current + $"\n      \"{v.Value}\": {ulong.Parse(v.Key.Replace("_", ""))},");
                             json = json.TrimEnd(',') + "\n    ";
                             regionItems.AddRange(regionHats);
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"connections\": {";
                         if (regionConnections.Any())
                         {
+                            json += "\n    \"connections\": {";
                             json = regionConnections.Aggregate(json, (current, v) => current + $"\n      \"{v.DestinationRegion}\": \"{v.Rules}\",");
                             json = json.TrimEnd(',') + "\n    ";
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"subwarps\": {";
                         if (regionSubwarps.Any())
                         {
+                            json += "\n    \"subwarps\": {";
                             json = regionSubwarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Item1.Name}\": [\"{v.Item1.DestinationRegion}\", \"{v.Item1.Rules}\"],");
                             json = json.TrimEnd(',') + "\n    ";
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"warps\": {";
                         if (regionWarps.Any())
                         {
+                            json += "\n    \"warps\": {";
                             json = regionWarps.Aggregate(json, (current, v) => current + $"\n      \"{v.Item1.Name}\": [\"{v.Item1.DestinationRegion}\", \"{v.Item1.Rules}\"],");
                             json = json.TrimEnd(',') + "\n    ";
+                            json += "},";
                         }
-                        json += "},";
-                        json += "\n    \"specialrules\": {";
+                        if (regionMoriOTrons.Any())
+                        {
+                            json += "\n    \"moriotrons\": {";
+                            json = regionMoriOTrons.Aggregate(json, (current, v) => current + $"\n      \"{v.Name}\": \"{v.DestinationRegion}\",");
+                            json = json.TrimEnd(',') + "\n    ";
+                            json += "},";
+                        }
                         if (DebugLocationHelper.SpecialRules.ContainsKey(GameplayMaster.instance.levelId.ToString()))
                         {
                             var specialRules = DebugLocationHelper.SpecialRules[GameplayMaster.instance.levelId.ToString()].Where(ruleItem =>
                                 regionItems.Any(regionItem => regionItem.Value == ruleItem.Key)).ToArray();
                             if (specialRules.Any())
                             {
+                                json += "\n    \"specialrules\": {";
                                 json = specialRules.Aggregate(json, (current, v) => current + $"\n      \"{v.Key}\": \"{v.Value}\",");
                                 json = json.TrimEnd(',') + "\n    ";
+                                json += "}";
                             }
                         }
-                        json += "}";
+                        json = json.TrimEnd(',');
                         json += "\n  },";
                     }
                     json = json.TrimEnd(',');

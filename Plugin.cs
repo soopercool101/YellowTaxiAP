@@ -246,6 +246,7 @@ public class Plugin : BaseUnityPlugin
                 if (Input.GetKeyDown(KeyCode.Period) || Input.GetKeyDown(KeyCode.KeypadPeriod))
                 {
                     GameplayMaster.instance.useGameTimer = !GameplayMaster.instance.useGameTimer;
+                    HudMasterScript.instance.PizzaTimerHudEnableSet(GameplayMaster.instance.useGameTimer);
                     Log($"DEBUG: Game Timer {(GameplayMaster.instance.useGameTimer ? "enabled" : "disabled")}", true);
                 }
                 if (Input.GetKeyDown(KeyCode.Comma))
