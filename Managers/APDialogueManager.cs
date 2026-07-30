@@ -520,7 +520,7 @@ namespace YellowTaxiAP.Managers
 
         #region Phone Traps
 
-        public static CharacterPhoneTraps[] PhoneTraps =>
+        public static CharacterPhoneTrap[] PhoneTraps =>
         [
             new(Strings.I2_LocalizationReformatted("NAME_MORIO"), "SoundDialogueScenziatoVoice", GetMorioPhoneTraps()),
             new(Strings.I2_LocalizationReformatted("NAME_RAT"), "SoundRatTalk", [
@@ -540,14 +540,28 @@ namespace YellowTaxiAP.Managers
                 Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity ? ["I still don't know where these question marks came from!", "Who cares, they fetch a nice price!!!"] : [$"You should enable {SetTextColor("Shopsanity", DialogueColors.OrangeYellow)} next run!", "I need you to buy more!!!"],
                 ["My shop's been in such high demand these days!", "I might start charging a membership fee!!!"]
             ]),
-            new(Strings.I2_LocalizationReformatted("NAME_LAWYER_TAG"), "SoundTextMaleDefault", [
-                [Strings.I2_LocalizationReformatted("DISCLAIMER_CASUAL_REFERENCES")],
-            ]),
+            new("DISCLAIMER_CASUAL_REFERENCES"),
             new(Strings.I2_LocalizationReformatted("NAME_ALIEN_MOSK"), "<MOSK>", [
                 ["Is your refrigerator running?", $"It should be running on {SetTextColor("oil", DialogueColors.OrangeYellow)}!"],
                 [$"Morio claims I stole the blueprints for the {SetTextColor("Golden Spring", DialogueColors.OrangeYellow)}, but he couldn't be more wrong!", "I got them from an esteemed colleague!"],
                 [$"Your wind-up power stands no chance against my {SetTextColor("oil", DialogueColors.OrangeYellow)}!", "The superior energy source will win in the end!"]
             ]),
+            new([
+                "DIALOGUE_SEWERS_SKELETON_1_PICKUP",
+                "DIALOGUE_SEWERS_SKELETON_2_PICKUP",
+                "DIALOGUE_SEWERS_SKELETON_3_PICKUP",
+                "DIALOGUE_SEWERS_SKELETON_4_PICKUP",
+                "DIALOGUE_SEWERS_SKELETON_5_PICKUP",
+            ])
+        ];
+
+        public static CharacterPhoneTrap[] BasicPhoneTraps =>
+        [
+            new("DIALOGUE_CITY_CRISTIAN_SKILL_ISSUES"),
+            new("DIALOGUE_GRANNY_ISLAND_PLANT_MAN_SEASIDE_BEHIND_LAB_JUST_TALK"),
+            new("DIALOGUE_GRANNY_ISLAND_IRONO_SEASIDE_HOLD_BREAT_JUST_TALK"),
+            new("DIALOGUE_POOP_WORLD_GENERIC_DOG_CORGI"),
+
         ];
 
         public static string[][] GetMorioPhoneTraps()
@@ -695,17 +709,38 @@ namespace YellowTaxiAP.Managers
             return ringString;
         }
 
-        public class CharacterPhoneTraps
+        public class CharacterPhoneTrap
         {
             public string CharacterName;
             public string DialogueSound;
             public string[][] Messages;
 
-            public CharacterPhoneTraps(string name, string sound, string[][] msg)
+            public CharacterPhoneTrap(string name, string sound, string[][] msg)
             {
                 CharacterName = name;
                 DialogueSound = sound;
                 Messages = msg;
+            }
+            public CharacterPhoneTrap(string[] dialogueKeys)
+            {
+                var messages = new List<string[]>();
+                foreach (var key in dialogueKeys)
+                {
+                    var capsule = DialogueCapsule.dictionary[key];
+                    CharacterName = capsule.GetNames()[0];
+                    DialogueSound = capsule.GetSoundsNames()[0];
+                    messages.Add(capsule.GetDialogues());
+                }
+
+                Messages = messages.ToArray();
+            }
+
+            public CharacterPhoneTrap(string dialogueKey)
+            {
+                var capsule = DialogueCapsule.dictionary[dialogueKey];
+                CharacterName = capsule.GetNames()[0];
+                DialogueSound = capsule.GetSoundsNames()[0];
+                Messages = [capsule.GetDialogues()];
             }
         }
 
@@ -903,13 +938,21 @@ namespace YellowTaxiAP.Managers
                         }
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Phone:
                         ActiveDialogueTrapType = DialogueTrapType.None;
-                        var phoneTrapIndex = Random.RandomRangeInt(-2, PhoneTraps.Length);
+                        var phoneTrapIndex = Random.RandomRangeInt(-2, PhoneTraps.Length + 1);
                         if (phoneTrapIndex < 0) // Weight morio phone calls higher
                         {
                             phoneTrapIndex = 0;
                         }
 
-                        var phoneTrap = PhoneTraps[phoneTrapIndex];
+                        CharacterPhoneTrap phoneTrap;
+                        if (phoneTrapIndex < PhoneTraps.Length)
+                        {
+                            phoneTrap = PhoneTraps[phoneTrapIndex];
+                        }
+                        else
+                        {
+                            phoneTrap = BasicPhoneTraps[Random.RandomRangeInt(0, BasicPhoneTraps.Length)];
+                        }
                         self.names = ["Phone Trap", phoneTrap.CharacterName];
                         var phoneDialogues = phoneTrap.Messages[Random.RandomRangeInt(0, phoneTrap.Messages.Length)].ToList();
                         phoneDialogues.Insert(0, GetRandomPhoneRing());
@@ -934,7 +977,8 @@ namespace YellowTaxiAP.Managers
                                 dialogueSound = "SoundTextMaleDefault";
                             }
                         }
-                        if (!AssetMaster.GetSound(dialogueSound)) // Use default sound if sound isn't present. Otherwise dialogue fails to load past the first character.
+                        // Use default sound if sound isn't present. Otherwise dialogue fails to load past the first character.
+                        else if (!AssetMaster.GetSound(dialogueSound)) 
                         {
                             dialogueSound = "SoundTextMaleDefault";
                         }
