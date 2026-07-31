@@ -25,8 +25,8 @@ public class ArchipelagoClient
 
     public static ArchipelagoData ServerData = new();
     public static DeathLinkHandler DeathLinkHandler;
-    public string Player => session?.Players.ActivePlayer.Alias ?? string.Empty;
-    private ArchipelagoSession session;
+    public string Player => Session?.Players.ActivePlayer.Alias ?? string.Empty;
+    public ArchipelagoSession Session { get; private set; }
 
     /// <summary>
     /// call to connect to an Archipelago session. Connection info should already be set up on ServerData
@@ -40,7 +40,7 @@ public class ArchipelagoClient
 
         try
         {
-            session = ArchipelagoSessionFactory.CreateSession(ServerData.Uri);
+            Session = ArchipelagoSessionFactory.CreateSession(ServerData.Uri);
             SetupSession();
         }
         catch (Exception e)
@@ -56,10 +56,10 @@ public class ArchipelagoClient
     /// </summary>
     private void SetupSession()
     {
-        session.MessageLog.OnMessageReceived += message => ArchipelagoConsole.LogMessage(message);
-        session.Items.ItemReceived += OnItemReceived;
-        session.Socket.ErrorReceived += OnSessionErrorReceived;
-        session.Socket.SocketClosed += OnSessionSocketClosed;
+        Session.MessageLog.OnMessageReceived += message => ArchipelagoConsole.LogMessage(message);
+        Session.Items.ItemReceived += OnItemReceived;
+        Session.Socket.ErrorReceived += OnSessionErrorReceived;
+        Session.Socket.SocketClosed += OnSessionSocketClosed;
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class ArchipelagoClient
             // it's safe to thread this function call but unity notoriously hates threading so do not use excessively
             ThreadPool.QueueUserWorkItem(
                 _ => HandleConnectResult(
-                    session.TryConnectAndLogin(
+                    Session.TryConnectAndLogin(
                         Game,
                         ServerData.SlotName,
                         ItemsHandlingFlags.AllItems, // TODO make sure to change this line
@@ -143,12 +143,12 @@ public class ArchipelagoClient
                 var success = (LoginSuccessful) result;
 
                 Plugin.SlotData = new YTGVSlotData(success.SlotData);
-                ServerData.SetupSession(success.SlotData, session.RoomState.Seed);
+                ServerData.SetupSession(success.SlotData, Session.RoomState.Seed);
                 Authenticated = true;
 
-                var scouting = session.Locations.ScoutLocationsAsync(HintCreationPolicy.None,
+                var scouting = Session.Locations.ScoutLocationsAsync(HintCreationPolicy.None,
                     AllLocations.Where(LocationNeedsScouting).ToArray());
-                session.DataStorage.TrackClientStatus(UpdateHasWon);
+                Session.DataStorage.TrackClientStatus(UpdateHasWon);
 
                 Plugin.Log($"SlotData logging ({ServerData.SlotData.Count} values)");
                 foreach (var key in ServerData.SlotData.Keys)
@@ -170,18 +170,18 @@ public class ArchipelagoClient
                     tags.Add("TrapLink");
                 }
 
-                session.ConnectionInfo.UpdateConnectionOptions(session.ConnectionInfo.Tags
-                    .Concat(tags.Where(tag => Array.IndexOf(session.ConnectionInfo.Tags, tag) == -1)).ToArray());
+                Session.ConnectionInfo.UpdateConnectionOptions(Session.ConnectionInfo.Tags
+                    .Concat(tags.Where(tag => Array.IndexOf(Session.ConnectionInfo.Tags, tag) == -1)).ToArray());
 
-                DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName,
+                DeathLinkHandler = new(Session.CreateDeathLinkService(), ServerData.SlotName,
                     Plugin.SlotData.DeathLink);
-                session.Socket.PacketReceived += Socket_PacketReceived;
+                Session.Socket.PacketReceived += Socket_PacketReceived;
 
-                //session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
+                //Session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
 
                 if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled)
                 {
-                    session.DataStorage[Scope.Slot, "UnlockedHats"].GetAsync().ContinueWith(x =>
+                    Session.DataStorage[Scope.Slot, "UnlockedHats"].GetAsync().ContinueWith(x =>
                     {
                         try
                         {
@@ -197,7 +197,7 @@ public class ArchipelagoClient
                                 {
                                     NeedsLoad = true
                                 };
-                                session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(1);
+                                Session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(1);
                                 if (!string.IsNullOrEmpty(Plugin.SlotData.FunnyFaces))
                                 {
                                     APSaveController.HatSave.SetHatUnlocked(Data.Hat.Hat51_TvInfluencer);
@@ -211,12 +211,12 @@ public class ArchipelagoClient
                             }
                         }
                     });
-                    session.DataStorage[Scope.Slot, "UnlockedHats"].OnValueChanged += HatData_OnValueChanged;
+                    Session.DataStorage[Scope.Slot, "UnlockedHats"].OnValueChanged += HatData_OnValueChanged;
                 }
 
                 if (!Plugin.SlotData.Bunnysanity)
                 {
-                    session.DataStorage[Scope.Slot, "Bunnies"].GetAsync().ContinueWith(x =>
+                    Session.DataStorage[Scope.Slot, "Bunnies"].GetAsync().ContinueWith(x =>
                     {
                         try
                         {
@@ -232,7 +232,7 @@ public class ArchipelagoClient
                                 {
                                     NeedsLoad = true
                                 };
-                                session.DataStorage[Scope.Slot, "Bunnies"].Initialize(0);
+                                Session.DataStorage[Scope.Slot, "Bunnies"].Initialize(0);
                                 Plugin.Log("Bunny State initialized");
                             }
                             catch
@@ -242,10 +242,10 @@ public class ArchipelagoClient
                             }
                         }
                     });
-                    session.DataStorage[Scope.Slot, "Bunnies"].OnValueChanged += Bunnies_OnValueChanged;
+                    Session.DataStorage[Scope.Slot, "Bunnies"].OnValueChanged += Bunnies_OnValueChanged;
                 }
 
-                session.DataStorage[Scope.Slot, "Save"].GetAsync().ContinueWith(x =>
+                Session.DataStorage[Scope.Slot, "Save"].GetAsync().ContinueWith(x =>
                 {
                     try
                     {
@@ -263,7 +263,7 @@ public class ArchipelagoClient
                                 save.CurrentHat = Data.Hat.Hat51_TvInfluencer;
                                 save.NeedsSave = false;
                             }
-                            session.DataStorage[Scope.Slot, "Save"].Initialize(save.SaveData);
+                            Session.DataStorage[Scope.Slot, "Save"].Initialize(save.SaveData);
                             APSaveController.MiscSave = save;
                             APSaveController.MiscSave.NeedsLoad = true;
                             Plugin.Log($"Save State initialized {save.SaveData}");
@@ -275,7 +275,7 @@ public class ArchipelagoClient
                         }
                     }
                 });
-                session.DataStorage[Scope.Slot, "Save"].OnValueChanged += Save_OnValueChanged;
+                Session.DataStorage[Scope.Slot, "Save"].OnValueChanged += Save_OnValueChanged;
 
                 if (!string.IsNullOrEmpty(Plugin.SlotData.FunnyFaces))
                 {
@@ -286,7 +286,7 @@ public class ArchipelagoClient
                     }
                 }
 
-                session.DataStorage[Scope.Slot, "Wallet"].GetAsync().ContinueWith(x =>
+                Session.DataStorage[Scope.Slot, "Wallet"].GetAsync().ContinueWith(x =>
                 {
                     try
                     {
@@ -300,7 +300,7 @@ public class ArchipelagoClient
                         try
                         {
                             Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = 0;
-                            session.DataStorage[Scope.Slot, "Wallet"].Initialize(0);
+                            Session.DataStorage[Scope.Slot, "Wallet"].Initialize(0);
                             Plugin.Log("Wallet State initialized");
                         }
                         catch
@@ -310,7 +310,7 @@ public class ArchipelagoClient
                         }
                     }
                 });
-                session.DataStorage[Scope.Slot, "Wallet"].OnValueChanged += Wallet_OnValueChanged;
+                Session.DataStorage[Scope.Slot, "Wallet"].OnValueChanged += Wallet_OnValueChanged;
                 outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
 
                 try
@@ -364,7 +364,7 @@ public class ArchipelagoClient
             switch (packet)
             {
                 case BouncedPacket ring when ring.Tags.Contains("RingLink"):
-                    if (ring.Data["source"].Value<decimal>() != session.ConnectionInfo.Slot && PlayerScript.instance)
+                    if (ring.Data["source"].Value<decimal>() != Session.ConnectionInfo.Slot && PlayerScript.instance)
                     {
                         Plugin.Log($"Ring Link Received {ring.Data["amount"]} from {ring.Data["source"].Value<decimal>()}");
                         Plugin.ArchipelagoClient.UpdateWallet(ring.Data["amount"].Value<int>(), false);
@@ -394,11 +394,11 @@ public class ArchipelagoClient
                 Data = new()
                 {
                     { "time", (long)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds },
-                    { "source", session.ConnectionInfo.Slot },
+                    { "source", Session.ConnectionInfo.Slot },
                     { "amount", amount }
                 }
             };
-            session.Socket.SendPacket(packet);
+            Session.Socket.SendPacket(packet);
         }
     }
 
@@ -416,7 +416,7 @@ public class ArchipelagoClient
                     { "trap_name", trap }
                 }
             };
-            session.Socket.SendPacket(packet);
+            Session.Socket.SendPacket(packet);
         }
     }
 
@@ -426,15 +426,15 @@ public class ArchipelagoClient
     private void Disconnect()
     {
         Plugin.BepinLogger.LogDebug("disconnecting from server...");
-        session?.Socket.DisconnectAsync();
-        session = null;
+        Session?.Socket.DisconnectAsync();
+        Session = null;
         Authenticated = false;
         AttemptingConnection = false;
     }
 
     public void SendMessage(string message)
     {
-        session.Socket.SendPacketAsync(new SayPacket { Text = message });
+        Session.Socket.SendPacketAsync(new SayPacket { Text = message });
     }
 
     /// <summary>
@@ -748,13 +748,13 @@ public class ArchipelagoClient
     public void SendLocation(long id)
     {
         Plugin.BepinLogger.LogMessage($"Sending location #{id}");
-        session.Locations.CompleteLocationChecks(id);
+        Session.Locations.CompleteLocationChecks(id);
         APTVManager.FlagTvNeedsUpdate();
     }
 
     public void Win()
     {
-        session.SetGoalAchieved();
+        Session.SetGoalAchieved();
         HasWon = true;
     }
 
@@ -762,7 +762,7 @@ public class ArchipelagoClient
 
     public void SendLocations(long[] ids)
     {
-        session.Locations.CompleteLocationChecks(ids);
+        Session.Locations.CompleteLocationChecks(ids);
         APTVManager.FlagTvNeedsUpdate();
     }
 
@@ -770,10 +770,10 @@ public class ArchipelagoClient
     {
         return AllLocations.Contains(location) && !AllClearedLocations.Contains(location);
     }
-    public System.Collections.ObjectModel.ReadOnlyCollection<long> AllClearedLocations => session.Locations.AllLocationsChecked;
-    public System.Collections.ObjectModel.ReadOnlyCollection<long> AllLocations => session.Locations.AllLocations;
+    public System.Collections.ObjectModel.ReadOnlyCollection<long> AllClearedLocations => Session.Locations.AllLocationsChecked;
+    public System.Collections.ObjectModel.ReadOnlyCollection<long> AllLocations => Session.Locations.AllLocations;
     public Dictionary<long, ScoutedItemInfo> ScoutedLocations { get; private set; }
-    public ILocationCheckHelper Locations => session.Locations;
+    public ILocationCheckHelper Locations => Session.Locations;
 
     private object hatDataLock = new();
 
@@ -800,14 +800,14 @@ public class ArchipelagoClient
 
             try
             {
-                session.DataStorage[Scope.Slot, "UnlockedHats"] = (JToken)APSaveController.HatSave.SaveData;
+                Session.DataStorage[Scope.Slot, "UnlockedHats"] = (JToken)APSaveController.HatSave.SaveData;
                 Plugin.Log($"Saved hat data: {APSaveController.HatSave.SaveData:x16}");
             }
             catch
             {
                 try
                 {
-                    session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(APSaveController.HatSave.SaveData);
+                    Session.DataStorage[Scope.Slot, "UnlockedHats"].Initialize(APSaveController.HatSave.SaveData);
                     Plugin.Log($"Initialized hat data: {APSaveController.HatSave.SaveData:x16}");
                 }
                 catch
@@ -843,14 +843,14 @@ public class ArchipelagoClient
 
             try
             {
-                session.DataStorage[Scope.Slot, "Bunnies"] = (JToken)APSaveController.BunnySave.SaveData;
+                Session.DataStorage[Scope.Slot, "Bunnies"] = (JToken)APSaveController.BunnySave.SaveData;
                 Plugin.Log($"Saved bunny data: {APSaveController.BunnySave.SaveData:x16}");
             }
             catch
             {
                 try
                 {
-                    session.DataStorage[Scope.Slot, "Bunnies"].Initialize(APSaveController.BunnySave.SaveData);
+                    Session.DataStorage[Scope.Slot, "Bunnies"].Initialize(APSaveController.BunnySave.SaveData);
                     Plugin.Log($"Initialized bunny data: {APSaveController.BunnySave.SaveData:x16}");
                 }
                 catch
@@ -882,14 +882,14 @@ public class ArchipelagoClient
         {
             try
             {
-                session.DataStorage[Scope.Slot, "Save"] = (JToken)APSaveController.MiscSave.SaveData;
+                Session.DataStorage[Scope.Slot, "Save"] = (JToken)APSaveController.MiscSave.SaveData;
                 Plugin.Log($"Saved data: {APSaveController.MiscSave.SaveData:x8}");
             }
             catch
             {
                 try
                 {
-                    session.DataStorage[Scope.Slot, "Save"].Initialize(APSaveController.MiscSave.SaveData);
+                    Session.DataStorage[Scope.Slot, "Save"].Initialize(APSaveController.MiscSave.SaveData);
                     Plugin.Log($"Initialized save data: {APSaveController.MiscSave.SaveData:x8}");
                 }
                 catch
@@ -919,11 +919,11 @@ public class ArchipelagoClient
             if (amountChanged < 0 && Math.Abs(amountChanged) > APWalletManager.ServerCoins)
             {
                 amountChanged = -APWalletManager.ServerCoins;
-                session.DataStorage[Scope.Slot, "Wallet"] = 0;
+                Session.DataStorage[Scope.Slot, "Wallet"] = 0;
             }
             else
             {
-                session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
+                Session.DataStorage[Scope.Slot, "Wallet"] += amountChanged;
             }
         }
         catch
@@ -931,7 +931,7 @@ public class ArchipelagoClient
             try
             {
                 var amount = Math.Max(Data.coinsCollected[Data.gameDataIndex], 0);
-                session.DataStorage[Scope.Slot, "Wallet"].Initialize(amount);
+                Session.DataStorage[Scope.Slot, "Wallet"].Initialize(amount);
                 APWalletManager.ServerCoins = Data.coinsCollected[Data.gameDataIndex] = amount;
                 //Plugin.Log($"Initialized wallet: {Data.coinsCollected[Data.gameDataIndex]}");
             }

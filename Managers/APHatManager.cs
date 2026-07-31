@@ -1,12 +1,16 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Archipelago.MultiClient.Net.Enums;
 using TMPro;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
 using static Data;
+using static YellowTaxiAP.Identifiers;
+using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
 {
@@ -326,6 +330,8 @@ namespace YellowTaxiAP.Managers
                 }
                 yield return null;
             }
+
+            var didNotPurchase = false;
             if (selectionIndex == 0)
             {
                 if (HatBuyScript.currentBuyingHat && APWalletManager.ServerCoins >= cost)
@@ -341,6 +347,7 @@ namespace YellowTaxiAP.Managers
                     Sound.Play_Unpausable("SoundMenuError");
                     if (HatBuyScript.currentBuyingHat)
                         HatBuyScript.currentBuyingHat.BuyNot();
+                    didNotPurchase = true;
                 }
             }
             else
@@ -348,11 +355,39 @@ namespace YellowTaxiAP.Managers
                 if (HatBuyScript.currentBuyingHat)
                     HatBuyScript.currentBuyingHat.BuyNot();
                 Sound.Play_Unpausable("SoundMenuBack");
+                didNotPurchase = true;
             }
             HudMasterScript.instance.hatBuyHolder.SetActive(false);
             Tick.Paused = false;
             HudMasterScript.instance.buyingHat = false;
             HatBuyScript.currentBuyingHat = null;
+
+            try
+            {
+                if (didNotPurchase && Plugin.SlotData.ShopHints != YTGVSlotData.ShopHintType.Disabled)
+                {
+                    if (Plugin.SlotData.ShopHints == YTGVSlotData.ShopHintType.All)
+                    {
+                        Plugin.ArchipelagoClient.Session.Hints.CreateHints(Plugin.ArchipelagoClient.Session.Players.ActivePlayer.Slot, HintStatus.Unspecified, id);
+                    }
+                    else
+                    {
+                            var item = Plugin.ArchipelagoClient.ScoutedLocations[id];
+                            if ((item.Flags & ItemFlags.Advancement) == ItemFlags.Advancement ||
+                                (Plugin.SlotData.ShopHints == YTGVSlotData.ShopHintType.ProgressionAndUseful &&
+                                (item.Flags & ItemFlags.NeverExclude) == ItemFlags.NeverExclude))
+                            {
+                                Plugin.ArchipelagoClient.Session.Hints.CreateHints(
+                                    Plugin.ArchipelagoClient.Session.Players.ActivePlayer.Slot, HintStatus.Unspecified,
+                                    id);
+                            }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.BepinLogger.LogError(ex);
+            }
         }
     }
 }

@@ -139,6 +139,15 @@ namespace YellowTaxiAP.Archipelago
         public LevelUnlockCondition FecalMattersUnlockCondition { get; private set; }
         public LevelUnlockCondition FlushedAwayUnlockCondition { get; private set; }
 
+        public enum ShopHintType : long
+        {
+            Disabled = 0,
+            Progression = 3,
+            ProgressionAndUseful = 2,
+            All = 1,
+        }
+        public ShopHintType ShopHints { get; private set; }
+
         public YTGVSlotData()
         {
             // Defaults
@@ -678,6 +687,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for easy_alien_mosk found");
+            }
+
+            if (slotData.ContainsKey("shop_hints"))
+            {
+                ShopHints = (ShopHintType)(long) slotData["shop_hints"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for shop_hints found");
             }
 
             if (slotData.ContainsKey("locked_time_trials"))
