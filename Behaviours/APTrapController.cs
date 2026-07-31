@@ -218,7 +218,7 @@ namespace YellowTaxiAP.Behaviours
 #endif
         }
 
-        public static bool ShouldNotUpdateTraps => !PlayerScript.instance || MenuV2Script.instance ||
+        public static bool ShouldNotUpdateTraps => !PlayerScript.instance || PlayerScript.instance.dead || MenuV2Script.instance ||
                                                 LoadingScreenScript.instance || MenuV2PhotoModeController.instance || Tick.Paused;
 
         public void Update()
