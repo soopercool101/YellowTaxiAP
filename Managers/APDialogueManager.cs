@@ -758,7 +758,7 @@ namespace YellowTaxiAP.Managers
             if (dialogueCapsule != null)
             {
                 Plugin.Log($"Initiating dialogue with key: {dialogueCapsule.key}  {self.textSoundNames[0]}");
-
+#if DEBUG
                 if (DebugLocationHelper.Enabled)
                 {
                     GUIUtility.systemCopyBuffer = dialogueCapsule.key;
@@ -770,6 +770,7 @@ namespace YellowTaxiAP.Managers
                         Plugin.Log(self.dialogues[i], false);
                     }
                 }
+#endif
 
                 var moveRandoID = -1;
                 switch (dialogueCapsule.key)
