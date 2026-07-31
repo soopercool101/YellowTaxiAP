@@ -268,7 +268,7 @@ namespace YellowTaxiAP.Managers
                     case LevelId.L6_Gym when Plugin.SlotData.GymGearsUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
                     case LevelId.L7_PoopWorld when Plugin.SlotData.FecalMattersUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
                     case LevelId.L8_Sewers when Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
-                    case LevelId.L9_City: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
+                    case LevelId.L9_City when Plugin.SlotData.Goal < YTGVSlotData.GoalType.MauriziosCity && Plugin.SlotData.RemovePostGoalPortals:
                     case LevelId.L10_CrashTestIndustries: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
                     case LevelId.L12_MoriosMind: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
                     case LevelId.L13_StarmanCastle: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
