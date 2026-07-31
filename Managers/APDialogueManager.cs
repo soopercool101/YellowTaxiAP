@@ -1532,18 +1532,19 @@ namespace YellowTaxiAP.Managers
 
         public static string GetItemText(long itemId, bool includePlayer = true, bool includePrefixes = true)
         {
-            ScoutedItemInfo item;
             try
             {
-                item = Plugin.ArchipelagoClient.ScoutedLocations[itemId];
+                return GetItemText(Plugin.ArchipelagoClient.ScoutedLocations[itemId], includePlayer, includePrefixes);
             }
             catch (Exception ex)
             {
-
                 Plugin.BepinLogger.LogWarning(ex);
                 return includePrefixes ? "an item from the multiworld" : "item from the multiworld";
             }
+        }
 
+        public static string GetItemText(ScoutedItemInfo item, bool includePlayer = true, bool includePrefixes = true)
+        {
             var material = DialogueColors.Yellow;
             if ((item.Flags & ItemFlags.Advancement) == ItemFlags.Advancement)
             {
