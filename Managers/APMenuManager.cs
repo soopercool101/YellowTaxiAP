@@ -1,6 +1,9 @@
+using System;
 using I2.Loc;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using YellowTaxiAP.Archipelago;
+using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
 {
@@ -23,6 +26,7 @@ namespace YellowTaxiAP.Managers
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
         }
 
+        private float _tickDelay = 0.0f;
         /// <summary>
         /// Reimplementation ignoring physics raycast and max distance from player
         /// </summary>
@@ -37,14 +41,25 @@ namespace YellowTaxiAP.Managers
             else
             {
                 var zero = Vector2.zero;
-                if (Controls.MenuLeftHold(0))
-                    --zero.x;
-                if (Controls.MenuRightHold(0))
-                    ++zero.x;
-                if (Controls.MenuUpHold(0))
-                    ++zero.y;
-                if (Controls.MenuDownHold(0))
-                    --zero.y;
+                var axisX = Controls.players[0].GetAxis("MenuAxisX");
+                var axisY = Controls.players[0].GetAxis("MenuAxisY");
+                var keyboardSpeed = Controls.IsKeyHold(Key.LeftShift) || Controls.IsKeyHold(Key.RightShift) ? 2 : 1;
+                if (axisX < 0)
+                    zero.x += axisX * 2;
+                else if (Controls.MenuLeftHold(0))
+                    zero.x -= keyboardSpeed;
+                if (axisX > 0)
+                    zero.x += axisX * 2;
+                else if (Controls.MenuRightHold(0))
+                    zero.x += keyboardSpeed;
+                if (axisY > 0)
+                    zero.y += axisY * 2;
+                else if (Controls.MenuUpHold(0))
+                    zero.y += keyboardSpeed;
+                if (axisY < 0)
+                    zero.y += axisY * 2;
+                else if (Controls.MenuDownHold(0))
+                    zero.y -= keyboardSpeed;
                 var num1 = 0.0f;
                 if (Controls.MenuCameraUp(0))
                     ++num1;
@@ -63,8 +78,12 @@ namespace YellowTaxiAP.Managers
                 }
                 CameraGame.instance.SetTarget(null, self.cameraDesiredPosition, self.cameraDesiredEulers.y, self.cameraDesiredEulers.x, 0.0f, 0.0f, 0.0f, 75f);
                 CameraGame.instance.SetChagesSpeedMagnitude(0.75f, 0.75f, 0.75f, 1f, 0.1f);
-                if (zero != Vector2.zero && !Sound.IsPlaying("SoundMenuPanTick"))
+                if (zero != Vector2.zero && !Sound.IsPlaying("SoundMenuPanTick") && _tickDelay <= 0.0f)
+                {
                     Sound.Play_Unpausable("SoundMenuPanTick");
+                    _tickDelay = 0.3f;
+                }
+                _tickDelay -= Tick.Time * Math.Max(Math.Max(Math.Abs(zero.x), Math.Abs(zero.y)), zero.magnitude);
                 self.textAlpha -= Tick.Time;
                 self.textAlpha = Mathf.Max(self.textAlpha, 0.0f);
                 if (zero != Vector2.zero)

@@ -62,6 +62,12 @@
         <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\BepInEx\plugins\MMHOOK\Managed\MMHOOK_Assembly-CSharp.dll</HintPath>
         <Private>False</Private>
       </Reference>
+      <Reference Include="Rewired_Core">
+        <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Rewired_Core.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.InputSystem">
+        <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Unity.InputSystem.dll</HintPath>
+      </Reference>
       <Reference Include="Unity.TextMeshPro">
         <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Yellow Taxi Goes Vroom\Yellow Taxi Goes Vroom_Data\Managed\Unity.TextMeshPro.dll</HintPath>
         <Private>False</Private>
