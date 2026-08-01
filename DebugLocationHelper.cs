@@ -884,7 +884,7 @@ namespace YellowTaxiAP
             { "0_03_00737", "Pizza Oven - Chest on Top of Pillar" },
         };
 
-        [Description("Morio's Lab - Ground Floor Propeller")]
+        [Description("Morio's Lab - Ground Floor Golden Propeller")]
         public static Dictionary<string, string> MoriosLabGroundFloorGoldenPropeller = new()
         {
             { string.Empty, nameof(MoriosLabGroundFloorGoldenPropeller) + " - !PLACEHOLDER!" }
@@ -5836,6 +5836,48 @@ namespace YellowTaxiAP
             { "9_03_00294", "Maurizio's City - Coin Bag on Gimmy's Roof" },
         };
 
+        [Description("Maurizio's City - Lower High Ground")]
+        public static Dictionary<string, string> MauriziosCityLowerHighGround = new()
+        {
+            { "9_03_00050", "Maurizio's City - Safe on Tree Near Start" },
+            { "9_09_00165", "Maurizio's City - Checkpoint on Building on Lowest Level" },
+            { "9_03_00192", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #1" },
+            { "9_03_00193", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #2" },
+            { "9_03_00195", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #3" },
+            { "9_03_00196", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #4" },
+            { "9_03_00191", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #5" },
+            { "9_03_00189", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #6" },
+            { "9_03_00187", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #7" },
+            { "9_03_00185", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #8" },
+            { "9_03_00179", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #9" },
+            { "9_03_00172", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #10" },
+            { "9_03_00171", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #11" },
+            { "9_03_00169", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #12" },
+            { "9_03_00168", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #13" },
+            { "9_03_00178", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #14" },
+            { "9_03_00184", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #15" },
+            { "9_03_00186", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #16" },
+            { "9_03_00188", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #17" },
+            { "9_03_00190", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #18" },
+            { "9_03_00134", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #1" },
+            { "9_03_00131", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #2" },
+            { "9_03_00128", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #3" },
+            { "9_03_00133", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #4" },
+            { "9_03_00127", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #5" },
+            { "9_03_00132", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #6" },
+            { "9_03_00129", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #7" },
+            { "9_03_00126", "Maurizio's City - Coin Surrounding Timer on Building Above Lowest Level Plaza #8" },
+            { "9_03_00092", "Maurizio's City - Coin Near Skylight on Building Near Purple Tunnel Entrance #1" },
+            { "9_03_00094", "Maurizio's City - Coin Near Skylight on Building Near Purple Tunnel Entrance #2" },
+            { "9_03_00085", "Maurizio's City - Coin Near Skylight on Building Near Purple Tunnel Entrance #3" },
+            { "9_03_00087", "Maurizio's City - Coin Near Skylight on Building Near Purple Tunnel Entrance #4" },
+
+            { "9_03_00296", "Maurizio's City - Coin on Tonino's Pizza #1" },
+            { "9_03_00297", "Maurizio's City - Coin on Tonino's Pizza #2" },
+            { "9_03_00298", "Maurizio's City - Coin on Morco's Pizza #1" },
+            { "9_03_00299", "Maurizio's City - Coin on Morco's Pizza #2" },
+        };
+
         [Description("Maurizio's City - Roofs Under Checkpoint Building")]
         public static Dictionary<string, string> MauriziosCityExpert2RoofsUnderCheckpointBuilding = new()
         {
@@ -6805,6 +6847,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MauriziosCityStartingArea)), MauriziosCityStartingArea),
             new(GetDescription(nameof(MauriziosCitySpin)), MauriziosCitySpin),
             new(GetDescription(nameof(MauriziosCityExpert2)), MauriziosCityExpert2),
+            new(GetDescription(nameof(MauriziosCityLowerHighGround)), MauriziosCityLowerHighGround),
             new(GetDescription(nameof(MauriziosCityExpert2RoofsUnderCheckpointBuilding)), MauriziosCityExpert2RoofsUnderCheckpointBuilding),
             new(GetDescription(nameof(MauriziosCityCheckpointBuildingOnUpperLevel)), MauriziosCityCheckpointBuildingOnUpperLevel),
             new(GetDescription(nameof(MauriziosCityHatWorld)), MauriziosCityHatWorld),
@@ -7162,6 +7205,7 @@ namespace YellowTaxiAP
                     MauriziosCityStartingArea,
                     MauriziosCitySpin,
                     MauriziosCityExpert2,
+                    MauriziosCityLowerHighGround,
                     MauriziosCityExpert2RoofsUnderCheckpointBuilding,
                     MauriziosCityCheckpointBuildingOnUpperLevel,
                     MauriziosCityHatWorld,
@@ -8537,7 +8581,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Tosla Offices (Fifth Floor) - Down Elevator", ToslaOfficesFourthFloorAfterGoldenSpring, ConnectionType.Subwarp),
                     new RegionConnection("Tosla Offices (Fifth Floor) - Employees Only Door", ToslaOfficesEmployeesOnlyStartingArea, ConnectionType.Subwarp, "EmployeeHat"),
                     new RegionConnection(ToslaOfficesFifthFloorGoldenSpringArea, "X3/GST/PMJ"),
-                    new RegionConnection(ToslaOfficesFifthFloorExitArea, "SpikeT | X1+PMJ"),
+                    new RegionConnection(ToslaOfficesFifthFloorExitArea, "SpikeT | X2+PMB | X1+PMJ"),
                 ]
             },
             {
@@ -8854,6 +8898,12 @@ namespace YellowTaxiAP
             },
             {
                 GetDescription(nameof(MauriziosCitySpin)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityLowerHighGround)),
                 [
                     // No connections
                 ]
