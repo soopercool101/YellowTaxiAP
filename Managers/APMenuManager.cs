@@ -44,22 +44,28 @@ namespace YellowTaxiAP.Managers
                 var axisX = Controls.players[0].GetAxis("MenuAxisX");
                 var axisY = Controls.players[0].GetAxis("MenuAxisY");
                 var keyboardSpeed = Controls.IsKeyHold(Key.LeftShift) || Controls.IsKeyHold(Key.RightShift) ? 2 : 1;
-                if (axisX < 0)
+                if (Math.Abs(axisX) > 0.05)
+                {
                     zero.x += axisX * 2;
-                else if (Controls.MenuLeftHold(0))
-                    zero.x -= keyboardSpeed;
-                if (axisX > 0)
-                    zero.x += axisX * 2;
-                else if (Controls.MenuRightHold(0))
-                    zero.x += keyboardSpeed;
-                if (axisY > 0)
+                }
+                else
+                {
+                    if (Controls.MenuLeftHold(0))
+                        zero.x -= keyboardSpeed;
+                    if (Controls.MenuRightHold(0))
+                        zero.x += keyboardSpeed;
+                }
+                if (Math.Abs(axisY) > 0.05)
+                {
                     zero.y += axisY * 2;
-                else if (Controls.MenuUpHold(0))
-                    zero.y += keyboardSpeed;
-                if (axisY < 0)
-                    zero.y += axisY * 2;
-                else if (Controls.MenuDownHold(0))
-                    zero.y -= keyboardSpeed;
+                }
+                else
+                {
+                    if (Controls.MenuUpHold(0))
+                        zero.y += keyboardSpeed;
+                    if (Controls.MenuDownHold(0))
+                        zero.y -= keyboardSpeed;
+                }
                 var num1 = 0.0f;
                 if (Controls.MenuCameraUp(0))
                     ++num1;
