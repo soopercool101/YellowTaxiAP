@@ -31,6 +31,17 @@ namespace YellowTaxiAP.Behaviours
                     t.CostUpdateTry();
                     t.UpdatePortalToLevelName();
                 }
+
+                if (MenuV2Script.instance)
+                {
+                    var nextLevelCost = Data.ComputeNextLevelCost();
+                    var maximumOfVersion = Master.instance.Gears_GetMaximumOfVersion();
+                    MenuV2Script.instance.pauseGearsTextAnimator.SetText(
+                        Data.gearsUnlockedNumber[Data.gameDataIndex] < maximumOfVersion
+                            ? $" <sprite name=\"GearCounterOn\"><size=0.5> </size>{Data.gearsUnlockedNumber[Data.gameDataIndex].ToString()}<size=0.5> </size>/<size=0.5> </size>{nextLevelCost.ToString()}<size=1></size><sprite name=\"ArrowRight\">{(maximumOfVersion == nextLevelCost ? "<sprite name=\"CompletitionTrophy\">" : "<sprite name=\"Portal\">")}"
+                            : $" <sprite name=\"GearCounterOn\"><size=0.5> </size>{Data.gearsUnlockedNumber[Data.gameDataIndex].ToString()}<sprite name=\"CompletitionTrophy\">",
+                        false);
+                }
                 GearStateNeedsUpdate = false;
             }
 
