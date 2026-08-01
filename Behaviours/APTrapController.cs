@@ -159,12 +159,19 @@ namespace YellowTaxiAP.Behaviours
                     break;
                 case "dialogue":
                 case "text":
-                    newTrap = Random.RandomRangeInt(0, 3) switch
+                    var dialogTraps = new List<Trap>
                     {
-                        0 => new LiteratureTrap(),
-                        1 => new SpamTrap(),
-                        _ => new PhoneTrap()
+                        new LiteratureTrap(),
+                        new SpamTrap(),
+                        new PhoneTrap()
                     };
+                    if (Plugin.SlotData.TrapLinkUsesWhitelist)
+                    {
+                        dialogTraps = dialogTraps.Where(trap => Plugin.SlotData.TrapLinkWhiteList.Contains(trap.Name)).ToList();
+                        if (dialogTraps.Count == 0)
+                            break;
+                    }
+                    newTrap = dialogTraps[Random.RandomRangeInt(0, dialogTraps.Count)];
                     break;
                 case "timer":
                 case "time":
