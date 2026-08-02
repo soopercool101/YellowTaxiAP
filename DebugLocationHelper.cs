@@ -1361,7 +1361,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> HubSpecialRules = new()
         {
             { "Granny's Island - Safe on Ocean Pillar", "B2 | B1 & X3/GP | X2+J1 & X3/B1" },
-            { "Granny's Island - Safe on Granny's Statue", "J2 | J1/B1 & X2/GP | X1+B1+J1 | B2 & X1/J1" },
+            { "Granny's Island - Safe on Granny's Statue", "J2 | J1/B1 & X2/GP | X1+B1+J1 | B2 & X1/J1 | X2+GP" },
             { "Granny's Island - Coin Bag on Pillar Towards Sewer", "X2/B1/GP" },
             { "Granny's Island - Gear - Oil Pump", "SP | X2" },
             { "Granny's Island - Gear - Inside Spin Blocks", "X3/SP" },
@@ -3883,20 +3883,12 @@ namespace YellowTaxiAP
             { "2_03_00327", "Pizza Time - Coin on Middle Column on Plateau on First Main Island #7" },
             { "2_03_00351", "Pizza Time - Chest on House on Top of First Hill" },
             { "2_03_00413", "Pizza Time - Coin Bag on Spire on Top of First Hill" },
-            { "2_02_00001", "Pizza Time - Bunny - Under Arch on Second Main Island" },
             { "2_03_00305", "Pizza Time - Coin on House Near Bunny Arch #1" },
             { "2_03_00306", "Pizza Time - Coin on House Near Bunny Arch #2" },
             { "2_03_00329", "Pizza Time - Coin on House Near Bunny Arch #3" },
             { "2_03_00334", "Pizza Time - Coin on House Near Bunny Arch #4" },
             { "2_03_00349", "Pizza Time - Coin Bag on House Near Bunny Arch" },
             { "2_01_00014", "Pizza Time - Gear - On 400° Oven" },
-            { "2_03_00330", "Pizza Time - Coin on Morco's Pizza Roof #1" },
-            { "2_03_00336", "Pizza Time - Coin on Morco's Pizza Roof #2" },
-            { "2_03_00337", "Pizza Time - Coin on Morco's Pizza Roof #3" },
-            { "2_03_00338", "Pizza Time - Coin on Morco's Pizza Roof #4" },
-            { "2_03_00350", "Pizza Time - Coin on Morco's Pizza Roof #5" },
-            { "2_03_00392", "Pizza Time - Coin on Morco's Pizza Roof #6" },
-            { "2_03_00412", "Pizza Time - Coin Bag on Morco's Pizza Roof" },
             { "2_03_00396", "Pizza Time - Coin Bag on House Near Morco's Pizza" },
             { "2_01_00008", "Pizza Time - Gear - On 600° Oven" },
             { "2_03_00586", "Pizza Time - Coin Bag on Roof Left Before Final Roundabout" },
@@ -3933,6 +3925,20 @@ namespace YellowTaxiAP
             { "2_03_00357", "Pizza Time - Coin on Island Between Second and Final Main Islands #5" },
             { "2_03_00361", "Pizza Time - Coin on Island Between Second and Final Main Islands #6" },
             { "2_03_00358", "Pizza Time - Coin on Island Between Second and Final Main Islands #7" },
+            { "2_03_00393", "Pizza Time - Coin Bag on Roof Before 600° Oven" },
+        };
+
+        [Description("Pizza Time - Second Main Island Mountain Lower")]
+        public static Dictionary<string, string> PizzaTimeSecondMainIslandMountainLow = new()
+        {
+            { "2_03_00330", "Pizza Time - Coin on Morco's Pizza Roof #1" },
+            { "2_03_00336", "Pizza Time - Coin on Morco's Pizza Roof #2" },
+            { "2_03_00337", "Pizza Time - Coin on Morco's Pizza Roof #3" },
+            { "2_03_00338", "Pizza Time - Coin on Morco's Pizza Roof #4" },
+            { "2_03_00350", "Pizza Time - Coin on Morco's Pizza Roof #5" },
+            { "2_03_00392", "Pizza Time - Coin on Morco's Pizza Roof #6" },
+            { "2_03_00412", "Pizza Time - Coin Bag on Morco's Pizza Roof" },
+            { "2_02_00001", "Pizza Time - Bunny - Under Arch on Second Main Island" },
             { "2_03_00581", "Pizza Time - Coin on Bunny Arch #1" },
             { "2_03_00582", "Pizza Time - Coin on Bunny Arch #2" },
             { "2_03_00583", "Pizza Time - Coin on Bunny Arch #3" },
@@ -3946,10 +3952,9 @@ namespace YellowTaxiAP
             { "2_03_00456", "Pizza Time - Coin on Second Main Island Mountain #8" },
             { "2_03_00452", "Pizza Time - Coin on Second Main Island Mountain #9" },
             { "2_03_00457", "Pizza Time - Coin on Second Main Island Mountain #10" },
-            { "2_03_00393", "Pizza Time - Coin Bag on Roof Before 600° Oven" },
         };
 
-        [Description("Pizza Time - Second Main Island Mountain")]
+        [Description("Pizza Time - Second Main Island Mountain Upper")]
         public static Dictionary<string, string> PizzaTimeSecondMainIslandMountain = new()
         {
             { "2_03_00609", "Pizza Time - Coin Surrounding Coin Bag on Second Main Island Mountain #1" },
@@ -5815,6 +5820,7 @@ namespace YellowTaxiAP
             { "9_01_00009", "Maurizio's City - Gear - Escort Pietro Parcheggio" },
             { "9_01_00017", "Maurizio's City - Gear - Escort Uigliam" },
             { "9_01_00008", "Maurizio's City - Gear - Escort Doggo" },
+            { "9_21_00001", "Maurizio's City - Cheese Near Doggo on Upper Level" },
         };
 
         [Description("Maurizio's City - Oil Pumps")]
@@ -5839,6 +5845,16 @@ namespace YellowTaxiAP
         [Description("Maurizio's City - Lower High Ground")]
         public static Dictionary<string, string> MauriziosCityLowerHighGround = new()
         {
+            { "9_03_00113", "Maurizio's City - Coin on Red Beams on Lower Middle Level #5" },
+            { "9_03_00101", "Maurizio's City - Coin on Red Beams on Lower Middle Level #6" },
+            { "9_03_00114", "Maurizio's City - Coin on Red Beams on Lower Middle Level #7" },
+            { "9_03_00102", "Maurizio's City - Coin on Red Beams on Lower Middle Level #8" },
+            { "9_03_00115", "Maurizio's City - Coin on Red Beams on Lower Middle Level #9" },
+            { "9_03_00103", "Maurizio's City - Coin on Red Beams on Lower Middle Level #10" },
+            { "9_03_00095", "Maurizio's City - Coin on Red Beams on Lower Middle Level #11" },
+            { "9_03_00097", "Maurizio's City - Coin on Red Beams on Lower Middle Level #12" },
+            { "9_03_00098", "Maurizio's City - Coin on Red Beams on Lower Middle Level #13" },
+            { "9_03_00100", "Maurizio's City - Coin on Red Beams on Lower Middle Level #14" },
             { "9_03_00050", "Maurizio's City - Safe on Tree Near Start" },
             { "9_09_00165", "Maurizio's City - Checkpoint on Building on Lowest Level" },
             { "9_03_00192", "Maurizio's City - Coin Surrounding Skylight on Building Above Lowest Level Plaza #1" },
@@ -5871,11 +5887,147 @@ namespace YellowTaxiAP
             { "9_03_00094", "Maurizio's City - Coin Near Skylight on Building Near Purple Tunnel Entrance #2" },
             { "9_03_00085", "Maurizio's City - Coin Near Skylight on Building Near Purple Tunnel Entrance #3" },
             { "9_03_00087", "Maurizio's City - Coin Near Skylight on Building Near Purple Tunnel Entrance #4" },
-
+            { "9_03_00164", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #1" },
+            { "9_03_00180", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #2" },
+            { "9_03_00165", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #3" },
+            { "9_03_00181", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #4" },
+            { "9_03_00166", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #5" },
+            { "9_03_00182", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #6" },
+            { "9_03_00167", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #7" },
+            { "9_03_00183", "Maurizio's City - Coin on Alcove Building Above Lowest Level Plaza #8" },
+            { "9_03_00201", "Maurizio's City - Coin on Brown Building on Lower Middle Level #1" },
+            { "9_03_00202", "Maurizio's City - Coin on Brown Building on Lower Middle Level #2" },
+            { "9_03_00203", "Maurizio's City - Coin on Brown Building on Lower Middle Level #3" },
+            { "9_03_00206", "Maurizio's City - Coin on Dark Gray Building on Lower Middle Level #1" },
+            { "9_03_00207", "Maurizio's City - Coin Bag on Dark Gray Building on Lower Middle Level #1" },
+            { "9_03_00208", "Maurizio's City - Coin Bag on Dark Gray Building on Lower Middle Level #2" },
+            { "9_03_00209", "Maurizio's City - Coin on Dark Gray Building on Lower Middle Level #2" },
             { "9_03_00296", "Maurizio's City - Coin on Tonino's Pizza #1" },
             { "9_03_00297", "Maurizio's City - Coin on Tonino's Pizza #2" },
             { "9_03_00298", "Maurizio's City - Coin on Morco's Pizza #1" },
             { "9_03_00299", "Maurizio's City - Coin on Morco's Pizza #2" },
+            { "9_03_00347", "Maurizio's City - Chest in Red Beam Structure Overlooking Cliff on Upper Middle Level" }
+        };
+
+        [Description("Maurizio's City - Coin Bags on Roofs Under Maurizio's Building")]
+        public static Dictionary<string, string> MauriziosCityRoofsUnderMaurizio = new()
+        {
+            { "9_03_00301", "Maurizio's City - Coin Bag on Mario's Pizza Roof Near Maurizio's Building" },
+            { "9_03_00346", "Maurizio's City - Coin Bag on Hotel Roof Near Maurizio's Building" }
+        };
+
+        [Description("Maurizio's City - Trickier High Ground")]
+        public static Dictionary<string, string> MauriziosCityTrickierHighGround = new()
+        {
+            { "9_01_00010", "Maurizio's City - Gear - On Water Tower Near Hat World" },
+            { "9_01_00006", "Maurizio's City - Gear - On Maurizio's Statue" },
+            { "9_03_00325", "Maurizio's City - Coin Bag on Tree Behind Brown Buildings on Upper Middle Level #1" },
+            { "9_03_00344", "Maurizio's City - Coin Bag on Tree Behind Brown Buildings on Upper Middle Level #2" },
+            { "9_03_00375", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #1" },
+            { "9_03_00374", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #2" },
+            { "9_03_00373", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #3" },
+            { "9_03_00378", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #4" },
+            { "9_03_00376", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #5" },
+            { "9_03_00381", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #6" },
+            { "9_03_00380", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #7" },
+            { "9_03_00379", "Maurizio's City - Coin Between Skylights on Brown Building Near Maurizio's #8" },
+            { "9_03_00394", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #1" },
+            { "9_03_00393", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #2" },
+            { "9_03_00392", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #3" },
+            { "9_03_00391", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #4" },
+            { "9_03_00390", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #5" },
+            { "9_03_00395", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #6" },
+            { "9_03_00397", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #7" },
+            { "9_03_00399", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #8" },
+            { "9_03_00401", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #9" },
+            { "9_03_00403", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #10" },
+            { "9_03_00405", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #11" },
+            { "9_03_00406", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #12" },
+            { "9_03_00407", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #13" },
+            { "9_03_00408", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #14" },
+            { "9_03_00409", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #15" },
+            { "9_03_00404", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #16" },
+            { "9_03_00402", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #17" },
+            { "9_03_00400", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #18" },
+            { "9_03_00398", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #19" },
+            { "9_03_00396", "Maurizio's City - Coin Surrounding Skylight on Tall Dark Gray Building Near Maurizio's #20" },
+            { "9_01_00013", "Maurizio's City - Gear - In Large Red Beam Structure" },
+            { "9_03_00443", "Maurizio's City - Coin in Arrow Above Red Beam #1" },
+            { "9_03_00441", "Maurizio's City - Coin in Arrow Above Red Beam #2" },
+            { "9_03_00410", "Maurizio's City - Coin in Arrow Above Red Beam #3" },
+            { "9_03_00411", "Maurizio's City - Coin in Arrow Above Red Beam #4" },
+            { "9_03_00412", "Maurizio's City - Coin in Arrow Above Red Beam #5" },
+            { "9_03_00388", "Maurizio's City - Coin in Arrow Above Red Beam #6" },
+            { "9_03_00389", "Maurizio's City - Coin in Arrow Above Red Beam #7" },
+            { "9_03_00386", "Maurizio's City - Coin in Arrow Above Red Beam #8" },
+            { "9_03_00414", "Maurizio's City - Coin Bag on Brown Building Near Large Red Beam Structure #1" },
+            { "9_03_00413", "Maurizio's City - Coin Bag on Brown Building Near Large Red Beam Structure #2" },
+            { "9_01_00015", "Maurizio's City - Gear - On Brown Building Near Large Red Beam Structure" },
+            { "9_03_00452", "Maurizio's City - Coin on Top of Large Red Beam Structure #1" },
+            { "9_03_00453", "Maurizio's City - Coin on Top of Large Red Beam Structure #2" },
+            { "9_03_00454", "Maurizio's City - Coin on Top of Large Red Beam Structure #3" },
+            { "9_03_00455", "Maurizio's City - Coin on Top of Large Red Beam Structure #4" },
+        };
+
+        [Description("Maurizio's City - Maurizio's Building Lower Ledge")]
+        public static Dictionary<string, string> MauriziosCityMaurizioBuildingLower = new()
+        {
+            { "9_09_00390", "Maurizio's City - Checkpoint on Maurizio's Building Lower Ledge" },
+            { "9_03_00420", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #1" },
+            { "9_03_00421", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #2" },
+            { "9_03_00422", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #3" },
+            { "9_03_00423", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #4" },
+            { "9_03_00425", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #5" },
+            { "9_03_00426", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #6" },
+            { "9_03_00427", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #7" },
+            { "9_03_00428", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #8" },
+            { "9_03_00429", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #9" },
+            { "9_03_00430", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #10" },
+            { "9_03_00431", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #11" },
+            { "9_03_00432", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #12" },
+            { "9_03_00433", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #13" },
+            { "9_03_00434", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #14" },
+            { "9_03_00435", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #15" },
+            { "9_03_00436", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #16" },
+            { "9_03_00437", "Maurizio's City - Coin on Maurizio's Building Lower Ledge #17" },
+        };
+
+        [Description("Maurizio's City - Maurizio's Building Maurizio Area")]
+        public static Dictionary<string, string> MauriziosCityMaurizioBuildingMiddle = new()
+        {
+            { "9_01_00004", "Maurizio's City - Gear - Help Maurizio" },
+        };
+
+        [Description("Maurizio's City - Maurizio's Building Upper Area")]
+        public static Dictionary<string, string> MauriziosCityMaurizioBuildingUpper = new()
+        {
+            { "9_02_00002", "Maurizio's City - Bunny - On Top of Maurizio's Building" },
+            { "9_07_00024", "Purchase Captain Abs-urd Hat" },
+            { "9_07_00025", "Purchase Roid-Man Hat" },
+        };
+
+        [Description("Maurizio's City - Island Near Hat World")]
+        public static Dictionary<string, string> MauriziosCityIslandNearHatWorld = new()
+        {
+            { "9_03_00077", "Maurizio's City - Coin on Tall Island Near Hat World #1" },
+            { "9_03_00084", "Maurizio's City - Coin on Tall Island Near Hat World #2" },
+            { "9_03_00076", "Maurizio's City - Coin on Tall Island Near Hat World #3" },
+            { "9_03_00070", "Maurizio's City - Coin on Tall Island Near Hat World #4" },
+            { "9_03_00083", "Maurizio's City - Coin on Tall Island Near Hat World #5" },
+            { "9_03_00075", "Maurizio's City - Coin on Tall Island Near Hat World #6" },
+            { "9_03_00069", "Maurizio's City - Coin on Tall Island Near Hat World #7" },
+            { "9_03_00082", "Maurizio's City - Coin on Tall Island Near Hat World #8" },
+            { "9_03_00074", "Maurizio's City - Coin on Tall Island Near Hat World #9" },
+            { "9_03_00068", "Maurizio's City - Coin on Tall Island Near Hat World #10" },
+            { "9_03_00081", "Maurizio's City - Coin on Tall Island Near Hat World #11" },
+            { "9_03_00067", "Maurizio's City - Coin on Tall Island Near Hat World #12" },
+            { "9_03_00091", "Maurizio's City - Coin on Tall Island Near Hat World #13" },
+            { "9_03_00089", "Maurizio's City - Coin on Tall Island Near Hat World #14" },
+            { "9_01_00018", "Maurizio's City - Gear - On Tall Island Near Hat World" },
+            { "9_03_00072", "Maurizio's City - Coin on Tall Island Near Hat World #15" },
+            { "9_03_00066", "Maurizio's City - Coin on Tall Island Near Hat World #16" },
+            { "9_03_00079", "Maurizio's City - Coin on Tall Island Near Hat World #17" },
+            { "9_03_00078", "Maurizio's City - Coin on Tall Island Near Hat World #18" },
         };
 
         [Description("Maurizio's City - Roofs Under Checkpoint Building")]
@@ -5917,6 +6069,72 @@ namespace YellowTaxiAP
             { "9_09_00345", "Maurizio's City - Checkpoint on Building on Upper Level" },
         };
 
+        [Description("Maurizio's City - Lower Plaza Central Building")]
+        public static Dictionary<string, string> MauriziosCityLowerPlazaCenterBuilding = new()
+        {
+            { "9_03_00275", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #1" },
+            { "9_03_00276", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #2" },
+            { "9_03_00277", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #3" },
+            { "9_03_00272", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #4" },
+            { "9_03_00274", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #5" },
+            { "9_03_00267", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #6" },
+            { "9_03_00268", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #7" },
+            { "9_01_00011", "Maurizio's City - Gear - On Central Building in Lowest Level Plaza" },
+            { "9_03_00270", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #8" },
+            { "9_03_00271", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #9" },
+            { "9_03_00264", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #10" },
+            { "9_03_00266", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #11" },
+            { "9_03_00261", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #12" },
+            { "9_03_00262", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #13" },
+            { "9_03_00263", "Maurizio's City - Coin on Central Building in Lowest Level Plaza #14" },
+        };
+
+        [Description("Maurizio's City - Orange Blocks on Red Beams")]
+        public static Dictionary<string, string> MauriziosCityOrangeBlocksOnRedBeams = new()
+        {
+            { "9_03_00289", "Maurizio's City - Coin Bag on Red Beams #1" },
+            { "9_03_00290", "Maurizio's City - Coin on Red Beams #1" },
+            { "9_03_00291", "Maurizio's City - Coin on Red Beams #2" },
+            { "9_03_00292", "Maurizio's City - Coin on Red Beams #3" },
+            { "9_03_00293", "Maurizio's City - Coin Bag on Red Beams #2" },
+            { "9_03_00288", "Maurizio's City - Coin on Red Beams #4" },
+            { "9_03_00286", "Maurizio's City - Coin on Red Beams #5" },
+            { "9_03_00284", "Maurizio's City - Coin on Red Beams #6" },
+            { "9_03_00282", "Maurizio's City - Coin Bag on Red Beams #3" },
+            { "9_03_00281", "Maurizio's City - Coin on Red Beams #7" },
+            { "9_03_00280", "Maurizio's City - Coin on Red Beams #8" },
+            { "9_03_00279", "Maurizio's City - Coin on Red Beams #9" },
+            { "9_03_00278", "Maurizio's City - Coin Bag on Red Beams #4" },
+            { "9_03_00283", "Maurizio's City - Coin on Red Beams #10" },
+            { "9_03_00285", "Maurizio's City - Coin on Red Beams #11" },
+            { "9_03_00287", "Maurizio's City - Coin on Red Beams #12" },
+        };
+
+        [Description("Maurizio's City - Floating Orange Blocks With Coins (Closer Coins)")]
+        public static Dictionary<string, string> MauriziosCityFloatingOrangeBlockCloserCoins = new()
+        {
+            { "9_03_00367", "Maurizio's City - Coin on Floating Orange Blocks #1" },
+            { "9_03_00368", "Maurizio's City - Coin on Floating Orange Blocks #2" },
+            { "9_03_00369", "Maurizio's City - Coin on Floating Orange Blocks #3" },
+            { "9_03_00364", "Maurizio's City - Coin on Floating Orange Blocks #4" },
+            { "9_03_00366", "Maurizio's City - Coin on Floating Orange Blocks #5" },
+        };
+
+        [Description("Maurizio's City - Floating Orange Blocks With Coins (Further Coins)")]
+        public static Dictionary<string, string> MauriziosCityFloatingOrangeBlockCoins = new()
+        {
+            { "9_03_00365", "Maurizio's City - Chest on Floating Orange Blocks" },
+            { "9_03_00361", "Maurizio's City - Coin on Floating Orange Blocks #6" },
+            { "9_03_00362", "Maurizio's City - Coin on Floating Orange Blocks #7" },
+            { "9_03_00363", "Maurizio's City - Coin on Floating Orange Blocks #8" },
+        };
+
+        [Description("Maurizio's City - Floating Orange Blocks With Bunny")]
+        public static Dictionary<string, string> MauriziosCityFloatingOrangeBlockBunny = new()
+        {
+            { "9_02_00000", "Maurizio's City - Bunny - On Orange Blocks" }
+        };
+
         [Description("Purple Tunnel")]
         public static Dictionary<string, string> PurpleTunnel = new()
         {
@@ -5939,7 +6157,9 @@ namespace YellowTaxiAP
             { "Purple Tunnel - Gear", "B1/J1" },
             { "Purple Tunnel - Bunny", "B1/J2 | X1+J1" },
             { "Maurizio's City - Coin on Red Beams on Lower Middle Level #4", "X3/J1/B1" },
-            { "Maurizio's City - Coin on Pink House Roof on Upper Level #3", $"B1/J1 | {{{GetDescription(nameof(MauriziosCityCheckpointBuildingOnUpperLevel))}}}"},
+            { "Maurizio's City - Coin on Pink House Roof on Upper Level #3", $"B1/J1 | {{{GetDescription(nameof(MauriziosCityCheckpointBuildingOnUpperLevel))}}}" },
+            { "Maurizio's City - Bunny - On Top of Maurizio's Building", "B2 & X3/J1 | X2+B1+J1" },
+            { "Maurizio's City - Gear - On Brown Building Near Large Red Beam Structure", "X1/B1" },
         };
 
         #endregion
@@ -6762,6 +6982,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(PizzaTimeLessAccessibleLedges)), PizzaTimeLessAccessibleLedges),
             new(GetDescription(nameof(PizzaTimeLedgeLeftOfFinalRoundabout)), PizzaTimeLedgeLeftOfFinalRoundabout),
             new(GetDescription(nameof(PizzaTimeHighGround)), PizzaTimeHighGround),
+            new(GetDescription(nameof(PizzaTimeSecondMainIslandMountainLow)), PizzaTimeSecondMainIslandMountainLow),
             new(GetDescription(nameof(PizzaTimeSecondMainIslandMountain)), PizzaTimeSecondMainIslandMountain),
             new(GetDescription(nameof(PizzaTimeBunnyIslandUpper)), PizzaTimeBunnyIslandUpper),
             new(GetDescription(nameof(PizzaTimeBunnyIslandLower)), PizzaTimeBunnyIslandLower),
@@ -6848,8 +7069,19 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MauriziosCitySpin)), MauriziosCitySpin),
             new(GetDescription(nameof(MauriziosCityExpert2)), MauriziosCityExpert2),
             new(GetDescription(nameof(MauriziosCityLowerHighGround)), MauriziosCityLowerHighGround),
+            new(GetDescription(nameof(MauriziosCityRoofsUnderMaurizio)), MauriziosCityRoofsUnderMaurizio),
+            new(GetDescription(nameof(MauriziosCityTrickierHighGround)), MauriziosCityTrickierHighGround),
+            new(GetDescription(nameof(MauriziosCityMaurizioBuildingLower)), MauriziosCityMaurizioBuildingLower),
+            new(GetDescription(nameof(MauriziosCityMaurizioBuildingMiddle)), MauriziosCityMaurizioBuildingMiddle),
+            new(GetDescription(nameof(MauriziosCityMaurizioBuildingUpper)), MauriziosCityMaurizioBuildingUpper),
+            new(GetDescription(nameof(MauriziosCityIslandNearHatWorld)), MauriziosCityIslandNearHatWorld),
             new(GetDescription(nameof(MauriziosCityExpert2RoofsUnderCheckpointBuilding)), MauriziosCityExpert2RoofsUnderCheckpointBuilding),
             new(GetDescription(nameof(MauriziosCityCheckpointBuildingOnUpperLevel)), MauriziosCityCheckpointBuildingOnUpperLevel),
+            new(GetDescription(nameof(MauriziosCityLowerPlazaCenterBuilding)), MauriziosCityLowerPlazaCenterBuilding),
+            new(GetDescription(nameof(MauriziosCityOrangeBlocksOnRedBeams)), MauriziosCityOrangeBlocksOnRedBeams),
+            new(GetDescription(nameof(MauriziosCityFloatingOrangeBlockCloserCoins)), MauriziosCityFloatingOrangeBlockCloserCoins),
+            new(GetDescription(nameof(MauriziosCityFloatingOrangeBlockCoins)), MauriziosCityFloatingOrangeBlockCoins),
+            new(GetDescription(nameof(MauriziosCityFloatingOrangeBlockBunny)), MauriziosCityFloatingOrangeBlockBunny),
             new(GetDescription(nameof(MauriziosCityHatWorld)), MauriziosCityHatWorld),
             new(GetDescription(nameof(PurpleTunnel)), PurpleTunnel),
 
@@ -7055,6 +7287,7 @@ namespace YellowTaxiAP
                     PizzaTimeLessAccessibleLedges,
                     PizzaTimeLedgeLeftOfFinalRoundabout,
                     PizzaTimeHighGround,
+                    PizzaTimeSecondMainIslandMountainLow,
                     PizzaTimeSecondMainIslandMountain,
                     PizzaTimeBunnyIslandUpper,
                     PizzaTimeBunnyIslandLower,
@@ -7206,8 +7439,19 @@ namespace YellowTaxiAP
                     MauriziosCitySpin,
                     MauriziosCityExpert2,
                     MauriziosCityLowerHighGround,
+                    MauriziosCityRoofsUnderMaurizio,
+                    MauriziosCityTrickierHighGround,
+                    MauriziosCityMaurizioBuildingLower,
+                    MauriziosCityMaurizioBuildingMiddle,
+                    MauriziosCityMaurizioBuildingUpper,
+                    MauriziosCityIslandNearHatWorld,
                     MauriziosCityExpert2RoofsUnderCheckpointBuilding,
                     MauriziosCityCheckpointBuildingOnUpperLevel,
+                    MauriziosCityLowerPlazaCenterBuilding,
+                    MauriziosCityOrangeBlocksOnRedBeams,
+                    MauriziosCityFloatingOrangeBlockCloserCoins,
+                    MauriziosCityFloatingOrangeBlockCoins,
+                    MauriziosCityFloatingOrangeBlockBunny,
                     MauriziosCityHatWorld,
                     PurpleTunnel,
                 ]
@@ -7365,11 +7609,11 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandRocketTopCoins, "X1+Rocket+J1 & X3/GP"),
                     new RegionConnection(GrannysIslandRocketTopGear, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J1 | X3+B1+GP"),
                     new RegionConnection(GrannysIslandConstructionArch, "B1 | GP+J1"),
-                    new RegionConnection(GrannysIslandOceanPillar, "B1 | X2/GP & OS | X2+J1 & X3/GP"),
+                    new RegionConnection(GrannysIslandOceanPillar, "B1 | X2/GP & OS | X2+J1 & X3/GP | X2+GP"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+J1+OS | X1+GP | X2+J1"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland2, "B1 & X2/OS/GP/J1 | X1+GP+OS"),
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
-                    new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1 | NSAR+X1+GP+J1 | X1+GP+J2 | X3+J1"),
+                    new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1 | NSAR+X1+GP & X2/J1 | X1+GP+J2 | X3+J1"),
                     new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP | X2+B2 & X3/J1 | X2+GP & X3/B1 | X3+J1"),
                     new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | X3+GP+B1 | GP+OS+B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
@@ -7604,6 +7848,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
+                    new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X2"),
                     // Can get to fourth floor with only two golden propellers relatively easy, but lengthy reset
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropellerTwo, "X2+FGU+B1"),
                 ]
@@ -8223,6 +8468,12 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                GetDescription(nameof(BombeachBunnyPillar)),
+                [
+                    // Doesn't connect anywhere
+                ]
+            },
+            {
                 GetDescription(nameof(BombeachOrangeBlockBridge)),
                 [
                     // Doesn't connect anywhere
@@ -8347,6 +8598,7 @@ namespace YellowTaxiAP
                     new RegionConnection(PizzaTimeLessAccessibleLedges, "X2/J1/B1"),
                     new RegionConnection(PizzaTimeOrangeBlockBridge, "OS"),
                     new RegionConnection(PizzaTimeLedgeLeftOfFinalRoundabout, "X1+NHPR | X2/J1/B1"),
+                    new RegionConnection(PizzaTimeSecondMainIslandMountainLow, "X3/J1/B1"),
                     new RegionConnection(PizzaTimeHighGround, "J1/B1"),
                     new RegionConnection(PizzaTimeBunnyIslandUpper, "NOS+B2+J2 | X1+J2 | X2+J1"),
                     new RegionConnection(PizzaTimeFloatingOrangeIsland, "B2 & X1/OS | B1+J1+OS | NOS+B2+J1 | X2+B1 & NOS/X3"),
@@ -8380,8 +8632,13 @@ namespace YellowTaxiAP
                 GetDescription(nameof(PizzaTimeHighGround)),
                 [
                     new RegionConnection(PizzaTimePizzaKing, "X1/B1"),
-                    new RegionConnection(PizzaTimeSecondMainIslandMountain, "B1 | X1+J1"),
                     new RegionConnection(PizzaTimeBunnyIslandLower, "X2+B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeSecondMainIslandMountainLow)),
+                [
+                    new RegionConnection(PizzaTimeSecondMainIslandMountain, "B1 | X1+J1"),
                 ]
             },
             {
@@ -8887,9 +9144,14 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MauriziosCityStartingArea)),
                 [
                     new RegionConnection(MauriziosCitySpin, "SP"),
+                    new RegionConnection(MauriziosCityLowerHighGround, "J1/B1"),
+                    new RegionConnection(MauriziosCityTrickierHighGround, "J1 & X1/B1 | X1+B1 | J2"),
+                    new RegionConnection(MauriziosCityRoofsUnderMaurizio, "J1"),
+                    new RegionConnection(MauriziosCityIslandNearHatWorld, "J2 | X1/B2 & J1 | X1+B1"),
                     new RegionConnection(MauriziosCityExpert2, "X2/J1/B1"),
                     new RegionConnection(MauriziosCityExpert2RoofsUnderCheckpointBuilding, "X2/J1/B1"),
                     new RegionConnection(MauriziosCityCheckpointBuildingOnUpperLevel, "B1/J1"),
+                    new RegionConnection(MauriziosCityOrangeBlocksOnRedBeams, "J2 | X1 & J1/B2 | X1+B1 & X2/OS"),
                     new RegionConnection("Maurizio's City - Painted Tunnel", PurpleTunnel, ConnectionType.Subwarp),
                     new RegionConnection("Maurizio's City - Hat World Entrance", MauriziosCityHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Maurizio's City - Mori-O-Tron on Upper Middle Level Between Cheese and Meat Shops", MauriziosCityCheckpointBuildingOnUpperLevel, ConnectionType.MoriOTron),
@@ -8904,6 +9166,40 @@ namespace YellowTaxiAP
             },
             {
                 GetDescription(nameof(MauriziosCityLowerHighGround)),
+                [
+                    new RegionConnection(MauriziosCityLowerPlazaCenterBuilding, "B1 | X1+J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityTrickierHighGround)),
+                [
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockBunny, "NOS+B2+J2 | X1+B2 & X2/J1"),
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockCloserCoins, "X2+J1"),
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockCoins, "X1/NOS/OS & B1 | X1+OS+J1"),
+                    new RegionConnection(MauriziosCityMaurizioBuildingLower, "B1 | X1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityMaurizioBuildingLower)),
+                [
+                    new RegionConnection(MauriziosCityRoofsUnderMaurizio),
+                    new RegionConnection(MauriziosCityMaurizioBuildingMiddle, "B1 | X3+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityMaurizioBuildingMiddle)),
+                [
+                    new RegionConnection(MauriziosCityMaurizioBuildingUpper, "B2 & X1/J1 | X2+B1+J1")
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityMaurizioBuildingUpper)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityIslandNearHatWorld)),
                 [
                     // No connections
                 ]
@@ -8925,6 +9221,32 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MauriziosCityStartingArea),
                     new RegionConnection(MauriziosCityExpert2RoofsUnderCheckpointBuilding),
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityLowerPlazaCenterBuilding)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityFloatingOrangeBlockCloserCoins)),
+                [
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockCoins, "OS")
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityFloatingOrangeBlockCoins)),
+                [
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockCloserCoins),
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockBunny, "OS+J1+B2 | X1+OS+J1 & X2/B1"),
+                    new RegionConnection(MauriziosCityLowerPlazaCenterBuilding, "OS & B1/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MauriziosCityFloatingOrangeBlockBunny)),
+                [
+                    new RegionConnection(MauriziosCityLowerPlazaCenterBuilding)
                 ]
             },
             {
@@ -9319,6 +9641,8 @@ namespace YellowTaxiAP
             #endregion
         };
 
+        public static bool MultiCopy { get; set; }
+        public static List<string> MultiCopyIDs { get; set; }
         public static bool CheckLocation(string type, string id)
         {
             if (!Enabled)
@@ -9352,8 +9676,18 @@ namespace YellowTaxiAP
                         Plugin.Log($"Picked up unknown item of type \"{type}\". ID: {id}");
                     break;
             }
+
             if (!string.IsNullOrEmpty(type))
-                GUIUtility.systemCopyBuffer = id;
+            {
+                if (!MultiCopy)
+                {
+                    GUIUtility.systemCopyBuffer = id;
+                }
+                else
+                {
+                    MultiCopyIDs.Add(id);
+                }
+            }
             return false;
         }
 
@@ -9750,6 +10084,10 @@ namespace YellowTaxiAP
                         }
                         json = json.TrimEnd(',');
                         json += "\n  },";
+                        foreach (var item in regionItems.Where(o => !o.Value.StartsWith($"{sublevelname} - ") && !regionHats.Contains(o)))
+                        {
+                            Plugin.Log($"WARNING: \"{item.Value}\" DOES NOT PROPERLY FOLLOW NAMING GUIDELINES");
+                        }
                     }
                     json = json.TrimEnd(',');
 

@@ -396,6 +396,24 @@ public class Plugin : BaseUnityPlugin
                     Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
                 }
 
+                if (Input.GetKeyDown(KeyCode.PageUp))
+                {
+                    Log("DEBUG: Starting MultiCopy", true);
+                    DebugLocationHelper.MultiCopy = true;
+                    DebugLocationHelper.MultiCopyIDs = [];
+                }
+                if (Input.GetKeyDown(KeyCode.PageDown))
+                {
+                    Log("DEBUG: Finalizing MultiCopy, copying to clipboard", true);
+                    DebugLocationHelper.MultiCopy = false;
+                    var ids = "";
+                    for (var i = 0; i < DebugLocationHelper.MultiCopyIDs.Count; i++)
+                    {
+                        ids += $"{{ \"{DebugLocationHelper.MultiCopyIDs[i]}\", \" #{i + 1}\" }},\n";
+                    }
+                    GUIUtility.systemCopyBuffer = ids.TrimEnd('\n');
+                }
+
                 if (Input.GetKeyDown(KeyCode.KeypadMultiply))
                 {
                     Log($"Copying Known BG/Soundtrack");
