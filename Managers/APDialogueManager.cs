@@ -1462,6 +1462,11 @@ namespace YellowTaxiAP.Managers
                         if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach)
                             Plugin.ArchipelagoClient.Win();
                         break;
+                    case "DIALOGUE_MONKEY_RELIEF_1":
+                    case "DIALOGUE_MONKEY_RELIEF_POST_1":
+                        if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.MauriziosCity)
+                            Plugin.ArchipelagoClient.Win();
+                        break;
                     case "DIALOGUE_MOON_END":
                         if (Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon)
                             Plugin.ArchipelagoClient.Win();
