@@ -667,7 +667,7 @@ namespace YellowTaxiAP.Managers
                 dialogues.Add([
                     hintIntro,
                     $"You can {SetTextColor("glide", DialogueColors.OrangeYellow)} by tapping the {SetTextColor("acceleration button", DialogueColors.OrangeYellow)} repeatedly in the air!",
-                    $"It can sometimes be {SetTextColor("useful", DialogueColors.OrangeYellow)}, though I've yet to find anywhere it's {SetTextColor("necessary", DialogueColors.GreenYellow)}!",
+                    $"Some have argued it's {SetTextColor("necessary", DialogueColors.GreenYellow)}, but as far as I'm concerned it's only {SetTextColor("useful", DialogueColors.OrangeYellow)}!",
                 ]);
             }
 
