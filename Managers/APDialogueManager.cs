@@ -331,6 +331,7 @@ namespace YellowTaxiAP.Managers
             Literature,
             Spam,
             Phone,
+            Tutorial,
         }
 
         #region Literature Traps
@@ -561,8 +562,38 @@ namespace YellowTaxiAP.Managers
             new("DIALOGUE_GRANNY_ISLAND_PLANT_MAN_SEASIDE_BEHIND_LAB_JUST_TALK"),
             new("DIALOGUE_GRANNY_ISLAND_IRONO_SEASIDE_HOLD_BREAT_JUST_TALK"),
             new("DIALOGUE_POOP_WORLD_GENERIC_DOG_CORGI"),
-
         ];
+
+        public static CharacterPhoneTrap[] GetTutorialPhoneTraps()
+        {
+            var dialogues = new List<CharacterPhoneTrap>
+            {
+                new("DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN"),
+                new("DIALOGUE_PICI_COMPUTER_MAN_MINIMAP_UNLOCK"),
+            };
+
+            if (APPlayerManager.BoostLevel >= 2)
+            {
+                dialogues.Add(new CharacterPhoneTrap("DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH"));
+            }
+
+            if (APPlayerManager.BoostLevel >= 1)
+            {
+                dialogues.Add(new CharacterPhoneTrap("DIALOGUE_PICI_COMPUTER_MAN_GAS_MIDAIR"));
+            }
+
+            if (APPlayerManager.JumpLevel >= 2)
+            {
+                dialogues.Add(new CharacterPhoneTrap("DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP"));
+            }
+
+            if (APPlayerManager.JumpLevel >= 1)
+            {
+                dialogues.Add(new CharacterPhoneTrap("DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT"));
+            }
+
+            return dialogues.ToArray();
+        }
 
         public static string[][] GetMorioPhoneTraps()
         {
@@ -938,6 +969,7 @@ namespace YellowTaxiAP.Managers
                             Application.OpenURL(url);
                         }
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Phone:
+                    case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Tutorial:
                         ActiveDialogueTrapType = DialogueTrapType.None;
                         var phoneTrapIndex = Random.RandomRangeInt(-2, PhoneTraps.Length + 1);
                         if (phoneTrapIndex < 0) // Weight morio phone calls higher
@@ -946,7 +978,12 @@ namespace YellowTaxiAP.Managers
                         }
 
                         CharacterPhoneTrap phoneTrap;
-                        if (phoneTrapIndex < PhoneTraps.Length)
+                        if (ActiveDialogueTrapType == DialogueTrapType.Tutorial)
+                        {
+                            var tutorialTraps = GetTutorialPhoneTraps();
+                            phoneTrap = tutorialTraps[Random.RandomRangeInt(0, tutorialTraps.Length)];
+                        }
+                        else if (phoneTrapIndex < PhoneTraps.Length)
                         {
                             phoneTrap = PhoneTraps[phoneTrapIndex];
                         }

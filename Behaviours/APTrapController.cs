@@ -157,6 +157,9 @@ namespace YellowTaxiAP.Behaviours
                 case "exposition":
                     newTrap = new PhoneTrap();
                     break;
+                case "tutorial":
+                    newTrap = new TutorialTrap();
+                    break;
                 case "dialogue":
                 case "text":
                     var dialogTraps = new List<Trap>
@@ -250,7 +253,7 @@ namespace YellowTaxiAP.Behaviours
 
             if (!trap.FromTrapLink)
             {
-                //Plugin.Log($"Sending linked {trap.Name}");
+                Plugin.Log($"Sending linked {trap.Name}");
                 Plugin.ArchipelagoClient.SendTrapLink(trap.Name);
             }
         }
@@ -1078,6 +1081,14 @@ namespace YellowTaxiAP.Behaviours
 
         public override APDialogueManager.DialogueTrapType DialogueTrapType =>
             APDialogueManager.DialogueTrapType.Phone;
+    }
+
+    public class TutorialTrap : DialogueTrap
+    {
+        public override string Name => "Tutorial Trap";
+
+        public override APDialogueManager.DialogueTrapType DialogueTrapType =>
+            APDialogueManager.DialogueTrapType.Tutorial;
     }
 
     public class TimerTrap : Trap
