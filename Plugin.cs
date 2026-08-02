@@ -18,7 +18,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string PluginGUID = "com.soopercool101.YellowTaxiAP";
     public const string PluginName = "YellowTaxiAP";
-    public const string PluginVersion = "0.5.0";
+    public const string PluginVersion = "0.6.0";
 
 #if DEBUG
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion} (DEBUG)";
@@ -34,6 +34,7 @@ public class Plugin : BaseUnityPlugin
 
     public static bool IsSteam { get; private set; }
     public static bool EnableSteamKeyboard { get; set; }
+    public static bool PluginLoaded { get; private set; }
 
     public static string PluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     public static string LoginDetailsFile = Path.Combine(PluginDirectory, "login.txt");
@@ -78,9 +79,6 @@ public class Plugin : BaseUnityPlugin
         // Plugin startup logic
         BepinLogger = Logger;
         Instance = this;
-
-        BepinLogger.LogMessage($"{ModDisplayInfo} loaded!");
-        ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
         On.Master.Awake += (orig, self) =>
         {
             orig(self);
@@ -136,6 +134,7 @@ public class Plugin : BaseUnityPlugin
             {
                 BepinLogger.LogMessage($"Current platform manager: {Master.instance.PlatformManager.GetType().Name}");
             }
+
 #if DEBUG
             self.ModMasterDebugLogsEnableSet(true);
 #else
@@ -191,6 +190,9 @@ public class Plugin : BaseUnityPlugin
                     origUpdate(selfBombCar);
                 }
             };
+            PluginLoaded = true;
+            BepinLogger.LogMessage($"{ModDisplayInfo} loaded!");
+            ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
         };
 #if DEBUG
         On.ModMaster.Update += (orig, self) =>
