@@ -7849,6 +7849,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X2"),
+                    new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "X2"),
                     // Can get to fourth floor with only two golden propellers relatively easy, but lengthy reset
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropellerTwo, "X2+FGU+B1"),
                 ]
