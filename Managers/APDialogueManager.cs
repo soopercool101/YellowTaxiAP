@@ -970,7 +970,6 @@ namespace YellowTaxiAP.Managers
                         }
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Phone:
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Tutorial:
-                        ActiveDialogueTrapType = DialogueTrapType.None;
                         var phoneTrapIndex = Random.RandomRangeInt(-2, PhoneTraps.Length + 1);
                         if (phoneTrapIndex < 0) // Weight morio phone calls higher
                         {
@@ -991,6 +990,7 @@ namespace YellowTaxiAP.Managers
                         {
                             phoneTrap = BasicPhoneTraps[Random.RandomRangeInt(0, BasicPhoneTraps.Length)];
                         }
+                        ActiveDialogueTrapType = DialogueTrapType.None;
                         self.names = ["Phone Trap", phoneTrap.CharacterName];
                         var phoneDialogues = phoneTrap.Messages[Random.RandomRangeInt(0, phoneTrap.Messages.Length)].ToList();
                         phoneDialogues.Insert(0, GetRandomPhoneRing());
