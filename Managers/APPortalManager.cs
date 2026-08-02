@@ -229,6 +229,7 @@ namespace YellowTaxiAP.Managers
         {
             if ((self.targetLevelId == LevelId.L1_Bombeach && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach) ||
                 (self.targetLevelId == LevelId.L5_ToslaOffices && Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices) ||
+                (self.targetLevelId == LevelId.L9_City && Plugin.SlotData.Goal == YTGVSlotData.GoalType.MauriziosCity) ||
                 (self.targetLevelId == LevelId.L14_ToslaHQ && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon))
             {
                 Data.levelDataList[(int)self.targetLevelId].levelCost = Plugin.SlotData.GoalPortalCost;
