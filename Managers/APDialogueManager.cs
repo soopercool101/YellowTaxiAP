@@ -600,6 +600,11 @@ namespace YellowTaxiAP.Managers
                 dialogues.Add(new CharacterPhoneTrap("DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT"));
             }
 
+            if (APPlayerManager.GlideEnabled)
+            {
+                dialogues.Add(new CharacterPhoneTrap("DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE"));
+            }
+
             return dialogues.ToArray();
         }
 
