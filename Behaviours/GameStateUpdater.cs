@@ -32,7 +32,7 @@ namespace YellowTaxiAP.Behaviours
                     t.UpdatePortalToLevelName();
                 }
 
-                if (MenuV2Script.instance)
+                if (MenuV2Script.instance && MenuV2Script.instance.isPauseMenu)
                 {
                     var nextLevelCost = Data.ComputeNextLevelCost();
                     var maximumOfVersion = Master.instance.Gears_GetMaximumOfVersion();
