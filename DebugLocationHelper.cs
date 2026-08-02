@@ -7846,7 +7846,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "X2/B1 & FGU"),
                     new RegionConnection(MoriosLabThirdFloorGearWrench, "X2/B1 & FGU"),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X3+OS"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X3+OS+FGU"),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
                     new RegionConnection(MoriosLabMoriosRoomOutside, "X2"),
