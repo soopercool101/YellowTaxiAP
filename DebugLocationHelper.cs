@@ -7838,7 +7838,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabSecondFloor),
                     new RegionConnection(MoriosLabGroundFloorBolts, "X1/B1"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1"),
-                    new RegionConnection(MoriosLabBunnyLedge, "B1+X1"),
+                    new RegionConnection(MoriosLabBunnyLedge, "X1 & X3/B1"),
                     new RegionConnection(MoriosLabSecondFloorAboveDemoWall, "X1 & B1/J2"),
                     new RegionConnection(MoriosLabThirdFloor, "FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "X2/B1 & FGU"),
@@ -7848,6 +7848,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
                     new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
+                    new RegionConnection(MoriosLabMoriosRoomOutside, "X2"),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X2"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "X2"),
                     // Can get to fourth floor with only two golden propellers relatively easy, but lengthy reset
