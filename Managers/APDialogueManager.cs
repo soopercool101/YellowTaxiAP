@@ -336,6 +336,8 @@ namespace YellowTaxiAP.Managers
 
         #region Literature Traps
 
+        public static int PreviousLitTrapIndex { get; set; } = int.MinValue;
+
         // Also includes ebook # from project gutenberg and a gag line for spam traps
         public static readonly Tuple<int, string[], string>[] LiteratureTraps =
         [
@@ -494,6 +496,8 @@ namespace YellowTaxiAP.Managers
 
         #region Spam Traps
 
+        public static int PreviousSpamTrapIndex { get; set; } = int.MinValue;
+
         public static Tuple<string, string, string[], string>[] SpamTraps =>
         [
             new("HAWT TAXIS NEAR YOU", "SoundTextNarrator", [$"Looking for single taxis in your area? Click {SetTextColor("here", DialogueColors.FullRed)} to browse our latest selection!"], "https://www.google.com/search?q=taxi&udm=2"),
@@ -520,6 +524,8 @@ namespace YellowTaxiAP.Managers
         #endregion
 
         #region Phone Traps
+
+        public static int PreviousPhoneTrapIndex { get; set; } = int.MinValue;
 
         public static CharacterPhoneTrap[] PhoneTraps =>
         [
@@ -563,6 +569,8 @@ namespace YellowTaxiAP.Managers
             new("DIALOGUE_GRANNY_ISLAND_IRONO_SEASIDE_HOLD_BREAT_JUST_TALK"),
             new("DIALOGUE_POOP_WORLD_GENERIC_DOG_CORGI"),
         ];
+
+        public static int PreviousTutorialTrapIndex { get; set; } = int.MinValue;
 
         public static CharacterPhoneTrap[] GetTutorialPhoneTraps()
         {
@@ -887,7 +895,14 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Literature:
                         ActiveDialogueTrapType = DialogueTrapType.None;
-                        self.dialogues = LiteratureTraps[Random.RandomRangeInt(0, LiteratureTraps.Length)].Item2;
+                        int litTrapIndex;
+                        do
+                        {
+                            litTrapIndex = Random.RandomRangeInt(0, LiteratureTraps.Length);
+                        } while (litTrapIndex == PreviousLitTrapIndex);
+
+                        PreviousLitTrapIndex = litTrapIndex;
+                        self.dialogues = LiteratureTraps[litTrapIndex].Item2;
                         self.requiresSilence = true;
                         self.names = ["Literature Trap"];
                         var litNarratorSound = self.textSoundNames[0];
@@ -905,11 +920,21 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Spam:
                         ActiveDialogueTrapType = DialogueTrapType.None;
-                        var index = Random.RandomRangeInt(-3, SpamTraps.Length);
+                        int spamTrapIndex;
+                        do
+                        {
+                            spamTrapIndex = Random.RandomRangeInt(-3, SpamTraps.Length);
+                            if (spamTrapIndex < 0) // Weight fake lit traps higher since there's more of them
+                            {
+                                spamTrapIndex = -1;
+                            }
+                        } while (spamTrapIndex == PreviousSpamTrapIndex);
+
+                        PreviousSpamTrapIndex = spamTrapIndex;
                         string url;
                         self.askQuestion = true;
                         self.overrideCamera = false;
-                        if (index < 0) // Fake literature trap
+                        if (spamTrapIndex < 0) // Fake literature trap
                         {
                             var lit = LiteratureTraps[Random.RandomRangeInt(0, LiteratureTraps.Length)];
                             self.dialogues =
@@ -937,7 +962,7 @@ namespace YellowTaxiAP.Managers
                         }
                         else
                         {
-                            var spam = SpamTraps[index];
+                            var spam = SpamTraps[spamTrapIndex];
                             self.dialogues = spam.Item3;
                             self.names = [spam.Item1];
                             self.textSoundNames = new string[self.dialogues.Length];
@@ -970,25 +995,41 @@ namespace YellowTaxiAP.Managers
                         }
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Phone:
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when ActiveDialogueTrapType == DialogueTrapType.Tutorial:
-                        var phoneTrapIndex = Random.RandomRangeInt(-2, PhoneTraps.Length + 1);
-                        if (phoneTrapIndex < 0) // Weight morio phone calls higher
-                        {
-                            phoneTrapIndex = 0;
-                        }
 
                         CharacterPhoneTrap phoneTrap;
                         if (ActiveDialogueTrapType == DialogueTrapType.Tutorial)
                         {
                             var tutorialTraps = GetTutorialPhoneTraps();
-                            phoneTrap = tutorialTraps[Random.RandomRangeInt(0, tutorialTraps.Length)];
-                        }
-                        else if (phoneTrapIndex < PhoneTraps.Length)
-                        {
-                            phoneTrap = PhoneTraps[phoneTrapIndex];
+                            int tutorialTrapIndex;
+                            do
+                            {
+                                tutorialTrapIndex = Random.RandomRangeInt(0, tutorialTraps.Length);
+                            } while (tutorialTrapIndex == PreviousTutorialTrapIndex);
+
+                            PreviousTutorialTrapIndex = tutorialTrapIndex;
+                            phoneTrap = tutorialTraps[tutorialTrapIndex];
                         }
                         else
                         {
-                            phoneTrap = BasicPhoneTraps[Random.RandomRangeInt(0, BasicPhoneTraps.Length)];
+                            int phoneTrapIndex;
+                            do
+                            {
+                                phoneTrapIndex = Random.RandomRangeInt(-2, PhoneTraps.Length + 1);
+                                if (phoneTrapIndex < 0) // Weight morio phone calls higher
+                                {
+                                    phoneTrapIndex = 0;
+                                }
+                            } while (phoneTrapIndex == PreviousPhoneTrapIndex);
+
+                            PreviousPhoneTrapIndex = phoneTrapIndex;
+                            if (phoneTrapIndex < PhoneTraps.Length)
+                            {
+                                phoneTrap = PhoneTraps[phoneTrapIndex];
+                            }
+                            else
+                            {
+                                phoneTrap = BasicPhoneTraps[Random.RandomRangeInt(0, BasicPhoneTraps.Length)];
+                            }
                         }
                         ActiveDialogueTrapType = DialogueTrapType.None;
                         self.names = ["Phone Trap", phoneTrap.CharacterName];
