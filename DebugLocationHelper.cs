@@ -526,6 +526,15 @@ namespace YellowTaxiAP
             { "0_03_00456", "Granny's Island - Coin on Stone Arch on Beach #5" },
             { "0_03_00454", "Granny's Island - Coin Bag on Stone Arch on Beach" },
             { "0_01_00012", "Granny's Island - Gear - Gym Gears Roof" },
+            { "0_03_00562", "Granny's Island - Coin Above Pipe on Hill by Lab #1" },
+            { "0_03_00565", "Granny's Island - Coin Above Pipe on Hill by Lab #2" },
+            { "0_03_00568", "Granny's Island - Coin Above Pipe on Hill by Lab #3" },
+            { "0_03_00563", "Granny's Island - Coin Above Pipe on Hill by Lab #4" },
+            { "0_03_00566", "Granny's Island - Coin Above Pipe on Hill by Lab #5" },
+            { "0_03_00569", "Granny's Island - Coin Above Pipe on Hill by Lab #6" },
+            { "0_03_00564", "Granny's Island - Coin Above Pipe on Hill by Lab #7" },
+            { "0_03_00567", "Granny's Island - Coin Above Pipe on Hill by Lab #8" },
+            { "0_03_00570", "Granny's Island - Coin Above Pipe on Hill by Lab #9" },
         };
         
         [Description("Granny's Island - High Ground")]
@@ -538,15 +547,6 @@ namespace YellowTaxiAP
             { "0_03_00278", "Granny's Island - Coin on Stone Island #5" },
             { "0_03_00279", "Granny's Island - Coin on Stone Island #6" },
             { "0_03_00276", "Granny's Island - Coin Bag on Stone Island" },
-            { "0_03_00562", "Granny's Island - Coin Above Pipe on Hill by Lab #1" },
-            { "0_03_00565", "Granny's Island - Coin Above Pipe on Hill by Lab #2" },
-            { "0_03_00568", "Granny's Island - Coin Above Pipe on Hill by Lab #3" },
-            { "0_03_00563", "Granny's Island - Coin Above Pipe on Hill by Lab #4" },
-            { "0_03_00566", "Granny's Island - Coin Above Pipe on Hill by Lab #5" },
-            { "0_03_00569", "Granny's Island - Coin Above Pipe on Hill by Lab #6" },
-            { "0_03_00564", "Granny's Island - Coin Above Pipe on Hill by Lab #7" },
-            { "0_03_00567", "Granny's Island - Coin Above Pipe on Hill by Lab #8" },
-            { "0_03_00570", "Granny's Island - Coin Above Pipe on Hill by Lab #9" },
             { "0_03_00767", "Granny's Island - Coin on Stone Arch on Top of Mountain #1" },
             { "0_03_00765", "Granny's Island - Coin on Stone Arch on Top of Mountain #2" },
             { "0_03_00764", "Granny's Island - Coin on Stone Arch on Top of Mountain #3" },
@@ -1446,8 +1446,8 @@ namespace YellowTaxiAP
             { "3_03_00054", "Morio's Island - Coin Behind First Hurdle Ramp Right #6" },
         };
 
-        [Description("Morio's Island - High Ground")]
-        public static Dictionary<string, string> MoriosIslandHighGround = new()
+        [Description("Morio's Island - Cliffs Above Starting Area")]
+        public static Dictionary<string, string> MoriosIslandLedgesAboveStart = new()
         {
             { "3_03_00314", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #1" },
             { "3_03_00318", "Morio's Island - Coin in Triangle on Starting Area Left Cliff #2" },
@@ -1479,6 +1479,11 @@ namespace YellowTaxiAP
             { "3_03_00340", "Morio's Island - Coin in Row on Starting Area Right Cliff #4" },
             { "3_03_00342", "Morio's Island - Coin in Row on Starting Area Right Cliff #5" },
             { "3_03_00344", "Morio's Island - Coin Bag on Starting Area Right Cliff" },
+        };
+
+        [Description("Morio's Island - High Ground")]
+        public static Dictionary<string, string> MoriosIslandHighGround = new()
+        {
             { "3_01_00004", "Morio's Island - Gear - After First Ramp" },
             { "3_03_00425", "Morio's Island - Coin on First Stone Arch #1" },
             { "3_03_00424", "Morio's Island - Coin Bag on First Stone Arch #1" },
@@ -6924,6 +6929,7 @@ namespace YellowTaxiAP
             // Morio's Island Areas
             new(GetDescription(nameof(MoriosIslandStartingArea)), MoriosIslandStartingArea),
             new(GetDescription(nameof(MoriosIslandFirstHurdle)), MoriosIslandFirstHurdle),
+            new(GetDescription(nameof(MoriosIslandLedgesAboveStart)), MoriosIslandLedgesAboveStart),
             new(GetDescription(nameof(MoriosIslandHighGround)), MoriosIslandHighGround),
             new(GetDescription(nameof(MoriosIslandHomeIsland)), MoriosIslandHomeIsland),
             new(GetDescription(nameof(MoriosIslandLowStoneArch)), MoriosIslandLowStoneArch),
@@ -7311,6 +7317,7 @@ namespace YellowTaxiAP
                 [
                     MoriosIslandStartingArea,
                     MoriosIslandFirstHurdle,
+                    MoriosIslandLedgesAboveStart,
                     MoriosIslandHighGround,
                     MoriosIslandHomeIsland,
                     MoriosIslandLowStoneArch,
@@ -8277,7 +8284,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosIslandStartingArea)),
                 [
-                    new RegionConnection(MoriosIslandFirstHurdle, "X2 | J1/B1"),
+                    new RegionConnection(MoriosIslandFirstHurdle, "X2/J1/B1"),
+                    new RegionConnection(MoriosIslandLedgesAboveStart, "X3/J1/B1"),
                 ]
             },
             {
