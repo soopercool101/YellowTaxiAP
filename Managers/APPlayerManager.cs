@@ -101,7 +101,7 @@ namespace YellowTaxiAP.Managers
         private void PlayerDamager_CollideWithPlayer(On.PlayerDamager.orig_CollideWithPlayer orig, PlayerDamager self, PlayerScript scr)
         {
             if (self.instantKill && self.canDamagePlayer && PizzaWheelProtection &&
-                !self.gameObject.name.Equals("ModelObjectSega", StringComparison.OrdinalIgnoreCase))
+                self.gameObject.name.Equals("Hurting Collision"))
             {
                 return;
             }
