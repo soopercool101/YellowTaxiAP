@@ -179,7 +179,6 @@ namespace YellowTaxiAP.Archipelago
         }
         public void SetLevelPortalUnlocked(Data.LevelId level, bool value = true)
         {
-            Plugin.Log($"Opening {level} portal");
             if (level == Data.LevelId.noone)
                 return;
             SetBit((int)level + 8, value);

@@ -442,10 +442,7 @@ namespace YellowTaxiAP.Managers
                     case LevelId.L17_TimeAttack01:
                     case LevelId.L18_TimeAttack02:
                     case LevelId.L19_TimeAttack03:
-                        GetLevel(self.targetLevelId).everOpened = true;
-                        break;
                     case LevelId.L20_PsychoTaxi:
-                        Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open. Did it do this already?");
                         GetLevel(self.targetLevelId).everOpened = true;
                         break;
                     default:
