@@ -747,6 +747,9 @@ public class ArchipelagoClient
 
     public void SendLocation(long id)
     {
+        // Don't allow cheats in multiworld
+        if (Plugin.CheatsEnabled)
+            return;
         Plugin.BepinLogger.LogMessage($"Sending location #{id}");
         Session.Locations.CompleteLocationChecks(id);
         APTVManager.FlagTvNeedsUpdate();
@@ -793,6 +796,8 @@ public class ArchipelagoClient
 
     public void SaveDSHatData()
     {
+        if (Plugin.CheatsEnabled)
+            return;
         lock (hatDataLock)
         {
             if (Plugin.SlotData.Hatsanity != YTGVSlotData.HatsanityType.Disabled)
@@ -836,6 +841,8 @@ public class ArchipelagoClient
 
     public void SaveDSBunnyData()
     {
+        if (Plugin.CheatsEnabled)
+            return;
         lock (bunnyLock)
         {
             if (Plugin.SlotData.Bunnysanity)
@@ -878,6 +885,8 @@ public class ArchipelagoClient
 
     public void SaveDSSaveData()
     {
+        if (Plugin.CheatsEnabled)
+            return;
         lock (saveLock)
         {
             try
@@ -906,6 +915,14 @@ public class ArchipelagoClient
     private object walletLock = new ();
     private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, Dictionary<string, JToken> additionalArguments)
     {
+        if (Plugin.CheatsEnabled)
+        {
+#if DEBUG
+            if (DebugLocationHelper.Enabled)
+                APWalletManager.ServerCoins = Data.coinsCollected[Data.gameDataIndex] = 999999;
+#endif
+            return;
+        }
         lock (walletLock)
         {
             Data.coinsCollected[Data.gameDataIndex] = APWalletManager.ServerCoins = Math.Max(newValue.ToObject<int>(), 0);
@@ -914,6 +931,14 @@ public class ArchipelagoClient
 
     public void UpdateWallet(int amountChanged, bool sendRingLink = true)
     {
+        if (Plugin.CheatsEnabled)
+        {
+#if DEBUG
+            if (DebugLocationHelper.Enabled)
+                APWalletManager.ServerCoins = Data.coinsCollected[Data.gameDataIndex] = 999999;
+#endif
+            return;
+        }
         try
         {
             if (amountChanged < 0 && Math.Abs(amountChanged) > APWalletManager.ServerCoins)

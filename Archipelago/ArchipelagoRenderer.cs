@@ -103,7 +103,7 @@ namespace YellowTaxiAP.Archipelago
             {
                 // show cursor only in menus
                 Cursor.visible = ArchipelagoConsole.InMenu;
-                statusMessage = " Status: Connected";
+                statusMessage = $" Status: Connected{(Plugin.CheatsEnabled ? " <color=#FF0000>(CHEATED!)</color>" : string.Empty)}";
                 // show the mod is currently loaded in the corner
                 GUI.Label(new Rect(16, 16, 300, 20), Plugin.ModDisplayInfo);
                 GUI.Label(new Rect(16, 36, 300, 20), Plugin.APDisplayInfo + statusMessage);
@@ -124,7 +124,7 @@ namespace YellowTaxiAP.Archipelago
                 // show cursor always if not connected
                 Cursor.visible = true;
 
-                statusMessage = " Status: Disconnected";
+                statusMessage = $" Status: Disconnected{(Plugin.CheatsEnabled ? " <color=#FF0000>(CHEATED!)</color>" : string.Empty)}";
                 // Improve visibility of connection window, title screen is white
                 GUI.Box(LoginRect(0, 0, 317, 170), string.Empty);
                 GUI.Box(LoginRect(0, 0, 317, 170), string.Empty);

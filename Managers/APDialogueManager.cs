@@ -1634,6 +1634,11 @@ namespace YellowTaxiAP.Managers
 
         public static string GetItemText(ScoutedItemInfo item, bool includePlayer = true, bool includePrefixes = true)
         {
+            if (Plugin.CheatsEnabled)
+            {
+                return includePrefixes ? "an item from the multiworld" : "item from the multiworld";
+            }
+
             var material = DialogueColors.Yellow;
             if ((item.Flags & ItemFlags.Advancement) == ItemFlags.Advancement)
             {

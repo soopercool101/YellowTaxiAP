@@ -36,6 +36,8 @@ public class Plugin : BaseUnityPlugin
     public static bool EnableSteamKeyboard { get; set; }
     public static bool PluginLoaded { get; private set; }
 
+    public static bool CheatsEnabled { get; set; }
+
     public static string PluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     public static string LoginDetailsFile = Path.Combine(PluginDirectory, "login.txt");
 
@@ -201,6 +203,11 @@ public class Plugin : BaseUnityPlugin
             {
                 DebugLocationHelper.Enabled = !DebugLocationHelper.Enabled;
                 Log($"DEBUG: Location Helper {(DebugLocationHelper.Enabled ? "enabled" : "disabled")}", true);
+                if (!CheatsEnabled)
+                {
+                    CheatsEnabled = true;
+                    Log("Cheats have been enabled. Multiworld items will no longer send until a restart!", true);
+                }
             }
 
             if (DebugLocationHelper.Enabled)
