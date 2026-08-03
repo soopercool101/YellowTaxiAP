@@ -6,6 +6,7 @@ using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
 using static Data;
+using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Managers
 {
@@ -61,7 +62,7 @@ namespace YellowTaxiAP.Managers
                 var sprite = Sprite.Create(resource, new Rect(199, 72, 175, 175), new Vector2(1, 1), 1);
                 return sprite;
             }
-            
+
             return orig(levelId);
         }
 
@@ -93,36 +94,23 @@ namespace YellowTaxiAP.Managers
             LevelId.L7_PoopWorld,
             LevelId.L8_Sewers,
             // Bonus Levels
+            LevelId.L16_Rocket,
             LevelId.L17_TimeAttack01,
             LevelId.L18_TimeAttack02,
             LevelId.L19_TimeAttack03,
             LevelId.L20_PsychoTaxi,
         ];
 
-        public static LevelId[] RandomizedPortalLevelOrder =
-        [
-            // Lab Levels
-            LevelId.L6_Gym,
-            LevelId.L17_TimeAttack01,
-            LevelId.L18_TimeAttack02,
-            LevelId.L3_MoriosHome,
-            LevelId.L1_Bombeach,
-            LevelId.L4_ArcadePanik,
-            LevelId.L2_PizzaTime,
-            LevelId.L5_ToslaOffices,
-            LevelId.L12_MoriosMind,
-            LevelId.L13_StarmanCastle,
-            LevelId.L14_ToslaHQ,
-            // Granny's Levels
-            LevelId.L8_Sewers,
-            LevelId.L10_CrashTestIndustries,
-            LevelId.L7_PoopWorld,
-            // Bonus Levels
-            LevelId.L20_PsychoTaxi,
-            LevelId.L15_Moon,
-            LevelId.L19_TimeAttack03,
-            LevelId.L9_City,
-        ];
+        public static LevelId[] RandomizedPortalLevelOrder = GetRandomizedPortalLevelOrder();
+
+        public static LevelId[] GetRandomizedPortalLevelOrder()
+        {
+            var levels = new LevelId[OriginalPortalLevelOrder.Length];
+            Array.Copy(OriginalPortalLevelOrder, levels, OriginalPortalLevelOrder.Length);
+            Array.Sort(levels, (_, _) => Random.RandomRangeInt(-1, 2));
+            
+            return levels;
+        }
 
         public LevelId GetRandomizedLevelId(LevelId OriginalLevel)
         {
