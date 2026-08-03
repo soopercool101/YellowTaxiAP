@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using Febucci.UI;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
@@ -14,6 +14,7 @@ namespace YellowTaxiAP.Managers
         public APPortalManager()
         {
             On.PlayerScript.Start += PlayerScript_Start;
+            On.PortalScript.PortalOpenedSet += PortalScript_PortalOpenedSet;
             On.PortalScript.Awake += PortalScript_Awake;
             On.PortalScript.CoroutineGo += PortalScript_CoroutineGo;
             On.PortalScript.GoToLevel += PortalScript_GoToLevel;
@@ -21,10 +22,135 @@ namespace YellowTaxiAP.Managers
             On.PortalScript.PortalIslandToLabCoroutine += PortalScript_PortalIslandToLabCoroutine;
             On.PortalScript.PortalOpenStart += PortalScript_PortalOpenStart;
             On.PortalScript.CostUpdateTry += PortalScript_CostUpdateTry;
+            On.PortalScript.UpdatePortalToLevelName += PortalScript_UpdatePortalToLevelName;
+            On.PortalScript.SetupDataForLevelComeback += PortalScript_SetupDataForLevelComeback;
             On.MorioDreamMachineScript.AnimationCoroutine += MorioDreamMachineScript_AnimationCoroutine;
             On.MorioDreamMachineScript.Start += MorioDreamMachineScript_Start;
             On.MorioDreamMachineScript.MachineReady += MorioDreamMachineScript_MachineReady;
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
+            On.Colors.PortalTextureGet += Colors_PortalTextureGet;
+            On.TimeAttackComputerScript.Start += TimeAttackComputerScript_Start;
+            On.PsychoTaxiCabinetScript.Awake += PsychoTaxiCabinetScript_Awake;
+        }
+
+        private void TimeAttackComputerScript_Start(On.TimeAttackComputerScript.orig_Start orig, TimeAttackComputerScript self)
+        {
+            orig(self);
+            self.timeAttackLevelId = GetRandomizedLevelId(self.timeAttackLevelId);
+            self.levelImage.sprite = Colors.PortalTextureGet(self.timeAttackLevelId);
+        }
+
+        private void PsychoTaxiCabinetScript_Awake(On.PsychoTaxiCabinetScript.orig_Awake orig, PsychoTaxiCabinetScript self)
+        {
+            orig(self);
+            try
+            {
+                AssetMaster.AddTexture2D(self.turnedOnMat.mainTexture as Texture2D);
+            }
+            catch (ArgumentException)
+            {
+                // Ignore, if already added it's chill
+            }
+        }
+
+        private Sprite Colors_PortalTextureGet(On.Colors.orig_PortalTextureGet orig, LevelId levelId)
+        {
+            if (levelId == LevelId.L20_PsychoTaxi)
+            {
+                var resource = AssetMaster.GetTexture2D("Cabinato Gigante Psycho Taxi Acceso");
+                var sprite = Sprite.Create(resource, new Rect(199, 72, 175, 175), new Vector2(1, 1), 1);
+                return sprite;
+            }
+            
+            return orig(levelId);
+        }
+
+        private void PortalScript_SetupDataForLevelComeback(On.PortalScript.orig_SetupDataForLevelComeback orig, PortalScript self, bool saveToDisk, bool forcePortalDesiredWaterState)
+        {
+            orig(self, saveToDisk, forcePortalDesiredWaterState);
+            if (IsLevelIdHub(GameplayMaster.instance.levelId))
+            {
+                APMenuManager.CurrentAreaFromIsland = !MapArea.IsPlayerInsideLab();
+            }
+        }
+
+        public static readonly LevelId[] OriginalPortalLevelOrder =
+        [
+            // Lab Levels
+            LevelId.L3_MoriosHome,
+            LevelId.L1_Bombeach,
+            LevelId.L4_ArcadePanik,
+            LevelId.L2_PizzaTime,
+            LevelId.L5_ToslaOffices,
+            LevelId.L9_City,
+            LevelId.L10_CrashTestIndustries,
+            LevelId.L12_MoriosMind,
+            LevelId.L13_StarmanCastle,
+            LevelId.L14_ToslaHQ,
+            LevelId.L15_Moon,
+            // Granny's Levels
+            LevelId.L6_Gym,
+            LevelId.L7_PoopWorld,
+            LevelId.L8_Sewers,
+            // Bonus Levels
+            LevelId.L17_TimeAttack01,
+            LevelId.L18_TimeAttack02,
+            LevelId.L19_TimeAttack03,
+            LevelId.L20_PsychoTaxi,
+        ];
+
+        public static LevelId[] RandomizedPortalLevelOrder =
+        [
+            // Lab Levels
+            LevelId.L6_Gym,
+            LevelId.L17_TimeAttack01,
+            LevelId.L18_TimeAttack02,
+            LevelId.L3_MoriosHome,
+            LevelId.L1_Bombeach,
+            LevelId.L4_ArcadePanik,
+            LevelId.L2_PizzaTime,
+            LevelId.L5_ToslaOffices,
+            LevelId.L12_MoriosMind,
+            LevelId.L13_StarmanCastle,
+            LevelId.L14_ToslaHQ,
+            // Granny's Levels
+            LevelId.L8_Sewers,
+            LevelId.L10_CrashTestIndustries,
+            LevelId.L7_PoopWorld,
+            // Bonus Levels
+            LevelId.L20_PsychoTaxi,
+            LevelId.L15_Moon,
+            LevelId.L19_TimeAttack03,
+            LevelId.L9_City,
+        ];
+
+        public LevelId GetRandomizedLevelId(LevelId OriginalLevel)
+        {
+            if (OriginalPortalLevelOrder.Contains(OriginalLevel))
+            {
+                return RandomizedPortalLevelOrder[Array.IndexOf(OriginalPortalLevelOrder, OriginalLevel)]; ;
+            }
+            return OriginalLevel;
+        }
+
+        private void PortalScript_UpdatePortalToLevelName(On.PortalScript.orig_UpdatePortalToLevelName orig, PortalScript self)
+        {
+            if (string.IsNullOrEmpty(self._name) || self._name.Any(c => char.IsDigit(c)))
+                orig(self);
+            if (!string.IsNullOrEmpty(self._name))
+            {
+                self.nameTextAnimator.GetComponent<TextAnimatorPlayer>().useTypeWriter = false;
+                if (self.PortalIsLevelPortal && !self.PortalIsAlreadyOpened)
+                {
+                    Plugin.Log("[0.7.0] " + self._name + " has not yet been activated. Surprise!");
+                    self._name = self.nameText.text = "???";
+                }
+                else if (self._name.Contains("?") || self._name.Any(c => char.IsDigit(c)))
+                {
+                    self._name = self.nameText.text = levelDataList[(int)GetRandomizedLevelId(self.targetLevelId)].GetName();
+                    Plugin.Log("[0.7.0] " + self._name + " has been activated. No surprise!");
+                }
+            }
         }
 
         private System.Collections.IEnumerator MorioDreamMachineScript_AnimationCoroutine(On.MorioDreamMachineScript.orig_AnimationCoroutine orig, MorioDreamMachineScript self)
@@ -93,9 +219,27 @@ namespace YellowTaxiAP.Managers
 
         private void PortalScript_PortalOpenStart(On.PortalScript.orig_PortalOpenStart orig, PortalScript self)
         {
-            var trueId = self.gameObject.GetComponent<TruePortalId>();
-            APSaveController.MiscSave.SetLevelPortalUnlocked(trueId.OriginalLevel);
+            APSaveController.MiscSave.SetLevelPortalUnlocked(self.targetLevelId);
+            SetPortalToRandomized(self);
             orig(self);
+            self.UpdatePortalToLevelName();
+        }
+
+        private void PortalScript_PortalOpenedSet(On.PortalScript.orig_PortalOpenedSet orig, PortalScript self)
+        {
+            SetPortalToRandomized(self);
+            orig(self);
+            self.UpdatePortalToLevelName();
+        }
+
+        private void SetPortalToRandomized(PortalScript self)
+        {
+            if (self.PortalIsLevelPortal)
+            {
+                var randomizedLevelId = GetRandomizedLevelId(self.targetLevelId);
+                self._name = self.nameText.text = levelDataList[(int)randomizedLevelId].GetName();
+                self.levelImage.sprite = Colors.PortalTextureGet(randomizedLevelId);
+            }
         }
 
         private void PlayerScript_Start(On.PlayerScript.orig_Start orig, PlayerScript self)
@@ -155,11 +299,6 @@ namespace YellowTaxiAP.Managers
             orig(targetLevelId, levelName, gearsCollected, maxGearsInsideLevel, enableCameraLevelIntro && QueuedSubwarp == null);
         }
 
-        private void PortalScript_SetupDataForLevelComeback(On.PortalScript.orig_SetupDataForLevelComeback orig, PortalScript self, bool saveToDisk, bool forcePortalDesiredWaterState)
-        {
-            // Do nothing.
-        }
-
         private System.Collections.IEnumerator PortalScript_PortalIslandToLabCoroutine(On.PortalScript.orig_PortalIslandToLabCoroutine orig, PortalScript self)
         {
             Plugin.Log("Portal Coroutine: Island to Lab");
@@ -215,8 +354,9 @@ namespace YellowTaxiAP.Managers
         {
             if ((int)levelSceneIndex > 100)
                 levelSceneIndex -= 100;
-            Plugin.Log($"PortalWarp to {targetLevelId} with index {levelSceneIndex} ({(int)levelSceneIndex})");
-            orig(levelSceneIndex, targetLevelId);
+            var randomizedLevelId = GetRandomizedLevelId(targetLevelId);
+            Plugin.Log($"PortalWarp to {targetLevelId} with index {levelSceneIndex} ({(int)levelSceneIndex}). Per randomization, actually leading to {randomizedLevelId}");
+            orig(LevelConverter.GetLevelIndex(randomizedLevelId), randomizedLevelId);
         }
 
         private System.Collections.IEnumerator PortalScript_CoroutineGo(On.PortalScript.orig_CoroutineGo orig, PortalScript self, int levelIndex)
@@ -236,7 +376,6 @@ namespace YellowTaxiAP.Managers
             }
 
             self.hubPortalForceEnabled = true;
-            self.gameObject.AddComponent<TruePortalId>(); // Keep track of unaltered portal values
 #if DEBUG
             if (DebugLocationHelper.Enabled)
             {
@@ -303,7 +442,10 @@ namespace YellowTaxiAP.Managers
                     case LevelId.L17_TimeAttack01:
                     case LevelId.L18_TimeAttack02:
                     case LevelId.L19_TimeAttack03:
+                        GetLevel(self.targetLevelId).everOpened = true;
+                        break;
                     case LevelId.L20_PsychoTaxi:
+                        Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open. Did it do this already?");
                         GetLevel(self.targetLevelId).everOpened = true;
                         break;
                     default:
@@ -314,6 +456,7 @@ namespace YellowTaxiAP.Managers
             }
             orig(self);
             self.UpdatePortalToLevelName();
+            self.CostUpdateTry();
         }
     }
 

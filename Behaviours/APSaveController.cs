@@ -110,8 +110,7 @@ namespace YellowTaxiAP.Behaviours
                 {
                     if(!portal.PortalIsLevelPortal || portal.PortalIsAlreadyOpened)
                         continue;
-                    var trueId = portal.gameObject.GetComponent<TruePortalId>();
-                    var open = Data.GetLevel(trueId.OriginalLevel).everOpened = MiscSave.HasLevelPortalUnlocked(trueId.OriginalLevel);
+                    var open = Data.GetLevel(portal.targetLevelId).everOpened = MiscSave.HasLevelPortalUnlocked(portal.targetLevelId);
                     if (open)
                     {
                         portal.PortalOpenedSet();

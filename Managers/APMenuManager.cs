@@ -24,6 +24,14 @@ namespace YellowTaxiAP.Managers
             On.MenuV2PhotoModeController.Update += MenuV2PhotoModeController_Update;
 
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
+
+            On.MapArea.IsCurrentLevelFromIsland += MapArea_IsCurrentLevelFromIsland;
+        }
+
+        public static bool CurrentAreaFromIsland;
+        private bool MapArea_IsCurrentLevelFromIsland(On.MapArea.orig_IsCurrentLevelFromIsland orig)
+        {
+            return Data.IsLevelIdHub(GameplayMaster.instance.levelId) ? orig() : CurrentAreaFromIsland;
         }
 
         private float _tickDelay = 0.0f;

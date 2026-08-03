@@ -28,8 +28,8 @@ namespace YellowTaxiAP.Behaviours
                 // Update portal cost text where applicable
                 foreach (var t in PortalScript.list.Where(t => t))
                 {
-                    t.CostUpdateTry();
                     t.UpdatePortalToLevelName();
+                    t.CostUpdateTry();
                 }
 
                 if (MenuV2Script.instance && MenuV2Script.instance.isPauseMenu)

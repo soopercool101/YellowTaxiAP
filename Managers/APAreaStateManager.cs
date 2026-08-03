@@ -67,20 +67,20 @@ namespace YellowTaxiAP.Managers
             }
         }
 
-        public static bool GetTimeTrialUnlockedState(Data.LevelId timeTrial)
+        public static bool GetTimeTrialUnlockedState(Levels.Index timeTrial)
         {
             return timeTrial switch
             {
-                Data.LevelId.L17_TimeAttack01 => TimeTrial1Unlocked,
-                Data.LevelId.L18_TimeAttack02 => TimeTrial2Unlocked,
-                Data.LevelId.L19_TimeAttack03 => TimeTrial3Unlocked,
+                Levels.Index.level_time_attack_01 => TimeTrial1Unlocked,
+                Levels.Index.level_time_attack_02 => TimeTrial2Unlocked,
+                Levels.Index.level_time_attack_03 => TimeTrial3Unlocked,
                 _ => false
             };
         }
 
         private void TimeAttackComputerScript_Update(On.TimeAttackComputerScript.orig_Update orig, TimeAttackComputerScript self)
         {
-            var unlocked = GetTimeTrialUnlockedState(self.timeAttackLevelId);
+            var unlocked = GetTimeTrialUnlockedState(self.timeAttackSceneIndex);
             self.ringRenderer.enabled = unlocked;
             if (!unlocked)
             {
