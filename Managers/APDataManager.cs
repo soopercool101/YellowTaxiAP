@@ -200,6 +200,7 @@ namespace YellowTaxiAP.Managers
             Data.gononoBombeachDelivered[Data.gameDataIndex] = true;
             Data.morioCutsceneToslaHQUnlocked[Data.gameDataIndex] = true;
             Data.wishlistHatEquipped[Data.gameDataIndex] = true;
+            Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
         }
 
         private void Data_SaveGame(On.Data.orig_SaveGame orig, bool forceSave)
