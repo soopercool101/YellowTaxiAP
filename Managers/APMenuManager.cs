@@ -273,6 +273,11 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private bool GotoLabConditionGet_AP(On.MenuV2Script.orig_GotoLabConditionGet orig, MenuV2Script self)
         {
+            // For some reason rocket normally hardcodes granny's island
+            if (GameplayMaster.instance && GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket)
+            {
+                return !MapArea.IsCurrentLevelFromIsland();
+            }
             return MapArea.IsPlayerInsideLab() || orig(self);
         }
     }

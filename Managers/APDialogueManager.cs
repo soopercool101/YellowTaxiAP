@@ -35,6 +35,7 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnDialogueEnd_ShowQuickTurnPrompt += DialogueScript_OnShowQuickTurnPrompt;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab += DoggoLabDialogueTree;
             On.DialogueScript.SpecialMethod_OnAnswerNo_AlienMoskGood_Question1 += DialogueScript_SpecialMethod_OnAnswerNo_AlienMoskGood_Question1;
+            On.DialogueScript.SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea += DialogueScript_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea;
 
             On.PersonParent.Awake += PersonParent_Awake;
             On.PersonPizzaCheff.Awake += PersonPizzaCheff_Awake;
@@ -46,6 +47,13 @@ namespace YellowTaxiAP.Managers
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
             On.DialogueScript.SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio += DialogueScript_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio;
+        }
+
+        private void DialogueScript_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea(On.DialogueScript.orig_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea orig, DialogueScript self)
+        {
+            if (!MapArea.IsCurrentLevelFromLab())
+                return;
+            self.dialgoueCapsuleKey = "DIALOGUE_NARRATOR_BACK_TO_HUB_QUESTION_LAB_ALT";
         }
 
         private void DialogueScript_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio(On.DialogueScript.orig_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio orig, DialogueScript self)
