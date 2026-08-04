@@ -38,7 +38,7 @@ namespace YellowTaxiAP.Managers
         {
             orig(self);
             self.timeAttackLevelId = GetRandomizedLevelId(self.timeAttackLevelId);
-            self.levelImage.sprite = Colors.PortalTextureGet(self.timeAttackLevelId);
+            self.levelImage.sprite = TimeTrialPortalTextureGet(self.timeAttackLevelId);
         }
 
         private void PsychoTaxiCabinetScript_Awake(On.PsychoTaxiCabinetScript.orig_Awake orig, PsychoTaxiCabinetScript self)
@@ -59,11 +59,23 @@ namespace YellowTaxiAP.Managers
             if (levelId == LevelId.L20_PsychoTaxi)
             {
                 var resource = AssetMaster.GetTexture2D("Cabinato Gigante Psycho Taxi Acceso");
-                var sprite = Sprite.Create(resource, new Rect(199, 72, 175, 175), new Vector2(1, 1), 1);
+                var sprite = Sprite.Create(resource, new Rect(199, 72, 175, 175), new Vector2(0.5f, 0.5f), 1);
                 return sprite;
             }
 
             return orig(levelId);
+        }
+
+        private Sprite TimeTrialPortalTextureGet(LevelId levelId)
+        {
+            if (levelId == LevelId.L20_PsychoTaxi)
+            {
+                var resource = AssetMaster.GetTexture2D("Cabinato Gigante Psycho Taxi Acceso");
+                var sprite = Sprite.Create(resource, new Rect(248, 582, 107, 81), new Vector2(0.5f, 0.5f), 1);
+                return sprite;
+            }
+
+            return Colors.PortalTextureGet(levelId);
         }
 
         private void PortalScript_SetupDataForLevelComeback(On.PortalScript.orig_SetupDataForLevelComeback orig, PortalScript self, bool saveToDisk, bool forcePortalDesiredWaterState)
