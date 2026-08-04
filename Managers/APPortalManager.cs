@@ -137,7 +137,7 @@ namespace YellowTaxiAP.Managers
         {
             if (string.IsNullOrEmpty(self._name) || self._name.Any(c => char.IsDigit(c)))
                 orig(self);
-            if (!string.IsNullOrEmpty(self._name))
+            if (!string.IsNullOrEmpty(self._name) && self.kaizoLevelId == LevelId.noone)
             {
                 self.nameTextAnimator.GetComponent<TextAnimatorPlayer>().useTypeWriter = false;
                 if (self.PortalIsLevelPortal && !self.PortalIsAlreadyOpened)
