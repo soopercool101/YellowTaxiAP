@@ -120,6 +120,13 @@ namespace YellowTaxiAP.Managers
             var levels = new LevelId[OriginalPortalLevelOrder.Length];
             Array.Copy(OriginalPortalLevelOrder, levels, OriginalPortalLevelOrder.Length);
             Array.Sort(levels, (_, _) => Random.RandomRangeInt(-1, 2));
+            var s = "Levels randomized! Mapping:\n";
+            for (var i = 0; i < levels.Length; i++)
+            {
+                s += OriginalPortalLevelOrder[i] + " -> " + levels[i] + "\n";
+            }
+
+            Plugin.Log(s.TrimEnd('\n'), false);
             
             return levels;
         }
