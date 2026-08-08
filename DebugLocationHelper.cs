@@ -9342,7 +9342,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(RocketGoldenPropeller)),
                 [
                     new RegionConnection(RocketToslaHQArea),
-                    new RegionConnection(LabMemoriesHighGround, $"X2+NSAR+J1 & {{{GetDescription(nameof(WelcomingClimbsStartingArea))}}}"),
+                    new RegionConnection(LabMemoriesHighGround, $"X2+NSAR+J1 & {{{GetDescription(nameof(LabMemoriesStartingArea))}}}"),
                     new RegionConnection(WelcomingClimbsFirstGearArea, $"X2+NSAR & {{{GetDescription(nameof(WelcomingClimbsStartingArea))}}}"),
                     new RegionConnection(ButtonsSmashingHatPlatform, $"X2+NSAR & {{{GetDescription(nameof(ButtonsSmashingStartingArea))}}}"),
                     new RegionConnection(StealthyHalfwayUp, $"X1+NSAR & {{{GetDescription(nameof(StealthyStartingArea))}}}"),
