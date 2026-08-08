@@ -622,6 +622,10 @@ public class ArchipelagoClient
                 Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] =
                     Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
                         Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
+                if (PsychoTaxiCabinetScript.instance)
+                {
+                    PsychoTaxiCabinetScript.instance.cartridgeObj.SetActive(true);
+                }
                 break;
             case Identifiers.ItemID.FullGameUnlock:
                 APAreaStateManager.FullGameUnlocked = true;

@@ -24,7 +24,7 @@ namespace YellowTaxiAP.Archipelago
         /// Highest supported minor version in the highest supported major version.
         /// Should be up to date with latest APWorld whenever a new version is released.
         /// </summary>
-        public const int HighestSupportedMinorVersion = 6;
+        public const int HighestSupportedMinorVersion = 7;
         public bool FailedValidation { get; private set; }
         public long APWorldMajorVersion { get; set; }
         public long APWorldMinorVersion { get; set; }
@@ -356,13 +356,29 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for shuffle_morios_password found");
             }
 
-            if (slotData.ContainsKey("shuffle_rocket"))
+            if (slotData.ContainsKey("rocket_unlock_condition"))
+            {
+                switch ((LevelUnlockCondition)(long)slotData["rocket_unlock_condition"])
+                {
+                    case LevelUnlockCondition.Exclude:
+                        ShuffleRocket = false;
+                        break;
+                    case LevelUnlockCondition.Open:
+                        ShuffleRocket = true;
+                        APAreaStateManager.RocketEnabled = true;
+                        break;
+                    case LevelUnlockCondition.Item:
+                        ShuffleRocket = true;
+                        break;
+                }
+            }
+            else if (slotData.ContainsKey("shuffle_rocket"))
             {
                 ShuffleRocket = (bool) slotData["shuffle_rocket"];
             }
             else
             {
-                Plugin.Log("No slot data for shuffle_rocket found");
+                Plugin.Log("No slot data for rocket_unlock_condition found");
             }
 
             if (slotData.ContainsKey("shuffle_full_game"))
@@ -388,13 +404,32 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for demo_portal_mode found");
             }
 
-            if (slotData.ContainsKey("shuffle_psycho_taxi"))
+
+            if (slotData.ContainsKey("psycho_taxi_unlock_condition"))
+            {
+                switch ((LevelUnlockCondition)(long)slotData["psycho_taxi_unlock_condition"])
+                {
+                    case LevelUnlockCondition.Exclude:
+                        ShufflePsychoTaxi = false;
+                        break;
+                    case LevelUnlockCondition.Open:
+                        ShufflePsychoTaxi = true;
+                        Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] =
+                            Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
+                                Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
+                        break;
+                    case LevelUnlockCondition.Item:
+                        ShufflePsychoTaxi = true;
+                        break;
+                }
+            }
+            else if (slotData.ContainsKey("shuffle_psycho_taxi"))
             {
                 ShufflePsychoTaxi = (bool) slotData["shuffle_psycho_taxi"];
             }
             else
             {
-                Plugin.Log("No slot data for shuffle_psycho_taxi found");
+                Plugin.Log("No slot data for psycho_taxi_unlock_condition found");
             }
 
             if (slotData.ContainsKey("shuffle_rat"))
@@ -723,6 +758,21 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for early_pizza_wheels found");
             }
+
+
+            if (slotData.ContainsKey("level_order"))
+            {
+                Plugin.Log("Loading level_order");
+                var levels = new List<Data.LevelId>();
+                foreach (var level in (JArray)slotData["level_order"])
+                {
+                    levels.Add((Data.LevelId)(int)level);
+                }
+
+                APPortalManager.RandomizedPortalLevelOrder = levels.ToArray();
+            }
+            
+            Plugin.Log("Load successful");
 
             Loaded = true;
         }

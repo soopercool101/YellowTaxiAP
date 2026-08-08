@@ -26,6 +26,20 @@ namespace YellowTaxiAP.Managers
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
 
             On.MapArea.IsCurrentLevelFromIsland += MapArea_IsCurrentLevelFromIsland;
+            On.Data.LevelData.GetName += LevelData_GetName;
+        }
+
+        private string LevelData_GetName(On.Data.LevelData.orig_GetName orig, Data.LevelData self, bool welcomeSetupRequest)
+        {
+            // Rocket is normally hardcoded to return Granny's. Fix
+            if (Data.IsLevelIdHub((Data.LevelId)self.levelId) && welcomeSetupRequest &&
+                GameplayMaster.instance?.levelId == Data.LevelId.L16_Rocket)
+            {
+                return !CurrentAreaFromIsland
+                    ? LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND_LAB")
+                    : LocalizationManager.GetTermTranslation(self.levelName);
+            }
+            return orig(self, welcomeSetupRequest);
         }
 
         public static bool CurrentAreaFromIsland;

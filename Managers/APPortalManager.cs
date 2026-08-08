@@ -113,7 +113,7 @@ namespace YellowTaxiAP.Managers
             LevelId.L20_PsychoTaxi,
         ];
 
-        public static LevelId[] RandomizedPortalLevelOrder = GetRandomizedPortalLevelOrder();
+        public static LevelId[] RandomizedPortalLevelOrder = OriginalPortalLevelOrder;
 
         public static LevelId[] GetRandomizedPortalLevelOrder()
         {
@@ -131,13 +131,16 @@ namespace YellowTaxiAP.Managers
             return levels;
         }
 
-        public LevelId GetRandomizedLevelId(LevelId OriginalLevel)
+        public static LevelId GetRandomizedLevelId(LevelId originalLevel, bool ignoreExcluded = false)
         {
-            if (OriginalPortalLevelOrder.Contains(OriginalLevel))
+            if (OriginalPortalLevelOrder.Contains(originalLevel))
             {
-                return RandomizedPortalLevelOrder[Array.IndexOf(OriginalPortalLevelOrder, OriginalLevel)]; ;
+                var randomizedLevel =
+                    RandomizedPortalLevelOrder[Array.IndexOf(OriginalPortalLevelOrder, originalLevel)];
+                if (!ignoreExcluded || randomizedLevel != LevelId.L11_HubDemo)
+                    return randomizedLevel;
             }
-            return OriginalLevel;
+            return originalLevel;
         }
 
         private void PortalScript_UpdatePortalToLevelName(On.PortalScript.orig_UpdatePortalToLevelName orig, PortalScript self)
@@ -149,13 +152,11 @@ namespace YellowTaxiAP.Managers
                 self.nameTextAnimator.GetComponent<TextAnimatorPlayer>().useTypeWriter = false;
                 if (self.PortalIsLevelPortal && !self.PortalIsAlreadyOpened)
                 {
-                    Plugin.Log("[0.7.0] " + self._name + " has not yet been activated. Surprise!");
                     self._name = self.nameText.text = "???";
                 }
                 else if (self._name.Contains("?") || self._name.Any(c => char.IsDigit(c)))
                 {
-                    self._name = self.nameText.text = levelDataList[(int)GetRandomizedLevelId(self.targetLevelId)].GetName();
-                    Plugin.Log("[0.7.0] " + self._name + " has been activated. No surprise!");
+                    self._name = self.nameText.text = levelDataList[(int)GetRandomizedLevelId(self.targetLevelId, true)].GetName();
                 }
             }
         }
@@ -243,7 +244,7 @@ namespace YellowTaxiAP.Managers
         {
             if (self.PortalIsLevelPortal)
             {
-                var randomizedLevelId = GetRandomizedLevelId(self.targetLevelId);
+                var randomizedLevelId = GetRandomizedLevelId(self.targetLevelId, true);
                 self._name = self.nameText.text = levelDataList[(int)randomizedLevelId].GetName();
                 self.levelImage.sprite = Colors.PortalTextureGet(randomizedLevelId);
             }
@@ -361,7 +362,7 @@ namespace YellowTaxiAP.Managers
         {
             if ((int)levelSceneIndex > 100)
                 levelSceneIndex -= 100;
-            var randomizedLevelId = GetRandomizedLevelId(targetLevelId);
+            var randomizedLevelId = GetRandomizedLevelId(targetLevelId, true);
             Plugin.Log($"PortalWarp to {targetLevelId} with index {levelSceneIndex} ({(int)levelSceneIndex}). Per randomization, actually leading to {randomizedLevelId}");
             orig(LevelConverter.GetLevelIndex(randomizedLevelId), randomizedLevelId);
         }
@@ -374,7 +375,8 @@ namespace YellowTaxiAP.Managers
 
         private void PortalScript_Awake(On.PortalScript.orig_Awake orig, PortalScript self)
         {
-            if ((self.targetLevelId == LevelId.L1_Bombeach && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach) ||
+            // Bombeach can be in a variable spot, otherwise just use standard
+            if ((GetRandomizedLevelId(self.targetLevelId) == LevelId.L1_Bombeach && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach) ||
                 (self.targetLevelId == LevelId.L5_ToslaOffices && Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices) ||
                 (self.targetLevelId == LevelId.L9_City && Plugin.SlotData.Goal == YTGVSlotData.GoalType.MauriziosCity) ||
                 (self.targetLevelId == LevelId.L14_ToslaHQ && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon))
@@ -403,39 +405,20 @@ namespace YellowTaxiAP.Managers
                 }
             }
 #endif
-            if (self.PortalIsLevelPortal || self.kaizoLevelId != LevelId.noone)
-            {
-                var target = self.kaizoLevelId != LevelId.noone ? self.kaizoLevelId : self.targetLevelId;
-                // Delete portals that are excluded
-                switch (target)
-                {
-                    case LevelId.L2_PizzaTime when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L4_ArcadePanik when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L5_ToslaOffices when Plugin.SlotData.Goal < YTGVSlotData.GoalType.ToslaOffices && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L6_Gym when Plugin.SlotData.GymGearsUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
-                    case LevelId.L7_PoopWorld when Plugin.SlotData.FecalMattersUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
-                    case LevelId.L8_Sewers when Plugin.SlotData.FlushedAwayUnlockCondition == YTGVSlotData.LevelUnlockCondition.Exclude:
-                    case LevelId.L9_City when Plugin.SlotData.Goal < YTGVSlotData.GoalType.MauriziosCity && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L10_CrashTestIndustries: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L12_MoriosMind: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L13_StarmanCastle: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L14_ToslaHQ: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
-                    case LevelId.L15_Moon: //when Plugin.SlotData.Goal < YTGVSlotData.GoalType.Moon && Plugin.SlotData.RemovePostGoalPortals:
-                        // Disable level cost. This fixes issues with main menu.
-                        // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
-                        if (self.PortalIsLevelPortal)
-                        {
-                            levelDataList[(int)self.targetLevelId].levelCost = -1;
-                            GetLevel(self.targetLevelId).everOpened = false;
-                            self.CostUpdateTry();
-                        }
-                        ObjectHelper.DestroyRecursive(self.transform);
-                        return;
-                }
-            }
-
             if (self.PortalIsLevelPortal)
             {
+                // Delete portals that are excluded
+                if (GetRandomizedLevelId(self.targetLevelId) == LevelId.L11_HubDemo)
+                {
+                    // Disable level cost. This fixes issues with main menu.
+                    // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
+                    levelDataList[(int)self.targetLevelId].levelCost = -1;
+                    GetLevel(self.targetLevelId).everOpened = false;
+                    self.CostUpdateTry();
+                    ObjectHelper.DestroyRecursive(self.transform);
+                    return;
+                }
+
                 // Get Portal Opened state from save
                 switch (self.targetLevelId)
                 {
@@ -458,6 +441,11 @@ namespace YellowTaxiAP.Managers
                         break;
                 }
             }
+            else if (self.kaizoLevelId != LevelId.noone && !RandomizedPortalLevelOrder.Contains(self.kaizoLevelId))
+            {
+                ObjectHelper.DestroyRecursive(self.transform);
+            }
+
             orig(self);
             self.UpdatePortalToLevelName();
             self.CostUpdateTry();

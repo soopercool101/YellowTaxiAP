@@ -287,7 +287,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowJumpPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowJumpPrompt orig, DialogueScript self)
         {
-            if (!Plugin.SlotData.ShuffleFlipOWill)
+            if (APPlayerManager.JumpLevel >= 1)
             {
                 orig(self);
             }
@@ -299,11 +299,15 @@ namespace YellowTaxiAP.Managers
             {
                 orig(self);
             }
+            else if (APPlayerManager.SpinAttackEnabled)
+            {
+                self.SpecialMethod_OnDialogueEnd_ShowFlipPrompt();
+            }
         }
 
         private void DialogueScript_OnShowGlidePrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowGlidePrompt orig, DialogueScript self)
         {
-            if (!Plugin.SlotData.ShuffleGlide)
+            if (APPlayerManager.GlideEnabled)
             {
                 orig(self);
             }
@@ -311,7 +315,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowFlipPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowFlipPrompt orig, DialogueScript self)
         {
-            if (!Plugin.SlotData.ShuffleFlipOWill)
+            if (APPlayerManager.BoostLevel >= 1)
             {
                 orig(self);
             }
@@ -319,7 +323,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowDoubleBoostPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowDoubleBoostPrompt orig, DialogueScript self)
         {
-            if (!Plugin.SlotData.ShuffleFlipOWill)
+            if (APPlayerManager.BoostLevel >= 2)
             {
                 orig(self);
             }
@@ -327,7 +331,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowBackflipPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowBackflipPrompt orig, DialogueScript self)
         {
-            if (!Plugin.SlotData.ShuffleFlipOWill)
+            if (APPlayerManager.JumpLevel >= 2)
             {
                 orig(self);
             }
@@ -1354,6 +1358,15 @@ namespace YellowTaxiAP.Managers
                         }
                         break;
                     case "PSYCHO_TAXI_CABINET_PLAY_QUESTION":
+                        // Replace level name
+                        var oldLevel = Data.GetLevel(Data.LevelId.L20_PsychoTaxi).GetName();
+                        var newLevel = APPortalManager.GetRandomizedLevelId(Data.LevelId.L20_PsychoTaxi, true);
+                        Plugin.Log($"Replacing \"{oldLevel}\" with \"{newLevel}\"");
+                        self.dialogues[0] = self.dialogues[0]
+                            .Replace(Data.GetLevel(Data.LevelId.L20_PsychoTaxi).GetName(),
+                                Data.GetLevel(APPortalManager.GetRandomizedLevelId(Data.LevelId.L20_PsychoTaxi, true))
+                                    .GetName());
+
                         if (!Plugin.SlotData.EarlyPsychoTaxi || !Plugin.SlotData.ShufflePsychoTaxi)
                             break;
 
