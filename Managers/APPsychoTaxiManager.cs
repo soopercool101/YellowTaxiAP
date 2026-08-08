@@ -51,7 +51,7 @@ namespace YellowTaxiAP.Managers
                 TrueLevelDisplay.transform.position = new Vector3(-785.0f, 65.06f, 616.78f);
                 TrueLevelDisplay.transform.Rotate(-16, 0, 0);
                 TrueLevelDisplay.transform.SetParent(self.transform);
-                TrueLevelDisplay.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+                TrueLevelDisplay.transform.localScale = new Vector3(1.051f, 1.051f, 1.051f);
             }
 
             orig(self);
