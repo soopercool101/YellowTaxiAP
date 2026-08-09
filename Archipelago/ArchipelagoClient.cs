@@ -699,6 +699,16 @@ public class ArchipelagoClient
                         APPlayerManager.PerLevelJumpItems[(Data.LevelId)level]++;
                     }
 
+                    if ((Data.LevelId)level == (GameplayMaster.instance?.levelId ?? Data.LevelId.noone))
+                    {
+                        if (MenuV2Script.instance && MenuV2Script.instance.isPauseMenu)
+                        {
+                            MenuV2Script.instance.menuSubTitles[13] = Data.levelDataList[(int)GameplayMaster.instance.levelId].GetName() +
+                                                                      $" (B:{APPlayerManager.BoostLevel} J:{APPlayerManager.JumpLevel})";
+                            MenuV2Element.UpdateTexts();
+                        }
+                    }
+
                     break;
                 }
 

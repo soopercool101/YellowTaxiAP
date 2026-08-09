@@ -144,9 +144,15 @@ namespace YellowTaxiAP.Managers
         private void MenuV2Script_MenuVoicesInit(On.MenuV2Script.orig_MenuVoicesInit orig, MenuV2Script self)
         {
             orig(self);
-            if (GameplayMaster.instance && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+            if (self.isPauseMenu)
             {
-                self.menuSubTitles[15] = LocalizationManager.GetTermTranslation(Plugin.SlotData.StartInLab ? "MENU_SUB_TITLE_HEAD_TO_LAB" : "MENU_SUB_TITLE_HEAD_TO_GRANNYS_ISLAND");
+                if (GameplayMaster.instance && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+                {
+                    self.menuSubTitles[15] = LocalizationManager.GetTermTranslation(Plugin.SlotData.StartInLab ? "MENU_SUB_TITLE_HEAD_TO_LAB" : "MENU_SUB_TITLE_HEAD_TO_GRANNYS_ISLAND");
+                }
+
+                self.menuSubTitles[13] = Data.levelDataList[(int)GameplayMaster.instance.levelId].GetName() +
+                                         $" (B:{APPlayerManager.BoostLevel} J:{APPlayerManager.JumpLevel})";
             }
         }
 
