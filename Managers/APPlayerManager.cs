@@ -7,7 +7,7 @@ namespace YellowTaxiAP.Managers
 {
     public class APPlayerManager
     {
-        public static int BoostLevel => Plugin.SlotData.ShuffleFlipOWill switch
+        public static int BoostLevel => Plugin.CheatsEnabled ? GlobalBoostItems : Plugin.SlotData.ShuffleFlipOWill switch
         {
             YTGVSlotData.MoveRandoType.Disabled => 2,
             YTGVSlotData.MoveRandoType.PerLevel => PerLevelBoostItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
@@ -40,7 +40,7 @@ namespace YellowTaxiAP.Managers
         };
         public static bool CanPacManBoost => BoostLevel >= 1;
         public static bool PacManBoostItem = false;
-        public static int JumpLevel => Plugin.SlotData.ShuffleFlipOWill switch
+        public static int JumpLevel => Plugin.CheatsEnabled ? GlobalJumpItems : Plugin.SlotData.ShuffleFlipOWill switch
         {
             YTGVSlotData.MoveRandoType.Disabled => 2,
             YTGVSlotData.MoveRandoType.PerLevel => PerLevelJumpItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
