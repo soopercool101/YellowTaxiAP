@@ -134,6 +134,7 @@ namespace YellowTaxiAP.Archipelago
         public string FunnyFaces { get; private set; }
 
         public bool EasyAlienMosk { get; private set; }
+        public bool QuickGearPickups { get; private set; }
 
         public enum LevelUnlockCondition : long
         {
@@ -740,6 +741,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for easy_alien_mosk found");
+            }
+
+            if (slotData.ContainsKey("quick_gear_pickups"))
+            {
+                QuickGearPickups = (bool)slotData["quick_gear_pickups"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for quick_gear_pickups found");
             }
 
             if (slotData.ContainsKey("shop_hints"))

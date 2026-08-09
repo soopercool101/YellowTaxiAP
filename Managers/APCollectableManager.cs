@@ -382,7 +382,13 @@ namespace YellowTaxiAP.Managers
                                     freezePlayer: false);
                                 Plugin.ArchipelagoClient.SendLocation(id.Value);
                             }
-                            else if (!Plugin.CheatsEnabled)
+                            else if (Plugin.SlotData.QuickGearPickups || Plugin.CheatsEnabled)
+                            {
+                                var gear = GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear", freezePlayer: false);
+                                gear.GetComponentInChildren<MeshRenderer>().material = pickup.gearBaseMaterial;
+                                Plugin.ArchipelagoClient.SendLocation(id.Value);
+                            }
+                            else
                             {
                                 Tick.Paused = true;
                                 var obj = Spawn.FromPool("GearPickupAnimationObject",
@@ -399,11 +405,6 @@ namespace YellowTaxiAP.Managers
                                 component.initialGearCameraZoomOnPortal = false;
                                 component.itWasANeverTakenGear = true;
                                 HudMasterScript.instance.gearShowCollectAnimation = true;
-                            }
-                            else
-                            {
-                                var gear = GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear", freezePlayer: false);
-                                gear.GetComponentInChildren<MeshRenderer>().material = pickup.gearBaseMaterial;
                             }
 
                             if (GameplayMaster.instance.timeAttackLevel)
