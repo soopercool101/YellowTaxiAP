@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Archipelago.MultiClient.Net.MessageLog.Messages;
 using Archipelago.MultiClient.Net.Models;
@@ -52,10 +52,14 @@ namespace YellowTaxiAP.Archipelago
                                 color = ColorblindColors[color];
                             }
                         }
-                        // default green is unreadable in many instances, brighten it to improve this
+                        // Brighten certain colors which are fairly unreadable otherwise. Hardcode rather than use Color.Green/Color.Blue in case this gets fixed dll-side
                         if (color.Equals(new Color(0, 128, 0)))
                         {
                             color = new Color(0, 200, 0);
+                        }
+                        else if (color.Equals(new Color(0, 0, 255)))
+                        {
+                            color = new Color(75, 75, 255);
                         }
 
                         s += $"<color=#{color.R:X2}{color.G:X2}{color.B:X2}>";
