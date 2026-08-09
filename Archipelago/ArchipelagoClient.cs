@@ -671,6 +671,23 @@ public class ArchipelagoClient
                     var prefixRemovedId = receivedItem.ItemId - 777_00_0_0;
                     var level = prefixRemovedId / 100;
                     Plugin.Log($"Interpreted level id {level}");
+                    if (level == 21) // All time attacks
+                    {
+                        if (prefixRemovedId % 2 == 0)
+                        {
+                            APPlayerManager.PerLevelBoostItems[Data.LevelId.L17_TimeAttack01]++;
+                            APPlayerManager.PerLevelBoostItems[Data.LevelId.L18_TimeAttack02]++;
+                            APPlayerManager.PerLevelBoostItems[Data.LevelId.L19_TimeAttack03]++;
+                        }
+                        else
+                        {
+                            APPlayerManager.PerLevelJumpItems[Data.LevelId.L17_TimeAttack01]++;
+                            APPlayerManager.PerLevelJumpItems[Data.LevelId.L18_TimeAttack02]++;
+                            APPlayerManager.PerLevelJumpItems[Data.LevelId.L19_TimeAttack03]++;
+                        }
+
+                        break;
+                    }
                     if (prefixRemovedId % 2 == 0)
                     {
                         Plugin.Log($"Interpreting item as boost for {(Data.LevelId)level}");
