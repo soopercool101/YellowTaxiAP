@@ -45,7 +45,6 @@ namespace YellowTaxiAP.Archipelago
         public int TotalBunnies { get; private set; }
         public int GoalPortalCost { get; private set; }
         public bool RemoveGoalPortalLocations { get; private set; }
-        public bool RemovePostGoalPortals { get; private set; }
 
         public bool DeathLink { get; private set; }
         public int DeathLinkAmnesty { get; set; }
@@ -236,15 +235,6 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for goal_portal_cost found");
-            }
-
-            if (slotData.ContainsKey("remove_post_goal_portals"))
-            {
-                RemovePostGoalPortals = (bool)slotData["remove_post_goal_portals"];
-            }
-            else
-            {
-                Plugin.Log("No slot data for remove_post_goal_portals found");
             }
 
             if (slotData.ContainsKey("remove_goal_portal_locations"))
