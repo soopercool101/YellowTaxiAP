@@ -23,6 +23,7 @@ namespace YellowTaxiAP.Managers
 
             On.MenuV2PhotoModeController.Update += MenuV2PhotoModeController_Update;
 
+            On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
 
             On.MapArea.IsCurrentLevelFromIsland += MapArea_IsCurrentLevelFromIsland;
@@ -149,6 +150,13 @@ namespace YellowTaxiAP.Managers
             }
         }
 
+        public static Data.LevelId WelcomeScreenLevel;
+        private void LoadingScreenScript_WelcomeSetup(On.LoadingScreenScript.orig_WelcomeSetup orig, Data.LevelId targetLevelId, string levelName, int gearsCollected, int maxGearsInsideLevel, bool enableCameraLevelIntro)
+        {
+            WelcomeScreenLevel = targetLevelId;
+            orig(targetLevelId, levelName, gearsCollected, maxGearsInsideLevel, enableCameraLevelIntro);
+        }
+
         /// <summary>
         /// Loading screen shows number of gears in level. This functionality is massively broken in rando, so disable.
         /// </summary>
@@ -156,7 +164,16 @@ namespace YellowTaxiAP.Managers
         {
             orig(self);
             self.welcomeGearImage.enabled = false;
-            self.welcomeGearsTextAnimator.SetText(string.Empty, true);
+            if (Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.PerLevel)
+            {
+                Plugin.Log($"Setting boost/jump text based on {WelcomeScreenLevel}");
+                self.welcomeGearsTextAnimator.gameObject.transform.position += new Vector3(-10, -5, 0);
+                self.welcomeGearsTextAnimator.SetText($"Boosts: {APPlayerManager.PerLevelBoostItems[WelcomeScreenLevel]}\nJumps: {APPlayerManager.PerLevelJumpItems[WelcomeScreenLevel]}", false);
+            }
+            else
+            {
+                self.welcomeGearsTextAnimator.SetText(string.Empty, true);
+            }
         }
 
         private MenuV2Element startText;

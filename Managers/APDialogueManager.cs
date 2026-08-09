@@ -295,7 +295,7 @@ namespace YellowTaxiAP.Managers
 
         private void DialogueScript_OnShowQuickTurnPrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowQuickTurnPrompt orig, DialogueScript self)
         {
-            if (!Plugin.SlotData.ShuffleFlipOWill)
+            if (Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.Disabled)
             {
                 orig(self);
             }
@@ -622,7 +622,7 @@ namespace YellowTaxiAP.Managers
 
         public static string[][] GetMorioPhoneTraps()
         {
-            var hintIntro = (Plugin.SlotData.ShuffleFlipOWill || Plugin.SlotData.ShuffleGlide)
+            var hintIntro = (Plugin.SlotData.ShuffleFlipOWill != YTGVSlotData.MoveRandoType.Disabled || Plugin.SlotData.ShuffleGlide || Plugin.SlotData.ShuffleSpinAttack)
                 ? "Hello my creature! Have you learned all your moves yet?"
                 : "Hello my creature! Have you been using your moves to their fullest?";
             var dialogues = new List<string[]>();
@@ -836,7 +836,7 @@ namespace YellowTaxiAP.Managers
                         self.dialogues[0] = Random.Range(0, 2) == 1 ? "&legalrom" : "&eyepatch";
                         break;
                     case "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK": // Normally unlocks Flip O' Will
-                        if (!Plugin.SlotData.ShuffleFlipOWill)
+                        if (Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.Disabled)
                             break;
                         self.dialogues =
                         [
@@ -849,7 +849,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.BOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH": // Normally super boost tutorial
-                        if (!Plugin.SlotData.ShuffleFlipOWill)
+                        if (Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.Disabled)
                             break;
                         self.dialogues =
                         [
@@ -859,7 +859,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.SUPERBOOST_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT" when GameplayMaster.instance.levelId == Data.LevelId.Hub: // Normally jump tutorial
-                        if (!Plugin.SlotData.ShuffleFlipOWill)
+                        if (Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.Disabled)
                             break;
                         self.dialogues =
                         [
@@ -869,7 +869,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.JUMP_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP" when GameplayMaster.instance.levelId == Data.LevelId.Hub: // Normally backflip tutorial
-                        if (!Plugin.SlotData.ShuffleFlipOWill)
+                        if (Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.Disabled)
                             break;
                         // Gym Gears backflip location is only for early goals
                         if (GameplayMaster.instance.levelId == Data.LevelId.L6_Gym && !Plugin.SlotData.EarlyBackflip)
@@ -892,7 +892,7 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.GLIDE_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN": // Normally quick turn tutorial. Repurposed for Spin Attack
-                        if (!Plugin.SlotData.ShuffleFlipOWill || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        if (!Plugin.SlotData.ShuffleSpinAttack || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [

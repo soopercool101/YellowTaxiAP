@@ -1,19 +1,75 @@
 using System;
+using System.Collections.Generic;
 using YellowTaxiAP.Archipelago;
 
 namespace YellowTaxiAP.Managers
 {
     public class APPlayerManager
     {
-        public static int BoostLevel => Plugin.SlotData.ShuffleFlipOWill ? BoostItems : 2;
-        public static int BoostItems = 0;
+        public static int BoostLevel => Plugin.SlotData.ShuffleFlipOWill switch
+        {
+            YTGVSlotData.MoveRandoType.Disabled => 2,
+            YTGVSlotData.MoveRandoType.PerLevel => PerLevelBoostItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
+            _ => GlobalBoostItems
+        };
+        public static int GlobalBoostItems = 0;
+
+        public static Dictionary<Data.LevelId, int> PerLevelBoostItems = new()
+        {
+            { Data.LevelId.Hub, 0 },
+            { Data.LevelId.L1_Bombeach, 0 },
+            { Data.LevelId.L2_PizzaTime, 0 },
+            { Data.LevelId.L3_MoriosHome, 0 },
+            { Data.LevelId.L4_ArcadePanik, 0 },
+            { Data.LevelId.L5_ToslaOffices, 0 },
+            { Data.LevelId.L6_Gym, 0 },
+            { Data.LevelId.L7_PoopWorld, 0 },
+            { Data.LevelId.L8_Sewers, 0 },
+            { Data.LevelId.L9_City, 0 },
+            { Data.LevelId.L10_CrashTestIndustries, 0 },
+            { Data.LevelId.L12_MoriosMind, 0 },
+            { Data.LevelId.L13_StarmanCastle, 0 },
+            { Data.LevelId.L14_ToslaHQ, 0 },
+            { Data.LevelId.L15_Moon, 0 },
+            { Data.LevelId.L17_TimeAttack01, 0 },
+            { Data.LevelId.L18_TimeAttack02, 0 },
+            { Data.LevelId.L19_TimeAttack03, 0 },
+            { Data.LevelId.L20_PsychoTaxi, 0 },
+        };
         public static bool CanPacManBoost => BoostLevel >= 1;
         public static bool PacManBoostItem = false;
-        public static int JumpLevel => Plugin.SlotData.ShuffleFlipOWill ? JumpItems : 2;
-        public static int JumpItems = 0;
+        public static int JumpLevel => Plugin.SlotData.ShuffleFlipOWill switch
+        {
+            YTGVSlotData.MoveRandoType.Disabled => 2,
+            YTGVSlotData.MoveRandoType.PerLevel => PerLevelJumpItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
+            _ => GlobalJumpItems
+        };
+        public static int GlobalJumpItems = 0;
+        public static Dictionary<Data.LevelId, int> PerLevelJumpItems = new()
+        {
+            { Data.LevelId.Hub, 0 },
+            { Data.LevelId.L1_Bombeach, 0 },
+            { Data.LevelId.L2_PizzaTime, 0 },
+            { Data.LevelId.L3_MoriosHome, 0 },
+            { Data.LevelId.L4_ArcadePanik, 0 },
+            { Data.LevelId.L5_ToslaOffices, 0 },
+            { Data.LevelId.L6_Gym, 0 },
+            { Data.LevelId.L7_PoopWorld, 0 },
+            { Data.LevelId.L8_Sewers, 0 },
+            { Data.LevelId.L9_City, 0 },
+            { Data.LevelId.L10_CrashTestIndustries, 0 },
+            { Data.LevelId.L12_MoriosMind, 0 },
+            { Data.LevelId.L13_StarmanCastle, 0 },
+            { Data.LevelId.L14_ToslaHQ, 0 },
+            { Data.LevelId.L15_Moon, 0 },
+            { Data.LevelId.L17_TimeAttack01, 0 },
+            { Data.LevelId.L18_TimeAttack02, 0 },
+            { Data.LevelId.L19_TimeAttack03, 0 },
+            { Data.LevelId.L20_PsychoTaxi, 0 },
+        };
         public static bool CanPacManJump => PacManJumpItem;
         public static bool PacManJumpItem = false;
-        public static bool SpinAttackEnabled => !Plugin.SlotData.ShuffleFlipOWill || SpinAttackItem;
+        public static bool SpinAttackEnabled => !Plugin.SlotData.ShuffleSpinAttack || SpinAttackItem;
         public static bool SpinAttackItem = false;
         public static bool GlideEnabled => !Plugin.SlotData.ShuffleGlide || GlideEnabledItem;
         public static bool GlideEnabledItem = false;

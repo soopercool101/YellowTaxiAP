@@ -212,14 +212,14 @@ public class Plugin : BaseUnityPlugin
 
             if (DebugLocationHelper.Enabled)
             {
-                if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.BoostItems > 0)
+                if ((Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus)) && APPlayerManager.GlobalBoostItems > 0)
                 {
-                    Log($"DEBUG: Flip-O-Will Boost Level lowered to {--APPlayerManager.BoostItems}", true);
+                    Log($"DEBUG: Flip-O-Will Boost Level lowered to {--APPlayerManager.GlobalBoostItems}", true);
                     APTVManager.FlagTvNeedsUpdate();
                 }
-                if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.BoostItems < 2)
+                if ((Input.GetKeyDown(KeyCode.KeypadPlus) || Input.GetKeyDown(KeyCode.Equals)) && APPlayerManager.GlobalBoostItems < 2)
                 {
-                    Log($"DEBUG: Flip-O-Will Boost Level increased to {++APPlayerManager.BoostItems}", true);
+                    Log($"DEBUG: Flip-O-Will Boost Level increased to {++APPlayerManager.GlobalBoostItems}", true);
                     APTVManager.FlagTvNeedsUpdate();
                 }
 
@@ -229,14 +229,14 @@ public class Plugin : BaseUnityPlugin
                     Log($"DEBUG: Pac-Man Jump {(APPlayerManager.PacManJumpItem ? "enabled" : "disabled")}", true);
                 }
 
-                if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.JumpItems > 0)
+                if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.GlobalJumpItems > 0)
                 {
-                    Log($"DEBUG: Flip-O-Will Jump Level lowered to {--APPlayerManager.JumpItems}", true);
+                    Log($"DEBUG: Flip-O-Will Jump Level lowered to {--APPlayerManager.GlobalJumpItems}", true);
                     APTVManager.FlagTvNeedsUpdate();
                 }
-                if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.JumpItems < 2)
+                if (Input.GetKeyDown(KeyCode.RightBracket) && APPlayerManager.GlobalJumpItems < 2)
                 {
-                    Log($"DEBUG: Flip-O-Will Jump Level increased to {++APPlayerManager.JumpItems}", true);
+                    Log($"DEBUG: Flip-O-Will Jump Level increased to {++APPlayerManager.GlobalJumpItems}", true);
                     APTVManager.FlagTvNeedsUpdate();
                 }
 

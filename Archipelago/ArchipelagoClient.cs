@@ -468,15 +468,15 @@ public class ArchipelagoClient
                 ReceiveCoins(100);
                 break;
             case Identifiers.ItemID.FlipOWill:
-                APPlayerManager.BoostItems = 2;
-                APPlayerManager.JumpItems = 2;
+                APPlayerManager.GlobalBoostItems = 2;
+                APPlayerManager.GlobalJumpItems = 2;
                 APPlayerManager.SpinAttackItem = true;
                 break;
             case Identifiers.ItemID.ProgressiveBoost:
-                APPlayerManager.BoostItems++;
+                APPlayerManager.GlobalBoostItems++;
                 break;
             case Identifiers.ItemID.ProgressiveJump:
-                APPlayerManager.JumpItems++;
+                APPlayerManager.GlobalJumpItems++;
                 break;
             case Identifiers.ItemID.SpinAttack:
                 APPlayerManager.SpinAttackItem = true;
@@ -665,6 +665,26 @@ public class ArchipelagoClient
                         break;
                     }
                 }
+                // Per-level moves
+                if (receivedItem.ItemId is >= 777_00_0_0 and < 777_99_9_9)
+                {
+                    var prefixRemovedId = receivedItem.ItemId - 777_00_0_0;
+                    var level = prefixRemovedId / 100;
+                    Plugin.Log($"Interpreted level id {level}");
+                    if (prefixRemovedId % 2 == 0)
+                    {
+                        Plugin.Log($"Interpreting item as boost for {(Data.LevelId)level}");
+                        APPlayerManager.PerLevelBoostItems[(Data.LevelId)level]++;
+                    }
+                    else
+                    {
+                        Plugin.Log($"Interpreting item as jump for {(Data.LevelId)level}");
+                        APPlayerManager.PerLevelJumpItems[(Data.LevelId)level]++;
+                    }
+
+                    break;
+                }
+
 
                 Plugin.Log($"Error: Unknown item ID: {receivedItem.ItemId}");
                 throw new ArgumentOutOfRangeException();

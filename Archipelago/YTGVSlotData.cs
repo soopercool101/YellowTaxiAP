@@ -87,7 +87,15 @@ namespace YellowTaxiAP.Archipelago
         }
         public HatsanityType Hatsanity { get; private set; }
         public bool ExtraDemoCollectables { get; private set; }
-        public bool ShuffleFlipOWill { get; private set; }
+        public enum MoveRandoType : long
+        {
+            Disabled = 0,
+            Global = 3,
+            PerLevel = 4,
+        }
+        public MoveRandoType ShuffleFlipOWill { get; private set; }
+
+        public bool ShuffleSpinAttack { get; private set; }
         public bool ShuffleGlide { get; private set; }
         public bool ShuffleGoldenSpring { get; private set; }
         public bool ShuffleGoldenPropeller { get; private set; }
@@ -470,11 +478,21 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_flip_o_will"))
             {
-                ShuffleFlipOWill = (long) slotData["shuffle_flip_o_will"] != 0;
+                ShuffleFlipOWill = (MoveRandoType) (long) slotData["shuffle_flip_o_will"];
             }
             else
             {
                 Plugin.Log("No slot data for shuffle_flip_o_will found");
+            }
+
+            if (slotData.ContainsKey("shuffle_spin_attack"))
+            {
+                ShuffleSpinAttack = (bool)slotData["shuffle_spin_attack"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for shuffle_spin_attack found");
+                ShuffleSpinAttack = ShuffleFlipOWill != MoveRandoType.Disabled;
             }
 
             if (slotData.ContainsKey("shuffle_glide"))
