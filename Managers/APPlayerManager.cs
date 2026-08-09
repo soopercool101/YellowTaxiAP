@@ -239,6 +239,10 @@ namespace YellowTaxiAP.Managers
                                 self.flipOWill_FlipTimer < 0.5 && !self.flipOWilLDoubleInputPress)
                             {
                                 self.FlipOWillAbort();
+                                if (Sound.IsPlaying("SoundPlayerFlipNegated"))
+                                {
+                                    Sound.Stop("SoundPlayerFlipNegated");
+                                }
                             }
                         }
                     }
