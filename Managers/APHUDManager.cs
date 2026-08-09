@@ -11,19 +11,11 @@ namespace YellowTaxiAP.Managers
             //On.HudMasterScript.Update += HudMasterScript_Update;
             On.HudMasterScript.Update += HudMasterScript_Update;
             On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
-            On.HudMasterScript.IntroAnimation += HudMasterScript_IntroAnimation;
             On.MapMaster.Awake += MapMaster_Awake;
             On.MapMaster.GetAreaGearsTotal += MapMaster_GetAreaGearsTotal;
             On.MapMaster.GetAreaGearsCollected += MapMaster_GetAreaGearsCollected;
             On.MapMaster.GetAreaScriptableObject_ByAreaName += MapMaster_GetAreaScriptableObject_ByAreaName;
             //On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
-        }
-
-        private System.Collections.IEnumerator HudMasterScript_IntroAnimation(On.HudMasterScript.orig_IntroAnimation orig, HudMasterScript self)
-        {
-            PlayerScript.instance.myRb.isKinematic = true;
-            yield return orig(self);
-            PlayerScript.instance.myRb.isKinematic = false;
         }
 
         private static bool updatedGears;

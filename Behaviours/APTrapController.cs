@@ -833,8 +833,6 @@ namespace YellowTaxiAP.Behaviours
             {
                 Sound.Play("SoundPlayerFlipNegated");
                 DurationSeconds = APTrapController.DefaultTrapDuration / 3;
-                PlayerScript.instance.myRb.isKinematic = true;
-                PlayerScript.instance.canAmbulate = false;
                 Data.flipOWillUnlockState[Data.gameDataIndex] = false;
                 Instance = this;
             }
@@ -847,8 +845,6 @@ namespace YellowTaxiAP.Behaviours
 
         public override void TrapDeactivate()
         {
-            PlayerScript.instance.myRb.isKinematic = false;
-            PlayerScript.instance.canAmbulate = true;
             Data.flipOWillUnlockState[Data.gameDataIndex] = true;
             Instance = null;
         }

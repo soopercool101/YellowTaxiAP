@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using YellowTaxiAP.Archipelago;
+using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
 {
@@ -182,6 +183,15 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Update_AP(On.PlayerScript.orig_Update orig, PlayerScript self)
         {
+            if (HudMasterScript.introPausePlayer)
+            {
+                self.myRb.isKinematic = true;
+            }
+            else
+            {
+                self.myRb.isKinematic = StunTrap.Instance;
+            }
+
             if (self.UsingPacmanInputs())
             {
                 if (!CanPacManBoost && self.flipOWill_FlipTimer > 0 && self.flipOWill_FlipTimer - (double)Tick.Time <= 0.0)
