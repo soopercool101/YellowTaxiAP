@@ -6163,7 +6163,7 @@ namespace YellowTaxiAP
             { "Purple Tunnel - Bunny", "B1/J2 | X1+J1" },
             { "Maurizio's City - Coin on Red Beams on Lower Middle Level #4", "X3/J1/B1" },
             { "Maurizio's City - Coin on Pink House Roof on Upper Level #3", $"B1/J1 | {{{GetDescription(nameof(MauriziosCityCheckpointBuildingOnUpperLevel))}}}" },
-            { "Maurizio's City - Bunny - On Top of Maurizio's Building", "B2 & X3/J1 | X2+B1+J1" },
+            { "Maurizio's City - Bunny - On Top of Maurizio's Building", "B2 & X3/J1 | X2+B1+J1 | X3+J1" },
             { "Maurizio's City - Gear - On Brown Building Near Large Red Beam Structure", "X1/B1" },
         };
 
@@ -9200,13 +9200,14 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MauriziosCityMaurizioBuildingMiddle)),
                 [
-                    new RegionConnection(MauriziosCityMaurizioBuildingUpper, "B2 & X1/J1 | X2+B1+J1")
+                    new RegionConnection(MauriziosCityMaurizioBuildingUpper, "B2 & X1/J1 | X2+B1+J1 | X3+J1")
                 ]
             },
             {
                 GetDescription(nameof(MauriziosCityMaurizioBuildingUpper)),
                 [
-                    // No connections
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockBunny, "X3+J1"),
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockCoins, "X2+J1")
                 ]
             },
             {
