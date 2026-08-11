@@ -387,6 +387,8 @@ namespace YellowTaxiAP.Managers
                                 var gear = GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear", freezePlayer: false);
                                 gear.GetComponentInChildren<MeshRenderer>().material = pickup.gearBaseMaterial;
                                 Plugin.ArchipelagoClient.SendLocation(id.Value);
+                                HudMasterScript.instance.gearShowCollectAnimation = true;
+                                HudMasterScript.instance.UpdateGearsText();
                             }
                             else
                             {
@@ -439,7 +441,7 @@ namespace YellowTaxiAP.Managers
                             Sound.Play("SoundGoldenBunnyPickup");
                             if (!pickup.skipGenericPickupAnimation)
                             {
-                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GoldenBunny").GetComponentInChildren<MeshRenderer>().sharedMaterial = pickup.myMeshRend.sharedMaterial;
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GoldenBunny", freezePlayer: !Plugin.SlotData.QuickGearPickups).GetComponentInChildren<MeshRenderer>().sharedMaterial = pickup.myMeshRend.sharedMaterial;
                             }
                             Controls.SetVibration(self.playerIndex, 0.5f);
                             pickup.KillMe();
