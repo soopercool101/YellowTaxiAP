@@ -69,6 +69,10 @@ namespace YellowTaxiAP.Managers
 
         public static bool GetTimeTrialUnlockedState(Levels.Index timeTrial)
         {
+#if DEBUG
+            if (DebugLocationHelper.Enabled)
+                return true;
+#endif
             return timeTrial switch
             {
                 Levels.Index.level_time_attack_01 => TimeTrial1Unlocked,

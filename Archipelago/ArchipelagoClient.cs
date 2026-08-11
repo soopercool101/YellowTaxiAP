@@ -619,9 +619,7 @@ public class ArchipelagoClient
                 }
                 break;
             case Identifiers.ItemID.PsychoTaxiCartridge:
-                Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] =
-                    Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
-                        Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
+                Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = true;
                 if (PsychoTaxiCabinetScript.instance)
                 {
                     PsychoTaxiCabinetScript.instance.cartridgeObj.SetActive(true);

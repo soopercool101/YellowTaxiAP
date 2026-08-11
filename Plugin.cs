@@ -76,6 +76,10 @@ public class Plugin : BaseUnityPlugin
             BepinLogger.LogMessage(message);
     }
 
+    public bool EverQuicksaved;
+    public Vector3 QuicksavePlayerPosition;
+    public Quaternion QuicksavePlayerRotation;
+    public Vector3 QuicksavePlayerVelocity;
     private void Awake()
     {
         // Plugin startup logic
@@ -344,6 +348,15 @@ public class Plugin : BaseUnityPlugin
                     APAreaStateManager.DoggoReceived = !APAreaStateManager.DoggoReceived;
                     Log($"DEBUG: Doggo {(APAreaStateManager.DoggoReceived ? "enabled" : "disabled")}", true);
                 }
+                if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = !Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex];
+                    if (PsychoTaxiCabinetScript.instance)
+                    {
+                        PsychoTaxiCabinetScript.instance.cartridgeObj.SetActive(Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex]);
+                    }
+                    Log($"DEBUG: Psycho Taxi {(Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] ? "enabled" : "disabled")}", true);
+                }
                 if (Input.GetKeyDown(KeyCode.G))
                 {
                     APAreaStateManager.GelaToniReceived = !APAreaStateManager.GelaToniReceived;
@@ -363,6 +376,26 @@ public class Plugin : BaseUnityPlugin
                 {
                     APAreaStateManager.LabDoorUnlocked = !APAreaStateManager.LabDoorUnlocked;
                     Log($"DEBUG: Lab Key {(APAreaStateManager.LabDoorUnlocked ? "enabled" : "disabled")}", true);
+                }
+                if (Input.GetKeyDown(KeyCode.F5))
+                {
+                    if (PlayerScript.instance)
+                    {
+                        EverQuicksaved = true;
+                        QuicksavePlayerPosition = PlayerScript.instance.transform.position;
+                        QuicksavePlayerRotation = PlayerScript.instance.transform.rotation;
+                        QuicksavePlayerVelocity = PlayerScript.instance.myRb.velocity;
+                    }
+                }
+
+                if (Input.GetKeyDown(KeyCode.F9))
+                {
+                    if (PlayerScript.instance && EverQuicksaved)
+                    {
+                        PlayerScript.instance.transform.position = QuicksavePlayerPosition;
+                        PlayerScript.instance.transform.rotation = QuicksavePlayerRotation;
+                        PlayerScript.instance.myRb.velocity = QuicksavePlayerVelocity;
+                    }
                 }
 
                 if (Input.GetKeyDown(KeyCode.C))

@@ -200,6 +200,7 @@ namespace YellowTaxiAP.Managers
             Data.gononoBombeachDelivered[Data.gameDataIndex] = true;
             Data.morioCutsceneToslaHQUnlocked[Data.gameDataIndex] = true;
             Data.wishlistHatEquipped[Data.gameDataIndex] = true;
+            Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] = true;
             Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
         }
 
