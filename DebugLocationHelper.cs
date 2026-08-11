@@ -1835,6 +1835,7 @@ namespace YellowTaxiAP
             { "3_01_00007", "Morio's Home - Gear - In Bedroom Corner" },
             // Special rules
             { "3_03_00395", "Morio's Home - Coin Bag on Garage Wall Shelf" },       // J1
+            { "3_01_00015", "Morio's Home - Gear - On Garage Shelf" },
         };
 
         [Description("Morio's Home - Expert 2 High Ground")]
@@ -1855,7 +1856,6 @@ namespace YellowTaxiAP
         [Description("Morio's Home - High Ground")]
         public static Dictionary<string, string> MoriosHomeHighGround = new()
         {
-            { "3_01_00015", "Morio's Home - Gear - On Garage Shelf" },
             { "3_03_00365", "Morio's Home - Coin Bag on Hallway Ledge #1" },
             { "3_03_00364", "Morio's Home - Coin on Hallway Ledge #1" },
             { "3_03_00363", "Morio's Home - Coin on Hallway Ledge #2" },
@@ -2052,6 +2052,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> MoriosIslandSpecialRules = new()
         {
             { "Morio's Home - Coin Bag on Garage Wall Shelf", "J1 | X2+B1" },
+            { "Morio's Home - Gear - On Garage Shelf", "X3/B1/J1" },
             { "Morio's Home - Gear - Above Hallway", "X1/B1/J2" },
             { "Morio's Home - Gear - Above Kitchen", "X1/B1/J2" },
         };
@@ -8086,7 +8087,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "B1/J1"),
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
                     new RegionConnection(MoriosLabThirdFloor, "Spike"),
-                    new RegionConnection(MoriosLabFourthFloorSpikyCliffs, "X3/Spike & J1 | X1+Spike+B2 | X2+B2+J2"),
+                    new RegionConnection(MoriosLabFourthFloorSpikyCliffs, "X3/Spike & J1 | X1+Spike+B2 | X2+Spike+B1 | X2+B2+J2"),
                     new RegionConnection("Morio's Lab - Getting Gud! TV", GettingGudStartingArea, ConnectionType.Warp, "TT2"),
                     new RegionConnection("Morio's Lab - Maurizio's City Portal", MauriziosCityStartingArea, ConnectionType.Warp, "PortalMauriziosCity"),
                 ]
