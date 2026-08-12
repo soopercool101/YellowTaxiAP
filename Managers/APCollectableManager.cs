@@ -389,6 +389,7 @@ namespace YellowTaxiAP.Managers
                                 Plugin.ArchipelagoClient.SendLocation(id.Value);
                                 HudMasterScript.instance.gearShowCollectAnimation = true;
                                 HudMasterScript.instance.UpdateGearsText();
+                                GameplayMaster.SetExtraTimer(5, true);
                             }
                             else
                             {
