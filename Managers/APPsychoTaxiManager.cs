@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
@@ -83,7 +83,7 @@ namespace YellowTaxiAP.Managers
             DebugLocationHelper.CheckLocation("Psycho Taxi Cartridge", $"{(int)GameplayMaster.instance.levelId}_{Identifiers.PSYCHO_ID:D2}_99999");
 #endif
             Plugin.ArchipelagoClient.SendLocation((long)GameplayMaster.instance.levelId * 1_00_00000 + (long)Identifiers.NotableLocations.HubPsychoTaxi);
-            GenericPickupAnimationScript.SpawnNew("PickupVisualizer_PsychoTaxiCartridge").waitForDialogue = true;
+            GenericPickupAnimationScript.SpawnNew("PickupVisualizer_PsychoTaxiCartridge", freezePlayer: !Plugin.SlotData.QuickGearPickups);
             //Spawn.Instance("Dialogue Psycho Taxi - Cartridge found 1", Vector3.zero);
             Sound.Play_Unpausable("SoundLevelCollectiblePickup");
             Object.Destroy(self.gameObject);
