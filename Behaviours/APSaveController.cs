@@ -10,6 +10,7 @@ namespace YellowTaxiAP.Behaviours
         public static APSaveController Instance { get; private set; }
 
         public static YTGVMiscSave MiscSave = new(0);
+        public static YTGVPortalSave PortalSave = new(0);
         private static Data.Hat previousHat;
         public static YTGVHatSave HatSave = new(1);
         public static YTGVBunnySave BunnySave = new(0);
@@ -103,14 +104,14 @@ namespace YellowTaxiAP.Behaviours
                 else
                 {
                     Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex] =
-                        MiscSave.HasLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
+                        PortalSave.IsLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
                 }
 
                 foreach (var portal in PortalScript.list)
                 {
                     if(!portal.PortalIsLevelPortal || portal.PortalIsAlreadyOpened)
                         continue;
-                    var open = Data.GetLevel(portal.targetLevelId).everOpened = MiscSave.HasLevelPortalUnlocked(portal.targetLevelId);
+                    var open = Data.GetLevel(portal.targetLevelId).everOpened = PortalSave.IsLevelPortalUnlocked(portal.targetLevelId);
                     if (open)
                     {
                         portal.PortalOpenedSet();

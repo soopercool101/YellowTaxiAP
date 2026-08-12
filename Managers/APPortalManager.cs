@@ -30,15 +30,7 @@ namespace YellowTaxiAP.Managers
             On.MorioDreamMachineScript.MachineReady += MorioDreamMachineScript_MachineReady;
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
             On.Colors.PortalTextureGet += Colors_PortalTextureGet;
-            On.TimeAttackComputerScript.Start += TimeAttackComputerScript_Start;
             On.PsychoTaxiCabinetScript.Awake += PsychoTaxiCabinetScript_Awake;
-        }
-
-        private void TimeAttackComputerScript_Start(On.TimeAttackComputerScript.orig_Start orig, TimeAttackComputerScript self)
-        {
-            orig(self);
-            self.timeAttackLevelId = GetRandomizedLevelId(self.timeAttackLevelId);
-            self.levelImage.sprite = TimeTrialPortalTextureGet(self.timeAttackLevelId);
         }
 
         private void PsychoTaxiCabinetScript_Awake(On.PsychoTaxiCabinetScript.orig_Awake orig, PsychoTaxiCabinetScript self)
@@ -54,7 +46,7 @@ namespace YellowTaxiAP.Managers
             }
         }
 
-        private Sprite Colors_PortalTextureGet(On.Colors.orig_PortalTextureGet orig, LevelId levelId)
+        public Sprite Colors_PortalTextureGet(On.Colors.orig_PortalTextureGet orig, LevelId levelId)
         {
             if (levelId == LevelId.L20_PsychoTaxi)
             {
@@ -64,18 +56,6 @@ namespace YellowTaxiAP.Managers
             }
 
             return orig(levelId);
-        }
-
-        private Sprite TimeTrialPortalTextureGet(LevelId levelId)
-        {
-            if (levelId == LevelId.L20_PsychoTaxi)
-            {
-                var resource = AssetMaster.GetTexture2D("Cabinato Gigante Psycho Taxi Acceso");
-                var sprite = Sprite.Create(resource, new Rect(248, 582, 107, 81), new Vector2(0.5f, 0.5f), 1);
-                return sprite;
-            }
-
-            return Colors.PortalTextureGet(levelId);
         }
 
         private void PortalScript_SetupDataForLevelComeback(On.PortalScript.orig_SetupDataForLevelComeback orig, PortalScript self, bool saveToDisk, bool forcePortalDesiredWaterState)
@@ -227,7 +207,7 @@ namespace YellowTaxiAP.Managers
 
         private void PortalScript_PortalOpenStart(On.PortalScript.orig_PortalOpenStart orig, PortalScript self)
         {
-            APSaveController.MiscSave.SetLevelPortalUnlocked(self.targetLevelId);
+            APSaveController.PortalSave.SetLevelPortalUnlocked(self.targetLevelId);
             SetPortalToRandomized(self);
             orig(self);
             self.UpdatePortalToLevelName();
@@ -436,8 +416,8 @@ namespace YellowTaxiAP.Managers
                         GetLevel(self.targetLevelId).everOpened = true;
                         break;
                     default:
-                        Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open {APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId)}");
-                        GetLevel(self.targetLevelId).everOpened = APSaveController.MiscSave.HasLevelPortalUnlocked(self.targetLevelId);
+                        Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open {APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId)}");
+                        GetLevel(self.targetLevelId).everOpened = APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId);
                         break;
                 }
             }
@@ -481,6 +461,35 @@ namespace YellowTaxiAP.Managers
                 LevelId.L19_TimeAttack03 => Levels.Index.level_time_attack_03,
                 LevelId.L20_PsychoTaxi => Levels.Index.level_psycho_taxi,
                 _ => Levels.Index.noone
+            };
+        }
+
+        public static LevelId GetLevelId(Levels.Index index)
+        {
+            return index switch
+            {
+                Levels.Index.noone => LevelId.noone,
+                Levels.Index.level_hub => LevelId.Hub,
+                Levels.Index.level_bombeach => LevelId.L1_Bombeach,
+                Levels.Index.level_PizzaTime => LevelId.L2_PizzaTime,
+                Levels.Index.level_MoriosHome => LevelId.L3_MoriosHome,
+                Levels.Index.level_PanikArcade => LevelId.L4_ArcadePanik,
+                Levels.Index.level_ToslaOffices => LevelId.L5_ToslaOffices,
+                Levels.Index.level_Gym => LevelId.L6_Gym,
+                Levels.Index.level_PoopWorld => LevelId.L7_PoopWorld,
+                Levels.Index.level_Sewers => LevelId.L8_Sewers,
+                Levels.Index.level_City => LevelId.L9_City,
+                Levels.Index.level_CrashTestIndustries => LevelId.L10_CrashTestIndustries,
+                Levels.Index.level_MoriosMind => LevelId.L12_MoriosMind,
+                Levels.Index.level_StarmanCastle => LevelId.L13_StarmanCastle,
+                Levels.Index.level_ToslaHq => LevelId.L14_ToslaHQ,
+                Levels.Index.level_Moon => LevelId.L15_Moon,
+                Levels.Index.level_Rocket => LevelId.L16_Rocket,
+                Levels.Index.level_time_attack_01 => LevelId.L17_TimeAttack01,
+                Levels.Index.level_time_attack_02 => LevelId.L18_TimeAttack02,
+                Levels.Index.level_time_attack_03 => LevelId.L19_TimeAttack03,
+                Levels.Index.level_psycho_taxi => LevelId.L20_PsychoTaxi,
+                _ => LevelId.noone
             };
         }
     }

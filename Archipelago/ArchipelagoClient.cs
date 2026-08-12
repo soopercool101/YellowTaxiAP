@@ -277,6 +277,33 @@ public class ArchipelagoClient
                 });
                 Session.DataStorage[Scope.Slot, "Save"].OnValueChanged += Save_OnValueChanged;
 
+                Session.DataStorage[Scope.Slot, "PortalSave"].GetAsync().ContinueWith(x =>
+                {
+                    try
+                    {
+                        APSaveController.PortalSave.SaveData = x.Result.ToObject<uint>();
+                        APSaveController.PortalSave.NeedsLoad = true;
+                    }
+                    catch
+                    {
+                        Plugin.Log("Portal Save Load Failed");
+                        try
+                        {
+                            var save = new YTGVPortalSave(0);
+                            Session.DataStorage[Scope.Slot, "PortalSave"].Initialize(save.SaveData);
+                            APSaveController.PortalSave = save;
+                            APSaveController.PortalSave.NeedsLoad = true;
+                            Plugin.Log($"Portal Save State initialized {save.SaveData}");
+                        }
+                        catch
+                        {
+                            Plugin.Log("Portal Save failed initialization");
+                            throw;
+                        }
+                    }
+                });
+                Session.DataStorage[Scope.Slot, "PortalSave"].OnValueChanged += PortalSave_OnValueChanged;
+
                 if (!string.IsNullOrEmpty(Plugin.SlotData.FunnyFaces))
                 {
                     Data.HatSetUnlockedState((int)Data.Hat.Hat51_TvInfluencer, true);
@@ -929,6 +956,19 @@ public class ArchipelagoClient
             APSaveController.MiscSave.SaveData = newValue.ToObject<uint>();
             Plugin.Log($"Updated save data: {APSaveController.MiscSave.SaveData:x8}");
             APSaveController.MiscSave.NeedsLoad = true;
+        }
+    }
+
+    private void PortalSave_OnValueChanged(JToken originalValue, JToken newValue, Dictionary<string, JToken> additionalArguments)
+    {
+        lock (saveLock)
+        {
+            if (APSaveController.PortalSave.SaveData == newValue.ToObject<uint>())
+                return;
+
+            APSaveController.PortalSave.SaveData = newValue.ToObject<uint>();
+            Plugin.Log($"Updated portal save data: {APSaveController.PortalSave.SaveData:x8}");
+            APSaveController.PortalSave.NeedsLoad = true;
         }
     }
 

@@ -57,7 +57,6 @@ namespace YellowTaxiAP.Archipelago
         }
     }
 
-
     public class YTGVHatSave : YTGVSaveULong
     {
         public YTGVHatSave(ulong save) : base(save) { }
@@ -71,6 +70,24 @@ namespace YellowTaxiAP.Archipelago
         {
             SetBit((int)hat, value);
         }
+    }
+
+    public class YTGVPortalSave : YTGVSaveUInt
+    {
+        public YTGVPortalSave(uint save) : base(save) { }
+
+        public bool IsLevelPortalUnlocked(Data.LevelId level)
+        {
+            return level == Data.LevelId.noone || GetBit((int)level);
+        }
+
+        public void SetLevelPortalUnlocked(Data.LevelId level, bool value = true)
+        {
+            if (level == Data.LevelId.noone)
+                return;
+            SetBit((int)level, value);
+        }
+
     }
 
     public class YTGVBunnySave : YTGVSaveULong
@@ -151,10 +168,11 @@ namespace YellowTaxiAP.Archipelago
     {
         public YTGVMiscSave(uint save) : base(save) { }
 
-        // Currently Equipped Hat. Reserved bits 0-7.
+        // Currently Equipped Hat. Reserved bits 0-5.
+        // Biggest hat is 52, or 0b00110100
         public Data.Hat CurrentHat
         {
-            get => (Data.Hat)(SaveData & 0xFF);
+            get => (Data.Hat)(SaveData & 0b111111);
             set
             {
                 Plugin.Log($"Setting Current Hat {CurrentHat}->{value}");
@@ -166,99 +184,71 @@ namespace YellowTaxiAP.Archipelago
                 NeedsSave = true;
             }
         }
+
         private void RemoveHat()
         {
-            SaveData &= ~(uint)0xFF;
-        }
-
-        // Portal unlocks. Somewhat reserves bits 8-28. Unused portal states are reused as other bools.
-        // All unused portals are reserved for other bools below, excluding Moon which may be added as an extra portal.
-        public bool HasLevelPortalUnlocked(Data.LevelId level)
-        {
-            return level == Data.LevelId.noone || GetBit((int)level + 8);
-        }
-        public void SetLevelPortalUnlocked(Data.LevelId level, bool value = true)
-        {
-            if (level == Data.LevelId.noone)
-                return;
-            SetBit((int)level + 8, value);
-        }
-
-        // Hub does not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasFlipOWill
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.Hub);
-            set => SetLevelPortalUnlocked(Data.LevelId.Hub, value);
-        }
-
-        // Gym Gears does not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasGelaToni
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L6_Gym);
-            set => SetLevelPortalUnlocked(Data.LevelId.L6_Gym, value);
-        }
-
-        // Flushed Away does not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasPizzaKing
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L8_Sewers);
-            set => SetLevelPortalUnlocked(Data.LevelId.L8_Sewers, value);
-        }
-
-        // Fecal Matters does not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasDoggo
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L7_PoopWorld);
-            set => SetLevelPortalUnlocked(Data.LevelId.L7_PoopWorld, value);
-        }
-
-        // Hub demo is unused. Reuse bit.
-        public bool HasMoriosMindPassword
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L11_HubDemo);
-            set => SetLevelPortalUnlocked(Data.LevelId.L11_HubDemo, value);
-        }
-
-        // Rocket does not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasRocket
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L16_Rocket);
-            set => SetLevelPortalUnlocked(Data.LevelId.L16_Rocket, value);
-        }
-
-        // Time attacks do not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasGoldenSpring
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L17_TimeAttack01);
-            set => SetLevelPortalUnlocked(Data.LevelId.L17_TimeAttack01, value);
-        }
-
-        // Time attacks do not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasGoldenPropeller
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L18_TimeAttack02);
-            set => SetLevelPortalUnlocked(Data.LevelId.L18_TimeAttack02, value);
-        }
-
-        // Time attacks do not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasOrangeSwitch
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L19_TimeAttack03);
-            set => SetLevelPortalUnlocked(Data.LevelId.L19_TimeAttack03, value);
-        }
-
-        // Psycho Taxi does not have a traditional portal which needs to do the unlock anim. Reuse bit.
-        public bool HasPsychoTaxi
-        {
-            get => HasLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi);
-            set => SetLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi, value);
+            SaveData &= ~(uint)0b111111;
         }
 
         // Michele typically doesn't get saved to a save file, but this makes things less annoying for cheesesanity without shuffle rat
         public bool HasRat
         {
-            get => GetBit(29);
-            set => SetBit(29, value);
+            get => GetBit(6);
+            set => SetBit(6, value);
+        }
+
+        public bool HasGelaToni
+        {
+            get => GetBit(7);
+            set => SetBit(7, value);
+        }
+
+        public bool HasPizzaKing
+        {
+            get => GetBit(8);
+            set => SetBit(8, value);
+        }
+
+        public bool HasDoggo
+        {
+            get => GetBit(9);
+            set => SetBit(9, value);
+        }
+
+        public bool HasMoriosMindPassword
+        {
+            get => GetBit(10);
+            set => SetBit(10, value);
+        }
+
+        public bool HasRocket
+        {
+            get => GetBit(11);
+            set => SetBit(11, value);
+        }
+
+        public bool HasGoldenSpring
+        {
+            get => GetBit(12);
+            set => SetBit(12, value);
+        }
+
+        public bool HasGoldenPropeller
+        {
+            get => GetBit(13);
+            set => SetBit(13, value);
+        }
+
+        public bool HasOrangeSwitch
+        {
+            get => GetBit(14);
+            set => SetBit(14, value);
+        }
+
+        public bool HasPsychoTaxi
+        {
+            get => GetBit(15);
+            set => SetBit(15, value);
         }
     }
 }
