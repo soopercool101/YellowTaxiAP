@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
 {
@@ -76,16 +77,26 @@ namespace YellowTaxiAP.Archipelago
     {
         public YTGVPortalSave(uint save) : base(save) { }
 
+        public int GetLevelOrderIndex(Data.LevelId level)
+        {
+            return Array.IndexOf(APPortalManager.OriginalPortalLevelOrder, level);
+        }
+
         public bool IsLevelPortalUnlocked(Data.LevelId level)
         {
-            return level == Data.LevelId.noone || GetBit((int)level);
+            if (level == Data.LevelId.L11_HubDemo)
+                return false;
+            return level == Data.LevelId.noone || GetBit(GetLevelOrderIndex(level));
         }
 
         public void SetLevelPortalUnlocked(Data.LevelId level, bool value = true)
         {
-            if (level == Data.LevelId.noone)
+            if (!APPortalManager.OriginalPortalLevelOrder.Contains(level))
+            {
+                Plugin.BepinLogger.LogWarning($"{level} was attempted to be unlocked, but was not found in level order!");
                 return;
-            SetBit((int)level, value);
+            }
+            SetBit(GetLevelOrderIndex(level), value);
         }
 
     }

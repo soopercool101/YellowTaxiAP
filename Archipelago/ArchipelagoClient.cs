@@ -1001,6 +1001,35 @@ public class ArchipelagoClient
         }
     }
 
+    public void SaveDSPortalData()
+    {
+        if (Plugin.CheatsEnabled)
+            return;
+        lock (saveLock)
+        {
+            try
+            {
+                Session.DataStorage[Scope.Slot, "PortalSave"] = (JToken)APSaveController.PortalSave.SaveData;
+                Plugin.Log($"Saved portal data: {APSaveController.PortalSave.SaveData:x8}");
+            }
+            catch
+            {
+                try
+                {
+                    Session.DataStorage[Scope.Slot, "PortalSave"].Initialize(APSaveController.PortalSave.SaveData);
+                    Plugin.Log($"Initialized portal save data: {APSaveController.PortalSave.SaveData:x8}");
+                }
+                catch
+                {
+                    Plugin.Log("Could not save portal data");
+                    throw;
+                }
+            }
+            // Flag as needing loading to ensure variables are set correctly
+            APSaveController.MiscSave.NeedsLoad = true;
+        }
+    }
+
     private object walletLock = new ();
     private void Wallet_OnValueChanged(JToken originalValue, JToken newValue, Dictionary<string, JToken> additionalArguments)
     {

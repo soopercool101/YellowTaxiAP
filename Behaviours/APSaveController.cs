@@ -107,17 +107,6 @@ namespace YellowTaxiAP.Behaviours
                         PortalSave.IsLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
                 }
 
-                foreach (var portal in PortalScript.list)
-                {
-                    if(!portal.PortalIsLevelPortal || portal.PortalIsAlreadyOpened)
-                        continue;
-                    var open = Data.GetLevel(portal.targetLevelId).everOpened = PortalSave.IsLevelPortalUnlocked(portal.targetLevelId);
-                    if (open)
-                    {
-                        portal.PortalOpenedSet();
-                    }
-                }
-
                 previousHat = MiscSave.CurrentHat;
             }
 
@@ -127,6 +116,30 @@ namespace YellowTaxiAP.Behaviours
                 MiscSave.NeedsSave = false;
                 previousHat = MiscSave.CurrentHat;
                 Plugin.ArchipelagoClient.SaveDSSaveData();
+            }
+
+            if (PortalSave.NeedsLoad)
+            {
+                Plugin.Log("Loading portal save data");
+                PortalSave.NeedsLoad = false;
+
+                foreach (var portal in PortalScript.list)
+                {
+                    if (!portal.PortalIsLevelPortal || portal.PortalIsAlreadyOpened)
+                        continue;
+                    var open = Data.GetLevel(portal.targetLevelId).everOpened = PortalSave.IsLevelPortalUnlocked(portal.targetLevelId);
+                    if (open)
+                    {
+                        portal.PortalOpenedSet();
+                    }
+                }
+            }
+
+            if (PortalSave.NeedsSave)
+            {
+                Plugin.BepinLogger.LogWarning("Saving Portal Save Data");
+                PortalSave.NeedsSave = false;
+                Plugin.ArchipelagoClient.SaveDSPortalData();
             }
 
             if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled)
