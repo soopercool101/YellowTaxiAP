@@ -7948,7 +7948,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X2+B1+J1 | X1+B2+J1 | X1+B1+J2"),
                     new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
-                    new RegionConnection(MoriosLabPsychoTaxi, "FGU | X2+OOB+B1"),
+                    new RegionConnection(MoriosLabPsychoTaxi, "FGU | X1+OOB & X3/B1"),
                 ]
             },
             {
