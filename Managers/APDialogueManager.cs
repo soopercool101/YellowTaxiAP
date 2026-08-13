@@ -805,7 +805,9 @@ namespace YellowTaxiAP.Managers
 
         public static DialogueTrapType ActiveDialogueTrapType = DialogueTrapType.None;
 
-        public const int GymMembershipPrice = 500;
+        public int GymMembershipPrice => GymMembershipBasePrice / (UseDiscountedGymPrice ? 5 : 1);
+        public const int GymMembershipBasePrice = 500;
+        public bool UseDiscountedGymPrice;
         private void DialogueScript_Start(On.DialogueScript.orig_Start orig, DialogueScript self)
         {
             var dialogueCapsule = !DialogueCapsule.dictionary.ContainsKey(self.dialgoueCapsuleKey)
@@ -1498,11 +1500,24 @@ namespace YellowTaxiAP.Managers
                                 .UltraChadMembership))
                             break;
                         self.askQuestion = true;
-                        self.dialogues =
-                        [
-                            $"Hey King! If you're really serious about working out, you should upgrade to our {SetTextColor("Super Deluxe Membership", DialogueColors.OrangeYellow)}!",
-                            $"It's only {SetTextColor($"{GymMembershipPrice} coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
-                        ];
+                        if (APAreaStateManager.GymMembership)
+                        {
+                            UseDiscountedGymPrice = false;
+                            self.dialogues =
+                            [
+                                $"Hey King! If you're really serious about working out, you should upgrade to our {SetTextColor("Super Deluxe Membership", DialogueColors.OrangeYellow)}!",
+                                $"It's only {SetTextColor($"{GymMembershipPrice} coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
+                            ];
+                        }
+                        else
+                        {
+                            UseDiscountedGymPrice = true;
+                            self.dialogues =
+                            [
+                                $"Hey King! How did you manage to find your way in without a {SetTextColor("Membership", DialogueColors.OrangeYellow)}?",
+                                $"Just for you, I'm willing to give you the new member discount. {SetTextColor($"{GymMembershipPrice} coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
+                            ];
+                        }
                         self.onAnswerYes.AddListener(SpecialMethod_OnUltraChadAnswerYes);
                         self.onAnswerNo.AddListener(SpecialMethod_OnUltraChadAnswerNo);
                         break;
