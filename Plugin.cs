@@ -103,11 +103,11 @@ public class Plugin : BaseUnityPlugin
             grannysIslandMap.gearsId.Add(10004);    // Pizza Oven
             grannysIslandMap.gearsId.Add(10010);    // Crash Again
             grannysIslandMap.gearsId.Add(10020);    // Sewer
-            var moriosIslandMap = MapMaster.GetAreaScriptableObject_ByAreaName("MAP_AREA_NAME_GRANNY_ISLAND_LAB");
-            moriosIslandMap.gearsId.Add(10019);     // Orange Blocks
-            moriosIslandMap.gearsId.Add(10024);     // Nut
-            moriosIslandMap.bunniesId.Add(3);       // Above Morio's Home Portal
-            moriosIslandMap.bunniesId.Add(4);       // Above Demo Wall
+            var moriosLabMap = MapMaster.GetAreaScriptableObject_ByAreaName("MAP_AREA_NAME_GRANNY_ISLAND_LAB");
+            moriosLabMap.gearsId.Add(10019);     // Orange Blocks
+            moriosLabMap.gearsId.Add(10024);     // Nut
+            moriosLabMap.bunniesId.Add(3);       // Above Morio's Home Portal
+            moriosLabMap.bunniesId.Add(4);       // Above Demo Wall
         };
         On.CameraGame.SetTarget += CameraGame_SetTarget;
         On.Music._ApplyPitchToMusicCapsule += Music__ApplyPitchToMusicCapsule;
