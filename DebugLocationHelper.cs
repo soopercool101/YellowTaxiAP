@@ -6098,22 +6098,22 @@ namespace YellowTaxiAP
         [Description("Maurizio's City - Orange Blocks on Red Beams")]
         public static Dictionary<string, string> MauriziosCityOrangeBlocksOnRedBeams = new()
         {
-            { "9_03_00289", "Maurizio's City - Coin Bag on Red Beams #1" },
-            { "9_03_00290", "Maurizio's City - Coin on Red Beams #1" },
-            { "9_03_00291", "Maurizio's City - Coin on Red Beams #2" },
-            { "9_03_00292", "Maurizio's City - Coin on Red Beams #3" },
-            { "9_03_00293", "Maurizio's City - Coin Bag on Red Beams #2" },
-            { "9_03_00288", "Maurizio's City - Coin on Red Beams #4" },
-            { "9_03_00286", "Maurizio's City - Coin on Red Beams #5" },
-            { "9_03_00284", "Maurizio's City - Coin on Red Beams #6" },
-            { "9_03_00282", "Maurizio's City - Coin Bag on Red Beams #3" },
-            { "9_03_00281", "Maurizio's City - Coin on Red Beams #7" },
-            { "9_03_00280", "Maurizio's City - Coin on Red Beams #8" },
-            { "9_03_00279", "Maurizio's City - Coin on Red Beams #9" },
-            { "9_03_00278", "Maurizio's City - Coin Bag on Red Beams #4" },
-            { "9_03_00283", "Maurizio's City - Coin on Red Beams #10" },
-            { "9_03_00285", "Maurizio's City - Coin on Red Beams #11" },
-            { "9_03_00287", "Maurizio's City - Coin on Red Beams #12" },
+            { "9_03_00289", "Maurizio's City - Coin Bag on Orange Blocks on Red Beams #1" },
+            { "9_03_00290", "Maurizio's City - Coin on Orange Blocks on Red Beams #1" },
+            { "9_03_00291", "Maurizio's City - Coin on Orange Blocks on Red Beams #2" },
+            { "9_03_00292", "Maurizio's City - Coin on Orange Blocks on Red Beams #3" },
+            { "9_03_00293", "Maurizio's City - Coin Bag on Orange Blocks on Red Beams #2" },
+            { "9_03_00288", "Maurizio's City - Coin on Orange Blocks on Red Beams #4" },
+            { "9_03_00286", "Maurizio's City - Coin on Orange Blocks on Red Beams #5" },
+            { "9_03_00284", "Maurizio's City - Coin on Orange Blocks on Red Beams #6" },
+            { "9_03_00282", "Maurizio's City - Coin Bag on Orange Blocks on Red Beams #3" },
+            { "9_03_00281", "Maurizio's City - Coin on Orange Blocks on Red Beams #7" },
+            { "9_03_00280", "Maurizio's City - Coin on Orange Blocks on Red Beams #8" },
+            { "9_03_00279", "Maurizio's City - Coin on Orange Blocks on Red Beams #9" },
+            { "9_03_00278", "Maurizio's City - Coin Bag on Orange Blocks on Red Beams #4" },
+            { "9_03_00283", "Maurizio's City - Coin on Orange Blocks on Red Beams #10" },
+            { "9_03_00285", "Maurizio's City - Coin on Orange Blocks on Red Beams #11" },
+            { "9_03_00287", "Maurizio's City - Coin on Orange Blocks on Red Beams #12" },
         };
 
         [Description("Maurizio's City - Floating Orange Blocks With Coins (Closer Coins)")]
@@ -8302,7 +8302,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosIslandFirstBunnyArch, "X1/J1 & B2 | J1+X1+B1 | X2+B1"),
                     new RegionConnection(MoriosIslandSecondBunnyArch, "B2 | X2+B1 & X3/J1 | X3+J1"),
                     new RegionConnection(MoriosIslandCenterIsland, "X1+B1 & J1/X2 | J2+X2 | B2 & J1/X1"),
-                    new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1 | X3+J1"),
+                    new RegionConnection(MoriosIslandHighestGround, "B2 | J2+X1 | X2+J1 & X3/B1"),
 
                     new RegionConnection(PropellerHatPurchasable),
                 ]
