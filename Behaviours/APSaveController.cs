@@ -133,6 +133,9 @@ namespace YellowTaxiAP.Behaviours
                         portal.PortalOpenedSet();
                     }
                 }
+
+                Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
+                    PortalSave.IsLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi);
             }
 
             if (PortalSave.NeedsSave)

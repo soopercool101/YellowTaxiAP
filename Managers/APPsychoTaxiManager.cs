@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
@@ -12,7 +12,13 @@ namespace YellowTaxiAP.Managers
             On.PsychoTaxiCassetteScript.OnTriggerEnter += PsychoTaxiCassetteScript_OnTriggerEnter;
             On.PsychoTaxiCabinetScript.Awake += PsychoTaxiCabinetScript_Awake;
             On.PsychoTaxiCabinetScript.Update += PsychoTaxiCabinetScript_Update;
+            On.PsychoTaxiCabinetScript.CartridgeAnimationCoroutine += PsychoTaxiCabinetScript_CartridgeAnimationCoroutine;
+        }
 
+        private System.Collections.IEnumerator PsychoTaxiCabinetScript_CartridgeAnimationCoroutine(On.PsychoTaxiCabinetScript.orig_CartridgeAnimationCoroutine orig, PsychoTaxiCabinetScript self)
+        {
+            yield return orig(self);
+            APSaveController.PortalSave.SetLevelPortalUnlocked(Data.LevelId.L20_PsychoTaxi);
         }
 
         private void PsychoTaxiCabinetScript_Update(On.PsychoTaxiCabinetScript.orig_Update orig, PsychoTaxiCabinetScript self)
@@ -20,9 +26,11 @@ namespace YellowTaxiAP.Managers
             orig(self);
             if (TrueLevelDisplay)
             {
-                if (!self.turnedOn)
+                if (!Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex])
                 {
                     TrueLevelDisplay.gameObject.SetActive(false);
+                    if (self.turnedOn)
+                        self.cabMeshRend.sharedMaterial = self.turnedOffmat;
                 }
                 else if (self.cabMeshRend.sharedMaterial == self.turnedOnMat)
                 {
