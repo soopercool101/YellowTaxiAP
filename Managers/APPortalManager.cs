@@ -342,6 +342,12 @@ namespace YellowTaxiAP.Managers
         {
             if ((int)levelSceneIndex > 100)
                 levelSceneIndex -= 100;
+            // Granny's portals need to be unlocked here
+            if (targetLevelId == LevelId.L6_Gym || targetLevelId == LevelId.L7_PoopWorld ||
+                targetLevelId == LevelId.L8_Sewers || targetLevelId == LevelId.L16_Rocket)
+            {
+                APSaveController.PortalSave.SetLevelPortalUnlocked(targetLevelId);
+            }
             var randomizedLevelId = GetRandomizedLevelId(targetLevelId, true);
             Plugin.Log($"PortalWarp to {targetLevelId} with index {levelSceneIndex} ({(int)levelSceneIndex}). Per randomization, actually leading to {randomizedLevelId}");
             orig(LevelConverter.GetLevelIndex(randomizedLevelId), randomizedLevelId);
