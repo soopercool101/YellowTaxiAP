@@ -42,6 +42,7 @@ namespace YellowTaxiAP.Behaviours
                 case "bomb":
                 case "tnt":
                 case "tnt barrel":
+                case "blastoad":
                     newTrap = new ExplosionTrap();
                     break;
                 case "bald":
@@ -120,9 +121,12 @@ namespace YellowTaxiAP.Behaviours
                 case "freeze":
                 case "frozen":
                 case "chaos control":
+                case "paratoad":
+                case "wailnard":
                     newTrap = new StunTrap();
                     break;
                 case "slip":
+                case "pincercrab":
                     newTrap = new SlipTrap();
                     break;
                 case "banana peel":
@@ -146,6 +150,10 @@ namespace YellowTaxiAP.Behaviours
                     break;
                 case "home":
                     newTrap = new HomeTrap();
+                    break;
+                case "level reset":
+                case "farcaster":
+                    newTrap = new LevelResetTrap();
                     break;
                 case "literature":
                     newTrap = new LiteratureTrap();
@@ -1006,6 +1014,31 @@ namespace YellowTaxiAP.Behaviours
             {
                 APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
             }
+        }
+    }
+
+    public class LevelResetTrap : Trap
+    {
+        public override string Name => "Level Reset Trap";
+
+        public override void TrapActivate()
+        {
+            if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
+            {
+                Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
+                if (Plugin.SlotData.StartInLab)
+                {
+                    APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                }
+            }
+
+            APPortalManager.QueuedSubwarpLoaded = false;
+            TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)LevelConverter.GetLevelIndex(GameplayMaster.instance.levelId));
+            LoadingScreenScript.WelcomeSetup(GameplayMaster.instance.levelId,
+                Data.levelDataList[(int)GameplayMaster.instance.levelId].GetName(true), 0, 0,
+                !Data.IsLevelIdHub(GameplayMaster.instance.levelId));
+            CheckpointScript.CheckpointDataReset();
+            GameplayMaster.SelfRespawnClear();
         }
     }
 
