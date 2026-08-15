@@ -30,7 +30,15 @@ namespace YellowTaxiAP.Managers
                 {
                     TrueLevelDisplay.gameObject.SetActive(false);
                     if (self.turnedOn)
+                    {
                         self.cabMeshRend.sharedMaterial = self.turnedOffmat;
+
+                        if (!self.turnedOnAnimationShown && !self.cartridgeAnimPlaying)
+                        {
+                            self.cartridgeObj.SetActive(true);
+                            self.cartridgeObj.transform.localPosition = Vector3.up * 5f;
+                        }
+                    }
                 }
                 else if (self.cabMeshRend.sharedMaterial == self.turnedOnMat)
                 {
