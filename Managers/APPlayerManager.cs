@@ -108,12 +108,44 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.FlipOWillAbort += FlipOWillAbort_AP;
             On.PlayerScript.BackFlip += FlipOWillBackFlip_AP;
             On.PlayerScript.PizzaWheelsInit += PlayerScript_PizzaWheelsInit;
+            On.PlayerScript.TaxiTextureGlassGet += PlayerScript_TaxiTextureGlassGet;
+            On.PlayerScript.TaxiTextureInvincibleGet += PlayerScript_TaxiTextureInvincibleGet;
 
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
 
             On.GameplayMaster.Die += GameplayMaster_Die;
             // Don't reset pizza wheels!
             On.Master.CheatsOthers_Reset += _ => { };
+        }
+
+        private UnityEngine.Texture[] PlayerScript_TaxiTextureInvincibleGet(On.PlayerScript.orig_TaxiTextureInvincibleGet orig, PlayerScript self)
+        {
+            if (Plugin.SlotData.TaxiSkin >= 10 && !IsCurrentHatSkin())
+            {
+                return (Plugin.SlotData.TaxiSkin / 10) switch
+                {
+                    1 => self.taxiInvincibleAnimationBonesTextures,
+                    2 => self.taxiInvincibleAnimationGoldenTextures,
+                    3 => self.taxiPrototypeSkinInvincibleAnimationTextures,
+                    _ => self.taxiInvincibleAnimationTextures
+                };
+            }
+            return orig(self);
+        }
+
+        private UnityEngine.Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
+        {
+            if (Plugin.SlotData.TaxiSkin > 0 && Plugin.SlotData.TaxiSkin % 10 == 0 && !IsCurrentHatSkin())
+            {
+                return Plugin.SlotData.TaxiSkin switch
+                {
+                    10 => self.taxiGlassAnimationBonesTextures,
+                    20 => self.taxiGlassAnimationGoldenTextures,
+                    30 => self.taxiPrototypeSkinGlassAnimationTextures,
+                    _ => self.taxiGlassAnimationTextures
+                };
+            }
+            return orig(self);
         }
 
         private void PlayerScript_PizzaWheelsInit(On.PlayerScript.orig_PizzaWheelsInit orig, PlayerScript self)
@@ -264,7 +296,23 @@ namespace YellowTaxiAP.Managers
                 self.PizzaWheelsInit();
             }
 
+            if (Plugin.SlotData.TaxiSkin % 10 != 0 && !self.invincible && !IsCurrentHatSkin())
+            {
+                self.animationTaxiGlassPlay = false;
+                self.taxiMeshRend.sharedMaterial.mainTexture =
+                    self.TaxiTextureInvincibleGet()[Plugin.SlotData.TaxiSkin % 10];
+            }
+
             ArchipelagoClient.DeathLinkHandler?.KillPlayer();
+        }
+
+        public static bool IsCurrentHatSkin()
+        {
+            return Data.currentHat[Data.gameDataIndex] switch
+            {
+                33 or 34 or 49 or 50 => true,
+                _ => false
+            };
         }
 
         private void FlipOWillBackFlip_AP(On.PlayerScript.orig_BackFlip orig, PlayerScript self)

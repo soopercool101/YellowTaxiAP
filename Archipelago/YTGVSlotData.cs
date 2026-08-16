@@ -134,6 +134,8 @@ namespace YellowTaxiAP.Archipelago
         public bool EasyAlienMosk { get; private set; }
         public bool QuickPickups { get; private set; }
 
+        public int TaxiSkin { get; private set; }
+
         public enum LevelUnlockCondition : long
         {
             Special = -1,
@@ -753,6 +755,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for shop_hints found");
+            }
+
+            if (slotData.ContainsKey("taxi_skin"))
+            {
+                TaxiSkin = (int)(long)slotData["taxi_skin"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for taxi_skin found");
             }
 
             if (slotData.ContainsKey("locked_time_trials"))

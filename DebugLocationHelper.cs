@@ -6328,7 +6328,7 @@ namespace YellowTaxiAP
             { "16_03_00323", "Lab Memories - Coin Bag by Second Gear" },
             { "16_01_00001", "Lab Memories - Gear - Second Gear" },
 
-            { "16_07_00049", "Purchase Robo Taxi Skin"}
+            { "16_07_00049", "Purchase Prototype Taxi Skin"}
         };
 
         [Description("Welcoming Climbs - Starting Area")]
