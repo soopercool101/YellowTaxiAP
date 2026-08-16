@@ -13,7 +13,7 @@ namespace YellowTaxiAP.Archipelago
         /// <summary>
         /// Backwards compatibility. Lowest supported minor version in the lowest supported major version.
         /// </summary>
-        public const int LowestSupportedMinorVersion = 5;
+        public const int LowestSupportedMinorVersion = 7;
         /// <summary>
         /// Highest x.y.# version supported, where y is in the highest supported minor version
         /// Should be up to date with latest APWorld whenever a new version is released.
