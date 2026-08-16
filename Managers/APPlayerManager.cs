@@ -120,9 +120,9 @@ namespace YellowTaxiAP.Managers
 
         private UnityEngine.Texture[] PlayerScript_TaxiTextureInvincibleGet(On.PlayerScript.orig_TaxiTextureInvincibleGet orig, PlayerScript self)
         {
-            if (Plugin.SlotData.TaxiSkin >= 10 && !IsCurrentHatSkin())
+            if (CurrentTaxiSkin >= 10 && !IsCurrentHatSkin())
             {
-                return (Plugin.SlotData.TaxiSkin / 10) switch
+                return (CurrentTaxiSkin / 10) switch
                 {
                     1 => self.taxiInvincibleAnimationBonesTextures,
                     2 => self.taxiInvincibleAnimationGoldenTextures,
@@ -135,15 +135,17 @@ namespace YellowTaxiAP.Managers
 
         private UnityEngine.Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
         {
-            if (Plugin.SlotData.TaxiSkin > 0 && Plugin.SlotData.TaxiSkin % 10 == 0 && !IsCurrentHatSkin())
+            if (CurrentTaxiSkin > 0 && !IsCurrentHatSkin())
             {
-                return Plugin.SlotData.TaxiSkin switch
+                var textures = CurrentTaxiSkin switch
                 {
                     10 => self.taxiGlassAnimationBonesTextures,
                     20 => self.taxiGlassAnimationGoldenTextures,
                     30 => self.taxiPrototypeSkinGlassAnimationTextures,
                     _ => self.taxiGlassAnimationTextures
                 };
+
+                return CurrentTaxiSkin % 10 == 0 ? textures : [textures[CurrentTaxiSkin % 10]];
             }
             return orig(self);
         }
@@ -296,15 +298,22 @@ namespace YellowTaxiAP.Managers
                 self.PizzaWheelsInit();
             }
 
-            if (Plugin.SlotData.TaxiSkin % 10 != 0 && !self.invincible && !IsCurrentHatSkin())
+            if (CurrentTaxiSkin % 10 != 0 && !self.invincible && !IsCurrentHatSkin())
             {
                 self.animationTaxiGlassPlay = false;
                 self.taxiMeshRend.sharedMaterial.mainTexture =
-                    self.TaxiTextureInvincibleGet()[Plugin.SlotData.TaxiSkin % 10];
+                    self.TaxiTextureInvincibleGet()[CurrentTaxiSkin % 10];
             }
 
             ArchipelagoClient.DeathLinkHandler?.KillPlayer();
         }
+
+        public static int CurrentTaxiSkin;
+
+        public static readonly int[] ValidDefaultSkins = [0, 1, 2, 3, 4];
+        public static readonly int[] ValidSkeletonSkins = [10, 11, 12, 13, 14, 15];
+        public static readonly int[] ValidGoldenSkins = [20, 21, 22, 23, 24];
+        public static readonly int[] ValidPrototypeSkins = [30, 31, 32, 33, 34, 35];
 
         public static bool IsCurrentHatSkin()
         {

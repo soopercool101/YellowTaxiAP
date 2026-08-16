@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Managers
 {
@@ -206,6 +207,44 @@ namespace YellowTaxiAP.Managers
 
                     Object.Destroy(noEntrySignTemplate);
                 }
+            }
+            if (Plugin.SlotData.TaxiSkin % 10 == 9)
+            {
+                switch ((Plugin.SlotData.TaxiSkin - 9) / 10)
+                {
+                    case 0:
+                        APPlayerManager.CurrentTaxiSkin =
+                            APPlayerManager.ValidDefaultSkins[
+                                Random.RandomRangeInt(0, APPlayerManager.ValidDefaultSkins.Length)];
+                        break;
+                    case 1:
+                        APPlayerManager.CurrentTaxiSkin =
+                            APPlayerManager.ValidSkeletonSkins[
+                                Random.RandomRangeInt(0, APPlayerManager.ValidSkeletonSkins.Length)];
+                        break;
+                    case 2:
+                        APPlayerManager.CurrentTaxiSkin =
+                            APPlayerManager.ValidGoldenSkins[
+                                Random.RandomRangeInt(0, APPlayerManager.ValidGoldenSkins.Length)];
+                        break;
+                    case 3:
+                        APPlayerManager.CurrentTaxiSkin =
+                            APPlayerManager.ValidPrototypeSkins[
+                                Random.RandomRangeInt(0, APPlayerManager.ValidPrototypeSkins.Length)];
+                        break;
+                    default:
+                        var allList = new List<int>();
+                        allList.AddRange(APPlayerManager.ValidDefaultSkins);
+                        allList.AddRange(APPlayerManager.ValidSkeletonSkins);
+                        allList.AddRange(APPlayerManager.ValidGoldenSkins);
+                        allList.AddRange(APPlayerManager.ValidPrototypeSkins);
+                        APPlayerManager.CurrentTaxiSkin = allList[Random.RandomRangeInt(0, allList.Count)];
+                        break;
+                }
+            }
+            else
+            {
+                APPlayerManager.CurrentTaxiSkin = Plugin.SlotData.TaxiSkin;
             }
             orig(self);
         }
