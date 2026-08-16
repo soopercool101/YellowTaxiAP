@@ -23,10 +23,10 @@ namespace YellowTaxiAP.Managers
             On.AchievementsTvScript.Update += AchievementsTvScript_Update;
             On.AchievementsTvScript.MenuInit += AchievementsTvScript_MenuInit;
 
-            // Bunny TV should only show when Mosk's Rocket is present
+            // Bunny TV should only show in Mosk's Rocket, as to not spoil its presence
             On.BunnyTv.Start += (_, self) =>
             {
-                if (Plugin.SlotData.TotalBunnies == 0)
+                if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
                 {
                     self.gameObject.SetActive(false);
                 }
