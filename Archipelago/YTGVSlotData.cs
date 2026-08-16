@@ -132,7 +132,7 @@ namespace YellowTaxiAP.Archipelago
         public string FunnyFaces { get; private set; }
 
         public bool EasyAlienMosk { get; private set; }
-        public bool QuickGearPickups { get; private set; }
+        public bool QuickPickups { get; private set; }
 
         public enum LevelUnlockCondition : long
         {
@@ -731,10 +731,15 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for easy_alien_mosk found");
             }
-
-            if (slotData.ContainsKey("quick_gear_pickups"))
+            
+            if (slotData.ContainsKey("quick_pickups"))
             {
-                QuickGearPickups = (bool)slotData["quick_gear_pickups"];
+                QuickPickups = (bool)slotData["quick_pickups"];
+            }
+            // TODO: This alias was never in a public release. Remove for v0.7.0 proper
+            else if (slotData.ContainsKey("quick_gear_pickups"))
+            {
+                QuickPickups = (bool)slotData["quick_gear_pickups"];
             }
             else
             {

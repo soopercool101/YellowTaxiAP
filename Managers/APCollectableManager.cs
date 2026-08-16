@@ -380,7 +380,7 @@ namespace YellowTaxiAP.Managers
                                     freezePlayer: false);
                                 Plugin.ArchipelagoClient.SendLocation(id.Value);
                             }
-                            else if (Plugin.SlotData.QuickGearPickups || Plugin.CheatsEnabled)
+                            else if (Plugin.SlotData.QuickPickups || Plugin.CheatsEnabled)
                             {
                                 var gear = GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear", freezePlayer: false);
                                 gear.GetComponentInChildren<MeshRenderer>().material = pickup.gearBaseMaterial;
@@ -440,7 +440,7 @@ namespace YellowTaxiAP.Managers
                             Sound.Play("SoundGoldenBunnyPickup");
                             if (!pickup.skipGenericPickupAnimation)
                             {
-                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GoldenBunny", freezePlayer: !Plugin.SlotData.QuickGearPickups).GetComponentInChildren<MeshRenderer>().sharedMaterial = pickup.myMeshRend.sharedMaterial;
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GoldenBunny", freezePlayer: !Plugin.SlotData.QuickPickups).GetComponentInChildren<MeshRenderer>().sharedMaterial = pickup.myMeshRend.sharedMaterial;
                             }
                             Controls.SetVibration(self.playerIndex, 0.5f);
                             pickup.KillMe();
