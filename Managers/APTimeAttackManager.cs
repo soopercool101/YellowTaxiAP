@@ -33,7 +33,6 @@ namespace YellowTaxiAP.Managers
             orig(self, repositionPlayer);
             if ((self.menuOptions?.Count ?? 0) > 0)
             {
-                Plugin.Log("Updating Normal Text", true);
                 self.normalText.text = string.Empty;
                 for (var index = 0; index < self.menuOptions[self.menuIndex].Count; ++index)
                 {
