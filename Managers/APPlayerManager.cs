@@ -110,12 +110,19 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.PizzaWheelsInit += PlayerScript_PizzaWheelsInit;
             On.PlayerScript.TaxiTextureGlassGet += PlayerScript_TaxiTextureGlassGet;
             On.PlayerScript.TaxiTextureInvincibleGet += PlayerScript_TaxiTextureInvincibleGet;
+            On.PlayerScript.PlayerHatsRenderingUpdate += PlayerScript_PlayerHatsRenderingUpdate;
 
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
 
             On.GameplayMaster.Die += GameplayMaster_Die;
             // Don't reset pizza wheels!
             On.Master.CheatsOthers_Reset += _ => { };
+        }
+
+        private void PlayerScript_PlayerHatsRenderingUpdate(On.PlayerScript.orig_PlayerHatsRenderingUpdate orig)
+        {
+            orig();
+            PlayerScript.instance.taxiMeshRend.sharedMaterial.mainTexture = PlayerScript.instance.TaxiTextureGlassGet()[0];
         }
 
         private UnityEngine.Texture[] PlayerScript_TaxiTextureInvincibleGet(On.PlayerScript.orig_TaxiTextureInvincibleGet orig, PlayerScript self)
@@ -137,15 +144,25 @@ namespace YellowTaxiAP.Managers
         {
             if (CurrentTaxiSkin > 0 && !IsCurrentHatSkin())
             {
+                if (CurrentTaxiSkin % 10 == 0)
+                {
+                    return CurrentTaxiSkin switch
+                    {
+                        10 => self.taxiGlassAnimationBonesTextures,
+                        20 => self.taxiGlassAnimationGoldenTextures,
+                        30 => self.taxiPrototypeSkinGlassAnimationTextures,
+                        _ => self.taxiGlassAnimationTextures
+                    };
+                }
                 var textures = CurrentTaxiSkin switch
                 {
-                    10 => self.taxiGlassAnimationBonesTextures,
-                    20 => self.taxiGlassAnimationGoldenTextures,
-                    30 => self.taxiPrototypeSkinGlassAnimationTextures,
-                    _ => self.taxiGlassAnimationTextures
+                    10 => self.taxiInvincibleAnimationBonesTextures,
+                    20 => self.taxiInvincibleAnimationGoldenTextures,
+                    30 => self.taxiPrototypeSkinInvincibleAnimationTextures,
+                    _ => self.taxiInvincibleAnimationTextures
                 };
 
-                return CurrentTaxiSkin % 10 == 0 ? textures : [textures[CurrentTaxiSkin % 10]];
+                return [textures[CurrentTaxiSkin % 10]];
             }
             return orig(self);
         }
@@ -296,13 +313,6 @@ namespace YellowTaxiAP.Managers
             if (PizzaWheelsItem != PizzaWheelsInitialized)
             {
                 self.PizzaWheelsInit();
-            }
-
-            if (CurrentTaxiSkin % 10 != 0 && !self.invincible && !IsCurrentHatSkin())
-            {
-                self.animationTaxiGlassPlay = false;
-                self.taxiMeshRend.sharedMaterial.mainTexture =
-                    self.TaxiTextureInvincibleGet()[CurrentTaxiSkin % 10];
             }
 
             ArchipelagoClient.DeathLinkHandler?.KillPlayer();
