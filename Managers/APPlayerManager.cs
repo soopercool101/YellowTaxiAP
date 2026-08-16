@@ -154,11 +154,11 @@ namespace YellowTaxiAP.Managers
                         _ => self.taxiGlassAnimationTextures
                     };
                 }
-                var textures = CurrentTaxiSkin switch
+                var textures = (CurrentTaxiSkin / 10) switch
                 {
-                    10 => self.taxiInvincibleAnimationBonesTextures,
-                    20 => self.taxiInvincibleAnimationGoldenTextures,
-                    30 => self.taxiPrototypeSkinInvincibleAnimationTextures,
+                    1 => self.taxiInvincibleAnimationBonesTextures,
+                    2 => self.taxiInvincibleAnimationGoldenTextures,
+                    3 => self.taxiPrototypeSkinInvincibleAnimationTextures,
                     _ => self.taxiInvincibleAnimationTextures
                 };
 
