@@ -1031,8 +1031,11 @@ namespace YellowTaxiAP.Behaviours
                     APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
                 }
             }
+            else
+            {
+                APPortalManager.QueuedSubwarp = APPortalManager.PreviousQueuedSubwarp;
+            }
 
-            APPortalManager.QueuedSubwarpLoaded = false;
             TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)LevelConverter.GetLevelIndex(GameplayMaster.instance.levelId));
             LoadingScreenScript.WelcomeSetup(GameplayMaster.instance.levelId,
                 Data.levelDataList[(int)GameplayMaster.instance.levelId].GetName(true), 0, 0,

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Febucci.UI;
+using JetBrains.Annotations;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
@@ -233,7 +234,7 @@ namespace YellowTaxiAP.Managers
         private void PlayerScript_Start(On.PlayerScript.orig_Start orig, PlayerScript self)
         {
             orig(self);
-            if (QueuedSubwarp == null || (GameplayMaster.selfRespawnRecordingDataList.Count > 0 && QueuedSubwarpLoaded))
+            if (QueuedSubwarp == null)
                 return;
 
             Plugin.Log($"Loading Queued Subwarp ({QueuedSubwarp.Name})");
@@ -263,26 +264,39 @@ namespace YellowTaxiAP.Managers
                 ZoneMaster.currentZoneId = QueuedSubwarp.Zone;
             self.TeleportComputeZoneMaster(self.transform);
             GameplayMaster.SelfRespawnClear();
+            CheckpointScript.CheckpointDataReset();
             GameplayMaster.instance.recordingIndex = 0;
             GameplayMaster.selfRespawnRecordingDataList.Add(new GameplayMaster.SelfRespawnRecordingData());
-            GameplayMaster.selfRespawnRecordingDataList[0].playerPosition = QueuedSubwarp.MoveTaxiHere;
-            GameplayMaster.selfRespawnRecordingDataList[0].playerYAngle = QueuedSubwarp.Rotation;
-            GameplayMaster.selfRespawnRecordingDataList[0].currentBackground = QueuedSubwarp.BackgroundChange;
-            GameplayMaster.selfRespawnRecordingDataList[0].currentZoneId = QueuedSubwarp.Zone;
-            GameplayMaster.selfRespawnRecordingDataList[0].currentMusic = QueuedSubwarp.SongChange;
-            GameplayMaster.selfRespawnRecordingDataList[0].currentTimer = Mathf.Max(CheckpointScript.latestCheckpointTimerSet, GameplayMaster.instance.gameTimer, GameplayMaster.instance.gameTimerReset);
-            GameplayMaster.selfRespawnRecordingDataList[0].waterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
-            GameplayMaster.selfRespawnRecordingDataList[0].lightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
+            CheckpointScript.checkpointSavedPosition = GameplayMaster.selfRespawnRecordingDataList[0].playerPosition = QueuedSubwarp.MoveTaxiHere;
+            CheckpointScript.latestCheckpointPos = new Vector3Int(Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.x), Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.y), Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.z));
+            CheckpointScript.checkpointDesiredTaxiAngle = GameplayMaster.selfRespawnRecordingDataList[0].playerYAngle = QueuedSubwarp.Rotation;
+            CheckpointScript.latestBackground = GameplayMaster.selfRespawnRecordingDataList[0].currentBackground = QueuedSubwarp.BackgroundChange;
+            CheckpointScript.latestCheckpointZoneId = GameplayMaster.selfRespawnRecordingDataList[0].currentZoneId = QueuedSubwarp.Zone;
+            CheckpointScript.latestSoundtrack = GameplayMaster.selfRespawnRecordingDataList[0].currentMusic = QueuedSubwarp.SongChange;
+            CheckpointScript.latestCheckpointTimerSet = GameplayMaster.selfRespawnRecordingDataList[0].currentTimer = Mathf.Max(CheckpointScript.latestCheckpointTimerSet, GameplayMaster.instance.gameTimer, GameplayMaster.instance.gameTimerReset);
+            CheckpointScript.latestCheckpointWaterEnableState = GameplayMaster.selfRespawnRecordingDataList[0].waterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
+            CheckpointScript.latestCheckpointLightEnabledState = GameplayMaster.selfRespawnRecordingDataList[0].lightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
 
-            //QueuedSubwarp = null;
-            QueuedSubwarpLoaded = true;
+            if (GameplayMaster.instance.levelId == LevelId.Hub)
+            {
+                PortalScript.latestPortalHub_Pos = QueuedSubwarp.MoveTaxiHere;
+                PortalScript.latestPortalHub_RotationY = QueuedSubwarp.Rotation;
+                PortalScript.latestHubBackground = QueuedSubwarp.BackgroundChange;
+                PortalScript.latestHubSoundtrack = QueuedSubwarp.SongChange;
+                PortalScript.latestHubLightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
+                PortalScript.latestHubWaterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
+                PortalScript.latestHubZoneId = QueuedSubwarp.Zone;
+            }
+
+            QueuedSubwarp = null;
+            Plugin.Log("Queued Subwarp Cleared");
         }
 
         private void LoadingScreenScript_WelcomeSetup(On.LoadingScreenScript.orig_WelcomeSetup orig, LevelId targetLevelId, string levelName, int gearsCollected, int maxGearsInsideLevel, bool enableCameraLevelIntro)
         {
-            if (QueuedSubwarpLoaded)
+            if (QueuedSubwarp == null)
             {
-                QueuedSubwarp = null;
+                PreviousQueuedSubwarp = null;
             }
             orig(targetLevelId, levelName, gearsCollected, maxGearsInsideLevel, enableCameraLevelIntro && QueuedSubwarp == null);
         }
@@ -292,18 +306,21 @@ namespace YellowTaxiAP.Managers
             Plugin.Log("Portal Coroutine: Island to Lab");
             return orig(self);
         }
-
+        public static WarpIdentifier PreviousQueuedSubwarp { get; private set; }
         private static WarpIdentifier _queuedSubwarp;
-        public static bool QueuedSubwarpLoaded { get; private set; }
-
         public static WarpIdentifier QueuedSubwarp
         {
             get => _queuedSubwarp;
             set
             {
                 _queuedSubwarp = value;
-                QueuedSubwarpLoaded = false;
+                if (value != null)
+                {
+                    PreviousQueuedSubwarp = value;
+                }
+                return;
             }
+
         }
 
         private void PortalScript_OnTriggerEnter(On.PortalScript.orig_OnTriggerEnter orig, PortalScript self, Collider other)
@@ -422,7 +439,7 @@ namespace YellowTaxiAP.Managers
                         GetLevel(self.targetLevelId).everOpened = true;
                         break;
                     default:
-                        Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open {APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId)}");
+                        //Plugin.Log($"Checking if {self.targetLevelId} portal ({self.gameObject.name}) should be open {APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId)}");
                         GetLevel(self.targetLevelId).everOpened = APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId);
                         break;
                 }
