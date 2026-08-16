@@ -101,7 +101,7 @@ namespace YellowTaxiAP.Managers
             if (Plugin.SlotData.Bunnysanity)
             {
                 var id = GetID(self).GetValueOrDefault();
-                Plugin.Log($"Bunny {id} setting material Picked up: \"{self.bunnyPickedUpMaterial}\" | Not Picked up: \"{self.bunnyDefaultMaterial}\"");
+                //Plugin.Log($"Bunny {id} setting material Picked up: \"{self.bunnyPickedUpMaterial}\" | Not Picked up: \"{self.bunnyDefaultMaterial}\"");
                 self.myMeshRend.sharedMaterial = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id) ? self.bunnyPickedUpMaterial : self.bunnyDefaultMaterial;
             }
             else
@@ -133,7 +133,7 @@ namespace YellowTaxiAP.Managers
                 var itemArea = DebugLocationHelper.GetKnownItemNameArea(id);
                 var item = itemArea?.Item1 ?? "Unknown Item";
                 var area = itemArea?.Item2 ?? "Unknown Area";
-                Plugin.Log($"In a demo, {item} ({id}) in {area} will be moved from {self.transform.position} to {self.transform.position + self.smallDdemoPositionOffset}");
+                //Plugin.Log($"In a demo, {item} ({id}) in {area} will be moved from {self.transform.position} to {self.transform.position + self.smallDdemoPositionOffset}");
 #endif
                 if (Plugin.SlotData.ExtraDemoCollectables)
                 {
@@ -187,8 +187,7 @@ namespace YellowTaxiAP.Managers
             orig(self);
             if (self.smallDemoZoneMaster >= 0 && self.smallDdemoPositionOffset == new Vector3(0, 0, 0))
             {
-                var id = GetIDString(self);
-                Plugin.Log($"Changing zone master for {self.name}");
+                //Plugin.Log($"Changing zone master for {self.name}");
                 var withZoneMasterIndex = self.GetComponent<HideWithZoneMasterIndex>();
                 withZoneMasterIndex.hideWhenZoneMasterId =
                 [

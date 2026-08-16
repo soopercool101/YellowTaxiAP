@@ -275,7 +275,7 @@ namespace YellowTaxiAP.Behaviours
                     {
                         continue;
                     }
-                    Plugin.Log($"Setting portal state: {portal.name} | {!ExpectedState}");
+                    //Plugin.Log($"Setting portal state: {portal.name} | {!ExpectedState}");
                     portal.gameObject.SetActive(!ExpectedState);
                 }
             }

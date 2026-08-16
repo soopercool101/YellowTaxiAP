@@ -101,7 +101,7 @@ namespace YellowTaxiAP.Managers
             {
                 LocationsCheckedText = Object.Instantiate(AchievementsTvScript.instance.menuTitle,
                     AchievementsTvScript.instance.menuTitle.transform.parent);
-                Plugin.Log($"size: {LocationsCheckedText.fontSize} | max: {LocationsCheckedText.fontSizeMax} | min: {LocationsCheckedText.fontSizeMin} | align: {LocationsCheckedText.alignment} | width: {LocationsCheckedText.rectTransform.sizeDelta.x}");
+                //Plugin.Log($"size: {LocationsCheckedText.fontSize} | max: {LocationsCheckedText.fontSizeMax} | min: {LocationsCheckedText.fontSizeMin} | align: {LocationsCheckedText.alignment} | width: {LocationsCheckedText.rectTransform.sizeDelta.x}");
                 LocationsCheckedText.fontSize = 0.4f;
                 LocationsCheckedText.fontSizeMin = 0.4f;
                 LocationsCheckedText.fontSizeMax = 0.4f;

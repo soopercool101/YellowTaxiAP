@@ -272,9 +272,13 @@ namespace YellowTaxiAP.Managers
 
         private void DisableAreaScript_EventMode_Start(On.DisableAreaScript_EventMode.orig_Start orig, DisableAreaScript_EventMode self)
         {
-            if (GameplayMaster.instance.levelId != Data.LevelId.Hub || !self.gameObject.GetComponent<AreaStateOverride_LabLocked>())
+            if (GameplayMaster.instance.levelId != Data.LevelId.Hub)
             {
                 Plugin.Log(self.gameObject.name + " is attempting to disable and enable areas (EventMode)");
+            }
+
+            if (!self.gameObject.GetComponent<AreaStateOverride_LabLocked>())
+            {
                 orig(self);
             }
         }
@@ -293,7 +297,10 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void DisableAreaScript_GearsNumber_Start(On.DisableAreaScript_GearsNumber.orig_Start orig, DisableAreaScript_GearsNumber self)
         {
-            Plugin.Log(self.gameObject.name + $" is attempting to disable and enable areas (Expected Gears: {self.activeWhenGearsLowerThanThis})");
+            if (GameplayMaster.instance.levelId != Data.LevelId.Hub)
+            {
+                Plugin.Log(self.gameObject.name + $" is attempting to disable and enable areas (Expected Gears: {self.activeWhenGearsLowerThanThis})");
+            }
             foreach (var toDisable in self.disableThisAreaWhenActive.Where(o => o?.GetComponent<BonusScript>()))
             {
                 toDisable?.SetActive(true);
