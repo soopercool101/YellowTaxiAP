@@ -1,14 +1,9 @@
-﻿using JetBrains.Annotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using I2.Loc;
 using UnityEngine;
-using UnityEngine.UIElements;
 using YellowTaxiAP.Managers;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Behaviours

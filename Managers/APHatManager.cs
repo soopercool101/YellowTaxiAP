@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using Archipelago.MultiClient.Net.Enums;
 using TMPro;
@@ -9,7 +8,6 @@ using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
 using static Data;
-using static YellowTaxiAP.Identifiers;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
