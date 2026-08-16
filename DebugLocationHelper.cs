@@ -7911,7 +7911,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabGroundFloorBolts)),
                 [
                     new RegionConnection(MoriosLabGroundFloorLowestBolt),
-                    new RegionConnection(MoriosLabBunnyLedge, "J1 | X1+B1"),
+                    new RegionConnection(MoriosLabBunnyLedge, "J1 | X2+B1"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1+J2"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X1+B1+FGU & X2/J1"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "J1/B1"),
