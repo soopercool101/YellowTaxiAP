@@ -989,7 +989,7 @@ namespace YellowTaxiAP
             { "0_03_00438", "Morio's Lab - Coin on Second Floor #5" },
         };
 
-        [Description("Morio's Lab - Psycho Taxi Arcade Machine")]
+        [Description("Morio's Lab - Psycho Taxi Arcade Machine Area")]
         public static Dictionary<string, string> MoriosLabPsychoTaxi = new()
         {
             { string.Empty, nameof(MoriosLabPsychoTaxi) + " - !PLACEHOLDER!" }
@@ -5657,7 +5657,7 @@ namespace YellowTaxiAP
             { "Flushed Away - Chest on Roof Near Checkpoint", "X1/J1" },
             { "Flushed Away - Coin Bag on Roof Near Checkpoint", "X1/J1" },
             { "Flushed Away - Bunny - Behind Waterfall", "X1/B1/J1" },
-            { "Flushed Away - Gear - Skeletrone Dance Party", "X1+B1 | J1" },
+            { "Flushed Away - Gear - Skeletrone Dance Party", "X1+B1 | X3/J1" },
             { "Bone Fish Hat", "X1/J1" },
             { "Flushed Away - Chest on Pipe in Alligator Room", "X2/J1 | X1+B2" }
         };
@@ -7563,6 +7563,14 @@ namespace YellowTaxiAP
                 Rules = rules;
             }
 
+            public RegionConnection(string name, string destination, ConnectionType type, string rules = "")
+            {
+                Name = name;
+                DestinationRegion = destination;
+                ConnectingType = type;
+                Rules = rules;
+            }
+
             public RegionConnection(Dictionary<string, string> destinationRegion, string rules = "")
             {
                 Name = string.Empty;
@@ -7623,15 +7631,15 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
                     new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1 | NSAR+X1+GP & X2/J1 | X1+GP+J2 | X3+J1"),
                     new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP | X2+B2 & X3/J1 | X2+GP & X3/B1 | X3+J1"),
-                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+B2+GP | X3+GP+B1 | GP+OS+B1"),
+                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+GP & X3/B2 | GP+OS+B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
                     new RegionConnection("Granny's Island - Hat World Entrance", HubHatWorld, ConnectionType.Subwarp),
-                    new RegionConnection("Granny's Island - Gym Gears Entrance", GymGearsStartingArea, ConnectionType.Warp, "PortalGymGears+GymKey"),
+                    new RegionConnection("Granny's Island - Gym Gears Entrance", "{PORTAL}Gym Gears", ConnectionType.Warp, "PortalGymGears+GymKey"),
                     new RegionConnection(GrannysIslandSewerIsland, "X1+B2+J2+GP | X2+B2+J1 | X2+B1+GP"),
-                    new RegionConnection("Granny's Island - Poop House", FecalMattersStartingArea, ConnectionType.Warp, "PortalFecalMatters+Doggo"),
-                    new RegionConnection("Granny's Island - Mosk's Rocket Entrance", RocketStartingArea, ConnectionType.Warp, "Rocket & X2/J2/B1/GP | X1+Rocket+J1"),
+                    new RegionConnection("Granny's Island - Poop House", "{PORTAL}Fecal Matters", ConnectionType.Warp, "PortalFecalMatters+Doggo"),
+                    new RegionConnection("Granny's Island - Mosk's Rocket Entrance", "{PORTAL}Mosk's Rocket", ConnectionType.Warp, "Rocket & X2/J2/B1/GP | X1+Rocket+J1"),
                     // Golden Propeller non-area rando rules. Expert 1 required to bring it through loading zones
                     new RegionConnection(MoriosLabGroundFloorGoldenPropeller, "X1+NSAR+GP+LabKey"),
                     new RegionConnection(HubLawFirmJump, "X1+NSAR+GP"),
@@ -7741,7 +7749,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(GrannysIslandTowardsSewerIsland2, "OS"),
                     new RegionConnection(GrannysIslandSewerIslandUpper, "X1/J1/B1"),
-                    new RegionConnection("Granny's Island - Flushed Away Entrance", FlushedAwayStartingArea, ConnectionType.Warp, "PortalFlushedAway+SewerKey"),
+                    new RegionConnection("Granny's Island - Flushed Away Entrance", "{PORTAL}Flushed Away", ConnectionType.Warp, "PortalFlushedAway+SewerKey"),
                 ]
             },
             {
@@ -7874,8 +7882,8 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloorSecondWrench, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "NOS+B2+J2+FGU | X1+B2+FGU & X2/J1"),
-                    new RegionConnection("Morio's Lab - Morio's Home Portal", MoriosIslandStartingArea, ConnectionType.Warp, "PortalMorioHome"),
-                    new RegionConnection("Morio's Lab - Bombeach Portal", BombeachStartingArea, ConnectionType.Warp, "PortalBombeach"),
+                    new RegionConnection("Morio's Lab - Morio's Home Portal", "{PORTAL}Morio's Home", ConnectionType.Warp, "PortalMorioHome"),
+                    new RegionConnection("Morio's Lab - Bombeach Portal", "{PORTAL}Bombeach", ConnectionType.Warp, "PortalBombeach"),
                 ]
             },
             {
@@ -7943,7 +7951,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabSecondFloor)),
                 [
-                    new RegionConnection("Morio's Lab - Arcade Panik Portal", ArcadePlazaStartingArea, ConnectionType.Warp, "PortalArcadePanik"),
+                    new RegionConnection("Morio's Lab - Arcade Panik Portal", "{PORTAL}Arcade Panik", ConnectionType.Warp, "PortalArcadePanik"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "B1 | X2+J1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X2+B1+J1 | X1+B2+J1 | X1+B1+J2"),
@@ -7955,7 +7963,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabPsychoTaxi)),
                 [
                     new RegionConnection(MoriosLabSecondFloor, "FGU | X1+OOB+B1"),
-                    // TODO: Connect to Psycho Taxi region whenever it becomes logically relevant
+                    new RegionConnection("Morio's Lab - Psycho Taxi Arcade Machine", "{PORTAL}Psycho Taxi", ConnectionType.Warp, "PsychoTaxi"),
                 ]
             },
             {
@@ -7969,7 +7977,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosLabSecondFloor, "FGU"),
                     new RegionConnection(MoriosLabSecondFloorTrueDemoWall),
-                    new RegionConnection("Morio's Lab - Pizza Time Portal", PizzaTimeStartingArea, ConnectionType.Warp, "PortalPizzaTime"),
+                    new RegionConnection("Morio's Lab - Pizza Time Portal", "{PORTAL}Pizza Time", ConnectionType.Warp, "PortalPizzaTime"),
                 ]
             },
             {
@@ -8043,8 +8051,8 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "J1"),
                     new RegionConnection(MoriosLabFourthFloor, "Spike+B1 | X2+Spike+J1 | X3+J1"),
                     new RegionConnection(MoriosLabSecondFloorAfterTrueDemoWall),
-                    new RegionConnection("Morio's Lab - Tosla's Offices Portal", ToslaSquareStartingArea, ConnectionType.Warp, "PortalToslaOffices"),
-                    new RegionConnection("Morio's Lab - Baby Steps! TV", BabyStepsStartingArea, ConnectionType.Warp, "TT1"),
+                    new RegionConnection("Morio's Lab - Tosla's Offices Portal", "{PORTAL}Tosla's Offices", ConnectionType.Warp, "PortalToslaOffices"),
+                    new RegionConnection("Morio's Lab - Baby Steps! TV", "{PORTAL}Baby Steps!", ConnectionType.Warp, "TT1"),
                 ]
             },
             {
@@ -8088,8 +8096,8 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabLedgeAboveMauriziosCity, "J1"),
                     new RegionConnection(MoriosLabThirdFloor, "Spike"),
                     new RegionConnection(MoriosLabFourthFloorSpikyCliffs, "X3/Spike & J1 | X1+Spike+B2 | X2+Spike+B1 | X2+B2+J2"),
-                    new RegionConnection("Morio's Lab - Getting Gud! TV", GettingGudStartingArea, ConnectionType.Warp, "TT2"),
-                    new RegionConnection("Morio's Lab - Maurizio's City Portal", MauriziosCityStartingArea, ConnectionType.Warp, "PortalMauriziosCity"),
+                    new RegionConnection("Morio's Lab - Getting Gud! TV", "{PORTAL}Getting Gud!", ConnectionType.Warp, "TT2"),
+                    new RegionConnection("Morio's Lab - Maurizio's City Portal", "{PORTAL}Maurizio's City", ConnectionType.Warp, "PortalMauriziosCity"),
                 ]
             },
             {
@@ -8128,7 +8136,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea, "Password | X3+OOB+B1"),
                     new RegionConnection(MoriosLabFifthFloorDreamMachine, "FGU"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea),
-                    new RegionConnection("Morio's Lab - Pro Tricks! TV", ProTricksStartingArea, ConnectionType.Warp, "TT3"),
+                    new RegionConnection("Morio's Lab - Pro Tricks! TV", "{PORTAL}Pro Tricks!", ConnectionType.Warp, "TT3"),
                 ]
             },
             {
@@ -8377,7 +8385,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosHomeBedPillars)),
                 [
-                    new RegionConnection("Morio's Home - Portal to Morio's Lab", MoriosLabGroundFloor, ConnectionType.Warp),
+                    new RegionConnection("Morio's Home - Morio's Lab Portal", "{RETURNPORTAL}", ConnectionType.Warp),
                 ]
             },
             {
@@ -8437,7 +8445,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(BombeachStartingArea)),
                 [
-                    new RegionConnection("Bombeach - Portal to Morio's Lab", MoriosLabGroundFloor, ConnectionType.Warp),
+                    new RegionConnection("Bombeach - Morio's Lab Portal", "{RETURNPORTAL}", ConnectionType.Warp),
                     new RegionConnection(BombeachEasyBombJumps),
                     new RegionConnection(BombeachExpert1BombJumps, "X1"),
                     new RegionConnection(BombeachJumpOrBoost, "J1/B1"),
@@ -8596,8 +8604,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(PizzaTimeStartingArea)),
                 [
-                    new RegionConnection("Pizza Time - Morio's Lab Portal Near Hat World", MoriosLabSecondFloorAfterDemoWall, ConnectionType.Warp),
-                    new RegionConnection("Pizza Time - Morio's Lab Portal Near Pizza King", MoriosLabSecondFloorAfterDemoWall, ConnectionType.Warp),
+                    new RegionConnection("Pizza Time - Morio's Lab Portal Near Hat World", "{RETURNPORTAL}", ConnectionType.Warp),
+                    new RegionConnection("Pizza Time - Morio's Lab Portal Near Pizza King", "{RETURNPORTAL}", ConnectionType.Warp),
                     new RegionConnection("Pizza Time - Hat World Entrance", PizzaTimeHatWorld, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - 400° Oven", FourHundredDegrees, ConnectionType.Subwarp),
                     new RegionConnection("Pizza Time - 600° Oven", SixHundredDegrees, ConnectionType.Subwarp),
@@ -8741,7 +8749,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ToslaSquareStartingArea)),
                 [
-                    new RegionConnection("Tosla Square - Morio's Lab Portal", MoriosLabThirdFloor, ConnectionType.Warp),
+                    new RegionConnection("Tosla Square - Morio's Lab Portal", "{RETURNPORTAL}", ConnectionType.Warp),
                     new RegionConnection("Tosla Square - Tosla Offices Entrance", ToslaOfficesGroundFloor, ConnectionType.Subwarp),
                     new RegionConnection(ToslaSquareToslaSign, "J1/B1"),
                     new RegionConnection(ToslaSquareLowerBuildings, "B1 | X2+J2 | X3+J1"),
@@ -8876,7 +8884,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ToslaOfficesFinalFloorBossFight)),
                 [
-                    new RegionConnection("Tosla Offices (Final Floor) - Boss Fight Ending Cutscene", MoriosLabThirdFloor, ConnectionType.Warp),
+                    new RegionConnection("Tosla Offices (Final Floor) - Boss Fight Ending Cutscene", "{RETURNPORTAL}", ConnectionType.Warp),
                 ]
             },
             {
@@ -8900,7 +8908,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(GymGearsStartingArea)),
                 [
-                    new RegionConnection("Gym Gears - Granny's Island Portal", GrannysIslandMain, ConnectionType.Warp),
+                    new RegionConnection("Gym Gears - Granny's Island Portal", "{RETURNPORTAL}", ConnectionType.Warp),
                     new RegionConnection(GymGearsExpert1, "X1/J1"),
                     new RegionConnection(GymGearsExpert2, "X2/J1"),
                     new RegionConnection(GymGearsExpert2Boost, "X2+B1 | J1"),
@@ -8946,7 +8954,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(FecalMattersStartingArea)),
                 [
-                    new RegionConnection("Fecal Matters - Roundabout Portal to Granny's Island", GrannysIslandMain, ConnectionType.Warp),
+                    new RegionConnection("Fecal Matters - Granny's Island Portal in Roundabout", "{RETURNPORTAL}", ConnectionType.Warp),
                     new RegionConnection(FecalMattersRoundaboutHillTier1, "J1/B1 | X1+NHPR"),
                     new RegionConnection(FecalMattersRoundaboutHillTier3, "J1/B2 | X2+B1"),
                     new RegionConnection(FecalMattersBoostOrJump, "J1/B1"),
@@ -9185,7 +9193,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MauriziosCityTrickierHighGround)),
                 [
-                    new RegionConnection(MauriziosCityFloatingOrangeBlockBunny, "NOS+B2+J2 | X1+B2 & X2/J1"),
+                    new RegionConnection(MauriziosCityFloatingOrangeBlockBunny, "NOS+B2+J2 | X1+B2 & X2/J1 | X3+B1"),
                     new RegionConnection(MauriziosCityFloatingOrangeBlockCloserCoins, "X2+J1"),
                     new RegionConnection(MauriziosCityFloatingOrangeBlockCoins, "X1/NOS/OS & B1 | X1+OS+J1"),
                     new RegionConnection(MauriziosCityMaurizioBuildingLower, "B1 | X1+J1"),
@@ -9282,7 +9290,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(RocketStartingArea)),
                 [
-                    new RegionConnection("Mosk's Rocket - Front Door", GrannysIslandMain, ConnectionType.Warp),
+                    new RegionConnection("Mosk's Rocket - Front Door", "{RETURNPORTAL}", ConnectionType.Warp),
                     new RegionConnection(RocketBombeachArcadePizzaArea, "J1/B1"),
                     new RegionConnection("Mosk's Rocket - Lab Memories Portal", LabMemoriesStartingArea, ConnectionType.Subwarp, "Bunny-Hub"),
                     new RegionConnection("Mosk's Rocket - Welcoming Climbs Portal", WelcomingClimbsStartingArea, ConnectionType.Subwarp, "Bunny-MH"),
