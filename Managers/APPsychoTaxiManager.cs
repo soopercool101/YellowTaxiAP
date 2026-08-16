@@ -24,23 +24,23 @@ namespace YellowTaxiAP.Managers
         private void PsychoTaxiCabinetScript_Update(On.PsychoTaxiCabinetScript.orig_Update orig, PsychoTaxiCabinetScript self)
         {
             orig(self);
-            if (TrueLevelDisplay)
+            if (!Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex])
             {
-                if (!Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex])
+                TrueLevelDisplay?.gameObject.SetActive(false);
+                if (self.turnedOn)
                 {
-                    TrueLevelDisplay.gameObject.SetActive(false);
-                    if (self.turnedOn)
-                    {
-                        self.cabMeshRend.sharedMaterial = self.turnedOffmat;
+                    self.cabMeshRend.sharedMaterial = self.turnedOffmat;
 
-                        if (!self.turnedOnAnimationShown && !self.cartridgeAnimPlaying)
-                        {
-                            self.cartridgeObj.SetActive(true);
-                            self.cartridgeObj.transform.localPosition = Vector3.up * 5f;
-                        }
+                    if (!self.turnedOnAnimationShown && !self.cartridgeAnimPlaying)
+                    {
+                        self.cartridgeObj.SetActive(true);
+                        self.cartridgeObj.transform.localPosition = Vector3.up * 5f;
                     }
                 }
-                else if (self.cabMeshRend.sharedMaterial == self.turnedOnMat)
+            }
+            else if (TrueLevelDisplay)
+            {
+                if (self.cabMeshRend.sharedMaterial == self.turnedOnMat)
                 {
                     self.cabMeshRend.sharedMaterial = self.turnedOffmat;
                     TrueLevelDisplay.gameObject.SetActive(true);
