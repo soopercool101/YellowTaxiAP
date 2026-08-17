@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Behaviours;
@@ -124,6 +125,37 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
         {
+            // Dump taxi texture if needed
+            var pathInfluencersGraphics = Master.pathInfluencersGraphics;
+            if (!Directory.Exists(pathInfluencersGraphics))
+            {
+                Directory.CreateDirectory(pathInfluencersGraphics);
+            }
+
+            if (!File.Exists(Path.Combine(pathInfluencersGraphics, "TestTaxi.png")))
+            {
+                // I swear this is somehow the only way to make this work
+                // https://support.unity.com/hc/en-us/articles/206486626-How-can-I-get-pixels-from-unreadable-textures
+                var originalTex = (Texture2D)self.matTaxiBase.mainTexture;
+                var fakeRender = RenderTexture.GetTemporary(
+                    originalTex.width,
+                    originalTex.height,
+                    0,
+                    RenderTextureFormat.Default,
+                    RenderTextureReadWrite.Linear);
+                Graphics.Blit(originalTex, fakeRender);
+                var actualRender = RenderTexture.active;
+                RenderTexture.active = fakeRender;
+                var newTex = new Texture2D(originalTex.width, originalTex.height);
+                newTex.ReadPixels(new Rect(0, 0, fakeRender.width, fakeRender.height), 0, 0);
+                newTex.Apply();
+                RenderTexture.active = actualRender;
+                RenderTexture.ReleaseTemporary(fakeRender);
+
+                Plugin.Log("READABLE: " + newTex.isReadable);
+                File.WriteAllBytes(Path.Combine(pathInfluencersGraphics, "TestTaxi.png"), newTex.EncodeToPNG());
+            }
+
             Master.cheat_PizzaWheels = APPlayerManager.PizzaWheelsItem;
             // Hubworld state changes
             if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
@@ -208,6 +240,86 @@ namespace YellowTaxiAP.Managers
                     Object.Destroy(noEntrySignTemplate);
                 }
             }
+
+            if (!APPlayerManager.ExtraTaxiSkinsLoaded)
+            {
+                APPlayerManager.ExtraTaxiSkinsLoaded = true;
+                // Angry car skin
+                try
+                {
+                    // Car Angry -> ModelHolder -> BaseVibration -> ModelCar
+                    APPlayerManager.AngryTaxiTexture = (Texture2D)AssetMaster.GetPrefab("Car Angry").transform.GetChild(0).GetChild(0)
+                        .GetChild(1).gameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
+                }
+                catch
+                {
+                    APPlayerManager.AngryTaxiTexture = null;
+                }
+
+                // Destroyed car skin
+                try
+                {
+                    // Car Angry -> ModelHolder -> BaseVibration -> ModelCarDestroyed
+                    APPlayerManager.DestroyedTaxiTexture = (Texture2D)AssetMaster.GetPrefab("Car1 Rullo").transform.GetChild(0).GetChild(0)
+                        .GetChild(2).gameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
+                }
+                catch
+                {
+                    APPlayerManager.DestroyedTaxiTexture = null;
+                }
+
+                // Granny's skins
+                try
+                {
+                    var grannysCar = Object.FindFirstObjectByType<GrandmaCarScript>(FindObjectsInactive.Include);
+                    var granny = grannysCar.grandmaCar.GetComponent<MeshRenderer>();
+                    APPlayerManager.GrannysTexture = (Texture2D)granny.materials[0].mainTexture;
+                    APPlayerManager.GrannysAltTexture = (Texture2D)granny.materials[2].mainTexture;
+                    var corrupted = grannysCar.corruptedCar.GetComponent<MeshRenderer>();
+                    APPlayerManager.GrannysCorruptedTexture = (Texture2D)corrupted.materials[0].mainTexture;
+                    APPlayerManager.GrannysAltCorruptedTexture = (Texture2D)corrupted.materials[2].mainTexture;
+                }
+                catch
+                {
+                    Plugin.Log("Granny Car Load Fail");
+                    APPlayerManager.GrannysTexture = APPlayerManager.GrannysAltTexture =
+                        APPlayerManager.GrannysCorruptedTexture =
+                            APPlayerManager.GrannysAltCorruptedTexture = null;
+                }
+
+                // Custom taxi skin
+                try
+                {
+                    var path = Master.pathInfluencersGraphics + Plugin.SlotData.FunnyFaces + "Taxi.png";
+                    if (File.Exists(path))
+                    {
+                        try
+                        {
+                            var data = File.ReadAllBytes(path);
+                            if (APPlayerManager.CustomTaxiTexture)
+                            {
+                                Object.Destroy(APPlayerManager.CustomTaxiTexture);
+                            }
+
+                            APPlayerManager.CustomTaxiTexture = new Texture2D(2, 2);
+                            APPlayerManager.CustomTaxiTexture.LoadImage(data);
+                            APPlayerManager.CustomTaxiTexture.filterMode = FilterMode.Point;
+                        }
+                        catch
+                        {
+                            APPlayerManager.CustomTaxiTexture = null;
+                        }
+                    }
+                    else
+                    {
+                        APPlayerManager.CustomTaxiTexture = null;
+                    }
+                }
+                catch
+                {
+                    APPlayerManager.CustomTaxiTexture = null;
+                }
+            }
             if (Plugin.SlotData.TaxiSkin % 10 == 9)
             {
                 switch ((Plugin.SlotData.TaxiSkin - 9) / 10)
@@ -238,6 +350,34 @@ namespace YellowTaxiAP.Managers
                         allList.AddRange(APPlayerManager.ValidSkeletonSkins);
                         allList.AddRange(APPlayerManager.ValidGoldenSkins);
                         allList.AddRange(APPlayerManager.ValidPrototypeSkins);
+                        if (APPlayerManager.AngryTaxiTexture)
+                        {
+                            allList.Add(50);
+                        }
+                        if (APPlayerManager.GrannysTexture)
+                        {
+                            allList.Add(60);
+                        }
+                        if (APPlayerManager.GrannysAltTexture)
+                        {
+                            allList.Add(70);
+                        }
+                        if (APPlayerManager.GrannysCorruptedTexture)
+                        {
+                            allList.Add(80);
+                        }
+                        if (APPlayerManager.GrannysCorruptedTexture)
+                        {
+                            allList.Add(90);
+                        }
+                        if (APPlayerManager.DestroyedTaxiTexture)
+                        {
+                            allList.Add(100);
+                        }
+                        if (APPlayerManager.CustomTaxiTexture)
+                        {
+                            allList.Add(1000);
+                        }
                         APPlayerManager.CurrentTaxiSkin = allList[Random.RandomRangeInt(0, allList.Count)];
                         break;
                 }

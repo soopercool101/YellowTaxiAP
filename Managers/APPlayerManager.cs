@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 
@@ -125,7 +126,7 @@ namespace YellowTaxiAP.Managers
             PlayerScript.instance.taxiMeshRend.sharedMaterial.mainTexture = PlayerScript.instance.TaxiTextureGlassGet()[0];
         }
 
-        private UnityEngine.Texture[] PlayerScript_TaxiTextureInvincibleGet(On.PlayerScript.orig_TaxiTextureInvincibleGet orig, PlayerScript self)
+        private Texture[] PlayerScript_TaxiTextureInvincibleGet(On.PlayerScript.orig_TaxiTextureInvincibleGet orig, PlayerScript self)
         {
             if (CurrentTaxiSkin >= 10 && !IsCurrentHatSkin())
             {
@@ -140,7 +141,16 @@ namespace YellowTaxiAP.Managers
             return orig(self);
         }
 
-        private UnityEngine.Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
+        public static bool ExtraTaxiSkinsLoaded;
+        public static Texture2D AngryTaxiTexture;
+        public static Texture2D DestroyedTaxiTexture;
+        public static Texture2D GrannysTexture;
+        public static Texture2D GrannysAltTexture;
+        public static Texture2D GrannysCorruptedTexture;
+        public static Texture2D GrannysAltCorruptedTexture;
+        public static Texture2D CustomTaxiTexture;
+
+        private Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
         {
             if (CurrentTaxiSkin > 0 && !IsCurrentHatSkin())
             {
@@ -151,6 +161,13 @@ namespace YellowTaxiAP.Managers
                         10 => self.taxiGlassAnimationBonesTextures,
                         20 => self.taxiGlassAnimationGoldenTextures,
                         30 => self.taxiPrototypeSkinGlassAnimationTextures,
+                        50 => AngryTaxiTexture != null ? [AngryTaxiTexture] : self.taxiGlassAnimationTextures,
+                        60 => GrannysTexture != null ? [GrannysTexture] : self.taxiGlassAnimationTextures,
+                        70 => GrannysAltTexture != null ? [GrannysAltTexture] : self.taxiGlassAnimationTextures,
+                        80 => GrannysCorruptedTexture != null ? [GrannysCorruptedTexture] : self.taxiGlassAnimationTextures,
+                        90 => GrannysAltCorruptedTexture != null ? [GrannysAltCorruptedTexture] : self.taxiGlassAnimationTextures,
+                        100 => DestroyedTaxiTexture != null ? [DestroyedTaxiTexture] : self.taxiGlassAnimationTextures,
+                        1000 => CustomTaxiTexture != null ? [CustomTaxiTexture] : self.taxiGlassAnimationTextures,
                         _ => self.taxiGlassAnimationTextures
                     };
                 }
