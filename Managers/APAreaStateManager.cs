@@ -44,7 +44,7 @@ namespace YellowTaxiAP.Managers
             On.TrueDemoWallScript.OnCollisionEnter += TrueDemoWallScript_OnCollisionEnter;
             On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
             On.TimeAttackComputerScript.Update += TimeAttackComputerScript_Update;
-            On.LabFinalLevelWarningElement.Update += LabFinalLevelWarningElement_Update; ;
+            On.LabFinalLevelWarningElement.Update += LabFinalLevelWarningElement_Update;
 #if DEBUG
             On.BackgroundMaster.Change += BackgroundMaster_Change;
             On.GameplayMaster.SoundtrackRoutine += GameplayMaster_SoundtrackRoutine;
@@ -152,7 +152,6 @@ namespace YellowTaxiAP.Managers
                 RenderTexture.active = actualRender;
                 RenderTexture.ReleaseTemporary(fakeRender);
 
-                Plugin.Log("READABLE: " + newTex.isReadable);
                 File.WriteAllBytes(Path.Combine(pathInfluencersGraphics, "TestTaxi.png"), newTex.EncodeToPNG());
             }
 
