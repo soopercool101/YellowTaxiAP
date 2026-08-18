@@ -112,12 +112,33 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.TaxiTextureGlassGet += PlayerScript_TaxiTextureGlassGet;
             On.PlayerScript.TaxiTextureInvincibleGet += PlayerScript_TaxiTextureInvincibleGet;
             On.PlayerScript.PlayerHatsRenderingUpdate += PlayerScript_PlayerHatsRenderingUpdate;
+            On.PlayerScript.CurrentTaxiWheelsGet += PlayerScript_CurrentTaxiWheelsGet;
 
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
 
             On.GameplayMaster.Die += GameplayMaster_Die;
             // Don't reset pizza wheels!
             On.Master.CheatsOthers_Reset += _ => { };
+        }
+
+        public Material CheeseWheels;
+
+        private Material PlayerScript_CurrentTaxiWheelsGet(On.PlayerScript.orig_CurrentTaxiWheelsGet orig, PlayerScript self)
+        {
+            if (CheeseWheels == null)
+            {
+                CheeseWheels = new Material(self.matTaxiWheelsBase)
+                {
+                    mainTexture = self.taxiWheelTurboTexture
+                };
+            }
+
+            if (PizzaWheelProtection && Data.HatGetCurrentKind() != Data.Hat.Hat50_ArcadePanik)
+            {
+                return CheeseWheels;
+            }
+
+            return orig(self);
         }
 
         private void PlayerScript_PlayerHatsRenderingUpdate(On.PlayerScript.orig_PlayerHatsRenderingUpdate orig)
@@ -196,6 +217,7 @@ namespace YellowTaxiAP.Managers
         private void PlayerScript_PizzaWheelsInit(On.PlayerScript.orig_PizzaWheelsInit orig, PlayerScript self)
         {
             orig(self);
+            PlayerScript.PlayerHatsRenderingUpdate();
             PizzaWheelsInitialized = PizzaWheelsItem;
         }
 

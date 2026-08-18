@@ -513,6 +513,8 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.GoldenSpringUnlock:
                 APCollectableManager.GoldenSpringReceived = true;
+                // Reinitialize pizza wheels in case the protection value is different now
+                APPlayerManager.PizzaWheelsInitialized = false;
                 break;
             case Identifiers.ItemID.GoldenPropellerUnlock:
                 APCollectableManager.GoldenPropellerActive = true;
