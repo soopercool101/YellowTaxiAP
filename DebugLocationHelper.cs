@@ -6161,7 +6161,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> MauriziosCitySpecialRules = new()
         {
             { "Purple Tunnel - Gear", "B1/J1" },
-            { "Purple Tunnel - Bunny", "B1/J2 | X1+J1" },
+            { "Purple Tunnel - Bunny", "X2/J1 + B1 | X1+J1 | J2" },
             { "Maurizio's City - Coin on Red Beams on Lower Middle Level #4", "X3/J1/B1" },
             { "Maurizio's City - Coin on Pink House Roof on Upper Level #3", $"B1/J1 | {{{GetDescription(nameof(MauriziosCityCheckpointBuildingOnUpperLevel))}}}" },
             { "Maurizio's City - Bunny - On Top of Maurizio's Building", "B2 & X3/J1 | X2+B1+J1 | X3+J1" },
