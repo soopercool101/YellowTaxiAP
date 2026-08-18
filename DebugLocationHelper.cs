@@ -6170,6 +6170,61 @@ namespace YellowTaxiAP
 
         #endregion
 
+        #region Crash Test Industries
+
+        [Description("Crash Test Industries - Starting Area")]
+        public static Dictionary<string, string> CrashTestIndustriesStartingArea = new()
+        {
+            { "10_03_00108", "Crash Test Industries - Coin Behind Start #1" },
+            { "10_03_00111", "Crash Test Industries - Coin Behind Start #2" },
+            { "10_03_00125", "Crash Test Industries - Coin Behind Start #3" },
+            { "10_03_00124", "Crash Test Industries - Coin Bag Behind Start" },
+            { "10_03_00123", "Crash Test Industries - Coin Behind Start #4" },
+            { "10_03_00110", "Crash Test Industries - Coin Behind Start #5" },
+            { "10_03_00107", "Crash Test Industries - Coin Behind Start #6" },
+        };
+
+        [Description("Crash Test Industries - Ledge Below Starting Area")]
+        public static Dictionary<string, string> CrashTestIndustriesLedgeBelowStart = new()
+        {
+            { "10_03_00018", "Crash Test Industries - Coin Bag on Ledge Below Starting Area #1" },
+            { "10_03_00017", "Crash Test Industries - Coin on Ledge Below Starting Area #1" },
+            { "10_03_00016", "Crash Test Industries - Coin on Ledge Below Starting Area #2" },
+            { "10_03_00015", "Crash Test Industries - Coin on Ledge Below Starting Area #3" },
+            { "10_03_00014", "Crash Test Industries - Coin on Ledge Below Starting Area #4" },
+            { "10_03_00013", "Crash Test Industries - Coin on Ledge Below Starting Area #5" },
+            { "10_03_00012", "Crash Test Industries - Coin on Ledge Below Starting Area #6" },
+            { "10_03_00011", "Crash Test Industries - Coin on Ledge Below Starting Area #7" },
+            { "10_03_00010", "Crash Test Industries - Coin on Ledge Below Starting Area #8" },
+            { "10_03_00009", "Crash Test Industries - Coin on Ledge Below Starting Area #9" },
+            { "10_03_00008", "Crash Test Industries - Coin Bag on Ledge Below Starting Area #2" },
+            { "10_03_00007", "Crash Test Industries - Chest on Ledge Below Starting Area" },
+            { "10_03_00006", "Crash Test Industries - Coin on Ledge Below Starting Area #10" },
+            { "10_03_00005", "Crash Test Industries - Coin on Ledge Below Starting Area #11" },
+            { "10_03_00004", "Crash Test Industries - Coin on Ledge Below Starting Area #12" },
+            { "10_03_00003", "Crash Test Industries - Coin on Ledge Below Starting Area #13" },
+            { "10_03_00002", "Crash Test Industries - Coin on Ledge Below Starting Area #14" },
+            { "10_01_00014", "Crash Test Industries - Gear - Ledge Below Starting Area" },
+        };
+
+        [Description("Crash Test Industries - After First Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesAfterFirstConveyorBelt = new()
+        {
+            { "10_09_00108", "Crash Test Industries - Checkpoint After First Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries Hat World")]
+        public static Dictionary<string, string> CrashTestIndustriesHatWorld = new()
+        {
+            { "10_07_00002", "Purchase Top Hat" },
+            { "10_07_00001", "Purchase Propeller Cap" },
+            { "10_07_00000", "Purchase No Hat" },
+            { "10_07_00026", "Purchase Buzzsaw Hat" },
+            { "10_07_00027", "Purchase Crusher Hat" },
+        };
+
+        #endregion
+
         #region Mosk's Rocket
 
         [Description("Mosk's Rocket - Starting Area")]
@@ -7092,6 +7147,12 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MauriziosCityHatWorld)), MauriziosCityHatWorld),
             new(GetDescription(nameof(PurpleTunnel)), PurpleTunnel),
 
+            // Crash Test Industries Areas
+            new(GetDescription(nameof(CrashTestIndustriesStartingArea)), CrashTestIndustriesStartingArea),
+            new(GetDescription(nameof(CrashTestIndustriesLedgeBelowStart)), CrashTestIndustriesLedgeBelowStart),
+            new(GetDescription(nameof(CrashTestIndustriesAfterFirstConveyorBelt)), CrashTestIndustriesAfterFirstConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesHatWorld)), CrashTestIndustriesHatWorld),
+
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
             new(GetDescription(nameof(RocketBombeachArcadePizzaArea)), RocketBombeachArcadePizzaArea),
@@ -7465,6 +7526,15 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                nameof(Data.LevelId.L10_CrashTestIndustries),
+                [
+                    CrashTestIndustriesStartingArea,
+                    CrashTestIndustriesLedgeBelowStart,
+                    CrashTestIndustriesAfterFirstConveyorBelt,
+                    CrashTestIndustriesHatWorld,
+                ]
+            },
+            {
                 nameof(Data.LevelId.L16_Rocket),
                 [
                     RocketStartingArea,
@@ -7631,7 +7701,7 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
                     new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1 | NSAR+X1+GP & X2/J1 | X1+GP+J2 | X3+J1"),
                     new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP | X2+B2 & X3/J1 | X2+GP & X3/B1 | X3+J1"),
-                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+GP & X3/B2 | GP+OS+B1"),
+                    new RegionConnection(GrannysIslandCrashAgainRoof, "X2+GP & X3/B2 | GP+OS & X2/B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
                     new RegionConnection("Granny's Island - Pizza Oven Entrance", HubPizzaOven, ConnectionType.Subwarp, "PizzaKing"),
                     new RegionConnection("Granny's Island - Ice Cream Truck Entrance", HubIceCreamTruckBase, ConnectionType.Subwarp, "GelaToni"),
@@ -9280,6 +9350,39 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MauriziosCityHatWorld)),
                 [
                     new RegionConnection("Maurizio's City Hat World - Exit", MauriziosCityStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(AnyHatWorld),
+                ]
+            },
+
+            #endregion
+
+            #region Crash Test Industries Connections
+            
+            {
+                GetDescription(nameof(CrashTestIndustriesStartingArea)),
+                [
+                    new RegionConnection("Crash Test Industries - Hat World Entrance", CrashTestIndustriesHatWorld, ConnectionType.Subwarp),
+                    new RegionConnection(CrashTestIndustriesLedgeBelowStart, "X2/PMJ | X1+NHPR"),
+                    new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt, "SP/PMJ | X1+B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesLedgeBelowStart)),
+                [
+                    new RegionConnection("Crash Test Industries - Mori-O-Tron on Ledge Below Starting Area", CrashTestIndustriesAfterFirstConveyorBelt, ConnectionType.MoriOTron),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesAfterFirstConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesStartingArea),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesHatWorld)),
+                [
+                    new RegionConnection("Crash Test Industries Hat World - Exit", CrashTestIndustriesStartingArea, ConnectionType.Subwarp),
+                    new RegionConnection(AnyHatWorld),
                 ]
             },
 
