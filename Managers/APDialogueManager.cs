@@ -91,14 +91,14 @@ namespace YellowTaxiAP.Managers
                         IsCloningPizzaMan = true; // Make sure the cloning process is executed once, clone shouldn't create more clones!
                         var newPizzaMan = Object.Instantiate(self, newZoneMaster);
                         newPizzaMan.myId = 10000;
-                        newPizzaMan.transform.localPosition = new Vector3(-80, 50, 10);
+                        newPizzaMan.transform.localPosition = new Vector3(-95, 50, 25);
                         IsCloningPizzaMan = false;
                     }
                     else
                     {
                         // If the pizza king is not accessible, we can move the pizza man
                         self.transform.parent = newZoneMaster;
-                        self.transform.localPosition = new Vector3(-80, 50, 10);
+                        self.transform.localPosition = new Vector3(-95, 50, 25);
                         self.pickupCorotuineOverride = null;
                         self.modelHolder.GetChild(2).gameObject.SetActive(false);
                     }
