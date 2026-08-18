@@ -24,7 +24,7 @@ namespace YellowTaxiAP.Managers
         private void PsychoTaxiCabinetScript_Update(On.PsychoTaxiCabinetScript.orig_Update orig, PsychoTaxiCabinetScript self)
         {
             orig(self);
-            if (!Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex])
+            if (!Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] || PsychoTaxiCabinetScript.CartridgeAnimPlaying)
             {
                 TrueLevelDisplay?.gameObject.SetActive(false);
                 if (self.turnedOn)
