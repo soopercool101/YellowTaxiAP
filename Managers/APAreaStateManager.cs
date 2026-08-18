@@ -274,17 +274,17 @@ namespace YellowTaxiAP.Managers
                     var grannysCar = Object.FindFirstObjectByType<GrandmaCarScript>(FindObjectsInactive.Include);
                     var granny = grannysCar.grandmaCar.GetComponent<MeshRenderer>();
                     APPlayerManager.GrannysTexture = (Texture2D)granny.materials[0].mainTexture;
-                    APPlayerManager.GrannysAltTexture = (Texture2D)granny.materials[2].mainTexture;
+                    APPlayerManager.PinkFlamesTexture = (Texture2D)granny.materials[2].mainTexture;
                     var corrupted = grannysCar.corruptedCar.GetComponent<MeshRenderer>();
                     APPlayerManager.GrannysCorruptedTexture = (Texture2D)corrupted.materials[0].mainTexture;
-                    APPlayerManager.GrannysAltCorruptedTexture = (Texture2D)corrupted.materials[2].mainTexture;
+                    APPlayerManager.PinkFlamesCorruptedTexture = (Texture2D)corrupted.materials[2].mainTexture;
                 }
                 catch
                 {
                     Plugin.Log("Granny Car Load Fail");
-                    APPlayerManager.GrannysTexture = APPlayerManager.GrannysAltTexture =
+                    APPlayerManager.GrannysTexture = APPlayerManager.PinkFlamesTexture =
                         APPlayerManager.GrannysCorruptedTexture =
-                            APPlayerManager.GrannysAltCorruptedTexture = null;
+                            APPlayerManager.PinkFlamesCorruptedTexture = null;
                 }
 
                 // Custom taxi skin
@@ -358,17 +358,17 @@ namespace YellowTaxiAP.Managers
                         {
                             allList.Add(60);
                         }
-                        if (APPlayerManager.GrannysAltTexture)
+                        if (APPlayerManager.GrannysCorruptedTexture)
+                        {
+                            allList.Add(61);
+                        }
+                        if (APPlayerManager.PinkFlamesTexture)
                         {
                             allList.Add(70);
                         }
-                        if (APPlayerManager.GrannysCorruptedTexture)
+                        if (APPlayerManager.PinkFlamesCorruptedTexture)
                         {
-                            allList.Add(80);
-                        }
-                        if (APPlayerManager.GrannysCorruptedTexture)
-                        {
-                            allList.Add(90);
+                            allList.Add(71);
                         }
                         if (APPlayerManager.DestroyedTaxiTexture)
                         {

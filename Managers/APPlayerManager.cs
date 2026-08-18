@@ -135,6 +135,7 @@ namespace YellowTaxiAP.Managers
                     1 => self.taxiInvincibleAnimationBonesTextures,
                     2 => self.taxiInvincibleAnimationGoldenTextures,
                     3 => self.taxiPrototypeSkinInvincibleAnimationTextures,
+                    6 when GrannysTexture => [GrannysTexture, GrannysCorruptedTexture],
                     _ => self.taxiInvincibleAnimationTextures
                 };
             }
@@ -145,33 +146,41 @@ namespace YellowTaxiAP.Managers
         public static Texture2D AngryTaxiTexture;
         public static Texture2D DestroyedTaxiTexture;
         public static Texture2D GrannysTexture;
-        public static Texture2D GrannysAltTexture;
         public static Texture2D GrannysCorruptedTexture;
-        public static Texture2D GrannysAltCorruptedTexture;
+        public static Texture2D PinkFlamesTexture;
+        public static Texture2D PinkFlamesCorruptedTexture;
         public static Texture2D CustomTaxiTexture;
 
         private Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
         {
             if (CurrentTaxiSkin > 0 && !IsCurrentHatSkin())
             {
-                if (CurrentTaxiSkin % 10 == 0)
+                var textures = CurrentTaxiSkin switch
                 {
-                    return CurrentTaxiSkin switch
-                    {
-                        10 => self.taxiGlassAnimationBonesTextures,
-                        20 => self.taxiGlassAnimationGoldenTextures,
-                        30 => self.taxiPrototypeSkinGlassAnimationTextures,
-                        50 when AngryTaxiTexture => [AngryTaxiTexture],
-                        60 when GrannysTexture => [GrannysTexture],
-                        70 when GrannysAltTexture => [GrannysAltTexture],
-                        80 when GrannysCorruptedTexture => [GrannysCorruptedTexture],
-                        90 when GrannysAltCorruptedTexture => [GrannysAltCorruptedTexture],
-                        100 when DestroyedTaxiTexture => [DestroyedTaxiTexture],
-                        1000 when CustomTaxiTexture => [CustomTaxiTexture],
-                        _ => self.taxiGlassAnimationTextures
-                    };
+                    10 => self.taxiGlassAnimationBonesTextures,
+                    20 => self.taxiGlassAnimationGoldenTextures,
+                    30 => self.taxiPrototypeSkinGlassAnimationTextures,
+                    50 when AngryTaxiTexture => [AngryTaxiTexture],
+                    60 when GrannysTexture => [GrannysTexture],
+                    61 when GrannysCorruptedTexture => [GrannysCorruptedTexture],
+                    70 when PinkFlamesTexture => [PinkFlamesTexture],
+                    71 when PinkFlamesCorruptedTexture => [PinkFlamesCorruptedTexture],
+                    100 when DestroyedTaxiTexture => [DestroyedTaxiTexture],
+                    1000 when CustomTaxiTexture => [CustomTaxiTexture],
+                    _ => []
+                };
+                if (textures.Length > 0)
+                {
+                    return textures;
                 }
-                var textures = (CurrentTaxiSkin / 10) switch
+
+                // 50+ are bonus skins that may or may not exist. Return base taxi in this case
+                if (CurrentTaxiSkin >= 50)
+                {
+                    return self.taxiGlassAnimationBonesTextures;
+                }
+
+                textures = (CurrentTaxiSkin / 10) switch
                 {
                     1 => self.taxiInvincibleAnimationBonesTextures,
                     2 => self.taxiInvincibleAnimationGoldenTextures,
