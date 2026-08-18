@@ -838,6 +838,7 @@ namespace YellowTaxiAP.Behaviours
                 DurationSeconds = APTrapController.DefaultTrapDuration / 3;
                 Data.flipOWillUnlockState[Data.gameDataIndex] = false;
                 Instance = this;
+                PlayerScript.instance.CannotAmbulateReasonSet("Stun Trap");
             }
             else
             {
@@ -850,6 +851,7 @@ namespace YellowTaxiAP.Behaviours
         {
             Data.flipOWillUnlockState[Data.gameDataIndex] = true;
             Instance = null;
+            PlayerScript.instance.CannotAmbulateReasonRemove("Stun Trap");
         }
     }
 
