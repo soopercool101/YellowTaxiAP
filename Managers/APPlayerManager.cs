@@ -161,13 +161,13 @@ namespace YellowTaxiAP.Managers
                         10 => self.taxiGlassAnimationBonesTextures,
                         20 => self.taxiGlassAnimationGoldenTextures,
                         30 => self.taxiPrototypeSkinGlassAnimationTextures,
-                        50 => AngryTaxiTexture != null ? [AngryTaxiTexture] : self.taxiGlassAnimationTextures,
-                        60 => GrannysTexture != null ? [GrannysTexture] : self.taxiGlassAnimationTextures,
-                        70 => GrannysAltTexture != null ? [GrannysAltTexture] : self.taxiGlassAnimationTextures,
-                        80 => GrannysCorruptedTexture != null ? [GrannysCorruptedTexture] : self.taxiGlassAnimationTextures,
-                        90 => GrannysAltCorruptedTexture != null ? [GrannysAltCorruptedTexture] : self.taxiGlassAnimationTextures,
-                        100 => DestroyedTaxiTexture != null ? [DestroyedTaxiTexture] : self.taxiGlassAnimationTextures,
-                        1000 => CustomTaxiTexture != null ? [CustomTaxiTexture] : self.taxiGlassAnimationTextures,
+                        50 when AngryTaxiTexture => [AngryTaxiTexture],
+                        60 when GrannysTexture => [GrannysTexture],
+                        70 when GrannysAltTexture => [GrannysAltTexture],
+                        80 when GrannysCorruptedTexture => [GrannysCorruptedTexture],
+                        90 when GrannysAltCorruptedTexture => [GrannysAltCorruptedTexture],
+                        100 when DestroyedTaxiTexture => [DestroyedTaxiTexture],
+                        1000 when CustomTaxiTexture => [CustomTaxiTexture],
                         _ => self.taxiGlassAnimationTextures
                     };
                 }
