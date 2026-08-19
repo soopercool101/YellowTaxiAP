@@ -6182,6 +6182,17 @@ namespace YellowTaxiAP
             { "10_03_00123", "Crash Test Industries - Coin Behind Start #4" },
             { "10_03_00110", "Crash Test Industries - Coin Behind Start #5" },
             { "10_03_00107", "Crash Test Industries - Coin Behind Start #6" },
+            { "10_21_00004", "Crash Test Industries - Cheese by Hat World" }
+        };
+
+        [Description("Crash Test Industries - Pipes Above Starting Area")]
+        public static Dictionary<string, string> CrashTestIndustriesPipesAboveStartingArea = new()
+        {
+            { "10_03_00166", "Crash Test Industries - Coin on Pipe Above Starting Area #1" },
+            { "10_03_00165", "Crash Test Industries - Coin on Pipe Above Starting Area #2" },
+            { "10_03_00164", "Crash Test Industries - Coin on Pipe Above Starting Area #3" },
+            { "10_03_00163", "Crash Test Industries - Coin on Pipe Above Starting Area #4" },
+            { "10_01_00007", "Crash Test Industries - Gear - On Pipe Above Starting Area" },
         };
 
         [Description("Crash Test Industries - Ledge Below Starting Area")]
@@ -6207,10 +6218,38 @@ namespace YellowTaxiAP
             { "10_01_00014", "Crash Test Industries - Gear - Ledge Below Starting Area" },
         };
 
+        [Description("Crash Test Industries - Pipes Left of First Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesPipesLeftOfFirstConveyor = new()
+        {
+            { "10_03_00113", "Crash Test Industries - Coin on Pipe Left of First Conveyor Belt #1" },
+            { "10_03_00112", "Crash Test Industries - Coin on Pipe Left of First Conveyor Belt #2" },
+            { "10_03_00115", "Crash Test Industries - Chest on Pipe Left of First Conveyor Belt #1" },
+            { "10_03_00114", "Crash Test Industries - Chest on Pipe Left of First Conveyor Belt #2" },
+            { "10_03_00117", "Crash Test Industries - Coin on Pipe Left of First Conveyor Belt #3" },
+            { "10_03_00116", "Crash Test Industries - Coin on Pipe Left of First Conveyor Belt #4" },
+            { "10_03_00119", "Crash Test Industries - Chest on Pipe Left of First Conveyor Belt #3" },
+            { "10_03_00118", "Crash Test Industries - Chest on Pipe Left of First Conveyor Belt #4" },
+            { "10_03_00121", "Crash Test Industries - Coin on Pipe Left of First Conveyor Belt #5" },
+            { "10_03_00120", "Crash Test Industries - Coin on Pipe Left of First Conveyor Belt #6" },
+        };
+
         [Description("Crash Test Industries - After First Conveyor Belt")]
         public static Dictionary<string, string> CrashTestIndustriesAfterFirstConveyorBelt = new()
         {
             { "10_09_00108", "Crash Test Industries - Checkpoint After First Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries - After Second Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesAfterSecondConveyorBelt = new()
+        {
+            { "10_09_00272", "Crash Test Industries - Checkpoint After Second Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries - After Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesAfterThirdConveyorBelt = new()
+        {
+            { "10_09_00557", "Crash Test Industries - Left Checkpoint After Third Conveyor Belt" },
+            { "10_09_00513", "Crash Test Industries - Right Checkpoint After Third Conveyor Belt" },
         };
 
         [Description("Crash Test Industries Hat World")]
@@ -7149,8 +7188,12 @@ namespace YellowTaxiAP
 
             // Crash Test Industries Areas
             new(GetDescription(nameof(CrashTestIndustriesStartingArea)), CrashTestIndustriesStartingArea),
+            new(GetDescription(nameof(CrashTestIndustriesPipesAboveStartingArea)), CrashTestIndustriesPipesAboveStartingArea),
             new(GetDescription(nameof(CrashTestIndustriesLedgeBelowStart)), CrashTestIndustriesLedgeBelowStart),
+            new(GetDescription(nameof(CrashTestIndustriesPipesLeftOfFirstConveyor)), CrashTestIndustriesPipesLeftOfFirstConveyor),
             new(GetDescription(nameof(CrashTestIndustriesAfterFirstConveyorBelt)), CrashTestIndustriesAfterFirstConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)), CrashTestIndustriesAfterSecondConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)), CrashTestIndustriesAfterThirdConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesHatWorld)), CrashTestIndustriesHatWorld),
 
             // Rocket Areas
@@ -7529,8 +7572,12 @@ namespace YellowTaxiAP
                 nameof(Data.LevelId.L10_CrashTestIndustries),
                 [
                     CrashTestIndustriesStartingArea,
+                    CrashTestIndustriesPipesAboveStartingArea,
                     CrashTestIndustriesLedgeBelowStart,
+                    CrashTestIndustriesPipesLeftOfFirstConveyor,
                     CrashTestIndustriesAfterFirstConveyorBelt,
+                    CrashTestIndustriesAfterSecondConveyorBelt,
+                    CrashTestIndustriesAfterThirdConveyorBelt,
                     CrashTestIndustriesHatWorld,
                 ]
             },
@@ -9362,20 +9409,49 @@ namespace YellowTaxiAP
                 GetDescription(nameof(CrashTestIndustriesStartingArea)),
                 [
                     new RegionConnection("Crash Test Industries - Hat World Entrance", CrashTestIndustriesHatWorld, ConnectionType.Subwarp),
-                    new RegionConnection(CrashTestIndustriesLedgeBelowStart, "X2/PMJ | X1+NHPR"),
-                    new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt, "SP/PMJ | X1+B1"),
+                    new RegionConnection(CrashTestIndustriesPipesAboveStartingArea, "PMB/PMJ"),
+                    new RegionConnection(CrashTestIndustriesLedgeBelowStart, "X2/PMJ"),
+                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor, "X1+NHPR | PMJ"),
+                    new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt, "SP/OS/PMJ | X1+PMB"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesPipesAboveStartingArea)),
+                [
+                    // No connections
                 ]
             },
             {
                 GetDescription(nameof(CrashTestIndustriesLedgeBelowStart)),
                 [
+                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor, "PMB"),
                     new RegionConnection("Crash Test Industries - Mori-O-Tron on Ledge Below Starting Area", CrashTestIndustriesAfterFirstConveyorBelt, ConnectionType.MoriOTron),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesPipesLeftOfFirstConveyor)),
+                [
+                    new RegionConnection(CrashTestIndustriesLedgeBelowStart),
+                    new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt),
                 ]
             },
             {
                 GetDescription(nameof(CrashTestIndustriesAfterFirstConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesStartingArea),
+                    new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt, "X3/SP & X2/PMB/OS"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesAfterSecondConveyorBelt),
                 ]
             },
             {
