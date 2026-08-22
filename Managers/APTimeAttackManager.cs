@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using YellowTaxiAP.Behaviours;
 using static Data;
 
@@ -14,6 +15,7 @@ namespace YellowTaxiAP.Managers
             On.TimeAttackComputerScript.FixedUpdate += TimeAttackComputerScript_FixedUpdate;
             On.TimeAttackComputerScript.TurnOn += TimeAttackComputerScript_TurnOn;
             On.TimeAttackComputerScript.TurnOff += TimeAttackComputerScript_TurnOff;
+            On.TimeAttackComputerScript.UpdateTexts += TimeAttackComputerScript_UpdateTexts;
 
             On.GameplayMaster.TimeAttackEnd += GameplayMaster_TimeAttackEnd;
             On.GameplayMaster.TimeAttackEndCoroutine += GameplayMaster_TimeAttackEndCoroutine;
@@ -22,23 +24,29 @@ namespace YellowTaxiAP.Managers
             On.Data.TimeAttackData_SaveCurrent += Data_TimeAttackData_SaveCurrent;
         }
 
+        private void TimeAttackComputerScript_UpdateTexts(On.TimeAttackComputerScript.orig_UpdateTexts orig, TimeAttackComputerScript self)
+        {
+            orig(self);
+
+            if (self.timeAttackLevelId is < LevelId.L17_TimeAttack01 or > LevelId.L19_TimeAttack03)
+            {
+                self.menuTitles[self.menuIndex] = self.menuTitles[self.menuIndex].Replace("!", "?");
+            }
+        }
+
         private void TimeAttackComputerScript_TurnOn(On.TimeAttackComputerScript.orig_TurnOn orig, TimeAttackComputerScript self)
         {
             orig(self);
             APSaveController.PortalSave.SetLevelPortalUnlocked(LevelConverter.GetLevelId(self.timeAttackSceneIndex));
         }
 
+        public static int? NeedsUpdate;
         private void TimeAttackComputerScript_TurnOff(On.TimeAttackComputerScript.orig_TurnOff orig, TimeAttackComputerScript self, bool repositionPlayer)
         {
             orig(self, repositionPlayer);
-            if ((self.menuOptions?.Count ?? 0) > 0)
+            if (repositionPlayer) // If you're turning off the TV explicitly, update the menu (after next update)
             {
-                self.normalText.text = string.Empty;
-                for (var index = 0; index < self.menuOptions[self.menuIndex].Count; ++index)
-                {
-                    var normalText = self.normalText;
-                    normalText.text = $"{normalText.text}{self.menuOptions[self.menuIndex][index]}\n";
-                }
+                NeedsUpdate = self.timeAttackIndex;
             }
         }
 
@@ -49,6 +57,11 @@ namespace YellowTaxiAP.Managers
             self.levelImage.enabled = true;
             self.titleText.enabled = true;
             self.normalText.enabled = true;
+            if (NeedsUpdate == self.timeAttackIndex)
+            {
+                NeedsUpdate = null;
+                SetTimeAttackText(self);
+            }
         }
 
         private void TimeAttackComputerScript_FixedUpdate(On.TimeAttackComputerScript.orig_FixedUpdate orig, TimeAttackComputerScript self)
@@ -66,7 +79,6 @@ namespace YellowTaxiAP.Managers
         private void TimeAttackComputerScript_Start(On.TimeAttackComputerScript.orig_Start orig, TimeAttackComputerScript self)
         {
             orig(self);
-            var originalId = self.timeAttackLevelId;
             self.textsHolderTransform.localScale = Vector3.one;
             self.timeAttackLevelId = APPortalManager.GetRandomizedLevelId(self.timeAttackLevelId);
             self.levelImage.sprite = TimeTrialPortalTextureGet(self.timeAttackLevelId);
@@ -76,13 +88,17 @@ namespace YellowTaxiAP.Managers
             self.backImage.color = self.baseImageColor;
             self.UpdateTexts();
             self.textsHolderTransform.localScale = new Vector3(1f, 0.0f, 1f);
-            self.titleText.text =
-                $"{self.menuTitles[self.menuIndex]}\n{Data.GetLevel(self.timeAttackLevelId).GetName()}";
+            SetTimeAttackText(self);
+        }
+
+        public static void SetTimeAttackText(TimeAttackComputerScript self)
+        {
+            self.titleText.text = $"{self.menuTitles[self.menuIndex]}\n{GetLevel(self.timeAttackLevelId).GetName()}";
             self.normalText.text = string.Empty;
-            for (var index = 0; index < self.menuOptions[self.menuIndex].Count; ++index)
+            for (var i = 0; i < (self.menuOptions[self.menuIndex]?.Count ?? 0); i++)
             {
                 var normalText = self.normalText;
-                normalText.text = $"{normalText.text}{self.menuOptions[self.menuIndex][index]}\n";
+                normalText.text = $"{normalText.text}{self.menuOptions[self.menuIndex][i]}\n";
             }
         }
 
