@@ -97,6 +97,7 @@ namespace YellowTaxiAP.Archipelago
         public bool ShuffleGlide { get; private set; }
         public bool ShuffleGoldenSpring { get; private set; }
         public bool ShuffleGoldenPropeller { get; private set; }
+        public bool CanPacManJump { get; set; }
 
         public enum PizzaWheelsMode : long
         {

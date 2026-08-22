@@ -70,8 +70,7 @@ namespace YellowTaxiAP.Managers
             { Data.LevelId.L19_TimeAttack03, 0 },
             { Data.LevelId.L20_PsychoTaxi, 0 },
         };
-        public static bool CanPacManJump => PacManJumpItem;
-        public static bool PacManJumpItem = false;
+        public static bool CanPacManJump => Plugin.SlotData.CanPacManJump && JumpLevel >= 1;
         public static bool SpinAttackEnabled => !Plugin.SlotData.ShuffleSpinAttack || SpinAttackItem;
         public static bool SpinAttackItem = false;
         public static bool GlideEnabled => !Plugin.SlotData.ShuffleGlide || GlideEnabledItem;

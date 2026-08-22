@@ -1565,6 +1565,20 @@ namespace YellowTaxiAP.Managers
                             $"Perhaps {GetItemText((long)Identifiers.NotableLocations.HubPizzaWheels)} will help you on your quest!"
                         ];
                         break;
+                    case "DIALOGUE_CRASH_TEST_MANICHNIO_INTRO" when Plugin.SlotData.CanPacManJump:
+                        var dialogues = self.dialogues.ToList();
+                        dialogues.Add($"That being said, you seem the type to {SetTextColor("play by your own rules", DialogueColors.OrangeYellow)}!");
+                        self.dialogues = dialogues.ToArray();
+                        var textSoundNames = self.textSoundNames.ToList();
+                        textSoundNames.Add(textSoundNames.First());
+                        self.textSoundNames = textSoundNames.ToArray();
+                        break;
+                    case "DIALOGUE_TAXI_CRUSH_SAVED_THANKS" when Plugin.SlotData.CanPacManJump:
+                        self.dialogues[self.dialogues.Length - 1] = "And whenever you'll need support, I'll be there! ...even if you jump when you shouldn't!";
+                        break;
+                    case "DIALOGUE_GRANNY_ISLAND_OCRA_TAXI_MINIGAME_1" when Plugin.SlotData.CanPacManJump:
+                        self.dialogues[self.dialogues.Length - 1] += "...unless you really want to!!!";
+                        break;
                     case "DIALOGUE_MORIO_AT_TOSLA_HQ_PORTAL_LOCKED":
                         // TODO: Update dialogue when v1.0.0 comes out. Hopefully this year.
                         self.dialogues[1] = "Surely v1.0.0 will be out this year!";

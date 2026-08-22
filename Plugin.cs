@@ -240,8 +240,8 @@ public class Plugin : BaseUnityPlugin
 
                 if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
                 {
-                    APPlayerManager.PacManJumpItem = !APPlayerManager.PacManJumpItem;
-                    Log($"DEBUG: Pac-Man Jump {(APPlayerManager.PacManJumpItem ? "enabled" : "disabled")}", true);
+                    SlotData.CanPacManJump = !SlotData.CanPacManJump;
+                    Log($"DEBUG: Pac-Man Jump {(SlotData.CanPacManJump ? "enabled" : "disabled")}", true);
                 }
 
                 if (Input.GetKeyDown(KeyCode.LeftBracket) && APPlayerManager.GlobalJumpItems > 0)
