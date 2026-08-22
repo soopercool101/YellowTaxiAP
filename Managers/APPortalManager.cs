@@ -132,23 +132,11 @@ namespace YellowTaxiAP.Managers
             LevelId.L20_PsychoTaxi,
         ];
 
-        public static LevelId[] RandomizedPortalLevelOrder = OriginalPortalLevelOrder;
-
-        public static LevelId[] GetRandomizedPortalLevelOrder()
+        public static LevelId[] RandomizedPortalLevelOrder
         {
-            var levels = new LevelId[OriginalPortalLevelOrder.Length];
-            Array.Copy(OriginalPortalLevelOrder, levels, OriginalPortalLevelOrder.Length);
-            Array.Sort(levels, (_, _) => Random.RandomRangeInt(-1, 2));
-            var s = "Levels randomized! Mapping:\n";
-            for (var i = 0; i < levels.Length; i++)
-            {
-                s += OriginalPortalLevelOrder[i] + " -> " + levels[i] + "\n";
-            }
-
-            Plugin.Log(s.TrimEnd('\n'), false);
-            
-            return levels;
-        }
+            get => Plugin.CheatsEnabled ? OriginalPortalLevelOrder : field;
+            set;
+        } = OriginalPortalLevelOrder;
 
         public static LevelId GetRandomizedLevelId(LevelId originalLevel, bool ignoreExcluded = false)
         {
