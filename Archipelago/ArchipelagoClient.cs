@@ -835,6 +835,9 @@ public class ArchipelagoClient
 
     public void Win()
     {
+        // Don't allow cheats in multiworld
+        if (Plugin.CheatsEnabled)
+            return;
         Session.SetGoalAchieved();
         HasWon = true;
     }

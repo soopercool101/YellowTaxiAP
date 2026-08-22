@@ -362,7 +362,7 @@ namespace YellowTaxiAP.Managers
 
             try
             {
-                if (didNotPurchase && Plugin.SlotData.ShopHints != YTGVSlotData.ShopHintType.Disabled)
+                if (didNotPurchase && Plugin.SlotData.ShopHints != YTGVSlotData.ShopHintType.Disabled && !Plugin.CheatsEnabled)
                 {
                     if (Plugin.SlotData.ShopHints == YTGVSlotData.ShopHintType.All)
                     {
