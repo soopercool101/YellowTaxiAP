@@ -30,6 +30,7 @@ namespace YellowTaxiAP.Managers
             if (self.timeAttackLevelId is < LevelId.L17_TimeAttack01 or > LevelId.L19_TimeAttack03)
             {
                 self.menuTitles[self.menuIndex] = self.menuTitles[self.menuIndex].Replace("!", "?");
+                self.menuOptions[self.menuIndex][0] = self.menuOptions[self.menuIndex][0].Replace("!", "?");
             }
         }
 
