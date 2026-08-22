@@ -6316,6 +6316,43 @@ namespace YellowTaxiAP
             { "10_09_00513", "Crash Test Industries - Right Checkpoint After Third Conveyor Belt" },
         };
 
+        [Description("Crash Test Industries - Orange Switch Platform")]
+        public static Dictionary<string, string> CrashTestIndustriesOrangeSwitchPlatform = new()
+        {
+            { "10_00_00001", "Crash Test Industries - Orange Switch" },
+        };
+
+        [Description("Crash Test Industries - Final Orange Block Bridge")]
+        public static Dictionary<string, string> CrashTestIndustriesFinalOrangeBridge = new()
+        {
+            { "10_03_00033", "Crash Test Industries - Coin on Final Orange Bridge #1" },
+            { "10_03_00034", "Crash Test Industries - Coin on Final Orange Bridge #2" },
+            { "10_03_00035", "Crash Test Industries - Coin on Final Orange Bridge #3" },
+            { "10_03_00036", "Crash Test Industries - Coin on Final Orange Bridge #4" },
+            { "10_03_00037", "Crash Test Industries - Coin on Final Orange Bridge #5" },
+            { "10_03_00038", "Crash Test Industries - Coin on Final Orange Bridge #6" },
+            { "10_03_00039", "Crash Test Industries - Coin on Final Orange Bridge #7" },
+            { "10_03_00040", "Crash Test Industries - Coin on Final Orange Bridge #8" },
+            { "10_03_00049", "Crash Test Industries - Coin on Final Orange Bridge #9" },
+            { "10_03_00050", "Crash Test Industries - Coin on Final Orange Bridge #10" },
+            { "10_03_00051", "Crash Test Industries - Coin on Final Orange Bridge #11" },
+        };
+
+        [Description("Crash Test Industries - Final Area")]
+        public static Dictionary<string, string> CrashTestIndustriesFinalArea = new()
+        {
+            { "10_01_00005", "Crash Test Industries - Gear - From Ocra Taxi Goes Smooch" },
+            { "10_21_00002", "Crash Test Industries - Cheese Near Pipe-Zone Pipe" },
+            { "10_03_00048", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #1" },
+            { "10_03_00047", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #2" },
+            { "10_03_00046", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #3" },
+            { "10_03_00045", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #4" },
+            { "10_03_00044", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #5" },
+            { "10_03_00043", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #6" },
+            { "10_03_00042", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #7" },
+            { "10_03_00041", "Crash Test Industries - Coin Leading to Pipe-Zone Pipe #8" },
+        };
+
         [Description("Crash Test Industries Hat World")]
         public static Dictionary<string, string> CrashTestIndustriesHatWorld = new()
         {
@@ -6326,10 +6363,15 @@ namespace YellowTaxiAP
             { "10_07_00027", "Purchase Crusher Hat" },
         };
 
-        [Description("Pipe-Zone")]
-        public static Dictionary<string, string> PipeZone = new()
+        [Description("Pipe-Zone - Starting Area")]
+        public static Dictionary<string, string> PipeZoneStartingArea = new()
         {
             { "10_09_00988", "Pipe-Zone - Checkpoint" },
+        };
+
+        [Description("Pipe-Zone - Final Area")]
+        public static Dictionary<string, string> PipeZoneFinalArea = new()
+        {
             { "10_03_00058", "Pipe-Zone - Coin at End of Conveyor Belt #1" },
             { "10_03_00057", "Pipe-Zone - Coin at End of Conveyor Belt #2" },
             { "10_03_00056", "Pipe-Zone - Coin at End of Conveyor Belt #3" },
@@ -6387,6 +6429,11 @@ namespace YellowTaxiAP
             { "10_03_00100", "Pipe-Zone - Coin at End of Conveyor Belt #40" },
             { "10_21_00000", "Pipe-Zone - Left Cheese at End of Conveyor Belt" },
             { "10_21_00003", "Pipe-Zone - Right Cheese at End of Conveyor Belt" },
+        };
+
+        public static Dictionary<string, string> CrashTestIndustriesSpecialRules = new()
+        {
+            { "Crash Test Industries - Orange Switch", "X2/PMB/PMJ" },
         };
 
         #endregion
@@ -7390,8 +7437,12 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)), CrashTestIndustriesAfterSecondConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt)), CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)), CrashTestIndustriesAfterThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesOrangeSwitchPlatform)), CrashTestIndustriesOrangeSwitchPlatform),
+            new(GetDescription(nameof(CrashTestIndustriesFinalOrangeBridge)), CrashTestIndustriesFinalOrangeBridge),
+            new(GetDescription(nameof(CrashTestIndustriesFinalArea)), CrashTestIndustriesFinalArea),
             new(GetDescription(nameof(CrashTestIndustriesHatWorld)), CrashTestIndustriesHatWorld),
-            new(GetDescription(nameof(PipeZone)), PipeZone),
+            new(GetDescription(nameof(PipeZoneStartingArea)), PipeZoneStartingArea),
+            new(GetDescription(nameof(PipeZoneFinalArea)), PipeZoneFinalArea),
 
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
@@ -7476,6 +7527,7 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.L7_PoopWorld), FecalMattersSpecialRules },
             { nameof(Data.LevelId.L8_Sewers), FlushedAwaySpecialRules },
             { nameof(Data.LevelId.L9_City), MauriziosCitySpecialRules },
+            { nameof(Data.LevelId.L10_CrashTestIndustries), CrashTestIndustriesSpecialRules },
             { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
             { nameof(Data.LevelId.L18_TimeAttack02), GettingGudSpecialRules },
             { nameof(Data.LevelId.L19_TimeAttack03), ProTricksSpecialRules },
@@ -7784,8 +7836,12 @@ namespace YellowTaxiAP
                     CrashTestIndustriesAfterSecondConveyorBelt,
                     CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt,
                     CrashTestIndustriesAfterThirdConveyorBelt,
+                    CrashTestIndustriesOrangeSwitchPlatform,
+                    CrashTestIndustriesFinalOrangeBridge,
+                    CrashTestIndustriesFinalArea,
                     CrashTestIndustriesHatWorld,
-                    PipeZone,
+                    PipeZoneStartingArea,
+                    PipeZoneFinalArea,
                 ]
             },
             {
@@ -9695,6 +9751,30 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(CrashTestIndustriesAfterSecondConveyorBelt),
                     new RegionConnection(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt, "OS"),
+                    new RegionConnection(CrashTestIndustriesOrangeSwitchPlatform, "X2 | SP & X1/B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesOrangeSwitchPlatform)),
+                [
+                    new RegionConnection(CrashTestIndustriesAfterThirdConveyorBelt),
+                    new RegionConnection(CrashTestIndustriesFinalOrangeBridge, "OS"),
+                    new RegionConnection(CrashTestIndustriesFinalArea, "X3+B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesFinalOrangeBridge)),
+                [
+                    new RegionConnection(CrashTestIndustriesOrangeSwitchPlatform, "OS"),
+                    new RegionConnection(CrashTestIndustriesFinalArea, "OS"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesFinalArea)),
+                [
+                    new RegionConnection(CrashTestIndustriesFinalOrangeBridge, "OS"),
+                    new RegionConnection("Crash Test Industries - Mori-O-Tron in Final Area", CrashTestIndustriesAfterThirdConveyorBelt, ConnectionType.MoriOTron),
+                    new RegionConnection("Crash Test Industries - Pipe Zone Pipe", PipeZoneStartingArea, ConnectionType.Subwarp),
                 ]
             },
             {
@@ -9705,9 +9785,16 @@ namespace YellowTaxiAP
                 ]
             },
             {
-                GetDescription(nameof(PipeZone)),
+                GetDescription(nameof(PipeZoneStartingArea)),
                 [
-                    // TODO: Add exit
+                    new RegionConnection("Pipe-Zone - Exit Pipe", CrashTestIndustriesFinalArea, ConnectionType.Subwarp),
+                    new RegionConnection(PipeZoneFinalArea, "X1/SP"),
+                ]
+            },
+            {
+                GetDescription(nameof(PipeZoneFinalArea)),
+                [
+                    // No connections
                 ]
             },
 
