@@ -36,7 +36,18 @@ public class Plugin : BaseUnityPlugin
     public static bool EnableSteamKeyboard { get; set; }
     public static bool PluginLoaded { get; private set; }
 
-    public static bool CheatsEnabled { get; set; }
+    public static bool CheatsEnabled
+    {
+        get;
+        set
+        {
+            field = value;
+            if (value)
+            {
+                APPortalManager.RandomizedPortalLevelOrder = APPortalManager.OriginalPortalLevelOrder;
+            }
+        }
+    }
 
     public static string PluginDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     public static string LoginDetailsFile = Path.Combine(PluginDirectory, "login.txt");
@@ -432,26 +443,39 @@ public class Plugin : BaseUnityPlugin
                     GUIUtility.systemCopyBuffer = knownWarpsStr.TrimEnd('\n');
                 }
 
-                if (Input.GetKeyDown(KeyCode.T))
-                {
-                    Log("DEBUG: Activating Wishlist Trap", true);
-                    Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
-                }
+                //if (Input.GetKeyDown(KeyCode.T))
+                //{
+                //    Log("DEBUG: Activating Wishlist Trap", true);
+                //    Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
+                //}
 
                 if (Input.GetKeyDown(KeyCode.PageUp))
                 {
                     Log("DEBUG: Starting MultiCopy", true);
                     DebugLocationHelper.MultiCopy = true;
-                    DebugLocationHelper.MultiCopyIDs = [];
+                    DebugLocationHelper.MultiCopyIDsTypes = [];
+                    DebugLocationHelper.MultiCopyTypeCounts = new Dictionary<string, int>();
                 }
                 if (Input.GetKeyDown(KeyCode.PageDown))
                 {
                     Log("DEBUG: Finalizing MultiCopy, copying to clipboard", true);
                     DebugLocationHelper.MultiCopy = false;
                     var ids = "";
-                    for (var i = 0; i < DebugLocationHelper.MultiCopyIDs.Count; i++)
+                    var typeCounts = new Dictionary<string, int>();
+                    var areaName = I2.Loc.LocalizationManager.GetTranslation(MapArea.instancePlayerInside.areaNameKey);
+                    for (var i = 0; i < DebugLocationHelper.MultiCopyIDsTypes.Count; i++)
                     {
-                        ids += $"{{ \"{DebugLocationHelper.MultiCopyIDs[i]}\", \" #{i + 1}\" }},\n";
+                        if (!typeCounts.ContainsKey(DebugLocationHelper.MultiCopyIDsTypes[i].Item2))
+                        {
+                            typeCounts[DebugLocationHelper.MultiCopyIDsTypes[i].Item2] = 0;
+                        }
+
+                        typeCounts[DebugLocationHelper.MultiCopyIDsTypes[i].Item2]++;
+                        var countDisplay =
+                            DebugLocationHelper.MultiCopyTypeCounts[DebugLocationHelper.MultiCopyIDsTypes[i].Item2] > 1
+                                ? $" #{typeCounts[DebugLocationHelper.MultiCopyIDsTypes[i].Item2]}"
+                                : string.Empty;
+                        ids += $"{{ \"{DebugLocationHelper.MultiCopyIDsTypes[i].Item1}\", \"{areaName} - {DebugLocationHelper.MultiCopyIDsTypes[i].Item2}{countDisplay}\" }},\n";
                     }
                     GUIUtility.systemCopyBuffer = ids.TrimEnd('\n');
                 }
