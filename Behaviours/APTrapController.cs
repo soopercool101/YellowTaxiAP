@@ -1131,7 +1131,7 @@ namespace YellowTaxiAP.Behaviours
             if (!GameplayMaster.instance.useGameTimer)
             {
                 GameplayMaster.instance.useGameTimer = true;
-                GameplayMaster.instance.gameTimer = Math.Max(GameplayMaster.instance.gameTimer, 30);
+                GameplayMaster.instance.gameTimer = 30;
                 HudMasterScript.instance.PizzaTimerHudEnableSet(true);
             }
             else
