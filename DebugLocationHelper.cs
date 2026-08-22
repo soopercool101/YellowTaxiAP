@@ -5691,7 +5691,7 @@ namespace YellowTaxiAP
             { "9_03_00038", "Maurizio's City - Coin on House Roof in Building Alcove on Lowest Level #1" },
             { "9_03_00039", "Maurizio's City - Coin on House Roof in Building Alcove on Lowest Level #2" },
             { "9_21_00005", "Maurizio's City - Cheese in Building Alcove on Lowest Level" },
-            { "9_21_00002", "Maurizio's City - Cheese Near Cliff on Lowest Level" },
+            { "9_21_00002", "Maurizio's City - Cheese Near World's Edge on Lowest Level" },
             { "9_03_00017", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #1" },
             { "9_03_00018", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #2" },
             { "9_03_00019", "Maurizio's City - Coin on Main Road Ramp From Lowest Level #3" },
@@ -6161,7 +6161,7 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> MauriziosCitySpecialRules = new()
         {
             { "Purple Tunnel - Gear", "B1/J1" },
-            { "Purple Tunnel - Bunny", "X2/J1 + B1 | X1+J1 | J2" },
+            { "Purple Tunnel - Bunny", "X2/J1 & B1 | X1+J1 | J2" },
             { "Maurizio's City - Coin on Red Beams on Lower Middle Level #4", "X3/J1/B1" },
             { "Maurizio's City - Coin on Pink House Roof on Upper Level #3", $"B1/J1 | {{{GetDescription(nameof(MauriziosCityCheckpointBuildingOnUpperLevel))}}}" },
             { "Maurizio's City - Bunny - On Top of Maurizio's Building", "B2 & X3/J1 | X2+B1+J1 | X3+J1" },
@@ -6218,6 +6218,20 @@ namespace YellowTaxiAP
             { "10_01_00014", "Crash Test Industries - Gear - Ledge Below Starting Area" },
         };
 
+        [Description("Crash Test Industries - Hat World Hat")]
+        public static Dictionary<string, string> CrashTestIndustriesHatWorldHat = new()
+        {
+            { "10_03_00228", "Crash Test Industries - Coin on Hat World Hat #1" },
+            { "10_03_00227", "Crash Test Industries - Coin Bag on Hat World Hat #1" },
+            { "10_03_00226", "Crash Test Industries - Coin on Hat World Hat #2" },
+            { "10_03_00231", "Crash Test Industries - Coin Bag on Hat World Hat #2" },
+            { "10_03_00230", "Crash Test Industries - Safe on Hat World Hat" },
+            { "10_03_00229", "Crash Test Industries - Coin Bag on Hat World Hat #3" },
+            { "10_03_00234", "Crash Test Industries - Coin on Hat World Hat #3" },
+            { "10_03_00233", "Crash Test Industries - Coin Bag on Hat World Hat #4" },
+            { "10_03_00232", "Crash Test Industries - Coin on Hat World Hat #4" },
+        };
+
         [Description("Crash Test Industries - Pipes Left of First Conveyor Belt")]
         public static Dictionary<string, string> CrashTestIndustriesPipesLeftOfFirstConveyor = new()
         {
@@ -6239,10 +6253,40 @@ namespace YellowTaxiAP
             { "10_09_00108", "Crash Test Industries - Checkpoint After First Conveyor Belt" },
         };
 
+        [Description("Crash Test Industries - Left Before Second Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesLeftBeforeSecondConveyorBelt = new()
+        {
+            { "10_21_00005", "Crash Test Industries - Cheese Left Before Second Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries - High Ground Left Before Second Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt = new()
+        {
+            { "10_03_00149", "Crash Test Industries - Coin on Platform Left of Second Conveyor Belt #1" },
+            { "10_03_00150", "Crash Test Industries - Coin on Platform Left of Second Conveyor Belt #2" },
+            { "10_03_00151", "Crash Test Industries - Coin on Platform Left of Second Conveyor Belt #3" },
+            { "10_01_00000", "Crash Test Industries - Gear - Platform Left of Second Conveyor Belt" },
+            { "10_03_00173", "Crash Test Industries - Coin on Wall Pipes Left of Second Conveyor Belt #1" },
+            { "10_03_00172", "Crash Test Industries - Coin on Wall Pipes Left of Second Conveyor Belt #2" },
+            { "10_03_00171", "Crash Test Industries - Coin on Wall Pipes Left of Second Conveyor Belt #3" },
+            { "10_03_00170", "Crash Test Industries - Coin on Wall Pipes Left of Second Conveyor Belt #4" },
+            { "10_03_00169", "Crash Test Industries - Coin on Wall Pipes Left of Second Conveyor Belt #5" },
+            { "10_03_00168", "Crash Test Industries - Coin on Wall Pipes Left of Second Conveyor Belt #6" },
+            { "10_03_00167", "Crash Test Industries - Coin on Wall Pipes Left of Second Conveyor Belt #7" },
+            { "10_03_00148", "Crash Test Industries - Coin on Wall Pipes Left of First Conveyor Belt #1" },
+            { "10_03_00147", "Crash Test Industries - Coin on Wall Pipes Left of First Conveyor Belt #2" },
+            { "10_03_00146", "Crash Test Industries - Coin on Wall Pipes Left of First Conveyor Belt #3" },
+            { "10_03_00145", "Crash Test Industries - Coin on Wall Pipes Left of First Conveyor Belt #4" },
+            { "10_03_00144", "Crash Test Industries - Coin on Wall Pipes Left of First Conveyor Belt #5" },
+            { "10_03_00143", "Crash Test Industries - Coin on Wall Pipes Left of First Conveyor Belt #6" },
+        };
+
         [Description("Crash Test Industries - After Second Conveyor Belt")]
         public static Dictionary<string, string> CrashTestIndustriesAfterSecondConveyorBelt = new()
         {
             { "10_09_00272", "Crash Test Industries - Checkpoint After Second Conveyor Belt" },
+            { "10_01_00001", "Crash Test Industries - Gear - On Archway After Second Conveyor Belt" },
+            { "10_21_00001", "Crash Test Industries - Cheese Before Third Conveyor Belt" }
         };
 
         [Description("Crash Test Industries - After Third Conveyor Belt")]
@@ -6260,6 +6304,69 @@ namespace YellowTaxiAP
             { "10_07_00000", "Purchase No Hat" },
             { "10_07_00026", "Purchase Buzzsaw Hat" },
             { "10_07_00027", "Purchase Crusher Hat" },
+        };
+
+        [Description("Pipe-Zone")]
+        public static Dictionary<string, string> PipeZone = new()
+        {
+            { "10_09_00988", "Pipe-Zone - Checkpoint" },
+            { "10_03_00058", "Pipe-Zone - Coin at End of Conveyor Belt #1" },
+            { "10_03_00057", "Pipe-Zone - Coin at End of Conveyor Belt #2" },
+            { "10_03_00056", "Pipe-Zone - Coin at End of Conveyor Belt #3" },
+            { "10_03_00055", "Pipe-Zone - Coin at End of Conveyor Belt #4" },
+            { "10_03_00054", "Pipe-Zone - Coin at End of Conveyor Belt #5" },
+            { "10_03_00053", "Pipe-Zone - Coin at End of Conveyor Belt #6" },
+            { "10_03_00052", "Pipe-Zone - Coin at End of Conveyor Belt #7" },
+            { "10_03_00065", "Pipe-Zone - Coin at End of Conveyor Belt #8" },
+            { "10_03_00064", "Pipe-Zone - Coin Bag at End of Conveyor Belt #1" },
+            { "10_03_00063", "Pipe-Zone - Coin at End of Conveyor Belt #9" },
+            { "10_03_00062", "Pipe-Zone - Coin Bag at End of Conveyor Belt #2" },
+            { "10_03_00061", "Pipe-Zone - Coin at End of Conveyor Belt #10" },
+            { "10_03_00060", "Pipe-Zone - Coin Bag at End of Conveyor Belt #3" },
+            { "10_03_00059", "Pipe-Zone - Coin at End of Conveyor Belt #11" },
+            { "10_03_00072", "Pipe-Zone - Coin at End of Conveyor Belt #12" },
+            { "10_03_00071", "Pipe-Zone - Coin at End of Conveyor Belt #13" },
+            { "10_03_00070", "Pipe-Zone - Coin Bag at End of Conveyor Belt #4" },
+            { "10_03_00069", "Pipe-Zone - Coin at End of Conveyor Belt #14" },
+            { "10_03_00068", "Pipe-Zone - Coin Bag at End of Conveyor Belt #5" },
+            { "10_03_00067", "Pipe-Zone - Coin at End of Conveyor Belt #15" },
+            { "10_03_00066", "Pipe-Zone - Coin at End of Conveyor Belt #16" },
+            { "10_03_00078", "Pipe-Zone - Coin at End of Conveyor Belt #17" },
+            { "10_03_00077", "Pipe-Zone - Coin Bag at End of Conveyor Belt #6" },
+            { "10_03_00076", "Pipe-Zone - Coin at End of Conveyor Belt #18" },
+            { "10_01_00012", "Pipe-Zone - Gear" },
+            { "10_03_00075", "Pipe-Zone - Coin at End of Conveyor Belt #19" },
+            { "10_03_00074", "Pipe-Zone - Coin Bag at End of Conveyor Belt #7" },
+            { "10_03_00073", "Pipe-Zone - Coin at End of Conveyor Belt #20" },
+            { "10_03_00085", "Pipe-Zone - Coin at End of Conveyor Belt #21" },
+            { "10_03_00084", "Pipe-Zone - Coin Bag at End of Conveyor Belt #8" },
+            { "10_03_00083", "Pipe-Zone - Coin at End of Conveyor Belt #22" },
+            { "10_03_00082", "Pipe-Zone - Coin at End of Conveyor Belt #23" },
+            { "10_03_00081", "Pipe-Zone - Coin Bag at End of Conveyor Belt #9" },
+            { "10_03_00080", "Pipe-Zone - Coin at End of Conveyor Belt #24" },
+            { "10_03_00092", "Pipe-Zone - Coin at End of Conveyor Belt #25" },
+            { "10_03_00091", "Pipe-Zone - Coin at End of Conveyor Belt #26" },
+            { "10_03_00090", "Pipe-Zone - Coin Bag at End of Conveyor Belt #10" },
+            { "10_03_00089", "Pipe-Zone - Coin at End of Conveyor Belt #27" },
+            { "10_03_00088", "Pipe-Zone - Coin Bag at End of Conveyor Belt #11" },
+            { "10_03_00087", "Pipe-Zone - Coin at End of Conveyor Belt #28" },
+            { "10_03_00086", "Pipe-Zone - Coin at End of Conveyor Belt #29" },
+            { "10_03_00099", "Pipe-Zone - Coin at End of Conveyor Belt #30" },
+            { "10_03_00098", "Pipe-Zone - Coin Bag at End of Conveyor Belt #12" },
+            { "10_03_00097", "Pipe-Zone - Coin at End of Conveyor Belt #31" },
+            { "10_03_00096", "Pipe-Zone - Coin Bag at End of Conveyor Belt #13" },
+            { "10_03_00095", "Pipe-Zone - Coin at End of Conveyor Belt #32" },
+            { "10_03_00094", "Pipe-Zone - Coin Bag at End of Conveyor Belt #14" },
+            { "10_03_00093", "Pipe-Zone - Coin at End of Conveyor Belt #33" },
+            { "10_03_00106", "Pipe-Zone - Coin at End of Conveyor Belt #34" },
+            { "10_03_00105", "Pipe-Zone - Coin at End of Conveyor Belt #35" },
+            { "10_03_00104", "Pipe-Zone - Coin at End of Conveyor Belt #36" },
+            { "10_03_00103", "Pipe-Zone - Coin at End of Conveyor Belt #37" },
+            { "10_03_00102", "Pipe-Zone - Coin at End of Conveyor Belt #38" },
+            { "10_03_00101", "Pipe-Zone - Coin at End of Conveyor Belt #39" },
+            { "10_03_00100", "Pipe-Zone - Coin at End of Conveyor Belt #40" },
+            { "10_21_00000", "Pipe-Zone - Left Cheese at End of Conveyor Belt" },
+            { "10_21_00003", "Pipe-Zone - Right Cheese at End of Conveyor Belt" },
         };
 
         #endregion
@@ -6791,6 +6898,71 @@ namespace YellowTaxiAP
             { "16_03_00026", "Heroic Moves - Coin on Bottom of Building #16" },
         };
 
+        [Description("Conveyor Belts - Starting Area")]
+        public static Dictionary<string, string> ConveyorBeltsStartingArea = new()
+        {
+            { "16_09_00794", "Conveyor Belts - Checkpoint" },
+        };
+
+        [Description("Conveyor Belts - Platform Above Starting Area")]
+        public static Dictionary<string, string> ConveyorBeltsPlatformAboveStartingArea = new()
+        {
+            { "16_03_00173", "Conveyor Belts - Coin Bag on Platform Above Starting Area #1" },
+            { "16_03_00172", "Conveyor Belts - Coin on Platform Above Starting Area #1" },
+            { "16_03_00171", "Conveyor Belts - Coin on Platform Above Starting Area #2" },
+            { "16_07_00038", "Purchase Crash Test Dummy Hat" },
+            { "16_03_00170", "Conveyor Belts - Coin on Platform Above Starting Area #3" },
+            { "16_03_00169", "Conveyor Belts - Coin on Platform Above Starting Area #4" },
+            { "16_03_00168", "Conveyor Belts - Coin Bag on Platform Above Starting Area #2" },
+        };
+
+        [Description("Conveyor Belts - Ducts Above Starting Area")]
+        public static Dictionary<string, string> ConveyorBeltsDuctsAboveStartingArea = new()
+        {
+            { "16_03_00180", "Conveyor Belts - Coin on Ducts Above Starting Area #1" },
+            { "16_03_00179", "Conveyor Belts - Coin on Ducts Above Starting Area #2" },
+            { "16_03_00183", "Conveyor Belts - Coin on Ducts Above Starting Area #3" },
+            { "16_03_00182", "Conveyor Belts - Coin on Ducts Above Starting Area #4" },
+            { "16_03_00181", "Conveyor Belts - Coin Bag on Ducts Above Starting Area #1" },
+            { "16_03_00178", "Conveyor Belts - Safe on Ducts Above Starting Area" },
+            { "16_03_00177", "Conveyor Belts - Coin Bag on Ducts Above Starting Area #2" },
+            { "16_03_00176", "Conveyor Belts - Coin on Ducts Above Starting Area #5" },
+            { "16_03_00175", "Conveyor Belts - Coin on Ducts Above Starting Area #6" },
+        };
+
+        [Description("Conveyor Belts - Lower Path")]
+        public static Dictionary<string, string> ConveyorBeltsLowerPath = new()
+        {
+            { "16_03_00007", "Conveyor Belts - Coin Bag at End of Lower Path #1" },
+            { "16_03_00004", "Conveyor Belts - Coin at End of Lower Path #1" },
+            { "16_03_00002", "Conveyor Belts - Coin Bag at End of Lower Path #2" },
+            { "16_03_00006", "Conveyor Belts - Coin at End of Lower Path #2" },
+            { "16_01_00020", "Conveyor Belts - Gear - Lower Path" },
+            { "16_03_00001", "Conveyor Belts - Coin at End of Lower Path #3" },
+            { "16_03_00005", "Conveyor Belts - Chest at End of Lower Path #1" },
+            { "16_03_00000", "Conveyor Belts - Chest at End of Lower Path #2" },
+        };
+
+        [Description("Conveyor Belts - Upper Path")]
+        public static Dictionary<string, string> ConveyorBeltsUpperPath = new()
+        {
+            { "16_03_00198", "Conveyor Belts - Coin at End of Upper Path #1" },
+            { "16_03_00193", "Conveyor Belts - Coin at End of Upper Path #2" },
+            { "16_03_00188", "Conveyor Belts - Coin at End of Upper Path #3" },
+            { "16_03_00197", "Conveyor Belts - Coin at End of Upper Path #4" },
+            { "16_03_00192", "Conveyor Belts - Coin Bag at End of Upper Path #1" },
+            { "16_03_00187", "Conveyor Belts - Coin at End of Upper Path #5" },
+            { "16_03_00196", "Conveyor Belts - Coin at End of Upper Path #6" },
+            { "16_01_00021", "Conveyor Belts - Gear - Upper Path" },
+            { "16_03_00186", "Conveyor Belts - Coin at End of Upper Path #7" },
+            { "16_03_00195", "Conveyor Belts - Coin at End of Upper Path #8" },
+            { "16_03_00190", "Conveyor Belts - Coin Bag at End of Upper Path #2" },
+            { "16_03_00185", "Conveyor Belts - Coin at End of Upper Path #9" },
+            { "16_03_00194", "Conveyor Belts - Coin at End of Upper Path #10" },
+            { "16_03_00189", "Conveyor Belts - Coin at End of Upper Path #11" },
+            { "16_03_00184", "Conveyor Belts - Coin at End of Upper Path #12" },
+        };
+
         [Description("Mosk's Rocket - Special Rules")]
         public static Dictionary<string, string> RocketSpecialRules = new()
         {
@@ -7190,11 +7362,15 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(CrashTestIndustriesStartingArea)), CrashTestIndustriesStartingArea),
             new(GetDescription(nameof(CrashTestIndustriesPipesAboveStartingArea)), CrashTestIndustriesPipesAboveStartingArea),
             new(GetDescription(nameof(CrashTestIndustriesLedgeBelowStart)), CrashTestIndustriesLedgeBelowStart),
+            new(GetDescription(nameof(CrashTestIndustriesHatWorldHat)), CrashTestIndustriesHatWorldHat),
             new(GetDescription(nameof(CrashTestIndustriesPipesLeftOfFirstConveyor)), CrashTestIndustriesPipesLeftOfFirstConveyor),
             new(GetDescription(nameof(CrashTestIndustriesAfterFirstConveyorBelt)), CrashTestIndustriesAfterFirstConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesLeftBeforeSecondConveyorBelt)), CrashTestIndustriesLeftBeforeSecondConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt)), CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)), CrashTestIndustriesAfterSecondConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)), CrashTestIndustriesAfterThirdConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesHatWorld)), CrashTestIndustriesHatWorld),
+            new(GetDescription(nameof(PipeZone)), PipeZone),
 
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
@@ -7238,6 +7414,11 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(SmellySlimesExit)), SmellySlimesExit),
             new(GetDescription(nameof(HeroicMovesStartingArea)), HeroicMovesStartingArea),
             new(GetDescription(nameof(HeroicMovesEnd)), HeroicMovesEnd),
+            new(GetDescription(nameof(ConveyorBeltsStartingArea)), ConveyorBeltsStartingArea),
+            new(GetDescription(nameof(ConveyorBeltsPlatformAboveStartingArea)), ConveyorBeltsPlatformAboveStartingArea),
+            new(GetDescription(nameof(ConveyorBeltsDuctsAboveStartingArea)), ConveyorBeltsDuctsAboveStartingArea),
+            new(GetDescription(nameof(ConveyorBeltsLowerPath)), ConveyorBeltsLowerPath),
+            new(GetDescription(nameof(ConveyorBeltsUpperPath)), ConveyorBeltsUpperPath),
 
             // Baby Steps! Areas
             new(GetDescription(nameof(BabyStepsStartingArea)), BabyStepsStartingArea),
@@ -7574,11 +7755,15 @@ namespace YellowTaxiAP
                     CrashTestIndustriesStartingArea,
                     CrashTestIndustriesPipesAboveStartingArea,
                     CrashTestIndustriesLedgeBelowStart,
+                    CrashTestIndustriesHatWorldHat,
                     CrashTestIndustriesPipesLeftOfFirstConveyor,
                     CrashTestIndustriesAfterFirstConveyorBelt,
+                    CrashTestIndustriesLeftBeforeSecondConveyorBelt,
+                    CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt,
                     CrashTestIndustriesAfterSecondConveyorBelt,
                     CrashTestIndustriesAfterThirdConveyorBelt,
                     CrashTestIndustriesHatWorld,
+                    PipeZone,
                 ]
             },
             {
@@ -7625,6 +7810,11 @@ namespace YellowTaxiAP
                     SmellySlimesExit,
                     HeroicMovesStartingArea,
                     HeroicMovesEnd,
+                    ConveyorBeltsStartingArea,
+                    ConveyorBeltsPlatformAboveStartingArea,
+                    ConveyorBeltsDuctsAboveStartingArea,
+                    ConveyorBeltsLowerPath,
+                    ConveyorBeltsUpperPath,
                 ]
             },
             {
@@ -7740,7 +7930,7 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandExpert2HighGround, "X2/J1/B1/GP"),
                     new RegionConnection(GrannysIslandHighGround, "J1/B1/GP"),
                     new RegionConnection(GrannysIslandRocketTopCoins, "X1+Rocket+J1 & X3/GP"),
-                    new RegionConnection(GrannysIslandRocketTopGear, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J1 | X3+B1+GP"),
+                    new RegionConnection(GrannysIslandRocketTopGear, "Rocket+B2 | Rocket+B1 & X1/GP | X3+B2+J1 | X3+B1+GP | X2+Rocket+GP+J1"),
                     new RegionConnection(GrannysIslandConstructionArch, "B1 | GP+J1"),
                     new RegionConnection(GrannysIslandOceanPillar, "B1 | X2/GP & OS | X2+J1 & X3/GP | X2+GP"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+J1+OS | X1+GP | X2+J1"),
@@ -8476,7 +8666,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosHomeExpert2, "X2/J1/B1"),
                     new RegionConnection(MoriosHomeHighGround, "J1/B1"),
                     new RegionConnection(MoriosHomeLoft, "B2 & X2/J2 | X1+J2 | X1+B2+J1 | X3+B1+J1"),
-                    new RegionConnection(MoriosHomeKitchen, "SP"),
+                    new RegionConnection(MoriosHomeKitchen, "SP/SCOOB"),
                     new RegionConnection("Morio's Home - Door in Bedroom", WeirdTunnelsEntrance, ConnectionType.Subwarp),
                 ]
             },
@@ -8580,7 +8770,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(BombeachExpert1BombJumps)),
                 [
                     // Doesn't connect anywhere
-                    new RegionConnection(BombeachOrangeBlockBridge, "OS"),
+                    new RegionConnection(BombeachOrangeBlockBridge, "OS/X3"),
                 ]
             },
             {
@@ -9209,7 +9399,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(FlushedAwayCentralDrain)),
                 [
                     new RegionConnection(FlushedAwayCentralDrainHighGround, "B1/J1"),
-                    new RegionConnection(FlushedAwayCentralDrainBunny, "X1+B1 | J1"),
+                    new RegionConnection(FlushedAwayCentralDrainBunny, "X3+B1 | J1"),
                     new RegionConnection(FlushedAwayAboveCentralDrain, "B2"),
                     new RegionConnection("Flushed Away - Central Drain Exit Pipe", FlushedAwayCheckpointArea, ConnectionType.Subwarp),
                 ]
@@ -9219,7 +9409,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(FlushedAwayCentralDrain),
                     new RegionConnection(FlushedAwayCentralDrainArchwayAccessible, "X1"),
-                    new RegionConnection(FlushedAwayCentralDrainBunny, "X1"),
+                    new RegionConnection(FlushedAwayCentralDrainBunny, "X3"),
                 ]
             },
             {
@@ -9257,7 +9447,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(FlushedAwayAboveCentralDrain)),
                 [
                     new RegionConnection(FlushedAwayCentralDrain),
-                    new RegionConnection(FlushedAwayCentralDrainBunny, "X1"),
+                    new RegionConnection(FlushedAwayCentralDrainBunny, "X3"),
                 ]
             },
             {
@@ -9411,14 +9601,16 @@ namespace YellowTaxiAP
                     new RegionConnection("Crash Test Industries - Hat World Entrance", CrashTestIndustriesHatWorld, ConnectionType.Subwarp),
                     new RegionConnection(CrashTestIndustriesPipesAboveStartingArea, "PMB/PMJ"),
                     new RegionConnection(CrashTestIndustriesLedgeBelowStart, "X2/PMJ"),
-                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor, "X1+NHPR | PMJ"),
+                    new RegionConnection(CrashTestIndustriesHatWorldHat, "PMJ"),
+                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor, "X1+NHPR | X2/PMJ"),
                     new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt, "SP/OS/PMJ | X1+PMB"),
                 ]
             },
             {
                 GetDescription(nameof(CrashTestIndustriesPipesAboveStartingArea)),
                 [
-                    // No connections
+                    new RegionConnection(CrashTestIndustriesLedgeBelowStart, "X1"),
+                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor, "X1"),
                 ]
             },
             {
@@ -9429,17 +9621,37 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                GetDescription(nameof(CrashTestIndustriesHatWorldHat)),
+                [
+                    // No connections
+                ]
+            },
+            {
                 GetDescription(nameof(CrashTestIndustriesPipesLeftOfFirstConveyor)),
                 [
                     new RegionConnection(CrashTestIndustriesLedgeBelowStart),
                     new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt),
+                    new RegionConnection(CrashTestIndustriesLeftBeforeSecondConveyorBelt, "X1+PMB"),
                 ]
             },
             {
                 GetDescription(nameof(CrashTestIndustriesAfterFirstConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesStartingArea),
-                    new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt, "X3/SP & X2/PMB/OS"),
+                    new RegionConnection(CrashTestIndustriesAfterSecondConveyorBelt, "X2/SP & X1/OS/PMB | PMJ"),
+                    new RegionConnection(CrashTestIndustriesLeftBeforeSecondConveyorBelt, "X2/SP & OS | PMJ"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesLeftBeforeSecondConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt, "X1/OS & PMJ | PMB"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesLedgeBelowStart),
                 ]
             },
             {
@@ -9459,6 +9671,12 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Crash Test Industries Hat World - Exit", CrashTestIndustriesStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(AnyHatWorld),
+                ]
+            },
+            {
+                GetDescription(nameof(PipeZone)),
+                [
+                    // TODO: Add exit
                 ]
             },
 
@@ -9524,7 +9742,8 @@ namespace YellowTaxiAP
                     new RegionConnection(RocketCoinsToFinalFloor, "J1 | X1+B2"),
                     new RegionConnection(RocketToslaHQArea, "J2"),
                     new RegionConnection(RocketGoldenPropeller, "GP"),
-                    new RegionConnection("Mosk's Rocket - Heroic Moves Portal", HeroicMovesStartingArea, ConnectionType.Subwarp, "J1/B1/GP & Bunny-MC")
+                    new RegionConnection("Mosk's Rocket - Heroic Moves Portal", HeroicMovesStartingArea, ConnectionType.Subwarp, "J1/B1/GP & Bunny-MC"),
+                    new RegionConnection("Mosk's Rocket - Conveyor Belts Portal", ConveyorBeltsStartingArea, ConnectionType.Subwarp, "Bunny-CTI"),
                 ]
             },
             {
@@ -9540,6 +9759,8 @@ namespace YellowTaxiAP
                     new RegionConnection(CostipationRoadwayGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
                     new RegionConnection(CostipationIslandGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
                     new RegionConnection(HeroicMovesEnd, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
+                    new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, $"NSAR & {{{ConveyorBeltsStartingArea}}}"),
+                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, $"NSAR & {{{ConveyorBeltsStartingArea}}}"),
                 ]
             },
             {
@@ -9753,6 +9974,39 @@ namespace YellowTaxiAP
                     new RegionConnection("Heroic Moves - Mori-O-Tron", HeroicMovesStartingArea, ConnectionType.MoriOTron)
                 ]
             },
+            {
+                GetDescription(nameof(ConveyorBeltsStartingArea)),
+                [
+                    new RegionConnection("Conveyor Belts - Mosk's Rocket Portal Near Entrance", RocketCityCrashMindArea, ConnectionType.Subwarp),
+                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, "X1+B1 | SAR+B1+J1 | X2+J2"),
+                    new RegionConnection(ConveyorBeltsLowerPath, "B1+J1"),
+                    new RegionConnection(ConveyorBeltsUpperPath, "B2 & X1/J1 | X1+B1 & X3/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ConveyorBeltsPlatformAboveStartingArea)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(ConveyorBeltsDuctsAboveStartingArea)),
+                [
+                    new RegionConnection(ConveyorBeltsLowerPath, "X2+B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(ConveyorBeltsLowerPath)),
+                [
+                    new RegionConnection("Conveyor Belts - Mosk's Rocket Portal on Lower Path", RocketCityCrashMindArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(ConveyorBeltsUpperPath)),
+                [
+                    // No connections
+                ]
+            },
 
             #endregion
 
@@ -9842,7 +10096,8 @@ namespace YellowTaxiAP
         };
 
         public static bool MultiCopy { get; set; }
-        public static List<string> MultiCopyIDs { get; set; }
+        public static List<Tuple<string, string>> MultiCopyIDsTypes { get; set; }
+        public static Dictionary<string, int> MultiCopyTypeCounts { get; set; }
         public static bool CheckLocation(string type, string id)
         {
             if (!Enabled)
@@ -9885,7 +10140,36 @@ namespace YellowTaxiAP
                 }
                 else
                 {
-                    MultiCopyIDs.Add(id);
+                    var convertedType = type;
+                    switch (type)
+                    {
+                        case "gear":
+                        case "Gear (BonusScript)":
+                            convertedType = "Gear";
+                            break;
+                        case "coin":
+                            convertedType = "Coin";
+                            break;
+                        case "bigCoin10":
+                            convertedType = "Coin Bag";
+                            break;
+                        case "bigCoin25":
+                            convertedType = "Chest";
+                            break;
+                        case "bigCoin100":
+                            convertedType = "Safe";
+                            break;
+                        case "cheese":
+                            convertedType = "Cheese";
+                            break;
+                    }
+                    MultiCopyIDsTypes.Add(new Tuple<string, string>(id, convertedType));
+                    if (!MultiCopyTypeCounts.ContainsKey(convertedType))
+                    {
+                        MultiCopyTypeCounts[convertedType] = 0;
+                    }
+
+                    MultiCopyTypeCounts[convertedType]++;
                 }
             }
             return false;
