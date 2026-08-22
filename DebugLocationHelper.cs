@@ -6289,6 +6289,26 @@ namespace YellowTaxiAP
             { "10_21_00001", "Crash Test Industries - Cheese Before Third Conveyor Belt" }
         };
 
+        [Description("Crash Test Industries - Orange Bridge Left of Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt = new()
+        {
+            { "10_03_00127", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #1" },
+            { "10_03_00128", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #2" },
+            { "10_03_00129", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #3" },
+            { "10_03_00130", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #4" },
+            { "10_03_00131", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #5" },
+            { "10_03_00132", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #6" },
+            { "10_03_00133", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #7" },
+            { "10_03_00134", "Crash Test Industries - Chest on Orange Block Bridge Left of Third Conveyor Belt" },
+            { "10_03_00135", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #8" },
+            { "10_03_00136", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #9" },
+            { "10_03_00137", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #10" },
+            { "10_03_00138", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #11" },
+            { "10_03_00139", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #12" },
+            { "10_03_00140", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #13" },
+            { "10_03_00141", "Crash Test Industries - Coin on Orange Block Bridge Left of Third Conveyor Belt #14" },
+        };
+
         [Description("Crash Test Industries - After Third Conveyor Belt")]
         public static Dictionary<string, string> CrashTestIndustriesAfterThirdConveyorBelt = new()
         {
@@ -7368,6 +7388,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(CrashTestIndustriesLeftBeforeSecondConveyorBelt)), CrashTestIndustriesLeftBeforeSecondConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt)), CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)), CrashTestIndustriesAfterSecondConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt)), CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)), CrashTestIndustriesAfterThirdConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesHatWorld)), CrashTestIndustriesHatWorld),
             new(GetDescription(nameof(PipeZone)), PipeZone),
@@ -7761,6 +7782,7 @@ namespace YellowTaxiAP
                     CrashTestIndustriesLeftBeforeSecondConveyorBelt,
                     CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt,
                     CrashTestIndustriesAfterSecondConveyorBelt,
+                    CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt,
                     CrashTestIndustriesAfterThirdConveyorBelt,
                     CrashTestIndustriesHatWorld,
                     PipeZone,
@@ -9658,12 +9680,21 @@ namespace YellowTaxiAP
                 GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt),
+                    new RegionConnection(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt, "OS & X2/PMJ/PMB")
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesAfterSecondConveyorBelt, "OS"),
+                    new RegionConnection(CrashTestIndustriesAfterThirdConveyorBelt, "OS"),
                 ]
             },
             {
                 GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesAfterSecondConveyorBelt),
+                    new RegionConnection(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt, "OS"),
                 ]
             },
             {
