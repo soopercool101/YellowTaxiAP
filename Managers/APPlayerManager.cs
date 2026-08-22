@@ -317,7 +317,7 @@ namespace YellowTaxiAP.Managers
             }
 
             orig(self);
-            if (CanPacManJump && self.UsingPacmanInputs())
+            if (Plugin.SlotData.CanPacManJump && self.UsingPacmanInputs())
             {
                 var _shouldFreezeCar = DialogueScript.instance || PersonParent.chargingClient ||
                                        (bool)(UnityEngine.Object)PersonParent.droppedPerson ||
@@ -399,7 +399,9 @@ namespace YellowTaxiAP.Managers
 
         private float FlipOWillAbort_AP(On.PlayerScript.orig_FlipOWillAbort orig, PlayerScript self)
         {
-            if (JumpLevel > 0 || self.propellerUsesLeft > 0)
+            var canJump = self.UsingPacmanInputs() ? CanPacManJump : JumpLevel > 0;
+
+            if (canJump || self.propellerUsesLeft > 0)
             {
                 return orig(self);
             }
