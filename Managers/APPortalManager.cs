@@ -31,6 +31,45 @@ namespace YellowTaxiAP.Managers
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
             On.Colors.PortalTextureGet += Colors_PortalTextureGet;
             On.PsychoTaxiCabinetScript.Awake += PsychoTaxiCabinetScript_Awake;
+            On.Game.OnLevelStart += Game_OnLevelStart;
+        }
+
+        private void Game_OnLevelStart(On.Game.orig_OnLevelStart orig)
+        {
+            orig();
+
+            if (QueuedSubwarp == null)
+                return;
+
+            // Set respawns to the queued subwarp, to prevent things like early deathlink from breaking it
+
+            GameplayMaster.SelfRespawnClear();
+            CheckpointScript.CheckpointDataReset();
+            GameplayMaster.instance.recordingIndex = 0;
+            GameplayMaster.selfRespawnRecordingDataList.Add(new GameplayMaster.SelfRespawnRecordingData());
+            CheckpointScript.checkpointSavedPosition = GameplayMaster.selfRespawnRecordingDataList[0].playerPosition = QueuedSubwarp.MoveTaxiHere;
+            CheckpointScript.latestCheckpointPos = new Vector3Int(Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.x), Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.y), Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.z));
+            CheckpointScript.checkpointDesiredTaxiAngle = GameplayMaster.selfRespawnRecordingDataList[0].playerYAngle = QueuedSubwarp.Rotation;
+            CheckpointScript.latestBackground = GameplayMaster.selfRespawnRecordingDataList[0].currentBackground = QueuedSubwarp.BackgroundChange;
+            CheckpointScript.latestCheckpointZoneId = GameplayMaster.selfRespawnRecordingDataList[0].currentZoneId = QueuedSubwarp.Zone;
+            CheckpointScript.latestSoundtrack = GameplayMaster.selfRespawnRecordingDataList[0].currentMusic = QueuedSubwarp.SongChange;
+            CheckpointScript.latestCheckpointTimerSet = GameplayMaster.selfRespawnRecordingDataList[0].currentTimer = Mathf.Max(CheckpointScript.latestCheckpointTimerSet, GameplayMaster.instance.gameTimer, GameplayMaster.instance.gameTimerReset);
+            CheckpointScript.latestCheckpointWaterEnableState = GameplayMaster.selfRespawnRecordingDataList[0].waterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
+            CheckpointScript.latestCheckpointLightEnabledState = GameplayMaster.selfRespawnRecordingDataList[0].lightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
+
+            if (GameplayMaster.instance.levelId == LevelId.Hub)
+            {
+                PortalScript.latestPortalHub_Pos = QueuedSubwarp.MoveTaxiHere;
+                PortalScript.latestPortalHub_RotationY = QueuedSubwarp.Rotation;
+                PortalScript.latestHubBackground = QueuedSubwarp.BackgroundChange;
+                PortalScript.latestHubSoundtrack = QueuedSubwarp.SongChange;
+                PortalScript.latestHubLightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
+                PortalScript.latestHubWaterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
+                PortalScript.latestHubZoneId = QueuedSubwarp.Zone;
+            }
+
+            QueuedSubwarp = null;
+            Plugin.Log("Queued Subwarp Cleared");
         }
 
         private void PsychoTaxiCabinetScript_Awake(On.PsychoTaxiCabinetScript.orig_Awake orig, PsychoTaxiCabinetScript self)
@@ -262,33 +301,6 @@ namespace YellowTaxiAP.Managers
             if (QueuedSubwarp.Zone >= 0)
                 ZoneMaster.currentZoneId = QueuedSubwarp.Zone;
             self.TeleportComputeZoneMaster(self.transform);
-            GameplayMaster.SelfRespawnClear();
-            CheckpointScript.CheckpointDataReset();
-            GameplayMaster.instance.recordingIndex = 0;
-            GameplayMaster.selfRespawnRecordingDataList.Add(new GameplayMaster.SelfRespawnRecordingData());
-            CheckpointScript.checkpointSavedPosition = GameplayMaster.selfRespawnRecordingDataList[0].playerPosition = QueuedSubwarp.MoveTaxiHere;
-            CheckpointScript.latestCheckpointPos = new Vector3Int(Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.x), Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.y), Mathf.RoundToInt(QueuedSubwarp.MoveTaxiHere.z));
-            CheckpointScript.checkpointDesiredTaxiAngle = GameplayMaster.selfRespawnRecordingDataList[0].playerYAngle = QueuedSubwarp.Rotation;
-            CheckpointScript.latestBackground = GameplayMaster.selfRespawnRecordingDataList[0].currentBackground = QueuedSubwarp.BackgroundChange;
-            CheckpointScript.latestCheckpointZoneId = GameplayMaster.selfRespawnRecordingDataList[0].currentZoneId = QueuedSubwarp.Zone;
-            CheckpointScript.latestSoundtrack = GameplayMaster.selfRespawnRecordingDataList[0].currentMusic = QueuedSubwarp.SongChange;
-            CheckpointScript.latestCheckpointTimerSet = GameplayMaster.selfRespawnRecordingDataList[0].currentTimer = Mathf.Max(CheckpointScript.latestCheckpointTimerSet, GameplayMaster.instance.gameTimer, GameplayMaster.instance.gameTimerReset);
-            CheckpointScript.latestCheckpointWaterEnableState = GameplayMaster.selfRespawnRecordingDataList[0].waterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
-            CheckpointScript.latestCheckpointLightEnabledState = GameplayMaster.selfRespawnRecordingDataList[0].lightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
-
-            if (GameplayMaster.instance.levelId == LevelId.Hub)
-            {
-                PortalScript.latestPortalHub_Pos = QueuedSubwarp.MoveTaxiHere;
-                PortalScript.latestPortalHub_RotationY = QueuedSubwarp.Rotation;
-                PortalScript.latestHubBackground = QueuedSubwarp.BackgroundChange;
-                PortalScript.latestHubSoundtrack = QueuedSubwarp.SongChange;
-                PortalScript.latestHubLightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
-                PortalScript.latestHubWaterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
-                PortalScript.latestHubZoneId = QueuedSubwarp.Zone;
-            }
-
-            QueuedSubwarp = null;
-            Plugin.Log("Queued Subwarp Cleared");
         }
 
         private void LoadingScreenScript_WelcomeSetup(On.LoadingScreenScript.orig_WelcomeSetup orig, LevelId targetLevelId, string levelName, int gearsCollected, int maxGearsInsideLevel, bool enableCameraLevelIntro)

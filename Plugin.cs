@@ -91,11 +91,25 @@ public class Plugin : BaseUnityPlugin
     public Vector3 QuicksavePlayerPosition;
     public Quaternion QuicksavePlayerRotation;
     public Vector3 QuicksavePlayerVelocity;
+
+    public static bool GameInitialized { get; set; }
+
     private void Awake()
     {
         // Plugin startup logic
         BepinLogger = Logger;
         Instance = this;
+        On.Game.Init += (orig) =>
+        {
+            // Vanilla bug: Game gets initialized twice on steam, doubling callbacks.
+            // This breaks my queued subwarp system!
+            if (!GameInitialized)
+            {
+                orig();
+            }
+
+            GameInitialized = true;
+        };
         On.Master.Awake += (orig, self) =>
         {
             orig(self);
