@@ -8690,7 +8690,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1+J2"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X1+B1+FGU & X2/J1"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "J1/B1"),
-                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X3 & B1/J1"),
+                    new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X3+B1 | X2+J1"),
                 ]
             },
             {
@@ -10142,7 +10142,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesPathAboveSecondConveyorBelt, "PMB | X1+PMJ"),
-                    new RegionConnection(CrashTestIndustriesHighDuctsRightOfStartingArea, "PMB")
+                    new RegionConnection(CrashTestIndustriesHighDuctsRightOfStartingArea, "PMB | X3+PMJ")
                 ]
             },
             {
@@ -10178,7 +10178,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(CrashTestIndustriesHighGroundLeftAfterThirdConveyorBelt)),
                 [
-                    new RegionConnection(CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt, "PMB"),
+                    new RegionConnection(CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt, "PMB | X3+PMJ"),
                 ]
             },
             {
@@ -10203,7 +10203,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(CrashTestIndustriesThirdPlatformRightAfterThirdConveyorBelt)),
                 [
-                    new RegionConnection(CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt, "PMB"),
+                    new RegionConnection(CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt, "PMB | X3+PMJ"),
                 ]
             },
             {
