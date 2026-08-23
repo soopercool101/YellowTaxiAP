@@ -461,7 +461,7 @@ public class Plugin : BaseUnityPlugin
                 {
                     var trap = "flip vertical";
                     Log($"Testing {trap}");
-                    APTrapController.ActivateTrap(trap, "Don't Worry Bout it");
+                    APTrapController.ActivateTrap(trap, "[DEBUG TEST]");
                 }
 
                 if (Input.GetKeyDown(KeyCode.PageUp))
