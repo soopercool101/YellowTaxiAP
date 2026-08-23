@@ -10172,7 +10172,7 @@ namespace YellowTaxiAP
                     new RegionConnection(CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt, "X1/PMJ"),
                     new RegionConnection(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt, "OS"),
                     new RegionConnection(CrashTestIndustriesPlatformRightAfterThirdConveyorBelt, "OS"),
-                    new RegionConnection(CrashTestIndustriesOrangeSwitchPlatform, "X2/SP & X1/PMB"),
+                    new RegionConnection(CrashTestIndustriesOrangeSwitchPlatform, "X2/SP & X1/PMB | PMJ"),
                 ]
             },
             {
