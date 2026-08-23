@@ -453,7 +453,7 @@ namespace YellowTaxiAP.Managers
                             return;
                         case BonusScript.Identity.morioMindPassword:
                             if (!pickup.skipGenericPickupAnimation)
-                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey");
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey", freezePlayer: !Plugin.SlotData.QuickPickups);
                             Sound.Play("SoundLevelCollectiblePickup");
                             Controls.SetVibration(self.playerIndex, 0.5f);
                             if (ModMaster.instance.ModEnableGet())
