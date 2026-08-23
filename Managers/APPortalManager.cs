@@ -17,6 +17,7 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.Start += PlayerScript_Start;
             On.PortalScript.PortalOpenedSet += PortalScript_PortalOpenedSet;
             On.PortalScript.Awake += PortalScript_Awake;
+            On.PortalScript.Start += PortalScript_Start;
             On.PortalScript.CoroutineGo += PortalScript_CoroutineGo;
             On.PortalScript.GoToLevel += PortalScript_GoToLevel;
             On.PortalScript.OnTriggerEnter += PortalScript_OnTriggerEnter;
@@ -32,6 +33,16 @@ namespace YellowTaxiAP.Managers
             On.Colors.PortalTextureGet += Colors_PortalTextureGet;
             On.PsychoTaxiCabinetScript.Awake += PsychoTaxiCabinetScript_Awake;
             On.Game.OnLevelStart += Game_OnLevelStart;
+        }
+
+        private void PortalScript_Start(On.PortalScript.orig_Start orig, PortalScript self)
+        {
+            orig(self);
+            // Fix Granny's Island texture loading for kaizo portal
+            if (self.kaizoLevelId != LevelId.noone)
+            {
+                self.levelImage.sprite = Colors.instance.portalTextures[(int)self.kaizoLevelId];
+            }
         }
 
         private void Game_OnLevelStart(On.Game.orig_OnLevelStart orig)
