@@ -298,6 +298,8 @@ namespace YellowTaxiAP.Behaviours
 
         public void Update()
         {
+            if (_activated)
+                TrapForcedUpdate();
             if (APTrapController.ShouldNotUpdateTraps)
                 return; // Don't do anything while in menus
             if (!_activated)
@@ -318,6 +320,11 @@ namespace YellowTaxiAP.Behaviours
                 TrapDeactivate();
                 Destroy(gameObject);
             }
+        }
+
+        public virtual void TrapForcedUpdate()
+        {
+            // Override by actual trap
         }
 
         public virtual void TrapUpdate()
@@ -671,17 +678,13 @@ namespace YellowTaxiAP.Behaviours
     {
         public override string Name => "Flip Horizontal Trap";
         public static FlipHorizontalTrap Instance { get; set; }
-        public Data.LevelId CurrentLevel { get; set; }
-        public bool NeedsRefresh { get; set; }
 
         public override void TrapActivate()
         {
             if (Instance == null)
             {
                 Instance = this;
-                CurrentLevel = GameplayMaster.instance.levelId;
                 DurationSeconds = APTrapController.DefaultTrapDuration;
-                FlipHorizontal();
             }
             else
             {
@@ -690,34 +693,23 @@ namespace YellowTaxiAP.Behaviours
             }
         }
 
-        public override void TrapUpdate()
+        public override void TrapForcedUpdate()
         {
-            if (CurrentLevel != GameplayMaster.instance.levelId || GameplayMaster.instance.gameOver)
+            if (CameraGame.instance.myCamera.projectionMatrix.m00 > 0)
             {
-                NeedsRefresh = true;
-                CurrentLevel = GameplayMaster.instance.levelId;
-            }
-
-            if (!GameplayMaster.instance.gameOver && NeedsRefresh)
-            {
-                FlipHorizontal();
-                NeedsRefresh = false;
+                CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
+                GL.invertCulling = !FlipVerticalTrap.Instance;
             }
         }
 
         public override void TrapDeactivate()
         {
             Instance = null;
-            if (!NeedsRefresh)
+            if (CameraGame.instance.myCamera.projectionMatrix.m00 < 0)
             {
-                FlipHorizontal();
+                CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
             }
-        }
-
-        public static void FlipHorizontal()
-        {
-            CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(-1, 1, 1));
-            GL.invertCulling = !GL.invertCulling;
+            GL.invertCulling = FlipVerticalTrap.Instance;
         }
     }
 
@@ -725,17 +717,13 @@ namespace YellowTaxiAP.Behaviours
     {
         public override string Name => "Flip Vertical Trap";
         public static FlipVerticalTrap Instance { get; set; }
-        public Data.LevelId CurrentLevel { get; set; }
-        public bool NeedsRefresh { get; set; }
 
         public override void TrapActivate()
         {
             if (Instance == null)
             {
-                CurrentLevel = GameplayMaster.instance.levelId;
-                DurationSeconds = APTrapController.DefaultTrapDuration;
-                FlipVertical();
                 Instance = this;
+                DurationSeconds = APTrapController.DefaultTrapDuration;
             }
             else
             {
@@ -744,34 +732,23 @@ namespace YellowTaxiAP.Behaviours
             }
         }
 
-        public override void TrapUpdate()
+        public override void TrapForcedUpdate()
         {
-            if (CurrentLevel != GameplayMaster.instance.levelId || GameplayMaster.instance.gameOver)
+            if (CameraGame.instance.myCamera.projectionMatrix.m11 > 0)
             {
-                NeedsRefresh = true;
-                CurrentLevel = GameplayMaster.instance.levelId;
-            }
-
-            if (!GameplayMaster.instance.gameOver && NeedsRefresh)
-            {
-                FlipVertical();
-                NeedsRefresh = false;
+                CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(1, -1, 1));
+                GL.invertCulling = !FlipHorizontalTrap.Instance;
             }
         }
 
         public override void TrapDeactivate()
         {
-            if (!NeedsRefresh)
-            {
-                FlipVertical();
-            }
             Instance = null;
-        }
-
-        public static void FlipVertical()
-        {
-            CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(1, -1, 1));
-            GL.invertCulling = !GL.invertCulling;
+            if (CameraGame.instance.myCamera.projectionMatrix.m11 < 0)
+            {
+                CameraGame.instance.myCamera.projectionMatrix *= Matrix4x4.Scale(new Vector3(1, -1, 1));
+            }
+            GL.invertCulling = FlipHorizontalTrap.Instance;
         }
     }
 
