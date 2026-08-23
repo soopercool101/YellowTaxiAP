@@ -6281,12 +6281,190 @@ namespace YellowTaxiAP
             { "10_03_00143", "Crash Test Industries - Coin on Wall Pipes Left of First Conveyor Belt #6" },
         };
 
+        [Description("Crash Test Industries - Pipe Arches Right of Second Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesPipesRightOfSecondConveyorBelt = new()
+        {
+            { "10_03_00236", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #1" },
+            { "10_03_00237", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #2" },
+            { "10_03_00273", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #3" },
+            { "10_03_00274", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #4" },
+            { "10_03_00275", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #5" },
+            { "10_03_00276", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #6" },
+            { "10_03_00277", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #7" },
+            { "10_03_00278", "Crash Test Industries - Coin on Lower Pipe Arch Right of Second Conveyor Belt #8" },
+            { "10_03_00295", "Crash Test Industries - Coin on Middle Pipe Arch Right of Second Conveyor Belt #1" },
+            { "10_03_00296", "Crash Test Industries - Coin on Middle Pipe Arch Right of Second Conveyor Belt #2" },
+            { "10_03_00297", "Crash Test Industries - Coin on Middle Pipe Arch Right of Second Conveyor Belt #3" },
+            { "10_03_00298", "Crash Test Industries - Coin on Middle Pipe Arch Right of Second Conveyor Belt #4" },
+            { "10_03_00299", "Crash Test Industries - Coin on Middle Pipe Arch Right of Second Conveyor Belt #5" },
+            { "10_03_00350", "Crash Test Industries - Coin on Highest Pipe Arch Right of Second Conveyor Belt #1" },
+            { "10_03_00351", "Crash Test Industries - Coin on Highest Pipe Arch Right of Second Conveyor Belt #2" },
+            { "10_03_00352", "Crash Test Industries - Coin on Highest Pipe Arch Right of Second Conveyor Belt #3" },
+            { "10_03_00353", "Crash Test Industries - Coin on Highest Pipe Arch Right of Second Conveyor Belt #4" },
+            { "10_03_00354", "Crash Test Industries - Coin on Highest Pipe Arch Right of Second Conveyor Belt #5" },
+            { "10_03_00355", "Crash Test Industries - Coin on Highest Pipe Arch Right of Second Conveyor Belt #6" },
+            { "10_01_00009", "Crash Test Industries - Gear - Pipe Arches Right of Second Conveyor Belt" },
+        };
+
         [Description("Crash Test Industries - After Second Conveyor Belt")]
         public static Dictionary<string, string> CrashTestIndustriesAfterSecondConveyorBelt = new()
         {
             { "10_09_00272", "Crash Test Industries - Checkpoint After Second Conveyor Belt" },
             { "10_01_00001", "Crash Test Industries - Gear - On Archway After Second Conveyor Belt" },
             { "10_21_00001", "Crash Test Industries - Cheese Before Third Conveyor Belt" }
+        };
+
+        [Description("Crash Test Industries - Platforms Above Second Checkpoint Area")]
+        public static Dictionary<string, string> CrashTestIndustriesPlatformsAboveSecondCheckpointArea = new()
+        {
+            { "10_03_00204", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #1" },
+            { "10_03_00205", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #2" },
+            { "10_03_00206", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #3" },
+            { "10_03_00207", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #4" },
+            { "10_03_00208", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #5" },
+            { "10_03_00209", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #6" },
+            { "10_03_00210", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #7" },
+            { "10_03_00211", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #8" },
+            { "10_03_00212", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #9" },
+            { "10_03_00213", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #10" },
+            { "10_03_00214", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #11" },
+            { "10_03_00215", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #12" },
+            { "10_03_00216", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #13" },
+            { "10_03_00217", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #14" },
+            { "10_03_00218", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #15" },
+            { "10_03_00219", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #16" },
+            { "10_03_00220", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #17" },
+            { "10_03_00221", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #18" },
+            { "10_03_00222", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #19" },
+            { "10_03_00223", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #20" },
+            { "10_03_00224", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #21" },
+            { "10_03_00238", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #22" },
+            { "10_03_00263", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #23" },
+            { "10_03_00279", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #24" },
+            { "10_03_00283", "Crash Test Industries - Coin on Platform Left of Archway After Second Conveyor Belt #25" },
+            { "10_03_00300", "Crash Test Industries - Coin Bag on Platform Left of Archway After Second Conveyor Belt" },
+            { "10_03_00202", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #1" },
+            { "10_03_00201", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #2" },
+            { "10_03_00200", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #3" },
+            { "10_03_00199", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #4" },
+            { "10_03_00198", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #5" },
+            { "10_03_00197", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #6" },
+            { "10_03_00196", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #7" },
+            { "10_03_00195", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #8" },
+            { "10_03_00194", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #9" },
+            { "10_03_00193", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #10" },
+            { "10_03_00192", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #11" },
+            { "10_03_00191", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #12" },
+            { "10_03_00190", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #13" },
+            { "10_03_00189", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #14" },
+            { "10_03_00188", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #15" },
+            { "10_03_00187", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #16" },
+            { "10_03_00186", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #17" },
+            { "10_03_00185", "Crash Test Industries - Coin on Platform Right of Archway After Second Conveyor Belt #18" },
+        };
+
+        [Description("Crash Test Industries - Path Along Wall Right of Second Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt = new()
+        {
+            { "10_03_00184", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #1" },
+            { "10_03_00183", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #2" },
+            { "10_03_00182", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #3" },
+            { "10_03_00181", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #4" },
+            { "10_03_00180", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #5" },
+            { "10_03_00179", "Crash Test Industries - Coin Bag on Wall Conveyor Belt Right of Second Conveyor Belt" },
+            { "10_03_00178", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #6" },
+            { "10_03_00177", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #7" },
+            { "10_03_00176", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #8" },
+            { "10_03_00175", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #9" },
+            { "10_03_00174", "Crash Test Industries - Coin on Wall Conveyor Belt Right of Second Conveyor Belt #10" },
+            { "10_03_00286", "Crash Test Industries - Coin on Path Above First Checkpoint Area #1" },
+            { "10_03_00287", "Crash Test Industries - Coin on Path Above First Checkpoint Area #2" },
+            { "10_03_00288", "Crash Test Industries - Coin on Path Above First Checkpoint Area #3" },
+            { "10_03_00289", "Crash Test Industries - Coin on Path Above First Checkpoint Area #4" },
+            { "10_03_00290", "Crash Test Industries - Coin on Path Above First Checkpoint Area #5" },
+            { "10_03_00291", "Crash Test Industries - Coin on Path Above First Checkpoint Area #6" },
+            { "10_03_00292", "Crash Test Industries - Coin on Path Above First Checkpoint Area #7" },
+            { "10_03_00293", "Crash Test Industries - Coin Bag on Path Above First Checkpoint Area" },
+            { "10_03_00294", "Crash Test Industries - Chest on Path Above First Checkpoint Area" },
+            { "10_03_00306", "Crash Test Industries - Coin Between Paths Above First Checkpoint Area #1" },
+            { "10_03_00314", "Crash Test Industries - Coin Between Paths Above First Checkpoint Area #2" },
+            { "10_03_00349", "Crash Test Industries - Coin Between Paths Above First Checkpoint Area #3" },
+            { "10_03_00285", "Crash Test Industries - Coin in Air Along Right Wall Towards Starting Area #1" },
+            { "10_03_00302", "Crash Test Industries - Coin in Air Along Right Wall Towards Starting Area #2" },
+            { "10_03_00305", "Crash Test Industries - Coin in Air Along Right Wall Towards Starting Area #3" },
+            { "10_03_00313", "Crash Test Industries - Coin in Air Along Right Wall Towards Starting Area #4" },
+        };
+
+        [Description("Crash Test Industries - Path Above Second Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesPathAboveSecondConveyorBelt = new()
+        {
+            { "10_03_00318", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #1" },
+            { "10_03_00319", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #2" },
+            { "10_03_00320", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #3" },
+            { "10_03_00321", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #4" },
+            { "10_03_00322", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #5" },
+            { "10_03_00323", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #6" },
+            { "10_03_00324", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #7" },
+            { "10_03_00325", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #8" },
+            { "10_03_00326", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #9" },
+            { "10_03_00327", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #10" },
+            { "10_03_00328", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #11" },
+            { "10_03_00329", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #12" },
+            { "10_03_00330", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #13" },
+            { "10_03_00331", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #14" },
+            { "10_03_00332", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #15" },
+            { "10_03_00333", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #16" },
+            { "10_03_00334", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #17" },
+            { "10_03_00335", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #18" },
+            { "10_03_00336", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #19" },
+            { "10_03_00337", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #20" },
+            { "10_03_00338", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #21" },
+            { "10_03_00339", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #22" },
+            { "10_03_00340", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #23" },
+            { "10_03_00341", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #24" },
+            { "10_03_00342", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #25" },
+            { "10_03_00343", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #26" },
+            { "10_03_00344", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #27" },
+            { "10_03_00345", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #28" },
+            { "10_03_00346", "Crash Test Industries - Coin on Pathway Above Second Conveyor Belt #29" },
+            { "10_01_00002", "Crash Test Industries - Gear - Above Second Conveyor Belt" },
+        };
+
+
+        [Description("Crash Test Industries - High Ducts Right of Starting Area")]
+        public static Dictionary<string, string> CrashTestIndustriesHighDuctsRightOfStartingArea = new()
+        {
+            { "10_03_00362", "Crash Test Industries - Coin on First High Duct Right of Starting Area #1" },
+            { "10_03_00361", "Crash Test Industries - Coin on First High Duct Right of Starting Area #2" },
+            { "10_03_00360", "Crash Test Industries - Coin on First High Duct Right of Starting Area #3" },
+            { "10_03_00359", "Crash Test Industries - Coin on First High Duct Right of Starting Area #4" },
+            { "10_03_00404", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #1" },
+            { "10_03_00403", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #2" },
+            { "10_03_00402", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #3" },
+            { "10_03_00401", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #4" },
+            { "10_03_00400", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #5" },
+            { "10_03_00399", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #6" },
+            { "10_03_00398", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #7" },
+            { "10_03_00397", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #8" },
+            { "10_03_00396", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #9" },
+            { "10_03_00395", "Crash Test Industries - Coin on Second High Duct Right of Starting Area #10" },
+            { "10_02_00000", "Crash Test Industries - Bunny - High Ducts Right of Starting Area" },
+            { "10_03_00435", "Crash Test Industries - Coin Bag on Highest Pipes Right of Starting Area #1" },
+            { "10_01_00008", "Crash Test Industries - Gear - Highest Pipes Right of Starting Area" },
+            { "10_03_00433", "Crash Test Industries - Coin Bag on Highest Pipes Right of Starting Area #2" },
+        };
+
+        [Description("Crash Test Industries - Higher Platforms Above Second Checkpoint Area")]
+        public static Dictionary<string, string> CrashTestIndustriesHigherPlatformsAboveSecondCheckpointArea = new()
+        {
+            { "10_03_00317", "Crash Test Industries - Coin on Platform High Above Third Conveyor Belt #1" },
+            { "10_03_00316", "Crash Test Industries - Coin on Platform High Above Third Conveyor Belt #2" },
+            { "10_03_00315", "Crash Test Industries - Coin on Platform High Above Third Conveyor Belt #3" },
+            { "10_03_00357", "Crash Test Industries - Coin on Platform High Above Third Conveyor Belt #4" },
+            { "10_03_00363", "Crash Test Industries - Coin on Platform High Above Third Conveyor Belt #5" },
+            { "10_03_00370", "Crash Test Industries - Coin on Platform High Above Third Conveyor Belt #6" },
+            { "10_03_00393", "Crash Test Industries - Chest on Platform High Above Third Conveyor Belt" },
+            { "10_01_00003", "Crash Test Industries - Gear - Platform High Above Third Conveyor Belt" },
         };
 
         [Description("Crash Test Industries - Orange Bridge Left of Third Conveyor Belt")]
@@ -6312,8 +6490,186 @@ namespace YellowTaxiAP
         [Description("Crash Test Industries - After Third Conveyor Belt")]
         public static Dictionary<string, string> CrashTestIndustriesAfterThirdConveyorBelt = new()
         {
+            { "10_03_00142", "Crash Test Industries - Coin on Ramp Left After Orange Block Bridge Left of Third Conveyor Belt #1" },
+            { "10_03_00126", "Crash Test Industries - Coin on Ramp Left After Orange Block Bridge Left of Third Conveyor Belt #2" },
+            { "10_03_00122", "Crash Test Industries - Coin on Ramp Left After Orange Block Bridge Left of Third Conveyor Belt #3" },
+            { "10_03_00109", "Crash Test Industries - Coin on Ramp Left After Orange Block Bridge Left of Third Conveyor Belt #4" },
+            { "10_03_00024", "Crash Test Industries - Coin on Ramp Left After Orange Block Bridge Left of Third Conveyor Belt #5" },
             { "10_09_00557", "Crash Test Industries - Left Checkpoint After Third Conveyor Belt" },
             { "10_09_00513", "Crash Test Industries - Right Checkpoint After Third Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries - High Ground Left of Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesHighGroundLeftAfterThirdConveyorBelt = new()
+        {
+            { "10_03_00225", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #1" },
+            { "10_03_00235", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #2" },
+            { "10_03_00259", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #3" },
+            { "10_03_00255", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #4" },
+            { "10_03_00251", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #5" },
+            { "10_03_00247", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #6" },
+            { "10_03_00245", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #7" },
+            { "10_03_00243", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #8" },
+            { "10_03_00239", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #9" },
+            { "10_03_00240", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #10" },
+            { "10_03_00241", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #11" },
+            { "10_03_00242", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #12" },
+            { "10_03_00244", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #13" },
+            { "10_03_00246", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #14" },
+            { "10_03_00248", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #15" },
+            { "10_03_00252", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #16" },
+            { "10_03_00256", "Crash Test Industries - Coin on Path Segment Left of Third Conveyor Belt #17" },
+            { "10_01_00004", "Crash Test Industries - Gear - Path Segment Left of Third Conveyor Belt" },
+            { "10_03_00280", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #1" },
+            { "10_03_00281", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #2" },
+            { "10_03_00282", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #3" },
+            { "10_03_00284", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #4" },
+            { "10_03_00301", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #5" },
+            { "10_03_00303", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #6" },
+            { "10_03_00312", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #7" },
+            { "10_03_00348", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #8" },
+            { "10_03_00358", "Crash Test Industries - Coin on Duct Left of Third Conveyor Belt #9" },
+            { "10_02_00001", "Crash Test Industries - Bunny - Hidden Between Ducts Left of Third Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries - Higher Ground Left of Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt = new()
+        {
+            { "10_03_00419", "Crash Test Industries - Coin on Uppermost Duct Left of Third Conveyor Belt #1" },
+            { "10_03_00418", "Crash Test Industries - Coin on Uppermost Duct Left of Third Conveyor Belt #2" },
+            { "10_03_00417", "Crash Test Industries - Coin on Uppermost Duct Left of Third Conveyor Belt #3" },
+            { "10_03_00416", "Crash Test Industries - Coin on Uppermost Duct Left of Third Conveyor Belt #4" },
+            { "10_03_00415", "Crash Test Industries - Coin on Uppermost Duct Left of Third Conveyor Belt #5" },
+            { "10_03_00414", "Crash Test Industries - Coin on Uppermost Duct Left of Third Conveyor Belt #6" },
+            { "10_03_00413", "Crash Test Industries - Coin on Uppermost Duct Left of Third Conveyor Belt #7" },
+            { "10_03_00412", "Crash Test Industries - Coin Inside Duct Enclosure Left of Third Conveyor Belt #1" },
+            { "10_03_00411", "Crash Test Industries - Coin Bag Inside Duct Enclosure Left of Third Conveyor Belt #1" },
+            { "10_03_00409", "Crash Test Industries - Coin Bag Inside Duct Enclosure Left of Third Conveyor Belt #2" },
+            { "10_03_00408", "Crash Test Industries - Coin Inside Duct Enclosure Left of Third Conveyor Belt #2" },
+            { "10_01_00010", "Crash Test Industries - Gear - Inside Duct Enclosure Left of Third Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries - Platform Right After Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesPlatformRightAfterThirdConveyorBelt = new()
+        {
+            { "10_03_00032", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #1" },
+            { "10_03_00028", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #2" },
+            { "10_03_00031", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #3" },
+            { "10_03_00027", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #4" },
+            { "10_03_00030", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #5" },
+            { "10_03_00026", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #6" },
+            { "10_03_00029", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #7" },
+            { "10_03_00025", "Crash Test Industries - Coin on First Platform Right After Third Conveyor Belt #8" },
+        };
+
+        [Description("Crash Test Industries - Spiral Pipe Right of Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt = new()
+        {
+            { "10_03_00261", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #1" },
+            { "10_03_00262", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #2" },
+            { "10_03_00257", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #3" },
+            { "10_03_00258", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #4" },
+            { "10_03_00253", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #5" },
+            { "10_03_00254", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #6" },
+            { "10_03_00249", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #7" },
+            { "10_03_00250", "Crash Test Industries - Coin on Second Platform Right After Third Conveyor Belt #8" },
+            { "10_03_00019", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #1" },
+            { "10_03_00020", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #2" },
+            { "10_03_00021", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #3" },
+            { "10_03_00022", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #4" },
+            { "10_03_00023", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #5" },
+            { "10_03_00161", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #6" },
+            { "10_03_00160", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #7" },
+            { "10_03_00159", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #8" },
+            { "10_03_00158", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #9" },
+            { "10_03_00157", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #10" },
+            { "10_03_00156", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #11" },
+            { "10_03_00155", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #12" },
+            { "10_03_00154", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #13" },
+            { "10_03_00153", "Crash Test Industries - Coin Bag on Spiral Pipe Right of Third Conveyor Belt" },
+            { "10_03_00264", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #14" },
+            { "10_03_00265", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #15" },
+            { "10_03_00266", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #16" },
+            { "10_03_00267", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #17" },
+            { "10_03_00268", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #18" },
+            { "10_03_00269", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #19" },
+            { "10_03_00270", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #20" },
+            { "10_03_00271", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #21" },
+            { "10_03_00272", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #22" },
+            { "10_03_00369", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #23" },
+            { "10_03_00368", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #24" },
+            { "10_03_00367", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #25" },
+            { "10_03_00366", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #26" },
+            { "10_03_00365", "Crash Test Industries - Coin on Spiral Pipe Right of Third Conveyor Belt #27" },
+            { "10_01_00011", "Crash Test Industries - Gear - Spiral Pipe Right of Third Conveyor Belt" },
+        };
+
+        [Description("Crash Test Industries - Third Platform Right After Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesThirdPlatformRightAfterThirdConveyorBelt = new()
+        {
+            { "10_03_00307", "Crash Test Industries - Coin on Third Platform Right After Third Conveyor Belt #1" },
+            { "10_03_00308", "Crash Test Industries - Coin on Third Platform Right After Third Conveyor Belt #2" },
+            { "10_03_00309", "Crash Test Industries - Coin on Third Platform Right After Third Conveyor Belt #3" },
+            { "10_03_00310", "Crash Test Industries - Coin on Third Platform Right After Third Conveyor Belt #4" },
+            { "10_03_00311", "Crash Test Industries - Coin on Third Platform Right After Third Conveyor Belt #5" },
+        };
+
+        [Description("Crash Test Industries - Uppermost Platforms After Third Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt = new()
+        {
+            { "10_09_00358", "Crash Test Industries - Checkpoint on Fourth Platform Right After Third Conveyor Belt" },
+            { "10_03_00405", "Crash Test Industries - Coin on Fourth Platform Right After Third Conveyor Belt #1" },
+            { "10_03_00406", "Crash Test Industries - Coin on Fourth Platform Right After Third Conveyor Belt #2" },
+            { "10_03_00407", "Crash Test Industries - Coin on Fourth Platform Right After Third Conveyor Belt #3" },
+            { "10_03_00420", "Crash Test Industries - Coin on Fourth Platform Right After Third Conveyor Belt #4" },
+            { "10_03_00423", "Crash Test Industries - Coin on Fourth Platform Right After Third Conveyor Belt #5" },
+            { "10_03_00431", "Crash Test Industries - Coin on Fourth Platform Right After Third Conveyor Belt #6" },
+            { "10_03_00443", "Crash Test Industries - Coin on First Small Conveyor Belt Above Upper Checkpoint Platform #1" },
+            { "10_03_00444", "Crash Test Industries - Coin on First Small Conveyor Belt Above Upper Checkpoint Platform #2" },
+            { "10_03_00445", "Crash Test Industries - Coin on First Small Conveyor Belt Above Upper Checkpoint Platform #3" },
+            { "10_03_00440", "Crash Test Industries - Coin on Second Small Conveyor Belt Above Upper Checkpoint Platform #1" },
+            { "10_03_00441", "Crash Test Industries - Coin on Second Small Conveyor Belt Above Upper Checkpoint Platform #2" },
+            { "10_03_00442", "Crash Test Industries - Coin Bag on Second Small Conveyor Belt Above Upper Checkpoint Platform" },
+            { "10_03_00437", "Crash Test Industries - Coin on Third Small Conveyor Belt Above Upper Checkpoint Platform #1" },
+            { "10_03_00438", "Crash Test Industries - Coin on Third Small Conveyor Belt Above Upper Checkpoint Platform #2" },
+            { "10_03_00439", "Crash Test Industries - Coin Bag on Third Small Conveyor Belt Above Upper Checkpoint Platform" },
+            { "10_01_00006", "Crash Test Industries - Gear - Platform Path Right After Third Conveyor Belt" },
+            { "10_03_00424", "Crash Test Industries - Coin on Ducts Above Final Conveyor Belt #1" },
+            { "10_03_00425", "Crash Test Industries - Coin on Ducts Above Final Conveyor Belt #2" },
+            { "10_03_00426", "Crash Test Industries - Coin on Ducts Above Final Conveyor Belt #3" },
+            { "10_03_00427", "Crash Test Industries - Coin on Ducts Above Final Conveyor Belt #4" },
+            { "10_03_00428", "Crash Test Industries - Coin on Ducts Above Final Conveyor Belt #5" },
+            { "10_03_00429", "Crash Test Industries - Coin on Ducts Above Final Conveyor Belt #6" },
+            { "10_02_00002", "Crash Test Industries - Bunny - On Ducts Above Final Conveyor Belt" },
+            { "10_01_00013", "Crash Test Industries - Gear - On Pipe Platform Above Final Conveyor Belt" },
+            { "10_03_00381", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #1" },
+            { "10_03_00380", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #2" },
+            { "10_03_00379", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #3" },
+            { "10_03_00378", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #4" },
+            { "10_03_00377", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #5" },
+            { "10_03_00376", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #6" },
+            { "10_03_00375", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #7" },
+            { "10_03_00374", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #8" },
+            { "10_03_00373", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #9" },
+            { "10_03_00372", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #10" },
+            { "10_03_00371", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #11" },
+            { "10_03_00391", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #12" },
+            { "10_03_00390", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #13" },
+            { "10_03_00389", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #14" },
+            { "10_03_00388", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #15" },
+            { "10_03_00387", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #16" },
+            { "10_03_00386", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #17" },
+            { "10_03_00385", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #18" },
+            { "10_03_00384", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #19" },
+            { "10_03_00383", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #20" },
+            { "10_03_00382", "Crash Test Industries - Coin on Pipe Platform Above Final Conveyor Belt #21" },
+        };
+
+        [Description("Crash Test Industries - Hidden Coins Above Final Conveyor Belt")]
+        public static Dictionary<string, string> CrashTestIndustriesHiddenCoinsAboveFinalConveyorBelt = new()
+        {
+            { "10_03_00421", "Crash Test Industries - Coin Under Thin Conveyor Belt Above Final Conveyor Belt #1" },
+            { "10_03_00422", "Crash Test Industries - Coin Under Thin Conveyor Belt Above Final Conveyor Belt #2" },
         };
 
         [Description("Crash Test Industries - Orange Switch Platform")]
@@ -6427,8 +6783,8 @@ namespace YellowTaxiAP
             { "10_03_00102", "Pipe-Zone - Coin at End of Conveyor Belt #38" },
             { "10_03_00101", "Pipe-Zone - Coin at End of Conveyor Belt #39" },
             { "10_03_00100", "Pipe-Zone - Coin at End of Conveyor Belt #40" },
-            { "10_21_00000", "Pipe-Zone - Left Cheese at End of Conveyor Belt" },
-            { "10_21_00003", "Pipe-Zone - Right Cheese at End of Conveyor Belt" },
+            { "10_21_00000", "Pipe-Zone - Cheese on Left at End of Conveyor Belt" },
+            { "10_21_00003", "Pipe-Zone - Cheese on Right at End of Conveyor Belt" },
         };
 
         public static Dictionary<string, string> CrashTestIndustriesSpecialRules = new()
@@ -7434,9 +7790,22 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(CrashTestIndustriesAfterFirstConveyorBelt)), CrashTestIndustriesAfterFirstConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesLeftBeforeSecondConveyorBelt)), CrashTestIndustriesLeftBeforeSecondConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt)), CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesPipesRightOfSecondConveyorBelt)), CrashTestIndustriesPipesRightOfSecondConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)), CrashTestIndustriesAfterSecondConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesPlatformsAboveSecondCheckpointArea)), CrashTestIndustriesPlatformsAboveSecondCheckpointArea),
+            new(GetDescription(nameof(CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt)), CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesPathAboveSecondConveyorBelt)), CrashTestIndustriesPathAboveSecondConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesHighDuctsRightOfStartingArea)), CrashTestIndustriesHighDuctsRightOfStartingArea),
+            new(GetDescription(nameof(CrashTestIndustriesHigherPlatformsAboveSecondCheckpointArea)), CrashTestIndustriesHigherPlatformsAboveSecondCheckpointArea),
             new(GetDescription(nameof(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt)), CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)), CrashTestIndustriesAfterThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesHighGroundLeftAfterThirdConveyorBelt)), CrashTestIndustriesHighGroundLeftAfterThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt)), CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesPlatformRightAfterThirdConveyorBelt)), CrashTestIndustriesPlatformRightAfterThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt)), CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesThirdPlatformRightAfterThirdConveyorBelt)), CrashTestIndustriesThirdPlatformRightAfterThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt)), CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt),
+            new(GetDescription(nameof(CrashTestIndustriesHiddenCoinsAboveFinalConveyorBelt)), CrashTestIndustriesHiddenCoinsAboveFinalConveyorBelt),
             new(GetDescription(nameof(CrashTestIndustriesOrangeSwitchPlatform)), CrashTestIndustriesOrangeSwitchPlatform),
             new(GetDescription(nameof(CrashTestIndustriesFinalOrangeBridge)), CrashTestIndustriesFinalOrangeBridge),
             new(GetDescription(nameof(CrashTestIndustriesFinalArea)), CrashTestIndustriesFinalArea),
@@ -7833,9 +8202,22 @@ namespace YellowTaxiAP
                     CrashTestIndustriesAfterFirstConveyorBelt,
                     CrashTestIndustriesLeftBeforeSecondConveyorBelt,
                     CrashTestIndustriesHighGroundLeftBeforeSecondConveyorBelt,
+                    CrashTestIndustriesPipesRightOfSecondConveyorBelt,
                     CrashTestIndustriesAfterSecondConveyorBelt,
+                    CrashTestIndustriesPlatformsAboveSecondCheckpointArea,
+                    CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt,
+                    CrashTestIndustriesPathAboveSecondConveyorBelt,
+                    CrashTestIndustriesHighDuctsRightOfStartingArea,
+                    CrashTestIndustriesHigherPlatformsAboveSecondCheckpointArea,
                     CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt,
                     CrashTestIndustriesAfterThirdConveyorBelt,
+                    CrashTestIndustriesHighGroundLeftAfterThirdConveyorBelt,
+                    CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt,
+                    CrashTestIndustriesPlatformRightAfterThirdConveyorBelt,
+                    CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt,
+                    CrashTestIndustriesThirdPlatformRightAfterThirdConveyorBelt,
+                    CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt,
+                    CrashTestIndustriesHiddenCoinsAboveFinalConveyorBelt,
                     CrashTestIndustriesOrangeSwitchPlatform,
                     CrashTestIndustriesFinalOrangeBridge,
                     CrashTestIndustriesFinalArea,
@@ -8506,6 +8888,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFifthFloorCrashTestArea)),
                 [
+                    new RegionConnection("Morio's Lab - Crash Test Industries Portal", "{PORTAL}Crash Test Industries", ConnectionType.Warp, "PortalCrashTestIndustries"),
                     new RegionConnection(MoriosLabFifthFloorMoriosMindArea, "OS/J2 | X2+B1 | X3+J1"),
                     new RegionConnection(MoriosLabGroundFloorBolts, "B1/J1"),
                     new RegionConnection(MoriosLabFourthFloor),
@@ -9687,14 +10070,13 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(CrashTestIndustriesPipesAboveStartingArea)),
                 [
-                    new RegionConnection(CrashTestIndustriesLedgeBelowStart, "X1"),
-                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor, "X1"),
+                    new RegionConnection(CrashTestIndustriesLedgeBelowStart),
+                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor),
                 ]
             },
             {
                 GetDescription(nameof(CrashTestIndustriesLedgeBelowStart)),
                 [
-                    new RegionConnection(CrashTestIndustriesPipesLeftOfFirstConveyor, "PMB"),
                     new RegionConnection("Crash Test Industries - Mori-O-Tron on Ledge Below Starting Area", CrashTestIndustriesAfterFirstConveyorBelt, ConnectionType.MoriOTron),
                 ]
             },
@@ -9718,6 +10100,7 @@ namespace YellowTaxiAP
                     new RegionConnection(CrashTestIndustriesStartingArea),
                     new RegionConnection(CrashTestIndustriesAfterSecondConveyorBelt, "X2/SP & X1/OS/PMB | PMJ"),
                     new RegionConnection(CrashTestIndustriesLeftBeforeSecondConveyorBelt, "X2/SP & OS | PMJ"),
+                    new RegionConnection(CrashTestIndustriesPipesRightOfSecondConveyorBelt, "X2/SP & PMB"),
                 ]
             },
             {
@@ -9733,10 +10116,45 @@ namespace YellowTaxiAP
                 ]
             },
             {
+                GetDescription(nameof(CrashTestIndustriesPipesRightOfSecondConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt),
+                ]
+            },
+            {
                 GetDescription(nameof(CrashTestIndustriesAfterSecondConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesAfterFirstConveyorBelt),
-                    new RegionConnection(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt, "OS & X2/PMJ/PMB")
+                    new RegionConnection(CrashTestIndustriesPlatformsAboveSecondCheckpointArea, "PMJ/PMB"),
+                    new RegionConnection(CrashTestIndustriesAfterThirdConveyorBelt, "X2/SP & X1/PMB | PMJ"),
+                    new RegionConnection(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt, "OS & X2/PMJ/PMB"),
+                    new RegionConnection(CrashTestIndustriesPipesRightOfSecondConveyorBelt, "X1 & PMB/PMJ"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesPlatformsAboveSecondCheckpointArea)),
+                [
+                    new RegionConnection(CrashTestIndustriesHigherPlatformsAboveSecondCheckpointArea, "PMB"),
+                    new RegionConnection(CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt, "OS"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesPathAboveSecondConveyorBelt, "PMB | X1+PMJ"),
+                    new RegionConnection(CrashTestIndustriesHighDuctsRightOfStartingArea, "PMB")
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesPathAboveSecondConveyorBelt)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesHighDuctsRightOfStartingArea)),
+                [
+                    new RegionConnection(CrashTestIndustriesHatWorldHat),
                 ]
             },
             {
@@ -9750,8 +10168,54 @@ namespace YellowTaxiAP
                 GetDescription(nameof(CrashTestIndustriesAfterThirdConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesAfterSecondConveyorBelt),
+                    new RegionConnection(CrashTestIndustriesHighGroundLeftAfterThirdConveyorBelt, "PMB | X1+PMJ"),
+                    new RegionConnection(CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt, "X1/PMJ"),
                     new RegionConnection(CrashTestIndustriesOrangeBridgeLeftOfThirdConveyorBelt, "OS"),
-                    new RegionConnection(CrashTestIndustriesOrangeSwitchPlatform, "X2 | SP & X1/B1"),
+                    new RegionConnection(CrashTestIndustriesPlatformRightAfterThirdConveyorBelt, "OS"),
+                    new RegionConnection(CrashTestIndustriesOrangeSwitchPlatform, "X2/SP & X1/PMB"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesHighGroundLeftAfterThirdConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt, "PMB"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesHigherGroundLeftAfterThirdConveyorBelt)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesPlatformRightAfterThirdConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt, "PMB"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesSpiralPipeRightOfThirdConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesPlatformRightAfterThirdConveyorBelt),
+                    new RegionConnection(CrashTestIndustriesThirdPlatformRightAfterThirdConveyorBelt, "PMB | X1+PMJ")
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesThirdPlatformRightAfterThirdConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt, "PMB"),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt)),
+                [
+                    new RegionConnection(CrashTestIndustriesHiddenCoinsAboveFinalConveyorBelt),
+                ]
+            },
+            {
+                GetDescription(nameof(CrashTestIndustriesHiddenCoinsAboveFinalConveyorBelt)),
+                [
+                    // No connections
                 ]
             },
             {
@@ -9759,7 +10223,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(CrashTestIndustriesAfterThirdConveyorBelt),
                     new RegionConnection(CrashTestIndustriesFinalOrangeBridge, "OS"),
-                    new RegionConnection(CrashTestIndustriesFinalArea, "X3+B1"),
+                    new RegionConnection(CrashTestIndustriesFinalArea, "X3+PMB"),
                 ]
             },
             {
@@ -9877,8 +10341,8 @@ namespace YellowTaxiAP
                     new RegionConnection(CostipationRoadwayGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
                     new RegionConnection(CostipationIslandGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
                     new RegionConnection(HeroicMovesEnd, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
-                    new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, $"NSAR & {{{ConveyorBeltsStartingArea}}}"),
-                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, $"NSAR & {{{ConveyorBeltsStartingArea}}}"),
+                    new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, $"NSAR & {{{GetDescription(nameof(ConveyorBeltsStartingArea))}}}"),
+                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, $"NSAR & {{{GetDescription(nameof(ConveyorBeltsStartingArea))}}}"),
                 ]
             },
             {
@@ -10096,7 +10560,8 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ConveyorBeltsStartingArea)),
                 [
                     new RegionConnection("Conveyor Belts - Mosk's Rocket Portal Near Entrance", RocketCityCrashMindArea, ConnectionType.Subwarp),
-                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, "X1+B1 | SAR+B1+J1 | X2+J2"),
+                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, "X1+B1 | NGPS+B1+J1 | X2+J2"),
+                    new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, "X2+B2+J1 | X1+NGPS+B2+J2"),
                     new RegionConnection(ConveyorBeltsLowerPath, "B1+J1"),
                     new RegionConnection(ConveyorBeltsUpperPath, "B2 & X1/J1 | X1+B1 & X3/J1"),
                 ]
@@ -10264,6 +10729,10 @@ namespace YellowTaxiAP
                         case "gear":
                         case "Gear (BonusScript)":
                             convertedType = "Gear";
+                            break;
+                        case "bunny":
+                        case "BonusBunny (BonusScript)":
+                            convertedType = "Bunny";
                             break;
                         case "coin":
                             convertedType = "Coin";
