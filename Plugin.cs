@@ -457,11 +457,12 @@ public class Plugin : BaseUnityPlugin
                     GUIUtility.systemCopyBuffer = knownWarpsStr.TrimEnd('\n');
                 }
 
-                //if (Input.GetKeyDown(KeyCode.T))
-                //{
-                //    Log("DEBUG: Activating Wishlist Trap", true);
-                //    Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
-                //}
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    var trap = "flip vertical";
+                    Log($"Testing {trap}");
+                    APTrapController.ActivateTrap(trap, "Don't Worry Bout it");
+                }
 
                 if (Input.GetKeyDown(KeyCode.PageUp))
                 {
