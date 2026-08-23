@@ -26,7 +26,10 @@ namespace YellowTaxiAP.Managers
             orig(self);
             if (!Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] || PsychoTaxiCabinetScript.CartridgeAnimPlaying)
             {
-                TrueLevelDisplay?.gameObject.SetActive(false);
+                if (TrueLevelDisplay)
+                {
+                    TrueLevelDisplay.gameObject.SetActive(false);
+                }
                 if (self.turnedOn)
                 {
                     self.cabMeshRend.sharedMaterial = self.turnedOffmat;
