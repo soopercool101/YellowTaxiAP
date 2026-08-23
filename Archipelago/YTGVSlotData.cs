@@ -478,6 +478,15 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for shuffle_flip_o_will found");
             }
 
+            if (slotData.ContainsKey("allow_top_down_jumps"))
+            {
+                CanPacManJump = (bool)slotData["allow_top_down_jumps"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for allow_top_down_jumps found");
+            }
+
             if (slotData.ContainsKey("shuffle_spin_attack"))
             {
                 ShuffleSpinAttack = (bool)slotData["shuffle_spin_attack"];
