@@ -8648,7 +8648,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "B2"),
                     new RegionConnection(MoriosLabGroundFloorSecondWrench, "B1/J2"),
                     new RegionConnection(MoriosLabSecondFloor, "J1/B1"),
-                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "NOS+B2+J2+FGU | X1+B2+FGU & X2/J1"),
+                    new RegionConnection(MoriosLabFifthFloorCrashTestArea, "NSOS+B2+J2+FGU | X1+B2+FGU & X2/J1"),
                     new RegionConnection("Morio's Lab - Morio's Home Portal", "{PORTAL}Morio's Home", ConnectionType.Warp, "PortalMorioHome"),
                     new RegionConnection("Morio's Lab - Bombeach Portal", "{PORTAL}Bombeach", ConnectionType.Warp, "PortalBombeach"),
                 ]
@@ -10134,7 +10134,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(CrashTestIndustriesPlatformsAboveSecondCheckpointArea)),
                 [
-                    new RegionConnection(CrashTestIndustriesHigherPlatformsAboveSecondCheckpointArea, "PMB"),
+                    new RegionConnection(CrashTestIndustriesHigherPlatformsAboveSecondCheckpointArea, "PMB | X3+PMJ"),
                     new RegionConnection(CrashTestIndustriesWallPathwayRightOfSecondConveyorBelt, "OS"),
                 ]
             },
@@ -10223,7 +10223,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(CrashTestIndustriesAfterThirdConveyorBelt),
                     new RegionConnection(CrashTestIndustriesFinalOrangeBridge, "OS"),
-                    new RegionConnection(CrashTestIndustriesFinalArea, "X3+PMB"),
+                    new RegionConnection(CrashTestIndustriesFinalArea, "X3 & PMB/PMJ"),
                 ]
             },
             {
@@ -10237,6 +10237,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(CrashTestIndustriesFinalArea)),
                 [
                     new RegionConnection(CrashTestIndustriesFinalOrangeBridge, "OS"),
+                    new RegionConnection(PipeZoneStartingArea, "X3+PMJ"),
                     new RegionConnection("Crash Test Industries - Mori-O-Tron in Final Area", CrashTestIndustriesAfterThirdConveyorBelt, ConnectionType.MoriOTron),
                     new RegionConnection("Crash Test Industries - Pipe Zone Pipe", PipeZoneStartingArea, ConnectionType.Subwarp),
                 ]
