@@ -45,7 +45,7 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void InfluencerPictureScript_Start(On.InfluencerPictureScript.orig_Start orig, InfluencerPictureScript self)
         {
-            BonusScript componentInParent = self.GetComponentInParent<BonusScript>();
+            var componentInParent = self.GetComponentInParent<BonusScript>();
             if ((!Master.influencerHatsAndGraphicsEnabled ? 1 : (!((Object)componentInParent != (Object)null) || componentInParent.myIdentity != BonusScript.Identity.coin ? 0 : (componentInParent.CoinPickedUpGet() ? 1 : 0))) != 0)
             {
                 self.enabled = false;
