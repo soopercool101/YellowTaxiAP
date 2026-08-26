@@ -466,16 +466,13 @@ namespace YellowTaxiAP.Behaviours
                         cutsceneId = Random.RandomRangeInt(0, 4);
                     } while (cutsceneId == lastCutsceneId);
 
+                    lastCutsceneId = cutsceneId;
                     Instance = cutsceneId switch
                     {
-                        0 => Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f)),
-                        1 => Spawn.Instance("CutsceneHolder_ToslaHQUnlocked", new Vector3(0.0f, 500f, 0.0f)),
-                        2 => Spawn.Instance("CutsceneHolder_StartGame",
-                            new Vector3(PlayerScript.instance.transform.position.x, 1000f,
-                                PlayerScript.instance.transform.position.z)),
-                        3 => Spawn.Instance("CutsceneHolder_Game100PercentComplete",
-                            new Vector3(PlayerScript.instance.transform.position.x, 1000f,
-                                PlayerScript.instance.transform.position.z)),
+                        0 => Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(10000, 480, 10000)),
+                        1 => Spawn.Instance("CutsceneHolder_ToslaHQUnlocked", new Vector3(10000, 480, 10000)),
+                        2 => Spawn.Instance("CutsceneHolder_StartGame", new Vector3(10000, 480, 10000)),
+                        3 => Spawn.Instance("CutsceneHolder_Game100PercentComplete", new Vector3(10000, 480, 10000)),
                         _ => Instance
                     };
                     DurationSeconds = 0;

@@ -1,9 +1,10 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Models;
 using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
@@ -47,6 +48,19 @@ namespace YellowTaxiAP.Managers
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
             On.DialogueScript.SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio += DialogueScript_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio;
+
+            //On.CutsceneHolderScript.Start += CutsceneHolderScript_Start;
+            On.CutsceneHolderScript.CutsceneHolderCoroutine += CutsceneHolderScript_CutsceneHolderCoroutine;
+        }
+
+        /// <summary>
+        /// Intentionally move the cutscene much further away.
+        /// Player position is clamped within the boundaries of -512 to 512 on the y-axis, so instead just move it way out of the way on X and Z
+        /// </summary>
+        private IEnumerator CutsceneHolderScript_CutsceneHolderCoroutine(On.CutsceneHolderScript.orig_CutsceneHolderCoroutine orig, CutsceneHolderScript self)
+        {
+            self.transform.position = new Vector3(10000, 480, 10000);
+            return orig(self);
         }
 
         private void DialogueScript_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea(On.DialogueScript.orig_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea orig, DialogueScript self)
