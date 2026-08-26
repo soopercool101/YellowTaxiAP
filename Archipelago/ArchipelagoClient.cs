@@ -10,8 +10,10 @@ using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
+using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Archipelago;
 
@@ -726,13 +728,13 @@ public class ArchipelagoClient
                         APPlayerManager.PerLevelJumpItems[(Data.LevelId)level]++;
                     }
 
-                    if ((Data.LevelId)level == (GameplayMaster.instance?.levelId ?? Data.LevelId.noone))
+                    if (MenuV2Script.instance && MenuV2Script.instance.isPauseMenu)
                     {
-                        if (MenuV2Script.instance && MenuV2Script.instance.isPauseMenu)
+                        var minimaps = Object.FindObjectsByType<MinimapUiNodeScript>(FindObjectsInactive.Include,
+                            FindObjectsSortMode.None);
+                        foreach (var minimap in minimaps)
                         {
-                            MenuV2Script.instance.menuSubTitles[13] = Data.levelDataList[(int)GameplayMaster.instance.levelId].GetName() +
-                                                                      $" (B:{APPlayerManager.BoostLevel} J:{APPlayerManager.JumpLevel})";
-                            MenuV2Element.UpdateTexts();
+                            minimap.OnEnable();
                         }
                     }
 

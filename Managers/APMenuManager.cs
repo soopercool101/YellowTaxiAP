@@ -150,9 +150,6 @@ namespace YellowTaxiAP.Managers
                 {
                     self.menuSubTitles[15] = LocalizationManager.GetTermTranslation(Plugin.SlotData.StartInLab ? "MENU_SUB_TITLE_HEAD_TO_LAB" : "MENU_SUB_TITLE_HEAD_TO_GRANNYS_ISLAND");
                 }
-
-                self.menuSubTitles[13] = Data.levelDataList[(int)GameplayMaster.instance.levelId].GetName() +
-                                         $" (B:{APPlayerManager.BoostLevel} J:{APPlayerManager.JumpLevel})";
             }
         }
 
