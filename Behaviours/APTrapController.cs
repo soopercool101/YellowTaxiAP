@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using I2.Loc;
@@ -14,7 +14,6 @@ namespace YellowTaxiAP.Behaviours
         public static Queue<Trap> TrapsToActivate = new();
         public static ulong Count = 0;
         public static float DefaultTrapDuration = 10f;
-        public static int? OriginalFramerate;
 
         public static bool Armed;
 
@@ -513,7 +512,7 @@ namespace YellowTaxiAP.Behaviours
 
         public override void TrapDeactivate()
         {
-            Application.targetFrameRate = APTrapController.OriginalFramerate ?? 60;
+            Application.targetFrameRate = -1;
             Instance = null;
         }
     }
@@ -524,13 +523,12 @@ namespace YellowTaxiAP.Behaviours
 
         public override void TrapActivate()
         {
-
             if (Instance is not BulletTimeTrap)
             {
-                Instance?.DurationSeconds = APTrapController.DefaultTrapDuration / 2;
-                DurationSeconds = APTrapController.DefaultTrapDuration / 2;
-                Time.timeScale = 0.5f;
-                Application.targetFrameRate = 20;
+                Instance?.DurationSeconds = APTrapController.DefaultTrapDuration / 3;
+                DurationSeconds = APTrapController.DefaultTrapDuration / 3;
+                Time.timeScale = 0.33f;
+                Application.targetFrameRate = 15;
                 Instance = this;
             }
             else
@@ -549,7 +547,7 @@ namespace YellowTaxiAP.Behaviours
         public override void TrapDeactivate()
         {
             Time.timeScale = 1f;
-            Application.targetFrameRate = APTrapController.OriginalFramerate ?? 60;
+            Application.targetFrameRate = -1;
             Instance = null;
         }
     }
