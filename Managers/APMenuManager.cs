@@ -174,7 +174,12 @@ namespace YellowTaxiAP.Managers
             {
                 Plugin.Log($"Setting boost/jump text based on {WelcomeScreenLevel}");
                 self.welcomeGearsTextAnimator.gameObject.transform.position += new Vector3(-10, -5, 0);
-                self.welcomeGearsTextAnimator.SetText($"Boosts: {APPlayerManager.PerLevelBoostItems[WelcomeScreenLevel]}\nJumps: {APPlayerManager.PerLevelJumpItems[WelcomeScreenLevel]}", false);
+                var text = $"Boosts: {APPlayerManager.PerLevelBoostItems[WelcomeScreenLevel]}";
+                if (WelcomeScreenLevel != Data.LevelId.L10_CrashTestIndustries || Plugin.SlotData.CanPacManJump)
+                {
+                    text += $"\nJumps: {APPlayerManager.PerLevelJumpItems[WelcomeScreenLevel]}";
+                }
+                self.welcomeGearsTextAnimator.SetText(text, false);
             }
             else
             {
