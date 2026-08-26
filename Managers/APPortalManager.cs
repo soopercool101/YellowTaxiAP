@@ -161,6 +161,18 @@ namespace YellowTaxiAP.Managers
             return originalLevel;
         }
 
+        public static LevelId GetRandomizedPortalId(LevelId targetLevel, bool ignoreExcluded = false)
+        {
+            if (RandomizedPortalLevelOrder.Contains(targetLevel))
+            {
+                var randomizedLevel =
+                    OriginalPortalLevelOrder[Array.IndexOf(RandomizedPortalLevelOrder, targetLevel)];
+                if (!ignoreExcluded || randomizedLevel != LevelId.L11_HubDemo)
+                    return randomizedLevel;
+            }
+            return LevelId.L11_HubDemo;
+        }
+
         private void PortalScript_UpdatePortalToLevelName(On.PortalScript.orig_UpdatePortalToLevelName orig, PortalScript self)
         {
             if (string.IsNullOrEmpty(self._name) || self._name.Any(c => char.IsDigit(c)))

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 
@@ -14,53 +15,11 @@ namespace YellowTaxiAP.Managers
 
         private Data.LevelData Data_GetLevelIfUnlocked(On.Data.orig_GetLevelIfUnlocked orig, Data.LevelId _id)
         {
-            switch (_id)
-            {
-                case Data.LevelId.L12_MoriosMind when !Data.morioMindDreamMachineUsedOnce[Data.gameDataIndex]:
-                case Data.LevelId.L13_StarmanCastle when !APAreaStateManager.MindPasswordReceived:
-                case Data.LevelId.L15_Moon when Data.gearsUnlockedNumber[Data.gameDataIndex] < 130:
-                case Data.LevelId.L16_Rocket when !APAreaStateManager.RocketEnabled:
-                    return null;
-                case Data.LevelId.L6_Gym:
-                    switch (Plugin.SlotData.GymGearsUnlockCondition)
-                    {
-                        case YTGVSlotData.LevelUnlockCondition.Exclude:
-                        case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
-                        case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.GymMembership:
-                            return null;
-                    }
-                    break;
-                case Data.LevelId.L7_PoopWorld:
-                    switch (Plugin.SlotData.FecalMattersUnlockCondition)
-                    {
-                        case YTGVSlotData.LevelUnlockCondition.Exclude:
-                        case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
-                        case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.DoggoReceived:
-                        case YTGVSlotData.LevelUnlockCondition.Special when !APSaveController.MiscSave.HasDoggo:
-                            return null;
-                    }
-                    break;
-                case Data.LevelId.L8_Sewers:
-                    switch (Plugin.SlotData.FlushedAwayUnlockCondition)
-                    {
-                        case YTGVSlotData.LevelUnlockCondition.Exclude:
-                        case YTGVSlotData.LevelUnlockCondition.FullGame when !APAreaStateManager.FullGameUnlocked:
-                        case YTGVSlotData.LevelUnlockCondition.Item when !APAreaStateManager.SewerKeyReceived:
-                            return null;
-                        default:
-                            if (!(APSwitchManager.OrangeSwitchUnlocked || Plugin.SlotData.EarlySewerIsland))
-                                return null;
-                            break;
-                    }
-                    break;
-            }
-
-            if (Data.IsLevelTimeAttack(_id) || Data.IsLevelPsychoTaxiMode(_id))
-                return null;
-
-            return (from level in Data.levelDataList
-                where (Data.LevelId) level.levelId == _id && level.levelCost != -1
-                select level.levelCost > Data.gearsUnlockedNumber[Data.gameDataIndex] ? null : level).FirstOrDefault();
+            return _id != Data.LevelId.Hub &&
+                   !APSaveController.PortalSave.IsLevelPortalUnlocked(APPortalManager.GetRandomizedPortalId(_id))
+                ? null
+                : (from level in Data.levelDataList where (Data.LevelId)level.levelId == _id select level)
+                .FirstOrDefault();
         }
 
         /// <summary>
@@ -75,21 +34,20 @@ namespace YellowTaxiAP.Managers
                 self.isMyLevelUnlocked = Data.GetLevelIfUnlocked(self.myMapAreaScriptableObject.levelId) != null;
                 if (self.isMyLevelUnlocked)
                 {
-                    self.isAreaUnlocked = true;
-                    if (!APAreaStateManager.FullGameUnlocked &&
-                        self.myMapAreaScriptableObject.levelId is Data.LevelId.L2_PizzaTime
-                            or Data.LevelId.L4_ArcadePanik or Data.LevelId.L5_ToslaOffices or Data.LevelId.L8_Sewers
-                            or Data.LevelId.L9_City or Data.LevelId.L10_CrashTestIndustries
-                            or Data.LevelId.L12_MoriosMind or Data.LevelId.L13_StarmanCastle or Data.LevelId.L14_ToslaHQ
-                            or Data.LevelId.L15_Moon)
+                    if (self.myMapAreaScriptableObject.levelId == Data.LevelId.Hub)
                     {
-                        self.isAreaUnlocked = false;
+                        Plugin.Log(self.myMapAreaScriptableObject.areaName);
                     }
+                    self.isAreaUnlocked = true;
+                    var grannysInaccessible = !APAreaStateManager.LabDoorUnlocked && Plugin.SlotData.StartInLab;
                     switch (self.myMapAreaScriptableObject.areaName)
                     {
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_BOMBS" when !APAreaStateManager.GelaToniReceived:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_PIZZA" when !APAreaStateManager.PizzaKingReceived:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_CRASH_TEST" when (!APSwitchManager.OrangeSwitchUnlocked || !APAreaStateManager.FullGameUnlocked):
+                        case "LEVEL_NAME_GRANNY_ISLAND" when grannysInaccessible:
+                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_LAWYER_ROOM" when grannysInaccessible:
+                        case "MAP_AREA_NAME_GRANNY_ISLAND_LAB" when !APAreaStateManager.LabDoorUnlocked && !Plugin.SlotData.StartInLab:
+                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_BOMBS" when grannysInaccessible || !APAreaStateManager.GelaToniReceived:
+                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_PIZZA" when grannysInaccessible || !APAreaStateManager.PizzaKingReceived:
+                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_CRASH_TEST" when grannysInaccessible || !APSwitchManager.OrangeSwitchUnlocked || !APAreaStateManager.FullGameUnlocked:
                             self.isAreaUnlocked = false;
                             break;
                     }
@@ -109,6 +67,22 @@ namespace YellowTaxiAP.Managers
             }
 
             orig(self);
+
+            if (self.isDiscovered && self.isAreaUnlocked && Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.PerLevel)
+            {
+                var level = self.myMapAreaScriptableObject.levelId;
+                
+                var text = $"Boosts: {APPlayerManager.PerLevelBoostItems[level]}";
+                self.gearsText.outlineWidth = 0.1f;
+                self.gearsText.outlineColor = new Color32(0, 0, 0, 0xFF);
+                if (level != Data.LevelId.L10_CrashTestIndustries || Plugin.SlotData.CanPacManJump)
+                {
+                    text += $"\nJumps:  {APPlayerManager.PerLevelJumpItems[level]}";
+                }
+
+                Plugin.Log(self.gearsText.fontSize.ToString());
+                self.gearsText.text += $"<size=0.5>\n\n</size><size=1>{APDialogueManager.SetTextColor(text, APDialogueManager.DialogueColors.RedYellow)}</size>";
+            }
 
             self.isAreaUnlocked = self.isDiscovered;
             MinimapUiNodeScript.unlockedUndiscoveredList.Remove(self);
