@@ -429,24 +429,64 @@ namespace YellowTaxiAP.Behaviours
     public class CutsceneTrap : Trap
     {
         public override string Name => "Cutscene Trap";
+        public static ulong CurrentId;
+        public static ulong LatestId;
+        public ulong Id;
+
+        public bool Activated;
+
+        public static int lastCutsceneId = -1;
+        public static GameObject Instance;
+
 
         public override void TrapActivate()
         {
-            PlayerScript.instance.myRb.velocity = new Vector3(0, 0, 0);
-            switch (Random.RandomRangeInt(0, 4))
+            Activated = false;
+            DurationSeconds = 5;
+            Id = LatestId++;
+            if (LatestId == ulong.MaxValue)
             {
-                case 0:
-                    Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f));
-                    break;
-                case 1:
-                    Spawn.Instance("CutsceneHolder_ToslaHQUnlocked", new Vector3(0.0f, 500f, 0.0f));
-                    break;
-                case 2:
-                    Spawn.Instance("CutsceneHolder_StartGame", new Vector3(PlayerScript.instance.transform.position.x, 1000f, PlayerScript.instance.transform.position.z));
-                    break;
-                case 3:
-                    Spawn.Instance("CutsceneHolder_Game100PercentComplete", new Vector3(PlayerScript.instance.transform.position.x, 1000f, PlayerScript.instance.transform.position.z));
-                    break;
+                LatestId = 0;
+            }
+        }
+
+        public override void TrapUpdate()
+        {
+            if (!Activated)
+            {
+                DurationSeconds = 5;
+                if (Id != CurrentId)
+                    return;
+                if (!Instance)
+                {
+                    PlayerScript.instance.myRb.velocity = new Vector3(0, 0, 0);
+
+                    int cutsceneId;
+                    do
+                    {
+                        cutsceneId = Random.RandomRangeInt(0, 4);
+                    } while (cutsceneId == lastCutsceneId);
+
+                    Instance = cutsceneId switch
+                    {
+                        0 => Spawn.Instance("CutsceneHolder_DemoBombossBeated", new Vector3(0.0f, 512f, 0.0f)),
+                        1 => Spawn.Instance("CutsceneHolder_ToslaHQUnlocked", new Vector3(0.0f, 500f, 0.0f)),
+                        2 => Spawn.Instance("CutsceneHolder_StartGame",
+                            new Vector3(PlayerScript.instance.transform.position.x, 1000f,
+                                PlayerScript.instance.transform.position.z)),
+                        3 => Spawn.Instance("CutsceneHolder_Game100PercentComplete",
+                            new Vector3(PlayerScript.instance.transform.position.x, 1000f,
+                                PlayerScript.instance.transform.position.z)),
+                        _ => Instance
+                    };
+                    DurationSeconds = 0;
+                    Activated = true;
+                    CurrentId++;
+                    if (CurrentId == ulong.MaxValue)
+                    {
+                        CurrentId = 0;
+                    }
+                }
             }
         }
     }
@@ -1024,7 +1064,7 @@ namespace YellowTaxiAP.Behaviours
         public virtual APDialogueManager.DialogueTrapType DialogueTrapType { get; }
         public static ulong CurrentId;
         public static ulong LatestId;
-        public static ulong Id;
+        public ulong Id;
 
         public bool Activated;
 
@@ -1044,11 +1084,8 @@ namespace YellowTaxiAP.Behaviours
             if (!Activated)
             {
                 DurationSeconds = 5;
-                if (Id < CurrentId)
-                {
-                    Plugin.Log("Awaiting queued trap");
+                if (Id != CurrentId)
                     return;
-                }
                 if (!DialogueScript.instance && !HudMasterScript.instance.buyingHat && APDialogueManager.ActiveDialogueTrapType == APDialogueManager.DialogueTrapType.None)
                 {
                     APDialogueManager.ActiveDialogueTrapType = DialogueTrapType;
