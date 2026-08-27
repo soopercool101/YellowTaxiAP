@@ -38,7 +38,6 @@ namespace YellowTaxiAP.Managers
                     switch (self.myMapAreaScriptableObject.levelId)
                     {
                         case Data.LevelId.L16_Rocket:
-                        {
                             var kaizoLevel = self.myMapAreaScriptableObject.areaName.Substring(21) switch
                             {
                                 "LAB" => Data.LevelId.Hub,
@@ -66,9 +65,7 @@ namespace YellowTaxiAP.Managers
                             }
 
                             break;
-                        }
                         case Data.LevelId.Hub:
-                        {
                             var grannysInaccessible = !APAreaStateManager.LabDoorUnlocked && Plugin.SlotData.StartInLab;
                             switch (self.myMapAreaScriptableObject.areaName)
                             {
@@ -83,7 +80,6 @@ namespace YellowTaxiAP.Managers
                             }
 
                             break;
-                        }
                     }
                 }
                 else
