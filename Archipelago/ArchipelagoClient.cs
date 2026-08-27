@@ -603,6 +603,7 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.LabKey:
                 APAreaStateManager.LabDoorUnlocked = true;
+                APMenuManager.FlagMinimapNeedsUpdate();
                 break;
             case Identifiers.ItemID.GymMembership:
                 APAreaStateManager.GymMembership = true;
@@ -728,15 +729,7 @@ public class ArchipelagoClient
                         APPlayerManager.PerLevelJumpItems[(Data.LevelId)level]++;
                     }
 
-                    if (MenuV2Script.instance && MenuV2Script.instance.isPauseMenu)
-                    {
-                        var minimaps = Object.FindObjectsByType<MinimapUiNodeScript>(FindObjectsInactive.Include,
-                            FindObjectsSortMode.None);
-                        foreach (var minimap in minimaps)
-                        {
-                            minimap.OnEnable();
-                        }
-                    }
+                    APMenuManager.FlagMinimapNeedsUpdate();
 
                     break;
                 }
@@ -791,6 +784,7 @@ public class ArchipelagoClient
     private void ReceivedBunny()
     {
         APDataManager.TotalBunniesReceived++;
+        APMenuManager.FlagMinimapNeedsUpdate();
         if (!GameplayMaster.instance || GameplayMaster.instance.levelId != Data.LevelId.L16_Rocket)
             return;
         GameStateUpdater.BunnyStateNeedsUpdate = true;

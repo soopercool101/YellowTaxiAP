@@ -34,22 +34,56 @@ namespace YellowTaxiAP.Managers
                 self.isMyLevelUnlocked = Data.GetLevelIfUnlocked(self.myMapAreaScriptableObject.levelId) != null;
                 if (self.isMyLevelUnlocked)
                 {
-                    if (self.myMapAreaScriptableObject.levelId == Data.LevelId.Hub)
-                    {
-                        Plugin.Log(self.myMapAreaScriptableObject.areaName);
-                    }
                     self.isAreaUnlocked = true;
-                    var grannysInaccessible = !APAreaStateManager.LabDoorUnlocked && Plugin.SlotData.StartInLab;
-                    switch (self.myMapAreaScriptableObject.areaName)
+                    switch (self.myMapAreaScriptableObject.levelId)
                     {
-                        case "LEVEL_NAME_GRANNY_ISLAND" when grannysInaccessible:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_LAWYER_ROOM" when grannysInaccessible:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_LAB" when !APAreaStateManager.LabDoorUnlocked && !Plugin.SlotData.StartInLab:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_BOMBS" when grannysInaccessible || !APAreaStateManager.GelaToniReceived:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_PIZZA" when grannysInaccessible || !APAreaStateManager.PizzaKingReceived:
-                        case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_CRASH_TEST" when grannysInaccessible || !APSwitchManager.OrangeSwitchUnlocked || !APAreaStateManager.FullGameUnlocked:
-                            self.isAreaUnlocked = false;
+                        case Data.LevelId.L16_Rocket:
+                        {
+                            var kaizoLevel = self.myMapAreaScriptableObject.areaName.Substring(21) switch
+                            {
+                                "LAB" => Data.LevelId.Hub,
+                                "MORIO_HOME" => Data.LevelId.L3_MoriosHome,
+                                "BOMBEACH" => Data.LevelId.L1_Bombeach,
+                                "PIZZA_TIME" => Data.LevelId.L2_PizzaTime,
+                                "PANIK_ARCADE" => Data.LevelId.L4_ArcadePanik,
+                                "TOSLA_OFFICES" => Data.LevelId.L5_ToslaOffices,
+                                "GYM" => Data.LevelId.L6_Gym,
+                                "POOP_WORLD" => Data.LevelId.L7_PoopWorld,
+                                "SEWERS" => Data.LevelId.L8_Sewers,
+                                "MAURIZIO_CITY" => Data.LevelId.L9_City,
+                                "CRASH_TEST" => Data.LevelId.L10_CrashTestIndustries,
+                                "MORIO_MIND" => Data.LevelId.L12_MoriosMind,
+                                "RUINED_OBSERVATORY" => Data.LevelId.L13_StarmanCastle,
+                                "TOSLA_HQ" => Data.LevelId.L14_ToslaHQ,
+                                "MOON" => Data.LevelId.L15_Moon,
+                                _ => Data.LevelId.L16_Rocket
+                            };
+
+                            if (kaizoLevel != Data.LevelId.L16_Rocket)
+                            {
+                                self.isAreaUnlocked = Data.BunniesGetLevelCollectedNumber(kaizoLevel) >=
+                                                      Data.BunniesGetLevelMaxNumber(kaizoLevel);
+                            }
+
                             break;
+                        }
+                        case Data.LevelId.Hub:
+                        {
+                            var grannysInaccessible = !APAreaStateManager.LabDoorUnlocked && Plugin.SlotData.StartInLab;
+                            switch (self.myMapAreaScriptableObject.areaName)
+                            {
+                                case "LEVEL_NAME_GRANNY_ISLAND" when grannysInaccessible:
+                                case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_LAWYER_ROOM" when grannysInaccessible:
+                                case "MAP_AREA_NAME_GRANNY_ISLAND_LAB" when !APAreaStateManager.LabDoorUnlocked && !Plugin.SlotData.StartInLab:
+                                case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_BOMBS" when grannysInaccessible || !APAreaStateManager.GelaToniReceived:
+                                case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_PIZZA" when grannysInaccessible || !APAreaStateManager.PizzaKingReceived:
+                                case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_CRASH_TEST" when grannysInaccessible || !APSwitchManager.OrangeSwitchUnlocked || !APAreaStateManager.FullGameUnlocked:
+                                    self.isAreaUnlocked = false;
+                                    break;
+                            }
+
+                            break;
+                        }
                     }
                 }
                 else
@@ -79,8 +113,6 @@ namespace YellowTaxiAP.Managers
                 {
                     text += $"\nJumps:  {APPlayerManager.PerLevelJumpItems[level]}";
                 }
-
-                Plugin.Log(self.gearsText.fontSize.ToString());
                 self.gearsText.text += $"<size=0.5>\n\n</size><size=1>{APDialogueManager.SetTextColor(text, APDialogueManager.DialogueColors.RedYellow)}</size>";
             }
 

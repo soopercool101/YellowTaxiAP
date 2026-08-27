@@ -30,6 +30,16 @@ namespace YellowTaxiAP.Managers
             On.Data.LevelData.GetName += LevelData_GetName;
         }
 
+        public static bool MinimapNeedsUpdate { get; private set; }
+
+        public static void FlagMinimapNeedsUpdate()
+        {
+            if (MenuV2Script.instance && MenuV2Script.instance.isPauseMenu)
+            {
+                MinimapNeedsUpdate = true;
+            }
+        }
+
         private string LevelData_GetName(On.Data.LevelData.orig_GetName orig, Data.LevelData self, bool welcomeSetupRequest)
         {
             // Rocket is normally hardcoded to return Granny's. Fix
@@ -200,6 +210,16 @@ namespace YellowTaxiAP.Managers
             if (!self.isPauseMenu)
             {
                 UpdateMainMenuText();
+            }
+            else if (MinimapNeedsUpdate)
+            {
+                var minimaps = Object.FindObjectsByType<MinimapUiNodeScript>(FindObjectsInactive.Include,
+                    FindObjectsSortMode.None);
+                foreach (var minimap in minimaps)
+                {
+                    minimap.OnEnable();
+                }
+                MinimapNeedsUpdate = false;
             }
         }
 
