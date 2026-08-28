@@ -2630,8 +2630,9 @@ namespace YellowTaxiAP
             { "1_01_00003", "Bombeach - Gear - Island Near Ocean Bridge" },
         };
 
-        [Description("Bombeach - Jump or Boost")]
-        public static Dictionary<string, string> BombeachJumpOrBoost = new()
+        // These require long-distance bomb luring
+        [Description("Bombeach - Expert 2 Bomb Jumps")]
+        public static Dictionary<string, string> BombeachExpert2BombJumps = new()
         {
             { "1_03_00141", "Bombeach - Coin in Secret Ocean Area Past Gem-Shaped Islands #1" },
             { "1_03_00146", "Bombeach - Coin in Secret Ocean Area Past Gem-Shaped Islands #2" },
@@ -2643,6 +2644,11 @@ namespace YellowTaxiAP
             { "1_03_00148", "Bombeach - Coin in Secret Ocean Area Past Gem-Shaped Islands #7" },
             { "1_03_00139", "Bombeach - Coin Bag in Secret Ocean Area Past Gem-Shaped Islands #2" },
             { "1_03_00144", "Bombeach - Coin Bag in Secret Ocean Area Past Gem-Shaped Islands #3" },
+        };
+
+        [Description("Bombeach - Jump or Boost")]
+        public static Dictionary<string, string> BombeachJumpOrBoost = new()
+        {
             { "1_03_00642", "Bombeach - Coin in Row on Second High Ocean Pillar #1" },
             { "1_03_00643", "Bombeach - Coin in Row on Second High Ocean Pillar #2" },
             { "1_03_00644", "Bombeach - Coin in Row on Second High Ocean Pillar #3" },
@@ -7647,6 +7653,7 @@ namespace YellowTaxiAP
             new (GetDescription(nameof(BombeachStartingArea)), BombeachStartingArea),
             new (GetDescription(nameof(BombeachEasyBombJumps)), BombeachEasyBombJumps),
             new (GetDescription(nameof(BombeachExpert1BombJumps)), BombeachExpert1BombJumps),
+            new (GetDescription(nameof(BombeachExpert2BombJumps)), BombeachExpert2BombJumps),
             new (GetDescription(nameof(BombeachJumpOrBoost)), BombeachJumpOrBoost),
             new (GetDescription(nameof(BombeachDistantHighIslands)), BombeachDistantHighIslands),
             new (GetDescription(nameof(BombeachOrangeBlockIsland)), BombeachOrangeBlockIsland),
@@ -8002,6 +8009,7 @@ namespace YellowTaxiAP
                     BombeachStartingArea,
                     BombeachEasyBombJumps,
                     BombeachExpert1BombJumps,
+                    BombeachExpert2BombJumps,
                     BombeachJumpOrBoost,
                     BombeachDistantHighIslands,
                     BombeachOrangeBlockIsland,
@@ -9216,6 +9224,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Bombeach - Morio's Lab Portal", "{RETURNPORTAL}", ConnectionType.Warp),
                     new RegionConnection(BombeachEasyBombJumps),
                     new RegionConnection(BombeachExpert1BombJumps, "X1"),
+                    new RegionConnection(BombeachExpert2BombJumps, "X2"),
                     new RegionConnection(BombeachJumpOrBoost, "J1/B1"),
                     new RegionConnection("Bombeach - Cave Entrance", Cave, ConnectionType.Subwarp),
                     new RegionConnection("Bombeach - Hat World Entrance", BombeachHatWorld, ConnectionType.Subwarp),
@@ -9238,6 +9247,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(BombeachJumpOrBoost)),
                 [
                     new RegionConnection(BombeachExpert1BombJumps),
+                    new RegionConnection(BombeachExpert2BombJumps),
                     new RegionConnection(BombeachOrangeBlockBridge),
                     new RegionConnection(BombeachDistantHighIslands, "X1+J1 | J2 | B1"),
                 ]
