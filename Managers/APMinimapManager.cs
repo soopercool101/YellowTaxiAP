@@ -109,7 +109,13 @@ namespace YellowTaxiAP.Managers
                 {
                     text += $"\nJumps:  {APPlayerManager.PerLevelJumpItems[level]}";
                 }
-                self.gearsText.text += $"<size=0.5>\n\n</size><size=1>{APDialogueManager.SetTextColor(text, APDialogueManager.DialogueColors.RedYellow)}</size>";
+
+                var spacing = string.Empty;
+                if (!string.IsNullOrEmpty(self.gearsText.text))
+                {
+                    spacing = "<size=0.5>\n\n</size>";
+                }
+                self.gearsText.text += $"{spacing}<size=1>{APDialogueManager.SetTextColor(text, APDialogueManager.DialogueColors.RedYellow)}</size>";
             }
 
             self.isAreaUnlocked = self.isDiscovered;
