@@ -313,10 +313,10 @@ namespace YellowTaxiAP.Managers
             {
                 orig(self);
             }
-            else if (APPlayerManager.SpinAttackEnabled)
-            {
-                self.SpecialMethod_OnDialogueEnd_ShowFlipPrompt();
-            }
+            //else if (APPlayerManager.SpinAttackEnabled)
+            //{
+            //    self.SpecialMethod_OnDialogueEnd_ShowFlipPrompt();
+            //}
         }
 
         private void DialogueScript_OnShowGlidePrompt(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_ShowGlidePrompt orig, DialogueScript self)
