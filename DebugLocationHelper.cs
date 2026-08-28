@@ -10561,9 +10561,9 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ConveyorBeltsStartingArea)),
                 [
                     new RegionConnection("Conveyor Belts - Mosk's Rocket Portal Near Entrance", RocketCityCrashMindArea, ConnectionType.Subwarp),
-                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, "X1+B1 | NGPS+B1+J1 | X2+J2"),
-                    new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, "X2+B2+J1 | X1+NGPS+B2+J2"),
-                    new RegionConnection(ConveyorBeltsLowerPath, "B1+J1"),
+                    new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, "X1+B1 | NGPS+B1+J1 | X2+J1"),
+                    new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, "X1+B2+J1 | X2+J2"),
+                    new RegionConnection(ConveyorBeltsLowerPath, "X2/B1 & J1"),
                     new RegionConnection(ConveyorBeltsUpperPath, "B2 & X1/J1 | X1+B1 & X3/J1"),
                 ]
             },
