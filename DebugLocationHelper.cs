@@ -10220,6 +10220,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(CrashTestIndustriesUppermostPlatformsRightAfterThirdConveyorBelt)),
                 [
                     new RegionConnection(CrashTestIndustriesHiddenCoinsAboveFinalConveyorBelt),
+                    new RegionConnection(CrashTestIndustriesFinalArea, "X1+PMB+PMJ"),
                 ]
             },
             {
@@ -10233,7 +10234,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(CrashTestIndustriesAfterThirdConveyorBelt),
                     new RegionConnection(CrashTestIndustriesFinalOrangeBridge, "OS"),
-                    new RegionConnection(CrashTestIndustriesFinalArea, "X3 & PMB/PMJ"),
+                    new RegionConnection(CrashTestIndustriesFinalArea, "X3+PMJ | X2+PMB"),
                 ]
             },
             {
