@@ -56,6 +56,7 @@ namespace YellowTaxiAP.Behaviours
                     newTrap = new FakeTransitionTrap();
                     break;
                 case "cutscene":
+                case "pikmin":
                     newTrap = new CutsceneTrap();
                     break;
                 case "bullet time":
@@ -157,6 +158,7 @@ namespace YellowTaxiAP.Behaviours
                     break;
                 case "phone":
                 case "exposition":
+                case "e. gadd ramblings":
                     newTrap = new PhoneTrap();
                     break;
                 case "tutorial":
