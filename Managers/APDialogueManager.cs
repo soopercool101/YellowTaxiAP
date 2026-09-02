@@ -39,6 +39,7 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea += DialogueScript_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea;
 
             On.PersonParent.Awake += PersonParent_Awake;
+            On.PersonParent.Start += PersonParent_Start;
             On.PersonPizzaCheff.Awake += PersonPizzaCheff_Awake;
             On.PersonParent.JustTalkDefaultCoroutine += PersonParent_JustTalkDefaultCoroutine;
             
@@ -79,21 +80,25 @@ namespace YellowTaxiAP.Managers
         public static bool IsCloningPizzaMan = false;
         private void PersonPizzaCheff_Awake(On.PersonPizzaCheff.orig_Awake orig, PersonPizzaCheff self)
         {
-            if (GameplayMaster.instance.levelId == Data.LevelId.Hub && (self.myId == 10000 || IsCloningPizzaMan))
+            if (GameplayMaster.instance.levelId == Data.LevelId.Hub && IsCloningPizzaMan)
             {
+                self.transform.localPosition = new Vector3(-95, 50, 25);
+                self.myGearId = -1;
                 // Need to blank out the pepperoni list for the clone or the minigame will fail to work on the original
                 self.myPepperonies = [];
             }
             orig(self);
             if (GameplayMaster.instance.levelId == Data.LevelId.Hub)
             {
-                if (self.myId == 10000 || IsCloningPizzaMan)
+                if (IsCloningPizzaMan)
                 {
                     Plugin.Log("Finalizing Pizza Man");
+                    self.myId = 10000;
                     self.pickupCorotuineOverride = null;
                     self.modelHolder.GetChild(2).gameObject.SetActive(false);
+                    IsCloningPizzaMan = false;
                 }
-                else if (Plugin.SlotData.EarlyPizzaWheels)
+                else if (Plugin.SlotData.EarlyPizzaWheels && Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.HubPizzaWheels))
                 {
                     var newZoneMaster = Object
                         .FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None)
@@ -103,20 +108,27 @@ namespace YellowTaxiAP.Managers
                         // If the pizza king is accessible, then we need to clone the pizza man
                         Plugin.Log("Cloning Pizza Man");
                         IsCloningPizzaMan = true; // Make sure the cloning process is executed once, clone shouldn't create more clones!
-                        var newPizzaMan = Object.Instantiate(self, newZoneMaster);
-                        newPizzaMan.myId = 10000;
-                        newPizzaMan.transform.localPosition = new Vector3(-95, 50, 25);
-                        IsCloningPizzaMan = false;
+                        Object.Instantiate(self, newZoneMaster);
                     }
                     else
                     {
                         // If the pizza king is not accessible, we can move the pizza man
                         self.transform.parent = newZoneMaster;
+                        self.myId = 10000;
+                        self.myGearId = -1;
                         self.transform.localPosition = new Vector3(-95, 50, 25);
                         self.pickupCorotuineOverride = null;
                         self.modelHolder.GetChild(2).gameObject.SetActive(false);
                     }
                 }
+            }
+
+            if (self.myGearId >= 0)
+            {
+                self.gameRelevantPerson = Plugin.ArchipelagoClient.LocationUncleared((long)GameplayMaster.instance.levelId * 1_00_00000 + 100000 +
+                    self.myGearId);
+                self.alreadyPickedUp = !self.gameRelevantPerson;
+                self.LineRendererAlreadyPickedUpRefresh();
             }
         }
 
@@ -156,7 +168,6 @@ namespace YellowTaxiAP.Managers
             original.dialoguePickup = AssetMaster.GetPrefab("Dialogue Rat Pickup Question");
             original.cannotDie = true;
             original.forceCannotRunAway = true;
-            original.gameRelevantPerson = true;
             var animator = original.modelHolder.GetComponentInChildren<Animator>(true);
             var animatorController = animator.runtimeAnimatorController;
             var sourceAnimator = sourceRenderer.GetComponentInParent<Animator>(true);
@@ -190,6 +201,8 @@ namespace YellowTaxiAP.Managers
 
         private void PersonParent_Awake(On.PersonParent.orig_Awake orig, PersonParent self)
         {
+            bool? shouldBeGameRelevant = false;
+            var gameRelevantOld = self.gameRelevantPerson;
             if (Plugin.SlotData.EarlyRat &&
                 GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 512 &&
                 (Plugin.SlotData.ShuffleRat
@@ -197,6 +210,7 @@ namespace YellowTaxiAP.Managers
                     : !RatPersonScript.IsRatPickedUp()))
             {
                 Ratify(self);
+                shouldBeGameRelevant = true;
                 self.transform.parent = Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 4   Z: -1")).transform;
                 self.transform.position = new Vector3(675, 20, -95);
             }
@@ -205,14 +219,7 @@ namespace YellowTaxiAP.Managers
                      !Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.FlushedAwayMichele))
             {
                 Ratify(self);
-            }
-            else if (Plugin.SlotData.EarlySewerIsland && GameplayMaster.instance.levelId == Data.LevelId.Hub &&
-                     self.myId == 474)
-            {
-                Plugin.Log("Moving Bob");
-                self.transform.parent = Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 1   Z: -3")).transform;
-                self.transform.position = new Vector3(167, 10, -460);
-                self.gameRelevantPerson = true;
+                shouldBeGameRelevant = true;
             }
             else if (Plugin.SlotData.EarlyBackflip && GameplayMaster.instance.levelId == Data.LevelId.Hub &&
                      self.myId == 535 && self.dialoguePickup.name.Equals("00 Dialogue Pici Computer Man Backflip"))
@@ -220,15 +227,192 @@ namespace YellowTaxiAP.Managers
                 //Plugin.Log($"{self.transform.position} {self.dialoguePickup.name}");
                 self.transform.position = new Vector3(-850, 130, 470);
             }
-            else if (GameplayMaster.instance.levelId == Data.LevelId.L2_PizzaTime && self.myId == 91 &&
-                     Plugin.SlotData.PizzaWheels != YTGVSlotData.PizzaWheelsMode.Disabled)
+            else if (GameplayMaster.instance.levelId == Data.LevelId.Hub && Plugin.SlotData.EarlySewerIsland &&
+                     self.myId == 474)
             {
-                self.gameRelevantPerson = !Plugin.ArchipelagoClient.AllClearedLocations.Contains(1_00_00000 * (long)GameplayMaster.instance.levelId +
-                    (long)Identifiers.NotableLocations.HubPizzaWheels);
+                Plugin.Log("Moving Bob");
+                self.transform.parent = Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 1   Z: -3")).transform;
+                self.transform.position = new Vector3(167, 10, -460);
+                shouldBeGameRelevant = true;
+            }
+
+            var dialogue = self.dialoguePickup?.GetComponent<DialogueScript>();
+            if (self.justWantToTalk)
+            {
+                // Doggo special handling. Should be game relevant when it hasn't yet opened Fecal Matters
+                if (GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 526)
+                {
+                    if (Plugin.SlotData.FecalMattersUnlockCondition == YTGVSlotData.LevelUnlockCondition.Special)
+                    {
+                        shouldBeGameRelevant = !APAreaStateManager.DoggoReceived;
+                    }
+                    else
+                    {
+                        shouldBeGameRelevant = Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.Doggo);
+                        Plugin.Log($"Checking {(long)Identifiers.NotableLocations.Doggo} picked up state ({!self.gameRelevantPerson})");
+                    }
+                }
+                // Dream Machine Morio special handling. Should be game relevant when it hasn't yet opened Morio's Mind Portal
+                else if (GameplayMaster.instance.levelId == Data.LevelId.Hub && self.myId == 532 &&
+                         APPortalManager.GetRandomizedLevelId(Data.LevelId.L12_MoriosMind) != Data.LevelId.L11_HubDemo)
+                {
+                    shouldBeGameRelevant =
+                        !APSaveController.PortalSave.IsLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
+                }
+                // Pizza King potentially has two locations associated with him, check against both in case of collect shenanigans
+                else if (GameplayMaster.instance.levelId == Data.LevelId.L2_PizzaTime && self.myId == 17)
+                {
+                    shouldBeGameRelevant = Plugin.ArchipelagoClient.LocationUncleared(2_11_00002) ||
+                                           Plugin.ArchipelagoClient.LocationUncleared(2_01_00007);
+                }
+                // Pizza Chef handles itself in own awake
+                else if (self is PersonPizzaCheff)
+                {
+                    shouldBeGameRelevant = null;
+                }
+                else
+                {
+                    // First, use dialogue as a per-level identifier
+                    if (dialogue != null)
+                    {
+                        // If the NPC spawns a gear, that's the identifier right there
+                        if (dialogue.gearIdToSpawn >= 0)
+                        {
+                            var gearId = (long)GameplayMaster.instance.levelId * 1_00_00000 + 100000 +
+                                         dialogue.gearIdToSpawn;
+                            shouldBeGameRelevant = Plugin.ArchipelagoClient.LocationUncleared(gearId);
+                            Plugin.Log($"Checking {gearId} picked up state ({!shouldBeGameRelevant})");
+                        }
+                        else if (LocationNPCsByDialogueKey.TryGetValue(GameplayMaster.instance.levelId, out var levelNPCs))
+                        {
+                            if (levelNPCs.TryGetValue(dialogue.dialgoueCapsuleKey, out var locationId))
+                            {
+                                shouldBeGameRelevant = locationId == -1 || Plugin.ArchipelagoClient.LocationUncleared(locationId);
+                                Plugin.Log($"Checking {locationId} picked up state ({!shouldBeGameRelevant})");
+                            }
+                        }
+                    }
+                    // Second, use ID as a per-level identifier
+                    if (LocationNPCsByID.TryGetValue(GameplayMaster.instance.levelId, out var levelNpcIds))
+                    {
+                        if (levelNpcIds.TryGetValue(self.myId, out var locationId))
+                        {
+                            shouldBeGameRelevant = locationId == -1 || Plugin.ArchipelagoClient.LocationUncleared(locationId);
+                            Plugin.Log($"Checking {locationId} picked up state ({!shouldBeGameRelevant})");
+                        }
+                    }
+                }
+            }
+            else if (self.myTarget != null)
+            {
+                // TODO: Have this reflect faresanity
+                if (self.dialogueDropDown != null && self.dialogueDropDown.GetComponent<DialogueScript>().gearIdToSpawn > 0)
+                {
+                    var gearId = (long)GameplayMaster.instance.levelId * 1_00_00000 + 100000 +
+                                 self.dialogueDropDown.GetComponent<DialogueScript>().gearIdToSpawn;
+                    shouldBeGameRelevant = Plugin.ArchipelagoClient.LocationUncleared(gearId);
+                    Plugin.Log($"Checking {gearId} picked up state ({!shouldBeGameRelevant})");
+                }
+
+                if (!shouldBeGameRelevant.Value)
+                {
+                    self.customNotificationText = "<sprite name=\"ThumbUp3\">";
+                }
+            }
+            else
+            {
+                // Walkabout NPCs. Don't do anything.
+                shouldBeGameRelevant = null;
+            }
+
+            if (shouldBeGameRelevant.HasValue)
+            {
+                self.gameRelevantPerson = shouldBeGameRelevant.Value;
+                self.alreadyPickedUp = !self.gameRelevantPerson;
+            }
+
+            if (self.gameRelevantPerson != gameRelevantOld)
+            {
+                Plugin.Log($"NPC \"{self.gameObject.name}\" with ID {self.myId} and dialogue \"{dialogue?.dialgoueCapsuleKey ?? "<NULL>"}\" had game relevant person flag changed ({gameRelevantOld}->{self.gameRelevantPerson})!");
             }
 
             orig(self);
         }
+
+        private void PersonParent_Start(On.PersonParent.orig_Start orig, PersonParent self)
+        {
+            var alreadyPickedUp = self.alreadyPickedUp;
+            orig(self);
+            if (self.alreadyPickedUp != alreadyPickedUp)
+            {
+                self.alreadyPickedUp = alreadyPickedUp;
+                self.LineRendererAlreadyPickedUpRefresh();
+            }
+        }
+
+        // Some NPCs share IDs, so I need to do this as an identifier
+        public static Dictionary<Data.LevelId, Dictionary<string, long>> LocationNPCsByDialogueKey = new()
+        {
+            {
+                Data.LevelId.Hub, new Dictionary<string, long>
+                {
+                    { "DIALOGUE_MORI_O_TRON_HAT_ARMADIO", 11_00000 },
+                    { "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH", 8_00002 },
+                    { "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT", 8_00003 },
+                    { "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP", 8_00004 },
+                    { "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN", 8_00005 },
+                    { "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE", 8_00006 },
+                    { "DIALOGUE_MORIO_LAB_SECRET_BEDROOM", 10_00000 },
+                    { "DIALOGUE_GRANNY_ISLAND_GELATAIO_THANKS", (long)Identifiers.NotableLocations.HubGelaToni },
+                    { "DIALOGUE_GRANNY_ISLAND_PIZZA_KING_JUST_TALK", (long)Identifiers.NotableLocations.HubPizzaKing },
+                    { "DIALOGUE_GRANNY_ISLAND_NICK_JUST_TALK", (long)Identifiers.NotableLocations.HubGoldenPropeller },
+                    { "DIALOGUE_GRANNY_ISLAND_ALIEN_MOSK_QEUSTION_1", (long)Identifiers.NotableLocations.HubMosksRocket },
+                    { "DIALOGUE_GRANNY_ISLAND_OCRA_TAXI_MINIGAME_2", (long)Identifiers.NotableLocations.HubOrangeSwitch },
+                    { "DIALOGUE_GRANNY_ISLAND_MORIO_BEDROOM_FACE_CHECK", -1 },
+                }
+            },
+            {
+                Data.LevelId.L2_PizzaTime, new Dictionary<string, long>
+                {
+                    { "DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK", 2_07_99999 }
+                }
+            },
+            {
+                Data.LevelId.L3_MoriosHome, new Dictionary<string, long>
+                {
+                    { "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK", 3_08_00001 }
+                }
+            },
+            {
+                Data.LevelId.L13_StarmanCastle, new Dictionary<string, long>
+                {
+                    { "DIALOGUE_STARMAN_CASTLE_COMPUTER_CHECK", -1 },
+                }
+            },
+        };
+
+        // Some NPCs have no pickup dialogue set by default, so I need to do this as an identifier
+        public static Dictionary<Data.LevelId, Dictionary<int, long>> LocationNPCsByID = new()
+        {
+            {
+                Data.LevelId.Hub, new Dictionary<int, long>
+                {
+                    // Gear from Morio
+                    { 101, 1_00000 },
+                    //// Morio Golden Spring
+                    { 519, 11_00005 },
+                    // Dream Machine Password
+                    { 532, 11_00012 },
+                }
+            },
+            {
+                Data.LevelId.L5_ToslaOffices, new Dictionary<int, long>
+                {
+                    // Employees-only door
+                    { 107, -1 },
+                }
+            },
+        };
 
 
         private void DoggoLabDialogueTree(On.DialogueScript.orig_SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab orig, DialogueScript self)

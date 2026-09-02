@@ -7,21 +7,11 @@ namespace YellowTaxiAP.Behaviours
 {
     public class APSaveController : MonoBehaviour
     {
-        public static APSaveController Instance { get; private set; }
-
         public static YTGVMiscSave MiscSave = new(0);
         public static YTGVPortalSave PortalSave = new(0);
         private static Data.Hat previousHat;
         public static YTGVHatSave HatSave = new(1);
         public static YTGVBunnySave BunnySave = new(0);
-
-        public void Awake()
-        {
-            if (Instance)
-                throw new NotSupportedException("Can only have one Game State updater!");
-
-            Instance = this;
-        }
 
         public void FixedUpdate()
         {
