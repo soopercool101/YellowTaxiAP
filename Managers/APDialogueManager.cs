@@ -45,13 +45,31 @@ namespace YellowTaxiAP.Managers
             
             // Morio Dialogue Overrides
             On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
+            On.PersonScenziato_FlipOWillUnlock.FlipOWillUnlockDialogue += PersonScenziato_FlipOWillUnlock_FlipOWillUnlockDialogue;
             On.PersonScenziatoV2.Update += PersonScenziatoV2_Update;
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
             On.DialogueScript.SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio += DialogueScript_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio;
+            On.DialogueScript.DialogueEndCalls += DialogueScript_DialogueEndCalls;
 
             //On.CutsceneHolderScript.Start += CutsceneHolderScript_Start;
             On.CutsceneHolderScript.CutsceneHolderCoroutine += CutsceneHolderScript_CutsceneHolderCoroutine;
+        }
+
+        private IEnumerator PersonScenziato_FlipOWillUnlock_FlipOWillUnlockDialogue(On.PersonScenziato_FlipOWillUnlock.orig_FlipOWillUnlockDialogue orig, PersonScenziato_FlipOWillUnlock self)
+        {
+            LastTalkedTo = self;
+            return orig(self);
+        }
+
+        private void DialogueScript_DialogueEndCalls(On.DialogueScript.orig_DialogueEndCalls orig, DialogueScript self)
+        {
+            if (self.gearIdToSpawn != -1 && !self.done && LastTalkedTo)
+            {
+                LastTalkedTo.gameRelevantPerson = false;
+                LastTalkedTo.alreadyPickedUp = true;
+            }
+            orig(self);
         }
 
         /// <summary>
@@ -132,9 +150,11 @@ namespace YellowTaxiAP.Managers
             }
         }
 
-        private System.Collections.IEnumerator PersonParent_JustTalkDefaultCoroutine(On.PersonParent.orig_JustTalkDefaultCoroutine orig, PersonParent self)
+        public static PersonParent LastTalkedTo;
+        private IEnumerator PersonParent_JustTalkDefaultCoroutine(On.PersonParent.orig_JustTalkDefaultCoroutine orig, PersonParent self)
         {
             Plugin.Log($"Talking to {self.gameObject.name} (ID: {self.myId})");
+            LastTalkedTo = self;
             return orig(self);
         }
 
@@ -329,6 +349,10 @@ namespace YellowTaxiAP.Managers
             {
                 self.gameRelevantPerson = shouldBeGameRelevant.Value;
                 self.alreadyPickedUp = !self.gameRelevantPerson;
+                if (!self.alreadyPickedUp)
+                {
+                    self.neverAlreadyPickedUp = true;
+                }
             }
 
             if (self.gameRelevantPerson != gameRelevantOld)
@@ -343,8 +367,9 @@ namespace YellowTaxiAP.Managers
         {
             var alreadyPickedUp = self.alreadyPickedUp;
             orig(self);
-            if (self.alreadyPickedUp != alreadyPickedUp)
+            if (alreadyPickedUp != self.alreadyPickedUp)
             {
+                Plugin.Log($"{self.name} ({self.myId}) has encountered an alreadyPickedUp mismatch. Fixing!");
                 self.alreadyPickedUp = alreadyPickedUp;
                 self.LineRendererAlreadyPickedUpRefresh();
             }
@@ -374,13 +399,19 @@ namespace YellowTaxiAP.Managers
             {
                 Data.LevelId.L2_PizzaTime, new Dictionary<string, long>
                 {
-                    { "DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK", 2_07_99999 }
+                    { "DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK", 2_07_99999 },
                 }
             },
             {
                 Data.LevelId.L3_MoriosHome, new Dictionary<string, long>
                 {
-                    { "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK", 3_08_00001 }
+                    { "DIALOGUE_MORIO_MORIOS_ISLAND_FLIP_O_WILL_UNLOCK", 3_08_00001 },
+                }
+            },
+            {
+                Data.LevelId.L6_Gym, new Dictionary<string, long>
+                {
+                    { "DIALOGUE_GYM_GIGACHAD", 6_10_00006 },
                 }
             },
             {
@@ -1827,6 +1858,11 @@ namespace YellowTaxiAP.Managers
             {
                 Plugin.ArchipelagoClient.SendLocation(QueuedItem.Value);
                 QueuedItem = null;
+                if (LastTalkedTo && LastTalkedTo.gameRelevantPerson)
+                {
+                    LastTalkedTo.alreadyPickedUp = true;
+                    LastTalkedTo.gameRelevantPerson = false;
+                }
             }
         }
 

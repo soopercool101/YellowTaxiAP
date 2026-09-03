@@ -15,6 +15,8 @@ namespace YellowTaxiAP.Managers
             On.Data.GearStateGetAbsolute += Data_GearStateGetAbsolute;
             On.Data.LoadGame += Data_LoadGame;
             On.Data.SaveGame += Data_SaveGame;
+            On.Data.PersonPickedUpGet += Data_PersonPickedUpGet;
+            On.Data.PersonPickedUpSet += Data_PersonPickedUpSet;
             On.Data.BunniesTotalGameGet += Data_BunniesTotalGameGet;
             On.Data.BunniesCollectedGameGet += Data_BunniesCollectedGameGet;
             On.Data.BunniesGetLevelCollectedNumber += Data_BunniesGetLevelCollectedNumber;
@@ -26,6 +28,19 @@ namespace YellowTaxiAP.Managers
             On.Data.HatGetUnlockedState += Data_HatGetUnlockedState;
             On.Data.CutsceneCarsTransformDisplayedGet += Data_CutsceneCarsTransformDisplayedGet;
             On.AchievementsMaster.UnlockAchievement_FullRelease += AchievementsMaster_UnlockAchievement_FullRelease;
+        }
+        
+        /// <summary>
+        /// Always return false, ignore save data for person picked up values.
+        /// </summary>
+        private bool Data_PersonPickedUpGet(On.Data.orig_PersonPickedUpGet orig, int levelId, int personId)
+        {
+            return false;
+        }
+
+        private void Data_PersonPickedUpSet(On.Data.orig_PersonPickedUpSet orig, int levelId, int personId, bool state)
+        {
+            // Do nothing
         }
 
         private void Data_ComputeMaximumGameGears(On.Data.orig_ComputeMaximumGameGears orig, bool onlyUnlockedLevels, Data.LevelId[] overrideLevelsIdArray)
