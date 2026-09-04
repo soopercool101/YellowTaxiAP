@@ -407,6 +407,7 @@ namespace YellowTaxiAP.Managers
                 Data.LevelId.L2_PizzaTime, new Dictionary<string, long>
                 {
                     { "DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK", 2_07_99999 },
+                    { "DIALOGUE_RAT_PICKUP_QUESTION", -1 },
                 }
             },
             {
