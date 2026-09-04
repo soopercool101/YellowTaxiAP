@@ -37,12 +37,14 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_StuckDoggoTalk_StillInTheLab += DoggoLabDialogueTree;
             On.DialogueScript.SpecialMethod_OnAnswerNo_AlienMoskGood_Question1 += DialogueScript_SpecialMethod_OnAnswerNo_AlienMoskGood_Question1;
             On.DialogueScript.SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea += DialogueScript_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea;
+            On.DialogueScript.SpecialMethod_OnDialogueEnd_StuckDoggoTalk += DialogueScript_SpecialMethod_OnDialogueEnd_StuckDoggoTalk;
 
             On.PersonParent.Awake += PersonParent_Awake;
             On.PersonParent.Start += PersonParent_Start;
             On.PersonPizzaCheff.Awake += PersonPizzaCheff_Awake;
             On.PersonPizzaCheff.TalkWithPlayer += PersonPizzaCheff_TalkWithPlayer;
             On.PersonParent.JustTalkDefaultCoroutine += PersonParent_JustTalkDefaultCoroutine;
+            On.PersonPizzaKing.TalkWithPlayer += PersonPizzaKing_TalkWithPlayer;
             
             // Morio Dialogue Overrides
             On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
@@ -55,6 +57,22 @@ namespace YellowTaxiAP.Managers
 
             //On.CutsceneHolderScript.Start += CutsceneHolderScript_Start;
             On.CutsceneHolderScript.CutsceneHolderCoroutine += CutsceneHolderScript_CutsceneHolderCoroutine;
+        }
+
+        private IEnumerator PersonPizzaKing_TalkWithPlayer(On.PersonPizzaKing.orig_TalkWithPlayer orig, PersonPizzaKing self)
+        {
+            LastTalkedTo = self;
+            return orig(self);
+        }
+
+        private void DialogueScript_SpecialMethod_OnDialogueEnd_StuckDoggoTalk(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_StuckDoggoTalk orig, DialogueScript self)
+        {
+            if (Plugin.SlotData.FecalMattersUnlockCondition == YTGVSlotData.LevelUnlockCondition.Special)
+            {
+                LastTalkedTo.gameRelevantPerson = false;
+                LastTalkedTo.alreadyPickedUp = true;
+            }
+            orig(self);
         }
 
         private IEnumerator PersonPizzaCheff_TalkWithPlayer(On.PersonPizzaCheff.orig_TalkWithPlayer orig, PersonPizzaCheff self)
