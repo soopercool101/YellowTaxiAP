@@ -356,6 +356,7 @@ namespace YellowTaxiAP.Managers
                 (self.targetLevel != Levels.Index.noone && !self.enableCanvas))
                 return;
 #if DEBUG
+            APDialogueManager.LastTalkedTo = null;
             var originalWarp = WarpIdentifier.IdentifyOriginalWarp(self);
             Plugin.Log(originalWarp);
             var skipTaxiRisucchio = self.skipTaxiRisucchio || (self.targetLevel == Levels.Index.noone && self.kaizoLevelId == LevelId.noone);
