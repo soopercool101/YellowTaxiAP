@@ -41,6 +41,7 @@ namespace YellowTaxiAP.Managers
             On.PersonParent.Awake += PersonParent_Awake;
             On.PersonParent.Start += PersonParent_Start;
             On.PersonPizzaCheff.Awake += PersonPizzaCheff_Awake;
+            On.PersonPizzaCheff.TalkWithPlayer += PersonPizzaCheff_TalkWithPlayer;
             On.PersonParent.JustTalkDefaultCoroutine += PersonParent_JustTalkDefaultCoroutine;
             
             // Morio Dialogue Overrides
@@ -54,6 +55,12 @@ namespace YellowTaxiAP.Managers
 
             //On.CutsceneHolderScript.Start += CutsceneHolderScript_Start;
             On.CutsceneHolderScript.CutsceneHolderCoroutine += CutsceneHolderScript_CutsceneHolderCoroutine;
+        }
+
+        private IEnumerator PersonPizzaCheff_TalkWithPlayer(On.PersonPizzaCheff.orig_TalkWithPlayer orig, PersonPizzaCheff self)
+        {
+            LastTalkedTo = self;
+            return orig(self);
         }
 
         private IEnumerator PersonScenziato_FlipOWillUnlock_FlipOWillUnlockDialogue(On.PersonScenziato_FlipOWillUnlock.orig_FlipOWillUnlockDialogue orig, PersonScenziato_FlipOWillUnlock self)
