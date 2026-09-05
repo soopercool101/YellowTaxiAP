@@ -9,6 +9,7 @@ using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
+using Color = UnityEngine.Color;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -57,6 +58,27 @@ namespace YellowTaxiAP.Managers
 
             //On.CutsceneHolderScript.Start += CutsceneHolderScript_Start;
             On.CutsceneHolderScript.CutsceneHolderCoroutine += CutsceneHolderScript_CutsceneHolderCoroutine;
+
+            On.BinocoloScript.OnEnable += BinocoloScript_OnEnable;
+            On.MoonObservatoryScript.SpawnRing += MoonObservatoryScript_SpawnRing;
+        }
+
+        private void MoonObservatoryScript_SpawnRing(On.MoonObservatoryScript.orig_SpawnRing orig, MoonObservatoryScript self)
+        {
+            if (self.raimbowRing == null)
+            {
+                orig(self);
+                self.raimbowRing.material = new Material(GameplayMaster.instance.rainbowMaterials[0]);
+                self.raimbowRing.material.SetColor(Shader.PropertyToID("_Color"), new Color(1f, 1f, 1f, 0.5f));
+            }
+        }
+
+        private void BinocoloScript_OnEnable(On.BinocoloScript.orig_OnEnable orig, BinocoloScript self)
+        {
+            var rend = self.ring.GetComponent<LineRenderer>();
+            rend.material = new Material(GameplayMaster.instance.rainbowMaterials[0]);
+            rend.material.SetColor(Shader.PropertyToID("_Color"), new Color(1f, 1f, 1f, 0.5f));
+            orig(self);
         }
 
         private IEnumerator PersonPizzaKing_TalkWithPlayer(On.PersonPizzaKing.orig_TalkWithPlayer orig, PersonPizzaKing self)
