@@ -937,7 +937,7 @@ namespace YellowTaxiAP.Managers
                     hintIntro,
                     $"Did you know you can interrupt a {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}?",
                     $"This will let you {SetTextColor("flip upwards", DialogueColors.OrangeYellow)} to reach new heights!",
-                    $"I've heard that it's possible to do one shortly after {SetTextColor("leaving the ground", DialogueColors.OrangeYellow)} or even {SetTextColor("boosting", DialogueColors.OrangeYellow)}! I'd bet you could go far with that!",
+                    $"I've heard that it's possible to do one shortly after {SetTextColor("leaving the ground", DialogueColors.OrangeYellow)} or even {SetTextColor("boosting", DialogueColors.OrangeYellow)}! You can even {SetTextColor("hold the button", DialogueColors.OrangeYellow)} to reach greater heights!",
                 ]);
             }
 
