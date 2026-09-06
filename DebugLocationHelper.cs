@@ -1612,6 +1612,12 @@ namespace YellowTaxiAP
             { "3_03_00168", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #3" },
             { "3_03_00167", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #4" },
             { "3_03_00166", "Morio's Island - Coin on Low Grass Island on Rubber Duck Path #5" },
+            { "3_07_00001", "Purchase Propeller Cap" },
+        };
+
+        [Description("Morio's Island - Island Near Mori-O-Tron")]
+        public static Dictionary<string, string> MoriosIslandIslandNearMoriOTron = new()
+        {
             { "3_03_00015", "Morio's Island - Coin Bag on Low Stone Island Near Mori-O-Tron #1" },
             { "3_03_00016", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #1" },
             { "3_03_00017", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #2" },
@@ -1619,7 +1625,6 @@ namespace YellowTaxiAP
             { "3_03_00019", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #4" },
             { "3_03_00020", "Morio's Island - Coin on Low Stone Island Near Mori-O-Tron #5" },
             { "3_03_00021", "Morio's Island - Coin Bag on Low Stone Island Near Mori-O-Tron #2" },
-            { "3_07_00001", "Purchase Propeller Cap" },
         };
 
         [Description("Morio's Island - Morio's Home Island")]
@@ -7627,6 +7632,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(MoriosIslandFirstHurdle)), MoriosIslandFirstHurdle),
             new(GetDescription(nameof(MoriosIslandLedgesAboveStart)), MoriosIslandLedgesAboveStart),
             new(GetDescription(nameof(MoriosIslandHighGround)), MoriosIslandHighGround),
+            new(GetDescription(nameof(MoriosIslandIslandNearMoriOTron)), MoriosIslandIslandNearMoriOTron),
             new(GetDescription(nameof(MoriosIslandHomeIsland)), MoriosIslandHomeIsland),
             new(GetDescription(nameof(MoriosIslandLowStoneArch)), MoriosIslandLowStoneArch),
             new(GetDescription(nameof(MoriosIslandFirstBunnyArch)), MoriosIslandFirstBunnyArch),
@@ -8055,6 +8061,7 @@ namespace YellowTaxiAP
                     MoriosIslandFirstHurdle,
                     MoriosIslandLedgesAboveStart,
                     MoriosIslandHighGround,
+                    MoriosIslandIslandNearMoriOTron,
                     MoriosIslandHomeIsland,
                     MoriosIslandLowStoneArch,
                     MoriosIslandFirstBunnyArch,
@@ -9077,6 +9084,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosIslandFirstHurdle)),
                 [
                     new RegionConnection(MoriosIslandHighGround, "J1/B1"),
+                    new RegionConnection(MoriosIslandIslandNearMoriOTron, "B1 | J1+X1"),
                 ]
             },
             {
