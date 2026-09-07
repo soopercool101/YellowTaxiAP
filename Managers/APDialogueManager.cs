@@ -51,6 +51,7 @@ namespace YellowTaxiAP.Managers
             On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
             On.PersonScenziato_FlipOWillUnlock.FlipOWillUnlockDialogue += PersonScenziato_FlipOWillUnlock_FlipOWillUnlockDialogue;
             On.PersonScenziatoV2.Update += PersonScenziatoV2_Update;
+            On.PersonScenziatoV2.Awake += PersonScenziatoV2_Awake;
             On.PersonScenziatoV2.ChooseDialogue += PersonScenziatoV2_ChooseDialogue;
             On.DialogueScript.SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1 += DialogueScript_SpecialMethod_OnBeforeDialogueCapsuleImport_MorioSpikes1;
             On.DialogueScript.SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio += DialogueScript_SpecialMethod_OnCapsuleImport_AtToslaHqPortalMorio;
@@ -213,6 +214,10 @@ namespace YellowTaxiAP.Managers
         {
             Plugin.Log($"Talking to {self.gameObject.name} (ID: {self.myId})");
             LastTalkedTo = self;
+            if (self is PersonScenziatoV2 morio)
+            {
+                PersonScenziato_ChooseRandomDialogue(morio);
+            }
             return orig(self);
         }
 
@@ -521,6 +526,14 @@ namespace YellowTaxiAP.Managers
                 self.dialgoueCapsuleKey = "DIALOGUE_MORIO_LAB_SPIKES_ACCESS_PRE_TOSLA";
         }
 
+
+        private void PersonScenziatoV2_Awake(On.PersonScenziatoV2.orig_Awake orig, PersonScenziatoV2 self)
+        {
+            orig(self);
+            self.instantDialogueInsideRing = Plugin.ArchipelagoClient.LocationUncleared(1_00000);
+            self.dialoguePickup = self.dialogue_initialNoGears;
+        }
+
         /// <summary>
         /// Normally, Morio will hide the initial gears until he's given the first one.
         /// This isn't very fun in a multiworld context, and results in only one check prior to an extremely early BK unless single coinsanity is on.
@@ -534,15 +547,76 @@ namespace YellowTaxiAP.Managers
         }
 
         /// <summary>
-        /// Normally, Morio will not give you your first gear if you already have gears.
-        /// This is bad in a multiworld context.
-        ///
-        /// Better solution later, but for now just always give the gear
+        /// This is called every frame. Instead, choose dialogue when talking to morio
         /// </summary>
         private void PersonScenziatoV2_ChooseDialogue(On.PersonScenziatoV2.orig_ChooseDialogue orig, PersonScenziatoV2 self)
         {
-            // TODO: Only set this if the gear location hasn't been checked, otherwise run normal dialogue
+            // Do nothing
+        }
+
+        /// <summary>
+        /// Choose a random dialogue for morio in the lab as relevant.
+        /// Ensure gear is given from default dialogue first!
+        /// </summary>
+        private void PersonScenziato_ChooseRandomDialogue(PersonScenziatoV2 self)
+        {
             self.dialoguePickup = self.dialogue_initialNoGears;
+            if (Plugin.ArchipelagoClient.LocationUncleared(1_00000))
+                return;
+
+            if (Data.gearsUnlockedNumber[Data.gameDataIndex] < 3)
+            {
+                self.dialoguePickup = self.dialogue_initialLessThanThreeGears;
+                return;
+            }
+
+            var possibleDialogues = new List<GameObject>();
+
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L3_MoriosHome) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedMoriosHome);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L1_Bombeach) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedBombeach);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L2_PizzaTime) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedPizzaTime);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L4_ArcadePanik) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedArcadePanik);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L5_ToslaOffices) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedToslaOffices);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L9_City) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedMauriziosCity);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L10_CrashTestIndustries) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedCrashTestIndustries);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L12_MoriosMind) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedMorioMind);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L13_StarmanCastle) != null)
+            {
+                possibleDialogues.Add(self.dialogue_GoForObservatory);
+            }
+            if (Data.GetLevelIfUnlocked(Data.LevelId.L14_ToslaHQ) != null)
+            {
+                possibleDialogues.Add(self.dialogue_UnlockedToslaHQ);
+            }
+
+            if (possibleDialogues.Count > 0)
+            {
+                self.dialoguePickup = possibleDialogues[Random.RandomRangeInt(0, possibleDialogues.Count)];
+            }
         }
 
         public static string CurrentFont
@@ -1866,6 +1940,9 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_GRANNY_ISLAND_OCRA_TAXI_MINIGAME_1" when Plugin.SlotData.CanPacManJump:
                         self.dialogues[self.dialogues.Length - 1] += "...unless you really want to!!!";
+                        break;
+                    case "DIALOGUE_MORIO_INITIAL_LESS_THAN_3_GEARS":
+                        self.dialogues[self.dialogues.Length - 1] += $" If they're not here, perhaps they're {SetTextColor("elsewhere", DialogueColors.OrangeYellow)}!";
                         break;
                     case "DIALOGUE_MORIO_AT_TOSLA_HQ_PORTAL_LOCKED":
                         // TODO: Update dialogue when v1.0.0 comes out. Hopefully this year.
