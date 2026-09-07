@@ -61,6 +61,17 @@ namespace YellowTaxiAP.Managers
 
             On.BinocoloScript.OnEnable += BinocoloScript_OnEnable;
             On.MoonObservatoryScript.SpawnRing += MoonObservatoryScript_SpawnRing;
+            On.BenzinaioScript.PurifyBenzinaio += BenzinaioScript_PurifyBenzinaio;
+        }
+
+        private void BenzinaioScript_PurifyBenzinaio(On.BenzinaioScript.orig_PurifyBenzinaio orig, BenzinaioScript self, Vector3 turretVelocity)
+        {
+            if (Plugin.SlotData.QuickPickups)
+            {
+                BenzinaioScript.showDialogue = false;
+            }
+
+            orig(self, turretVelocity);
         }
 
         private void MoonObservatoryScript_SpawnRing(On.MoonObservatoryScript.orig_SpawnRing orig, MoonObservatoryScript self)
