@@ -158,6 +158,19 @@ namespace YellowTaxiAP.Archipelago
         }
         public ShopHintType ShopHints { get; private set; }
 
+        public MorioCostume MorioHolidayCostume { get; private set; }
+
+        public enum MorioCostume : long
+        {
+            RandomCostumePartsEveryLoad = -3,
+            RandomCostumeEveryLoad = -2,
+            Default = -1,
+            None = 0,
+            Halloween = 1,
+            Christmas = 2,
+            ValentinesDay = 3,
+        }
+
         public YTGVSlotData()
         {
             // Defaults
@@ -800,6 +813,16 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for early_pizza_wheels found");
+            }
+
+            if (slotData.ContainsKey("morio_costume"))
+            {
+                MorioHolidayCostume = (MorioCostume)(long)slotData["morio_costume"];
+            }
+            else
+            {
+                MorioHolidayCostume = MorioCostume.Default;
+                Plugin.Log("No slot data for morio_costume found");
             }
 
 

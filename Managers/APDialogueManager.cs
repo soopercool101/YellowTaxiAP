@@ -63,6 +63,34 @@ namespace YellowTaxiAP.Managers
             On.BinocoloScript.OnEnable += BinocoloScript_OnEnable;
             On.MoonObservatoryScript.SpawnRing += MoonObservatoryScript_SpawnRing;
             On.BenzinaioScript.PurifyBenzinaio += BenzinaioScript_PurifyBenzinaio;
+
+            On.HolidayMorioScript.GetCurrentFestivity += HolidayMorioScript_GetCurrentFestivity;
+            On.HolidayMorioScript.Start += HolidayMorioScript_Start;
+        }
+
+        private void HolidayMorioScript_Start(On.HolidayMorioScript.orig_Start orig, HolidayMorioScript self)
+        {
+            if (Plugin.SlotData.MorioHolidayCostume == YTGVSlotData.MorioCostume.RandomCostumePartsEveryLoad)
+            {
+                self.pumpkin.SetActive(Random.RandomRangeInt(0, 2) == 1);
+                self.santa.SetActive(Random.RandomRangeInt(0, 2) == 1);
+                foreach (var valentine in self.valentines)
+                    valentine.SetActive(Random.RandomRangeInt(0, 2) == 1);
+            }
+            else
+            {
+                orig(self);
+            }
+        }
+
+        private HolidayMorioScript.Festivity HolidayMorioScript_GetCurrentFestivity(On.HolidayMorioScript.orig_GetCurrentFestivity orig, HolidayMorioScript self)
+        {
+            return Plugin.SlotData.MorioHolidayCostume switch
+            {
+                YTGVSlotData.MorioCostume.Default => orig(self),
+                YTGVSlotData.MorioCostume.RandomCostumeEveryLoad => (HolidayMorioScript.Festivity)Random.RandomRangeInt(0, 4),
+                _ => (HolidayMorioScript.Festivity)Plugin.SlotData.MorioHolidayCostume
+            };
         }
 
         private void BenzinaioScript_PurifyBenzinaio(On.BenzinaioScript.orig_PurifyBenzinaio orig, BenzinaioScript self, Vector3 turretVelocity)
