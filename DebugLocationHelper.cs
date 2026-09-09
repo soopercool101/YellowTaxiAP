@@ -7332,6 +7332,12 @@ namespace YellowTaxiAP
             { "16_03_00026", "Heroic Moves - Coin on Bottom of Building #16" },
         };
 
+        [Description("Heroic Moves - Banana Hat Beam")]
+        public static Dictionary<string, string> HeroicMovesBananaHatBeam = new()
+        {
+            { "16_07_00042", "Purchase Banana Hat" },
+        };
+
         [Description("Conveyor Belts - Starting Area")]
         public static Dictionary<string, string> ConveyorBeltsStartingArea = new()
         {
@@ -7868,6 +7874,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(SmellySlimesExit)), SmellySlimesExit),
             new(GetDescription(nameof(HeroicMovesStartingArea)), HeroicMovesStartingArea),
             new(GetDescription(nameof(HeroicMovesEnd)), HeroicMovesEnd),
+            new(GetDescription(nameof(HeroicMovesBananaHatBeam)), HeroicMovesBananaHatBeam),
             new(GetDescription(nameof(ConveyorBeltsStartingArea)), ConveyorBeltsStartingArea),
             new(GetDescription(nameof(ConveyorBeltsPlatformAboveStartingArea)), ConveyorBeltsPlatformAboveStartingArea),
             new(GetDescription(nameof(ConveyorBeltsDuctsAboveStartingArea)), ConveyorBeltsDuctsAboveStartingArea),
@@ -8285,6 +8292,7 @@ namespace YellowTaxiAP
                     SmellySlimesExit,
                     HeroicMovesStartingArea,
                     HeroicMovesEnd,
+                    HeroicMovesBananaHatBeam,
                     ConveyorBeltsStartingArea,
                     ConveyorBeltsPlatformAboveStartingArea,
                     ConveyorBeltsDuctsAboveStartingArea,
@@ -9785,7 +9793,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(FlushedAwayStartingArea)),
                 [
                     new RegionConnection(FlushedAwayPathSurroundingStartingArea, "X1/B1/J1"),
-                    new RegionConnection(FlushedAwayPipeToUpperStartingArea, "X2+B2 | J1 | X3+B1"),
+                    new RegionConnection(FlushedAwayPipeToUpperStartingArea, "X2+B2 | J1 | X3"),
                     new RegionConnection(FlushedAwayPipeAboveStartingArea, "X2+B1"),
                     new RegionConnection(FlushedAwayLedgeAboveStartingArea, "X2+B1"),
                     new RegionConnection(FlushedAwayCheckpointArea),
@@ -10361,6 +10369,7 @@ namespace YellowTaxiAP
                     new RegionConnection(CostipationRoadwayGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
                     new RegionConnection(CostipationIslandGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
                     new RegionConnection(HeroicMovesEnd, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
+                    new RegionConnection(HeroicMovesBananaHatBeam, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
                     new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, $"NSAR & {{{GetDescription(nameof(ConveyorBeltsStartingArea))}}}"),
                     new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, $"NSAR & {{{GetDescription(nameof(ConveyorBeltsStartingArea))}}}"),
                 ]
@@ -10567,13 +10576,20 @@ namespace YellowTaxiAP
                 GetDescription(nameof(HeroicMovesStartingArea)),
                 [
                     new RegionConnection("Heroic Moves - Mosk's Rocket Portal", RocketCityCrashMindArea, ConnectionType.Subwarp),
-                    new RegionConnection(HeroicMovesEnd, "X3/J1/B1")
+                    new RegionConnection(HeroicMovesEnd, "X3/J1/B1"),
+                    new RegionConnection(HeroicMovesBananaHatBeam, "J1/B1"),
                 ]
             },
             {
                 GetDescription(nameof(HeroicMovesEnd)),
                 [
                     new RegionConnection("Heroic Moves - Mori-O-Tron", HeroicMovesStartingArea, ConnectionType.MoriOTron)
+                ]
+            },
+            {
+                GetDescription(nameof(HeroicMovesBananaHatBeam)),
+                [
+                    // No connections
                 ]
             },
             {
