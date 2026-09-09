@@ -74,7 +74,7 @@ namespace YellowTaxiAP.Managers
                                 case "MAP_AREA_NAME_GRANNY_ISLAND_LAB" when !APAreaStateManager.LabDoorUnlocked && !Plugin.SlotData.StartInLab:
                                 case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_BOMBS" when grannysInaccessible || !APAreaStateManager.GelaToniReceived:
                                 case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_PIZZA" when grannysInaccessible || !APAreaStateManager.PizzaKingReceived:
-                                case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_CRASH_TEST" when grannysInaccessible || !APSwitchManager.OrangeSwitchUnlocked || !APAreaStateManager.FullGameUnlocked:
+                                case "MAP_AREA_NAME_GRANNY_ISLAND_BONUS_CRASH_TEST" when grannysInaccessible || !APAreaStateManager.FullGameUnlocked:
                                     self.isAreaUnlocked = false;
                                     break;
                             }
@@ -98,27 +98,60 @@ namespace YellowTaxiAP.Managers
 
             orig(self);
 
-            if (self.isDiscovered && self.isAreaUnlocked && Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.PerLevel)
+            self.isAreaUnlocked = self.isDiscovered;
+            if (self.isDiscovered)
             {
-                var level = self.myMapAreaScriptableObject.levelId;
-                
-                var text = $"Boosts: {APPlayerManager.PerLevelBoostItems[level]}";
-                self.gearsText.outlineWidth = 0.1f;
-                self.gearsText.outlineColor = new Color32(0, 0, 0, 0xFF);
-                if (level != Data.LevelId.L10_CrashTestIndustries || Plugin.SlotData.CanPacManJump)
+                if (LocationsByMapArea.LocationsByMapAreaDictionary.ContainsKey(self.myMapAreaScriptableObject
+                        .areaName))
                 {
-                    text += $"\nJumps:  {APPlayerManager.PerLevelJumpItems[level]}";
-                }
+                    var locations =
+                        LocationsByMapArea.LocationsByMapAreaDictionary[self.myMapAreaScriptableObject.areaName];
+                    var checked_locations = locations.Intersect(Plugin.ArchipelagoClient.AllClearedLocations).Count();
+                    var all_locations = locations.Intersect(Plugin.ArchipelagoClient.AllLocations).Count();
 
-                var spacing = string.Empty;
-                if (!string.IsNullOrEmpty(self.gearsText.text))
-                {
-                    spacing = "<size=0.5>\n\n</size>";
+                    if (all_locations == 0)
+                    {
+                        self.gearsText.text = string.Empty;
+                    }
+                    else
+                    {
+                        var trophy = string.Empty;
+                        if (checked_locations == all_locations)
+                        {
+                            trophy = " <sprite name=\"CompletitionTrophy\">";
+                        }
+                        self.gearsText.text =
+                            $"<size=1.5>{APDialogueManager.SetTextColor($"{checked_locations}/{all_locations}",
+                                checked_locations == all_locations
+                                    ? APDialogueManager.DialogueColors.OrangeYellow
+                                    : APDialogueManager.DialogueColors.Acqua)}{trophy}</size>";
+                    }
                 }
-                self.gearsText.text += $"{spacing}<size=1>{APDialogueManager.SetTextColor(text, APDialogueManager.DialogueColors.RedYellow)}</size>";
+                else
+                {
+                    Plugin.BepinLogger.LogWarning($"No location info for {self.myMapAreaScriptableObject.areaName} ({MapMaster.GetAreaNameTranslated(self.myMapAreaScriptableObject)})!");
+                }
+                if (Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.PerLevel)
+                {
+                    var level = self.myMapAreaScriptableObject.levelId;
+
+                    var text = $"Boosts: {APPlayerManager.PerLevelBoostItems[level]}";
+                    self.gearsText.outlineWidth = 0.1f;
+                    self.gearsText.outlineColor = new Color32(0, 0, 0, 0xFF);
+                    if (level != Data.LevelId.L10_CrashTestIndustries || Plugin.SlotData.CanPacManJump)
+                    {
+                        text += $"\nJumps:  {APPlayerManager.PerLevelJumpItems[level]}";
+                    }
+
+                    var spacing = string.Empty;
+                    if (!string.IsNullOrEmpty(self.gearsText.text))
+                    {
+                        spacing = "<size=0.5>\n\n</size>";
+                    }
+                    self.gearsText.text += $"{spacing}<size=1>{APDialogueManager.SetTextColor(text, APDialogueManager.DialogueColors.RedYellow)}</size>";
+                }
             }
 
-            self.isAreaUnlocked = self.isDiscovered;
             MinimapUiNodeScript.unlockedUndiscoveredList.Remove(self);
         }
     }

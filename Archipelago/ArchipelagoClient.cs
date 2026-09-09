@@ -821,6 +821,23 @@ public class ArchipelagoClient
 
     public void SendLocation(long id)
     {
+#if DEBUG
+        if (MapArea.instancePlayerInside != null)
+        {
+            if (!LocationsByMapArea.LocationsByMapAreaDictionary.ContainsKey(MapArea.instancePlayerInside.areaNameKey))
+            {
+                Plugin.Log($"WARNING: NO DICTIONARY ENTRY FOUND FOR \"{MapArea.instancePlayerInside.areaNameKey}\"", true);
+                GiudgementScript.SpawnCustom("Warning: No dictionary entry found!",
+                    MapArea.instancePlayerInside.areaNameKey, "SoundGiudgeGitGud", true, 10);
+            }
+            else if (!LocationsByMapArea.LocationsByMapAreaDictionary[MapArea.instancePlayerInside.areaNameKey].Contains(id))
+            {
+                Plugin.Log($"WARNING: DICTIONARY ENTRY FOR \"{MapArea.instancePlayerInside.areaNameKey}\" DOES NOT PROPERLY CONTAIN ID \"{id}\"", true);
+                GiudgementScript.SpawnCustom($"Warning: No entry found in {MapArea.instancePlayerInside.areaNameKey}!",
+                    id.ToString(), "SoundGiudgeGitGud", true, 10);
+            }
+        }
+#endif
         // Don't allow cheats in multiworld
         if (Plugin.CheatsEnabled)
             return;
