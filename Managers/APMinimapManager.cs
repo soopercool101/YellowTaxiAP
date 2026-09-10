@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
@@ -11,6 +13,26 @@ namespace YellowTaxiAP.Managers
         {
             On.Data.GetLevelIfUnlocked += Data_GetLevelIfUnlocked;
             On.MinimapUiNodeScript.OnEnable += MinimapUiNodeScript_OnEnable;
+            On.MinimapUiNodeScript.Update += MinimapUiNodeScript_Update;
+        }
+
+        public static Dictionary<string, string> Titles = new();
+
+        private void MinimapUiNodeScript_Update(On.MinimapUiNodeScript.orig_Update orig, MinimapUiNodeScript self)
+        {
+            if (MinimapUiNodeScript.instanceYouAreHere != self)
+            {
+                self.youAreHereAnimTimer += Tick.Time;
+                if (self.youAreHereAnimTimer > 2.0)
+                    self.youAreHereAnimTimer = 0.0f;
+            }
+
+            orig(self);
+
+            if (self.isAreaUnlocked && self.youAreHereAnimTimer < Tick.Time && Titles.ContainsKey(self.myMapAreaScriptableObject.areaName))
+            {
+                (self.titleText.text, Titles[self.myMapAreaScriptableObject.areaName]) = (Titles[self.myMapAreaScriptableObject.areaName], self.titleText.text);
+            }
         }
 
         private Data.LevelData Data_GetLevelIfUnlocked(On.Data.orig_GetLevelIfUnlocked orig, Data.LevelId _id)
@@ -107,6 +129,11 @@ namespace YellowTaxiAP.Managers
             self.isAreaUnlocked = self.isDiscovered;
             if (self.isDiscovered)
             {
+                var portal = APPortalManager.GetRandomizedPortalId(self.myMapAreaScriptableObject.levelId, true);
+                if (portal != self.myMapAreaScriptableObject.levelId && portal != Data.LevelId.L11_HubDemo)
+                {
+                    Titles[self.myMapAreaScriptableObject.areaName] = $"<sprite name=\"Portal\"> {Data.levelDataList[(int)portal].GetName()}";
+                }
                 if (LocationsByMapArea.LocationsByMapAreaDictionary.ContainsKey(self.myMapAreaScriptableObject
                         .areaName))
                 {
@@ -114,7 +141,7 @@ namespace YellowTaxiAP.Managers
                         LocationsByMapArea.LocationsByMapAreaDictionary[self.myMapAreaScriptableObject.areaName];
                     var checked_locations = locations.Intersect(Plugin.ArchipelagoClient.AllClearedLocations).Count();
                     var all_locations = locations.Intersect(Plugin.ArchipelagoClient.AllLocations).Count();
-
+                    self.gearsText.enableWordWrapping = false;
                     if (all_locations == 0)
                     {
                         self.gearsText.text = string.Empty;
@@ -127,7 +154,7 @@ namespace YellowTaxiAP.Managers
                             trophy = " <sprite name=\"CompletitionTrophy\">";
                         }
                         self.gearsText.text =
-                            $"<size=1.5>{APDialogueManager.SetTextColor($"{checked_locations}/{all_locations}",
+                            $"<size=1.3>{APDialogueManager.SetTextColor($"{checked_locations}/{all_locations}",
                                 checked_locations == all_locations
                                     ? APDialogueManager.DialogueColors.OrangeYellow
                                     : APDialogueManager.DialogueColors.Acqua)}{trophy}</size>";
