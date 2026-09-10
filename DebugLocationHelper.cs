@@ -7403,6 +7403,186 @@ namespace YellowTaxiAP
             { "16_03_00184", "Conveyor Belts - Coin at End of Upper Path #12" },
         };
 
+        [Description("Eye Surgery - Starting Area")]
+        public static Dictionary<string, string> EyeSurgeryStartingArea = new()
+        {
+            { "16_09_00477", "Eye Surgery - Checkpoint" },
+            { "16_03_00086", "Eye Surgery - Coin Near Entrance Portal #1" },
+            { "16_03_00085", "Eye Surgery - Coin Near Entrance Portal #2" },
+            { "16_03_00088", "Eye Surgery - Coin Near Entrance Portal #3" },
+            { "16_03_00087", "Eye Surgery - Coin Near Entrance Portal #4" },
+            { "16_03_00090", "Eye Surgery - Coin Bag Near Entrance Portal #1" },
+            { "16_03_00089", "Eye Surgery - Coin Bag Near Entrance Portal #2" },
+            { "16_03_00092", "Eye Surgery - Chest Near Entrance Portal #1" },
+            { "16_03_00091", "Eye Surgery - Chest Near Entrance Portal #2" },
+        };
+
+        [Description("Eye Surgery - First Gear Area")]
+        public static Dictionary<string, string> EyeSurgeryFirstGear = new()
+        {
+            { "16_03_00075", "Eye Surgery - Coin Bag Surrounding Gear in Back Corner #1" },
+            { "16_03_00078", "Eye Surgery - Coin Surrounding Gear in Back Corner #1" },
+            { "16_03_00081", "Eye Surgery - Coin Bag Surrounding Gear in Back Corner #2" },
+            { "16_03_00076", "Eye Surgery - Coin Surrounding Gear in Back Corner #2" },
+            { "16_01_00022", "Eye Surgery - Gear - Back Corner" },
+            { "16_03_00082", "Eye Surgery - Coin Surrounding Gear in Back Corner #3" },
+            { "16_03_00077", "Eye Surgery - Coin Bag Surrounding Gear in Back Corner #3" },
+            { "16_03_00080", "Eye Surgery - Coin Surrounding Gear in Back Corner #4" },
+            { "16_03_00083", "Eye Surgery - Coin Bag Surrounding Gear in Back Corner #4" },
+        };
+
+        [Description("Eye Surgery - Second Gear Area")]
+        public static Dictionary<string, string> EyeSurgerySecondGear = new()
+        {
+            { "16_07_00044", "Purchase Inception Top Hat" },
+            { "16_01_00023", "Eye Surgery - Gear - On Clouds" },
+        };
+
+        [Description("Mid Air - Starting Area")]
+        public static Dictionary<string, string> MidAirStartingArea = new()
+        {
+            { "16_09_00030", "Mid Air - Checkpoint" },
+        };
+
+        [Description("Mid Air - First Tower")]
+        public static Dictionary<string, string> MidAirFirstTower = new()
+        {
+            { "16_03_00229", "Mid Air - Coin Bag on First Tower #1" },
+            { "16_03_00234", "Mid Air - Coin on First Tower #1" },
+            { "16_03_00236", "Mid Air - Coin on First Tower #2" },
+            { "16_03_00238", "Mid Air - Coin on First Tower #3" },
+            { "16_03_00240", "Mid Air - Coin Bag on First Tower #2" },
+            { "16_03_00241", "Mid Air - Coin on First Tower #4" },
+            { "16_03_00242", "Mid Air - Coin on First Tower #5" },
+            { "16_03_00243", "Mid Air - Coin on First Tower #6" },
+            { "16_03_00244", "Mid Air - Coin Bag on First Tower #3" },
+            { "16_03_00239", "Mid Air - Coin on First Tower #7" },
+            { "16_03_00237", "Mid Air - Coin on First Tower #8" },
+            { "16_03_00235", "Mid Air - Coin on First Tower #9" },
+            { "16_03_00233", "Mid Air - Coin Bag on First Tower #4" },
+            { "16_03_00232", "Mid Air - Coin on First Tower #10" },
+            { "16_03_00231", "Mid Air - Coin on First Tower #11" },
+            { "16_03_00230", "Mid Air - Coin on First Tower #12" },
+            { "16_01_00024", "Mid Air - Gear - On Tallest Tower" },
+        };
+
+        [Description("Mid Air - Upper Area")]
+        public static Dictionary<string, string> MidAirUpperArea = new()
+        {
+            { "16_01_00025", "Mid Air - Gear - On Falling Platforms" },
+            { "16_07_00036", "Purchase Satellite Dish Hat" },
+        };
+
+        [Description("Infiltration - Starting Area")]
+        public static Dictionary<string, string> InfiltrationStartingArea = new()
+        {
+            { "16_09_00300", "Infiltration - Checkpoint" },
+        };
+
+        [Description("Infiltration - Middle Layer")]
+        public static Dictionary<string, string> InfiltrationMiddleLayer = new()
+        {
+            { "16_03_00389", "Infiltration - Coin in Middle Section #1" },
+            { "16_03_00392", "Infiltration - Coin in Middle Section #2" },
+            { "16_03_00395", "Infiltration - Coin in Middle Section #3" },
+            { "16_03_00387", "Infiltration - Coin Bag in Middle Section #1" },
+            { "16_03_00390", "Infiltration - Coin in Middle Section #4" },
+            { "16_03_00393", "Infiltration - Coin in Middle Section #5" },
+            { "16_03_00396", "Infiltration - Coin in Middle Section #6" },
+            { "16_03_00398", "Infiltration - Coin Bag in Middle Section #2" },
+            { "16_03_00388", "Infiltration - Coin in Middle Section #7" },
+            { "16_03_00391", "Infiltration - Coin in Middle Section #8" },
+            { "16_03_00394", "Infiltration - Coin Bag in Middle Section #3" },
+            { "16_03_00397", "Infiltration - Coin in Middle Section #9" },
+            { "16_03_00399", "Infiltration - Coin in Middle Section #10" },
+        };
+
+        [Description("Infiltration - Upper Layer")]
+        public static Dictionary<string, string> InfiltrationUpperLayer = new()
+        {
+            { "16_03_00424", "Infiltration - Coin Surrounding Upper Gear #1" },
+            { "16_03_00425", "Infiltration - Coin Surrounding Upper Gear #2" },
+            { "16_03_00420", "Infiltration - Coin Surrounding Upper Gear #3" },
+            { "16_03_00421", "Infiltration - Coin Surrounding Upper Gear #4" },
+            { "16_03_00422", "Infiltration - Coin Bag Surrounding Upper Gear #1" },
+            { "16_03_00423", "Infiltration - Coin Surrounding Upper Gear #5" },
+            { "16_03_00417", "Infiltration - Coin Bag Surrounding Upper Gear #2" },
+            { "16_01_00026", "Infiltration - Gear - Upper Section" },
+            { "16_03_00419", "Infiltration - Coin Bag Surrounding Upper Gear #3" },
+            { "16_03_00413", "Infiltration - Coin Surrounding Upper Gear #6" },
+            { "16_03_00414", "Infiltration - Coin Bag Surrounding Upper Gear #4" },
+            { "16_03_00415", "Infiltration - Coin Surrounding Upper Gear #7" },
+            { "16_03_00416", "Infiltration - Coin Surrounding Upper Gear #8" },
+            { "16_03_00411", "Infiltration - Coin Surrounding Upper Gear #9" },
+            { "16_03_00412", "Infiltration - Coin Surrounding Upper Gear #10" },
+        };
+
+        [Description("Infiltration - Lower Layer")]
+        public static Dictionary<string, string> InfiltrationLowerLayer = new()
+        {
+            { "16_07_00047", "Purchase Pod Hat" },
+            { "16_01_00027", "Infiltration - Gear - Lower Section" }
+        };
+
+        [Description("Far Far Away - Starting Area")]
+        public static Dictionary<string, string> FarFarAwayStartingArea = new()
+        {
+            { "16_09_00775", "Far Far Away - Checkpoint" },
+        };
+
+        [Description("Far Far Away - Gear Areas")]
+        public static Dictionary<string, string> FarFarAwayGearAreas = new()
+        {
+            { "16_03_00134", "Far Far Away - Coin Surrounding First Gear #1" },
+            { "16_03_00139", "Far Far Away - Chest Surrounding First Gear #1" },
+            { "16_03_00144", "Far Far Away - Coin Surrounding First Gear #2" },
+            { "16_03_00131", "Far Far Away - Coin Surrounding First Gear #3" },
+            { "16_03_00135", "Far Far Away - Coin Bag Surrounding First Gear #1" },
+            { "16_03_00140", "Far Far Away - Coin Surrounding First Gear #4" },
+            { "16_03_00145", "Far Far Away - Coin Bag Surrounding First Gear #2" },
+            { "16_03_00149", "Far Far Away - Coin Surrounding First Gear #5" },
+            { "16_03_00132", "Far Far Away - Chest Surrounding First Gear #2" },
+            { "16_03_00136", "Far Far Away - Coin Surrounding First Gear #6" },
+            { "16_01_00029", "Far Far Away - Gear - First Gear" },
+            { "16_03_00146", "Far Far Away - Coin Surrounding First Gear #7" },
+            { "16_03_00150", "Far Far Away - Chest Surrounding First Gear #3" },
+            { "16_03_00133", "Far Far Away - Coin Surrounding First Gear #8" },
+            { "16_03_00137", "Far Far Away - Coin Bag Surrounding First Gear #3" },
+            { "16_03_00142", "Far Far Away - Coin Surrounding First Gear #9" },
+            { "16_03_00147", "Far Far Away - Coin Bag Surrounding First Gear #4" },
+            { "16_03_00151", "Far Far Away - Coin Surrounding First Gear #10" },
+            { "16_03_00138", "Far Far Away - Coin Surrounding First Gear #11" },
+            { "16_03_00143", "Far Far Away - Chest Surrounding First Gear #4" },
+            { "16_03_00148", "Far Far Away - Coin Surrounding First Gear #12" },
+            { "16_03_00034", "Far Far Away - Coin Surrounding Second Gear #1" },
+            { "16_03_00039", "Far Far Away - Coin Surrounding Second Gear #2" },
+            { "16_03_00044", "Far Far Away - Coin Surrounding Second Gear #3" },
+            { "16_03_00031", "Far Far Away - Coin Surrounding Second Gear #4" },
+            { "16_03_00035", "Far Far Away - Coin Surrounding Second Gear #5" },
+            { "16_03_00040", "Far Far Away - Coin Bag Surrounding Second Gear #1" },
+            { "16_03_00045", "Far Far Away - Coin Surrounding Second Gear #6" },
+            { "16_03_00049", "Far Far Away - Coin Surrounding Second Gear #7" },
+            { "16_03_00032", "Far Far Away - Coin Surrounding Second Gear #8" },
+            { "16_03_00036", "Far Far Away - Coin Bag Surrounding Second Gear #2" },
+            { "16_01_00028", "Far Far Away - Gear - Second Gear" },
+            { "16_03_00046", "Far Far Away - Coin Bag Surrounding Second Gear #3" },
+            { "16_03_00050", "Far Far Away - Coin Surrounding Second Gear #9" },
+            { "16_03_00033", "Far Far Away - Coin Surrounding Second Gear #10" },
+            { "16_03_00037", "Far Far Away - Coin Surrounding Second Gear #11" },
+            { "16_03_00042", "Far Far Away - Coin Bag Surrounding Second Gear #4" },
+            { "16_03_00047", "Far Far Away - Coin Surrounding Second Gear #12" },
+            { "16_03_00051", "Far Far Away - Coin Surrounding Second Gear #13" },
+            { "16_03_00038", "Far Far Away - Coin Surrounding Second Gear #14" },
+            { "16_03_00043", "Far Far Away - Coin Surrounding Second Gear #15" },
+            { "16_03_00048", "Far Far Away - Coin Surrounding Second Gear #16" },
+        };
+
+        [Description("Far Far Away - Hat Pillar")]
+        public static Dictionary<string, string> FarFarAwayHatPillar = new()
+        {
+            { "16_07_00043", "Purchase Bunny Hat" },
+        };
+
         [Description("Mosk's Rocket - Special Rules")]
         public static Dictionary<string, string> RocketSpecialRules = new()
         {
@@ -7412,6 +7592,7 @@ namespace YellowTaxiAP
             { "Pepperoni - Gear - From Chef Pepe", "X3/J1 & B1" },
             { "Stealthy - Gear - Shortcut Back Down", "GS/X1" },
             { "Smelly Slimes - Gear - Pipe Above Entrance", $"B2 & X2/J1 | X2+B1 & {{{GetDescription(nameof(SmellySlimesExit))}}} | X3+J1" },
+            { "Mid Air - Gear - On Tallest Tower", "B1 & X1/J1" }
         };
 
         #endregion
@@ -7880,6 +8061,19 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(ConveyorBeltsDuctsAboveStartingArea)), ConveyorBeltsDuctsAboveStartingArea),
             new(GetDescription(nameof(ConveyorBeltsLowerPath)), ConveyorBeltsLowerPath),
             new(GetDescription(nameof(ConveyorBeltsUpperPath)), ConveyorBeltsUpperPath),
+            new(GetDescription(nameof(EyeSurgeryStartingArea)), EyeSurgeryStartingArea),
+            new(GetDescription(nameof(EyeSurgeryFirstGear)), EyeSurgeryFirstGear),
+            new(GetDescription(nameof(EyeSurgerySecondGear)), EyeSurgerySecondGear),
+            new(GetDescription(nameof(MidAirStartingArea)), MidAirStartingArea),
+            new(GetDescription(nameof(MidAirFirstTower)), MidAirFirstTower),
+            new(GetDescription(nameof(MidAirUpperArea)), MidAirUpperArea),
+            new(GetDescription(nameof(InfiltrationStartingArea)), InfiltrationStartingArea),
+            new(GetDescription(nameof(InfiltrationMiddleLayer)), InfiltrationMiddleLayer),
+            new(GetDescription(nameof(InfiltrationUpperLayer)), InfiltrationUpperLayer),
+            new(GetDescription(nameof(InfiltrationLowerLayer)), InfiltrationLowerLayer),
+            new(GetDescription(nameof(FarFarAwayStartingArea)), FarFarAwayStartingArea),
+            new(GetDescription(nameof(FarFarAwayGearAreas)), FarFarAwayGearAreas),
+            new(GetDescription(nameof(FarFarAwayHatPillar)), FarFarAwayHatPillar),
 
             // Baby Steps! Areas
             new(GetDescription(nameof(BabyStepsStartingArea)), BabyStepsStartingArea),
@@ -8298,6 +8492,19 @@ namespace YellowTaxiAP
                     ConveyorBeltsDuctsAboveStartingArea,
                     ConveyorBeltsLowerPath,
                     ConveyorBeltsUpperPath,
+                    EyeSurgeryStartingArea,
+                    EyeSurgeryFirstGear,
+                    EyeSurgerySecondGear,
+                    MidAirStartingArea,
+                    MidAirFirstTower,
+                    MidAirUpperArea,
+                    InfiltrationStartingArea,
+                    InfiltrationMiddleLayer,
+                    InfiltrationUpperLayer,
+                    InfiltrationLowerLayer,
+                    FarFarAwayStartingArea,
+                    FarFarAwayGearAreas,
+                    FarFarAwayHatPillar,
                 ]
             },
             {
@@ -10354,6 +10561,8 @@ namespace YellowTaxiAP
                     new RegionConnection(RocketGoldenPropeller, "GP"),
                     new RegionConnection("Mosk's Rocket - Heroic Moves Portal", HeroicMovesStartingArea, ConnectionType.Subwarp, "J1/B1/GP & Bunny-MC"),
                     new RegionConnection("Mosk's Rocket - Conveyor Belts Portal", ConveyorBeltsStartingArea, ConnectionType.Subwarp, "Bunny-CTI"),
+                    new RegionConnection("Mosk's Rocket - Eye Surgery Portal", EyeSurgeryStartingArea, ConnectionType.Subwarp, "Bunny-MM"),
+                    new RegionConnection("Mosk's Rocket - Mid Air Portal", MidAirStartingArea, ConnectionType.Subwarp, "J1/B1/GP & Bunny-RO"),
                 ]
             },
             {
@@ -10372,6 +10581,8 @@ namespace YellowTaxiAP
                     new RegionConnection(HeroicMovesBananaHatBeam, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
                     new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, $"NSAR & {{{GetDescription(nameof(ConveyorBeltsStartingArea))}}}"),
                     new RegionConnection(ConveyorBeltsDuctsAboveStartingArea, $"NSAR & {{{GetDescription(nameof(ConveyorBeltsStartingArea))}}}"),
+                    new RegionConnection(EyeSurgerySecondGear, $"X1+NSAR & {{{GetDescription(nameof(EyeSurgeryStartingArea))}}}"),
+                    new RegionConnection(MidAirFirstTower, $"X1+NSAR & {{{GetDescription(nameof(MidAirStartingArea))}}}"),
                 ]
             },
             {
@@ -10383,6 +10594,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(RocketToslaHQArea)),
                 [
+                    new RegionConnection("Mosk's Rocket - Infiltration Portal", InfiltrationStartingArea, ConnectionType.Subwarp, "Bunny-HQ"),
                     new RegionConnection(RocketCoinsToFinalFloor),
                     new RegionConnection(RocketFinalFloorCheese, "B1/J2 | X1+J1"),
                 ]
@@ -10397,6 +10609,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(RocketMoonArea)),
                 [
+                    new RegionConnection("Mosk's Rocket - Far Far Away Portal", FarFarAwayStartingArea, ConnectionType.Subwarp, "Bunny-TM"),
                     new RegionConnection(RocketFinalFloorCheese),
                 ]
             },
@@ -10622,6 +10835,86 @@ namespace YellowTaxiAP
             },
             {
                 GetDescription(nameof(ConveyorBeltsUpperPath)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(EyeSurgeryStartingArea)),
+                [
+                    new RegionConnection("Eye Surgery - Mosk's Rocket Portal Near Start", RocketCityCrashMindArea, ConnectionType.Subwarp),
+                    new RegionConnection(EyeSurgeryFirstGear, "X1/J1"),
+                    new RegionConnection(EyeSurgerySecondGear, "X2/J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(EyeSurgeryFirstGear)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(EyeSurgerySecondGear)),
+                [
+                    new RegionConnection("Eye Surgery - Mosk's Rocket Portal Near End", RocketCityCrashMindArea, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(MidAirStartingArea)),
+                [
+                    new RegionConnection("Mid Air - Mosk's Rocket Portal Near Start", RocketCityCrashMindArea, ConnectionType.Subwarp),
+                    new RegionConnection(MidAirFirstTower, "B1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MidAirFirstTower)),
+                [
+                    new RegionConnection(MidAirUpperArea, "B2 & X1/J1/GP | X2+B1")
+                ]
+            },
+            {
+                GetDescription(nameof(MidAirUpperArea)),
+                [
+                    // No connections!
+                ]
+            },
+            {
+                GetDescription(nameof(InfiltrationStartingArea)),
+                [
+                    new RegionConnection("Infiltration - Mosk's Rocket Portal Near Start", RocketToslaHQArea, ConnectionType.Subwarp),
+                    new RegionConnection(InfiltrationMiddleLayer, "X1/B1/J1"),
+                    new RegionConnection(InfiltrationUpperLayer, "X1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(InfiltrationMiddleLayer)),
+                [
+                    new RegionConnection(InfiltrationLowerLayer, "X1/B1"),
+                    new RegionConnection(InfiltrationUpperLayer, "B1+J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(InfiltrationLowerLayer)),
+                [
+                    new RegionConnection("Infiltration - Mosk's Rocket Portal on Lowest Level", RocketToslaHQArea, ConnectionType.Subwarp, "J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FarFarAwayStartingArea)),
+                [
+                    new RegionConnection("Far Far Away - Mosk's Rocket Portal Near Start", RocketMoonArea, ConnectionType.Subwarp),
+                    new RegionConnection(FarFarAwayGearAreas, "X2/B1 & J1 | X1+J2"),
+                ]
+            },
+            {
+                GetDescription(nameof(FarFarAwayGearAreas)),
+                [
+                    new RegionConnection("Far Far Away - Mosk's Rocket Portal Between Gears", RocketMoonArea, ConnectionType.Subwarp),
+                    new RegionConnection(FarFarAwayHatPillar, "J2 | X2+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(FarFarAwayHatPillar)),
                 [
                     // No connections
                 ]
