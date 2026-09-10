@@ -10557,7 +10557,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(RocketFlushedArea),
                     new RegionConnection(RocketCoinsToFinalFloor, "J1 | X1+B2"),
-                    new RegionConnection(RocketToslaHQArea, "J2"),
+                    new RegionConnection(RocketToslaHQArea, "J2 | X2+J1"),
                     new RegionConnection(RocketGoldenPropeller, "GP"),
                     new RegionConnection("Mosk's Rocket - Heroic Moves Portal", HeroicMovesStartingArea, ConnectionType.Subwarp, "J1/B1/GP & Bunny-MC"),
                     new RegionConnection("Mosk's Rocket - Conveyor Belts Portal", ConveyorBeltsStartingArea, ConnectionType.Subwarp, "Bunny-CTI"),
