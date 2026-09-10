@@ -29,6 +29,7 @@ namespace YellowTaxiAP.Managers
         /// </summary>
         private void MinimapUiNodeScript_OnEnable(On.MinimapUiNodeScript.orig_OnEnable orig, MinimapUiNodeScript self)
         {
+            Data.LevelId? kaizoLevel = null;
             if (!self.isDiscovered)
             {
                 self.isMyLevelUnlocked = Data.GetLevelIfUnlocked(self.myMapAreaScriptableObject.levelId) != null;
@@ -38,7 +39,7 @@ namespace YellowTaxiAP.Managers
                     switch (self.myMapAreaScriptableObject.levelId)
                     {
                         case Data.LevelId.L16_Rocket:
-                            var kaizoLevel = self.myMapAreaScriptableObject.areaName.Substring(21) switch
+                            kaizoLevel = self.myMapAreaScriptableObject.areaName.Substring(21) switch
                             {
                                 "LAB" => Data.LevelId.Hub,
                                 "MORIO_HOME" => Data.LevelId.L3_MoriosHome,
@@ -60,8 +61,13 @@ namespace YellowTaxiAP.Managers
 
                             if (kaizoLevel != Data.LevelId.L16_Rocket)
                             {
-                                self.isAreaUnlocked = Data.BunniesGetLevelCollectedNumber(kaizoLevel) >=
-                                                      Data.BunniesGetLevelMaxNumber(kaizoLevel);
+                                self.isAreaUnlocked = Data.BunniesGetLevelCollectedNumber(kaizoLevel.Value) >=
+                                                      Data.BunniesGetLevelMaxNumber(kaizoLevel.Value);
+                                // Keep kaizo level declared if the level is locked, use that to update the title text later
+                                if (self.isAreaUnlocked)
+                                {
+                                    kaizoLevel = null;
+                                }
                             }
 
                             break;
@@ -150,6 +156,10 @@ namespace YellowTaxiAP.Managers
                     }
                     self.gearsText.text += $"{spacing}<size=1>{APDialogueManager.SetTextColor(text, APDialogueManager.DialogueColors.RedYellow)}</size>";
                 }
+            }
+            else if (kaizoLevel.HasValue)
+            {
+                self.titleText.text = $"<sprite name=\"OrangeBunny\"> {Data.BunniesGetLevelCollectedNumber(kaizoLevel.Value)}/{Data.BunniesGetLevelMaxNumber(kaizoLevel.Value)}";
             }
 
             MinimapUiNodeScript.unlockedUndiscoveredList.Remove(self);
