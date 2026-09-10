@@ -467,10 +467,6 @@ namespace YellowTaxiAP.Managers
                         break;
                 }
             }
-            else if (self.kaizoLevelId != LevelId.noone && self.kaizoLevelId != LevelId.Hub && !RandomizedPortalLevelOrder.Contains(self.kaizoLevelId))
-            {
-                ObjectHelper.DestroyRecursive(self.transform);
-            }
 
             orig(self);
             self.UpdatePortalToLevelName();
