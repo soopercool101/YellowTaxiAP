@@ -3,6 +3,7 @@ using I2.Loc;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using YellowTaxiAP.Archipelago;
+using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
@@ -28,6 +29,17 @@ namespace YellowTaxiAP.Managers
 
             On.MapArea.IsCurrentLevelFromIsland += MapArea_IsCurrentLevelFromIsland;
             On.Data.LevelData.GetName += LevelData_GetName;
+
+            On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution; ;
+        }
+
+        private void CameraGame_UpdateRenderTextureToSettingsResolution(On.CameraGame.orig_UpdateRenderTextureToSettingsResolution orig)
+        {
+            orig();
+            if (PixelateTrap.Instance)
+            {
+                PixelateTrap.Instance.SetPixelated();
+            }
         }
 
         public static bool MinimapNeedsUpdate { get; private set; }

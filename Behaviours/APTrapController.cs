@@ -636,20 +636,7 @@ namespace YellowTaxiAP.Behaviours
             if (Instance == null)
             {
                 DurationSeconds = APTrapController.DefaultTrapDuration;
-
-                var renderTexture = new RenderTexture(256, 144, 24)
-                {
-                    antiAliasing = Master.instance.PlatformManager == null || !Master.instance.PlatformManager.UseAntialiasing ? 1 : 4,
-                    filterMode = FilterMode.Point
-                };
-                if (renderTexture != null)
-                {
-                    CameraGame.instance.myCamera.targetTexture.Release();
-                    CameraGame.instance.myCamera.targetTexture = renderTexture;
-                    CameraPostProcess.instance.myCamera.targetTexture = renderTexture;
-                    Master.instance.gameRenderingRawImage.texture = renderTexture;
-                }
-
+                SetPixelated();
                 Instance = this;
             }
             else
@@ -659,10 +646,26 @@ namespace YellowTaxiAP.Behaviours
             }
         }
 
+        public void SetPixelated()
+        {
+            var renderTexture = new RenderTexture(256, 144, 24)
+            {
+                antiAliasing = Master.instance.PlatformManager == null || !Master.instance.PlatformManager.UseAntialiasing ? 1 : 4,
+                filterMode = FilterMode.Point
+            };
+            if (renderTexture != null)
+            {
+                CameraGame.instance.myCamera.targetTexture.Release();
+                CameraGame.instance.myCamera.targetTexture = renderTexture;
+                CameraPostProcess.instance.myCamera.targetTexture = renderTexture;
+                Master.instance.gameRenderingRawImage.texture = renderTexture;
+            }
+        }
+
         public override void TrapDeactivate()
         {
-            CameraGame.UpdateRenderTextureToSettingsResolution();
             Instance = null;
+            CameraGame.UpdateRenderTextureToSettingsResolution();
         }
     }
 
