@@ -822,7 +822,7 @@ public class ArchipelagoClient
     public void SendLocation(long id)
     {
 #if DEBUG
-        if (MapArea.instancePlayerInside != null)
+        if (!DebugLocationHelper.Enabled && MapArea.instancePlayerInside != null)
         {
             if (!LocationsByMapArea.LocationsByMapAreaDictionary.ContainsKey(MapArea.instancePlayerInside.areaNameKey))
             {
