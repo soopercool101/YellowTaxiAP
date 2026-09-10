@@ -7590,7 +7590,7 @@ namespace YellowTaxiAP
             { "Bomb-it - Gear - Bomb Car Ramps", "X1/J1" },
             { "Buttons Smashing - Gear - Top Platform", "X1/J1" },
             { "Pepperoni - Gear - From Chef Pepe", "X3/J1 & B1" },
-            { "Stealthy - Gear - Shortcut Back Down", "GS/X1" },
+            { "Stealthy - Gear - Shortcut Back Down", "NGS/X1/GS" },
             { "Smelly Slimes - Gear - Pipe Above Entrance", $"B2 & X2/J1 | X2+B1 & {{{GetDescription(nameof(SmellySlimesExit))}}} | X3+J1" },
             { "Mid Air - Gear - On Tallest Tower", "B1 & X1/J1" }
         };
