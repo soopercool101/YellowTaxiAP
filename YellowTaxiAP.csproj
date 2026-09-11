@@ -35,6 +35,11 @@
 
     <ItemGroup>
       <EmbeddedResource Include="Resources\lab_door_closed" />
+      <EmbeddedResource Include="Resources\psychotaximap" />
+      <EmbeddedResource Include="Resources\psychotaximap_locked" />
+      <EmbeddedResource Include="Resources\ta1map_locked" />
+      <EmbeddedResource Include="Resources\ta2map_locked" />
+      <EmbeddedResource Include="Resources\ta3map_locked" />
     </ItemGroup>
 
     <ItemGroup>
