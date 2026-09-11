@@ -6,7 +6,7 @@ namespace YellowTaxiAP.Managers
     public class APRatManager
     {
         public static bool ReceivedRatItem = false;
-        public static bool SentRatLocation => Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)Identifiers.NotableLocations.HubMichele);
+        public static bool SentRatLocation => Plugin.ArchipelagoClient.AllClearedLocations.Contains((int)GameplayMaster.instance.levelId * 1_00_00000 + (int)Identifiers.NotableLocations.HubMichele);
 
         public APRatManager()
         {
