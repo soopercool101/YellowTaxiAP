@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
+using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
 {
@@ -14,6 +15,99 @@ namespace YellowTaxiAP.Managers
             On.Data.GetLevelIfUnlocked += Data_GetLevelIfUnlocked;
             On.MinimapUiNodeScript.OnEnable += MinimapUiNodeScript_OnEnable;
             On.MinimapUiNodeScript.Update += MinimapUiNodeScript_Update;
+            On.MinimapUiNodeScript.Awake += MinimapUiNodeScript_Awake;
+            On.MapMaster.Awake += MapMaster_Awake;
+            On.MinimapUiScript.Awake += MinimapUiScript_Awake;
+            On.MinimapUiScript.WindowMainHiddenSet += MinimapUiScript_WindowMainHiddenSet;
+        }
+
+        private void MinimapUiNodeScript_Awake(On.MinimapUiNodeScript.orig_Awake orig, MinimapUiNodeScript self)
+        {
+            if (self.name.Contains("(Clone)") && CurrentCloneMap != null)
+            {
+                self.myMapAreaScriptableObject = CurrentCloneMap;
+                CurrentCloneMap = null;
+            }
+            orig(self);
+        }
+
+        // Only gets called once. Call it with the normal parameters *except* time trial check
+        private void MinimapUiScript_WindowMainHiddenSet(On.MinimapUiScript.orig_WindowMainHiddenSet orig, MinimapUiScript self, bool hide)
+        {
+            orig(self, MenuV2PopupScript.instance != null || (MenuV2Script.instance != null && MenuV2Script.instance.menuIndex != 13 && MenuV2Script.instance.menuIndex != 22));
+        }
+
+        public static MapAreaScriptableObject CurrentCloneMap;
+
+        private void MinimapUiScript_Awake(On.MinimapUiScript.orig_Awake orig, MinimapUiScript self)
+        {
+            // Add plates for time trials and psycho taxi
+            var bonusBombsWindow = self.AllHolder.transform.GetChild(0). // MAP MAIN WINDOW
+                GetChild(0). // MapMask
+                GetChild(1). // ScrollablePlate
+                GetChild(0). // ZoomPlate
+                GetChild(3); // WIN NODE - Bonus Bombs
+            // I have to set the scriptable map area before awake, so here's some hackiness
+            CurrentCloneMap = BabyStepsScriptableMap;
+            Object.Instantiate(bonusBombsWindow.gameObject, new Vector3(14.5f, 1.5f, bonusBombsWindow.transform.position.z), bonusBombsWindow.rotation, bonusBombsWindow.parent);
+            CurrentCloneMap = GettingGudScriptableMap;
+            Object.Instantiate(bonusBombsWindow.gameObject, new Vector3(14.5f, -2.5f, bonusBombsWindow.transform.position.z), bonusBombsWindow.rotation, bonusBombsWindow.parent);
+            CurrentCloneMap = ProTricksScriptableMap; 
+            Object.Instantiate(bonusBombsWindow.gameObject, new Vector3(14.5f, -6.5f, bonusBombsWindow.transform.position.z), bonusBombsWindow.rotation, bonusBombsWindow.parent);
+            CurrentCloneMap = PsychoTaxiScriptableMap;
+            Object.Instantiate(bonusBombsWindow.gameObject, new Vector3(12.5f, 12.5f, bonusBombsWindow.transform.position.z), bonusBombsWindow.rotation, bonusBombsWindow.parent);
+            orig(self);
+            self.gameObject.SetActive(true);
+        }
+
+        public static readonly MapAreaScriptableObject BabyStepsScriptableMap = GetScriptableMapArea(Data.LevelId.L17_TimeAttack01, 5);
+        public static readonly MapAreaScriptableObject GettingGudScriptableMap = GetScriptableMapArea(Data.LevelId.L18_TimeAttack02, 6);
+        public static readonly MapAreaScriptableObject ProTricksScriptableMap = GetScriptableMapArea(Data.LevelId.L19_TimeAttack03, 9);
+        public static readonly MapAreaScriptableObject PsychoTaxiScriptableMap = GetScriptableMapArea(Data.LevelId.L20_PsychoTaxi, 0);
+
+        private void MapMaster_Awake(On.MapMaster.orig_Awake orig, MapMaster self)
+        {
+            orig(self);
+            self.mapAreasList.Add(BabyStepsScriptableMap);
+            self.mapAreasList.Add(GettingGudScriptableMap);
+            self.mapAreasList.Add(ProTricksScriptableMap);
+            self.mapAreasList.Add(PsychoTaxiScriptableMap);
+        }
+
+        private static MapAreaScriptableObject GetScriptableMapArea(Data.LevelId level, int gearCount)
+        {
+            var map = ScriptableObject.CreateInstance<MapAreaScriptableObject>();
+            map.areaName = Data.levelDataList[(int)level].levelName;
+            map.levelId = level;
+            if (level < Data.LevelId.L20_PsychoTaxi)
+            {
+                map.mapSpriteDiscovered = Colors.PortalTextureGet(level);
+            }
+
+            switch (level)
+            {
+                case Data.LevelId.L17_TimeAttack01:
+                    map.mapSpriteUndiscovered = Resources.Sprites.Ta1MapLocked;
+                    break;
+                case Data.LevelId.L18_TimeAttack02:
+                    map.mapSpriteUndiscovered = Resources.Sprites.Ta2MapLocked;
+                    break;
+                case Data.LevelId.L19_TimeAttack03:
+                    map.mapSpriteUndiscovered = Resources.Sprites.Ta3MapLocked;
+                    break;
+                case Data.LevelId.L20_PsychoTaxi:
+                    map.mapSpriteDiscovered = Resources.Sprites.PsychoMapUnlocked;
+                    map.mapSpriteUndiscovered = Resources.Sprites.PsychoMapLocked;
+                    break;
+            }
+
+            map.gearsId = [];
+            for (var i = 0; i < gearCount; i++)
+            {
+                map.gearsId.Add(i);
+            }
+
+            return map;
         }
 
         public static Dictionary<string, string> Titles = new();

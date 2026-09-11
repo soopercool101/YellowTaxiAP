@@ -6083,9 +6083,8 @@ namespace YellowTaxiAP.Archipelago
                     990700043,
                 ]
             },
-            // These levels don't have world map entries. I'll figure them out later probably.
             {
-                "Baby Steps!",
+                "LEVEL_TIME_ATTACK_1",
                 [
                     170100000,
                     170100003,
@@ -6096,7 +6095,7 @@ namespace YellowTaxiAP.Archipelago
                 ]
             },
             {
-                "Getting Gud!",
+                "LEVEL_TIME_ATTACK_2",
                 [
                     180100004,
                     180100005,
@@ -6108,7 +6107,7 @@ namespace YellowTaxiAP.Archipelago
                 ]
             },
             {
-                "Pro Tricks!",
+                "LEVEL_TIME_ATTACK_3",
                 [
                     190100007,
                     190100008,
@@ -6120,6 +6119,12 @@ namespace YellowTaxiAP.Archipelago
                     190100006,
                     190100004,
                     190000000,
+                ]
+            },
+            {
+                "LEVEL_PSYCHO_TAXI",
+                [
+                    // Nothing... yet
                 ]
             },
         };

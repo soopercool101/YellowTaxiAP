@@ -361,18 +361,7 @@ namespace YellowTaxiAP.Behaviours
 
             LabRenderer = FindObjectsOfType<MeshRenderer>().First(o => o.name.Equals("MODELlab"));
             LabOutsideUnlockedTexture = LabRenderer.material.mainTexture;
-
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("YellowTaxiAP.Resources.lab_door_closed"))
-            {
-                Plugin.Log("Reading Texture");
-                var data = new byte[stream.Length];
-                stream.Read(data, 0, data.Length);
-
-                var texture = new Texture2D(1024, 1024);
-                texture.LoadImage(data);
-                texture.filterMode = LabOutsideUnlockedTexture.filterMode;
-                LabOutsideLockedTexture = texture;
-            }
+            LabOutsideLockedTexture = Resources.Textures.LabDoorLocked;
         }
 
         public override void FixedUpdate()

@@ -263,10 +263,10 @@ namespace YellowTaxiAP.Managers
         {
             Plugin.Log($"Beginning Ratification process on {original.gameObject.name}");
             // Convert a lawyer into a rat, giving a rat location on bomboss goal
-            var sourceRenderer = Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>()
+            var sourceRenderer = UnityEngine.Resources.FindObjectsOfTypeAll<SkinnedMeshRenderer>()
                 .First(r => r.name.Equals("Rats 1"));
 
-            var anims = Resources.FindObjectsOfTypeAll<AnimationClip>();
+            var anims = UnityEngine.Resources.FindObjectsOfTypeAll<AnimationClip>();
             var deadAnim = anims.First(o => o.name.Equals("Rat Dies"));
             var idleAnim = anims.First(o => o.name.Equals("Rat Idle.001"));
             var walkAnim = anims.First(o => o.name.Equals("Rat Walk"));

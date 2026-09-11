@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
+using static Data;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
@@ -14,6 +15,8 @@ namespace YellowTaxiAP.Managers
         {
             // MenuV2Script hooks
             On.MenuV2Script.GotoLabConditionGet += GotoLabConditionGet_AP;
+            //On.MenuV2Script.PauseMenuKindGet += MenuV2Script_PauseMenuKindGet;
+            On.MenuV2Script._PauseMenuDefineVoiceIndexes += MenuV2Script__PauseMenuDefineVoiceIndexes;
             On.MenuV2Script.MenuSelection += MenuV2Script_MenuSelection;
             On.MenuV2Script.Update += MenuV2Script_Update;
             On.MenuV2Element.Awake += MenuV2Element_Awake;
@@ -31,6 +34,25 @@ namespace YellowTaxiAP.Managers
             On.Data.LevelData.GetName += LevelData_GetName;
 
             On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution; ;
+        }
+
+        private void MenuV2Script__PauseMenuDefineVoiceIndexes(On.MenuV2Script.orig__PauseMenuDefineVoiceIndexes orig, MenuV2Script self, MenuV2Script.PauseMenuKind pKind, out int indexWishlist, out int indexResume, out int indexRestart, out int indexMinimap, out int indexSettings, out int indexPhotoMode, out int indexBackToHub, out int indexBackToMenu)
+        {
+            if (pKind is MenuV2Script.PauseMenuKind.level_PsychoTaxi or MenuV2Script.PauseMenuKind.level_TimeAttack or MenuV2Script.PauseMenuKind.level_Normal)
+            {
+                indexWishlist = -1;
+                indexResume = -1;
+                indexMinimap = 0;
+                indexBackToHub = 1;
+                indexRestart = 2;
+                indexPhotoMode = 3;
+                indexSettings = 4;
+                indexBackToMenu = 5;
+                return;
+            }
+
+            orig(self, pKind, out indexWishlist, out indexResume, out indexRestart, out indexMinimap, out indexSettings,
+                out indexPhotoMode, out indexBackToHub, out indexBackToMenu);
         }
 
         private void CameraGame_UpdateRenderTextureToSettingsResolution(On.CameraGame.orig_UpdateRenderTextureToSettingsResolution orig)
@@ -145,6 +167,20 @@ namespace YellowTaxiAP.Managers
 
         private string[] MenuV2Script_PauseMenuVoicesStringsGet(On.MenuV2Script.orig_PauseMenuVoicesStringsGet orig, MenuV2Script self)
         {
+            var kind = self.PauseMenuKindGet();
+            if (kind is MenuV2Script.PauseMenuKind.level_TimeAttack or MenuV2Script.PauseMenuKind.level_PsychoTaxi or MenuV2Script.PauseMenuKind.level_Normal)
+            {
+                return
+                [
+                    LocalizationManager.GetTermTranslation("MENU_VOICE_WORLD_MAP"),
+                    self.GotoLabConditionGet() ? LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB") : LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND"),
+                    LocalizationManager.GetTermTranslation("PAUSE_MENU_RESTART"),
+                    LocalizationManager.GetTermTranslation("PAUSE_MENU_PHOTO_MODE"),
+                    LocalizationManager.GetTermTranslation("PAUSE_MENU_SETTINGS"),
+                    LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_MAIN_MENU")
+                ];
+            }
+
             var strings = orig(self);
             if (GameplayMaster.instance && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
             {

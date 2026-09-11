@@ -6,6 +6,7 @@ using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
 using static Data;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Managers
@@ -283,6 +284,36 @@ namespace YellowTaxiAP.Managers
         private void PlayerScript_Start(On.PlayerScript.orig_Start orig, PlayerScript self)
         {
             orig(self);
+
+            // Time attack and psycho taxi don't have maps. Create one.
+            if (GameplayMaster.instance.levelId >= LevelId.L17_TimeAttack01)
+            {
+                Plugin.BepinLogger.LogWarning("No map area for this level. Constructing one from scratch!");
+                var levelMapArea = new GameObject("Map Area Whole");
+                var map = levelMapArea.AddComponent<MapArea>();
+                map.areaNameKey = levelDataList[(int)GameplayMaster.instance.levelId].levelName;
+                var gearCount = GameplayMaster.instance.levelId switch
+                {
+                    LevelId.L17_TimeAttack01 => 5,
+                    LevelId.L18_TimeAttack02 => 6,
+                    LevelId.L19_TimeAttack03 => 9,
+                    _ => 0
+                };
+                map.gearsId = [];
+                for (var i = 0; i < gearCount; i++)
+                {
+                    map.gearsId.Add(i);
+                }
+
+                var box = levelMapArea.AddComponent<BoxCollider>();
+                box.isTrigger = true;
+                box.size = new Vector3(5000, 5000, 5000);
+
+                var mapObject = GameObject.Find("MAP");
+                var newMapArea = Object.Instantiate(levelMapArea, mapObject.transform);
+                Plugin.BepinLogger.LogWarning($"{newMapArea.name} created!");
+            }
+
             if (QueuedSubwarp == null)
                 return;
 
