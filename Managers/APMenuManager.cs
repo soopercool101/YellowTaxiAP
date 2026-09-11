@@ -22,6 +22,7 @@ namespace YellowTaxiAP.Managers
             On.MenuV2Element.Awake += MenuV2Element_Awake;
             On.MenuV2WhiteBackground.FixedUpdate += MenuV2WhiteBackground_FixedUpdate;
             On.MenuV2Script.MenuVoicesInit += MenuV2Script_MenuVoicesInit;
+            On.MenuV2Script._SelectPauseMenu += MenuV2Script__SelectPauseMenu;
 
             On.MenuV2Script.PauseMenuVoicesStringsGet += MenuV2Script_PauseMenuVoicesStringsGet;
 
@@ -34,6 +35,19 @@ namespace YellowTaxiAP.Managers
             On.Data.LevelData.GetName += LevelData_GetName;
 
             On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution; ;
+        }
+
+        private void MenuV2Script__SelectPauseMenu(On.MenuV2Script.orig__SelectPauseMenu orig, MenuV2Script self)
+        {
+            self._PauseMenuDefineVoiceIndexes(self.PauseMenuKindGet(), out _, out _, out var indexRestart, out _, out _, out _, out _, out _);
+            if (self.voiceIndex == indexRestart)
+            {
+                CheckpointScript.CheckpointDataReset();
+                GameplayMaster.SelfRespawnClear();
+                APPortalManager.QueuedSubwarp = APPortalManager.PreviousQueuedSubwarp;
+            }
+
+            orig(self);
         }
 
         private void MenuV2Script__PauseMenuDefineVoiceIndexes(On.MenuV2Script.orig__PauseMenuDefineVoiceIndexes orig, MenuV2Script self, MenuV2Script.PauseMenuKind pKind, out int indexWishlist, out int indexResume, out int indexRestart, out int indexMinimap, out int indexSettings, out int indexPhotoMode, out int indexBackToHub, out int indexBackToMenu)
