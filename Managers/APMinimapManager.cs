@@ -32,6 +32,7 @@ namespace YellowTaxiAP.Managers
             if (self.isAreaUnlocked && self.youAreHereAnimTimer < Tick.Time && Titles.ContainsKey(self.myMapAreaScriptableObject.areaName))
             {
                 (self.titleText.text, Titles[self.myMapAreaScriptableObject.areaName]) = (Titles[self.myMapAreaScriptableObject.areaName], self.titleText.text);
+                self.titleText.rectTransform.offsetMin = new Vector2((self.titleText.text.StartsWith("<sprite name=\"Portal\">") ? 0.1f : 0.5f), self.titleText.rectTransform.offsetMin.y);
             }
         }
 
