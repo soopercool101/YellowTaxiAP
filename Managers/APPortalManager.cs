@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Febucci.UI;
+using TMPro;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
@@ -181,7 +182,7 @@ namespace YellowTaxiAP.Managers
             if (!string.IsNullOrEmpty(self._name) && self.kaizoLevelId == LevelId.noone)
             {
                 self.nameTextAnimator.GetComponent<TextAnimatorPlayer>().useTypeWriter = false;
-                if (self.PortalIsLevelPortal && !self.PortalIsAlreadyOpened)
+                if (self.PortalIsLevelPortal && !APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId) && self.targetLevelId != LevelId.Hub)
                 {
                     self._name = self.nameText.text = "???";
                 }
@@ -194,6 +195,8 @@ namespace YellowTaxiAP.Managers
 
         private System.Collections.IEnumerator MorioDreamMachineScript_AnimationCoroutine(On.MorioDreamMachineScript.orig_AnimationCoroutine orig, MorioDreamMachineScript self)
         {
+            APDialogueManager.LastTalkedTo.gameRelevantPerson = false;
+            APDialogueManager.LastTalkedTo.alreadyPickedUp = true;
             yield return orig(self);
             if (Plugin.SlotData.EarlyMoriosPassword)
             {
@@ -432,13 +435,14 @@ namespace YellowTaxiAP.Managers
 
         private void PortalScript_Awake(On.PortalScript.orig_Awake orig, PortalScript self)
         {
+            var randomizedLevelId = GetRandomizedLevelId(self.targetLevelId);
             // Bombeach can be in a variable spot, otherwise just use standard
-            if ((GetRandomizedLevelId(self.targetLevelId) == LevelId.L1_Bombeach && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach) ||
+            if ((randomizedLevelId == LevelId.L1_Bombeach && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Bombeach) ||
                 (self.targetLevelId == LevelId.L5_ToslaOffices && Plugin.SlotData.Goal == YTGVSlotData.GoalType.ToslaOffices) ||
                 (self.targetLevelId == LevelId.L9_City && Plugin.SlotData.Goal == YTGVSlotData.GoalType.MauriziosCity) ||
                 (self.targetLevelId == LevelId.L14_ToslaHQ && Plugin.SlotData.Goal == YTGVSlotData.GoalType.Moon))
             {
-                Data.levelDataList[(int)self.targetLevelId].levelCost = Plugin.SlotData.GoalPortalCost;
+                levelDataList[(int)self.targetLevelId].levelCost = Plugin.SlotData.GoalPortalCost;
             }
 
             self.hubPortalForceEnabled = true;
@@ -465,7 +469,7 @@ namespace YellowTaxiAP.Managers
             if (self.PortalIsLevelPortal)
             {
                 // Delete portals that are excluded
-                if (GetRandomizedLevelId(self.targetLevelId) == LevelId.L11_HubDemo)
+                if (randomizedLevelId == LevelId.L11_HubDemo)
                 {
                     // Disable level cost. This fixes issues with main menu.
                     // -1 is later used (by me) as a magic number to prevent populating the minimap with these disabled portals
@@ -500,6 +504,39 @@ namespace YellowTaxiAP.Managers
             }
 
             orig(self);
+            if (self.targetLevelId is LevelId.L6_Gym or LevelId.L7_PoopWorld or LevelId.L8_Sewers
+                    or LevelId.L16_Rocket && ((self.targetLevelId != randomizedLevelId &&
+                APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId)) || !APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId)))
+            {
+                var newCanvas = Object.Instantiate(self.transform.GetChild(0).gameObject, self.transform);
+                for (var i = newCanvas.transform.childCount - 1; i >= 0; i--)
+                {
+                    Object.DestroyImmediate(newCanvas.transform.GetChild(i).gameObject);
+                }
+                newCanvas.SetActive(true);
+                
+                self.nameText.gameObject.transform.parent = newCanvas.transform;
+                Plugin.Log($"{self.targetLevelId} {newCanvas.transform.localPosition}");
+                switch (self.targetLevelId)
+                {
+                    case LevelId.L6_Gym:
+                        newCanvas.transform.localPosition -= new Vector3(0, 2.2f, 1.4f);
+                        break;
+                    case LevelId.L7_PoopWorld:
+                        newCanvas.transform.Rotate(0, -90, 0);
+                        newCanvas.transform.localPosition -= new Vector3(2, 0, 0);
+                        break;
+                    case LevelId.L8_Sewers:
+                        newCanvas.transform.Rotate(0, -90, 0);
+                        newCanvas.transform.localPosition += new Vector3(2, 1, 0);
+                        break;
+                    case LevelId.L16_Rocket:
+                        newCanvas.transform.Rotate(0, 180, 0);
+                        newCanvas.transform.localPosition -= new Vector3(0, 2, 0);
+                        break;
+                }
+            }
+
             self.UpdatePortalToLevelName();
             self.CostUpdateTry();
         }
