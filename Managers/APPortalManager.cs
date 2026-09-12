@@ -1,14 +1,12 @@
 using System;
 using System.Linq;
 using Febucci.UI;
-using TMPro;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
 using static Data;
 using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Managers
 {

@@ -10,10 +10,8 @@ using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
-using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Archipelago;
 

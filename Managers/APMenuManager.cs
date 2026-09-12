@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
-using static Data;
 using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
