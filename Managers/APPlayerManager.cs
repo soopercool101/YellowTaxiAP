@@ -117,10 +117,35 @@ namespace YellowTaxiAP.Managers
 
             On.GameplayMaster.Die += GameplayMaster_Die;
 
+            On.FlipAreaOfEffect.OnTriggerEnter += FlipAreaOfEffect_OnTriggerEnter;
+
             On.QuestionBlockScript.OnTriggerEnter += QuestionBlockScript_OnTriggerEnter;
 
             // Don't reset pizza wheels!
             On.Master.CheatsOthers_Reset += _ => { };
+        }
+
+        private void FlipAreaOfEffect_OnTriggerEnter(On.FlipAreaOfEffect.orig_OnTriggerEnter orig, FlipAreaOfEffect self, Collider other)
+        {
+            if (other.gameObject.layer != 12)
+                return;
+            if (SpinAttackLevel >= 2 && other.CompareTag("Car") && other.gameObject != PlayerScript.instance.gameObject &&
+                other.gameObject.GetComponent<BombCarScript>() == null)
+            {
+                var componentCommon = other.GetComponent<CarCommonScript>();
+                if (componentCommon != null && !componentCommon.parkedCar)
+                {
+                    componentCommon.TakeDamage(1);
+                }
+
+                var componentEnemy = other.GetComponent<EnemyCarScript>();
+                if (componentEnemy != null)
+                {
+                    componentEnemy.TakeDamage(1);
+                }
+            }
+
+            orig(self, other);
         }
 
         private void QuestionBlockScript_OnTriggerEnter(On.QuestionBlockScript.orig_OnTriggerEnter orig, QuestionBlockScript self, Collider other)
