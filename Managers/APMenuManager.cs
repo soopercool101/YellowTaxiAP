@@ -22,6 +22,8 @@ namespace YellowTaxiAP.Managers
             On.MenuV2WhiteBackground.FixedUpdate += MenuV2WhiteBackground_FixedUpdate;
             On.MenuV2Script.MenuVoicesInit += MenuV2Script_MenuVoicesInit;
             On.MenuV2Script._SelectPauseMenu += MenuV2Script__SelectPauseMenu;
+            On.MenuV2Script._BackToPauseMenu += MenuV2Script__BackToPauseMenu;
+            On.MenuV2Script.VoicesUpdate += MenuV2Script_VoicesUpdate;
 
             On.MenuV2Script.PauseMenuVoicesStringsGet += MenuV2Script_PauseMenuVoicesStringsGet;
 
@@ -36,14 +38,41 @@ namespace YellowTaxiAP.Managers
             On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution; ;
         }
 
+        private void MenuV2Script_VoicesUpdate(On.MenuV2Script.orig_VoicesUpdate orig, MenuV2Script self)
+        {
+            self.menuSubTitles[15] = IsRestarting ? "Restart Level?" : ReturnToHubHeader;
+            orig(self);
+        }
+
+        private void MenuV2Script__BackToPauseMenu(On.MenuV2Script.orig__BackToPauseMenu orig, MenuV2Script self, int oldMenuIndex, out bool playBackSound)
+        {
+            if (IsRestarting)
+            {
+                self._PauseMenuDefineVoiceIndexes(self.PauseMenuKindGet(), out _, out _, out var indexRestart, out _,
+                    out _, out _, out _, out _);
+                IsRestarting = false;
+                self.menuIndex = 13;
+                self.voiceIndex = indexRestart;
+                playBackSound = true;
+            }
+            else
+            {
+                orig(self, oldMenuIndex, out playBackSound);
+            }
+        }
+
+        public static bool IsRestarting { get; set; }
+
         private void MenuV2Script__SelectPauseMenu(On.MenuV2Script.orig__SelectPauseMenu orig, MenuV2Script self)
         {
             self._PauseMenuDefineVoiceIndexes(self.PauseMenuKindGet(), out _, out _, out var indexRestart, out _, out _, out _, out _, out _);
             if (self.voiceIndex == indexRestart)
             {
-                CheckpointScript.CheckpointDataReset();
-                GameplayMaster.SelfRespawnClear();
-                APPortalManager.QueuedSubwarp = APPortalManager.PreviousQueuedSubwarp;
+                IsRestarting = true;
+                self.menuIndex = 15;
+                self.voiceIndex = 0;
+                Sound.Play_Unpausable("SoundMenuSelect");
+                return;
             }
 
             orig(self);
@@ -217,6 +246,7 @@ namespace YellowTaxiAP.Managers
             return orig(self);
         }
 
+        public static string ReturnToHubHeader { get; set; }
         private void MenuV2Script_MenuVoicesInit(On.MenuV2Script.orig_MenuVoicesInit orig, MenuV2Script self)
         {
             orig(self);
@@ -227,6 +257,8 @@ namespace YellowTaxiAP.Managers
                     self.menuSubTitles[15] = LocalizationManager.GetTermTranslation(Plugin.SlotData.StartInLab ? "MENU_SUB_TITLE_HEAD_TO_LAB" : "MENU_SUB_TITLE_HEAD_TO_GRANNYS_ISLAND");
                 }
             }
+
+            ReturnToHubHeader = self.menuSubTitles[15];
         }
 
         public static Data.LevelId WelcomeScreenLevel;
@@ -369,25 +401,38 @@ namespace YellowTaxiAP.Managers
                     return;
                 }
             }
-            else if (self.menuIndex == 15 && self.voiceIndex == 0 && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+            else if (self.menuIndex == 15 && self.voiceIndex == 0)
             {
-                self.done = true;
-
-                // Override behavior to return to starting position in all cases
-                Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
-
-                TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)Levels.GetHubIndex());
-                Data.LevelId hubLevelId = Data.GetHubLevelId();
-                LoadingScreenScript.WelcomeSetup(hubLevelId, Plugin.SlotData.StartInLab ? LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND_LAB") : LocalizationManager.GetTermTranslation("Hub")
-                    , 0, 0, false);
-                CheckpointScript.CheckpointDataReset();
-                GameplayMaster.SelfRespawnClear();
-                if (Plugin.SlotData.StartInLab)
+                if (IsRestarting)
                 {
-                    APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                    IsRestarting = false;
+                    CheckpointScript.CheckpointDataReset();
+                    GameplayMaster.SelfRespawnClear();
+                    APPortalManager.QueuedSubwarp = APPortalManager.PreviousQueuedSubwarp;
+                    TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, Level.currentScene);
+                    Sound.Play_Unpausable("SoundMenuSelect");
+                    self.done = true;
                 }
+                else if (Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+                {
+                    self.done = true;
 
-                return;
+                    // Override behavior to return to starting position in all cases
+                    Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
+
+                    TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)Levels.GetHubIndex());
+                    Data.LevelId hubLevelId = Data.GetHubLevelId();
+                    LoadingScreenScript.WelcomeSetup(hubLevelId, Plugin.SlotData.StartInLab ? LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND_LAB") : LocalizationManager.GetTermTranslation("Hub")
+                        , 0, 0, false);
+                    CheckpointScript.CheckpointDataReset();
+                    GameplayMaster.SelfRespawnClear();
+                    if (Plugin.SlotData.StartInLab)
+                    {
+                        APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                    }
+
+                    return;
+                }
             }
 
             orig(self);
