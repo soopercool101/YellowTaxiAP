@@ -771,7 +771,7 @@ namespace YellowTaxiAP.Archipelago
             
             if (slotData.ContainsKey("quick_pickups"))
             {
-                QuickPickups = (bool)slotData["quick_gear_pickups"];
+                QuickPickups = (bool)slotData["quick_pickups"];
                 BonusScript.GoldenItemsResetPickupState();
             }
             else
