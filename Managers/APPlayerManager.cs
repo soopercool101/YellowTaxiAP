@@ -71,8 +71,8 @@ namespace YellowTaxiAP.Managers
             { Data.LevelId.L20_PsychoTaxi, 0 },
         };
         public static bool CanPacManJump => Plugin.SlotData.CanPacManJump && JumpLevel >= 1;
-        public static bool SpinAttackEnabled => !Plugin.SlotData.ShuffleSpinAttack || SpinAttackItem;
-        public static bool SpinAttackItem = false;
+        public static bool SpinAttackEnabled => !Plugin.SlotData.ShuffleSpinAttack || SpinAttackLevel > 0;
+        public static int SpinAttackLevel = 0;
         public static bool GlideEnabled => !Plugin.SlotData.ShuffleGlide || GlideEnabledItem;
         public static bool GlideEnabledItem = false;
         public static bool PizzaWheelsItem = false;
@@ -116,8 +116,33 @@ namespace YellowTaxiAP.Managers
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
 
             On.GameplayMaster.Die += GameplayMaster_Die;
+
+            On.QuestionBlockScript.OnTriggerEnter += QuestionBlockScript_OnTriggerEnter;
+
             // Don't reset pizza wheels!
             On.Master.CheatsOthers_Reset += _ => { };
+        }
+
+        private void QuestionBlockScript_OnTriggerEnter(On.QuestionBlockScript.orig_OnTriggerEnter orig, QuestionBlockScript self, Collider other)
+        {
+            orig(self, other);
+            if (!self.isFlippable && SpinAttackLevel >= 2)
+            {
+                if (other.CompareTag("SpinArea") && other.transform.position.y < self.transform.position.y + 4.5 && other.transform.position.y > self.transform.position.y - 2.0)
+                {
+                    self.Activate();
+                }
+                else
+                {
+                    if (!(other.gameObject == PlayerScript.instance.gameObject) ||
+                        !PlayerScript.instance.IsFlipOWillingExtraLong() ||
+                        PlayerScript.instance.transform.position.y >= self.transform.position.y + 4.5 ||
+                        PlayerScript.instance.transform.position.y <= self.transform.position.y - 1.5)
+                        return;
+                    self.Activate();
+                    PlayerScript.instance.QuestionBlockStopAndGo();
+                }
+            }
         }
 
         public Material CheeseWheels;
@@ -444,6 +469,15 @@ namespace YellowTaxiAP.Managers
                 FlipAreaOfEffect.instance.GetComponentInChildren<FrameAnimator>().FrameIndex = 0;
                 Pool.Destroy(FlipAreaOfEffect.instance.gameObject);
                 FlipAreaOfEffect.instance = null;
+            }
+        }
+
+        public static void UpdateSpinAttackTrails()
+        {
+            if (PlayerScript.instance)
+            {
+                PlayerScript.instance.flipOWillTrailRenderer.startColor = SpinAttackLevel > 1 ? new Color(1, 0, 0, 1) : new Color(1, 1, 1, 1);
+                PlayerScript.instance.flipOWillTrailRenderer.endColor = SpinAttackLevel > 1 ? new Color(1, 1, 0, 1) : new Color(1, 1, 1, 1);
             }
         }
 

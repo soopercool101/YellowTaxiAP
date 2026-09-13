@@ -271,8 +271,13 @@ public class Plugin : BaseUnityPlugin
 
                 if (Input.GetKeyDown(KeyCode.Backspace))
                 {
-                    APPlayerManager.SpinAttackItem = !APPlayerManager.SpinAttackItem;
-                    Log($"DEBUG: Flip-O-Will Spin Attack {(APPlayerManager.SpinAttackItem ? "enabled" : "disabled")}", true);
+                    APPlayerManager.SpinAttackLevel += 1;
+                    if (APPlayerManager.SpinAttackLevel > 2)
+                    {
+                        APPlayerManager.SpinAttackLevel = 0;
+                    }
+                    Log($"DEBUG: Flip-O-Will Spin Attack Level: {APPlayerManager.SpinAttackLevel}", true);
+                    APPlayerManager.UpdateSpinAttackTrails();
                     APTVManager.FlagTvNeedsUpdate();
                 }
                 if (Input.GetKeyDown(KeyCode.Backslash))

@@ -386,6 +386,7 @@ namespace YellowTaxiAP.Managers
                 APPlayerManager.CurrentTaxiSkin = Plugin.SlotData.TaxiSkin;
             }
             orig(self);
+            APPlayerManager.UpdateSpinAttackTrails();
         }
 
         private void TrueDemoWallScript_OnCollisionEnter(On.TrueDemoWallScript.orig_OnCollisionEnter orig, TrueDemoWallScript self, Collision collision)

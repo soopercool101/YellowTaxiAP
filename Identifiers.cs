@@ -1,4 +1,4 @@
-namespace YellowTaxiAP;
+﻿namespace YellowTaxiAP;
 
 public static class Identifiers
 {
@@ -56,6 +56,7 @@ public static class Identifiers
         ProgressiveBoost = 8_0_2,
         SpinAttack = 8_0_3,
         Glide = 8_0_4,
+        ProgressiveSpinAttack = 8_0_5,
         WorldMap = 8_0_6,
         GoldenSpringUnlock = 8_1_0,
         GoldenPropellerUnlock = 8_2_0,

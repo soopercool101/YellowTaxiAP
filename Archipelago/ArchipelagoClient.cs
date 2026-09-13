@@ -498,7 +498,7 @@ public class ArchipelagoClient
             case Identifiers.ItemID.FlipOWill:
                 APPlayerManager.GlobalBoostItems = 2;
                 APPlayerManager.GlobalJumpItems = 2;
-                APPlayerManager.SpinAttackItem = true;
+                APPlayerManager.SpinAttackLevel = 1;
                 break;
             case Identifiers.ItemID.ProgressiveBoost:
                 APPlayerManager.GlobalBoostItems++;
@@ -507,7 +507,9 @@ public class ArchipelagoClient
                 APPlayerManager.GlobalJumpItems++;
                 break;
             case Identifiers.ItemID.SpinAttack:
-                APPlayerManager.SpinAttackItem = true;
+            case Identifiers.ItemID.ProgressiveSpinAttack:
+                APPlayerManager.SpinAttackLevel += 1;
+                APPlayerManager.UpdateSpinAttackTrails();
                 break;
             case Identifiers.ItemID.Glide:
                 APPlayerManager.GlideEnabledItem = true;
