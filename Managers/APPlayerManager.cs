@@ -133,7 +133,7 @@ namespace YellowTaxiAP.Managers
                 other.gameObject.GetComponent<BombCarScript>() == null)
             {
                 var componentCommon = other.GetComponent<CarCommonScript>();
-                if (componentCommon != null && !componentCommon.parkedCar)
+                if (componentCommon != null && componentCommon.myRb != null)
                 {
                     componentCommon.TakeDamage(1);
                 }
