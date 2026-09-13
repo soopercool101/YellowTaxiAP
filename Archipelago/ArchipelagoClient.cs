@@ -373,6 +373,11 @@ public class ArchipelagoClient
 
             ArchipelagoConsole.LogMessage(outText);
         }
+        catch (Exception ex)
+        {
+            Plugin.BepinLogger.LogError(ex);
+            Authenticated = false;
+        }
         finally
         {
             AttemptingConnection = false;
