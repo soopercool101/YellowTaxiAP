@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Febucci.UI;
+using TMPro;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
@@ -516,6 +517,7 @@ namespace YellowTaxiAP.Managers
                         Object.DestroyImmediate(newCanvas.transform.GetChild(i).gameObject);
                     }
                     canvas = newCanvas;
+                    canvas.GetComponent<BounceScript>().bouncesPerSecond = 0;
                 }
                 else
                 {
@@ -525,6 +527,7 @@ namespace YellowTaxiAP.Managers
                     self.disalbeMeIfPortalOff[0].transform.GetChild(0).gameObject.SetActive(false);
                     self.disalbeMeIfPortalOff = [self.disalbeMeIfPortalOff[0]];
                     self.portalsToOpenTr = [self.portalsToOpenTr[0]];
+                    canvas.GetComponent<BounceScript>().bouncesPerSecond = 1;
                 }
 
                 canvas.SetActive(true);
@@ -535,15 +538,17 @@ namespace YellowTaxiAP.Managers
                         canvas.transform.localPosition -= new Vector3(0, 2.2f, 1.4f);
                         break;
                     case LevelId.L7_PoopWorld:
-                        canvas.transform.localPosition += new Vector3(-4.5f, 4, 0);
+                        canvas.transform.localPosition += new Vector3(-4.5f, 3.7f, 0);
                         break;
                     case LevelId.L8_Sewers:
+                        self.nameText.verticalAlignment = VerticalAlignmentOptions.Top;
                         canvas.transform.Rotate(0, -90, 0);
-                        canvas.transform.localPosition += new Vector3(2, 1, 0);
+                        canvas.transform.localPosition += new Vector3(2, -4, 0);
                         break;
                     case LevelId.L16_Rocket:
+                        self.nameText.verticalAlignment = VerticalAlignmentOptions.Top;
                         canvas.transform.Rotate(0, 180, 0);
-                        canvas.transform.localPosition -= new Vector3(0, 2, 0);
+                        canvas.transform.localPosition -= new Vector3(0, 7.6f, 0);
                         break;
                 }
             }
