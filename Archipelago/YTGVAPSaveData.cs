@@ -84,6 +84,11 @@ namespace YellowTaxiAP.Archipelago
 
         public bool IsLevelPortalUnlocked(Data.LevelId level)
         {
+#if DEBUG
+            if (DebugLocationHelper.Enabled)
+                return true;
+#endif
+
             if (level == Data.LevelId.L11_HubDemo)
                 return false;
             return level == Data.LevelId.noone || GetBit(GetLevelOrderIndex(level));
