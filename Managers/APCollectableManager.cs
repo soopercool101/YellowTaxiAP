@@ -23,6 +23,7 @@ namespace YellowTaxiAP.Managers
             On.BonusScript.BunnyAlreadyPickedUpRefresh += BonusScript_BunnyAlreadyPickedUpRefresh;
             On.BonusScript.GearAlreadyPickedUpRefresh += BonusScript_GearAlreadyPickedUpRefresh;
             On.BonusScript.Awake += BonusScript_Awake;
+            On.BonusScript.GoldenItemsResetPickupState += BonusScript_GoldenItemsResetPickupState;
 
             //On.BonusScript.CoinPickedUpSet += BonusScript_CoinPickedUpSet;
             //On.BonusScript.OnDestroy += BonusScript_OnDestroy;
@@ -36,6 +37,12 @@ namespace YellowTaxiAP.Managers
 
             On.GearAnimationScript.Update += GearAnimationScript_Update;
             On.GearAnimationScript.OnDestroy += GearAnimationScript_OnDestroy;
+        }
+
+        private void BonusScript_GoldenItemsResetPickupState(On.BonusScript.orig_GoldenItemsResetPickupState orig)
+        {
+            BonusScript.goldenSpringPickedOnce = Plugin.SlotData.QuickPickups;
+            BonusScript.goldenPropellerPickedOnce = Plugin.SlotData.QuickPickups;
         }
 
         private void GearAnimationScript_OnDestroy(On.GearAnimationScript.orig_OnDestroy orig, GearAnimationScript self)

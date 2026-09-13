@@ -771,12 +771,8 @@ namespace YellowTaxiAP.Archipelago
             
             if (slotData.ContainsKey("quick_pickups"))
             {
-                QuickPickups = (bool)slotData["quick_pickups"];
-            }
-            // TODO: This alias was never in a public release. Remove for v0.7.0 proper
-            else if (slotData.ContainsKey("quick_gear_pickups"))
-            {
                 QuickPickups = (bool)slotData["quick_gear_pickups"];
+                BonusScript.GoldenItemsResetPickupState();
             }
             else
             {
