@@ -101,6 +101,7 @@ public class ArchipelagoClient
         60800004,
         800005,
         800006,
+        800008,
         // Early Doggo
         (long)Identifiers.NotableLocations.Doggo + 10000,
         // Arcade Panik Psycho Taxi Cartridge
@@ -510,6 +511,9 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.Glide:
                 APPlayerManager.GlideEnabledItem = true;
+                break;
+            case Identifiers.ItemID.WorldMap:
+                APMinimapManager.MinimapItem = true;
                 break;
             case Identifiers.ItemID.GoldenSpringUnlock:
                 APCollectableManager.GoldenSpringReceived = true;

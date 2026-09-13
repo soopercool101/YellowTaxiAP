@@ -478,6 +478,7 @@ namespace YellowTaxiAP.Managers
                     { "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP", 8_00004 },
                     { "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN", 8_00005 },
                     { "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE", 8_00006 },
+                    { "DIALOGUE_PICI_COMPUTER_MAN_MINIMAP_UNLOCK", 8_00008 },
                     { "DIALOGUE_MORIO_LAB_SECRET_BEDROOM", 10_00000 },
                     { "DIALOGUE_GRANNY_ISLAND_GELATAIO_THANKS", (long)Identifiers.NotableLocations.HubGelaToni },
                     { "DIALOGUE_GRANNY_ISLAND_PIZZA_KING_JUST_TALK", (long)Identifiers.NotableLocations.HubPizzaKing },
@@ -1278,7 +1279,7 @@ namespace YellowTaxiAP.Managers
                             break;
                         self.dialogues =
                         [
-                            GetMoveDialogue("Glide", APPlayerManager.GlideEnabled, null),
+                            GetMoveDialogue("Glide", APPlayerManager.GlideEnabled, string.Empty, null),
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.GLIDE_ID;
@@ -1292,6 +1293,16 @@ namespace YellowTaxiAP.Managers
                             "Instead, here's an item from the multiworld!"
                         ];
                         moveRandoID = Identifiers.SPIN_ID;
+                        break;
+                    case "DIALOGUE_PICI_COMPUTER_MAN_MINIMAP_UNLOCK": // Minimap unlock
+                        if (!Plugin.SlotData.ShuffleWorldMap || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                            break;
+                        self.dialogues =
+                        [
+                            GetMoveDialogue("World Map", APPlayerManager.SpinAttackEnabled, "use your ", string.Empty),
+                            "Instead, here's an item from the multiworld!"
+                        ];
+                        moveRandoID = Identifiers.MAP_ID;
                         break;
                     case "DIALOGUE_RAT_PICKUP_QUESTION" when GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers || Plugin.SlotData.ShuffleRat:
                         self.dialogues =
@@ -2121,7 +2132,7 @@ namespace YellowTaxiAP.Managers
             return itemText;
         }
 
-        private string GetMoveDialogue(string moveName, bool moveUnlocked, string flipOwillConnection = "using your")
+        private string GetMoveDialogue(string moveName, bool moveUnlocked, string prefix = "", string flipOwillConnection = "using your")
         {
             var secondHalf = moveUnlocked
                 ? "it appears you already know how."
@@ -2133,7 +2144,7 @@ namespace YellowTaxiAP.Managers
                     $" {flipOwillConnection} {SetTextColor("Flip O' Will", DialogueColors.OrangeYellow)}";
             }
             return
-                $"Beep boop! I was supposed to teach you how to {SetTextColor(moveName, DialogueColors.OrangeYellow)}{flipOwillText} but {secondHalf}";
+                $"Beep boop! I was supposed to teach you how to {prefix}{SetTextColor(moveName, DialogueColors.OrangeYellow)}{flipOwillText} but {secondHalf}";
         }
     }
 }

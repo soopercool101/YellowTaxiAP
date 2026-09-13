@@ -95,6 +95,9 @@ namespace YellowTaxiAP.Archipelago
 
         public bool ShuffleSpinAttack { get; private set; }
         public bool ShuffleGlide { get; private set; }
+
+        public bool ShuffleWorldMap { get; private set; }
+
         public bool ShuffleGoldenSpring { get; private set; }
         public bool ShuffleGoldenPropeller { get; private set; }
         public bool CanPacManJump { get; set; }
@@ -517,6 +520,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for shuffle_glide found");
+            }
+
+            if (slotData.ContainsKey("shuffle_world_map"))
+            {
+                ShuffleWorldMap = (bool)slotData["shuffle_world_map"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for shuffle_world_map found");
             }
 
             if (slotData.ContainsKey("shuffle_golden_spring"))

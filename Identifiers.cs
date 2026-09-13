@@ -1,4 +1,4 @@
-﻿namespace YellowTaxiAP;
+namespace YellowTaxiAP;
 
 public static class Identifiers
 {
@@ -24,6 +24,7 @@ public static class Identifiers
     public const int BACKFLIP_ID = 4;
     public const int SPIN_ID = 5;
     public const int GLIDE_ID = 6;
+    public const int MAP_ID = 8;
 
     public enum ItemID
     {
@@ -55,6 +56,7 @@ public static class Identifiers
         ProgressiveBoost = 8_0_2,
         SpinAttack = 8_0_3,
         Glide = 8_0_4,
+        WorldMap = 8_0_6,
         GoldenSpringUnlock = 8_1_0,
         GoldenPropellerUnlock = 8_2_0,
         PizzaWheels = 8_9_9,

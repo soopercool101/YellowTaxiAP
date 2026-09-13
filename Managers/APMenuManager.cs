@@ -181,35 +181,40 @@ namespace YellowTaxiAP.Managers
         private string[] MenuV2Script_PauseMenuVoicesStringsGet(On.MenuV2Script.orig_PauseMenuVoicesStringsGet orig, MenuV2Script self)
         {
             var kind = self.PauseMenuKindGet();
-            if (kind is MenuV2Script.PauseMenuKind.level_TimeAttack or MenuV2Script.PauseMenuKind.level_PsychoTaxi or MenuV2Script.PauseMenuKind.level_Normal)
+            if (kind is MenuV2Script.PauseMenuKind.level_TimeAttack or MenuV2Script.PauseMenuKind.level_PsychoTaxi
+                or MenuV2Script.PauseMenuKind.level_Normal)
             {
                 return
                 [
-                    LocalizationManager.GetTermTranslation("MENU_VOICE_WORLD_MAP"),
-                    self.GotoLabConditionGet() ? LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB") : LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND"),
+                    LocalizationManager.GetTermTranslation("MENU_VOICE_WORLD_MAP") + (APMinimapManager.MinimapUnlocked
+                        ? string.Empty
+                        : "<sprite name=\"Locked\">"),
+                    self.GotoLabConditionGet()
+                        ? LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB")
+                        : LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND"),
                     LocalizationManager.GetTermTranslation("PAUSE_MENU_RESTART"),
                     LocalizationManager.GetTermTranslation("PAUSE_MENU_PHOTO_MODE"),
                     LocalizationManager.GetTermTranslation("PAUSE_MENU_SETTINGS"),
                     LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_MAIN_MENU")
                 ];
             }
-
-            var strings = orig(self);
-            if (GameplayMaster.instance && Data.IsLevelIdHub(GameplayMaster.instance.levelId))
+            if (kind is MenuV2Script.PauseMenuKind.islandHub_Normal or MenuV2Script.PauseMenuKind.labHub_Normal)
             {
-                var grannysString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND");
-                var labString = LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB");
-                for (var i = 0; i < strings.Length; i++)
-                {
-                    if (strings[i].Equals(Plugin.SlotData.StartInLab ? grannysString : labString))
-                    {
-                        strings[i] = Plugin.SlotData.StartInLab ? labString : grannysString;
-                        break;
-                    }
-                }
+                return
+                [
+                    LocalizationManager.GetTermTranslation("MENU_VOICE_WORLD_MAP") + (APMinimapManager.MinimapUnlocked
+                        ? string.Empty
+                        : "<sprite name=\"Locked\">"),
+                    Plugin.SlotData.StartInLab
+                        ? LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_LAB")
+                        : LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_GRANNYS_ISLAND"),
+                    LocalizationManager.GetTermTranslation("PAUSE_MENU_PHOTO_MODE"),
+                    LocalizationManager.GetTermTranslation("PAUSE_MENU_SETTINGS"),
+                    LocalizationManager.GetTermTranslation("PAUSE_MENU_BACK_TO_MAIN_MENU")
+                ];
             }
 
-            return strings;
+            return orig(self);
         }
 
         private void MenuV2Script_MenuVoicesInit(On.MenuV2Script.orig_MenuVoicesInit orig, MenuV2Script self)

@@ -941,6 +941,7 @@ namespace YellowTaxiAP.Archipelago
                     300873,
                     300874,
                     300875,
+                    800008,
                     // Wardrobe
                     300069,
                     300068,

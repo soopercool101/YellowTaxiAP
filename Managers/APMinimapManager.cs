@@ -9,6 +9,9 @@ namespace YellowTaxiAP.Managers
 {
     public class APMinimapManager
     {
+        public static bool MinimapUnlocked => !Plugin.SlotData.ShuffleWorldMap || MinimapItem;
+        public static bool MinimapItem { get; set; }
+
         public APMinimapManager()
         {
             On.Data.GetLevelIfUnlocked += Data_GetLevelIfUnlocked;
@@ -33,7 +36,7 @@ namespace YellowTaxiAP.Managers
         // Only gets called once. Call it with the normal parameters *except* time trial check
         private void MinimapUiScript_WindowMainHiddenSet(On.MinimapUiScript.orig_WindowMainHiddenSet orig, MinimapUiScript self, bool hide)
         {
-            orig(self, MenuV2PopupScript.instance != null || (MenuV2Script.instance != null && MenuV2Script.instance.menuIndex != 13 && MenuV2Script.instance.menuIndex != 22));
+            orig(self, !MinimapUnlocked || MenuV2PopupScript.instance != null || (MenuV2Script.instance != null && MenuV2Script.instance.menuIndex != 13 && MenuV2Script.instance.menuIndex != 22));
         }
 
         public static MapAreaScriptableObject CurrentCloneMap;
@@ -56,7 +59,7 @@ namespace YellowTaxiAP.Managers
             CurrentCloneMap = PsychoTaxiScriptableMap;
             Object.Instantiate(bonusBombsWindow.gameObject, new Vector3(12.5f, 12.5f, bonusBombsWindow.transform.position.z), bonusBombsWindow.rotation, bonusBombsWindow.parent);
             orig(self);
-            self.gameObject.SetActive(true);
+            self.gameObject.SetActive(MinimapUnlocked);
         }
 
         public static readonly MapAreaScriptableObject BabyStepsScriptableMap = GetScriptableMapArea(Data.LevelId.L17_TimeAttack01, 5);
