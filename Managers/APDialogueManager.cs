@@ -1285,7 +1285,9 @@ namespace YellowTaxiAP.Managers
                         moveRandoID = Identifiers.GLIDE_ID;
                         break;
                     case "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN": // Normally quick turn tutorial. Repurposed for Spin Attack
-                        if (!Plugin.SlotData.ShuffleSpinAttack || GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                        // 0.7.0 had a bug where this location would appear based on shuffle flip-o-will. Check if the location should exist.
+                        // TODO: Fallback can be removed when v0.7.0 is no longer compatible
+                        if ((!Plugin.SlotData.ShuffleSpinAttack && !Plugin.ArchipelagoClient.AllLocations.Contains(8_00005)) || GameplayMaster.instance.levelId != Data.LevelId.Hub)
                             break;
                         self.dialogues =
                         [
