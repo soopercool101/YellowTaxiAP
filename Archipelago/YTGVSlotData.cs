@@ -505,7 +505,15 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("shuffle_spin_attack"))
             {
-                ShuffleSpinAttack = (bool)slotData["shuffle_spin_attack"];
+                // TODO: Whenever I remove backwards compatibility for v0.7.0, bool version is deprecated
+                if (slotData["shuffle_spin_attack"] is long l)
+                {
+                    ShuffleSpinAttack = l != 0;
+                }
+                else if (slotData["shuffle_spin_attack"] is bool b)
+                {
+                    ShuffleSpinAttack = b;
+                }
             }
             else
             {
