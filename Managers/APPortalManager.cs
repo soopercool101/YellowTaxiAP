@@ -506,31 +506,44 @@ namespace YellowTaxiAP.Managers
                     or LevelId.L16_Rocket && ((self.targetLevelId != randomizedLevelId &&
                 APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId)) || !APSaveController.PortalSave.IsLevelPortalUnlocked(self.targetLevelId)))
             {
-                var newCanvas = Object.Instantiate(self.transform.GetChild(0).gameObject, self.transform);
-                for (var i = newCanvas.transform.childCount - 1; i >= 0; i--)
+                var canvas = self.transform.GetChild(0).gameObject;
+
+                if (self.targetLevelId != LevelId.L7_PoopWorld)
                 {
-                    Object.DestroyImmediate(newCanvas.transform.GetChild(i).gameObject);
+                    var newCanvas = Object.Instantiate(canvas, self.transform);
+                    for (var i = newCanvas.transform.childCount - 1; i >= 0; i--)
+                    {
+                        Object.DestroyImmediate(newCanvas.transform.GetChild(i).gameObject);
+                    }
+                    canvas = newCanvas;
                 }
-                newCanvas.SetActive(true);
-                
-                self.nameText.gameObject.transform.parent = newCanvas.transform;
-                Plugin.Log($"{self.targetLevelId} {newCanvas.transform.localPosition}");
+                else
+                {
+                    // Fully disable portal mask
+                    self.disalbeMeIfPortalOff[1].SetActive(false);
+                    // Disabling "Bottom Holder" object breaks everything, but we can disable its child
+                    self.disalbeMeIfPortalOff[0].transform.GetChild(0).gameObject.SetActive(false);
+                    self.disalbeMeIfPortalOff = [self.disalbeMeIfPortalOff[0]];
+                    self.portalsToOpenTr = [self.portalsToOpenTr[0]];
+                }
+
+                canvas.SetActive(true);
+                self.nameText.gameObject.transform.parent = canvas.transform;
                 switch (self.targetLevelId)
                 {
                     case LevelId.L6_Gym:
-                        newCanvas.transform.localPosition -= new Vector3(0, 2.2f, 1.4f);
+                        canvas.transform.localPosition -= new Vector3(0, 2.2f, 1.4f);
                         break;
                     case LevelId.L7_PoopWorld:
-                        newCanvas.transform.Rotate(0, -90, 0);
-                        newCanvas.transform.localPosition -= new Vector3(2, 0, 0);
+                        canvas.transform.localPosition += new Vector3(-4.5f, 4, 0);
                         break;
                     case LevelId.L8_Sewers:
-                        newCanvas.transform.Rotate(0, -90, 0);
-                        newCanvas.transform.localPosition += new Vector3(2, 1, 0);
+                        canvas.transform.Rotate(0, -90, 0);
+                        canvas.transform.localPosition += new Vector3(2, 1, 0);
                         break;
                     case LevelId.L16_Rocket:
-                        newCanvas.transform.Rotate(0, 180, 0);
-                        newCanvas.transform.localPosition -= new Vector3(0, 2, 0);
+                        canvas.transform.Rotate(0, 180, 0);
+                        canvas.transform.localPosition -= new Vector3(0, 2, 0);
                         break;
                 }
             }
