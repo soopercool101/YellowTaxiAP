@@ -546,6 +546,8 @@ namespace YellowTaxiAP.Managers
                         canvas.transform.localPosition += new Vector3(2, -4, 0);
                         break;
                     case LevelId.L16_Rocket:
+                        self.nameText.GetComponent<RectTransform>().sizeDelta =
+                            self.nameText.GetComponent<RectTransform>().sizeDelta with { x = 11 };
                         self.nameText.verticalAlignment = VerticalAlignmentOptions.Top;
                         canvas.transform.Rotate(0, 180, 0);
                         canvas.transform.localPosition -= new Vector3(0, 7.6f, 0);
