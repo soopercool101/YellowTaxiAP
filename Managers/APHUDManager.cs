@@ -85,7 +85,9 @@ namespace YellowTaxiAP.Managers
                     }
                 }
             }
-            self.gearsText.SetText(text, false);
+
+            if (!text.Equals(self.gearsText.text))
+                self.gearsText.SetText(text, false);
             if (!self.gearShowCollectAnimation)
                 return;
             self.gearShowCollectAnimation = false;
