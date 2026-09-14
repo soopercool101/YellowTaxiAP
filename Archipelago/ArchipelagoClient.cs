@@ -117,7 +117,7 @@ public class ArchipelagoClient
     public bool LocationNeedsScouting(long location)
     {
         return Enum.IsDefined(typeof(Identifiers.NotableLocations), location) || NonGearScouts.Contains(location) ||
-               (!AllClearedLocations.Contains(location) && (LocationWasGear(location) || LocationWasHat(location)));
+               (!AllClearedLocations.Contains(location) && ((!Plugin.SlotData.QuickPickups && LocationWasGear(location)) || LocationWasHat(location)));
     }
 
     public bool LocationWasGear(long location)

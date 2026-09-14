@@ -327,37 +327,6 @@ namespace YellowTaxiAP.Managers
                             pickup.pickupDelay = 5;
                             string str1 = null;
                             var str2 = "";
-                            ScoutedItemInfo info = null;
-                            if (!GameplayMaster.instance.timeAttackLevel)
-                            {
-                                if (!alreadyTaken)
-                                {
-                                    try
-                                    {
-                                        info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
-                                        str1 = $"Found {info.ItemDisplayName}";
-                                        str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName
-                                            ? string.Empty
-                                            : $"For {info.Player}";
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Plugin.BepinLogger.LogWarning("Scout Failure");
-                                        Plugin.BepinLogger.LogError(ex);
-                                        // Make sure we still send the location if the scout fails, since it will otherwise pose issue
-                                        Plugin.ArchipelagoClient.SendLocation(id.Value);
-                                    }
-                                }
-                                else
-                                {
-                                    pickup.pickupDelay = 10;
-                                    for (var index = 0; index < 10; ++index)
-                                        BonusScript.SpawnCoinMoving(
-                                            self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
-                                            Utility.AngleToAxis3D(36 * index, 75f) * 24f);
-                                }
-                            }
-
                             GameplayMaster.instance.UpdateLevelCollectedGearsNumber();
                             if (!alreadyTaken && !GameplayMaster.instance.timeAttackLevel)
                                 MenuEventLeaderboard.GearsCollectedAdd(1);
@@ -378,6 +347,19 @@ namespace YellowTaxiAP.Managers
 #endif
                             if (alreadyTaken)
                             {
+                                pickup.pickupDelay = 10;
+                                if (!GameplayMaster.instance.timeAttackLevel)
+                                {
+                                    for (var index = 0; index < 10; ++index)
+                                        BonusScript.SpawnCoinMoving(
+                                            self.transform.position + new Vector3(0.0f, 0.5f, 0.0f),
+                                            Utility.AngleToAxis3D(36 * index, 75f) * 24f);
+                                }
+                                else
+                                {
+                                    HudMasterScript.instance.gearShowCollectAnimation = true;
+                                }
+
                                 GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear",
                                     freezePlayer: false);
                             }
@@ -386,6 +368,7 @@ namespace YellowTaxiAP.Managers
                                 GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GearTimeAttack",
                                     freezePlayer: false);
                                 Plugin.ArchipelagoClient.SendLocation(id.Value);
+                                HudMasterScript.instance.gearShowCollectAnimation = true;
                             }
                             else if (Plugin.SlotData.QuickPickups || Plugin.CheatsEnabled)
                             {
@@ -398,6 +381,22 @@ namespace YellowTaxiAP.Managers
                             }
                             else
                             {
+                                ScoutedItemInfo info = null;
+                                try
+                                {
+                                    info = Plugin.ArchipelagoClient.ScoutedLocations[id.Value];
+                                    str1 = $"Found {info.ItemDisplayName}";
+                                    str2 = info.Player.Name == ArchipelagoClient.ServerData.SlotName
+                                        ? string.Empty
+                                        : $"For {info.Player}";
+                                }
+                                catch (Exception ex)
+                                {
+                                    Plugin.BepinLogger.LogWarning("Scout Failure");
+                                    Plugin.BepinLogger.LogError(ex);
+                                    // Make sure we still send the location if the scout fails, since it will otherwise pose issue
+                                    Plugin.ArchipelagoClient.SendLocation(id.Value);
+                                }
                                 Tick.Paused = true;
                                 var obj = Spawn.FromPool("GearPickupAnimationObject",
                                     PlayerScript.instance.transform.position);
