@@ -557,6 +557,12 @@ namespace YellowTaxiAP.Managers
 
             self.UpdatePortalToLevelName();
             self.CostUpdateTry();
+
+            // Need to disable portal immediately if demo state demands it, as otherwise this can cause a softlock if deathlink is received on top of portal location
+            if (GameplayMaster.instance.levelId == LevelId.Hub && self.PortalIsLevelPortal && AreaStateOverride_Demo.ShouldBeDisabledForDemo(self))
+            {
+                self.gameObject.SetActive(APAreaStateManager.FullGameUnlocked);
+            }
         }
     }
 
