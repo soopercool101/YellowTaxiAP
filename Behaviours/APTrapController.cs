@@ -864,6 +864,14 @@ namespace YellowTaxiAP.Behaviours
             }
         }
 
+        public override void TrapUpdate()
+        {
+            if (PlayerScript.instance && PlayerScript.instance.CanAmbulate)
+            {
+                PlayerScript.instance.CannotAmbulateReasonSet("Stun Trap");
+            }
+        }
+
         public override void TrapDeactivate()
         {
             Data.flipOWillUnlockState[Data.gameDataIndex] = true;
