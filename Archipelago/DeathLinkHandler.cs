@@ -2,6 +2,7 @@
 using BepInEx;
 using System;
 using System.Collections.Generic;
+using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago;
@@ -79,19 +80,27 @@ public class DeathLinkHandler
             if (deathLinks.Count < 1) return;
 
             var deathLink = deathLinks.Dequeue();
-            var cause = deathLink.Cause.IsNullOrWhiteSpace() ? GetDeathLinkCause(deathLink) : deathLink.Cause;
+            var cause = deathLink.Cause.IsNullOrWhiteSpace() ? GetGenericDeathLinkCause(deathLink) : deathLink.Cause;
 
-            ArchipelagoConsole.LogMessage(cause);
             if (!cause.Contains(deathLink.Source))
             {
-                APHUDManager.DeathLinkMessage = $"{GetDeathLinkCause(deathLink)}\n\n{cause}";
+                Plugin.Log($"{GetGenericDeathLinkCause(deathLink)} ({cause})", true);
+                cause = $"{GetGenericDeathLinkCause(deathLink)}\n\n{cause}";
             }
             else
             {
-                APHUDManager.DeathLinkMessage = cause;
+                Plugin.Log(cause, true);
             }
-            Plugin.DeathLinkInProgress = true;
-            GameplayMaster.instance.Die();
+
+            if (string.IsNullOrEmpty(APTrapController.QueuedDeathLink))
+            {
+                Plugin.Log("DeathLink queued");
+                APTrapController.QueuedDeathLink = cause;
+            }
+            else
+            {
+                Plugin.Log("DeathLink received but one was already queued");
+            }
         }
         catch (Exception e)
         {
@@ -104,7 +113,7 @@ public class DeathLinkHandler
     /// </summary>
     /// <param name="deathLink">death link object to get relevant info from</param>
     /// <returns></returns>
-    private string GetDeathLinkCause(DeathLink deathLink)
+    private string GetGenericDeathLinkCause(DeathLink deathLink)
     {
         return $"Received death from {deathLink.Source}";
     }

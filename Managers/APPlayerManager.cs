@@ -301,6 +301,7 @@ namespace YellowTaxiAP.Managers
                 }
 
                 Plugin.DeathLinkInProgress = false;
+                APTrapController.QueuedDeathLink = null;
             }
         }
 

@@ -232,8 +232,8 @@ namespace YellowTaxiAP.Behaviours
 #endif
         }
 
-        public static bool ShouldNotUpdateTraps => !PlayerScript.instance || PlayerScript.instance.dead || MenuV2Script.instance || CameraLevelIntroController.instance ||
-                                                LoadingScreenScript.instance || MenuV2PhotoModeController.instance || Tick.Paused || DialogueScript.instance;
+        public static bool ShouldNotUpdateTraps => !PlayerScript.instance || PlayerScript.instance.dead || CameraLevelIntroController.instance ||
+                                                LoadingScreenScript.instance || Tick.Paused || DialogueScript.instance;
 
         public void Update()
         {
@@ -241,6 +241,15 @@ namespace YellowTaxiAP.Behaviours
                 return;
 
             Armed = true;
+
+            if (!string.IsNullOrEmpty(QueuedDeathLink))
+            {
+                Plugin.Log("DeathLink activated");
+                Plugin.DeathLinkInProgress = true;
+                APHUDManager.DeathLinkMessage = QueuedDeathLink;
+                GameplayMaster.instance.Die();
+                return;
+            }
 
             if (TrapsToActivate.Count <= 0)
                 return;
@@ -261,6 +270,8 @@ namespace YellowTaxiAP.Behaviours
                 Plugin.ArchipelagoClient.SendTrapLink(trap.Name);
             }
         }
+
+        public static string QueuedDeathLink = null;
     }
 
     public abstract class Trap : MonoBehaviour
