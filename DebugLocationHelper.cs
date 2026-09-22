@@ -9546,7 +9546,7 @@ namespace YellowTaxiAP
                     new RegionConnection(ArcadePanikBowlingAlleyLedge, "J2 | X1 & J1/B1"),
                     new RegionConnection(ArcadePanikExpert1Jump, "X1/J1"),
                     new RegionConnection(ArcadePanikPinballArea, "B2 & X1/J1 | X2+B1 & X3/J1 | X3+J1"),
-                    new RegionConnection(ArcadePanikCliffAboveCrazyBallz, "B2 | X1/J1 & B1 | X2+J1"),
+                    new RegionConnection(ArcadePanikCliffAboveCrazyBallz, "B2 | X1 & B1/J2 | X2+J1"),
                 ]
             },
             {
