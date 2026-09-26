@@ -37,6 +37,14 @@ namespace YellowTaxiAP.Managers
 
             On.GearAnimationScript.Update += GearAnimationScript_Update;
             On.GearAnimationScript.OnDestroy += GearAnimationScript_OnDestroy;
+
+            On.GenericPickupAnimationScript.SpawnNew += GenericPickupAnimationScript_SpawnNew;
+        }
+
+        // Ignore freezeplayer when quick pickups
+        private GenericPickupAnimationScript GenericPickupAnimationScript_SpawnNew(On.GenericPickupAnimationScript.orig_SpawnNew orig, string prefabToPickup, float prefLocalYAngle, bool freezePlayer)
+        {
+            return orig(prefabToPickup, prefLocalYAngle, !Plugin.SlotData.QuickPickups && freezePlayer);
         }
 
         private void BonusScript_GoldenItemsResetPickupState(On.BonusScript.orig_GoldenItemsResetPickupState orig)
@@ -446,7 +454,7 @@ namespace YellowTaxiAP.Managers
                             Sound.Play("SoundGoldenBunnyPickup");
                             if (!pickup.skipGenericPickupAnimation)
                             {
-                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GoldenBunny", freezePlayer: !Plugin.SlotData.QuickPickups).GetComponentInChildren<MeshRenderer>().sharedMaterial = pickup.myMeshRend.sharedMaterial;
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GoldenBunny").GetComponentInChildren<MeshRenderer>().sharedMaterial = pickup.myMeshRend.sharedMaterial;
                             }
                             Controls.SetVibration(self.playerIndex, 0.5f);
                             pickup.KillMe();
@@ -459,7 +467,7 @@ namespace YellowTaxiAP.Managers
                             return;
                         case BonusScript.Identity.morioMindPassword:
                             if (!pickup.skipGenericPickupAnimation)
-                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey", freezePlayer: !Plugin.SlotData.QuickPickups);
+                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_MorioMindKey");
                             Sound.Play("SoundLevelCollectiblePickup");
                             Controls.SetVibration(self.playerIndex, 0.5f);
                             if (ModMaster.instance.ModEnableGet())

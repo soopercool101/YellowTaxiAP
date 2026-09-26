@@ -8,14 +8,26 @@ namespace YellowTaxiAP.Managers
     {
         public APHUDManager()
         {
-            //On.HudMasterScript.Update += HudMasterScript_Update;
+            On.HudMasterScript.Awake += HudMasterScript_Awake;
             On.HudMasterScript.Update += HudMasterScript_Update;
             On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
             On.MapMaster.Awake += MapMaster_Awake;
             On.MapMaster.GetAreaGearsTotal += MapMaster_GetAreaGearsTotal;
             On.MapMaster.GetAreaGearsCollected += MapMaster_GetAreaGearsCollected;
             On.MapMaster.GetAreaScriptableObject_ByAreaName += MapMaster_GetAreaScriptableObject_ByAreaName;
-            //On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
+        }
+
+        private void HudMasterScript_Awake(On.HudMasterScript.orig_Awake orig, HudMasterScript self)
+        {
+            orig(self);
+            var bunnies = self.levelBunnies.ToList();
+            var newBun = Object.Instantiate(bunnies[2], bunnies[2].transform.parent);
+            newBun.transform.position -= new Vector3(0.5f, 0.5f, 0);
+            bunnies.Add(newBun);
+            newBun = Object.Instantiate(bunnies[0], bunnies[0].transform.parent);
+            newBun.transform.position += new Vector3(0.65f, -0.42f, 0);
+            bunnies.Add(newBun);
+            self.levelBunnies = bunnies.ToArray();
         }
 
         private static bool updatedGears;
@@ -120,6 +132,36 @@ namespace YellowTaxiAP.Managers
         private void HudMasterScript_Update(On.HudMasterScript.orig_Update orig, HudMasterScript self)
         {
             orig(self);
+            var canShowBunnies = self.CollectibleShouldBeVisible &&
+                                 GameplayMaster.instance.levelId != Data.LevelId.L16_Rocket &&
+                                 !(Data.IsLevelIdHub(GameplayMaster.instance.levelId) &&
+                                   !MapArea.IsPlayerInsideLab()) && !HudEndGameScript.instance;
+            // Force enable Bunny HUD without the need for save manipulation
+            // Always gets disabled earlier in the vanilla hud script so don't need to do anything if bunnies shouldn't be shown currently
+            if (canShowBunnies)
+            {
+                for (var index = 0; index < self.levelBunnies.Length; ++index)
+                {
+                    if (index >= Data.BunniesGetLevelMaxNumber())
+                    {
+                        self.levelBunnies[index].gameObject.SetActive(false);
+                        continue;
+                    }
+                    if (!self.levelBunnies[index].gameObject.activeSelf)
+                        self.levelBunnies[index].gameObject.SetActive(true);
+                    self.bunnyColorAppoggio.r = 0.0f;
+                    self.bunnyColorAppoggio.g = 0.0f;
+                    self.bunnyColorAppoggio.b = 0.0f;
+                    if (Data.BunniesGetLevelCollectedNumber() > index)
+                    {
+                        self.bunnyColorAppoggio.r = 1f;
+                        self.bunnyColorAppoggio.g = 1f;
+                        self.bunnyColorAppoggio.b = 1f;
+                    }
+                    self.levelBunnies[index].color = self.bunnyColorAppoggio;
+                    self.levelBunnies[index].rectTransform.sizeDelta = new Vector2(3f, (float)(3.0 + (double)Utility.AngleSin((float)((double)index * 120.0 + (double)Tick.PassedTimePausable * 180.0)) * 0.25));
+                }
+            }
             // Only update visual coins alongside the server, makes things cleaner visually
             if (self.coinsOld != APWalletManager.ServerCoins)
             {
