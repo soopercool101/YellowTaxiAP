@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Febucci.UI;
+using I2.Loc;
 using UnityEngine;
 
 namespace YellowTaxiAP.Managers
@@ -11,10 +12,33 @@ namespace YellowTaxiAP.Managers
             On.HudMasterScript.Awake += HudMasterScript_Awake;
             On.HudMasterScript.Update += HudMasterScript_Update;
             On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
+            On.HudMasterScript.UpdateBunniesTotalText += HudMasterScript_UpdateBunniesTotalText;
             On.MapMaster.Awake += MapMaster_Awake;
             On.MapMaster.GetAreaGearsTotal += MapMaster_GetAreaGearsTotal;
             On.MapMaster.GetAreaGearsCollected += MapMaster_GetAreaGearsCollected;
             On.MapMaster.GetAreaScriptableObject_ByAreaName += MapMaster_GetAreaScriptableObject_ByAreaName;
+        }
+
+        /// <summary>
+        /// Only show x/y bunnies on pickup if bunnysanity is off, otherwise want to save this hud element for receiving bunnies
+        /// </summary>
+        private void HudMasterScript_UpdateBunniesTotalText(On.HudMasterScript.orig_UpdateBunniesTotalText orig, HudMasterScript self)
+        {
+            if (!Plugin.SlotData.Bunnysanity)
+                orig(self);
+        }
+
+        public static void ShowBunnyUIText(Data.LevelId level)
+        {
+            var hud = HudMasterScript.instance;
+            if (!hud)
+                return;
+            var levelName = level == Data.LevelId.Hub ? LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND_LAB") : Data.levelDataList[(int)level].GetName();
+            hud.bunniesTotalText.text = $"<size=0.8> </size><size=2>{levelName}: {Data.BunniesGetLevelCollectedNumber(level)}/{Data.BunniesGetLevelMaxNumber(level)}</size>";
+            hud.bunniesShowTimer = 3f;
+            hud.bunniesTotalHolder.gameObject.SetActive(true);
+            hud.destructionHolder.gameObject.SetActive(false);
+            hud.destructionShowTimer = 0.0f;
         }
 
         private void HudMasterScript_Awake(On.HudMasterScript.orig_Awake orig, HudMasterScript self)

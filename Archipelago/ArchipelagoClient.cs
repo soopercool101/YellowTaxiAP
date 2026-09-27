@@ -536,71 +536,6 @@ public class ArchipelagoClient
             case Identifiers.ItemID.Bunny:
                 APDataManager.TotalBunniesReceived++;
                 break;
-            case Identifiers.ItemID.BunnyMoriosLab:
-                Data.GetLevel(Data.LevelId.Hub).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyBombeach:
-                Data.GetLevel(Data.LevelId.L1_Bombeach).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyPizzaTime:
-                Data.GetLevel(Data.LevelId.L2_PizzaTime).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyMoriosHome:
-                Data.GetLevel(Data.LevelId.L3_MoriosHome).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyArcadePanik:
-                Data.GetLevel(Data.LevelId.L4_ArcadePanik).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyToslasOffices:
-                Data.GetLevel(Data.LevelId.L5_ToslaOffices).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyGymGears:
-                Data.GetLevel(Data.LevelId.L6_Gym).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyFecalMatters:
-                Data.GetLevel(Data.LevelId.L7_PoopWorld).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyFlushedAway:
-                Data.GetLevel(Data.LevelId.L8_Sewers).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyMauriziosCity:
-                Data.GetLevel(Data.LevelId.L9_City).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyCrashTestIndustries:
-                Data.GetLevel(Data.LevelId.L10_CrashTestIndustries).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyDemo:
-                // Placeholder
-                //Data.GetLevel(Data.LevelId.L11_HubDemo).bunniesUnlocked++;
-                //APDataManager.TotalBunniesReceived++;
-                break;
-            case Identifiers.ItemID.BunnyMoriosMind:
-                Data.GetLevel(Data.LevelId.L12_MoriosMind).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyRuinedObservatory:
-                Data.GetLevel(Data.LevelId.L13_StarmanCastle).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyToslaHQ:
-                Data.GetLevel(Data.LevelId.L14_ToslaHQ).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
-            case Identifiers.ItemID.BunnyMoon:
-                Data.GetLevel(Data.LevelId.L15_Moon).bunniesUnlocked++;
-                ReceivedBunny();
-                break;
             case Identifiers.ItemID.MoriosWardrobe:
                 APAreaStateManager.WardrobeUnlocked = true;
                 break;
@@ -674,6 +609,19 @@ public class ArchipelagoClient
                 GameStateUpdater.RatStateNeedsUpdate = true;
                 break;
             default:
+                // Bunnies are handled here
+                if (receivedItem.ItemId is >= 200 and < 300)
+                {
+                    var levelId = (Data.LevelId) receivedItem.ItemId - 200;
+                    Data.GetLevel(levelId).bunniesUnlocked++;
+                    APDataManager.TotalBunniesReceived++;
+                    APMenuManager.FlagMinimapNeedsUpdate();
+                    APHUDManager.ShowBunnyUIText(levelId);
+                    if (GameplayMaster.instance && GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket)
+                        GameStateUpdater.BunnyStateNeedsUpdate = true;
+                    break;
+                }
+
                 // Hats are handled en masse here
                 if (receivedItem.ItemId is >= 700 and < 800)
                 {
@@ -789,15 +737,6 @@ public class ArchipelagoClient
         "Timer Trap",
         "Whirlpool Trap",
     ];
-
-    private void ReceivedBunny()
-    {
-        APDataManager.TotalBunniesReceived++;
-        APMenuManager.FlagMinimapNeedsUpdate();
-        if (!GameplayMaster.instance || GameplayMaster.instance.levelId != Data.LevelId.L16_Rocket)
-            return;
-        GameStateUpdater.BunnyStateNeedsUpdate = true;
-    }
 
     private void ReceiveCoins(int coinCount)
     {
