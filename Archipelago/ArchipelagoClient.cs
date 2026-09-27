@@ -616,7 +616,7 @@ public class ArchipelagoClient
                     Data.GetLevel(levelId).bunniesUnlocked++;
                     APDataManager.TotalBunniesReceived++;
                     APMenuManager.FlagMinimapNeedsUpdate();
-                    APHUDManager.ShowBunnyUIText(levelId);
+                    GameStateUpdater.BunnyReceived = levelId;
                     if (GameplayMaster.instance && GameplayMaster.instance.levelId == Data.LevelId.L16_Rocket)
                         GameStateUpdater.BunnyStateNeedsUpdate = true;
                     break;
