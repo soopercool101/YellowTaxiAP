@@ -14,6 +14,7 @@ public static class Identifiers
     public const int HAT_ID = 7;
     public const int NPC_ID = 8;
     public const int CHECKPOINT_ID = 9;
+    public const int PERLEVELPICKUP_ID = 12;
     public const int PSYCHO_ID = 20;
     public const int CHEESE_ID = 21;
 
@@ -30,22 +31,6 @@ public static class Identifiers
     {
         Gear = 1,
         Bunny = 2,
-        BunnyMoriosLab = 2_00,
-        BunnyBombeach = 2_01,
-        BunnyPizzaTime = 2_02,
-        BunnyMoriosHome = 2_03,
-        BunnyArcadePanik = 2_04,
-        BunnyToslasOffices = 2_05,
-        BunnyGymGears = 2_06,
-        BunnyFecalMatters = 2_07,
-        BunnyFlushedAway = 2_08,
-        BunnyMauriziosCity = 2_09,
-        BunnyCrashTestIndustries = 2_10,
-        BunnyDemo = 2_11,
-        BunnyMoriosMind = 2_12,
-        BunnyRuinedObservatory = 2_13,
-        BunnyToslaHQ = 2_14,
-        BunnyMoon = 2_15,
         Coin1 = 3,
         Coins10 = 4,
         Coins25 = 5,
@@ -77,6 +62,7 @@ public static class Identifiers
         MoriosPassword = 11_12,
         TimeTrialRemote = 11_17,
         ProgressiveTimeTrialRemote = 11_18,
+        CorruptedPizzaSlice = 12_02,
         PsychoTaxiCartridge = 20_01,
         Michele = 20_02,
     }

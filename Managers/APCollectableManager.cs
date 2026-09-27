@@ -14,6 +14,7 @@ namespace YellowTaxiAP.Managers
     {
         public static bool GoldenPropellerActive = false;
         public static bool GoldenSpringReceived = false;
+        public static int PizzasReceived = 0;
 
         public APCollectableManager()
         {
@@ -39,6 +40,32 @@ namespace YellowTaxiAP.Managers
             On.GearAnimationScript.OnDestroy += GearAnimationScript_OnDestroy;
 
             On.GenericPickupAnimationScript.SpawnNew += GenericPickupAnimationScript_SpawnNew;
+
+            On.BonusScriptChild_PizzaGreen.Awake += BonusScriptChild_PizzaGreen_Awake;
+            On.BonusScriptChild_PizzaGreen.Update += BonusScriptChild_PizzaGreen_Update;
+        }
+
+
+        private void BonusScriptChild_PizzaGreen_Awake(On.BonusScriptChild_PizzaGreen.orig_Awake orig, BonusScriptChild_PizzaGreen self)
+        {
+            orig(self);
+            if (Plugin.SlotData.Pizzasanity)
+            {
+                var id = GetHashedLocationID(self.transform, Identifiers.PERLEVELPICKUP_ID);
+                if (Plugin.ArchipelagoClient.LocationUncleared(id))
+                {
+                    self.myMeshRend.material = self.materialCanPickup;
+                }
+            }
+        }
+        private void BonusScriptChild_PizzaGreen_Update(On.BonusScriptChild_PizzaGreen.orig_Update orig, BonusScriptChild_PizzaGreen self)
+        {
+            var shouldntUpdatePickupDelay = self.pickupDelay > 1;
+            orig(self);
+            if (Plugin.SlotData.Pizzasanity && !shouldntUpdatePickupDelay)
+            {
+                self.pickupDelay = 0;
+            }
         }
 
         // Ignore freezeplayer when quick pickups
@@ -87,7 +114,7 @@ namespace YellowTaxiAP.Managers
             }
 #endif
             var id = GetID(self);
-            if (id != null && (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id.Value) || !Plugin.ArchipelagoClient.AllLocations.Contains(id.Value)))
+            if (id != null && !Plugin.ArchipelagoClient.LocationUncleared(id.Value))
             {
                 self.GetComponentInChildren<MeshRenderer>().sharedMaterial = self.gearUsedMaterial;
                 self.gearHasPickedupUpTexture = true;
@@ -256,7 +283,18 @@ namespace YellowTaxiAP.Managers
             }
             orig(self);
         }
-        
+
+
+        public static long GetHashedLocationID(Transform t, int collectableId)
+        {
+            return (int)GameplayMaster.instance.levelId * 1_00_00000 + collectableId * 1_00000 + GetHashedLocation(t);
+        }
+
+        public static long GetHashedLocation(Transform t)
+        {
+            return Mathf.Abs(Mathf.RoundToInt(t.transform.position.x) + Mathf.RoundToInt(t.transform.position.z)) % 100000;
+        }
+
         private bool BonusScript_CoinPickedUpGet(On.BonusScript.orig_CoinPickedUpGet orig, BonusScript self)
         {
 #if DEBUG
@@ -432,8 +470,7 @@ namespace YellowTaxiAP.Managers
                         case BonusScript.Identity.bunny when pickup.bunnyIndex >= 0:
                             if (Plugin.SlotData.Bunnysanity)
                             {
-                                var bunnyId = GetID(pickup);
-                                if (!bunnyId.HasValue)
+                                if (!id.HasValue)
                                 {
                                     Plugin.BepinLogger.LogError($"Could not get id for bunny {GameplayMaster.instance.levelId} {pickup.bunnyIndex}");
                                 }
@@ -442,7 +479,7 @@ namespace YellowTaxiAP.Managers
 #if DEBUG
                                     DebugLocationHelper.CheckLocation(pickup.ToString(), GetIDString(pickup));
 #endif
-                                    Plugin.ArchipelagoClient.SendLocation(bunnyId.Value);
+                                    Plugin.ArchipelagoClient.SendLocation(id.Value);
                                 }
                             }
                             else
@@ -486,6 +523,26 @@ namespace YellowTaxiAP.Managers
 
                             pickup.KillMe();
                             return;
+                        case BonusScript.Identity.levelSpecific_PizzaGreen when id.HasValue:
+#if DEBUG
+                            DebugLocationHelper.CheckLocation("PizzaGreen", GetIDString(pickup));
+#endif
+                            if (Plugin.SlotData.Pizzasanity)
+                            {
+                                pickup.pickupDelay = 10f;
+                                Plugin.ArchipelagoClient.SendLocation(id.Value);
+                                if (!pickup.skipGenericPickupAnimation)
+                                {
+                                    var pizza = GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GreenPizzaPiece", 0f, false);
+                                    pizza.GetComponentInChildren<MeshRenderer>().material = pickup.myMeshRend.material;
+                                }
+                                Spawn.FromPool("Pt Star Rnbw - Rnd", pickup.transform.position + new Vector3(0f, 2f, 0f), Pool.instance.transform);
+                                Sound.Play("SoundLevelCollectiblePickup");
+                                Controls.SetVibration(self.playerIndex, 0.5f);
+                                pickup.KillMe();
+                                return;
+                            }
+                            break;
                     }
                 }
             }
@@ -604,6 +661,7 @@ namespace YellowTaxiAP.Managers
                 BonusScript.Identity.bigCoin100 when item.coinIndex >= 0 => baseID + 300000 + item.coinIndex,
                 BonusScript.Identity.gear => baseID + 100000 + item.gearArrayIndex,
                 BonusScript.Identity.bunny => baseID + 200000 + item.bunnyIndex,
+                BonusScript.Identity.levelSpecific_PizzaGreen => GetHashedLocationID(item.transform, Identifiers.PERLEVELPICKUP_ID),
                 _ => null
             };
         }
@@ -638,6 +696,9 @@ namespace YellowTaxiAP.Managers
                     break;
                 case BonusScript.Identity.bunny:
                     s += Identifiers.BUNNY_ID.ToString("D2") + "_" + item.bunnyIndex.ToString("D5");
+                    break;
+                case BonusScript.Identity.levelSpecific_PizzaGreen:
+                    s += Identifiers.PERLEVELPICKUP_ID.ToString("D2") + "_" + GetHashedLocation(item.transform).ToString("D5");
                     break;
                 default:
                     return null;

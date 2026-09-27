@@ -16,7 +16,7 @@ namespace YellowTaxiAP.Managers
         private void CheckpointScript_Awake(On.CheckpointScript.orig_Awake orig, CheckpointScript self)
         {
             orig(self);
-            var id = GetCheckpointID(self);
+            var id = APCollectableManager.GetHashedLocationID(self.transform, Identifiers.CHECKPOINT_ID);
             if (Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) ||
                 !Plugin.ArchipelagoClient.AllLocations.Contains(id))
             {
@@ -31,7 +31,7 @@ namespace YellowTaxiAP.Managers
                 return;
             if (CheckpointScript.enabledInstance != self)
             {
-                var id = GetCheckpointID(self);
+                var id = APCollectableManager.GetHashedLocationID(self.transform, Identifiers.CHECKPOINT_ID);
 #if DEBUG
                 var strId = GetCheckpointStringID(self);
                 DebugLocationHelper.CheckLocation("checkpoint", strId);
@@ -48,18 +48,12 @@ namespace YellowTaxiAP.Managers
             orig(self, other);
         }
 
-        public static long GetCheckpointID(CheckpointScript checkpoint)
-        {
-            return (int)GameplayMaster.instance.levelId * 1_00_00000 + 9_00000 + Mathf.Abs(Mathf.RoundToInt(checkpoint.transform.position.x) +
-                Mathf.RoundToInt(checkpoint.transform.position.z)) % 100000;
-        }
 
 #if DEBUG
         public static string GetCheckpointStringID(CheckpointScript checkpoint)
         {
             // *Extremely* rudimentary hashing. Should hopefully be good enough for per-level unique ids
-            var hashedPos = Mathf.Abs(Mathf.RoundToInt(checkpoint.transform.position.x) +
-                                             Mathf.RoundToInt(checkpoint.transform.position.z)) % 100000;
+            var hashedPos = APCollectableManager.GetHashedLocation(checkpoint.transform);
             return $"{(int)GameplayMaster.instance.levelId}_{Identifiers.CHECKPOINT_ID:D2}_{hashedPos:D5}";
         }
 #endif

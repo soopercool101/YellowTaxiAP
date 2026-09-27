@@ -76,6 +76,8 @@ namespace YellowTaxiAP.Archipelago
         //public bool Coinbagsanity { get; private set; }
         //public bool Coinsanity { get; private set; }
         public bool Cheesesanity { get; private set; }
+        public bool Pizzasanity { get; private set; }
+        public byte PizzasanityCount { get; private set; }
 
         public enum HatsanityType : long
         {
@@ -466,6 +468,7 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for bunnysanity found");
             }
+
             if (slotData.ContainsKey("cheesesanity"))
             {
                 Cheesesanity = (bool) slotData["cheesesanity"];
@@ -473,6 +476,25 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for cheesesanity found");
+            }
+
+            if (slotData.ContainsKey("pizzasanity"))
+            {
+                Pizzasanity = (bool)slotData["pizzasanity"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for pizzasanity found");
+            }
+
+            if (slotData.ContainsKey("pizzasanity_count"))
+            {
+                PizzasanityCount = (byte)(long)slotData["pizzasanity_count"];
+            }
+            else
+            {
+                PizzasanityCount = 5;
+                Plugin.Log("No slot data for pizzasanity_count found");
             }
 
             if (slotData.ContainsKey("hatsanity"))

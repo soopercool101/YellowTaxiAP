@@ -4057,6 +4057,12 @@ namespace YellowTaxiAP
             { "2_03_00138", "Pizza Time - Coin Surrounding Safe on Spire Near Start #6" },
         };
 
+        [Description("Pizza Time - Pizza King's Path Upper Area")]
+        public static Dictionary<string, string> PizzaTimeUpperPizzaPath = new()
+        {
+            { string.Empty, nameof(PizzaTimeUpperPizzaPath) + " - !PLACEHOLDER!" },
+        };
+
         [Description("Pizza Time - Pizza King's Quest")]
         public static Dictionary<string, string> PizzaTimePizzaKing = new()
         {
@@ -7884,6 +7890,7 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(PizzaTimeBunnyIslandLower)), PizzaTimeBunnyIslandLower),
             new(GetDescription(nameof(PizzaTimeFloatingOrangeIsland)), PizzaTimeFloatingOrangeIsland),
             new(GetDescription(nameof(PizzaTimeSpiresNearStart)), PizzaTimeSpiresNearStart),
+            new(GetDescription(nameof(PizzaTimeUpperPizzaPath)), PizzaTimeUpperPizzaPath),
             new(GetDescription(nameof(PizzaTimePizzaKing)), PizzaTimePizzaKing),
             new(GetDescription(nameof(PizzaTimeOrangeBlockBridge)), PizzaTimeOrangeBlockBridge),
             new(GetDescription(nameof(PizzaTimeIslandAfterOrangeBlockBridge)), PizzaTimeIslandAfterOrangeBlockBridge),
@@ -8242,6 +8249,7 @@ namespace YellowTaxiAP
                     PizzaTimeBunnyIslandLower,
                     PizzaTimeFloatingOrangeIsland,
                     PizzaTimeSpiresNearStart,
+                    PizzaTimeUpperPizzaPath,
                     PizzaTimePizzaKing,
                     PizzaTimeOrangeBlockBridge,
                     PizzaTimeIslandAfterOrangeBlockBridge,
@@ -9623,6 +9631,7 @@ namespace YellowTaxiAP
                     new RegionConnection(PizzaTimeHighGround, "J1/B1"),
                     new RegionConnection(PizzaTimeBunnyIslandUpper, "NOS+B2+J2 | X1+J2 | X2+J1"),
                     new RegionConnection(PizzaTimeFloatingOrangeIsland, "B2 & X1/OS | B1+J1+OS | NOS+B2+J1 | X2+B1 & NOS/X3"),
+                    new RegionConnection(PizzaTimePizzaKing, "Pizza"),
                 ]
             },
             {
@@ -9652,7 +9661,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(PizzaTimeHighGround)),
                 [
-                    new RegionConnection(PizzaTimePizzaKing, "X1/B1"),
+                    new RegionConnection(PizzaTimeUpperPizzaPath, "X1/B1/J2"),
                     new RegionConnection(PizzaTimeBunnyIslandLower, "X2+B1"),
                 ]
             },
@@ -9685,6 +9694,12 @@ namespace YellowTaxiAP
                 GetDescription(nameof(PizzaTimeLedgeLeftOfFinalRoundabout)),
                 [
                     // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(PizzaTimeUpperPizzaPath)),
+                [
+                    new RegionConnection(PizzaTimePizzaKing, "NoPizza"),
                 ]
             },
             {
@@ -10574,9 +10589,9 @@ namespace YellowTaxiAP
                     new RegionConnection(ButtonsSmashingHatPlatform, $"X2+NSAR & {{{GetDescription(nameof(ButtonsSmashingStartingArea))}}}"),
                     new RegionConnection(StealthyHalfwayUp, $"X1+NSAR & {{{GetDescription(nameof(StealthyStartingArea))}}}"),
                     new RegionConnection(PodiumFirstGearPillar, $"X1+NSAR & {{{GetDescription(nameof(PodiumStartingArea))}}}"),
-                    new RegionConnection(CostipationHatArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
-                    new RegionConnection(CostipationRoadwayGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
-                    new RegionConnection(CostipationIslandGearArea, $"X1+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
+                    new RegionConnection(CostipationHatArea, $"X2+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
+                    new RegionConnection(CostipationRoadwayGearArea, $"X2+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
+                    new RegionConnection(CostipationIslandGearArea, $"X2+NSAR & {{{GetDescription(nameof(CostipationStartingArea))}}}"),
                     new RegionConnection(HeroicMovesEnd, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
                     new RegionConnection(HeroicMovesBananaHatBeam, $"X1+NSAR & {{{GetDescription(nameof(HeroicMovesStartingArea))}}}"),
                     new RegionConnection(ConveyorBeltsPlatformAboveStartingArea, $"NSAR & {{{GetDescription(nameof(ConveyorBeltsStartingArea))}}}"),

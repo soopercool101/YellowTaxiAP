@@ -45,7 +45,6 @@ namespace YellowTaxiAP.Managers
             On.PersonPizzaCheff.Awake += PersonPizzaCheff_Awake;
             On.PersonPizzaCheff.TalkWithPlayer += PersonPizzaCheff_TalkWithPlayer;
             On.PersonParent.JustTalkDefaultCoroutine += PersonParent_JustTalkDefaultCoroutine;
-            On.PersonPizzaKing.TalkWithPlayer += PersonPizzaKing_TalkWithPlayer;
             
             // Morio Dialogue Overrides
             On.PersonScenziato_FlipOWillUnlock.Awake += PersonScenziato_FlipOWillUnlock_Awake;
@@ -66,6 +65,48 @@ namespace YellowTaxiAP.Managers
 
             On.HolidayMorioScript.GetCurrentFestivity += HolidayMorioScript_GetCurrentFestivity;
             On.HolidayMorioScript.Start += HolidayMorioScript_Start;
+
+            On.PersonPizzaKing.TalkWithPlayer += PersonPizzaKing_TalkWithPlayer;
+            On.PersonPizzaKing.StartMinigame += PersonPizzaKing_StartMinigame;
+            On.PersonPizzaKing.RewardPlayer += PersonPizzaKing_RewardPlayer;
+        }
+
+        private IEnumerator PersonPizzaKing_TalkWithPlayer(On.PersonPizzaKing.orig_TalkWithPlayer orig, PersonPizzaKing self)
+        {
+            LastTalkedTo = self;
+            if (Plugin.SlotData.Pizzasanity)
+            {
+                self.hasStartedMinigame = true;
+                var remainingPizzas = Plugin.SlotData.PizzasanityCount - APCollectableManager.PizzasReceived;
+                self.dialoguePickup = remainingPizzas switch
+                {
+                    5 => self.dialogueMissing5,
+                    4 => self.dialogueMissing4,
+                    3 => self.dialogueMissing3,
+                    2 => self.dialogueMissing2,
+                    1 => self.dialogueMissing1,
+                    <=0 => self.gameRelevantPerson ? self.dialogueReward : self.dialogueDone,
+                    _ => self.dialoguePickup
+                };
+            }
+            return orig(self);
+        }
+
+        // Don't actually start the minigame if the Pizzasanity is enabled, pizzas shouldn't be connected to such
+        private void PersonPizzaKing_StartMinigame(On.PersonPizzaKing.orig_StartMinigame orig, PersonPizzaKing self)
+        {
+            if (!Plugin.SlotData.Pizzasanity)
+            {
+                orig(self);
+            }
+        }
+
+        private void PersonPizzaKing_RewardPlayer(On.PersonPizzaKing.orig_RewardPlayer orig, PersonPizzaKing self)
+        {
+            if (!Plugin.SlotData.Pizzasanity)
+            {
+                orig(self);
+            }
         }
 
         private void HolidayMorioScript_Start(On.HolidayMorioScript.orig_Start orig, HolidayMorioScript self)
@@ -119,12 +160,6 @@ namespace YellowTaxiAP.Managers
             rend.material = new Material(GameplayMaster.instance.rainbowMaterials[0]);
             rend.material.SetColor(Shader.PropertyToID("_Color"), new Color(1f, 1f, 1f, 0.5f));
             orig(self);
-        }
-
-        private IEnumerator PersonPizzaKing_TalkWithPlayer(On.PersonPizzaKing.orig_TalkWithPlayer orig, PersonPizzaKing self)
-        {
-            LastTalkedTo = self;
-            return orig(self);
         }
 
         private void DialogueScript_SpecialMethod_OnDialogueEnd_StuckDoggoTalk(On.DialogueScript.orig_SpecialMethod_OnDialogueEnd_StuckDoggoTalk orig, DialogueScript self)
@@ -374,7 +409,8 @@ namespace YellowTaxiAP.Managers
                 else if (GameplayMaster.instance.levelId == Data.LevelId.L2_PizzaTime && self.myId == 17)
                 {
                     shouldBeGameRelevant = Plugin.ArchipelagoClient.LocationUncleared(2_11_00002) ||
-                                           Plugin.ArchipelagoClient.LocationUncleared(2_01_00007);
+                                           Plugin.ArchipelagoClient.LocationUncleared(2_01_00007) ||
+                                           (!Plugin.SlotData.ShufflePizzaKing && !APSaveController.MiscSave.HasPizzaKing);
                 }
                 // Pizza Chef handles itself in own awake
                 else if (self is PersonPizzaCheff)

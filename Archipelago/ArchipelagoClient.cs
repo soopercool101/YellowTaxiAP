@@ -594,6 +594,9 @@ public class ArchipelagoClient
                     APAreaStateManager.TimeTrial3Unlocked = true;
                 }
                 break;
+            case Identifiers.ItemID.CorruptedPizzaSlice:
+                APCollectableManager.PizzasReceived++;
+                break;
             case Identifiers.ItemID.PsychoTaxiCartridge:
                 Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = true;
                 if (PsychoTaxiCabinetScript.instance)
