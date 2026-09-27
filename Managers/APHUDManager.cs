@@ -20,6 +20,8 @@ namespace YellowTaxiAP.Managers
         private void HudMasterScript_Awake(On.HudMasterScript.orig_Awake orig, HudMasterScript self)
         {
             orig(self);
+            if (GameplayMaster.instance.levelId != Data.LevelId.Hub)
+                return;
             var bunnies = self.levelBunnies.ToList();
             var newBun = Object.Instantiate(bunnies[2], bunnies[2].transform.parent);
             newBun.transform.position -= new Vector3(0.5f, 0.5f, 0);
@@ -149,17 +151,9 @@ namespace YellowTaxiAP.Managers
                     }
                     if (!self.levelBunnies[index].gameObject.activeSelf)
                         self.levelBunnies[index].gameObject.SetActive(true);
-                    self.bunnyColorAppoggio.r = 0.0f;
-                    self.bunnyColorAppoggio.g = 0.0f;
-                    self.bunnyColorAppoggio.b = 0.0f;
-                    if (Data.BunniesGetLevelCollectedNumber() > index)
-                    {
-                        self.bunnyColorAppoggio.r = 1f;
-                        self.bunnyColorAppoggio.g = 1f;
-                        self.bunnyColorAppoggio.b = 1f;
-                    }
-                    self.levelBunnies[index].color = self.bunnyColorAppoggio;
-                    self.levelBunnies[index].rectTransform.sizeDelta = new Vector2(3f, (float)(3.0 + (double)Utility.AngleSin((float)((double)index * 120.0 + (double)Tick.PassedTimePausable * 180.0)) * 0.25));
+                    var colorNum = Data.BunniesGetLevelCollectedNumber() > index ? 1 : 0;
+                    self.levelBunnies[index].color = new Color(colorNum, colorNum, colorNum);
+                    self.levelBunnies[index].rectTransform.sizeDelta = new Vector2(3f, (float)(3.0 + Utility.AngleSin((float)(index * 120.0 + Tick.PassedTimePausable * 180.0)) * 0.25));
                 }
             }
             // Only update visual coins alongside the server, makes things cleaner visually
