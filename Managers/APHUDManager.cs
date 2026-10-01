@@ -2,6 +2,7 @@
 using Febucci.UI;
 using I2.Loc;
 using UnityEngine;
+using YellowTaxiAP.Behaviours;
 
 namespace YellowTaxiAP.Managers
 {
@@ -13,10 +14,39 @@ namespace YellowTaxiAP.Managers
             On.HudMasterScript.Update += HudMasterScript_Update;
             On.HudMasterScript.UpdateGearsText += HudMasterScript_UpdateGearsText;
             On.HudMasterScript.UpdateBunniesTotalText += HudMasterScript_UpdateBunniesTotalText;
+            On.HudExtraScript.Update += HudExtraScript_Update;
             On.MapMaster.Awake += MapMaster_Awake;
             On.MapMaster.GetAreaGearsTotal += MapMaster_GetAreaGearsTotal;
             On.MapMaster.GetAreaGearsCollected += MapMaster_GetAreaGearsCollected;
             On.MapMaster.GetAreaScriptableObject_ByAreaName += MapMaster_GetAreaScriptableObject_ByAreaName;
+        }
+
+        public static GameObject PizzaHudInstance;
+        public static void ShowTempPizzaHud()
+        {
+            if (!GameplayMaster.instance || GameplayMaster.instance.levelId != Data.LevelId.L2_PizzaTime)
+                return;
+
+            if (PizzaHudInstance)
+            {
+                PizzaHudInstance.GetComponent<TimedDestroy>().DestructionTimer = 10;
+            }
+            else
+            {
+                PizzaHudInstance = Spawn.Instance("HudExtra_RadioactivePizza", Vector3.zero);
+                PizzaHudInstance.AddComponent<TimedDestroy>();
+            }
+        }
+
+        private void HudExtraScript_Update(On.HudExtraScript.orig_Update orig, HudExtraScript self)
+        {
+            orig(self);
+            if (Plugin.SlotData.Pizzasanity && self.kind == HudExtraScript.HudKind.pizzaHud)
+            {
+                var text = $"{APCollectableManager.PizzasReceived}/{Plugin.SlotData.PizzasanityCount}";
+                if (!self.myTextAnimator.text.Equals(text))
+                    self.myTextAnimator.SetText(text, false);
+            }
         }
 
         /// <summary>

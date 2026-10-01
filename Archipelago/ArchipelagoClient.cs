@@ -596,6 +596,7 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.CorruptedPizzaSlice:
                 APCollectableManager.PizzasReceived++;
+                GameStateUpdater.PizzaStateNeedsUpdate = true;
                 break;
             case Identifiers.ItemID.PsychoTaxiCartridge:
                 Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = true;

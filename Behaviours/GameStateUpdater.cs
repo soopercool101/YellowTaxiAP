@@ -12,6 +12,7 @@ namespace YellowTaxiAP.Behaviours
         public static bool GearStateNeedsUpdate { get; set; }
         public static bool BunnyStateNeedsUpdate { get; set; }
         public static bool RatStateNeedsUpdate { get; set; }
+        public static bool PizzaStateNeedsUpdate { get; set; }
         public static Data.LevelId? BunnyReceived { get; set; }
 
         public void Awake()
@@ -75,6 +76,12 @@ namespace YellowTaxiAP.Behaviours
                     }
                 }
                 RatStateNeedsUpdate = false;
+            }
+
+            if (PizzaStateNeedsUpdate)
+            {
+                APHUDManager.ShowTempPizzaHud();
+                PizzaStateNeedsUpdate = false;
             }
 
             if (BunnyReceived != null)

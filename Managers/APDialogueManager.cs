@@ -66,9 +66,21 @@ namespace YellowTaxiAP.Managers
             On.HolidayMorioScript.GetCurrentFestivity += HolidayMorioScript_GetCurrentFestivity;
             On.HolidayMorioScript.Start += HolidayMorioScript_Start;
 
+            On.PersonPizzaKing.Awake += PersonPizzaKing_Awake;
             On.PersonPizzaKing.TalkWithPlayer += PersonPizzaKing_TalkWithPlayer;
             On.PersonPizzaKing.StartMinigame += PersonPizzaKing_StartMinigame;
             On.PersonPizzaKing.RewardPlayer += PersonPizzaKing_RewardPlayer;
+        }
+
+        private void PersonPizzaKing_Awake(On.PersonPizzaKing.orig_Awake orig, PersonPizzaKing self)
+        {
+            orig(self);
+
+            // Show the pizza HUD briefly depending on what you have
+            if (self.gameRelevantPerson && Plugin.SlotData.Pizzasanity)
+            {
+                APHUDManager.ShowTempPizzaHud();
+            }
         }
 
         private IEnumerator PersonPizzaKing_TalkWithPlayer(On.PersonPizzaKing.orig_TalkWithPlayer orig, PersonPizzaKing self)
@@ -406,6 +418,7 @@ namespace YellowTaxiAP.Managers
                         !APSaveController.PortalSave.IsLevelPortalUnlocked(Data.LevelId.L12_MoriosMind);
                 }
                 // Pizza King potentially has two locations associated with him, check against both in case of collect shenanigans
+                // Also need to check if unshuffled Pizza King has been added to the save file, also for collect shenanigans
                 else if (GameplayMaster.instance.levelId == Data.LevelId.L2_PizzaTime && self.myId == 17)
                 {
                     shouldBeGameRelevant = Plugin.ArchipelagoClient.LocationUncleared(2_11_00002) ||
@@ -2024,6 +2037,13 @@ namespace YellowTaxiAP.Managers
                     case "DIALOGUE_MORIO_AT_TOSLA_HQ_PORTAL_LOCKED":
                         // TODO: Update dialogue when v1.0.0 comes out. Hopefully this year.
                         self.dialogues[1] = "Surely v1.0.0 will be out this year!";
+                        break;
+                    case "DIALOGUE_PIZZA_TIME_PIZZA_KING_MISSING_N5":
+                    case "DIALOGUE_PIZZA_TIME_PIZZA_KING_MISSING_N4":
+                    case "DIALOGUE_PIZZA_TIME_PIZZA_KING_MISSING_N3":
+                    case "DIALOGUE_PIZZA_TIME_PIZZA_KING_MISSING_N2":
+                    case "DIALOGUE_PIZZA_TIME_PIZZA_KING_MISSING_N1":
+                        self.onDialogueEnd.AddListener(APHUDManager.ShowTempPizzaHud);
                         break;
 #if DEBUG
                     case "NARRATOR_BACK_TO_HUB_QUESTION":
