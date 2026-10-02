@@ -10,6 +10,7 @@ using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
+using YellowTaxiAP.Helpers;
 
 namespace YellowTaxiAP;
 
@@ -71,6 +72,7 @@ public class Plugin : BaseUnityPlugin
     public APTVManager TVHook;
     public APBossManager BossHook;
     public APControlsManager ControlHook;
+    public APMusicAndSkyManager MusicHook;
 
     public bool AllowLaser = true;
 #if DEBUG
@@ -110,10 +112,14 @@ public class Plugin : BaseUnityPlugin
 
             GameInitialized = true;
         };
+        DataHook = new APDataManager();
         On.Master.Awake += (orig, self) =>
         {
+            BepinLogger.LogWarning("Master Has Awoken");
             orig(self);
-            Master.influencerHatsAndGraphicsEnabled = true;
+            //Master.influencerHatsAndGraphicsEnabled = true;
+            if (!AssetLoadinator.FullyLoaded)
+                AssetLoadinator.LoadAssets();
         };
         On.Master.InfluecerGraphicsCheatReset += _ =>
         {
@@ -121,7 +127,7 @@ public class Plugin : BaseUnityPlugin
         };
         On.Master.Start += (orig, self) =>
         {
-            DataHook = new APDataManager();
+            BepinLogger.LogWarning("Master Has Started");
             orig(self);
             // Add extra bunnies and gears from demo-only locations
             var grannysIslandMap = MapMaster.GetAreaScriptableObject_ByAreaName("LEVEL_NAME_GRANNY_ISLAND");
@@ -138,6 +144,7 @@ public class Plugin : BaseUnityPlugin
         On.Music._ApplyPitchToMusicCapsule += Music__ApplyPitchToMusicCapsule;
         On.ModMaster.Start += (orig, self) =>
         {
+            BepinLogger.LogWarning("ModMaster Has Started");
             if (Master.instance.isDemo)
             {
                 // Disable the mod if this is the demo
@@ -192,6 +199,7 @@ public class Plugin : BaseUnityPlugin
             TimeAttackHook = new APTimeAttackManager();
             TVHook = new APTVManager();
             BossHook = new APBossManager();
+            MusicHook = new APMusicAndSkyManager();
             //ControlHook = new APControlsManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
             self.gameObject.AddComponent<GameStateUpdater>();
@@ -528,7 +536,7 @@ public class Plugin : BaseUnityPlugin
                     Log($"DEBUG: Pizza Wheels {(Master.cheat_PizzaWheels ? "enabled" : "disabled")}", true);
                 }
 
-                if (false)
+                if (true)
                 {
                     if (Input.GetKeyDown(KeyCode.LeftArrow))
                     {
@@ -541,7 +549,9 @@ public class Plugin : BaseUnityPlugin
                         if (bgIndex < 0)
                             bgIndex = KnownBGs.Length - 1;
                         Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                        APMusicAndSkyManager.SuppressBGRando = true;
                         BackgroundMaster.Change(KnownBGs[bgIndex]);
+                        APMusicAndSkyManager.SuppressBGRando = false;
                     }
                     if (Input.GetKeyDown(KeyCode.RightArrow))
                     {
@@ -554,7 +564,9 @@ public class Plugin : BaseUnityPlugin
                         if (bgIndex >= KnownBGs.Length)
                             bgIndex = 0;
                         Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                        APMusicAndSkyManager.SuppressBGRando = true;
                         BackgroundMaster.Change(KnownBGs[bgIndex]);
+                        APMusicAndSkyManager.SuppressBGRando = false;
                     }
 
                     if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -625,64 +637,68 @@ public class Plugin : BaseUnityPlugin
         orig(self, targetTr, offset, angY, angX, desiredDistance, angYOffset, angXOffset, fovDesiredValue);
     }
 
-#if DEBUG
     public int bgIndex = 0;
     public static readonly string[] KnownBGs =
     [
-        "Background Soffitto Laboratorio",
-        "Background Morio's Home Internal",
         "Background Sea and Sky",
         "Background Bonus Level",
+        "Background Bombeach",
+        "Background Pizza Time",
+        "Background Morio's Home Internal",
+        "Background Morio's Island",
         "Background Panik Arcade Internal",
         "Background Sea and Sky - Sunset",
-        "Background Pizza Time",
-        "Background Soffitto Castello",
-        "Background Sky Night Moon",
-        "Background Black",
-        "Background Space",
-        "Background Soffitto ToslaHQ",
-        "Background Sky Night Moon Tosla Hq",
-        "Background Morio's Island",
-        "Background Bombeach",
         "Background Dark Sky Tosla Offices",
-        "Background Skyline Autumn",
-        "Background Sky Morio's Mind",
         "Background Skyline Night",
         "Backround Sky Poop World",
+        "Background Skyline Autumn",
+        "Background Sky Morio's Mind",
+        "Background Sky Night Moon",
+        "Background Sky Night Moon Tosla Hq",
+        "Background Space",
         "Background Simulation",
-        "Background Panik Arcade Internal(Clone)",
+        "Background Panik Arcade Billiard", // Unused, but able to be loaded
+        // "Boring" skyboxes
+        "Background Soffitto Laboratorio",
+        "Background Black",
+        "", // No skybox at all
+        // "Background Soffitto Castello", // Duplicate of Background Black
+        // "Background Soffitto ToslaHQ", // Duplicate of Background Soffitto Laboratorio
     ];
 
     public int songIndex = 0;
     public static readonly string[] KnownSongs =
     [
+        // All Levels
+        "SoundtrackHatShop",
+        "SoundtrackBonusLevel",
+        // Specific levels (loaded by Asset Loadinator)
         "SoundtrackHubOutside",
         "SoundtrackHubInside",
-        "SoundtrackMoriosHome",
-        "SoundtrackMoriosHomeInternal",
-        "SoundtrackBonusLevel",
         "SoundtrackBombeach",
-        "SoundtrackBossFight1",
-        "MEGA_RAN_-_TAXI_REFERENCE",
-        "Fasten_your_Seatbelt_MASTER Silence Cut",
-        "CrGuitarfasten_your_seatbelts_wav",
-        "SoundtrackArcadePanik",
-        "SoundtrackHatShop",
         "SoundtrackPizzaTime",
-        "SoundtrackTimeAttack",
+        "SoundtrackMoriosHomeInternal",
+        "SoundtrackMoriosHome",
+        "SoundtrackArcadePanik",
         "SoundtrackToslaOffices",
-        "SoundtrackBossFightImportant",
+        "SoundtrackGym",
+        "SoundtrackPoopWorld",
+        "SoundtrackSewers",
         "SoundtrackCityLevel",
         "SoundtrackCrashTestIndustries",
         "SoundtrackMoriosMind",
         "SoundtrackRuinedObservatory",
-        "SoundtrackRocket",
         "SoundtrackToslaHQ",
         "SoundtrackMoonTheme",
+        "SoundtrackRocket",
+        "SoundtrackTimeAttack",
+        "MEGA_RAN_-_TAXI_REFERENCE",
+        "Fasten_your_Seatbelt_MASTER Silence Cut",
+        "CrGuitarfasten_your_seatbelts_wav",
+        "SoundtrackBossFight1",
+        "SoundtrackBossFightImportant",
         "SoundtrackBossFightFinal",
-        "SoundtrackGym",
-        "SoundtrackPoopWorld",
-        "SoundtrackSewers"
+        "SoundtrackMainMenu",
+        "SoundtrackCredits",
     ];
-#endif
 }

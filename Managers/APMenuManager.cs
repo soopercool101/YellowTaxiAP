@@ -19,6 +19,7 @@ namespace YellowTaxiAP.Managers
             On.MenuV2Script.MenuSelection += MenuV2Script_MenuSelection;
             On.MenuV2Script.Update += MenuV2Script_Update;
             On.MenuV2Element.Awake += MenuV2Element_Awake;
+            On.MenuV2TitleScript.Start += MenuV2TitleScript_Start;
             On.MenuV2WhiteBackground.FixedUpdate += MenuV2WhiteBackground_FixedUpdate;
             On.MenuV2Script.MenuVoicesInit += MenuV2Script_MenuVoicesInit;
             On.MenuV2Script._SelectPauseMenu += MenuV2Script__SelectPauseMenu;
@@ -35,7 +36,38 @@ namespace YellowTaxiAP.Managers
             On.MapArea.IsCurrentLevelFromIsland += MapArea_IsCurrentLevelFromIsland;
             On.Data.LevelData.GetName += LevelData_GetName;
 
-            On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution; ;
+            On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution;
+
+            On.IntroMasterScript.Awake += IntroMasterScript_Awake;
+        }
+
+        private void MenuV2TitleScript_Start(On.MenuV2TitleScript.orig_Start orig, MenuV2TitleScript self)
+        {
+            orig(self);
+            // Add title theme to asset master. Faster to do it here than AssetLoadinator
+            try
+            {
+                AssetMaster.AddMusic(AssetMaster.GetMusic("SoundtrackMainMenu"));
+            }
+            catch
+            {
+                // Do nothing
+            }
+        }
+
+        private void MenuV2Script_GotoStoryScene(On.MenuV2Script.orig_GotoStoryScene orig, MenuV2Script self, string soundToPlay)
+        {
+            self.done = true;
+            Levels.Index targetSceneIndex = Levels.Index.debug_level;
+            if (Master.IsQuickEventModeEnabled())
+                targetSceneIndex = Levels.Index.level_MoriosHome;
+            TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, (TransictionScript.OnFadeOut)null, (int)targetSceneIndex);
+            Sound.Play_Unpausable(soundToPlay);
+        }
+
+        private void IntroMasterScript_Awake(On.IntroMasterScript.orig_Awake orig, IntroMasterScript self)
+        {
+            orig(self);
         }
 
         private void MenuV2Script_VoicesUpdate(On.MenuV2Script.orig_VoicesUpdate orig, MenuV2Script self)

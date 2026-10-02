@@ -176,6 +176,17 @@ namespace YellowTaxiAP.Archipelago
             ValentinesDay = 3,
         }
 
+        public enum CosmeticLoadOption : long
+        {
+            Vanilla = 0,
+            Consistent = 1,
+            RandomEveryLoad = 2,
+            Singularity = 3,
+        }
+
+        public CosmeticLoadOption RandomizeMusic { get; private set; }
+        public CosmeticLoadOption RandomizeSkyboxes { get; private set; }
+
         public YTGVSlotData()
         {
             // Defaults
@@ -875,7 +886,56 @@ namespace YellowTaxiAP.Archipelago
 
                 APPortalManager.RandomizedPortalLevelOrder = levels.ToArray();
             }
-            
+
+            if (slotData.ContainsKey("randomize_music"))
+            {
+                RandomizeMusic = (CosmeticLoadOption)(long)slotData["randomize_music"];
+                // For consistent music, craft a dictionary based on the music order
+                if (RandomizeMusic == CosmeticLoadOption.Consistent)
+                {
+                    var i = 0;
+                    Plugin.Log("Loading Music Dict:");
+                    APMusicAndSkyManager.ConsistentMusicMap = new Dictionary<string, string>();
+                    foreach (var song in (JArray)slotData["music_order"])
+                    {
+                        var key = Plugin.KnownSongs[i];
+                        var value = Plugin.KnownSongs[(int)song];
+                        Plugin.Log($"[{i}] {key} -> {value}");
+                        i++;
+                        APMusicAndSkyManager.ConsistentMusicMap.Add(key, value);
+                    }
+                }
+            }
+            else
+            {
+                Plugin.Log("No slot data for randomize_music found");
+            }
+
+            if (slotData.ContainsKey("randomize_skyboxes"))
+            {
+                RandomizeSkyboxes = (CosmeticLoadOption)(long)slotData["randomize_skyboxes"];
+                // For consistent skyboxes, craft a dictionary based on the music order
+                if (RandomizeSkyboxes == CosmeticLoadOption.Consistent)
+                {
+                    var i = 0;
+                    Plugin.Log("Loading Skybox Dict:");
+                    APMusicAndSkyManager.ConsistentSkyboxMap = new Dictionary<string, string>();
+                    foreach (var skybox in (JArray)slotData["skybox_order"])
+                    {
+                        var key = Plugin.KnownBGs[i];
+                        var value = Plugin.KnownBGs[(int)skybox];
+                        Plugin.Log($"[{i}] {key} -> {value}");
+                        i++;
+                        APMusicAndSkyManager.ConsistentSkyboxMap.Add(key, value);
+                    }
+                }
+            }
+            else
+            {
+                Plugin.Log("No slot data for randomize_skyboxes found");
+            }
+
+
             Plugin.Log("Load successful");
 
             Loaded = true;

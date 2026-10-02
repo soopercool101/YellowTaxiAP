@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using YellowTaxiAP.Behaviours;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -46,7 +47,6 @@ namespace YellowTaxiAP.Managers
             On.TimeAttackComputerScript.Update += TimeAttackComputerScript_Update;
             On.LabFinalLevelWarningElement.Update += LabFinalLevelWarningElement_Update;
 #if DEBUG
-            On.BackgroundMaster.Change += BackgroundMaster_Change;
             On.GameplayMaster.SoundtrackRoutine += GameplayMaster_SoundtrackRoutine;
             foreach (var song in Plugin.KnownSongs)
             {
@@ -113,14 +113,7 @@ namespace YellowTaxiAP.Managers
             orig(self);
         }
 
-        public static string currentBG;
 
-        private void BackgroundMaster_Change(On.BackgroundMaster.orig_Change orig, string backgroundName)
-        {
-            currentBG = backgroundName;
-            orig(backgroundName);
-            KnownBackgrounds[backgroundName] = backgroundName;
-        }
 #endif
 
         private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
