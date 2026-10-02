@@ -117,7 +117,7 @@ public class Plugin : BaseUnityPlugin
         {
             BepinLogger.LogWarning("Master Has Awoken");
             orig(self);
-            //Master.influencerHatsAndGraphicsEnabled = true;
+            Master.influencerHatsAndGraphicsEnabled = true;
             if (!AssetLoadinator.FullyLoaded)
                 AssetLoadinator.LoadAssets();
         };
