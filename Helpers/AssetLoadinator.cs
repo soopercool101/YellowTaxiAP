@@ -89,16 +89,11 @@ namespace YellowTaxiAP.Helpers
                     {
                         Plugin.BepinLogger.LogMessage(" - " + prefab.name);
                         // Background Soffitto Castello is a duplicate of Background Black
-                        if (prefab.name.Contains("Background") && !prefab.name.Equals("Background Soffitto Castello") && !prefab.name.Equals("Background Soffitto ToslaHQ"))
+                        if (prefab.name.Equals("HudExtra_RadioactivePizza") || (prefab.name.Contains("Background") && !prefab.name.Equals("Background Soffitto Castello") && !prefab.name.Equals("Background Soffitto ToslaHQ")))
                         {
                             try
                             {
                                 AssetMaster.AddPrefab(prefab);
-                                if (!Plugin.KnownBGs.Contains(prefab.name))
-                                {
-                                    Plugin.BepinLogger.LogWarning($"Unknown Background: {prefab.name}");
-                                }
-
                                 loadedAssets++;
                             }
                             catch (Exception e)

@@ -638,6 +638,7 @@ public class Plugin : BaseUnityPlugin
     }
 
     public int bgIndex = 0;
+    public static List<string> ValidBGs;
     public static readonly string[] KnownBGs =
     [
         "Background Sea and Sky",
@@ -667,6 +668,8 @@ public class Plugin : BaseUnityPlugin
     ];
 
     public int songIndex = 0;
+    public static List<string> ValidSongs;
+    public static List<string> ValidBossSongs;
     public static readonly string[] KnownSongs =
     [
         // All Levels
@@ -700,5 +703,12 @@ public class Plugin : BaseUnityPlugin
         "SoundtrackBossFightFinal",
         "SoundtrackMainMenu",
         "SoundtrackCredits",
+    ];
+
+    public static readonly string[] BossSongs =
+    [
+        "SoundtrackBossFight1",
+        "SoundtrackBossFightImportant",
+        "SoundtrackBossFightFinal",
     ];
 }

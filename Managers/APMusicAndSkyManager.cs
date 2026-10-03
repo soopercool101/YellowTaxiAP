@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using I2.Loc;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Helpers;
@@ -58,10 +59,13 @@ namespace YellowTaxiAP.Managers
         private void PortalTransitionScript_Start(On.PortalTransitionScript.orig_Start orig, PortalTransitionScript self)
         {
             orig(self);
-            // Gotta change song rando if random per load
-            SoundtrackRandomized = false;
+            if (Plugin.SlotData.RandomizeSkyboxes == YTGVSlotData.CosmeticLoadOption.RandomEveryLoad)
+                self.backgroundChange = "random"; // Make sure background gets set even when it would normally not be
+            if (Plugin.SlotData.RandomizeMusic == YTGVSlotData.CosmeticLoadOption.RandomEveryLoad)
+                self.songChange = GetRandomizedMusic(); // Gotta change song rando if random per load
         }
 
+        private int _radioIndex = -1;
         private void GameplayMaster_SoundtrackRoutine(On.GameplayMaster.orig_SoundtrackRoutine orig, GameplayMaster self)
         {
             var levelSoundtrack = self.levelSoundtrack;
@@ -73,6 +77,14 @@ namespace YellowTaxiAP.Managers
                 if (!SoundtrackRandomized)
                 {
                     self.levelSoundtrack = GetRandomizedMusic();
+                    self.bossSoundtrack = string.Empty;
+                    Plugin.Log($"Soundtrack initially randomized to: {self.levelSoundtrack}");
+                    for (var i = 0; i < self.radioSountracks.Length; i++)
+                    {
+                        self.radioSountracks[i] = GetRandomizedMusic(self.radioSountracks[i]);
+                        if (!SoundtrackRandomized)
+                            self.radioSoundtrackTranslations[i] = GetRadioName(self.radioSountracks[i]);
+                    }
                     SoundtrackRandomized = true;
                 }
                 // Music will fail to play if boss music matches level music, so need to pretend the other one doesn't exist.
@@ -80,8 +92,9 @@ namespace YellowTaxiAP.Managers
                 {
                     do
                     {
-                        self.bossSoundtrack = GetRandomizedMusic();
+                        self.bossSoundtrack = GetCompletelyRandomBossSong();
                     } while (self.bossSoundtrack == self.levelSoundtrack);
+                    Plugin.Log($"Boss Soundtrack randomized to: {self.bossSoundtrack}");
                 }
                 else if (EnemyCarScript.bossInstance == null && !string.IsNullOrEmpty(self.bossSoundtrack))
                 {
@@ -90,6 +103,7 @@ namespace YellowTaxiAP.Managers
                         self.levelSoundtrack = GetRandomizedMusic();
                     } while (self.bossSoundtrack == self.levelSoundtrack);
                     self.bossSoundtrack = string.Empty;
+                    Plugin.Log($"Soundtrack re-randomized to: {self.levelSoundtrack}");
                 }
             }
             else
@@ -101,9 +115,15 @@ namespace YellowTaxiAP.Managers
                 for (var i = 0; i < self.radioSountracks.Length; i++)
                 {
                     self.radioSountracks[i] = GetRandomizedMusic(self.radioSountracks[i]);
+                    if (!SoundtrackRandomized)
+                        self.radioSoundtrackTranslations[i] = GetRadioName(self.radioSountracks[i]);
                 }
+
+                SoundtrackRandomized = true;
             }
             orig(self);
+            if (Plugin.SlotData.RandomizeMusic != YTGVSlotData.CosmeticLoadOption.Consistent)
+                return;
             self.levelSoundtrack = levelSoundtrack;
             self.bossSoundtrack = bossSoundtrack;
             self.radioSountracks = radioSoundtracks;
@@ -132,8 +152,8 @@ namespace YellowTaxiAP.Managers
                 return Plugin.SlotData.RandomizeMusic switch
                 {
                     YTGVSlotData.CosmeticLoadOption.Consistent => ConsistentMusicMap[originalMusic],
-                    YTGVSlotData.CosmeticLoadOption.RandomEveryLoad => Plugin.KnownSongs[
-                        Random.RandomRangeInt(0, Plugin.KnownSongs.Length)],
+                    YTGVSlotData.CosmeticLoadOption.RandomEveryLoad => Plugin.ValidSongs[
+                        Random.RandomRangeInt(0, Plugin.ValidSongs.Count)],
                     _ => originalMusic
                 };
             }
@@ -143,16 +163,21 @@ namespace YellowTaxiAP.Managers
             }
         }
 
+        public static string GetCompletelyRandomBossSong()
+        {
+            return Plugin.ValidBossSongs[Random.RandomRangeInt(0, Plugin.ValidBossSongs.Count)];
+        }
+
         public static Dictionary<string, string> ConsistentSkyboxMap = new();
         public static string GetRandomizedSkybox(string originalSkybox = "")
         {
             try
             {
-                return Plugin.SlotData.RandomizeMusic switch
+                return Plugin.SlotData.RandomizeSkyboxes switch
                 {
                     YTGVSlotData.CosmeticLoadOption.Consistent => ConsistentSkyboxMap[originalSkybox],
-                    YTGVSlotData.CosmeticLoadOption.RandomEveryLoad => Plugin.KnownBGs[
-                        Random.RandomRangeInt(0, Plugin.KnownBGs.Length)],
+                    YTGVSlotData.CosmeticLoadOption.RandomEveryLoad => Plugin.ValidBGs[
+                        Random.RandomRangeInt(0, Plugin.ValidBGs.Count)],
                     _ => originalSkybox
                 };
             }
@@ -160,6 +185,47 @@ namespace YellowTaxiAP.Managers
             {
                 return originalSkybox;
             }
+        }
+
+        public static string GetRadioName(string song)
+        {
+            return song switch
+            {
+                "SoundtrackHatShop" => "Hat World",
+                "SoundtrackBonusLevel" => "Bonus Area",
+                "SoundtrackHubOutside" => LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND"),
+                "SoundtrackHubInside" => LocalizationManager.GetTermTranslation("MAP_AREA_NAME_GRANNY_ISLAND_LAB"),
+                "SoundtrackBombeach" => LocalizationManager.GetTermTranslation("LEVEL_NAME_BOMBEACH"),
+                "SoundtrackPizzaTime" => LocalizationManager.GetTermTranslation("LEVEL_NAME_PIZZA_TIME"),
+                "SoundtrackMoriosHomeInternal" => LocalizationManager.GetTermTranslation(
+                    "MAP_AREA_NAME_MORIO_HOME_INSIDE"),
+                "SoundtrackMoriosHome" => LocalizationManager.GetTermTranslation("MAP_AREA_NAME_MORIO_HOME_OUTSIDE"),
+                "SoundtrackArcadePanik" => LocalizationManager.GetTermTranslation("LEVEL_NAME_ARCADE_PANIK"),
+                "SoundtrackToslaOffices" => LocalizationManager.GetTermTranslation("LEVEL_NAME_TOSLA_OFFICES"),
+                "SoundtrackGym" => LocalizationManager.GetTermTranslation("LEVEL_NAME_GYM"),
+                "SoundtrackPoopWorld" => LocalizationManager.GetTermTranslation("LEVEL_NAME_POOP_WORLD"),
+                "SoundtrackSewers" => LocalizationManager.GetTermTranslation("LEVEL_NAME_SEWERS"),
+                "SoundtrackCityLevel" => LocalizationManager.GetTermTranslation("LEVEL_NAME_CITY"),
+                "SoundtrackCrashTestIndustries" => LocalizationManager.GetTermTranslation(
+                    "LEVEL_NAME_CRASH_TEST_INDUSTRIES"),
+                "SoundtrackMoriosMind" => LocalizationManager.GetTermTranslation("LEVEL_NAME_MORIOS_MIND"),
+                "SoundtrackRuinedObservatory" => LocalizationManager.GetTermTranslation("LEVEL_NAME_STARMAN_CASTLE"),
+                "SoundtrackToslaHQ" => LocalizationManager.GetTermTranslation("LEVEL_NAME_TOSLA_HQ"),
+                "SoundtrackMoonTheme" => LocalizationManager.GetTermTranslation("LEVEL_NAME_MOON"),
+                "SoundtrackRocket" => LocalizationManager.GetTermTranslation("LEVEL_NAME_ROCKET"),
+                "SoundtrackTimeAttack" => LocalizationManager.GetTermTranslation("TIME_ATTACK_MENU_TIME_ATTACK"),
+                "MEGA_RAN_-_TAXI_REFERENCE" => LocalizationManager.GetTermTranslation("MUSIC_RADIO_DATA_MEGARAN"),
+                "Fasten_your_Seatbelt_MASTER Silence Cut" => LocalizationManager.GetTermTranslation(
+                    "MUSIC_RADIO_DATA_GAME&SOUND_COVER"),
+                "CrGuitarfasten_your_seatbelts_wav" => LocalizationManager.GetTermTranslation(
+                    "MUSIC_RADIO_DATA_CRGUITAR_COVER"),
+                "SoundtrackBossFight1" => LocalizationManager.GetTermTranslation("NAME_BOSS_BOBOMBOSS"),
+                "SoundtrackBossFightImportant" => LocalizationManager.GetTermTranslation("NAME_ALIEN_MOSK"),
+                "SoundtrackBossFightFinal" => LocalizationManager.GetTermTranslation("DIALOGUE_BOSS_FIGHT_STARTING_6"),
+                "SoundtrackMainMenu" => LocalizationManager.GetTermTranslation("MENU_SUB_TITLE_MAIN_MENU"),
+                "SoundtrackCredits" => LocalizationManager.GetTermTranslation("CREDITS_TITLE"),
+                _ => song
+            };
         }
     }
 }

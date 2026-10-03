@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using YellowTaxiAP.Managers;
 
@@ -887,6 +888,7 @@ namespace YellowTaxiAP.Archipelago
                 APPortalManager.RandomizedPortalLevelOrder = levels.ToArray();
             }
 
+            Plugin.ValidSongs = Plugin.KnownSongs.ToList();
             if (slotData.ContainsKey("randomize_music"))
             {
                 RandomizeMusic = (CosmeticLoadOption)(long)slotData["randomize_music"];
@@ -905,12 +907,37 @@ namespace YellowTaxiAP.Archipelago
                         APMusicAndSkyManager.ConsistentMusicMap.Add(key, value);
                     }
                 }
+                else if (RandomizeMusic == CosmeticLoadOption.RandomEveryLoad)
+                {
+                    if (!(bool)slotData["include_title_and_credits_music"])
+                    {
+                        Plugin.ValidSongs.Remove("SoundtrackMainMenu");
+                        Plugin.ValidSongs.Remove("SoundtrackCredits");
+                    }
+
+                    if ((bool)slotData["separate_boss_music"])
+                    {
+                        Plugin.ValidBossSongs = [];
+                        foreach (var song in Plugin.BossSongs)
+                        {
+                            Plugin.ValidSongs.Remove(song);
+                            Plugin.ValidBossSongs.Add(song);
+                        }
+                    }
+                    else
+                    {
+                        Plugin.ValidBossSongs = Plugin.ValidSongs;
+                    }
+                    
+                    Plugin.Log($"Random every load music has {Plugin.ValidSongs.Count} songs");
+                }
             }
             else
             {
                 Plugin.Log("No slot data for randomize_music found");
             }
 
+            Plugin.ValidBGs = Plugin.KnownBGs.ToList();
             if (slotData.ContainsKey("randomize_skyboxes"))
             {
                 RandomizeSkyboxes = (CosmeticLoadOption)(long)slotData["randomize_skyboxes"];
@@ -922,11 +949,20 @@ namespace YellowTaxiAP.Archipelago
                     APMusicAndSkyManager.ConsistentSkyboxMap = new Dictionary<string, string>();
                     foreach (var skybox in (JArray)slotData["skybox_order"])
                     {
-                        var key = Plugin.KnownBGs[i];
-                        var value = Plugin.KnownBGs[(int)skybox];
+                        var key = Plugin.ValidBGs[i];
+                        var value = Plugin.ValidBGs[(int)skybox];
                         Plugin.Log($"[{i}] {key} -> {value}");
                         i++;
                         APMusicAndSkyManager.ConsistentSkyboxMap.Add(key, value);
+                    }
+                }
+                else if (RandomizeSkyboxes == CosmeticLoadOption.RandomEveryLoad)
+                {
+                    if ((bool)slotData["exclude_boring_skyboxes"])
+                    {
+                        Plugin.ValidBGs.Remove("Background Soffitto Laboratorio");
+                        Plugin.ValidBGs.Remove("Background Black");
+                        Plugin.ValidBGs.Remove("");
                     }
                 }
             }

@@ -24,7 +24,7 @@ namespace YellowTaxiAP.Managers
         public static GameObject PizzaHudInstance;
         public static void ShowTempPizzaHud()
         {
-            if (!GameplayMaster.instance || GameplayMaster.instance.levelId != Data.LevelId.L2_PizzaTime)
+            if (!GameplayMaster.instance)
                 return;
 
             if (PizzaHudInstance)
