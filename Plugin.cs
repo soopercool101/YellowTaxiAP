@@ -95,6 +95,7 @@ public class Plugin : BaseUnityPlugin
     public Vector3 QuicksavePlayerVelocity;
 
     public static bool GameInitialized { get; set; }
+    public static bool AllowTransitionAnimations { get; set; }
 
     private void Awake()
     {
@@ -113,6 +114,7 @@ public class Plugin : BaseUnityPlugin
             GameInitialized = true;
         };
         DataHook = new APDataManager();
+        On.TransictionScript.SpawnIn_Kind += TransictionScript_SpawnIn_Kind;
         On.Master.Awake += (orig, self) =>
         {
             BepinLogger.LogWarning("Master Has Awoken");
@@ -120,6 +122,11 @@ public class Plugin : BaseUnityPlugin
             Master.influencerHatsAndGraphicsEnabled = true;
             if (!AssetLoadinator.FullyLoaded)
                 AssetLoadinator.LoadAssets();
+            else if (!AllowTransitionAnimations)
+            {
+                AllowTransitionAnimations = true;
+                On.TransictionScript.SpawnIn_Kind -= TransictionScript_SpawnIn_Kind;
+            }
         };
         On.Master.InfluecerGraphicsCheatReset += _ =>
         {
@@ -604,6 +611,13 @@ public class Plugin : BaseUnityPlugin
             orig(self);
         };
 #endif
+    }
+
+    private TransictionScript TransictionScript_SpawnIn_Kind(On.TransictionScript.orig_SpawnIn_Kind orig, TransictionScript.Kind transictionKind)
+    {
+        if (AllowTransitionAnimations)
+            orig(transictionKind);
+        return null;
     }
 
     private void Music__ApplyPitchToMusicCapsule(On.Music.orig__ApplyPitchToMusicCapsule orig, Music.MusicCapsule capsule)

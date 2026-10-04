@@ -45,6 +45,7 @@ namespace YellowTaxiAP.Helpers
             {
                 nextLevel = 1;
                 FullyLoaded = true;
+                Sound.Play_Unpausable("SoundMenuPlayModeSelect");
             }
             Loaded = true;
             SceneManager.LoadScene(nextLevel);
