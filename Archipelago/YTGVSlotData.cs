@@ -179,6 +179,7 @@ namespace YellowTaxiAP.Archipelago
 
         public enum CosmeticLoadOption : long
         {
+            Special = -1,
             Vanilla = 0,
             Consistent = 1,
             RandomEveryLoad = 2,
@@ -907,7 +908,7 @@ namespace YellowTaxiAP.Archipelago
                         APMusicAndSkyManager.ConsistentMusicMap.Add(key, value);
                     }
                 }
-                else if (RandomizeMusic == CosmeticLoadOption.RandomEveryLoad)
+                else if (RandomizeMusic is CosmeticLoadOption.RandomEveryLoad or CosmeticLoadOption.Special)
                 {
                     if (!(bool)slotData["include_title_and_credits_music"])
                     {

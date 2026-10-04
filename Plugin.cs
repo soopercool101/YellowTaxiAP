@@ -311,33 +311,33 @@ public class Plugin : BaseUnityPlugin
                     }
                 }
 
-                if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
                     APCollectableManager.GoldenSpringReceived = !APCollectableManager.GoldenSpringReceived;
                     Log($"DEBUG: Golden Spring {(APCollectableManager.GoldenSpringReceived ? "enabled" : "disabled")}", true);
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
                     APCollectableManager.GoldenPropellerActive = !APCollectableManager.GoldenPropellerActive;
                     Log($"DEBUG: Golden Propeller {(APCollectableManager.GoldenPropellerActive ? "enabled" : "disabled")}", true);
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     APSwitchManager.OrangeSwitchUnlocked = !APSwitchManager.OrangeSwitchUnlocked;
                     Log($"DEBUG: Orange Switch {(APSwitchManager.OrangeSwitchUnlocked ? "enabled" : "disabled")}", true);
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
                     APRatManager.ReceivedRatItem = !APRatManager.ReceivedRatItem;
                     GameStateUpdater.RatStateNeedsUpdate = true;
                     Log($"DEBUG: Rat {(APRatManager.ReceivedRatItem ? "enabled" : "disabled")}", true);
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
                     APSwitchManager.PurpleSwitchUnlocked = !APSwitchManager.PurpleSwitchUnlocked;
                     Log($"DEBUG: Purple Switch {(APSwitchManager.PurpleSwitchUnlocked ? "enabled" : "disabled")}", true);
                 }
-                if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                if (Input.GetKeyDown(KeyCode.Alpha6))
                 {
                     APSwitchManager.GreenSwitchUnlocked = !APSwitchManager.GreenSwitchUnlocked;
                     Log($"DEBUG: Green Switch {(APSwitchManager.GreenSwitchUnlocked ? "enabled" : "disabled")}", true);
@@ -536,65 +536,62 @@ public class Plugin : BaseUnityPlugin
                     Log($"DEBUG: Pizza Wheels {(Master.cheat_PizzaWheels ? "enabled" : "disabled")}", true);
                 }
 
-                if (true)
+                if (Input.GetKeyDown(KeyCode.Keypad4))
                 {
-                    if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    try
                     {
-                        try
-                        {
-                            bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
-                        }
-                        catch { }
-                        bgIndex--;
-                        if (bgIndex < 0)
-                            bgIndex = KnownBGs.Length - 1;
-                        Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
-                        APMusicAndSkyManager.SuppressBGRando = true;
-                        BackgroundMaster.Change(KnownBGs[bgIndex]);
-                        APMusicAndSkyManager.SuppressBGRando = false;
+                        bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
                     }
-                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    catch { }
+                    bgIndex--;
+                    if (bgIndex < 0)
+                        bgIndex = KnownBGs.Length - 1;
+                    Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                    APMusicAndSkyManager.SuppressBGRando = true;
+                    BackgroundMaster.Change(KnownBGs[bgIndex]);
+                    APMusicAndSkyManager.SuppressBGRando = false;
+                }
+                if (Input.GetKeyDown(KeyCode.Keypad6))
+                {
+                    try
                     {
-                        try
-                        {
-                            bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
-                        }
-                        catch { }
-                        bgIndex++;
-                        if (bgIndex >= KnownBGs.Length)
-                            bgIndex = 0;
-                        Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
-                        APMusicAndSkyManager.SuppressBGRando = true;
-                        BackgroundMaster.Change(KnownBGs[bgIndex]);
-                        APMusicAndSkyManager.SuppressBGRando = false;
+                        bgIndex = KnownBGs.ToList().IndexOf(BackgroundMaster.instance.name);
                     }
+                    catch { }
+                    bgIndex++;
+                    if (bgIndex >= KnownBGs.Length)
+                        bgIndex = 0;
+                    Log($"Attempting to set background to [{bgIndex}]: {KnownBGs[bgIndex]}", true);
+                    APMusicAndSkyManager.SuppressBGRando = true;
+                    BackgroundMaster.Change(KnownBGs[bgIndex]);
+                    APMusicAndSkyManager.SuppressBGRando = false;
+                }
 
-                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                if (Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    try
                     {
-                        try
-                        {
-                            songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
-                        }
-                        catch { }
-                        songIndex--;
-                        if (songIndex < 0)
-                            songIndex = KnownSongs.Length - 1;
-                        Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
-                        GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                        songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
                     }
-                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    catch { }
+                    songIndex--;
+                    if (songIndex < 0)
+                        songIndex = KnownSongs.Length - 1;
+                    Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
+                    GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                }
+                if (Input.GetKeyDown(KeyCode.Keypad8))
+                {
+                    try
                     {
-                        try
-                        {
-                            songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
-                        }
-                        catch { }
-                        songIndex++;
-                        if (songIndex >= KnownSongs.Length)
-                            songIndex = 0;
-                        Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
-                        GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
+                        songIndex = KnownSongs.ToList().IndexOf(GameplayMaster.instance?.levelSoundtrack);
                     }
+                    catch { }
+                    songIndex++;
+                    if (songIndex >= KnownSongs.Length)
+                        songIndex = 0;
+                    Log($"Attempting to set soundtrack to [{songIndex}]: {KnownSongs[songIndex]}", true);
+                    GameplayMaster.instance.levelSoundtrack = KnownSongs[songIndex];
                 }
 
                 if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Tilde))
