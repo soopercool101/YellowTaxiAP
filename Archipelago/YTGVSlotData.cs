@@ -523,6 +523,16 @@ namespace YellowTaxiAP.Archipelago
             if (slotData.ContainsKey("shuffle_flip_o_will"))
             {
                 ShuffleFlipOWill = (MoveRandoType) (long) slotData["shuffle_flip_o_will"];
+                if (ShuffleFlipOWill == MoveRandoType.PerLevel)
+                {
+                    if (!LocationsByMapArea.LocationsByMapAreaDictionary["LEVEL_PSYCHO_TAXI"]
+                            .Intersect(Plugin.ArchipelagoClient.AllLocations).Any())
+                    {
+                        Plugin.Log("No Psycho Taxi locations, giving all moves by default");
+                        APPlayerManager.PerLevelBoostItems[Data.LevelId.L20_PsychoTaxi] = 2;
+                        APPlayerManager.PerLevelJumpItems[Data.LevelId.L20_PsychoTaxi] = 2;
+                    }
+                }
             }
             else
             {
