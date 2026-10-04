@@ -36,6 +36,7 @@ public class ArchipelagoClient
     {
         if (Authenticated || AttemptingConnection) return;
 
+        Plugin.Log("Connecting");
         AttemptingConnection = true;
 
         try
@@ -45,9 +46,11 @@ public class ArchipelagoClient
         }
         catch (Exception e)
         {
+            Plugin.Log("Failed to setup session");
             Plugin.BepinLogger.LogError(e);
         }
 
+        Plugin.Log("Attempting Connection");
         TryConnect();
     }
 
@@ -70,22 +73,36 @@ public class ArchipelagoClient
         try
         {
             // it's safe to thread this function call but unity notoriously hates threading so do not use excessively
-            ThreadPool.QueueUserWorkItem(
-                _ => HandleConnectResult(
-                    Session.TryConnectAndLogin(
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    Plugin.Log("Beginning TryConnect (Inner)");
+                    HandleConnectResult(Session.TryConnectAndLogin(
                         Game,
                         ServerData.SlotName,
                         ItemsHandlingFlags.AllItems, // TODO make sure to change this line
                         new Version(APVersion),
                         password: ServerData.Password,
                         requestSlotData: true // ServerData.NeedSlotData
-                    )));
+                    ));
+                    Plugin.Log("Finishing TryConnect (Inner)");
+                }
+                catch (Exception e)
+                {
+                    Plugin.Log("Failed connection in TryConnect (Inner)");
+                    AttemptingConnection = false;
+                    Plugin.BepinLogger.LogError(e);
+                    HandleConnectResult(new LoginFailure(e.ToString()));
+                }
+            });
         }
         catch (Exception e)
         {
+            Plugin.Log("Failed connection in TryConnect");
+            AttemptingConnection = false;
             Plugin.BepinLogger.LogError(e);
             HandleConnectResult(new LoginFailure(e.ToString()));
-            AttemptingConnection = false;
         }
     }
 
@@ -380,6 +397,7 @@ public class ArchipelagoClient
         }
         finally
         {
+            Plugin.Log("Finalized connection in HandleConnectResult");
             AttemptingConnection = false;
         }
     }
@@ -462,6 +480,7 @@ public class ArchipelagoClient
         Session?.Socket.DisconnectAsync();
         Session = null;
         Authenticated = false;
+        Plugin.Log("Disconnected");
         AttemptingConnection = false;
     }
 
