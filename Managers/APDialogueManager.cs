@@ -959,9 +959,25 @@ namespace YellowTaxiAP.Managers
             new("Shameless Plug", "SoundTextNarrator", [$"{SetTextColor("CloverPit", DialogueColors.OrangeYellow)} is now available! Buy today!"], "https://store.steampowered.com/app/3314790/CloverPit/"),
             new("Shameless Plug", "SoundTextNarrator", [$"Did you know I used to mod Brawl before this? Check out {SetTextColor("BrawlCrate", DialogueColors.OrangeYellow)}!"], "https://github.com/soopercool101/BrawlCrate"),
             new("Shameless Plug", "SoundTextNarrator", [$"This game can also be purchased on {SetTextColor(Plugin.IsSteam ? "GOG" : "Steam", DialogueColors.GreenYellow)}, why not double dip?"], Plugin.IsSteam ? "https://www.gog.com/en/game/yellow_taxi_goes_vroom" : "https://store.steampowered.com/app/2011780/Yellow_Taxi_Goes_Vroom/"),
+            GetRandomSoundtrackPlug(),
             new("Archipelago", "SoundTextNarrator", ["Are you sure you're mod is up too date? I might of fixed the grammar in this spam trap!"], "https://github.com/soopercool101/YellowTaxiAP/releases/latest"),
             new("Important!", "SoundTextNarrator", [$"The fate of the universe relies on you clicking {SetTextColor("this specific link", DialogueColors.FullRed)}!"], "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
         ];
+
+        public static Tuple<string, string, string[], string> GetRandomSoundtrackPlug()
+        {
+            var location = Random.RandomRangeInt(0, 3) switch
+            {
+                0 => new Tuple<string, string>("You can purchase it on Bandcamp!",
+                    "https://jacoblincke.bandcamp.com/album/yellow-taxi-goes-vroom-original-soundtrack"),
+                1 => new Tuple<string, string>("You can stream it on Spotify!",
+                    "https://open.spotify.com/album/2Hf2TjCvRPhBAu9uTeSews"),
+                _ => new Tuple<string, string>("You can stream it on YouTube!",
+                    "https://www.youtube.com/watch?v=AaDASaaw1XY")
+            };
+
+            return new Tuple<string, string, string[], string>("Shameless Plug", "SoundTextNarrator", [ $"Enjoying the game's soundtrack? {location.Item1}" ], location.Item2);
+        }
 
         public static string[] FakeLiteratureTrapMessages =
         [

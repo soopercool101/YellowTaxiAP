@@ -262,43 +262,41 @@ namespace YellowTaxiAP.Managers
             }
         }
 
+        // https://jacoblincke.bandcamp.com/album/yellow-taxi-goes-vroom-original-soundtrack
         public static string GetRadioName(string song)
         {
             return song switch
             {
-                "SoundtrackHatShop" => "Hat World",
-                "SoundtrackBonusLevel" => "Bonus Area",
-                "SoundtrackHubOutside" => LocalizationManager.GetTermTranslation("LEVEL_NAME_GRANNY_ISLAND"),
-                "SoundtrackHubInside" => LocalizationManager.GetTermTranslation("MAP_AREA_NAME_GRANNY_ISLAND_LAB"),
+                "SoundtrackHatShop" => "Hat Store",
+                "SoundtrackBonusLevel" => "Bonus!",
+                "SoundtrackHubOutside" => "Grandma's Memories",
+                "SoundtrackHubInside" => "The Lab",
                 "SoundtrackBombeach" => LocalizationManager.GetTermTranslation("LEVEL_NAME_BOMBEACH"),
                 "SoundtrackPizzaTime" => LocalizationManager.GetTermTranslation("LEVEL_NAME_PIZZA_TIME"),
-                "SoundtrackMoriosHomeInternal" => LocalizationManager.GetTermTranslation(
-                    "MAP_AREA_NAME_MORIO_HOME_INSIDE"),
+                "SoundtrackMoriosHomeInternal" => "Home Sweet Home",
                 "SoundtrackMoriosHome" => LocalizationManager.GetTermTranslation("MAP_AREA_NAME_MORIO_HOME_OUTSIDE"),
                 "SoundtrackArcadePanik" => LocalizationManager.GetTermTranslation("LEVEL_NAME_ARCADE_PANIK"),
-                "SoundtrackToslaOffices" => LocalizationManager.GetTermTranslation("LEVEL_NAME_TOSLA_OFFICES"),
+                "SoundtrackToslaOffices" => "Cubicle Concerns",
                 "SoundtrackGym" => LocalizationManager.GetTermTranslation("LEVEL_NAME_GYM"),
                 "SoundtrackPoopWorld" => LocalizationManager.GetTermTranslation("LEVEL_NAME_POOP_WORLD"),
                 "SoundtrackSewers" => LocalizationManager.GetTermTranslation("LEVEL_NAME_SEWERS"),
-                "SoundtrackCityLevel" => LocalizationManager.GetTermTranslation("LEVEL_NAME_CITY"),
-                "SoundtrackCrashTestIndustries" => LocalizationManager.GetTermTranslation(
-                    "LEVEL_NAME_CRASH_TEST_INDUSTRIES"),
-                "SoundtrackMoriosMind" => LocalizationManager.GetTermTranslation("LEVEL_NAME_MORIOS_MIND"),
-                "SoundtrackRuinedObservatory" => LocalizationManager.GetTermTranslation("LEVEL_NAME_STARMAN_CASTLE"),
-                "SoundtrackToslaHQ" => LocalizationManager.GetTermTranslation("LEVEL_NAME_TOSLA_HQ"),
-                "SoundtrackMoonTheme" => LocalizationManager.GetTermTranslation("LEVEL_NAME_MOON"),
-                "SoundtrackRocket" => LocalizationManager.GetTermTranslation("LEVEL_NAME_ROCKET"),
-                "SoundtrackTimeAttack" => LocalizationManager.GetTermTranslation("TIME_ATTACK_MENU_TIME_ATTACK"),
+                "SoundtrackCityLevel" => "Maurizio's Metropolis",
+                "SoundtrackCrashTestIndustries" => "Corroded Crescendo",
+                "SoundtrackMoriosMind" => "Head in the Clouds",
+                "SoundtrackRuinedObservatory" => "The Starman's Castle",
+                "SoundtrackToslaHQ" => "The Corporation",
+                "SoundtrackMoonTheme" => "Weightless",
+                "SoundtrackRocket" => "Rocket Rhapsody",
+                "SoundtrackTimeAttack" => "Gotta Go Relatively Quickly!",
                 "MEGA_RAN_-_TAXI_REFERENCE" => LocalizationManager.GetTermTranslation("MUSIC_RADIO_DATA_MEGARAN"),
-                "Fasten_your_Seatbelt_MASTER Silence Cut" => LocalizationManager.GetTermTranslation(
-                    "MUSIC_RADIO_DATA_GAME&SOUND_COVER"),
-                "CrGuitarfasten_your_seatbelts_wav" => LocalizationManager.GetTermTranslation(
-                    "MUSIC_RADIO_DATA_CRGUITAR_COVER"),
-                "SoundtrackBossFight1" => LocalizationManager.GetTermTranslation("NAME_BOSS_BOBOMBOSS"),
-                "SoundtrackBossFightImportant" => LocalizationManager.GetTermTranslation("NAME_ALIEN_MOSK"),
-                "SoundtrackBossFightFinal" => LocalizationManager.GetTermTranslation("DIALOGUE_BOSS_FIGHT_STARTING_6"),
-                "SoundtrackMainMenu" => $"Fasten Your Seatbelt ({LocalizationManager.GetTermTranslation("MENU_SUB_TITLE_MAIN_MENU")})",
-                "SoundtrackCredits" => LocalizationManager.GetTermTranslation("CREDITS_TITLE"),
+                "Fasten_your_Seatbelt_MASTER Silence Cut" => LocalizationManager.GetTermTranslation("MUSIC_RADIO_DATA_GAME&SOUND_COVER"),
+                "CrGuitarfasten_your_seatbelts_wav" => LocalizationManager.GetTermTranslation("MUSIC_RADIO_DATA_CRGUITAR_COVER"),
+                "SoundtrackBossFight1" => "Bomboss",
+                "SoundtrackBossFightImportant" => "The Mad Scientist",
+                "SoundtrackBossFightFinal" => "The Final Fight",
+                "SoundtrackMainMenu" => "Fasten Your Seatbelt",
+                "SoundtrackCredits" => "Psycho Taxi!", // Yes, it is called that.
+                "SoundtrackInvincible" => "The Incredible Machine",
                 _ => song
             };
         }
