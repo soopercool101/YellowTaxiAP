@@ -17,6 +17,12 @@ namespace YellowTaxiAP.Managers
             On.GameplayMaster.SoundtrackRoutine += GameplayMaster_SoundtrackRoutine;
             On.PortalTransitionScript.Start += PortalTransitionScript_Start;
             On.BackgroundMaster.Change += BackgroundMaster_Change;
+            On.GameplayMaster.RadioSountrackNameGet += GameplayMaster_RadioSountrackNameGet;
+        }
+
+        private string GameplayMaster_RadioSountrackNameGet(On.GameplayMaster.orig_RadioSountrackNameGet orig, GameplayMaster self)
+        {
+            return PlayerScript.instance.invincible ? GetRadioName("SoundtrackInvincible") : orig(self);
         }
 
         private void GameplayMaster_Start(On.GameplayMaster.orig_Start orig, GameplayMaster self)
@@ -267,37 +273,55 @@ namespace YellowTaxiAP.Managers
         {
             return song switch
             {
-                "SoundtrackHatShop" => "Hat Store",
-                "SoundtrackBonusLevel" => "Bonus!",
-                "SoundtrackHubOutside" => "Grandma's Memories",
-                "SoundtrackHubInside" => "The Lab",
-                "SoundtrackBombeach" => LocalizationManager.GetTermTranslation("LEVEL_NAME_BOMBEACH"),
-                "SoundtrackPizzaTime" => LocalizationManager.GetTermTranslation("LEVEL_NAME_PIZZA_TIME"),
-                "SoundtrackMoriosHomeInternal" => "Home Sweet Home",
-                "SoundtrackMoriosHome" => LocalizationManager.GetTermTranslation("MAP_AREA_NAME_MORIO_HOME_OUTSIDE"),
-                "SoundtrackArcadePanik" => LocalizationManager.GetTermTranslation("LEVEL_NAME_ARCADE_PANIK"),
-                "SoundtrackToslaOffices" => "Cubicle Concerns",
-                "SoundtrackGym" => LocalizationManager.GetTermTranslation("LEVEL_NAME_GYM"),
-                "SoundtrackPoopWorld" => LocalizationManager.GetTermTranslation("LEVEL_NAME_POOP_WORLD"),
-                "SoundtrackSewers" => LocalizationManager.GetTermTranslation("LEVEL_NAME_SEWERS"),
-                "SoundtrackCityLevel" => "Maurizio's Metropolis",
-                "SoundtrackCrashTestIndustries" => "Corroded Crescendo",
-                "SoundtrackMoriosMind" => "Head in the Clouds",
-                "SoundtrackRuinedObservatory" => "The Starman's Castle",
-                "SoundtrackToslaHQ" => "The Corporation",
-                "SoundtrackMoonTheme" => "Weightless",
-                "SoundtrackRocket" => "Rocket Rhapsody",
-                "SoundtrackTimeAttack" => "Gotta Go Relatively Quickly!",
+                "SoundtrackHatShop" => $"Hat Store{RadioCredit()}",
+                "SoundtrackBonusLevel" => $"Bonus!{RadioCredit()}",
+                "SoundtrackHubOutside" => $"Grandma's Memories{RadioCredit()}",
+                "SoundtrackHubInside" => $"The Lab{RadioCredit()}",
+                "SoundtrackBombeach" => $"Bombeach{RadioCredit()}",
+                "SoundtrackPizzaTime" => $"Pizza Time{RadioCredit()}",
+                "SoundtrackMoriosHomeInternal" => $"Home Sweet Home{RadioCredit()}",
+                "SoundtrackMoriosHome" => $"Morio's Island{RadioCredit()}",
+                "SoundtrackArcadePanik" => $"Arcade Panik{RadioCredit()}",
+                "SoundtrackToslaOffices" => $"Cubicle Concerns{RadioCredit()}",
+                "SoundtrackGym" => $"Gym Gears{RadioCredit()}",
+                "SoundtrackPoopWorld" => $"Fecal Matters{RadioCredit()}",
+                "SoundtrackSewers" => $"Flushed Away{RadioCredit()}",
+                "SoundtrackCityLevel" => $"Maurizio's Metropolis{RadioCredit()}",
+                "SoundtrackCrashTestIndustries" => $"Corroded Crescendo{RadioCredit()}",
+                "SoundtrackMoriosMind" => $"Head in the Clouds{RadioCredit()}",
+                "SoundtrackRuinedObservatory" => $"The Starman's Castle{RadioCredit()}",
+                "SoundtrackToslaHQ" => $"The Corporation{RadioCredit()}",
+                "SoundtrackMoonTheme" => $"Weightless{RadioCredit()}",
+                "SoundtrackRocket" => $"Rocket Rhapsody{RadioCredit()}",
+                "SoundtrackTimeAttack" => $"Gotta Go Relatively Quickly!{RadioCredit()}",
                 "MEGA_RAN_-_TAXI_REFERENCE" => LocalizationManager.GetTermTranslation("MUSIC_RADIO_DATA_MEGARAN"),
                 "Fasten_your_Seatbelt_MASTER Silence Cut" => LocalizationManager.GetTermTranslation("MUSIC_RADIO_DATA_GAME&SOUND_COVER"),
                 "CrGuitarfasten_your_seatbelts_wav" => LocalizationManager.GetTermTranslation("MUSIC_RADIO_DATA_CRGUITAR_COVER"),
-                "SoundtrackBossFight1" => "Bomboss",
-                "SoundtrackBossFightImportant" => "The Mad Scientist",
-                "SoundtrackBossFightFinal" => "The Final Fight",
-                "SoundtrackMainMenu" => "Fasten Your Seatbelt",
-                "SoundtrackCredits" => "Psycho Taxi!", // Yes, it is called that.
-                "SoundtrackInvincible" => "The Incredible Machine",
+                "SoundtrackBossFight1" => $"Bomboss{RadioCredit()}",
+                "SoundtrackBossFightImportant" => $"The Mad Scientist{RadioCredit()}",
+                "SoundtrackBossFightFinal" => $"The Final Fight{RadioCredit()}",
+                "SoundtrackMainMenu" => $"Fasten Your Seatbelt{RadioCredit()}",
+                "SoundtrackCredits" => $"Psycho Taxi!{RadioCredit()}", // Yes, it is called that.
+                "SoundtrackInvincible" => $"The Incredible Machine{RadioCredit()}",
                 _ => song
+            };
+        }
+
+        public static string RadioCredit(string artist = "Jacob Lincke")
+        {
+            return LocalizationManager.CurrentLanguage switch
+            {
+                "English" => $" - by {artist}",
+                "Italian" => $" - artista: {artist}",
+                "French" => $" - par {artist}",
+                "German" => $" – {artist}",
+                "EUSpanish" => $", de {artist}",
+                "Portuguese" => $" - {artist}",
+                "Spanish (American)" => $" ({artist})",
+                "Brazilian Portuguese" => $" - {artist}",
+                "Japanese" => $" - {artist}",
+                "Chinese (Simplified)" => $" - 歌手：{artist}",
+                _ => $" - by {artist}",
             };
         }
     }
