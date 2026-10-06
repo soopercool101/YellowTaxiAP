@@ -162,6 +162,8 @@ namespace YellowTaxiAP.Managers
                         Object.Instantiate(LocationsCheckedText, LocationsCheckedText.transform.parent);
                     ImportantItemsObjects[i].text = string.Empty;
                     ImportantItemsObjects[i].transform.localPosition = new Vector3(0, -2.6f + -0.52f * i, 0);
+                    ImportantItemsObjects[i].enableWordWrapping = false;
+                    ImportantItemsObjects[i].overflowMode = TextOverflowModes.Ellipsis;
                 }
 
                 AchievementsTvScript.instance.achievementsCapsuleToClone.SetActive(false);
@@ -186,7 +188,7 @@ namespace YellowTaxiAP.Managers
                 AchievementsTvScript.instance.menuIndexCount = ImportantItems.Count;
                 for(var i = 0; i < ImportantItemsListMax && i < ImportantItems.Count; i++)
                 {
-                    ImportantItemsObjects[i].text = $"<color=#FFFFFF>{ImportantItems[i]}</color>";
+                    ImportantItemsObjects[i].SetText($"<color=#FFFFFF>{ImportantItems[i]}</color>");
                 }
             }
 
