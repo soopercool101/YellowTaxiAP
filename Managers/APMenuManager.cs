@@ -32,6 +32,10 @@ namespace YellowTaxiAP.Managers
 
             On.LoadingScreenScript.WelcomeSetup += LoadingScreenScript_WelcomeSetup;
             On.LoadingScreenScript.WelcomeInit += LoadingScreenScript_WelcomeInit;
+            On.LoadingScreenScript.WelcomeSetupGearsCollectedRecalculate += LoadingScreenScript_WelcomeSetupGearsCollectedRecalculate;
+            On.LoadingScreenScript.WelcomeSetupGearsTotalRecalculate += LoadingScreenScript_WelcomeSetupGearsTotalRecalculate;
+            On.LoadingScreenScript.Awake += LoadingScreenScript_Awake;
+            On.LoadingScreenScript.FixedUpdate += LoadingScreenScript_FixedUpdate;
 
             On.MapArea.IsCurrentLevelFromIsland += MapArea_IsCurrentLevelFromIsland;
             On.Data.LevelData.GetName += LevelData_GetName;
@@ -39,6 +43,33 @@ namespace YellowTaxiAP.Managers
             On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution;
 
             On.IntroMasterScript.Awake += IntroMasterScript_Awake;
+        }
+
+        private void LoadingScreenScript_Awake(On.LoadingScreenScript.orig_Awake orig, LoadingScreenScript self)
+        {
+            self.alpha = 1;
+            orig(self);
+        }
+
+        private void LoadingScreenScript_FixedUpdate(On.LoadingScreenScript.orig_FixedUpdate orig, LoadingScreenScript self)
+        {
+            self.textTimer -= Tick.TimeFixed;
+            if ((double)self.textTimer <= 0.0)
+            {
+                self.textTimer = 0.075f;
+                if (self.tto < "LOADING...".Length)
+                {
+                    ++self.tto;
+                    self.text.text = "LOADING...".Substring(0, self.tto);
+                }
+            }
+            self.rectAppoggio = self.titleImage.uvRect;
+            self.rectAppoggio.x += (float)((double)Tick.TimeFixed * (1280.0 / (double)self.titleImage.rectTransform.rect.width) * 0.75);
+            self.titleImage.uvRect = self.rectAppoggio;
+            self.scacchiTop.color = self.colorAppoggio;
+            self.scacchiBot.color = self.colorAppoggio;
+            self.colorAppoggio.a = self.alpha * 0.1f;
+            self.titleImage.color = self.colorAppoggio;
         }
 
         private void MenuV2TitleScript_Start(On.MenuV2TitleScript.orig_Start orig, MenuV2TitleScript self)
@@ -322,6 +353,23 @@ namespace YellowTaxiAP.Managers
             {
                 self.welcomeGearsTextAnimator.SetText(string.Empty, true);
             }
+            self.colorAppoggio.a = self.alpha;
+            self.text.color = self.colorAppoggio;
+            self.carFrameAnimator.myImageRenderer.color = new Color(self.carFrameAnimator.myImageRenderer.color.r, self.carFrameAnimator.myImageRenderer.color.g, self.carFrameAnimator.myImageRenderer.color.b, self.alpha);
+            self.welcomeNameTextAnimator.tmproText.alpha = self.alpha;
+            self.welcomeGearsTextAnimator.tmproText.alpha = self.alpha;
+            self.welcomeGearImage.color = self.colorAppoggio;
+            Level.endDelayAppoggio = 0;
+        }
+
+        private int LoadingScreenScript_WelcomeSetupGearsCollectedRecalculate(On.LoadingScreenScript.orig_WelcomeSetupGearsCollectedRecalculate orig, Data.LevelId targetLevelId, int gearsCollected)
+        {
+            return 0;
+        }
+
+        private int LoadingScreenScript_WelcomeSetupGearsTotalRecalculate(On.LoadingScreenScript.orig_WelcomeSetupGearsTotalRecalculate orig, Data.LevelId targetLevelId, int gearsTotal)
+        {
+            return 0;
         }
 
         private MenuV2Element startText;

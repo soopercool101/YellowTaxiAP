@@ -26,7 +26,7 @@ namespace YellowTaxiAP.Helpers
             if (FullyLoaded)
                 return;
             var name = SceneManager.GetActiveScene().name;
-            Plugin.Log($"Scene: {name}");
+            //Plugin.Log($"Scene: {name}");
             LoadGenericImportantAssets(out _);
 
             var nextLevel = ++level;
@@ -60,24 +60,19 @@ namespace YellowTaxiAP.Helpers
                          FindObjectsSortMode.None))
             {
                 assetMasters.Add(assetMaster);
-                Plugin.BepinLogger.LogMessage("=== Asset Master: " + assetMaster.name + " ===");
+                //Plugin.BepinLogger.LogMessage("=== Asset Master: " + assetMaster.name + " ===");
                 if (assetMaster.name.Contains("Specific"))
                 {
-                    Plugin.BepinLogger.LogMessage("Songs:");
+                    //Plugin.BepinLogger.LogMessage("Songs:");
                     foreach (var song in assetMaster.musics)
                     {
-                        Plugin.Log(" - " + song.name);
+                        //Plugin.Log(" - " + song.name);
                         // Bonus level is already in the all levels asset master, don't need it
                         if (song.name.Equals("SoundtrackBonusLevel"))
                             continue;
                         try
                         {
                             AssetMaster.AddMusic(song);
-                            if (!Plugin.KnownSongs.Contains(song.name))
-                            {
-                                Plugin.BepinLogger.LogWarning($"Unknown Song: {song.name}");
-                            }
-
                             loadedAssets++;
                         }
                         catch (Exception e)
@@ -85,10 +80,10 @@ namespace YellowTaxiAP.Helpers
                             Plugin.BepinLogger.LogWarning(e);
                         }
                     }
-                    Plugin.BepinLogger.LogMessage("Prefabs:");
+                    //Plugin.BepinLogger.LogMessage("Prefabs:");
                     foreach (var prefab in assetMaster.prefabs)
                     {
-                        Plugin.BepinLogger.LogMessage(" - " + prefab.name);
+                        //Plugin.BepinLogger.LogMessage(" - " + prefab.name);
                         // Background Soffitto Castello is a duplicate of Background Black
                         if (prefab.name.Equals("HudExtra_RadioactivePizza") || (prefab.name.Contains("Background") && !prefab.name.Equals("Background Soffitto Castello") && !prefab.name.Equals("Background Soffitto ToslaHQ")))
                         {
@@ -107,14 +102,14 @@ namespace YellowTaxiAP.Helpers
                     // Poopworld and time trials don't have prefabs as bgs
                     if (level is (int)Levels.Index.level_PoopWorld or (int)Levels.Index.level_time_attack_01)
                     {
-                        Plugin.BepinLogger.LogMessage("Backgrounds (special):");
+                        //Plugin.BepinLogger.LogMessage("Backgrounds (special):");
                         var bgs = Object.FindObjectsByType<BackgroundMaster>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
                         foreach (var bg in bgs)
                         {
                             if (bg && !SpecialBackgrounds.ContainsKey(bg.name))
                             {
-                                Plugin.Log($"{bg.name} is not a prefab. Dealing with it!");
+                                //Plugin.Log($"{bg.name} is not a prefab. Dealing with it!");
                                 bg.gameObject.SetActive(false);
                                 Object.DontDestroyOnLoad(bg);
                                 SpecialBackgrounds.Add(bg.name, bg.gameObject);
@@ -122,15 +117,6 @@ namespace YellowTaxiAP.Helpers
                                 loadedAssets++;
                             }
                         }
-                    }
-
-                    if (loadedAssets == 0)
-                    {
-                        Plugin.BepinLogger.LogError("Don't need to load this one actually!");
-                    }
-                    else
-                    {
-                        Plugin.BepinLogger.LogWarning($"Loaded {loadedAssets} assets!");
                     }
                 }
             }
