@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using I2.Loc;
+using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Helpers;
 using Object = UnityEngine.Object;
@@ -41,6 +42,9 @@ namespace YellowTaxiAP.Managers
             {
                 if (BackgroundMaster.instance != null)
                     Object.Destroy(BackgroundMaster.instance.gameObject);
+                var newBg = Object.Instantiate(AssetMaster.GetPrefab("Background Black"));
+                newBg.name = backgroundName;
+                newBg.SetActive(false);
             }
             // Some backgrounds aren't prefabs, so I keep them loaded for just such an occasion
             else if (AssetLoadinator.SpecialBackgrounds.ContainsKey(newBackgroundName))

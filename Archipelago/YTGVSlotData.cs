@@ -976,6 +976,9 @@ namespace YellowTaxiAP.Archipelago
                         i++;
                         APMusicAndSkyManager.ConsistentSkyboxMap.Add(key, value);
                     }
+                    // Duplicate skyboxes
+                    APMusicAndSkyManager.ConsistentSkyboxMap.Add("Background Soffitto Castello", APMusicAndSkyManager.ConsistentSkyboxMap["Background Black"]);
+                    APMusicAndSkyManager.ConsistentSkyboxMap.Add("Background Soffitto ToslaHQ", APMusicAndSkyManager.ConsistentSkyboxMap["Background Soffitto Laboratorio"]);
                 }
                 else if (RandomizeSkyboxes == CosmeticLoadOption.RandomEveryLoad)
                 {
