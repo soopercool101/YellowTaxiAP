@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using YellowTaxiAP.Managers;
@@ -216,61 +217,76 @@ public class WarpIdentifier
 
     public static string IdentifyOriginalWarp(PortalScript warp)
     {
-        var warpIdentifier = new WarpIdentifier(warp);
-        var knownWarpIndex = KnownWarps.FindIndex(o => o.Equals(warpIdentifier));
-        var knownWarp = knownWarpIndex == -1 ? null : KnownWarps[knownWarpIndex];
-        if (knownWarp != null && knownWarp.Zone != -1 && !string.IsNullOrEmpty(knownWarp.SongChange) && !string.IsNullOrEmpty(knownWarp.BackgroundChange))
+        try
         {
-            return $"Known Warp [{knownWarpIndex}]: {knownWarp.Name}" + (string.IsNullOrEmpty(knownWarp.ExitGroup)
-                ? string.Empty
-                : $" (Group: {knownWarp.ExitGroup})");
-        }
+            var warpIdentifier = new WarpIdentifier(warp);
+            var knownWarpIndex = KnownWarps.FindIndex(o => o.Equals(warpIdentifier));
+            var knownWarp = knownWarpIndex == -1 ? null : KnownWarps[knownWarpIndex];
+            if (knownWarp != null && knownWarp.Zone != -1 && !string.IsNullOrEmpty(knownWarp.SongChange) &&
+                !string.IsNullOrEmpty(knownWarp.BackgroundChange))
+            {
+                return $"Known Warp [{knownWarpIndex}]: {knownWarp.Name}" + (string.IsNullOrEmpty(knownWarp.ExitGroup)
+                    ? string.Empty
+                    : $" (Group: {knownWarp.ExitGroup})");
+            }
 
-        knownWarp = KnownWarps.FirstOrDefault(o => o.ProbablyEquals(warpIdentifier));
+            knownWarp = KnownWarps.FirstOrDefault(o => o.ProbablyEquals(warpIdentifier));
 #if DEBUG
-        var warpName = knownWarp?.Name ?? string.Empty;
-        var linkedExit = knownWarp?.LinkedExit ?? string.Empty;
-        var groupName = knownWarp?.ExitGroup ?? string.Empty;
-        var moveTaxiHere = warp.targetLevelId != LevelId.Hub ? warp.moveTaxiHere : PortalScript.latestPortalHub_Pos;
-        var rotateTaxiY = warp.targetLevelId != LevelId.Hub ? warp.rotateTaxiY : PortalScript.latestPortalHub_RotationY;
-        var zone = warp.targetLevelId != LevelId.Hub ? (warp.desiredZoneId != -1 ? warp.desiredZoneId : (warp.targetLevelId == LevelId.noone ? ZoneMaster.currentZoneId : 0)) : PortalScript.latestHubZoneId;
-        var water = warp.targetLevelId != LevelId.Hub ? warp.desiredWaterState : PortalScript.latestHubWaterState;
-        var light = warp.targetLevelId != LevelId.Hub ? warp.desiredLightState : PortalScript.latestHubLightState;
-        var song = warp.targetLevelId != LevelId.Hub ? warp.songChange : PortalScript.latestHubSoundtrack;
-        var bg = warp.targetLevelId != LevelId.Hub ? warp.backgroundChange : PortalScript.latestHubBackground;
+            var warpName = knownWarp?.Name ?? string.Empty;
+            var linkedExit = knownWarp?.LinkedExit ?? string.Empty;
+            var groupName = knownWarp?.ExitGroup ?? string.Empty;
+            var moveTaxiHere = warp.targetLevelId != LevelId.Hub ? warp.moveTaxiHere : PortalScript.latestPortalHub_Pos;
+            var rotateTaxiY = warp.targetLevelId != LevelId.Hub
+                ? warp.rotateTaxiY
+                : PortalScript.latestPortalHub_RotationY;
+            var zone = warp.targetLevelId != LevelId.Hub
+                ? (warp.desiredZoneId != -1
+                    ? warp.desiredZoneId
+                    : (warp.targetLevelId == LevelId.noone ? ZoneMaster.currentZoneId : 0))
+                : PortalScript.latestHubZoneId;
+            var water = warp.targetLevelId != LevelId.Hub ? warp.desiredWaterState : PortalScript.latestHubWaterState;
+            var light = warp.targetLevelId != LevelId.Hub ? warp.desiredLightState : PortalScript.latestHubLightState;
+            var song = warp.targetLevelId != LevelId.Hub ? warp.songChange : PortalScript.latestHubSoundtrack;
+            var bg = warp.targetLevelId != LevelId.Hub ? warp.backgroundChange : PortalScript.latestHubBackground;
 
-        if (warp.targetLevelId == LevelId.noone)
-        {
-            if (string.IsNullOrEmpty(song))
+            if (warp.targetLevelId == LevelId.noone)
             {
-                song = GameplayMaster.instance.levelSoundtrack;
-            }
-            else if (song.Equals("default"))
-            {
-                song = GameplayMaster.instance.defaultLevelSoundtrack;
+                if (string.IsNullOrEmpty(song))
+                {
+                    song = GameplayMaster.instance.levelSoundtrack;
+                }
+                else if (song.Equals("default"))
+                {
+                    song = GameplayMaster.instance.defaultLevelSoundtrack;
+                }
+
+                if (string.IsNullOrEmpty(bg))
+                {
+                    bg = BackgroundMaster.instance?.name;
+                }
+                else if (bg.Equals("default"))
+                {
+                    bg = GameplayMaster.instance?.initialBackground;
+                }
             }
 
-            if (string.IsNullOrEmpty(bg))
-            {
-                bg = BackgroundMaster.instance.name;
-            }
-            else if (bg.Equals("default"))
-            {
-                bg = GameplayMaster.instance.initialBackground;
-            }
-        }
-        GUIUtility.systemCopyBuffer = $"new WarpIdentifier(\"{warpName}\", \"{linkedExit}\", \"{groupName}\", LevelId.{GameplayMaster.instance.levelId}, Levels.Index.{warp.targetLevel}, LevelId.{warp.targetLevelId}, new Vector3({warp.portalStartPosition.x}f, {warp.portalStartPosition.y}f, {warp.portalStartPosition.z}f), new Vector3({moveTaxiHere?.x ?? 0}f, {moveTaxiHere?.y ?? 0}f, {moveTaxiHere?.z ?? 0}f), {rotateTaxiY ?? 0}, {zone}, {light.ToString().ToLower()}, {water.ToString().ToLower()}, \"{song}\", \"{bg}\"" + (warp.kaizoLevelId != LevelId.noone ? $", LevelId.{warp.kaizoLevelId}" : string.Empty) + "),";
+            if (DebugLocationHelper.Enabled)
+                GUIUtility.systemCopyBuffer =
+                    $"new WarpIdentifier(\"{warpName}\", \"{linkedExit}\", \"{groupName}\", LevelId.{GameplayMaster.instance.levelId}, Levels.Index.{warp.targetLevel}, LevelId.{warp.targetLevelId}, new Vector3({warp.portalStartPosition.x}f, {warp.portalStartPosition.y}f, {warp.portalStartPosition.z}f), new Vector3({moveTaxiHere?.x ?? 0}f, {moveTaxiHere?.y ?? 0}f, {moveTaxiHere?.z ?? 0}f), {rotateTaxiY ?? 0}, {zone}, {light.ToString().ToLower()}, {water.ToString().ToLower()}, \"{song}\", \"{bg}\"" +
+                    (warp.kaizoLevelId != LevelId.noone ? $", LevelId.{warp.kaizoLevelId}" : string.Empty) + "),";
 #endif
 
-        if (knownWarp != null)
+            if (knownWarp != null)
+            {
+                return $"(Probably?) Known Warp [{knownWarpIndex}]: {knownWarp.Name}";
+            }
+        }
+        catch (Exception e)
         {
-            return $"(Probably?) Known Warp [{knownWarpIndex}]: {knownWarp.Name}";
+            Plugin.BepinLogger.LogError(e);
         }
 
-        if (warp.targetLevel != Levels.Index.noone)
-            return $"Unknown Portal to {warp.targetLevelId}";
-
-        return $"Unknown TaxiWarp to {warp.moveTaxiHere} with rotation {warp.rotateTaxiY}";
+        return warp.targetLevel != Levels.Index.noone ? $"Unknown Portal to {warp.targetLevelId}" : $"Unknown TaxiWarp to {warp.moveTaxiHere} with rotation {warp.rotateTaxiY}";
     }
 
     public static WarpIdentifier GetRedirectedWarp(PortalScript warp)
