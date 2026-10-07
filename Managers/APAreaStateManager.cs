@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 using YellowTaxiAP.Behaviours;
+using YellowTaxiAP.Helpers;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -118,6 +118,15 @@ namespace YellowTaxiAP.Managers
 
         private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
         {
+            // Debug level, place the exit gear
+            if (Plugin.IsInDebugScene)
+            {
+                var exitGear = Object.Instantiate(AssetLoadinator.Gear);
+                exitGear.name = "Exit Gear";
+                exitGear.transform.position = DebugLevelTrap.GearPosition;
+                exitGear.SetActive(true);
+            }
+
             // Dump taxi texture if needed
             var pathInfluencersGraphics = Master.pathInfluencersGraphics;
             if (!Directory.Exists(pathInfluencersGraphics))

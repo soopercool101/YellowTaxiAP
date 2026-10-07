@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Steamworks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Managers;
@@ -449,7 +450,7 @@ public class Plugin : BaseUnityPlugin
                     if (rotation == 360)
                         rotation = 0;
                     var zoneVals =
-                        $"new Vector3({Math.Round(PlayerScript.instance?.transform?.position.x ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.y ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.z ?? 0, 1)}f), {rotation}, {ZoneMaster.currentZoneId}, {LightDirectionalScript.instance?.myLight?.enabled.ToString().ToLower() ?? "false"}, {WaterScript.instance?.WaterEnable.ToString().ToLower() ?? "false"}, \"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\", \"{HudMasterScript.instance.currentMapAreaScriptableObject.areaName}\"),";
+                        $"new Vector3({Math.Round(PlayerScript.instance?.transform?.position.x ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.y ?? 0, 1)}f, {Math.Round(PlayerScript.instance?.transform?.position.z ?? 0, 1)}f), {rotation}, {ZoneMaster.currentZoneId}, {LightDirectionalScript.instance?.myLight?.enabled.ToString().ToLower() ?? "false"}, {WaterScript.instance?.WaterEnable.ToString().ToLower() ?? "false"}, \"{GameplayMaster.instance?.levelSoundtrack ?? "default"}\", \"{BackgroundMaster.instance?.name ?? "default"}\", \"{HudMasterScript.instance?.currentMapAreaScriptableObject?.areaName ?? ""}\"),";
                     Log($"Copying current zone values ({zoneVals}", true);
                     GUIUtility.systemCopyBuffer = zoneVals;
                 }
@@ -479,7 +480,7 @@ public class Plugin : BaseUnityPlugin
 
                 if (Input.GetKeyDown(KeyCode.T))
                 {
-                    var trap = "flip vertical";
+                    var trap = "debug level";
                     Log($"Testing {trap}");
                     APTrapController.ActivateTrap(trap, "[DEBUG TEST]");
                 }
@@ -647,6 +648,8 @@ public class Plugin : BaseUnityPlugin
         }
         orig(self, targetTr, offset, angY, angX, desiredDistance, angYOffset, angXOffset, fovDesiredValue);
     }
+
+    public static bool IsInDebugScene => SceneManager.GetActiveScene().name.Equals("03 Debug Scene BAKED");
 
     public int bgIndex = 0;
     public static List<string> ValidBGs;

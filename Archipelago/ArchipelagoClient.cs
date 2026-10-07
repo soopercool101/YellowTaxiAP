@@ -759,6 +759,7 @@ public class ArchipelagoClient
         "Stun Trap",
         "Timer Trap",
         "Whirlpool Trap",
+        "Debug Level Trap",
     ];
 
     private void ReceiveCoins(int coinCount)

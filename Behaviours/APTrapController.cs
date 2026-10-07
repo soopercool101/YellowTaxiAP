@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using I2.Loc;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YellowTaxiAP.Managers;
+using static Data;
 using Random = UnityEngine.Random;
 
 namespace YellowTaxiAP.Behaviours
@@ -204,6 +206,9 @@ namespace YellowTaxiAP.Behaviours
                 case "crt filter":
                 case "vintage":
                     newTrap = new CRTFilterTrap();
+                    break;
+                case "debug level":
+                    newTrap = new DebugLevelTrap();
                     break;
             }
 
@@ -1226,6 +1231,98 @@ namespace YellowTaxiAP.Behaviours
         {
             Settings.retroStyleCurrent = Settings.RetroStyle.crtAdvanced;
             CameraPostProcess.instance.RetroStylesEnable();
+        }
+    }
+
+    public class DebugLevelTrap : Trap
+    {
+        public override string Name => "Debug Level Trap";
+        public override bool ExtraActivationRequirements => !Plugin.IsInDebugScene;
+
+        public static Tuple<string, LevelId, WarpIdentifier> ReturnData;
+        public static Vector3 GearPosition;
+
+        public static void SetGearPosition()
+        {
+            List<Vector3> possibleLocations =
+            [
+                new(-114.6f, 0, 95),    // Between the trees
+                new(80, 0, 0),          // Alcove under ramp
+                new(25, 0, 95),         // Enemy Maze #1
+                new(5, 0, 115),         // Enemy Maze #2
+                new(95, 0, -80),        // Behind corner blocks
+                new(75, 50, 45),        // Wall hole (higher)
+                new(85, 40, 45),        // Wall hole (lower)
+                new(-65, 10, 85),       // Short wall gap
+                new(-95, 20, -25),      // Lumpy island
+                new(15, 0, -55),        // Near small corner ramp
+                new(95, 20, -70),       // On corner pillar
+                new(-110, 20, 50),      // On wall near trees
+            ];
+
+            // Higher expert levels have harder gears, why not
+            if (Plugin.SlotData.ExpertLevel >= 1)
+            {
+                possibleLocations.AddRange([
+                    new Vector3(85, 90, 35),    // In front of high wall, high on it
+                ]);
+            }
+            if (Plugin.SlotData.ExpertLevel >= 2)
+            {
+                possibleLocations.AddRange([
+                    new Vector3(85, 110, 45),   // On top of high wall #1
+                    new Vector3(125, 110, 5),   // On top of high wall #2
+                    new Vector3(85, -10, 45),   // Below high wall #1
+                    new Vector3(125, -10, 5),   // Below high wall #2
+                    new Vector3(-105, 10, -25), // Behind lumpy island
+                ]);
+            }
+            if (Plugin.SlotData.ExpertLevel >= 3)
+            {
+                possibleLocations.AddRange([
+                    new Vector3(315, 20, 205),  // Out in the middle of the ocean ayy lmao
+                ]);
+            }
+
+            GearPosition = possibleLocations[Random.RandomRangeInt(0, possibleLocations.Count)];
+        }
+
+        public override void TrapActivate()
+        {
+            SetGearPosition();
+            if (!Plugin.IsInDebugScene)
+            {
+                try
+                {
+                    ReturnData = new Tuple<string, LevelId, WarpIdentifier>(
+                        LocalizationManager.GetTranslation(HudMasterScript.instance.currentMapAreaScriptableObject
+                            .areaName), GameplayMaster.instance.levelId, WarpIdentifier.FromPlayerPosition);
+                }
+                catch (Exception e)
+                {
+                    // This can happen when multiple debug traps are queued, this is fine, it will reuse the existing one or fallback to hub spawn
+                    Plugin.BepinLogger.LogWarning(e);
+                }
+            }
+
+            // Debug level sometimes will spawn you in the middle of the ocean, quick fix
+            APPortalManager.QueuedSubwarp = new WarpIdentifier(new Vector3(0f, 0f, 0f), 0, 0, true, true,
+                "SoundtrackBombeach", "Background Sea and Sky");
+            SceneManager.LoadScene((int)Levels.Index.debug_level);
+        }
+
+        public static void ExitDebugArea()
+        {
+            if (ReturnData == null)
+            {
+                APMenuManager.ReturnToHubSpawn();
+                return;
+            }
+            TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, (int)LevelConverter.GetLevelIndex(ReturnData.Item2));
+            LoadingScreenScript.WelcomeSetup(ReturnData.Item2, ReturnData.Item1, 0, 0, false);
+            CheckpointScript.CheckpointDataReset();
+            GameplayMaster.SelfRespawnClear();
+            APPortalManager.QueuedSubwarp = ReturnData.Item3;
         }
     }
 }

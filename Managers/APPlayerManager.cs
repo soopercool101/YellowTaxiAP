@@ -10,8 +10,8 @@ namespace YellowTaxiAP.Managers
         public static int BoostLevel => Plugin.CheatsEnabled ? GlobalBoostItems : Plugin.SlotData.ShuffleFlipOWill switch
         {
             YTGVSlotData.MoveRandoType.Disabled => 2,
-            YTGVSlotData.MoveRandoType.PerLevel => PerLevelBoostItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
-            _ => GlobalBoostItems
+            YTGVSlotData.MoveRandoType.PerLevel => Plugin.IsInDebugScene ? 2 : PerLevelBoostItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
+            _ => Plugin.IsInDebugScene ? 2 : GlobalBoostItems
         };
         public static int GlobalBoostItems = 0;
 
@@ -43,8 +43,8 @@ namespace YellowTaxiAP.Managers
         public static int JumpLevel => Plugin.CheatsEnabled ? GlobalJumpItems : Plugin.SlotData.ShuffleFlipOWill switch
         {
             YTGVSlotData.MoveRandoType.Disabled => 2,
-            YTGVSlotData.MoveRandoType.PerLevel => PerLevelJumpItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
-            _ => GlobalJumpItems
+            YTGVSlotData.MoveRandoType.PerLevel => Plugin.IsInDebugScene ? 2 : PerLevelJumpItems[GameplayMaster.instance?.levelId ?? Data.LevelId.Hub],
+            _ => Plugin.IsInDebugScene ? 2 : GlobalJumpItems
         };
         public static int GlobalJumpItems = 0;
         public static Dictionary<Data.LevelId, int> PerLevelJumpItems = new()
@@ -112,9 +112,11 @@ namespace YellowTaxiAP.Managers
             On.PlayerScript.TaxiTextureInvincibleGet += PlayerScript_TaxiTextureInvincibleGet;
             On.PlayerScript.PlayerHatsRenderingUpdate += PlayerScript_PlayerHatsRenderingUpdate;
             On.PlayerScript.CurrentTaxiWheelsGet += PlayerScript_CurrentTaxiWheelsGet;
+            On.PlayerScript.InstantCameraSet += PlayerScript_InstantCameraSet;
 
             On.PlayerDamager.CollideWithPlayer += PlayerDamager_CollideWithPlayer;
 
+            //On.GameplayMaster.QuickDeathIsEnabled += GameplayMaster_QuickDeathIsEnabled;
             On.GameplayMaster.Die += GameplayMaster_Die;
 
             On.FlipAreaOfEffect.OnTriggerEnter += FlipAreaOfEffect_OnTriggerEnter;
@@ -123,6 +125,17 @@ namespace YellowTaxiAP.Managers
 
             // Don't reset pizza wheels!
             On.Master.CheatsOthers_Reset += _ => { };
+        }
+
+        // Start camera behind player in debug level
+        private void PlayerScript_InstantCameraSet(On.PlayerScript.orig_InstantCameraSet orig, PlayerScript self, float angleOffset)
+        {
+            orig(self, Plugin.IsInDebugScene ? 0 : angleOffset);
+        }
+
+        private bool GameplayMaster_QuickDeathIsEnabled(On.GameplayMaster.orig_QuickDeathIsEnabled orig)
+        {
+            return Plugin.IsInDebugScene || orig();
         }
 
         private void FlipAreaOfEffect_OnTriggerEnter(On.FlipAreaOfEffect.orig_OnTriggerEnter orig, FlipAreaOfEffect self, Collider other)

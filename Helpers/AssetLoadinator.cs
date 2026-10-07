@@ -19,6 +19,7 @@ namespace YellowTaxiAP.Helpers
         public static bool FullyLoaded { get; private set; }
 
         public static Dictionary<string, GameObject> SpecialBackgrounds { get; private set; } = new();
+        public static GameObject Gear { get; private set; }
 
         public static int level = 3;
         public static void LoadAssets()
@@ -27,7 +28,8 @@ namespace YellowTaxiAP.Helpers
                 return;
             var name = SceneManager.GetActiveScene().name;
             //Plugin.Log($"Scene: {name}");
-            LoadGenericImportantAssets(out _);
+            LoadGenericImportantAssets(out var assetMasters);
+            LoadSpecificImportantAssets(assetMasters);
 
             var nextLevel = ++level;
             // Skip Time trials past the first, don't need anything from them
@@ -51,15 +53,39 @@ namespace YellowTaxiAP.Helpers
             SceneManager.LoadScene(nextLevel);
         }
 
-        public static void LoadGenericImportantAssets(out List<AssetMaster> assetMasters)
+        public static void LoadSpecificImportantAssets(Dictionary<string, AssetMaster> assetMasters)
         {
-            assetMasters = [];
+            switch (level)
+            {
+                // Get a gear from time attack since there's less objects there so this is slightly faster
+                case (int)Levels.Index.level_time_attack_01:
+                    var gear = GameObject.FindGameObjectWithTag("Gear");
+                    gear.SetActive(false);
+                    gear.transform.SetParent(null);
+                    Object.DontDestroyOnLoad(gear);
+                    gear.GetComponent<BonusScript>().gearArrayIndex = 99;
+                    gear.transform.position = Vector3.zero;
+                    Gear = gear;
+                    Plugin.Log($"Loaded {Gear.name} as Gear");
+                    break;
+            }
+        }
+
+        public static void LoadGenericImportantAssets(out Dictionary<string, AssetMaster> assetMasters)
+        {
+            assetMasters = new Dictionary<string, AssetMaster>();
             var loadedAssets = 0;
 
             foreach (var assetMaster in Object.FindObjectsByType<AssetMaster>(FindObjectsInactive.Include,
                          FindObjectsSortMode.None))
             {
-                assetMasters.Add(assetMaster);
+                var key = assetMaster.name;
+                var attempt = 0;
+                while (assetMasters.ContainsKey(key))
+                {
+                    key = $"{assetMaster.name} ({++attempt})";
+                }
+                assetMasters.Add(key, assetMaster);
                 //Plugin.BepinLogger.LogMessage("=== Asset Master: " + assetMaster.name + " ===");
                 if (assetMaster.name.Contains("Specific"))
                 {

@@ -41,6 +41,7 @@ namespace YellowTaxiAP.Archipelago
         }
         public GoalType Goal { get; private set; }
 
+        public int ExpertLevel { get; private set; }
         public int TotalGears { get; private set; }
         public int TotalBunnies { get; private set; }
         public int GoalPortalCost { get; private set; }
@@ -268,6 +269,15 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for goal_portal_cost found");
+            }
+
+            if (slotData.ContainsKey("expert_level"))
+            {
+                ExpertLevel = (int)(long)slotData["expert_level"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for expert_level found");
             }
 
             if (slotData.ContainsKey("remove_goal_portal_locations"))

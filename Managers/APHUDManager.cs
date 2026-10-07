@@ -117,6 +117,7 @@ namespace YellowTaxiAP.Managers
         {
             if (!self.gearsText || !self.gearsText.gameObject.activeInHierarchy)
                 return;
+
             self.gearsOld = Data.gearsUnlockedNumber[Data.gameDataIndex];
             if (self.gearShowCollectAnimation)
             {
@@ -129,7 +130,11 @@ namespace YellowTaxiAP.Managers
                 self.gearsText.tmproText.rectTransform.anchoredPosition = new Vector2(2.5f, self.gearsText.tmproText.rectTransform.anchoredPosition.y);
             var text = string.Empty;
             self.gearsText.tmproText.characterSpacing = Mathf.Clamp((float)(-(self.areaGearsTotal - 10) / 5.0 * 20.0), -20f, 0.0f);
-            if (GameplayMaster.instance.timeAttackLevel)
+            if (Plugin.IsInDebugScene)
+            {
+                text = "<sprite name=\"QuestionMark\">";
+            }
+            else if (GameplayMaster.instance.timeAttackLevel)
             {
                 for (var index = 0; index < Master.instance.levelsGearsMaxNumber[(int)GameplayMaster.instance.levelId]; ++index)
                     text = index >= GameplayMaster.instance.levelCollectedGearsNumber ? text + "<sprite name=\"GearCounterOff\">" : text + "<sprite name=\"GearCounterOn\">";
@@ -188,7 +193,7 @@ namespace YellowTaxiAP.Managers
         private void HudMasterScript_Update(On.HudMasterScript.orig_Update orig, HudMasterScript self)
         {
             orig(self);
-            var canShowBunnies = self.CollectibleShouldBeVisible &&
+            var canShowBunnies = self.CollectibleShouldBeVisible && !Plugin.IsInDebugScene &&
                                  GameplayMaster.instance.levelId != Data.LevelId.L16_Rocket &&
                                  !(Data.IsLevelIdHub(GameplayMaster.instance.levelId) &&
                                    !MapArea.IsPlayerInsideLab()) && !HudEndGameScript.instance;

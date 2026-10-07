@@ -84,17 +84,20 @@ namespace YellowTaxiAP.Managers
         {
             if (GearAnimationScript.instance == self)
                 GearAnimationScript.instance = null;
-            HudMasterScript.instance.UpdateGearsText();
+            if (Plugin.IsInDebugScene)
+                DebugLevelTrap.ExitDebugArea();
+            else
+                HudMasterScript.instance.UpdateGearsText();
         }
 
         private void BonusScript_GearAlreadyPickedUpRefresh(On.BonusScript.orig_GearAlreadyPickedUpRefresh orig, BonusScript self)
         {
-            //if (GameplayMaster.instance.timeAttackLevel)
-            //{
-            //    self.gearHasPickedupUpTexture = false;
-            //    self.GearDaltonicTextureRefresh();
-            //    return;
-            //}
+            if (Plugin.IsInDebugScene)
+            {
+                self.gearHasPickedupUpTexture = false;
+                self.GetComponentInChildren<MeshRenderer>(true).sharedMaterial = self.gearDaltonicMaterial;
+                return;
+            }
 #if DEBUG
             if (DebugLocationHelper.Enabled)
             {
@@ -369,6 +372,22 @@ namespace YellowTaxiAP.Managers
 #endif
                     switch (pickup.myIdentity)
                     {
+                        case BonusScript.Identity.gear when Plugin.IsInDebugScene:
+                            pickup.pickupDelay = 5;
+                            Tick.Paused = true;
+                            var animObj = Spawn.FromPool("GearPickupAnimationObject",
+                                PlayerScript.instance.transform.position);
+                            var animComponent = animObj.GetComponent<GearAnimationScript>();
+                            animComponent.dialogueText = null;
+                            animComponent.newLevelGoBackHubQuestion = false;
+                            animComponent.newLevelSplashText1 = "Congratulations!";
+                            animComponent.newLevelSplashText2 = $"Returning to {DebugLevelTrap.ReturnData.Item1}";
+                            animComponent.newLevelSplashSound = "SoundNewLevelUnlockSplash";
+                            animComponent.initialGearCameraZoomOnPortal = false;
+                            animComponent.itWasANeverTakenGear = true;
+                            animComponent.gearMesh.sharedMaterial = pickup.gearDaltonicMaterial;
+                            pickup.KillMe();
+                            break;
                         case BonusScript.Identity.gear when id.HasValue:
                             pickup.pickupDelay = 5;
                             string str1 = null;

@@ -43,12 +43,17 @@ public class WarpIdentifier
     }
 
     public WarpIdentifier(LevelId levelId, Levels.Index targetLevel, LevelId targetLevelId, Vector3 startPosition, Vector3 moveTaxiHere,
-        float rotation, int zone, bool desiredLightState, bool desiredWaterState, string songChange, string backgroundChange, string mapAreaName = "")
+        float rotation, int zone, bool desiredLightState, bool desiredWaterState, string songChange, string backgroundChange)
+        : this(moveTaxiHere, rotation, zone, desiredLightState, desiredWaterState, songChange, backgroundChange)
     {
         OriginalLevelId = levelId;
         StartPosition = startPosition;
         OriginalTargetLevel = targetLevel;
         OriginalTargetLevelId = targetLevelId;
+    }
+
+    public WarpIdentifier(Vector3 moveTaxiHere, float rotation, int zone, bool desiredLightState, bool desiredWaterState, string songChange, string backgroundChange)
+    {
         MoveTaxiHere = moveTaxiHere;
         Rotation = rotation;
         Zone = zone;
@@ -62,6 +67,12 @@ public class WarpIdentifier
         new("Granny's Island - Morio's Lab Front Door", "Morio's Lab - Front Door", "", LevelId.Hub,
             Levels.Index.noone, LevelId.noone, new Vector3(80f, 20f, 0f), new Vector3(-750f, 10f, 680f), 0, 2, true,
             false, "SoundtrackHubInside", "Background Soffitto Laboratorio");
+
+
+    public static WarpIdentifier FromPlayerPosition => new(PlayerScript.instance.transform.position,
+        PlayerScript.instance.transform.GetYAngle(), ZoneMaster.currentZoneId,
+        LightDirectionalScript.instance?.myLight?.enabled ?? false, WaterScript.instance?.WaterEnable ?? false,
+        GameplayMaster.instance?.levelSoundtrack ?? "default", BackgroundMaster.instance?.name ?? "default");
 
     public static List<WarpIdentifier> KnownWarps = new()
     {
