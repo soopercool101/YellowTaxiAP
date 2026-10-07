@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
+using YellowTaxiAP.Helpers;
 
 namespace YellowTaxiAP.Managers
 {
@@ -215,24 +216,17 @@ namespace YellowTaxiAP.Managers
             {
                 return (CurrentTaxiSkin / 10) switch
                 {
+                    0 or 11 or 100 => self.taxiInvincibleAnimationTextures,
                     1 => self.taxiInvincibleAnimationBonesTextures,
                     2 => self.taxiInvincibleAnimationGoldenTextures,
                     3 => self.taxiPrototypeSkinInvincibleAnimationTextures,
-                    6 when GrannysTexture => [GrannysTexture, GrannysCorruptedTexture],
-                    _ => self.taxiInvincibleAnimationTextures
+                    6  => [TaxiSkins.GrannysTexture, TaxiSkins.GrannysCorruptedTexture],
+                    8 => [TaxiSkins.PoliceCarTexture, TaxiSkins.PoliceCarCorruptedTexture],
+                    _ => TaxiSkins.RegularCars
                 };
             }
             return orig(self);
         }
-
-        public static bool ExtraTaxiSkinsLoaded;
-        public static Texture2D AngryTaxiTexture;
-        public static Texture2D DestroyedTaxiTexture;
-        public static Texture2D GrannysTexture;
-        public static Texture2D GrannysCorruptedTexture;
-        public static Texture2D PinkFlamesTexture;
-        public static Texture2D PinkFlamesCorruptedTexture;
-        public static Texture2D CustomTaxiTexture;
 
         private Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
         {
@@ -243,13 +237,17 @@ namespace YellowTaxiAP.Managers
                     10 => self.taxiGlassAnimationBonesTextures,
                     20 => self.taxiGlassAnimationGoldenTextures,
                     30 => self.taxiPrototypeSkinGlassAnimationTextures,
-                    50 when AngryTaxiTexture => [AngryTaxiTexture],
-                    60 when GrannysTexture => [GrannysTexture],
-                    61 when GrannysCorruptedTexture => [GrannysCorruptedTexture],
-                    70 when PinkFlamesTexture => [PinkFlamesTexture],
-                    71 when PinkFlamesCorruptedTexture => [PinkFlamesCorruptedTexture],
-                    100 when DestroyedTaxiTexture => [DestroyedTaxiTexture],
-                    1000 when CustomTaxiTexture => [CustomTaxiTexture],
+                    50 => [TaxiSkins.AngryTaxiTexture],
+                    60 => [TaxiSkins.GrannysTexture],
+                    61 => [TaxiSkins.GrannysCorruptedTexture],
+                    70 => [TaxiSkins.PinkFlamesTexture],
+                    71 => [TaxiSkins.PinkFlamesCorruptedTexture],
+                    80 => [TaxiSkins.PoliceCarTexture],
+                    81 => [TaxiSkins.PoliceCarCorruptedTexture],
+                    90 => [TaxiSkins.StarsAndStripesTexture],
+                    100 => [TaxiSkins.DestroyedTaxiTexture],
+                    110 => [TaxiSkins.CityTaxiTexture],
+                    1000 when TaxiSkins.CustomTaxiTexture => [TaxiSkins.CustomTaxiTexture],
                     _ => []
                 };
                 if (textures.Length > 0)
@@ -268,6 +266,7 @@ namespace YellowTaxiAP.Managers
                     1 => self.taxiInvincibleAnimationBonesTextures,
                     2 => self.taxiInvincibleAnimationGoldenTextures,
                     3 => self.taxiPrototypeSkinInvincibleAnimationTextures,
+                    4 => TaxiSkins.RegularCars,
                     _ => self.taxiInvincibleAnimationTextures
                 };
 
@@ -430,11 +429,6 @@ namespace YellowTaxiAP.Managers
         }
 
         public static int CurrentTaxiSkin;
-
-        public static readonly int[] ValidDefaultSkins = [0, 1, 2, 3, 4];
-        public static readonly int[] ValidSkeletonSkins = [10, 11, 12, 13, 14, 15];
-        public static readonly int[] ValidGoldenSkins = [20, 21, 22, 23, 24];
-        public static readonly int[] ValidPrototypeSkins = [30, 31, 32, 33, 34, 35];
 
         public static bool IsCurrentHatSkin()
         {

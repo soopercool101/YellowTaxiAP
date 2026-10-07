@@ -194,18 +194,10 @@ namespace YellowTaxiAP.Managers
                 // Generate no entry signs where needed if needed
                 if (labDoorLocked || sewerDoorLocked)
                 {
-                    var originalSign = Object.FindObjectsOfType<MeshFilter>()
-                        .Last(o => o.gameObject.name.Equals("ModelObjectSign") && o.transform.parent.name.Equals("Sign Right"));
-                    var noSign = Object.FindObjectsOfType<DisableAreaScript_EventMode>()[0].enableThisAreaWhenActive[0].transform.GetChild(0);
-                    var noEntrySignTemplate = Object.Instantiate(originalSign.gameObject.transform.parent.gameObject, originalSign.transform.parent.parent);
-                    noEntrySignTemplate.GetComponentInChildren<MeshRenderer>().material = noSign.gameObject.GetComponent<MeshRenderer>().material;
-                    noEntrySignTemplate.transform.position = new Vector3(0, -10000, 0);
-                    noEntrySignTemplate.GetComponent<Collider>().enabled = false;
-
                     // Locked lab
                     if (labDoorLocked)
                     {
-                        var sign = Object.Instantiate(noEntrySignTemplate,
+                        var sign = Object.Instantiate(AssetLoadinator.NoEntrySign,
                             Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include,
                                 FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: -5   Z: 4")).transform);
                         sign.transform.localPosition = new Vector3(40, 10, 40);
@@ -224,7 +216,7 @@ namespace YellowTaxiAP.Managers
 
                     if (sewerDoorLocked)
                     {
-                        var sign = Object.Instantiate(noEntrySignTemplate,
+                        var sign = Object.Instantiate(AssetLoadinator.NoEntrySign,
                             Object.FindObjectsByType<ZoneMaster>(FindObjectsInactive.Include,
                                 FindObjectsSortMode.None).First(o => o.gameObject.name.Equals("ZM   X: 1   Z: -4")).transform);
                         sign.transform.localPosition = new Vector3(15, 10, -67);
@@ -237,58 +229,13 @@ namespace YellowTaxiAP.Managers
                         ];
                         //sign.transform.Rotate(0, 0, 0);
                     }
-
-                    Object.Destroy(noEntrySignTemplate);
                 }
             }
 
-            if (!APPlayerManager.ExtraTaxiSkinsLoaded)
+            // Custom taxi skin
+            if (!TaxiSkins.CustomTaxiTextureLoaded)
             {
-                APPlayerManager.ExtraTaxiSkinsLoaded = true;
-                // Angry car skin
-                try
-                {
-                    // Car Angry -> ModelHolder -> BaseVibration -> ModelCar
-                    APPlayerManager.AngryTaxiTexture = (Texture2D)AssetMaster.GetPrefab("Car Angry").transform.GetChild(0).GetChild(0)
-                        .GetChild(1).gameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
-                }
-                catch
-                {
-                    APPlayerManager.AngryTaxiTexture = null;
-                }
-
-                // Destroyed car skin
-                try
-                {
-                    // Car Angry -> ModelHolder -> BaseVibration -> ModelCarDestroyed
-                    APPlayerManager.DestroyedTaxiTexture = (Texture2D)AssetMaster.GetPrefab("Car1 Rullo").transform.GetChild(0).GetChild(0)
-                        .GetChild(2).gameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
-                }
-                catch
-                {
-                    APPlayerManager.DestroyedTaxiTexture = null;
-                }
-
-                // Granny's skins
-                try
-                {
-                    var grannysCar = Object.FindFirstObjectByType<GrandmaCarScript>(FindObjectsInactive.Include);
-                    var granny = grannysCar.grandmaCar.GetComponent<MeshRenderer>();
-                    APPlayerManager.GrannysTexture = (Texture2D)granny.materials[0].mainTexture;
-                    APPlayerManager.PinkFlamesTexture = (Texture2D)granny.materials[2].mainTexture;
-                    var corrupted = grannysCar.corruptedCar.GetComponent<MeshRenderer>();
-                    APPlayerManager.GrannysCorruptedTexture = (Texture2D)corrupted.materials[0].mainTexture;
-                    APPlayerManager.PinkFlamesCorruptedTexture = (Texture2D)corrupted.materials[2].mainTexture;
-                }
-                catch
-                {
-                    Plugin.Log("Granny Car Load Fail");
-                    APPlayerManager.GrannysTexture = APPlayerManager.PinkFlamesTexture =
-                        APPlayerManager.GrannysCorruptedTexture =
-                            APPlayerManager.PinkFlamesCorruptedTexture = null;
-                }
-
-                // Custom taxi skin
+                TaxiSkins.CustomTaxiTextureLoaded = true;
                 try
                 {
                     var path = Master.pathInfluencersGraphics + Plugin.SlotData.FunnyFaces + "Taxi.png";
@@ -297,85 +244,81 @@ namespace YellowTaxiAP.Managers
                         try
                         {
                             var data = File.ReadAllBytes(path);
-                            if (APPlayerManager.CustomTaxiTexture)
+                            if (TaxiSkins.CustomTaxiTexture)
                             {
-                                Object.Destroy(APPlayerManager.CustomTaxiTexture);
+                                Object.Destroy(TaxiSkins.CustomTaxiTexture);
                             }
 
-                            APPlayerManager.CustomTaxiTexture = new Texture2D(2, 2);
-                            APPlayerManager.CustomTaxiTexture.LoadImage(data);
-                            APPlayerManager.CustomTaxiTexture.filterMode = FilterMode.Point;
+                            TaxiSkins.CustomTaxiTexture = new Texture2D(2, 2);
+                            TaxiSkins.CustomTaxiTexture.LoadImage(data);
+                            TaxiSkins.CustomTaxiTexture.filterMode = FilterMode.Point;
                         }
                         catch
                         {
-                            APPlayerManager.CustomTaxiTexture = null;
+                            TaxiSkins.CustomTaxiTexture = null;
                         }
                     }
                     else
                     {
-                        APPlayerManager.CustomTaxiTexture = null;
+                        TaxiSkins.CustomTaxiTexture = null;
                     }
                 }
                 catch
                 {
-                    APPlayerManager.CustomTaxiTexture = null;
+                    TaxiSkins.CustomTaxiTexture = null;
                 }
             }
+
             if (Plugin.SlotData.TaxiSkin % 10 == 9)
             {
                 switch ((Plugin.SlotData.TaxiSkin - 9) / 10)
                 {
                     case 0:
                         APPlayerManager.CurrentTaxiSkin =
-                            APPlayerManager.ValidDefaultSkins[
-                                Random.RandomRangeInt(0, APPlayerManager.ValidDefaultSkins.Length)];
+                            TaxiSkins.ValidDefaultSkins[
+                                Random.RandomRangeInt(0, TaxiSkins.ValidDefaultSkins.Length)];
                         break;
                     case 1:
                         APPlayerManager.CurrentTaxiSkin =
-                            APPlayerManager.ValidSkeletonSkins[
-                                Random.RandomRangeInt(0, APPlayerManager.ValidSkeletonSkins.Length)];
+                            TaxiSkins.ValidSkeletonSkins[
+                                Random.RandomRangeInt(0, TaxiSkins.ValidSkeletonSkins.Length)];
                         break;
                     case 2:
                         APPlayerManager.CurrentTaxiSkin =
-                            APPlayerManager.ValidGoldenSkins[
-                                Random.RandomRangeInt(0, APPlayerManager.ValidGoldenSkins.Length)];
+                            TaxiSkins.ValidGoldenSkins[
+                                Random.RandomRangeInt(0, TaxiSkins.ValidGoldenSkins.Length)];
                         break;
                     case 3:
                         APPlayerManager.CurrentTaxiSkin =
-                            APPlayerManager.ValidPrototypeSkins[
-                                Random.RandomRangeInt(0, APPlayerManager.ValidPrototypeSkins.Length)];
+                            TaxiSkins.ValidPrototypeSkins[
+                                Random.RandomRangeInt(0, TaxiSkins.ValidPrototypeSkins.Length)];
+                        break;
+                    case 4:
+                        APPlayerManager.CurrentTaxiSkin =
+                            TaxiSkins.ValidCarSkins[
+                                Random.RandomRangeInt(0, TaxiSkins.ValidCarSkins.Length)];
                         break;
                     default:
                         var allList = new List<int>();
-                        allList.AddRange(APPlayerManager.ValidDefaultSkins);
-                        allList.AddRange(APPlayerManager.ValidSkeletonSkins);
-                        allList.AddRange(APPlayerManager.ValidGoldenSkins);
-                        allList.AddRange(APPlayerManager.ValidPrototypeSkins);
-                        if (APPlayerManager.AngryTaxiTexture)
-                        {
-                            allList.Add(50);
-                        }
-                        if (APPlayerManager.GrannysTexture)
-                        {
-                            allList.Add(60);
-                        }
-                        if (APPlayerManager.GrannysCorruptedTexture)
-                        {
-                            allList.Add(61);
-                        }
-                        if (APPlayerManager.PinkFlamesTexture)
-                        {
-                            allList.Add(70);
-                        }
-                        if (APPlayerManager.PinkFlamesCorruptedTexture)
-                        {
-                            allList.Add(71);
-                        }
-                        if (APPlayerManager.DestroyedTaxiTexture)
-                        {
-                            allList.Add(100);
-                        }
-                        if (APPlayerManager.CustomTaxiTexture)
+                        allList.AddRange(TaxiSkins.ValidDefaultSkins);
+                        allList.AddRange(TaxiSkins.ValidSkeletonSkins);
+                        allList.AddRange(TaxiSkins.ValidGoldenSkins);
+                        allList.AddRange(TaxiSkins.ValidPrototypeSkins);
+                        allList.AddRange(TaxiSkins.ValidCarSkins);
+                        allList.AddRange([
+                            50,
+                            60,
+                            61,
+                            70,
+                            71,
+                            80,
+                            81,
+                            90,
+                            100,
+                            110,
+                        ]);
+                        Plugin.Log("Vanilla game skins: " + allList.Count);
+                        if (TaxiSkins.CustomTaxiTexture)
                         {
                             allList.Add(1000);
                         }

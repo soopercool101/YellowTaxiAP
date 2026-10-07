@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,6 +20,7 @@ namespace YellowTaxiAP.Helpers
 
         public static Dictionary<string, GameObject> SpecialBackgrounds { get; private set; } = new();
         public static GameObject Gear { get; private set; }
+        public static GameObject NoEntrySign { get; private set; }
 
         public static int level = 3;
         public static void LoadAssets()
@@ -57,6 +58,68 @@ namespace YellowTaxiAP.Helpers
         {
             switch (level)
             {
+                // Hub has a few things that previously had to be loaded repeatedly. Do it on startup instead
+                case (int)Levels.Index.level_hub:
+                    // No entry sign
+                    var originalSign = Object.FindObjectsOfType<MeshFilter>()
+                        .Last(o => o.gameObject.name.Equals("ModelObjectSign") && o.transform.parent.name.Equals("Sign Right"));
+                    var noSign = Object.FindObjectsOfType<DisableAreaScript_EventMode>()[0].enableThisAreaWhenActive[0].transform.GetChild(0);
+                    originalSign.GetComponentInChildren<MeshRenderer>().material = noSign.gameObject.GetComponent<MeshRenderer>().material;
+                    var signObject = originalSign.transform.parent.gameObject;
+                    signObject.transform.parent = null;
+                    signObject.transform.position = new Vector3(0, -10000, 0);
+                    signObject.GetComponent<DetailScript>().enabled = false;
+                    signObject.GetComponent<Collider>().enabled = false;
+                    signObject.SetActive(false);
+                    Object.DontDestroyOnLoad(signObject);
+                    NoEntrySign = signObject;
+
+                    // Granny's Car Textures
+                    var grannysCar = Object.FindFirstObjectByType<GrandmaCarScript>(FindObjectsInactive.Include);
+                    var granny = grannysCar.grandmaCar.GetComponent<MeshRenderer>();
+                    TaxiSkins.GrannysTexture = granny.materials[0].mainTexture;
+                    TaxiSkins.PinkFlamesTexture = granny.materials[2].mainTexture;
+                    var corrupted = grannysCar.corruptedCar.GetComponent<MeshRenderer>();
+                    TaxiSkins.GrannysCorruptedTexture = corrupted.materials[0].mainTexture;
+                    TaxiSkins.PinkFlamesCorruptedTexture = corrupted.materials[2].mainTexture;
+                    TaxiSkins.AngryTaxiTexture = GetCarTexture(assetMasters["Asset Master ALL LEVELS"].prefabs.First(o => o.name.Equals("Car Angry")));
+                    break;
+                // Traffic in Maurizio's City is a superset of Pizza Time, so can take all the taxi skins needed from here
+                case (int)Levels.Index.level_City:
+                    // All car spawners are identical here for our purposes, so can just load whichever one is found first
+                    var spawner = GameObject.FindFirstObjectByType<CarSpawnerScript>(FindObjectsInactive.Include);
+                    var regularCars = new List<Texture>();
+                    foreach (var car in spawner.carsToSpawn)
+                    {
+                        // Regular cars
+                        if (car.name.StartsWith("Car1"))
+                        {
+                            regularCars.Add(GetCarTexture(car));
+                        }
+                        // Monster Truck (American Flag)
+                        else if (car.name.Equals("Car Monster Truck"))
+                        {
+                            TaxiSkins.StarsAndStripesTexture = GetCarTexture(car);
+                        }
+                        // Police Car
+                        else if (car.name.Equals("Car Police"))
+                        {
+                            TaxiSkins.PoliceCarTexture = GetCarTexture(car);
+                        }
+                        // City Taxi
+                        else if (car.name.Equals("Car Taxi Alternative"))
+                        {
+                            TaxiSkins.CityTaxiTexture = GetCarTexture(car);
+                        }
+                    }
+
+                    TaxiSkins.RegularCars = regularCars.ToArray();
+
+                    // All angry cars in this level are corrupted police
+                    TaxiSkins.PoliceCarCorruptedTexture =
+                        GetCarTexture(Object.FindFirstObjectByType<AngryCarScript>(FindObjectsInactive.Include).gameObject);
+
+                    break;
                 // Get a gear from time attack since there's less objects there so this is slightly faster
                 case (int)Levels.Index.level_time_attack_01:
                     var gear = GameObject.FindGameObjectWithTag("Gear");
@@ -69,6 +132,16 @@ namespace YellowTaxiAP.Helpers
                     Plugin.Log($"Loaded {Gear.name} as Gear");
                     break;
             }
+        }
+
+        // Most cars have the same basic tree, so can reuse this code to get the texture
+        public static Texture GetCarTexture(GameObject car)
+        {
+            return car.transform
+                .GetChild(0) // ModelHolder
+                .GetChild(0) // BaseVibration
+                .GetChild(1) // ModelCar
+                .gameObject.GetComponent<MeshRenderer>().sharedMaterial.mainTexture;
         }
 
         public static void LoadGenericImportantAssets(out Dictionary<string, AssetMaster> assetMasters)
@@ -122,6 +195,11 @@ namespace YellowTaxiAP.Helpers
                             {
                                 Plugin.BepinLogger.LogWarning(e);
                             }
+                        }
+
+                        if (TaxiSkins.DestroyedTaxiTexture == null && prefab.name.Equals("Car1 Rullo"))
+                        {
+                            TaxiSkins.DestroyedTaxiTexture = GetCarTexture(prefab);
                         }
                     }
 
