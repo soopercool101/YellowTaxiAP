@@ -25,20 +25,22 @@ namespace YellowTaxiAP.Helpers
         public static bool CustomTaxiTextureLoaded;
         public static Texture2D CustomTaxiTexture;
 
-        public static bool TaxiSkinEverLoaded;
+        public static bool TaxiSkinDoesntNeedReloading;
 
         public static void LoadTaxiSkin(bool showImmediately = false)
         {
-            // Random every flip taxi skin should only change when taxi skin is needed
-            if (Plugin.SlotData.TaxiSkin > 1000 && TaxiSkinEverLoaded)
+            if (TaxiSkinDoesntNeedReloading)
                 return;
-            TaxiSkinEverLoaded = true;
             if (Plugin.SlotData.TaxiSkin % 10 == 9)
             {
                 LoadRandomTaxiSkin(showImmediately);
+                // Random every flip taxi skin should only change when taxi skin is needed
+                if (Plugin.SlotData.TaxiSkin > 1000)
+                    TaxiSkinDoesntNeedReloading = true;
             }
             else
             {
+                TaxiSkinDoesntNeedReloading = true;
                 APPlayerManager.CurrentTaxiSkin = Plugin.SlotData.TaxiSkin;
                 if (showImmediately)
                     PlayerScript.PlayerHatsRenderingUpdate();
