@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Helpers
 {
@@ -22,5 +24,69 @@ namespace YellowTaxiAP.Helpers
         public static Texture CityTaxiTexture;
         public static bool CustomTaxiTextureLoaded;
         public static Texture2D CustomTaxiTexture;
+
+        public static void LoadTaxiSkin()
+        {
+            if (Plugin.SlotData.TaxiSkin % 10 == 9)
+            {
+                LoadRandomTaxiSkin();
+            }
+            else
+            {
+                APPlayerManager.CurrentTaxiSkin = Plugin.SlotData.TaxiSkin;
+            }
+        }
+
+        public static void LoadRandomTaxiSkin()
+        {
+            switch ((Plugin.SlotData.TaxiSkin % 1000 - 9) / 10)
+            {
+                case 0:
+                    APPlayerManager.CurrentTaxiSkin =
+                        ValidDefaultSkins[Random.RandomRangeInt(0, ValidDefaultSkins.Length)];
+                    break;
+                case 1:
+                    APPlayerManager.CurrentTaxiSkin =
+                        ValidSkeletonSkins[Random.RandomRangeInt(0, ValidSkeletonSkins.Length)];
+                    break;
+                case 2:
+                    APPlayerManager.CurrentTaxiSkin =
+                        ValidGoldenSkins[Random.RandomRangeInt(0, ValidGoldenSkins.Length)];
+                    break;
+                case 3:
+                    APPlayerManager.CurrentTaxiSkin =
+                        ValidPrototypeSkins[Random.RandomRangeInt(0, ValidPrototypeSkins.Length)];
+                    break;
+                case 4:
+                    APPlayerManager.CurrentTaxiSkin =
+                        ValidCarSkins[Random.RandomRangeInt(0, ValidCarSkins.Length)];
+                    break;
+                default:
+                    var allList = new List<int>();
+                    allList.AddRange(ValidDefaultSkins);
+                    allList.AddRange(ValidSkeletonSkins);
+                    allList.AddRange(ValidGoldenSkins);
+                    allList.AddRange(ValidPrototypeSkins);
+                    allList.AddRange(ValidCarSkins);
+                    allList.AddRange([
+                        50,
+                        60,
+                        61,
+                        70,
+                        71,
+                        80,
+                        81,
+                        90,
+                        100,
+                        110,
+                    ]);
+                    if (CustomTaxiTexture)
+                    {
+                        allList.Add(1000);
+                    }
+                    APPlayerManager.CurrentTaxiSkin = allList[Random.RandomRangeInt(0, allList.Count)];
+                    break;
+            }
+        }
     }
 }

@@ -269,67 +269,7 @@ namespace YellowTaxiAP.Managers
                 }
             }
 
-            if (Plugin.SlotData.TaxiSkin % 10 == 9)
-            {
-                switch ((Plugin.SlotData.TaxiSkin - 9) / 10)
-                {
-                    case 0:
-                        APPlayerManager.CurrentTaxiSkin =
-                            TaxiSkins.ValidDefaultSkins[
-                                Random.RandomRangeInt(0, TaxiSkins.ValidDefaultSkins.Length)];
-                        break;
-                    case 1:
-                        APPlayerManager.CurrentTaxiSkin =
-                            TaxiSkins.ValidSkeletonSkins[
-                                Random.RandomRangeInt(0, TaxiSkins.ValidSkeletonSkins.Length)];
-                        break;
-                    case 2:
-                        APPlayerManager.CurrentTaxiSkin =
-                            TaxiSkins.ValidGoldenSkins[
-                                Random.RandomRangeInt(0, TaxiSkins.ValidGoldenSkins.Length)];
-                        break;
-                    case 3:
-                        APPlayerManager.CurrentTaxiSkin =
-                            TaxiSkins.ValidPrototypeSkins[
-                                Random.RandomRangeInt(0, TaxiSkins.ValidPrototypeSkins.Length)];
-                        break;
-                    case 4:
-                        APPlayerManager.CurrentTaxiSkin =
-                            TaxiSkins.ValidCarSkins[
-                                Random.RandomRangeInt(0, TaxiSkins.ValidCarSkins.Length)];
-                        break;
-                    default:
-                        var allList = new List<int>();
-                        allList.AddRange(TaxiSkins.ValidDefaultSkins);
-                        allList.AddRange(TaxiSkins.ValidSkeletonSkins);
-                        allList.AddRange(TaxiSkins.ValidGoldenSkins);
-                        allList.AddRange(TaxiSkins.ValidPrototypeSkins);
-                        allList.AddRange(TaxiSkins.ValidCarSkins);
-                        allList.AddRange([
-                            50,
-                            60,
-                            61,
-                            70,
-                            71,
-                            80,
-                            81,
-                            90,
-                            100,
-                            110,
-                        ]);
-                        Plugin.Log("Vanilla game skins: " + allList.Count);
-                        if (TaxiSkins.CustomTaxiTexture)
-                        {
-                            allList.Add(1000);
-                        }
-                        APPlayerManager.CurrentTaxiSkin = allList[Random.RandomRangeInt(0, allList.Count)];
-                        break;
-                }
-            }
-            else
-            {
-                APPlayerManager.CurrentTaxiSkin = Plugin.SlotData.TaxiSkin;
-            }
+            TaxiSkins.LoadTaxiSkin();
             orig(self);
             APPlayerManager.UpdateSpinAttackTrails();
         }
