@@ -34,6 +34,17 @@ namespace YellowTaxiAP.Managers
             On.Colors.PortalTextureGet += Colors_PortalTextureGet;
             On.PsychoTaxiCabinetScript.Awake += PsychoTaxiCabinetScript_Awake;
             On.Game.OnLevelStart += Game_OnLevelStart;
+            On.PortalTransitionScript.FixedUpdate += PortalTransitionScript_FixedUpdate;
+        }
+
+        private void PortalTransitionScript_FixedUpdate(On.PortalTransitionScript.orig_FixedUpdate orig, PortalTransitionScript self)
+        {
+            var isOutro = self.outro;
+            orig(self);
+            if (isOutro != self.outro && Plugin.SlotData.TaxiSkin < 1000 && Plugin.SlotData.TaxiSkin % 10 == 9)
+            {
+                TaxiSkins.LoadRandomTaxiSkin(true);
+            }
         }
 
         private void PortalScript_Start(On.PortalScript.orig_Start orig, PortalScript self)

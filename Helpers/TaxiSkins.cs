@@ -25,19 +25,27 @@ namespace YellowTaxiAP.Helpers
         public static bool CustomTaxiTextureLoaded;
         public static Texture2D CustomTaxiTexture;
 
-        public static void LoadTaxiSkin()
+        public static bool TaxiSkinEverLoaded;
+
+        public static void LoadTaxiSkin(bool showImmediately = false)
         {
+            // Random every flip taxi skin should only change when taxi skin is needed
+            if (Plugin.SlotData.TaxiSkin > 1000 && TaxiSkinEverLoaded)
+                return;
+            TaxiSkinEverLoaded = true;
             if (Plugin.SlotData.TaxiSkin % 10 == 9)
             {
-                LoadRandomTaxiSkin();
+                LoadRandomTaxiSkin(showImmediately);
             }
             else
             {
                 APPlayerManager.CurrentTaxiSkin = Plugin.SlotData.TaxiSkin;
+                if (showImmediately)
+                    PlayerScript.PlayerHatsRenderingUpdate();
             }
         }
 
-        public static void LoadRandomTaxiSkin()
+        public static void LoadRandomTaxiSkin(bool showImmediately = false)
         {
             switch ((Plugin.SlotData.TaxiSkin % 1000 - 9) / 10)
             {
@@ -87,6 +95,8 @@ namespace YellowTaxiAP.Helpers
                     APPlayerManager.CurrentTaxiSkin = allList[Random.RandomRangeInt(0, allList.Count)];
                     break;
             }
+            if (showImmediately)
+                PlayerScript.PlayerHatsRenderingUpdate();
         }
     }
 }

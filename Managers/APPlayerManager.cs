@@ -231,7 +231,7 @@ namespace YellowTaxiAP.Managers
         private Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
         {
             if (Plugin.SlotData.TaxiSkin > 1000)
-                TaxiSkins.LoadTaxiSkin();
+                TaxiSkins.LoadRandomTaxiSkin();
             if (CurrentTaxiSkin > 0 && !IsCurrentHatSkin())
             {
                 var textures = CurrentTaxiSkin switch
