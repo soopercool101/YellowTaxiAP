@@ -42,6 +42,22 @@ namespace YellowTaxiAP.Managers
             On.CameraGame.UpdateRenderTextureToSettingsResolution += CameraGame_UpdateRenderTextureToSettingsResolution;
 
             On.IntroMasterScript.Awake += IntroMasterScript_Awake;
+            On.IntroMasterScript.Update += IntroMasterScript_Update;
+        }
+
+        private void IntroMasterScript_Update(On.IntroMasterScript.orig_Update orig, IntroMasterScript self)
+        {
+            if (self.panikIntroHolder.activeSelf)
+            {
+                self.introPanikCanSkip = true;
+            }
+
+            if (self.tagIntroHolder.activeSelf)
+            {
+                self.introTagCanSkip = true;
+            }
+
+            orig(self);
         }
 
         private void LoadingScreenScript_Awake(On.LoadingScreenScript.orig_Awake orig, LoadingScreenScript self)
