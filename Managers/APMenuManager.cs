@@ -500,7 +500,7 @@ namespace YellowTaxiAP.Managers
                     Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
                     if (Plugin.SlotData.StartInLab)
                     {
-                        APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                        APPortalManager.QueuedSubwarp = WarpInfo.LabStart;
                     }
                     self.GotoStoryScene();
                 }
@@ -545,7 +545,7 @@ namespace YellowTaxiAP.Managers
             GameplayMaster.SelfRespawnClear();
             if (Plugin.SlotData.StartInLab)
             {
-                APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                APPortalManager.QueuedSubwarp = WarpInfo.LabStart;
             }
         }
 

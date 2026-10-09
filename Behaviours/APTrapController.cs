@@ -1050,7 +1050,7 @@ namespace YellowTaxiAP.Behaviours
             GameplayMaster.SelfRespawnClear();
             if (Plugin.SlotData.StartInLab)
             {
-                APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                APPortalManager.QueuedSubwarp = WarpInfo.LabStart;
             }
         }
     }
@@ -1066,7 +1066,7 @@ namespace YellowTaxiAP.Behaviours
                 Data.lastHubPortalVisited[Data.gameDataIndex] = -1;
                 if (Plugin.SlotData.StartInLab)
                 {
-                    APPortalManager.QueuedSubwarp = WarpIdentifier.LabStart;
+                    APPortalManager.QueuedSubwarp = WarpInfo.LabStart;
                 }
             }
             else
@@ -1239,7 +1239,8 @@ namespace YellowTaxiAP.Behaviours
         public override string Name => "Debug Level Trap";
         public override bool ExtraActivationRequirements => !Plugin.IsInDebugScene;
 
-        public static Tuple<string, LevelId, WarpIdentifier> ReturnData;
+        public static Tuple<string, LevelId, WarpInfo> ReturnData;
+        public static WarpInfo PreviousQueuedSubwarp;
         public static Vector3 GearPosition;
 
         public static void SetGearPosition()
@@ -1294,9 +1295,9 @@ namespace YellowTaxiAP.Behaviours
             {
                 try
                 {
-                    ReturnData = new Tuple<string, LevelId, WarpIdentifier>(
-                        LocalizationManager.GetTranslation(HudMasterScript.instance.currentMapAreaScriptableObject
-                            .areaName), GameplayMaster.instance.levelId, WarpIdentifier.FromPlayerPosition);
+                    ReturnData = new Tuple<string, LevelId, WarpInfo>(
+                        LocalizationManager.GetTranslation(HudMasterScript.instance?.currentMapAreaScriptableObject?
+                            .areaName ?? levelDataList[(int)GameplayMaster.instance.levelId].levelName), GameplayMaster.instance.levelId, WarpInfo.FromPlayerPosition);
                 }
                 catch (Exception e)
                 {
@@ -1305,8 +1306,9 @@ namespace YellowTaxiAP.Behaviours
                 }
             }
 
+            PreviousQueuedSubwarp = APPortalManager.PreviousQueuedSubwarp;
             // Debug level sometimes will spawn you in the middle of the ocean, quick fix
-            APPortalManager.QueuedSubwarp = new WarpIdentifier(new Vector3(0f, 0f, 0f), 0, 0, true, true,
+            APPortalManager.QueuedSubwarp = new WarpInfo(new Vector3(0f, 0f, 0f), 0, 0, true, true,
                 "SoundtrackBombeach", "Background Sea and Sky");
             SceneManager.LoadScene((int)Levels.Index.debug_level);
         }
@@ -1323,6 +1325,7 @@ namespace YellowTaxiAP.Behaviours
             CheckpointScript.CheckpointDataReset();
             GameplayMaster.SelfRespawnClear();
             APPortalManager.QueuedSubwarp = ReturnData.Item3;
+            APPortalManager.PreviousQueuedSubwarp = PreviousQueuedSubwarp;
         }
     }
 }

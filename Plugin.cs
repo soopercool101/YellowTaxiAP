@@ -465,7 +465,7 @@ public class Plugin : BaseUnityPlugin
                 {
                     var knownWarpsStr = "";
                     var knownWarps = new List<string>();
-                    foreach (var warp in WarpIdentifier.KnownWarps)
+                    foreach (var warp in WarpInfo.KnownWarps)
                     {
                         if (!knownWarps.Contains(warp.LinkedExit))
                         {

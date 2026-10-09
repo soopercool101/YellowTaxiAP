@@ -76,7 +76,7 @@ namespace YellowTaxiAP.Managers
             CheckpointScript.latestBackground = GameplayMaster.selfRespawnRecordingDataList[0].currentBackground = QueuedSubwarp.BackgroundChange;
             CheckpointScript.latestCheckpointZoneId = GameplayMaster.selfRespawnRecordingDataList[0].currentZoneId = QueuedSubwarp.Zone;
             CheckpointScript.latestSoundtrack = GameplayMaster.selfRespawnRecordingDataList[0].currentMusic = QueuedSubwarp.SongChange;
-            CheckpointScript.latestCheckpointTimerSet = GameplayMaster.selfRespawnRecordingDataList[0].currentTimer = Mathf.Max(CheckpointScript.latestCheckpointTimerSet, GameplayMaster.instance.gameTimer, GameplayMaster.instance.gameTimerReset);
+            CheckpointScript.latestCheckpointTimerSet = GameplayMaster.selfRespawnRecordingDataList[0].currentTimer = QueuedSubwarp.CurrentTime; //Mathf.Max(CheckpointScript.latestCheckpointTimerSet, GameplayMaster.instance.gameTimer, GameplayMaster.instance.gameTimerReset);
             CheckpointScript.latestCheckpointWaterEnableState = GameplayMaster.selfRespawnRecordingDataList[0].waterState = WaterScript.instance && QueuedSubwarp.DesiredWaterState;
             CheckpointScript.latestCheckpointLightEnabledState = GameplayMaster.selfRespawnRecordingDataList[0].lightState = LightDirectionalScript.instance && QueuedSubwarp.DesiredLightState;
 
@@ -355,6 +355,8 @@ namespace YellowTaxiAP.Managers
             self.InstantCameraSet(0.0f);
             if (QueuedSubwarp.Zone >= 0)
                 ZoneMaster.currentZoneId = QueuedSubwarp.Zone;
+            if (QueuedSubwarp.CurrentTime >= 0)
+                GameplayMaster.instance.gameTimer = QueuedSubwarp.CurrentTime;
             self.TeleportComputeZoneMaster(self.transform);
         }
 
@@ -372,9 +374,9 @@ namespace YellowTaxiAP.Managers
             Plugin.Log("Portal Coroutine: Island to Lab");
             return orig(self);
         }
-        public static WarpIdentifier PreviousQueuedSubwarp { get; private set; }
-        private static WarpIdentifier _queuedSubwarp;
-        public static WarpIdentifier QueuedSubwarp
+        public static WarpInfo PreviousQueuedSubwarp { get; set; }
+        private static WarpInfo _queuedSubwarp;
+        public static WarpInfo QueuedSubwarp
         {
             get => _queuedSubwarp;
             set
@@ -384,9 +386,16 @@ namespace YellowTaxiAP.Managers
                 {
                     PreviousQueuedSubwarp = value;
                 }
-                return;
             }
+        }
 
+        /// <summary>
+        /// Sets queued subwarp without caching it for things like level restart
+        /// </summary>
+        public static WarpInfo TemporaryQueuedSubwarp
+        {
+            get => _queuedSubwarp;
+            set => _queuedSubwarp = value;
         }
 
         private void PortalScript_OnTriggerEnter(On.PortalScript.orig_OnTriggerEnter orig, PortalScript self, Collider other)
@@ -401,10 +410,10 @@ namespace YellowTaxiAP.Managers
                 return;
 #if DEBUG
             APDialogueManager.LastTalkedTo = null;
-            var originalWarp = WarpIdentifier.IdentifyOriginalWarp(self);
+            var originalWarp = WarpInfo.IdentifyOriginalWarp(self);
             Plugin.Log(originalWarp);
             var skipTaxiRisucchio = self.skipTaxiRisucchio || (self.targetLevel == Levels.Index.noone && self.kaizoLevelId == LevelId.noone);
-            if (WarpIdentifier.RedirectWarp(self))
+            if (WarpInfo.RedirectWarp(self))
             {
                 Plugin.Log("Warp redirected");
                 // Make sure that verification doesn't fail in orig. We've already verified the warp is valid!
