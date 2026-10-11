@@ -81,7 +81,8 @@ namespace YellowTaxiAP.Managers
             var levelSoundtrack = self.levelSoundtrack;
             var bossSoundtrack = self.bossSoundtrack;
             var radioSoundtracks = self.radioSountracks;
-            var isInBossOld = _isInBoss;
+            var needToClearBossMusic = false;
+            var needToClearLevelMusic = false;
             if (Plugin.SlotData.RandomizeMusic == YTGVSlotData.CosmeticLoadOption.Special ||
                 (Plugin.SlotData.RandomizeMusic == YTGVSlotData.CosmeticLoadOption.RandomEveryLoad &&
                  self.levelId == Data.LevelId.L20_PsychoTaxi))
@@ -162,7 +163,7 @@ namespace YellowTaxiAP.Managers
                     {
                         self.levelSoundtrack = GetRandomizedMusic();
                     } while (self.bossSoundtrack == self.levelSoundtrack);
-                    self.bossSoundtrack = string.Empty;
+                    needToClearBossMusic = true;
                     Plugin.Log($"Soundtrack re-randomized to: {self.levelSoundtrack}");
                 }
             }
@@ -191,6 +192,9 @@ namespace YellowTaxiAP.Managers
                     SetRadioTracks(self, self.radioSountracks[self.radioMusicIndex], _isInBoss);
                 }
             }
+
+            if (needToClearBossMusic)
+                self.bossSoundtrack = string.Empty;
             if (Plugin.SlotData.RandomizeMusic != YTGVSlotData.CosmeticLoadOption.Consistent)
                 return;
             self.levelSoundtrack = levelSoundtrack;
