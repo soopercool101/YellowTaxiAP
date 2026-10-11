@@ -228,10 +228,21 @@ namespace YellowTaxiAP.Managers
             return orig(self);
         }
 
+        private static bool _waitToRefreshSkin = false;
         private Texture[] PlayerScript_TaxiTextureGlassGet(On.PlayerScript.orig_TaxiTextureGlassGet orig, PlayerScript self)
         {
             if (Plugin.SlotData.TaxiSkin > 1000)
-                TaxiSkins.LoadRandomTaxiSkin();
+            {
+                if (self.animationTaxiGlassPlay && !_waitToRefreshSkin)
+                {
+                    TaxiSkins.LoadRandomTaxiSkin();
+                    _waitToRefreshSkin = true;
+                }
+                else if (!self.animationTaxiGlassPlay && self.flipOWill_CooldownTimer > 0)
+                {
+                    _waitToRefreshSkin = false;
+                }
+            }
             if (CurrentTaxiSkin > 0 && !IsCurrentHatSkin())
             {
                 var textures = CurrentTaxiSkin switch
