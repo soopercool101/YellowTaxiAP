@@ -128,6 +128,7 @@ namespace YellowTaxiAP.Helpers
                     Object.DontDestroyOnLoad(gear);
                     gear.GetComponent<BonusScript>().gearArrayIndex = 99;
                     gear.transform.position = Vector3.zero;
+                    gear.gameObject.name = "ModdedGear";
                     Gear = gear;
                     Plugin.Log($"Loaded {Gear.name} as Gear");
                     break;

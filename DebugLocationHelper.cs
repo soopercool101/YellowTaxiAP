@@ -3024,7 +3024,6 @@ namespace YellowTaxiAP
             { "4_03_00181", "Arcade Panik - Coin on Path to Arcade Zone #3" },
             { "4_03_00182", "Arcade Panik - Coin on Path to Arcade Zone #4" },
             { "4_03_00183", "Arcade Panik - Coin on Path to Arcade Zone #5" },
-            { "4_01_00018", "Arcade Panik - Gear - Left Switch Path" },
             { "4_01_00013", "Arcade Panik - Gear - Right Switch Path" },
             { "4_03_00188", "Arcade Panik - Coin on Button Before Arcade Zone #1" },
             { "4_03_00193", "Arcade Panik - Coin on Button Before Arcade Zone #2" },
@@ -3121,6 +3120,7 @@ namespace YellowTaxiAP
             { "4_21_00000", "Arcade Panik - Cheese in Crazy Ballz Area" },
             //{ "4_20_99999", "Arcade Panik - Psycho Taxi Cartridge" }, // Irrelevant to this, placed by special handling
             // Special Rules
+            { "4_01_00018", "Arcade Panik - Gear - Left Switch Path" },
             { "4_01_00017", "Arcade Panik - Gear - Green Pipe Above Big Bowling Back Door" },
             { "4_03_00205", "Arcade Panik - Chest Inside Go-Karts Bowling Ball Pipe" },
             { "4_02_00000", "Arcade Panik - Bunny - Above Go-Karts Bowling Ball Pipe" },
@@ -3356,6 +3356,7 @@ namespace YellowTaxiAP
 
         public static Dictionary<string, string> ArcadePanikSpecialRules = new()
         {
+            { "Arcade Panik - Gear - Left Switch Path", "X1/B1/J1" },
             { "Arcade Panik - Chest Inside Go-Karts Bowling Ball Pipe", "X2/J1 | X1+B1" }, // Can explosion jump off the nearby car with good timing
             { "Arcade Panik - Bunny - Above Go-Karts Bowling Ball Pipe", "B2+J1 | B1+J2 | X1+B1 & X3/J1" },
             { "Arcade Panik - Gear - Green Pipe Above Big Bowling Back Door", $"B1/J1 | X1 & {{{GetDescription(nameof(ArcadePanikPinballArea))}}}" },
@@ -4648,7 +4649,7 @@ namespace YellowTaxiAP
             { "Tosla Offices (Fifth Floor) - Gear - On Pillar", "PMB/PMJ" },
             { "Tosla Offices (Employees Only) - Coin on Right Path Above Spikes #1", "X1/PMJ/PMB" },
             { "Tosla Offices (Employees Only) - Coin on Right Path Above Spikes #2", "X3/PMJ/PMB" },
-            { "Tosla Square - Bunny - On High Building", "B2 & X1/J1" },
+            { "Tosla Square - Bunny - On High Building", "B2 | X1+B1+J1" },
         };
 
         #endregion
@@ -6811,6 +6812,406 @@ namespace YellowTaxiAP
 
         #endregion
 
+        #region Morio's Mind
+
+        [Description("Morio's Mind - Starting Area")]
+        public static Dictionary<string, string> MoriosMindStartingArea = new()
+        {
+            { "12_09_00405", "Morio's Mind - Checkpoint Near Start" },
+            { "12_21_00004", "Morio's Mind - Cheese Near Start" }
+        };
+
+        [Description("Morio's Mind - Starting Area (Laser Range)")]
+        public static Dictionary<string, string> MoriosMindStartingAreaLaserRange = new()
+        {
+            { "12_03_00016", "Morio's Mind - Coin on Path Left of Start #1" },
+            { "12_03_00017", "Morio's Mind - Coin on Path Left of Start #2" },
+            { "12_03_00018", "Morio's Mind - Coin on Path Left of Start #3" },
+            { "12_03_00019", "Morio's Mind - Coin on Path Left of Start #4" },
+            { "12_03_00020", "Morio's Mind - Coin on Path Left of Start #5" },
+            { "12_03_00021", "Morio's Mind - Coin on Path Left of Start #6" },
+            { "12_03_00022", "Morio's Mind - Coin on Path Left of Start #7" },
+            { "12_03_00023", "Morio's Mind - Coin on Path Left of Start #8" },
+            { "12_03_00024", "Morio's Mind - Coin on Path Left of Start #9" },
+            { "12_03_00025", "Morio's Mind - Coin on Path Left of Start #10" },
+            { "12_03_00141", "Morio's Mind - Coin on Path Left of Start #33" },
+            { "12_03_00142", "Morio's Mind - Coin on Path Left of Start #34" },
+            { "12_03_00143", "Morio's Mind - Coin on Path Left of Start #35" },
+            { "12_03_00144", "Morio's Mind - Coin on Path Left of Start #36" },
+            { "12_03_00145", "Morio's Mind - Coin on Path Left of Start #37" },
+            { "12_03_00146", "Morio's Mind - Coin on Path Left of Start #38" },
+            { "12_03_00147", "Morio's Mind - Coin on Path Left of Start #39" },
+            { "12_03_00148", "Morio's Mind - Coin on Path Left of Start #40" },
+            { "12_03_00149", "Morio's Mind - Coin on Path Left of Start #41" },
+            { "12_03_00150", "Morio's Mind - Coin on Path Left of Start #42" },
+            { "12_09_00285", "Morio's Mind - Checkpoint on Left Side Path Midway Point" },
+            { "12_21_00000", "Morio's Mind - Cheese on Left Side Path Midway Point" },
+            { "12_01_00005", "Morio's Mind - Gear - Left Side Path Midway Point" },
+            { "12_03_00151", "Morio's Mind - Coin on Left Side Path Midway Point Ramp to Inner Ring #1" },
+            { "12_03_00192", "Morio's Mind - Coin on Left Side Path Midway Point Ramp to Inner Ring #2" },
+            { "12_03_00223", "Morio's Mind - Coin on Left Side Path Midway Point Ramp to Inner Ring #3" },
+            { "12_03_00241", "Morio's Mind - Coin on Left Side Path Midway Point Ramp to Inner Ring #4" },
+            { "12_03_00244", "Morio's Mind - Coin on Left Side Path Midway Point Ramp to Inner Ring #5" },
+            { "12_03_00246", "Morio's Mind - Coin on Bed Near Left Side Path Midway Point #1" },
+            { "12_03_00270", "Morio's Mind - Coin on Bed Near Left Side Path Midway Point #2" },
+            { "12_03_00272", "Morio's Mind - Coin on Bed Near Left Side Path Midway Point #3" },
+            { "12_03_00154", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #1" },
+            { "12_03_00157", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #2" },
+            { "12_03_00160", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #3" },
+            { "12_03_00156", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #4" },
+            { "12_03_00163", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #5" },
+            { "12_03_00159", "Morio's Mind - Chest on Cloud on Left Path After Midway Point" },
+            { "12_03_00155", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #6" },
+            { "12_03_00162", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #7" },
+            { "12_03_00158", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #8" },
+            { "12_03_00161", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #9" },
+            { "12_03_00164", "Morio's Mind - Coin on Cloud on Left Path After Midway Point #10" },
+            { "12_03_00031", "Morio's Mind - Coin on Path Forward From Start #1" },
+            { "12_03_00032", "Morio's Mind - Coin on Path Forward From Start #2" },
+            { "12_03_00033", "Morio's Mind - Coin on Path Forward From Start #3" },
+            { "12_03_00034", "Morio's Mind - Coin on Path Forward From Start #4" },
+            { "12_03_00036", "Morio's Mind - Coin on Path Forward From Start #5" },
+            { "12_03_00038", "Morio's Mind - Coin on Path Forward From Start #6" },
+            { "12_03_00040", "Morio's Mind - Coin on Path Forward From Start #7" },
+            { "12_21_00002", "Morio's Mind - Cheese on Path Forward From Start" },
+            { "12_03_00043", "Morio's Mind - Coin on Path Forward From Start #8" },
+            { "12_03_00044", "Morio's Mind - Coin on Path Forward From Start #9" },
+            { "12_03_00045", "Morio's Mind - Coin on Path Forward From Start #10" },
+            { "12_03_00046", "Morio's Mind - Coin on Path Forward From Start #11" },
+            { "12_03_00047", "Morio's Mind - Coin on Path Forward From Start #12" },
+            { "12_03_00048", "Morio's Mind - Coin on Path Forward From Start #13" },
+            { "12_03_00049", "Morio's Mind - Coin on Path Forward From Start #14" },
+            { "12_03_00050", "Morio's Mind - Coin on Path Forward From Start #15" },
+            { "12_03_00051", "Morio's Mind - Coin on Path Forward From Start #16" },
+            { "12_03_00052", "Morio's Mind - Coin on Path Forward From Start #17" },
+            { "12_03_00053", "Morio's Mind - Coin on Path Forward From Start #18" },
+            { "12_03_00054", "Morio's Mind - Coin on Path Forward From Start #19" },
+            { "12_03_00055", "Morio's Mind - Coin on Path Forward From Start #20" },
+            { "12_03_00056", "Morio's Mind - Coin on Path Forward From Start #21" },
+            { "12_03_00057", "Morio's Mind - Coin on Path Forward From Start #22" },
+            { "12_03_00058", "Morio's Mind - Coin on Path Forward From Start #23" },
+            { "12_03_00059", "Morio's Mind - Coin on Path Forward From Start #24" },
+            { "12_03_00075", "Morio's Mind - Coin on Path Forward From Start #25" },
+            { "12_03_00074", "Morio's Mind - Coin on Path Forward From Start #26" },
+            { "12_03_00073", "Morio's Mind - Coin on Path Forward From Start #27" },
+            { "12_03_00072", "Morio's Mind - Coin on Path Forward From Start #28" },
+            { "12_03_00071", "Morio's Mind - Coin on Path Forward From Start #29" },
+            { "12_01_00000", "Morio's Mind - Gear - Path Forward From Start" },
+            { "12_03_00015", "Morio's Mind - Coin on Path Right of Start #1" },
+            { "12_03_00014", "Morio's Mind - Coin on Path Right of Start #2" },
+            { "12_03_00013", "Morio's Mind - Coin on Path Right of Start #3" },
+            { "12_03_00012", "Morio's Mind - Coin on Path Right of Start #4" },
+            { "12_03_00011", "Morio's Mind - Coin on Path Right of Start #5" },
+            { "12_03_00010", "Morio's Mind - Coin on Path Right of Start #6" },
+            { "12_03_00009", "Morio's Mind - Coin on Path Right of Start #7" },
+            { "12_03_00008", "Morio's Mind - Coin on Path Right of Start #8" },
+            { "12_03_00007", "Morio's Mind - Coin on Path Right of Start #9" },
+            { "12_03_00006", "Morio's Mind - Coin on Path Right of Start #10" },
+            { "12_03_00005", "Morio's Mind - Coin on Path Right of Start #11" },
+            { "12_03_00004", "Morio's Mind - Coin on Path Right of Start #12" },
+            { "12_03_00003", "Morio's Mind - Coin on Path Right of Start #13" },
+            { "12_03_00002", "Morio's Mind - Coin on Path Right of Start #14" },
+            { "12_03_00001", "Morio's Mind - Coin on Path Right of Start #15" },
+            { "12_03_00000", "Morio's Mind - Coin on Path Right of Start #16" },
+            { "12_03_00102", "Morio's Mind - Coin on First Cloud on Right Path #1" },
+            { "12_03_00105", "Morio's Mind - Coin on First Cloud on Right Path #2" },
+            { "12_03_00108", "Morio's Mind - Coin on First Cloud on Right Path #3" },
+            { "12_03_00103", "Morio's Mind - Coin on First Cloud on Right Path #4" },
+            { "12_03_00109", "Morio's Mind - Coin on First Cloud on Right Path #5" },
+            { "12_03_00104", "Morio's Mind - Coin on First Cloud on Right Path #6" },
+            { "12_03_00107", "Morio's Mind - Coin on First Cloud on Right Path #7" },
+            { "12_03_00110", "Morio's Mind - Coin on First Cloud on Right Path #8" },
+            { "12_03_00111", "Morio's Mind - Coin on Second Cloud on Right Path #1" },
+            { "12_03_00114", "Morio's Mind - Coin on Second Cloud on Right Path #2" },
+            { "12_03_00117", "Morio's Mind - Coin on Second Cloud on Right Path #3" },
+            { "12_03_00112", "Morio's Mind - Coin on Second Cloud on Right Path #4" },
+            { "12_03_00118", "Morio's Mind - Coin on Second Cloud on Right Path #5" },
+            { "12_03_00113", "Morio's Mind - Coin on Second Cloud on Right Path #6" },
+            { "12_03_00116", "Morio's Mind - Coin on Second Cloud on Right Path #7" },
+            { "12_03_00119", "Morio's Mind - Coin on Second Cloud on Right Path #8" },
+            { "12_03_00120", "Morio's Mind - Coin on Path Right of Start #17" },
+            { "12_03_00121", "Morio's Mind - Coin on Path Right of Start #18" },
+            { "12_03_00126", "Morio's Mind - Coin on Path Right of Start #19" },
+            { "12_03_00134", "Morio's Mind - Coin on Path Right of Start #20" },
+            { "12_03_00138", "Morio's Mind - Coin on Path Right of Start #21" },
+            { "12_03_00139", "Morio's Mind - Coin on Path Right of Start #22" },
+            { "12_03_00140", "Morio's Mind - Coin on Path Right of Start #23" },
+            { "12_03_00133", "Morio's Mind - Coin on Third Cloud on Right Path #1" },
+            { "12_03_00132", "Morio's Mind - Coin on Third Cloud on Right Path #2" },
+            { "12_03_00131", "Morio's Mind - Coin on Third Cloud on Right Path #3" },
+            { "12_03_00130", "Morio's Mind - Coin on Third Cloud on Right Path #4" },
+            { "12_03_00137", "Morio's Mind - Coin on Third Cloud on Right Path #5" },
+            { "12_03_00129", "Morio's Mind - Coin on Third Cloud on Right Path #6" },
+            { "12_03_00125", "Morio's Mind - Coin on Third Cloud on Right Path #7" },
+            { "12_03_00136", "Morio's Mind - Coin on Third Cloud on Right Path #8" },
+            { "12_03_00124", "Morio's Mind - Coin on Third Cloud on Right Path #9" },
+            { "12_03_00135", "Morio's Mind - Coin on Third Cloud on Right Path #10" },
+            { "12_03_00127", "Morio's Mind - Coin on Third Cloud on Right Path #11" },
+            { "12_03_00123", "Morio's Mind - Coin on Third Cloud on Right Path #12" },
+            { "12_03_00060", "Morio's Mind - Coin on Path Right of Start #24" },
+            { "12_03_00061", "Morio's Mind - Coin on Path Right of Start #25" },
+            { "12_03_00062", "Morio's Mind - Coin on Path Right of Start #26" },
+            { "12_03_00063", "Morio's Mind - Coin on Path Right of Start #27" },
+            { "12_03_00064", "Morio's Mind - Coin on Path Right of Start #28" },
+            { "12_03_00065", "Morio's Mind - Coin on Path Right of Start #29" },
+            { "12_03_00066", "Morio's Mind - Coin on Path Right of Start #30" },
+            { "12_03_00067", "Morio's Mind - Coin on Path Right of Start #31" },
+            { "12_03_00068", "Morio's Mind - Coin on Path Right of Start #32" },
+            { "12_03_00069", "Morio's Mind - Coin on Path Right of Start #33" },
+            { "12_03_00076", "Morio's Mind - Coin on Path Right of Start #34" },
+            { "12_03_00077", "Morio's Mind - Coin on Path Right of Start #35" },
+            { "12_03_00078", "Morio's Mind - Coin on Path Right of Start #36" },
+            { "12_03_00079", "Morio's Mind - Coin on Path Right of Start #37" },
+            { "12_03_00080", "Morio's Mind - Coin on Path Right of Start #38" },
+            { "12_03_00081", "Morio's Mind - Coin on Path Right of Start #39" },
+            { "12_03_00082", "Morio's Mind - Coin on Path Right of Start #40" },
+            { "12_03_00083", "Morio's Mind - Coin on Path Right of Start #41" },
+            { "12_03_00084", "Morio's Mind - Coin on Path Right of Start #42" },
+            { "12_03_00085", "Morio's Mind - Coin on Path Right of Start #43" },
+            { "12_03_00086", "Morio's Mind - Coin on Path Right of Start #44" },
+            { "12_03_00087", "Morio's Mind - Coin on Path Right of Start #45" },
+            { "12_03_00088", "Morio's Mind - Coin on Path Right of Start #46" },
+            { "12_03_00089", "Morio's Mind - Coin on Path Right of Start #47" },
+            { "12_03_00090", "Morio's Mind - Coin on Path Right of Start #48" },
+            { "12_03_00091", "Morio's Mind - Coin on Path Right of Start #49" },
+            { "12_03_00092", "Morio's Mind - Coin on Path Right of Start #50" },
+            { "12_03_00093", "Morio's Mind - Coin on Path Right of Start #51" },
+            { "12_03_00094", "Morio's Mind - Coin on Path Right of Start #52" },
+            { "12_03_00095", "Morio's Mind - Coin on Path Right of Start #53" },
+            { "12_03_00096", "Morio's Mind - Coin on Path Right of Start #54" },
+            { "12_03_00097", "Morio's Mind - Coin on Path Right of Start #55" },
+            { "12_03_00098", "Morio's Mind - Coin on Path Right of Start #56" },
+            { "12_09_00170", "Morio's Mind - Checkpoint on Right Side Path Midway Point" },
+            { "12_21_00001", "Morio's Mind - Cheese on Right Side Path Midway Point" },
+            { "12_01_00007", "Morio's Mind - Gear - Right Side Path Midway Point" },
+            { "12_03_00100", "Morio's Mind - Coin on Right Side Path Midway Point Ramp to Inner Ring #1" },
+            { "12_03_00101", "Morio's Mind - Coin on Right Side Path Midway Point Ramp to Inner Ring #2" },
+            { "12_03_00153", "Morio's Mind - Coin on Right Side Path Midway Point Ramp to Inner Ring #3" },
+            { "12_03_00193", "Morio's Mind - Coin on Right Side Path Midway Point Ramp to Inner Ring #4" },
+            { "12_03_00224", "Morio's Mind - Coin on Right Side Path Midway Point Ramp to Inner Ring #5" },
+            { "12_03_00242", "Morio's Mind - Coin on Bed Near Right Side Path Midway Point #1" },
+            { "12_03_00245", "Morio's Mind - Coin on Bed Near Right Side Path Midway Point #2" },
+            { "12_03_00247", "Morio's Mind - Coin on Bed Near Right Side Path Midway Point #3" },
+            { "12_03_00168", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #1" },
+            { "12_03_00165", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #2" },
+            { "12_03_00169", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #3" },
+            { "12_03_00173", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #4" },
+            { "12_03_00166", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #5" },
+            { "12_03_00170", "Morio's Mind - Chest on Cloud on Right Path After Midway Point" },
+            { "12_03_00174", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #6" },
+            { "12_03_00167", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #7" },
+            { "12_03_00171", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #8" },
+            { "12_03_00175", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #9" },
+            { "12_03_00172", "Morio's Mind - Coin on Cloud on Right Path After Midway Point #10" },
+            { "12_03_00239", "Morio's Mind - Coin on Inner Left Lower Cloud Path #1" },
+            { "12_03_00238", "Morio's Mind - Coin on Inner Left Lower Cloud Path #2" },
+            { "12_03_00237", "Morio's Mind - Coin on Inner Left Lower Cloud Path #3" },
+            { "12_03_00236", "Morio's Mind - Coin on Inner Left Lower Cloud Path #4" },
+            { "12_03_00235", "Morio's Mind - Coin on Inner Left Lower Cloud Path #5" },
+            { "12_03_00234", "Morio's Mind - Coin on Inner Left Lower Cloud Path #6" },
+            { "12_03_00233", "Morio's Mind - Coin on Inner Left Lower Cloud Path #7" },
+            { "12_03_00232", "Morio's Mind - Coin on Inner Left Lower Cloud Path #8" },
+            { "12_03_00231", "Morio's Mind - Coin on Inner Left Lower Cloud Path #9" },
+            { "12_03_00230", "Morio's Mind - Coin on Inner Left Lower Cloud Path #10" },
+            { "12_03_00229", "Morio's Mind - Coin on Inner Left Lower Cloud Path #11" },
+            { "12_03_00228", "Morio's Mind - Chest on Inner Left Lower Cloud Path" },
+            { "12_07_00028", "Purchase Morio's Brain Hat" },
+            { "12_03_00249", "Morio's Mind - Coin on Inner Left Middle Cloud Path #1" },
+            { "12_03_00251", "Morio's Mind - Coin on Inner Left Middle Cloud Path #2" },
+            { "12_03_00253", "Morio's Mind - Coin on Inner Left Middle Cloud Path #3" },
+            { "12_03_00255", "Morio's Mind - Coin on Inner Left Middle Cloud Path #4" },
+            { "12_03_00257", "Morio's Mind - Coin on Inner Left Middle Cloud Path #5" },
+            { "12_03_00259", "Morio's Mind - Coin on Inner Left Middle Cloud Path #6" },
+            { "12_03_00261", "Morio's Mind - Coin on Inner Left Middle Cloud Path #7" },
+            { "12_03_00263", "Morio's Mind - Coin on Inner Left Middle Cloud Path #8" },
+            { "12_03_00265", "Morio's Mind - Coin on Inner Left Middle Cloud Path #9" },
+            { "12_03_00267", "Morio's Mind - Coin on Inner Left Middle Cloud Path #10" },
+            { "12_01_00008", "Morio's Mind - Gear - Right of Password" },
+            { "12_03_00321", "Morio's Mind - Coin on Cloud Platform Right of Password #1" },
+            { "12_03_00320", "Morio's Mind - Coin on Cloud Platform Right of Password #2" },
+            { "12_03_00319", "Morio's Mind - Coin on Cloud Platform Right of Password #3" },
+            { "12_03_00318", "Morio's Mind - Coin on Cloud Platform Right of Password #4" },
+            { "12_03_00317", "Morio's Mind - Coin on Cloud Platform Right of Password #5" },
+            { "12_03_00316", "Morio's Mind - Coin on Cloud Platform Right of Password #6" },
+            { "12_03_00315", "Morio's Mind - Coin on Cloud Platform Right of Password #7" },
+            { "12_03_00314", "Morio's Mind - Coin on Cloud Platform Right of Password #8" },
+            { "12_03_00313", "Morio's Mind - Coin on Cloud Platform Right of Password #9" },
+            { "12_03_00312", "Morio's Mind - Coin on Cloud Platform Right of Password #10" },
+            { "12_03_00311", "Morio's Mind - Coin on Cloud Platform Right of Password #11" },
+            { "12_03_00310", "Morio's Mind - Coin on Cloud Platform Right of Password #12" },
+            { "12_03_00309", "Morio's Mind - Coin on Cloud Platform Right of Password #13" },
+            { "12_03_00308", "Morio's Mind - Coin on Cloud Platform Right of Password #14" },
+            { "12_03_00307", "Morio's Mind - Coin on Cloud Platform Right of Password #15" },
+            { "12_03_00209", "Morio's Mind - Coin on Inner Right Lower Cloud Path #1" },
+            { "12_03_00208", "Morio's Mind - Coin on Inner Right Lower Cloud Path #2" },
+            { "12_03_00207", "Morio's Mind - Coin on Inner Right Lower Cloud Path #3" },
+            { "12_03_00206", "Morio's Mind - Coin on Inner Right Lower Cloud Path #4" },
+            { "12_03_00205", "Morio's Mind - Coin on Inner Right Lower Cloud Path #5" },
+            { "12_03_00204", "Morio's Mind - Coin on Inner Right Lower Cloud Path #6" },
+            { "12_03_00203", "Morio's Mind - Coin on Inner Right Lower Cloud Path #7" },
+            { "12_03_00202", "Morio's Mind - Coin on Inner Right Lower Cloud Path #8" },
+            { "12_03_00201", "Morio's Mind - Coin on Inner Right Lower Cloud Path #9" },
+            { "12_03_00199", "Morio's Mind - Coin on Inner Right Lower Cloud Path #10" },
+            { "12_03_00198", "Morio's Mind - Coin on Inner Right Lower Cloud Path #11" },
+            { "12_03_00197", "Morio's Mind - Coin on Inner Right Lower Cloud Path #12" },
+            { "12_03_00196", "Morio's Mind - Coin on Inner Right Lower Cloud Path #13" },
+            { "12_03_00195", "Morio's Mind - Coin on Inner Right Lower Cloud Path #14" },
+            { "12_03_00194", "Morio's Mind - Chest on Inner Right Lower Cloud Path" },
+            { "12_07_00029", "Purchase Heart Hat" },
+            { "12_03_00248", "Morio's Mind - Coin on Inner Right Upper Cloud Path #1" },
+            { "12_03_00250", "Morio's Mind - Coin on Inner Right Upper Cloud Path #2" },
+            { "12_03_00252", "Morio's Mind - Coin on Inner Right Upper Cloud Path #3" },
+            { "12_03_00254", "Morio's Mind - Coin on Inner Right Upper Cloud Path #4" },
+            { "12_03_00256", "Morio's Mind - Coin on Inner Right Upper Cloud Path #5" },
+            { "12_03_00258", "Morio's Mind - Coin on Inner Right Upper Cloud Path #6" },
+            { "12_03_00260", "Morio's Mind - Coin on Inner Right Upper Cloud Path #7" },
+            { "12_03_00262", "Morio's Mind - Coin on Inner Right Upper Cloud Path #8" },
+            { "12_03_00264", "Morio's Mind - Coin on Inner Right Upper Cloud Path #9" },
+            { "12_03_00266", "Morio's Mind - Coin on Inner Right Upper Cloud Path #10" },
+            { "12_01_00009", "Morio's Mind - Gear - Left of Password" },
+            { "12_03_00299", "Morio's Mind - Coin on Beds Left of Password #1" },
+            { "12_03_00303", "Morio's Mind - Coin on Beds Left of Password #2" },
+            { "12_03_00323", "Morio's Mind - Coin on Beds Left of Password #3" },
+            { "12_03_00300", "Morio's Mind - Coin on Beds Left of Password #4" },
+            { "12_03_00304", "Morio's Mind - Coin on Beds Left of Password #5" },
+            { "12_03_00324", "Morio's Mind - Coin on Beds Left of Password #6" },
+            { "12_03_00301", "Morio's Mind - Coin on Beds Left of Password #7" },
+            { "12_03_00305", "Morio's Mind - Coin on Beds Left of Password #8" },
+            { "12_03_00325", "Morio's Mind - Coin on Beds Left of Password #9" },
+            { "12_03_00302", "Morio's Mind - Coin on Beds Left of Password #10" },
+            { "12_03_00306", "Morio's Mind - Coin on Beds Left of Password #11" },
+            { "12_03_00326", "Morio's Mind - Coin on Beds Left of Password #12" },
+            { "12_01_00006", "Morio's Mind - Gear - Behind Laser Walls Above Right Path" },
+            { "12_02_00001", "Morio's Mind - Bunny - In Air on Right Path" },
+            { "12_02_00002", "Morio's Mind - Bunny - Near Password Platform" },
+        };
+
+        [Description("Morio's Mind - High Ground Near Start")]
+        public static Dictionary<string, string> MoriosMindHighGroundNearStart = new()
+        {
+            { "12_03_00191", "Morio's Mind - Coin Bag on Left Starting Area Wall #1" },
+            { "12_03_00189", "Morio's Mind - Coin Bag on Left Starting Area Wall #2" },
+            { "12_03_00188", "Morio's Mind - Coin Bag on Right Starting Area Wall #1" },
+            { "12_03_00186", "Morio's Mind - Coin Bag on Right Starting Area Wall #2" },
+            { "12_03_00122", "Morio's Mind - Safe on Cloud Near Starting Area" },
+        };
+
+        [Description("Morio's Mind - Above Starting Area")]
+        public static Dictionary<string, string> MoriosMindAboveStartingArea = new()
+        {
+            { "12_01_00001", "Morio's Mind - Gear - Cloud Above Starting Area" },
+            { "12_02_00000", "Morio's Mind - Bunny - Lasagna Behind Starting Area" },
+        };
+
+        [Description("Morio's Mind - Left Path Higher Ground")]
+        public static Dictionary<string, string> MoriosMindLeftPathHigherGround = new()
+        {
+            { "12_03_00026", "Morio's Mind - Coin on Path Left of Start #11" },
+            { "12_03_00027", "Morio's Mind - Coin on Path Left of Start #12" },
+            { "12_03_00028", "Morio's Mind - Coin on Path Left of Start #13" },
+            { "12_03_00029", "Morio's Mind - Coin on Path Left of Start #14" },
+            { "12_03_00030", "Morio's Mind - Coin on Path Left of Start #15" },
+            { "12_03_00035", "Morio's Mind - Coin on Path Left of Start #16" },
+            { "12_03_00037", "Morio's Mind - Coin on Path Left of Start #17" },
+            { "12_03_00039", "Morio's Mind - Coin on Path Left of Start #18" },
+            { "12_03_00041", "Morio's Mind - Coin on Path Left of Start #19" },
+            { "12_03_00042", "Morio's Mind - Coin on Path Left of Start #20" },
+            { "12_03_00211", "Morio's Mind - Coin on Path Left of Start #21" },
+            { "12_03_00212", "Morio's Mind - Coin on Path Left of Start #22" },
+            { "12_03_00213", "Morio's Mind - Coin on Path Left of Start #23" },
+            { "12_03_00214", "Morio's Mind - Coin on Path Left of Start #24" },
+            { "12_03_00215", "Morio's Mind - Coin on Path Left of Start #25" },
+            { "12_03_00216", "Morio's Mind - Coin on Path Left of Start #26" },
+            { "12_03_00217", "Morio's Mind - Coin on Path Left of Start #27" },
+            { "12_03_00218", "Morio's Mind - Coin on Path Left of Start #28" },
+            { "12_03_00219", "Morio's Mind - Coin on Path Left of Start #29" },
+            { "12_03_00220", "Morio's Mind - Coin on Path Left of Start #30" },
+            { "12_03_00221", "Morio's Mind - Coin on Path Left of Start #31" },
+            { "12_03_00222", "Morio's Mind - Coin on Path Left of Start #32" },
+        };
+
+        [Description("Morio's Mind - Left Path Highest Ground")]
+        public static Dictionary<string, string> MoriosMindLeftPathHighestGround = new()
+        {
+            { "12_03_00293", "Morio's Mind - Coin on High Path Left of Start #1" },
+            { "12_03_00292", "Morio's Mind - Coin on High Path Left of Start #2" },
+            { "12_03_00291", "Morio's Mind - Coin on High Path Left of Start #3" },
+            { "12_03_00290", "Morio's Mind - Coin on High Path Left of Start #4" },
+            { "12_03_00289", "Morio's Mind - Coin on High Path Left of Start #5" },
+            { "12_03_00288", "Morio's Mind - Coin on High Path Left of Start #6" },
+            { "12_03_00287", "Morio's Mind - Coin on High Path Left of Start #7" },
+            { "12_03_00286", "Morio's Mind - Coin on High Path Left of Start #8" },
+            { "12_01_00004", "Morio's Mind - Gear - High Path Left of Start" },
+        };
+
+        [Description("Morio's Mind - Right Path Highest Ground")]
+        public static Dictionary<string, string> MoriosMindRightPathHighestGround = new()
+        {
+            { "12_03_00276", "Morio's Mind - Coin on Cloud House Platform Above Right Path #1" },
+            { "12_03_00275", "Morio's Mind - Coin on Cloud House Platform Above Right Path #2" },
+            { "12_03_00274", "Morio's Mind - Coin on Cloud House Platform Above Right Path #3" },
+            { "12_03_00279", "Morio's Mind - Coin on Cloud House Platform Above Right Path #4" },
+            { "12_01_00002", "Morio's Mind - Gear - Cloud House Platform Above Right Path" },
+            { "12_03_00277", "Morio's Mind - Coin on Cloud House Platform Above Right Path #5" },
+            { "12_03_00282", "Morio's Mind - Coin on Cloud House Platform Above Right Path #6" },
+            { "12_03_00281", "Morio's Mind - Coin on Cloud House Platform Above Right Path #7" },
+            { "12_03_00280", "Morio's Mind - Coin on Cloud House Platform Above Right Path #8" },
+            { "12_01_00003", "Morio's Mind - Gear - On House Above Right Path" }
+        };
+
+        [Description("Morio's Mind - Outside Dreaming Entrance")]
+        public static Dictionary<string, string> MoriosMindDreamingArea = new()
+        {
+            { "12_03_00180", "Morio's Mind - Coin Left of Checkpoint Near Dreaming Pipe #1" },
+            { "12_03_00179", "Morio's Mind - Coin Left of Checkpoint Near Dreaming Pipe #2" },
+            { "12_03_00178", "Morio's Mind - Coin Left of Checkpoint Near Dreaming Pipe #3" },
+            { "12_03_00177", "Morio's Mind - Coin Left of Checkpoint Near Dreaming Pipe #4" },
+            { "12_03_00176", "Morio's Mind - Coin Left of Checkpoint Near Dreaming Pipe #5" },
+            { "12_09_00385", "Morio's Mind - Checkpoint Near Dreaming Pipe" },
+            { "12_03_00181", "Morio's Mind - Coin Right of Checkpoint Near Dreaming Pipe #1" },
+            { "12_03_00182", "Morio's Mind - Coin Right of Checkpoint Near Dreaming Pipe #2" },
+            { "12_03_00183", "Morio's Mind - Coin Right of Checkpoint Near Dreaming Pipe #3" },
+            { "12_03_00184", "Morio's Mind - Coin Right of Checkpoint Near Dreaming Pipe #4" },
+            { "12_03_00185", "Morio's Mind - Coin Right of Checkpoint Near Dreaming Pipe #5" },
+            { "12_01_00011", "Morio's Mind - Gear - On Morio Statue Near Dreaming Pipe" },
+            { "12_21_00003", "Morio's Mind - Cheese Near Dreaming Pipe" },
+        };
+
+        [Description("Morio's Mind - TVs")]
+        public static Dictionary<string, string> MoriosMindTVs = new()
+        {
+            { "12_03_00294", "Morio's Mind - Coin Bag on TV Stack #1" },
+            { "12_03_00296", "Morio's Mind - Coin Bag on TV Stack #2" },
+            { "12_03_00295", "Morio's Mind - Safe on TV Stack" },
+            { "12_01_00010", "Morio's Mind - Gear - On TVs" },
+        };
+
+        [Description("Dreaming")]
+        public static Dictionary<string, string> Dreaming = new()
+        {
+            { "12_03_00330", "Dreaming - Coin Surrounding Gear #1" },
+            { "12_03_00329", "Dreaming - Coin Surrounding Gear #2" },
+            { "12_03_00328", "Dreaming - Coin Surrounding Gear #3" },
+            { "12_03_00333", "Dreaming - Coin Surrounding Gear #4" },
+            { "12_03_00331", "Dreaming - Coin Surrounding Gear #5" },
+            { "12_03_00336", "Dreaming - Coin Surrounding Gear #6" },
+            { "12_03_00335", "Dreaming - Coin Surrounding Gear #7" },
+            { "12_03_00334", "Dreaming - Coin Surrounding Gear #8" },
+            { "12_01_00012", "Dreaming - Gear" },
+        };
+
+        public static Dictionary<string, string> MoriosMindSpecialRules = new()
+        {
+            { "Morio's Mind - Gear - On Morio Statue Near Dreaming Pipe", "X2/J1" },
+            { "Morio's Mind - Bunny - In Air on Right Path", "B1 | X2+J1" },
+            { "Morio's Mind - Bunny - Near Password Platform", "B1/J1" },
+            { "Morio's Mind - Gear - Behind Laser Walls Above Right Path", "B1 & X1/Lasers/J1/SP2 | X1+J2" },
+            { "Morio's Mind - Gear - On TVs", "B1/J1" },
+            { "Morio's Mind - Gear - On House Above Right Path", "B2" }
+        };
+
+        #endregion
+
         #region Mosk's Rocket
 
         [Description("Mosk's Rocket - Starting Area")]
@@ -8020,6 +8421,18 @@ namespace YellowTaxiAP
             new(GetDescription(nameof(PipeZoneStartingArea)), PipeZoneStartingArea),
             new(GetDescription(nameof(PipeZoneFinalArea)), PipeZoneFinalArea),
 
+            // Morio's Mind Areas
+            new(GetDescription(nameof(MoriosMindStartingArea)), MoriosMindStartingArea),
+            new(GetDescription(nameof(MoriosMindStartingAreaLaserRange)), MoriosMindStartingAreaLaserRange),
+            new(GetDescription(nameof(MoriosMindHighGroundNearStart)), MoriosMindHighGroundNearStart),
+            new(GetDescription(nameof(MoriosMindAboveStartingArea)), MoriosMindAboveStartingArea),
+            new(GetDescription(nameof(MoriosMindLeftPathHigherGround)), MoriosMindLeftPathHigherGround),
+            new(GetDescription(nameof(MoriosMindLeftPathHighestGround)), MoriosMindLeftPathHighestGround),
+            new(GetDescription(nameof(MoriosMindRightPathHighestGround)), MoriosMindRightPathHighestGround),
+            new(GetDescription(nameof(MoriosMindDreamingArea)), MoriosMindDreamingArea),
+            new(GetDescription(nameof(MoriosMindTVs)), MoriosMindTVs),
+            new(GetDescription(nameof(Dreaming)), Dreaming),
+
             // Rocket Areas
             new(GetDescription(nameof(RocketStartingArea)), RocketStartingArea),
             new(GetDescription(nameof(RocketBombeachArcadePizzaArea)), RocketBombeachArcadePizzaArea),
@@ -8118,6 +8531,7 @@ namespace YellowTaxiAP
             { nameof(Data.LevelId.L8_Sewers), FlushedAwaySpecialRules },
             { nameof(Data.LevelId.L9_City), MauriziosCitySpecialRules },
             { nameof(Data.LevelId.L10_CrashTestIndustries), CrashTestIndustriesSpecialRules },
+            { nameof(Data.LevelId.L12_MoriosMind), MoriosMindSpecialRules },
             { nameof(Data.LevelId.L16_Rocket), RocketSpecialRules },
             { nameof(Data.LevelId.L18_TimeAttack02), GettingGudSpecialRules },
             { nameof(Data.LevelId.L19_TimeAttack03), ProTricksSpecialRules },
@@ -8448,6 +8862,21 @@ namespace YellowTaxiAP
                     CrashTestIndustriesHatWorld,
                     PipeZoneStartingArea,
                     PipeZoneFinalArea,
+                ]
+            },
+            {
+                nameof(Data.LevelId.L12_MoriosMind),
+                [
+                    MoriosMindStartingArea,
+                    MoriosMindStartingAreaLaserRange,
+                    MoriosMindHighGroundNearStart,
+                    MoriosMindAboveStartingArea,
+                    MoriosMindLeftPathHigherGround,
+                    MoriosMindLeftPathHighestGround,
+                    MoriosMindRightPathHighestGround,
+                    MoriosMindDreamingArea,
+                    MoriosMindTVs,
+                    Dreaming,
                 ]
             },
             {
@@ -8924,7 +9353,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabGroundFloorBolts)),
                 [
                     new RegionConnection(MoriosLabGroundFloorLowestBolt),
-                    new RegionConnection(MoriosLabBunnyLedge, "J1 | X2+B1"),
+                    new RegionConnection(MoriosLabBunnyLedge, "J2 | X1+J1 | X2+B1"),
                     new RegionConnection(MoriosLabPathToMoriosRoom, "X1+J2"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X1+B1+FGU & X2/J1"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "J1/B1"),
@@ -8957,7 +9386,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabSecondFloor)),
                 [
                     new RegionConnection("Morio's Lab - Arcade Panik Portal", "{PORTAL}Arcade Panik", ConnectionType.Warp, "PortalArcadePanik"),
-                    new RegionConnection(MoriosLabPathToMoriosRoom, "B1 | X2+J1"),
+                    new RegionConnection(MoriosLabPathToMoriosRoom, "B1 | X1+J1"),
                     new RegionConnection(MoriosLabGroundFloor),
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X2+B1+J1 | X1+B2+J1 | X1+B1+J2"),
                     new RegionConnection(MoriosLabSecondFloorAfterDemoWall, "FGU"),
@@ -9148,7 +9577,7 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosLabFifthFloorDreamMachine)),
                 [
-                    // TODO: Morio's Mind Portal connection here
+                    new RegionConnection("Morio's Lab - Morio's Mind Portal", "{PORTAL}Morio's Mind", ConnectionType.Warp, "PortalMoriosMind"),
                 ]
             },
             {
@@ -9793,8 +10222,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(ToslaSquareHighGround)),
                 [
-                    // X3 still implies B1 or J1 here
-                    new RegionConnection(ToslaSquareHighestGround, "X3/B2"),
+                    // X2 still implies B1 or J1 here
+                    new RegionConnection(ToslaSquareHighestGround, "X2/B2"),
                 ]
             },
             {
@@ -10514,6 +10943,78 @@ namespace YellowTaxiAP
 
             #endregion
 
+            #region Morio's Mind Connections
+
+            {
+                GetDescription(nameof(MoriosMindStartingArea)),
+                [
+                    new RegionConnection(MoriosMindStartingAreaLaserRange, "PassLaser"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindStartingAreaLaserRange)),
+                [
+                    new RegionConnection(MoriosMindStartingArea),
+                    new RegionConnection(MoriosMindHighGroundNearStart, "J2 | X1 & J1/B1"),
+                    new RegionConnection(MoriosMindDreamingArea),
+                    new RegionConnection(MoriosMindLeftPathHigherGround, "B1 | X1+J1"),
+                    new RegionConnection(MoriosMindAboveStartingArea, "X1+B1 & X2/J1 | B2 & J1/X1"),
+                    new RegionConnection(MoriosMindRightPathHighestGround, "B2 | X1+B1 & X2/J1"),
+                    new RegionConnection(MoriosMindTVs, "X1/PMJ/PMB"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindHighGroundNearStart)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindAboveStartingArea)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindLeftPathHigherGround)),
+                [
+                    new RegionConnection(MoriosMindLeftPathHighestGround, "B2 & X1/J1 | X1+B1+J1"),
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindLeftPathHighestGround)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindRightPathHighestGround)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindTVs)),
+                [
+                    // No connections
+                ]
+            },
+            {
+                GetDescription(nameof(MoriosMindDreamingArea)),
+                [
+                    new RegionConnection(MoriosMindStartingAreaLaserRange, "PassLaser"),
+                    new RegionConnection("Morio's Mind - Dreaming Pipe", Dreaming, ConnectionType.Subwarp),
+                ]
+            },
+            {
+                GetDescription(nameof(Dreaming)),
+                [
+                    new RegionConnection("Dreaming - Exit Pipe", MoriosMindDreamingArea, ConnectionType.Subwarp),
+                ]
+            },
+
+            #endregion
+
             #region Rocket Connections
 
             {
@@ -11143,7 +11644,7 @@ namespace YellowTaxiAP
             {
                 Plugin.Log("Before bonuses", false);
                 var bonuses = Object.FindObjectsByType<BonusScript>(FindObjectsInactive.Include, FindObjectsSortMode.None).Where(o =>
-                    (o.myIdentity is BonusScript.Identity.gear or BonusScript.Identity.bunny)
+                    (o.myIdentity is BonusScript.Identity.gear or BonusScript.Identity.bunny && !o.gameObject.name.Equals("ModdedGear"))
                         || ((o.myIdentity is BonusScript.Identity.coin or BonusScript.Identity.bigCoin10 or BonusScript.Identity.bigCoin25
                         or BonusScript.Identity.bigCoin100) && o.coinIndex >= 0)).ToList();
                 var unknownBonuses = bonuses.Where(o => !DebugLocationHelper.CheckLocation(string.Empty, APCollectableManager.GetIDString(o))).ToList();
@@ -11220,8 +11721,8 @@ namespace YellowTaxiAP
                         var regionCheckpoints = new List<KeyValuePair<string, string>>();
                         var regionHats = new List<KeyValuePair<string, string>>();
                         var regionConnections = new List<DebugLocationHelper.RegionConnection>();
-                        var regionWarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpIdentifier>> ();
-                        var regionSubwarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpIdentifier>>();
+                        var regionWarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpInfo>> ();
+                        var regionSubwarps = new List<Tuple<DebugLocationHelper.RegionConnection, WarpInfo>>();
                         var regionMoriOTrons = new List<DebugLocationHelper.RegionConnection>();
                         foreach (var c in subregion)
                         {
@@ -11287,7 +11788,7 @@ namespace YellowTaxiAP
                             foreach (var connection in DebugLocationHelper.RegionConnections[regionName])
                             {
                                 var warpId =
-                                    WarpIdentifier.KnownWarps.FirstOrDefault(o => o.Name.Equals(connection.Name));
+                                    WarpInfo.KnownWarps.FirstOrDefault(o => o.Name.Equals(connection.Name));
                                 switch (connection.ConnectingType)
                                 {
                                     case DebugLocationHelper.ConnectionType.Connection:

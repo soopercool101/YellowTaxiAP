@@ -247,6 +247,14 @@ namespace YellowTaxiAP.Managers
             {
                 self.gameObject.AddComponent<GoldenPropellerUpdater>();
             }
+            else if (self.myIdentity == BonusScript.Identity.morioMindPassword &&
+                     ((Plugin.SlotData.ShuffleMoriosPassword && !Plugin.ArchipelagoClient.LocationUncleared(
+                          (int)GameplayMaster.instance.levelId * 1_00_00000 +
+                          (int)Identifiers.NotableLocations.HubMoriosPassword)) ||
+                      (!Plugin.SlotData.ShuffleMoriosPassword && APSaveController.MiscSave.HasMoriosMindPassword)))
+            {
+                Object.Destroy(self.gameObject);
+            }
         }
 
         /// <summary>
@@ -529,11 +537,11 @@ namespace YellowTaxiAP.Managers
                             if (ModMaster.instance.ModEnableGet())
                                 ModMaster.instance.OnPlayerOnMorioMindKeyPickup();
 #if DEBUG
-                            DebugLocationHelper.CheckLocation("MindPassword", "12_00_00000");
+                            DebugLocationHelper.CheckLocation("MindPassword", "12_11_00012");
 #endif
                             if (Plugin.SlotData.ShuffleMoriosPassword)
                             {
-                                Plugin.ArchipelagoClient.SendLocation((int)Identifiers.NotableLocations.HubMoriosPassword);
+                                Plugin.ArchipelagoClient.SendLocation((int)GameplayMaster.instance.levelId * 1_00_00000 + (int)Identifiers.NotableLocations.HubMoriosPassword);
                             }
                             else
                             {
