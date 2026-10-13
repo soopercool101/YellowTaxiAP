@@ -216,11 +216,11 @@ namespace YellowTaxiAP.Managers
             {
                 return (CurrentTaxiSkin / 10) switch
                 {
-                    0 or 11 or 100 => self.taxiInvincibleAnimationTextures,
+                    0 or 9 or 100 => self.taxiInvincibleAnimationTextures,
                     1 => self.taxiInvincibleAnimationBonesTextures,
                     2 => self.taxiInvincibleAnimationGoldenTextures,
                     3 => self.taxiPrototypeSkinInvincibleAnimationTextures,
-                    6  => [TaxiSkins.GrannysTexture, TaxiSkins.GrannysCorruptedTexture],
+                    6  => [TaxiSkins.GrannysTexture, TaxiSkins.GrannysCorruptedTexture, TaxiSkins.StarsAndStripesTexture],
                     8 => [TaxiSkins.PoliceCarTexture, TaxiSkins.PoliceCarCorruptedTexture],
                     _ => TaxiSkins.RegularCars
                 };
@@ -253,13 +253,13 @@ namespace YellowTaxiAP.Managers
                     50 => [TaxiSkins.AngryTaxiTexture],
                     60 => [TaxiSkins.GrannysTexture],
                     61 => [TaxiSkins.GrannysCorruptedTexture],
+                    62 => [TaxiSkins.StarsAndStripesTexture],
                     70 => [TaxiSkins.PinkFlamesTexture],
                     71 => [TaxiSkins.PinkFlamesCorruptedTexture],
                     80 => [TaxiSkins.PoliceCarTexture],
                     81 => [TaxiSkins.PoliceCarCorruptedTexture],
-                    90 => [TaxiSkins.StarsAndStripesTexture],
+                    90 => [TaxiSkins.CityTaxiTexture],
                     100 => [TaxiSkins.DestroyedTaxiTexture],
-                    110 => [TaxiSkins.CityTaxiTexture],
                     1000 when TaxiSkins.CustomTaxiTexture => [TaxiSkins.CustomTaxiTexture],
                     _ => []
                 };

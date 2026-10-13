@@ -82,13 +82,13 @@ namespace YellowTaxiAP.Helpers
                         50,
                         60,
                         61,
+                        62,
                         70,
                         71,
                         80,
                         81,
                         90,
                         100,
-                        110,
                     ]);
                     if (CustomTaxiTexture)
                     {
