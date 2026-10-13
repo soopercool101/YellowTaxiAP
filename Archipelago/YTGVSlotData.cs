@@ -456,9 +456,7 @@ namespace YellowTaxiAP.Archipelago
                         break;
                     case LevelUnlockCondition.Open:
                         ShufflePsychoTaxi = true;
-                        Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] =
-                            Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
-                                Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
+                        Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = true;
                         break;
                     case LevelUnlockCondition.Item:
                         ShufflePsychoTaxi = true;
@@ -533,16 +531,6 @@ namespace YellowTaxiAP.Archipelago
             if (slotData.ContainsKey("shuffle_flip_o_will"))
             {
                 ShuffleFlipOWill = (MoveRandoType) (long) slotData["shuffle_flip_o_will"];
-                if (ShuffleFlipOWill == MoveRandoType.PerLevel)
-                {
-                    if (!LocationsByMapArea.LocationsByMapAreaDictionary["LEVEL_PSYCHO_TAXI"]
-                            .Intersect(Plugin.ArchipelagoClient.AllLocations).Any())
-                    {
-                        Plugin.Log("No Psycho Taxi locations, giving all moves by default");
-                        APPlayerManager.PerLevelBoostItems[Data.LevelId.L20_PsychoTaxi] = 2;
-                        APPlayerManager.PerLevelJumpItems[Data.LevelId.L20_PsychoTaxi] = 2;
-                    }
-                }
             }
             else
             {
@@ -995,6 +983,20 @@ namespace YellowTaxiAP.Archipelago
                 Plugin.Log("No slot data for randomize_skyboxes found");
             }
 
+
+            if (!LocationsByMapArea.LocationsByMapAreaDictionary["LEVEL_PSYCHO_TAXI"]
+                    .Intersect(Plugin.ArchipelagoClient.AllLocations).Any())
+            {
+                Plugin.Log("No Psycho Taxi locations, setting variables accordingly");
+                Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = false;
+                APPlayerManager.PerLevelBoostItems[Data.LevelId.L20_PsychoTaxi] = 2;
+                APPlayerManager.PerLevelJumpItems[Data.LevelId.L20_PsychoTaxi] = 2;
+            }
+            else
+            {
+                Plugin.Log("Psycho Taxi locations, setting variables accordingly");
+                Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = true;
+            }
 
             Plugin.Log("Load successful");
 

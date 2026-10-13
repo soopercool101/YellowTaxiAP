@@ -74,8 +74,7 @@ namespace YellowTaxiAP.Behaviours
 
                 if (!Plugin.SlotData.ShufflePsychoTaxi)
                 {
-                    Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = Data.psychoTaxiMode1_UnlockedCutsceneShown[Data.gameDataIndex] =
-                        Data.psychoTaxiMode1_ExplanationDialogueShown[Data.gameDataIndex] = MiscSave.HasPsychoTaxi;
+                    Data.psychoTaxiMode1_Unlocked[Data.gameDataIndex] = MiscSave.HasPsychoTaxi;
                 }
 
                 if (!Plugin.SlotData.ShuffleRat)
