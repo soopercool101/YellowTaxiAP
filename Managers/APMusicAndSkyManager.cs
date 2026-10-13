@@ -167,19 +167,26 @@ namespace YellowTaxiAP.Managers
                     Plugin.Log($"Soundtrack re-randomized to: {self.levelSoundtrack}");
                 }
             }
+            else if (Plugin.SlotData.RandomizeMusic == YTGVSlotData.CosmeticLoadOption.Consistent &&
+                     self.radioSountracks.Length > 0)
+            {
+                if (!SoundtrackRandomized)
+                {
+                    for (var i = 0; i < self.radioSountracks.Length; i++)
+                    {
+                        self.radioSountracks[i] = GetRandomizedMusic(self.radioSountracks[i]);
+                        self.radioSoundtrackTranslations[i] = GetRadioName(self.radioSountracks[i]);
+                    }
+
+                    SoundtrackRandomized = true;
+                }
+            }
             else if (Plugin.SlotData.RandomizeMusic == YTGVSlotData.CosmeticLoadOption.Consistent)
             {
                 // For consistent, I need to effectively trick the game into thinking the vanilla song is playing
                 // Otherwise things like checkpoint respawns will roll different music
                 self.levelSoundtrack = GetRandomizedMusic(self.levelSoundtrack);
                 self.bossSoundtrack = GetRandomizedMusic(self.bossSoundtrack);
-                for (var i = 0; i < self.radioSountracks.Length; i++)
-                {
-                    self.radioSountracks[i] = GetRandomizedMusic(self.radioSountracks[i]);
-                    if (!SoundtrackRandomized)
-                        self.radioSoundtrackTranslations[i] = GetRadioName(self.radioSountracks[i]);
-                }
-
                 SoundtrackRandomized = true;
             }
             orig(self);
@@ -195,7 +202,7 @@ namespace YellowTaxiAP.Managers
 
             if (needToClearBossMusic)
                 self.bossSoundtrack = string.Empty;
-            if (Plugin.SlotData.RandomizeMusic != YTGVSlotData.CosmeticLoadOption.Consistent)
+            if (Plugin.SlotData.RandomizeMusic != YTGVSlotData.CosmeticLoadOption.Consistent || self.radioSountracks.Length > 0)
                 return;
             self.levelSoundtrack = levelSoundtrack;
             self.bossSoundtrack = bossSoundtrack;
