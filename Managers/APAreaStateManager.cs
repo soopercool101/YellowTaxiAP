@@ -46,18 +46,6 @@ namespace YellowTaxiAP.Managers
             On.RainbowArrowScript.Awake += RainbowArrowScript_Awake;
             On.TimeAttackComputerScript.Update += TimeAttackComputerScript_Update;
             On.LabFinalLevelWarningElement.Update += LabFinalLevelWarningElement_Update;
-#if DEBUG
-            On.GameplayMaster.SoundtrackRoutine += GameplayMaster_SoundtrackRoutine;
-            foreach (var song in Plugin.KnownSongs)
-            {
-                KnownSoundtracks[song] = song;
-            }
-
-            foreach (var bg in Plugin.KnownBGs)
-            {
-                KnownBackgrounds[bg] = bg;
-            }
-#endif
         }
 
         private void LabFinalLevelWarningElement_Update(On.LabFinalLevelWarningElement.orig_Update orig, LabFinalLevelWarningElement self)
@@ -93,28 +81,6 @@ namespace YellowTaxiAP.Managers
             }
             orig(self);
         }
-
-#if DEBUG
-        public static Dictionary<string, string> KnownSoundtracks = new();
-        public static Dictionary<string, string> KnownBackgrounds = new();
-
-        private void GameplayMaster_SoundtrackRoutine(On.GameplayMaster.orig_SoundtrackRoutine orig, GameplayMaster self)
-        {
-            if (!string.IsNullOrEmpty(BackgroundMaster.instance?.name))
-                KnownBackgrounds[BackgroundMaster.instance.name] = BackgroundMaster.instance.name;
-            if (!string.IsNullOrEmpty(self.levelSoundtrack))
-                KnownSoundtracks[self.levelSoundtrack] = self.levelSoundtrack;
-            if (!string.IsNullOrEmpty(self.levelSoundtrackBackup))
-                KnownSoundtracks[self.levelSoundtrackBackup] = self.levelSoundtrackBackup;
-            if (!string.IsNullOrEmpty(self.defaultLevelSoundtrack))
-                KnownSoundtracks[self.defaultLevelSoundtrack] = self.defaultLevelSoundtrack;
-            if (!string.IsNullOrEmpty(self.bossSoundtrack))
-                KnownSoundtracks[self.bossSoundtrack] = self.bossSoundtrack;
-            orig(self);
-        }
-
-
-#endif
 
         private void PlayerScript_Awake(On.PlayerScript.orig_Awake orig, PlayerScript self)
         {
