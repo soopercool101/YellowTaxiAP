@@ -533,6 +533,7 @@ namespace YellowTaxiAP.Managers
                     CheckpointScript.CheckpointDataReset();
                     GameplayMaster.SelfRespawnClear();
                     APPortalManager.QueuedSubwarp = APPortalManager.PreviousQueuedSubwarp;
+                    BossBombCarScript.alreadyDefeatedInThisLevel = PersonPizzaKing.hasRewardedPlayer = false;
                     TransictionScript.SpawnOut(TransictionScript.Kind.horizontalFadeFromRight, null, Level.currentScene);
                     Sound.Play_Unpausable("SoundMenuSelect");
                     self.done = true;
