@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
@@ -190,6 +191,18 @@ namespace YellowTaxiAP.Archipelago
 
         public CosmeticLoadOption RandomizeMusic { get; private set; }
         public CosmeticLoadOption RandomizeSkyboxes { get; private set; }
+
+        public enum GlitchedTaxiSkinType
+        {
+            Vanilla,
+            GhostGreen,
+            GhostGold,
+            Custom,
+        }
+        
+        public GlitchedTaxiSkinType GlitchedTaxiSkin { get; private set; }
+
+        public Color GlitchedTaxiCustomColor;
 
         public YTGVSlotData()
         {
@@ -992,6 +1005,32 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for randomize_skyboxes found");
+            }
+
+            if (slotData.ContainsKey("glitched_taxi_skin_color"))
+            {
+                switch (slotData["glitched_taxi_skin_color"].ToString())
+                {
+                    case "vanilla_orange":
+                        GlitchedTaxiSkin = GlitchedTaxiSkinType.Vanilla;
+                        break;
+                    case "time_trial_green":
+                        GlitchedTaxiSkin = GlitchedTaxiSkinType.GhostGreen;
+                        break;
+                    case "time_trial_gold":
+                        GlitchedTaxiSkin = GlitchedTaxiSkinType.GhostGold;
+                        break;
+                    default:
+                        GlitchedTaxiSkin = GlitchedTaxiSkinType.Custom;
+                        ColorUtility.TryParseHtmlString(slotData["glitched_taxi_skin_color"].ToString(),
+                            out GlitchedTaxiCustomColor);
+                        break;
+                }
+            }
+            else
+            {
+                GlitchedTaxiSkin = GlitchedTaxiSkinType.Vanilla;
+                Plugin.Log("No slot data for glitched_taxi_skin_color found");
             }
 
 

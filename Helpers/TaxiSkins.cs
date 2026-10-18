@@ -4,7 +4,7 @@ using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Helpers
 {
-    public class TaxiSkins
+    public static class TaxiSkins
     {
         public static readonly int[] ValidDefaultSkins = [0, 1, 2, 3, 4];
         public static readonly int[] ValidSkeletonSkins = [10, 11, 12, 13, 14, 15];
@@ -26,6 +26,9 @@ namespace YellowTaxiAP.Helpers
         public static Texture2D CustomTaxiTexture;
 
         public static bool TaxiSkinDoesntNeedReloading;
+
+        public static Material TaxiLocalGhost;
+        public static Material TaxiDownloadedGhost;
 
         public static void LoadTaxiSkin(bool showImmediately = false)
         {

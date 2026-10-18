@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using YellowTaxiAP.Archipelago;
 using YellowTaxiAP.Behaviours;
 using YellowTaxiAP.Helpers;
 using Object = UnityEngine.Object;
@@ -234,6 +235,25 @@ namespace YellowTaxiAP.Managers
                 {
                     TaxiSkins.CustomTaxiTexture = null;
                 }
+            }
+
+            if (Plugin.SlotData.GlitchedTaxiSkin != YTGVSlotData.GlitchedTaxiSkinType.Vanilla)
+            {
+                var glitchedMaterial = self.matTaxiGlitchy;
+                switch (Plugin.SlotData.GlitchedTaxiSkin)
+                {
+                    case YTGVSlotData.GlitchedTaxiSkinType.GhostGreen:
+                        glitchedMaterial.color = TaxiSkins.TaxiLocalGhost.color;
+                        break;
+                    case YTGVSlotData.GlitchedTaxiSkinType.GhostGold:
+                        glitchedMaterial.color = TaxiSkins.TaxiDownloadedGhost.color;
+                        break;
+                    case YTGVSlotData.GlitchedTaxiSkinType.Custom:
+                        glitchedMaterial.color = Plugin.SlotData.GlitchedTaxiCustomColor;
+                        break;
+                }
+
+                self.matTaxiGlitchy = self.matTaxiKeyGlitchy = self.matTaxiWheelsGlitchy = glitchedMaterial;
             }
 
             TaxiSkins.LoadTaxiSkin();

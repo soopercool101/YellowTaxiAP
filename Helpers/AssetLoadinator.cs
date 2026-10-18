@@ -120,8 +120,8 @@ namespace YellowTaxiAP.Helpers
                         GetCarTexture(Object.FindFirstObjectByType<AngryCarScript>(FindObjectsInactive.Include).gameObject);
 
                     break;
-                // Get a gear from time attack since there's less objects there so this is slightly faster
                 case (int)Levels.Index.level_time_attack_01:
+                    // Get a gear from time attack since there's less objects there so this is slightly faster
                     var gear = GameObject.FindGameObjectWithTag("Gear");
                     gear.SetActive(false);
                     gear.transform.SetParent(null);
@@ -131,8 +131,31 @@ namespace YellowTaxiAP.Helpers
                     gear.gameObject.name = "ModdedGear";
                     Gear = gear;
                     Plugin.Log($"Loaded {Gear.name} as Gear");
+                    // Also get the ghost taxi materials
+                    foreach (var asset in assetMasters["Specific Asset Master"].prefabs)
+                    {
+                        switch (asset.name)
+                        {
+                            case "Player's Ghost":
+                                TaxiSkins.TaxiLocalGhost = GetGhostMaterial(asset);
+                                break;
+                            case "Player's Ghost Downloaded":
+                                TaxiSkins.TaxiDownloadedGhost = GetGhostMaterial(asset);
+                                break;
+                        }
+                    }
                     break;
             }
+        }
+
+        public static Material GetGhostMaterial(GameObject ghost)
+        {
+            return ghost.transform
+                .GetChild(0) // ModelHolder
+                .GetChild(0) // DebugModelHolder
+                .GetChild(0) // BaseVibration
+                .GetChild(1) // ModelPlayerTaxi
+                .gameObject.GetComponent<MeshRenderer>().sharedMaterial;
         }
 
         // Most cars have the same basic tree, so can reuse this code to get the texture
