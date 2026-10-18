@@ -257,6 +257,12 @@ namespace YellowTaxiAP.Managers
                 }
 #endif
             }
+
+            if (self.versioneArmadio || Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled)
+            {
+                self.ring.material = new Material(GameplayMaster.instance.rainbowMaterials[0]);
+                self.ring.material.SetColor(APCheckpointManager.Color1, new Color(1f, 1f, 1f, 0.5f));
+            }
         }
 
         private void HatScript_RemoveHat(On.HatScript.orig_RemoveHat orig, bool removeHatFromData)
