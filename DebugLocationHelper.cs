@@ -465,13 +465,13 @@ namespace YellowTaxiAP
             { "0_03_00473", "Granny's Island - Coin on Roof in Front of Granny's Statue #3" },
             { "0_03_00464", "Granny's Island - Coin on Roof in Front of Granny's Statue #4" },
             { "0_03_00474", "Granny's Island - Coin Bag on Roof in Front of Granny's Statue" },
-            // Drive along the railing
-            { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
         };
         
         [Description("Granny's Island - Expert 2 High Ground")]
         public static Dictionary<string, string> GrannysIslandExpert2HighGround = new() // Region Granny's Island Main & (EX2 | J1 | B1 | GP)
         {
+            // Drive along the railing
+            { "0_03_00270", "Granny's Island - Coin Bag on Power Shovel" },
             // Requires one-off Bomb luring
             { "0_03_00424", "Granny's Island - Coin on Hill By Cloro-Phil #1" },
             { "0_03_00423", "Granny's Island - Coin on Hill By Cloro-Phil #2" },
@@ -9572,7 +9572,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabFifthFloorMoriosMindArea)),
                 [
                     new RegionConnection(MoriosLabFifthFloorRuinedObservatoryArea, "Password | X3+OOB+B1"),
-                    new RegionConnection(MoriosLabFifthFloorDreamMachine, "FGU"),
+                    new RegionConnection(MoriosLabFifthFloorDreamMachine, "Dream"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea),
                     new RegionConnection("Morio's Lab - Pro Tricks! TV", "{PORTAL}Pro Tricks!", ConnectionType.Warp, "TT3"),
                 ]

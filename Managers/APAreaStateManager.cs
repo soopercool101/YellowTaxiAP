@@ -14,6 +14,7 @@ namespace YellowTaxiAP.Managers
     {
         public static bool GelaToniReceived = false;
         public static bool PizzaKingReceived = false;
+        public static bool DreamMachineReceived = false;
         public static bool MindPasswordReceived = false;
         public static bool GymMembership = false;
         public static bool DoggoReceived = false;
@@ -266,6 +267,7 @@ namespace YellowTaxiAP.Managers
             else
             {
                 self.gameObject.AddComponent<AreaStateOverride_Demo>();
+                self.gameObject.AddComponent<AreaStateOverride_DreamMachine>();
             }
         }
 

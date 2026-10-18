@@ -119,6 +119,8 @@ public class ArchipelagoClient
         800005,
         800006,
         800008,
+        // Dream Machine
+        12_10_00012,
         // Early Doggo
         (long)Identifiers.NotableLocations.Doggo + 10000,
         // Arcade Panik Psycho Taxi Cartridge
@@ -576,6 +578,9 @@ public class ArchipelagoClient
                 break;
             case Identifiers.ItemID.SewerKey:
                 APAreaStateManager.SewerKeyReceived = true;
+                break;
+            case Identifiers.ItemID.DreamMachine:
+                APAreaStateManager.DreamMachineReceived = true;
                 break;
             case Identifiers.ItemID.OrangeSwitch:
                 APSwitchManager.OrangeSwitchUnlocked = true;

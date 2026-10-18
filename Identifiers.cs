@@ -50,6 +50,7 @@ public static class Identifiers
         GymMembership = 10_06,
         Doggo = 10_07,
         SewerKey = 10_08,
+        DreamMachine = 10_12,
         MosksRocket = 10_16,
         TimeTrialRemoteBabySteps = 10_17,
         TimeTrialRemoteGettingGud = 10_18,

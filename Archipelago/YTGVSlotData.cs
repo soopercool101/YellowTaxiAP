@@ -152,6 +152,7 @@ namespace YellowTaxiAP.Archipelago
             Item = 2,
             Exclude = 3,
         }
+        public LevelUnlockCondition DreamMachineUnlockCondition { get; private set; }
         public LevelUnlockCondition GymGearsUnlockCondition { get; private set; }
         public LevelUnlockCondition FecalMattersUnlockCondition { get; private set; }
         public LevelUnlockCondition FlushedAwayUnlockCondition { get; private set; }
@@ -470,6 +471,16 @@ namespace YellowTaxiAP.Archipelago
             else
             {
                 Plugin.Log("No slot data for psycho_taxi_unlock_condition found");
+            }
+
+            if (slotData.ContainsKey("dream_machine_unlock_condition"))
+            {
+                DreamMachineUnlockCondition = (LevelUnlockCondition)(long)slotData["dream_machine_unlock_condition"];
+            }
+            else
+            {
+                DreamMachineUnlockCondition = LevelUnlockCondition.FullGame;
+                Plugin.Log("No slot data for dream_machine_unlock_condition found");
             }
 
             if (slotData.ContainsKey("shuffle_rat"))

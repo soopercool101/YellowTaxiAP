@@ -521,14 +521,14 @@ namespace YellowTaxiAP.Managers
             {
                 Data.LevelId.Hub, new Dictionary<string, long>
                 {
-                    { "DIALOGUE_MORI_O_TRON_HAT_ARMADIO", 11_00000 },
+                    { "DIALOGUE_MORI_O_TRON_HAT_ARMADIO", (long)Identifiers.NotableLocations.WardrobeMoriotron },
                     { "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_DASH", 8_00002 },
                     { "DIALOGUE_PICI_COMPUTER_MAN_FLIP_ABORT", 8_00003 },
                     { "DIALOGUE_PICI_COMPUTER_MAN_BACKFLIP", 8_00004 },
                     { "DIALOGUE_PICI_COMPUTER_MAN_QUICK_TURN", 8_00005 },
                     { "DIALOGUE_PICI_COMPUTER_MAN_DOUBLE_TAP_GLIDE", 8_00006 },
                     { "DIALOGUE_PICI_COMPUTER_MAN_MINIMAP_UNLOCK", 8_00008 },
-                    { "DIALOGUE_MORIO_LAB_SECRET_BEDROOM", 10_00000 },
+                    { "DIALOGUE_MORIO_LAB_SECRET_BEDROOM", (long)Identifiers.NotableLocations.LabKey },
                     { "DIALOGUE_GRANNY_ISLAND_GELATAIO_THANKS", (long)Identifiers.NotableLocations.HubGelaToni },
                     { "DIALOGUE_GRANNY_ISLAND_PIZZA_KING_JUST_TALK", (long)Identifiers.NotableLocations.HubPizzaKing },
                     { "DIALOGUE_GRANNY_ISLAND_NICK_JUST_TALK", (long)Identifiers.NotableLocations.HubGoldenPropeller },
@@ -554,6 +554,12 @@ namespace YellowTaxiAP.Managers
                 Data.LevelId.L6_Gym, new Dictionary<string, long>
                 {
                     { "DIALOGUE_GYM_GIGACHAD", 6_10_00006 },
+                }
+            },
+            {
+                Data.LevelId.L12_MoriosMind, new Dictionary<string, long>
+                {
+                    { "DIALOGUE_MORIO_MIND_MORIO_INTRODUCTION", 12_10_00012 },
                 }
             },
             {
@@ -2049,6 +2055,10 @@ namespace YellowTaxiAP.Managers
                         break;
                     case "DIALOGUE_MORIO_INITIAL_LESS_THAN_3_GEARS":
                         self.dialogues[self.dialogues.Length - 1] += $" If they're not here, perhaps they're {SetTextColor("elsewhere", DialogueColors.OrangeYellow)}!";
+                        break;
+                    case "DIALOGUE_MORIO_MIND_MORIO_INTRODUCTION" when Plugin.ArchipelagoClient.LocationUncleared(12_10_00012):
+                        self.dialogues[self.dialogues.Length - 1] = $"But with the power of dreams I can give you {GetItemText(12_10_00012)}!";
+                        QueuedItem = 12_10_00012;
                         break;
                     case "DIALOGUE_MORIO_AT_TOSLA_HQ_PORTAL_LOCKED":
                         // TODO: Update dialogue when v1.0.0 comes out. Hopefully this year.

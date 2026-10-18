@@ -5,7 +5,7 @@ namespace YellowTaxiAP.Managers
 {
     public class APCheckpointManager
     {
-        private static readonly int Color1 = Shader.PropertyToID("_Color");
+        public static readonly int Color1 = Shader.PropertyToID("_Color");
 
         public APCheckpointManager()
         {

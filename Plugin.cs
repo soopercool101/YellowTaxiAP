@@ -516,28 +516,6 @@ public class Plugin : BaseUnityPlugin
                     GUIUtility.systemCopyBuffer = ids.TrimEnd('\n');
                 }
 
-                if (Input.GetKeyDown(KeyCode.KeypadMultiply))
-                {
-                    Log($"Copying Known BG/Soundtrack");
-                    var bgs = "";
-                    foreach (var bg in APAreaStateManager.KnownBackgrounds.Keys)
-                    {
-                        bgs += $"\"{bg}\", ";
-                    }
-
-                    bgs = bgs.TrimEnd(',', ' ');
-
-                    var sts = "";
-                    foreach (var st in APAreaStateManager.KnownSoundtracks.Keys)
-                    {
-                        sts += $"\"{st}\", ";
-                    }
-
-                    sts = sts.TrimEnd(',', ' ');
-
-                    GUIUtility.systemCopyBuffer = $"{bgs}\n{sts}";
-                }
-
                 if (Input.GetKeyDown(KeyCode.H))
                 {
                     APPlayerManager.PizzaWheelsItem = Master.cheat_PizzaWheels = !Master.cheat_PizzaWheels;

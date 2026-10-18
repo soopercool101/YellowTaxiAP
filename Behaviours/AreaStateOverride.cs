@@ -213,7 +213,8 @@ namespace YellowTaxiAP.Behaviours
             var orig = gameObject.GetComponent<DisableAreaScript_Demo>();
             if (orig)
             {
-                toDisable = orig.disableThisAreaWhenActive;
+                // Dream Machine gets its own handler
+                toDisable = orig.disableThisAreaWhenActive.Where(o => !o.name.Equals("Person Morio Mind Portal")).ToArray();
                 toEnable = orig.enableThisAreaWhenActive;
             }
         }
@@ -292,7 +293,47 @@ namespace YellowTaxiAP.Behaviours
         }
     }
 
-    public class AreaStateOverride_GymMembership : AreaStateOverride_Demo
+    public class AreaStateOverride_DreamMachine : AreaStateOverride
+    {
+        protected override bool ExpectedState
+        {
+            get
+            {
+#if DEBUG
+                if (DebugLocationHelper.Enabled)
+                {
+                    return false;
+                }
+#endif
+                switch (Plugin.SlotData.DreamMachineUnlockCondition)
+                {
+                    case YTGVSlotData.LevelUnlockCondition.Exclude:
+                        return true;
+                    case YTGVSlotData.LevelUnlockCondition.Open:
+                        return false;
+                    case YTGVSlotData.LevelUnlockCondition.Item:
+                        return !APAreaStateManager.DreamMachineReceived;
+                    case YTGVSlotData.LevelUnlockCondition.FullGame:
+                        return !APAreaStateManager.FullGameUnlocked;
+                    case YTGVSlotData.LevelUnlockCondition.Special:
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        public override void Awake()
+        {
+            var orig = gameObject.GetComponent<DisableAreaScript_Demo>();
+            if (orig)
+            {
+                toDisable = orig.disableThisAreaWhenActive.Where(o => o.name.Equals("Person Morio Mind Portal")).ToArray();
+                toEnable = [];
+            }
+        }
+    }
+
+    public class AreaStateOverride_GymMembership : AreaStateOverride
     {
         protected override bool ExpectedState {
             get
@@ -320,26 +361,14 @@ namespace YellowTaxiAP.Behaviours
             }
         }
 
-        public override void FixedUpdate()
+        public override void Awake()
         {
-            if (state == ExpectedState)
-                return;
-
-            foreach (var disable in toDisable)
+            var orig = gameObject.GetComponent<DisableAreaScript_Demo>();
+            if (orig)
             {
-                if (!disable)
-                    continue;
-                disable.SetActive(!ExpectedState || disable.GetComponent<BonusScript>());
+                toDisable = orig.disableThisAreaWhenActive;
+                toEnable = orig.enableThisAreaWhenActive;
             }
-
-            foreach (var enable in toEnable)
-            {
-                if (!enable)
-                    continue;
-                enable.SetActive(ExpectedState || enable.GetComponent<BonusScript>());
-            }
-
-            state = ExpectedState;
         }
     }
 
