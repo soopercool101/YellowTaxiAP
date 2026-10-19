@@ -4,12 +4,57 @@ using Object = UnityEngine.Object;
 
 namespace YellowTaxiAP.Managers
 {
-    public class APBossManager
+    public class APEnemyManager
     {
-        public APBossManager()
+        public APEnemyManager()
         {
             On.BossAlienMosk1Script.BossPhaseSpawn += BossAlienMosk1Script_BossPhaseSpawn;
             On.BossAlienMosk1Script.BossWindowWalkAnimation += BossAlienMosk1Script_BossWindowWalkAnimation;
+            On.GigaMorioScript.Update += GigaMorioScript_Update;
+        }
+
+        public static bool AllowLaser
+        {
+            get
+            {
+                if (Plugin.CheatsEnabled)
+                {
+                    return Plugin.AllowLaser;
+                }
+
+                switch (Plugin.SlotData.MindLaserBehavior)
+                {
+                    case YTGVSlotData.MoriosMindLaserBehavior.Enabled:
+                        return true;
+                    case YTGVSlotData.MoriosMindLaserBehavior.Disabled:
+                        return false;
+                    case YTGVSlotData.MoriosMindLaserBehavior.MoriosBrainHat:
+                        return (Data.Hat)Data.currentHat[Data.gameDataIndex] != Data.Hat.Hat28_Brain;
+                    case YTGVSlotData.MoriosMindLaserBehavior.InceptionTopHat:
+                        return (Data.Hat)Data.currentHat[Data.gameDataIndex] != Data.Hat.Hat44_Trottola;
+                    case YTGVSlotData.MoriosMindLaserBehavior.MoriosBrainOrInceptionTopHat:
+                        return (Data.Hat)Data.currentHat[Data.gameDataIndex] != Data.Hat.Hat28_Brain &&
+                               (Data.Hat)Data.currentHat[Data.gameDataIndex] != Data.Hat.Hat44_Trottola;
+                    default:
+                        return true;
+                }
+            }
+        }
+
+        private void GigaMorioScript_Update(On.GigaMorioScript.orig_Update orig, GigaMorioScript self)
+        {
+            if (!AllowLaser)
+            {
+                for (var index = self.myLasers.Count - 1; index >= 0; --index)
+                {
+                    Pool.Destroy(self.myLasers[index].gameObject);
+                    self.myLasers.RemoveAt(index);
+                }
+                self.laserCD = self.laserCooldown;
+                self.myAnimator.ResetTrigger("ChargeLaser");
+                self.myAnimator.SetTrigger("LaserFireEnd");
+            }
+            orig(self);
         }
 
         public static bool AlienMoskBeaten { get; set; }

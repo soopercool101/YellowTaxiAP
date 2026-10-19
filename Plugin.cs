@@ -71,11 +71,11 @@ public class Plugin : BaseUnityPlugin
     public APMinimapManager MinimapHook;
     public APTimeAttackManager TimeAttackHook;
     public APTVManager TVHook;
-    public APBossManager BossHook;
+    public APEnemyManager EnemyHook;
     public APControlsManager ControlHook;
     public APMusicAndSkyManager MusicHook;
 
-    public bool AllowLaser = true;
+    public static bool AllowLaser = true;
 #if DEBUG
     public static void Log(string message, bool? logInGameWindow = null)
     {
@@ -206,7 +206,7 @@ public class Plugin : BaseUnityPlugin
             WalletHook = new APWalletManager();
             TimeAttackHook = new APTimeAttackManager();
             TVHook = new APTVManager();
-            BossHook = new APBossManager();
+            EnemyHook = new APEnemyManager();
             MusicHook = new APMusicAndSkyManager();
             //ControlHook = new APControlsManager();
             self.gameObject.AddComponent<ArchipelagoRenderer>();
@@ -214,21 +214,6 @@ public class Plugin : BaseUnityPlugin
             self.gameObject.AddComponent<APSaveController>();
             self.gameObject.AddComponent<OrangeSwitchController>();
             self.gameObject.AddComponent<APTrapController>();
-            On.GigaMorioScript.Update += (origUpdate, selfGigaMorio) =>
-            {
-                if (!AllowLaser)
-                {
-                    for (var index = selfGigaMorio.myLasers.Count - 1; index >= 0; --index)
-                    {
-                        Pool.Destroy(selfGigaMorio.myLasers[index].gameObject);
-                        selfGigaMorio.myLasers.RemoveAt(index);
-                    }
-                    selfGigaMorio.laserCD = selfGigaMorio.laserCooldown;
-                    selfGigaMorio.myAnimator.ResetTrigger("ChargeLaser");
-                    selfGigaMorio.myAnimator.SetTrigger("LaserFireEnd");
-                }
-                origUpdate(selfGigaMorio);
-            };
 
             On.BombCarScript.Update += (origUpdate, selfBombCar) =>
             {

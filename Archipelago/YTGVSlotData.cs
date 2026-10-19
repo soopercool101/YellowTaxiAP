@@ -141,6 +141,17 @@ namespace YellowTaxiAP.Archipelago
         public string FunnyFaces { get; private set; }
 
         public bool EasyAlienMosk { get; private set; }
+
+        public enum MoriosMindLaserBehavior : long
+        {
+            Enabled = 0,
+            Disabled = 1,
+            MoriosBrainHat = 2,
+            InceptionTopHat = 3,
+            MoriosBrainOrInceptionTopHat = 4,
+        }
+        public MoriosMindLaserBehavior MindLaserBehavior { get; set; }
+
         public bool QuickPickups { get; private set; }
 
         public int TaxiSkin { get; private set; }
@@ -843,7 +854,16 @@ namespace YellowTaxiAP.Archipelago
             {
                 Plugin.Log("No slot data for easy_alien_mosk found");
             }
-            
+
+            if (slotData.ContainsKey("morios_mind_laser_behavior"))
+            {
+                MindLaserBehavior = (MoriosMindLaserBehavior)(long)slotData["morios_mind_laser_behavior"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for morios_mind_laser_behavior found");
+            }
+
             if (slotData.ContainsKey("quick_pickups"))
             {
                 QuickPickups = (bool)slotData["quick_pickups"];
