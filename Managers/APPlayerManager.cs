@@ -233,12 +233,12 @@ namespace YellowTaxiAP.Managers
         {
             if (Plugin.SlotData.TaxiSkin > 1000)
             {
-                if (self.animationTaxiGlassPlay && !_waitToRefreshSkin)
+                if (!_waitToRefreshSkin && Sound.IsPlaying("SoundPlayerFlipOWillReady"))
                 {
                     TaxiSkins.LoadRandomTaxiSkin();
                     _waitToRefreshSkin = true;
                 }
-                else if (!self.animationTaxiGlassPlay && self.flipOWill_CooldownTimer > 0)
+                else if (_waitToRefreshSkin && !Sound.IsPlaying("SoundPlayerFlipOWillReady"))
                 {
                     _waitToRefreshSkin = false;
                 }
@@ -441,7 +441,7 @@ namespace YellowTaxiAP.Managers
             ArchipelagoClient.DeathLinkHandler?.KillPlayer();
         }
 
-        public static int CurrentTaxiSkin;
+        public static int CurrentTaxiSkin = -1;
 
         public static bool IsCurrentHatSkin()
         {

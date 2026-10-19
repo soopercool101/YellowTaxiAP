@@ -97,7 +97,12 @@ namespace YellowTaxiAP.Helpers
                     {
                         allList.Add(1000);
                     }
-                    APPlayerManager.CurrentTaxiSkin = allList[Random.RandomRangeInt(0, allList.Count)];
+
+                    var oldTaxiSkin = APPlayerManager.CurrentTaxiSkin;
+                    do
+                    {
+                        APPlayerManager.CurrentTaxiSkin = allList[Random.RandomRangeInt(0, allList.Count)];
+                    } while (oldTaxiSkin == APPlayerManager.CurrentTaxiSkin);
                     break;
             }
             if (showImmediately)
