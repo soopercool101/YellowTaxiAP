@@ -7210,7 +7210,7 @@ namespace YellowTaxiAP
             { "Morio's Mind - Gear - On TVs", "B1/J1" },
             { "Morio's Mind - Gear - On House Above Right Path", "B2" },
             { "Morio's Mind - Gear - Cloud Above Starting Area", "X1+B1 & X2/J1 | B2 & J1/X1 | X2+J2 | X3+J1" },
-            { "Bunny - Lasagna Behind Starting Area", "X1+B1 & X2/J1 | B2 & J1/X1 | X2+J1" },
+            { "Morio's Mind - Bunny - Lasagna Behind Starting Area", "X1+B1 & X2/J1 | B2 & J1/X1 | X2+J1" },
         };
 
         #endregion
