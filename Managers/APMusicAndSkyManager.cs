@@ -23,7 +23,7 @@ namespace YellowTaxiAP.Managers
 
         private string GameplayMaster_RadioSountrackNameGet(On.GameplayMaster.orig_RadioSountrackNameGet orig, GameplayMaster self)
         {
-            return PlayerScript.instance.invincible ? GetRadioName("SoundtrackInvincible") : orig(self);
+            return PlayerScript.instance.invincible && PlayerScript.instance.invincibleTimer > PlayerScript.instance.invincibleTimerAlmostOver ? GetRadioName("SoundtrackInvincible") : orig(self);
         }
 
         private void GameplayMaster_Start(On.GameplayMaster.orig_Start orig, GameplayMaster self)
