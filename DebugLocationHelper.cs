@@ -7208,7 +7208,7 @@ namespace YellowTaxiAP
             { "Morio's Mind - Bunny - Near Password Platform", "X3/B1/J1" },
             { "Morio's Mind - Gear - Behind Laser Walls Above Right Path", "X1/B1 & Lasers/J1/SP2 | X1+B1" },
             { "Morio's Mind - Gear - On TVs", "B1/J1" },
-            { "Morio's Mind - Gear - On House Above Right Path", "B2" },
+            { "Morio's Mind - Gear - On House Above Right Path", "B2 | X2+B1+J1 & X3/NoLasers" },
             { "Morio's Mind - Gear - Cloud Above Starting Area", "X1+B1 & X2/J1 | B2 & J1/X1 | X2+J2 | X3+J1" },
             { "Morio's Mind - Bunny - Lasagna Behind Starting Area", "X1+B1 & X2/J1 | B2 & J1/X1 | X2+J1" },
         };
