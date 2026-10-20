@@ -24,7 +24,7 @@ namespace YellowTaxiAP.Managers
         public static GameObject PizzaHudInstance;
         public static void ShowTempPizzaHud()
         {
-            if (!GameplayMaster.instance)
+            if (!GameplayMaster.instance || !Plugin.SlotData.Pizzasanity)
                 return;
 
             if (PizzaHudInstance)
