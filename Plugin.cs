@@ -20,7 +20,7 @@ public class Plugin : BaseUnityPlugin
 {
     public const string PluginGUID = "com.soopercool101.YellowTaxiAP";
     public const string PluginName = "YellowTaxiAP";
-    public const string PluginVersion = "0.7.1";
+    public const string PluginVersion = "0.8.0";
 
 #if DEBUG
     public const string ModDisplayInfo = $"{PluginName} v{PluginVersion} (DEBUG)";

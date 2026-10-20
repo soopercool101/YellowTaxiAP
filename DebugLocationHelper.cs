@@ -11005,8 +11005,8 @@ namespace YellowTaxiAP
             {
                 GetDescription(nameof(MoriosMindDreamingArea)),
                 [
-                    new RegionConnection(MoriosMindStartingAreaLaserRange, "PassLaser"),
-                    new RegionConnection(MoriosMindLeftPath, "X1+PassLaser"),
+                    new RegionConnection(MoriosMindStartingAreaLaserRange, "X1+PassLaser | NoLasers"),
+                    new RegionConnection(MoriosMindLeftPath, "X1+PassLaser | NoLasers"),
                     new RegionConnection("Morio's Mind - Dreaming Pipe", Dreaming, ConnectionType.Subwarp),
                 ]
             },
@@ -11289,7 +11289,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Smelly Slimes - Entrance Mosk's Rocket Portal", RocketFlushedArea, ConnectionType.Subwarp),
                     new RegionConnection(SmellySlimesSidebars, "X2/J1/B1"),
-                    new RegionConnection(SmellySlimesHatArea, "J1 | X2+B2"),
+                    new RegionConnection(SmellySlimesHatArea, "J1 | X2+B2 | X3+B1"),
                     new RegionConnection(SmellySlimesExit, "B1+J1 | X3 & B1/J1"),
                 ]
             },

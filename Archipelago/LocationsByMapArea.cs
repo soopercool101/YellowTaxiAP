@@ -598,6 +598,7 @@ namespace YellowTaxiAP.Archipelago
                     990700000,
                     990700003,
                     990700004,
+                    99_10_00000,
                 ]
             },
             {
@@ -2150,6 +2151,7 @@ namespace YellowTaxiAP.Archipelago
                     990700000,
                     990700005,
                     990700006,
+                    99_10_00000,
                 ]
             },
             {
@@ -2305,6 +2307,7 @@ namespace YellowTaxiAP.Archipelago
                     990700000,
                     990700012,
                     990700011,
+                    99_10_00000,
                 ]
             },
             {
@@ -3342,6 +3345,7 @@ namespace YellowTaxiAP.Archipelago
                     990700000,
                     990700007,
                     990700008,
+                    99_10_00000,
                     // Sewers
                     22199999,
                 ]
@@ -5034,6 +5038,7 @@ namespace YellowTaxiAP.Archipelago
                     990700000,
                     990700022,
                     990700023,
+                    99_10_00000,
                 ]
             },
             {
@@ -5458,6 +5463,7 @@ namespace YellowTaxiAP.Archipelago
                     990700000,
                     990700026,
                     990700027,
+                    99_10_00000,
                 ]
             },
             {

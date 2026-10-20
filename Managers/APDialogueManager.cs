@@ -40,6 +40,9 @@ namespace YellowTaxiAP.Managers
             On.DialogueScript.SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea += DialogueScript_SpecialMethod_OnPreCapsuleImport_QuestionHubChooseArea;
             On.DialogueScript.SpecialMethod_OnDialogueEnd_StuckDoggoTalk += DialogueScript_SpecialMethod_OnDialogueEnd_StuckDoggoTalk;
 
+            On.PersonCappellaio.Awake += PersonCappellaio_Awake;
+            On.PersonCappellaio.RandomizeDialogue += PersonCappellaio_RandomizeDialogue;
+
             On.PersonParent.Awake += PersonParent_Awake;
             On.PersonParent.Start += PersonParent_Start;
             On.PersonPizzaCheff.Awake += PersonPizzaCheff_Awake;
@@ -70,6 +73,37 @@ namespace YellowTaxiAP.Managers
             On.PersonPizzaKing.TalkWithPlayer += PersonPizzaKing_TalkWithPlayer;
             On.PersonPizzaKing.StartMinigame += PersonPizzaKing_StartMinigame;
             On.PersonPizzaKing.RewardPlayer += PersonPizzaKing_RewardPlayer;
+        }
+
+        public static GameObject[] HatMasterDialogues;
+        private void PersonCappellaio_RandomizeDialogue(On.PersonCappellaio.orig_RandomizeDialogue orig, PersonCappellaio self)
+        {
+            if (Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.HatWorldMembership))
+            {
+                self.dialoguePickup = self.randomDialogues[0];
+            }
+            else
+            {
+                orig(self);
+            }
+        }
+
+        private void PersonCappellaio_Awake(On.PersonCappellaio.orig_Awake orig, PersonCappellaio self)
+        {
+            orig(self);
+            HatMasterDialogues = self.randomDialogues;
+            if (Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.HatWorldMembership))
+            {
+                Plugin.Log("Hat World should be relevant");
+                self.gameRelevantPerson = true;
+                self.alreadyPickedUp = false;
+            }
+            else
+            {
+                Plugin.Log("Hat World should not be relevant");
+                self.gameRelevantPerson = false;
+                self.alreadyPickedUp = true;
+            }
         }
 
         private void PersonPizzaKing_Awake(On.PersonPizzaKing.orig_Awake orig, PersonPizzaKing self)
@@ -1270,6 +1304,9 @@ namespace YellowTaxiAP.Managers
         public int GymMembershipPrice => GymMembershipBasePrice / (UseDiscountedGymPrice ? 5 : 1);
         public const int GymMembershipBasePrice = 500;
         public bool UseDiscountedGymPrice;
+        public int HatMembershipPrice => HatMembershipBasePrice / (UseDiscountedHatPrice ? 5 : 1);
+        public const int HatMembershipBasePrice = 250;
+        public bool UseDiscountedHatPrice;
         private void DialogueScript_Start(On.DialogueScript.orig_Start orig, DialogueScript self)
         {
             var dialogueCapsule = !DialogueCapsule.dictionary.ContainsKey(self.dialgoueCapsuleKey)
@@ -1572,11 +1609,11 @@ namespace YellowTaxiAP.Managers
                             break;
                         }
 
-                        MenuEventLeaderboard.CoinsSpentAdd(GymMembershipPrice);
                         self.dialogues =
                         [
                             $"You received {GetItemText((long)Identifiers.NotableLocations.UltraChadMembership, true, false)} as a gift! Now to wait 4-7 business weeks for your membership card!"
                         ];
+                        QueuedPrice = GymMembershipPrice;
                         QueuedItem = (long)Identifiers.NotableLocations.UltraChadMembership;
                         break;
                     case "DIALOGUE_RAT_PICKUP_ANWER_YES" when GameplayMaster.instance.levelId == Data.LevelId.L8_Sewers:
@@ -1980,7 +2017,7 @@ namespace YellowTaxiAP.Managers
                             self.dialogues =
                             [
                                 $"Hey King! If you're really serious about working out, you should upgrade to our {SetTextColor("Super Deluxe Membership", DialogueColors.OrangeYellow)}!",
-                                $"It's only {SetTextColor($"{GymMembershipPrice} coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
+                                $"It's only {SetTextColor($"{GymMembershipPrice}", DialogueColors.Yellow)}<sprite name=\"Coin\"> and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
                             ];
                         }
                         else
@@ -1989,7 +2026,7 @@ namespace YellowTaxiAP.Managers
                             self.dialogues =
                             [
                                 $"Hey King! How did you manage to find your way in without a {SetTextColor("Membership", DialogueColors.OrangeYellow)}?",
-                                $"Just for you, I'm willing to give you the new member discount. {SetTextColor($"{GymMembershipPrice} coins", DialogueColors.Yellow)} and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
+                                $"Just for you, I'm willing to give you the new member discount. {SetTextColor($"{GymMembershipPrice}", DialogueColors.Yellow)}<sprite name=\"Coin\"> and comes with a {SetTextColor("Free Gift", DialogueColors.OrangeYellow)}, interested?",
                             ];
                         }
                         self.onAnswerYes.AddListener(SpecialMethod_OnUltraChadAnswerYes);
@@ -2060,6 +2097,47 @@ namespace YellowTaxiAP.Managers
                         self.dialogues[self.dialogues.Length - 1] = $"But with the power of dreams I can give you {GetItemText(12_10_00012)}!";
                         QueuedItem = 12_10_00012;
                         break;
+                    case "DIALOGUE_HAT_SELLER_JUST_TALK_1":
+                        if (!Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.HatWorldMembership))
+                            break;
+
+                        UseDiscountedHatPrice = APHatManager.HatWorldMembership;
+                        self.dialogues = UseDiscountedHatPrice
+                            ? [$"Welcome valued {SetTextColor("member", DialogueColors.OrangeYellow)}!", $"Would you like to purchase a {SetTextColor("special item", DialogueColors.OrangeYellow)}? Only {SetTextColor($"{HatMembershipPrice}", DialogueColors.Yellow)}<sprite name=\"Coin\">!"]
+                            : [$"I can't sell you anything without a {SetTextColor("membership", DialogueColors.OrangeYellow)}!", $"I suppose if you insist, I can sell you this {SetTextColor("mystery item", DialogueColors.OrangeYellow)} for {SetTextColor($"{HatMembershipPrice}", DialogueColors.Yellow)}<sprite name=\"Coin\">."];
+                        self.textSoundNames = [self.textSoundNames[0], self.textSoundNames[0]];
+
+                        self.askQuestion = true;
+                        self.onAnswerYes.AddListener(SpecialMethod_OnHatMasterAnswerYes);
+                        self.onAnswerNo.AddListener(SpecialMethod_OnHatMasterAnswerNo);
+
+                        break;
+                    case "DIALOGUE_HAT_SELLER_JUST_TALK_2":
+                        if (!Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.HatWorldMembership))
+                            break;
+
+                        if (APWalletManager.ServerCoins < HatMembershipPrice)
+                        {
+                            self.dialogues =
+                            [
+                                "If you do not have money to spend, then leave!"
+                            ];
+                            break;
+                        }
+
+                        self.dialogues =
+                        [
+                            $"Here's {GetItemText((long)Identifiers.NotableLocations.HatWorldMembership)}, no refunds!"
+                        ];
+                        QueuedPrice = HatMembershipPrice;
+                        QueuedItem = (long)Identifiers.NotableLocations.HatWorldMembership;
+
+                        break;
+                    case "DIALOGUE_HAT_SELLER_JUST_TALK_3":
+                        if (!Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.HatWorldMembership))
+                            break;
+
+                        break;
                     case "DIALOGUE_MORIO_AT_TOSLA_HQ_PORTAL_LOCKED":
                         // TODO: Update dialogue when v1.0.0 comes out. Hopefully this year.
                         self.dialogues[1] = "Surely v1.0.0 will be out this year!";
@@ -2111,11 +2189,15 @@ namespace YellowTaxiAP.Managers
         }
 
         public static long? QueuedItem;
+        public static int QueuedPrice = 0;
         public void SpecialMethod_SendQueuedItem()
         {
             if (QueuedItem != null)
             {
+                if (QueuedPrice > 0)
+                    MenuEventLeaderboard.CoinsSpentAdd(QueuedPrice);
                 Plugin.ArchipelagoClient.SendLocation(QueuedItem.Value);
+                QueuedPrice = 0;
                 QueuedItem = null;
                 if (LastTalkedTo && LastTalkedTo.gameRelevantPerson)
                 {
@@ -2143,6 +2225,15 @@ namespace YellowTaxiAP.Managers
         public void SpecialMethod_OnUltraChadAnswerNo()
         {
             Spawn.Instance("Dialogue Rat Pickup Answer No", Vector3.zero);
+        }
+        public void SpecialMethod_OnHatMasterAnswerYes()
+        {
+            Object.Instantiate(HatMasterDialogues[1]);
+        }
+
+        public void SpecialMethod_OnHatMasterAnswerNo()
+        {
+            Object.Instantiate(HatMasterDialogues[2]);
         }
 
         public enum DialogueColors

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Archipelago.MultiClient.Net.Enums;
 using TMPro;
@@ -15,6 +16,8 @@ namespace YellowTaxiAP.Managers
     public class APHatManager
     {
         public static bool ReceivedNoHatItem { get; set; }
+        public static bool HatWorldMembership { get; set; }
+        public static Dictionary<long, int> RandomizedHatPrices { get; set; } = new Dictionary<long, int>();
 
         public APHatManager()
         {
@@ -167,7 +170,7 @@ namespace YellowTaxiAP.Managers
             
             if (!self.rendererHolder.gameObject.activeSelf)
                 self.rendererHolder.gameObject.SetActive(true);
-            self.priceText.text = self.versioneArmadio || self.forceHidePriceText ? "" : (self.price <= 0 ? "FREE" : self.price + "<sprite name=\"Coin\">");
+            self.priceText.text = self.versioneArmadio || self.forceHidePriceText ? "" : !HatWorldMembership ? "<sprite name=\"Locked\"><color=#00000000>.</color>" : self.price <= 0 ? "FREE" : self.price + "<sprite name=\"Coin\">";
             self.priceText.transform.SetXAngle(CameraGame.instance.transform.GetXAngle());
             self.priceText.transform.SetYAngle(CameraGame.instance.transform.GetYAngle());
             self.priceText.enabled = HatBuyScript.currentBuyingHat != self;
@@ -196,6 +199,15 @@ namespace YellowTaxiAP.Managers
 
         private void HatBuyScript_OnTriggerEnter(On.HatBuyScript.orig_OnTriggerEnter orig, HatBuyScript self, Collider other)
         {
+            if (!self.versioneArmadio && !HatWorldMembership)
+            {
+                if (self.rotationSpd > 1.0)
+                    return;
+                self.rotationSpd = 2f;
+                Sound.Play("SoundMenuError");
+                return;
+            }
+
             if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled || self.versioneArmadio)
             {
                 orig(self, other);
@@ -208,7 +220,7 @@ namespace YellowTaxiAP.Managers
             var str_id = $"{(int)GameplayMaster.instance.levelId}_{Identifiers.HAT_ID:D2}_{(int)self.myHatKind:D5}";
             DebugLocationHelper.CheckLocation("hat", str_id);
 #endif
-            var id = 1_00_00000 * (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Hatsanity ? 99 : (long)GameplayMaster.instance.levelId) + 7_00000 + (long)self.myHatKind;
+            var id = GetHatID(self.myHatKind);
             self.disabled = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id);
             if (self.disabled)
                 return;
@@ -216,9 +228,19 @@ namespace YellowTaxiAP.Managers
             HudMasterScript.instance.StartCoroutine(ShopsanityPurchaseCoroutine(id, self.price));
         }
 
+        private long GetHatID(Hat myHatKind)
+        {
+            if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled)
+                return (long)myHatKind;
+
+
+            return 1_00_00000 * (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Hatsanity
+                ? 99
+                : (long)GameplayMaster.instance.levelId) + 7_00000 + (long)myHatKind;
+        }
+
         private void HatBuyScript_Awake(On.HatBuyScript.orig_Awake orig, HatBuyScript self)
         {
-            // Disable
             self.influencerHat = false; // This is used for disabling the hat
             if (self.myHatKind == Hat.Hat52_WishlistBurger) // Burger hat isn't flagged properly as a wardrobe hat
             {
@@ -228,9 +250,13 @@ namespace YellowTaxiAP.Managers
 
             if (!self.versioneArmadio)
             {
+                var id = GetHatID(self.myHatKind);
+                if (RandomizedHatPrices.ContainsKey(id))
+                {
+                    self.price = RandomizedHatPrices[id];
+                }
                 if (Plugin.SlotData.Hatsanity != YTGVSlotData.HatsanityType.Disabled)
                 {
-                    var id = 1_00_00000 * (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Hatsanity ? 99 : (long)GameplayMaster.instance.levelId) + 7_00000 + (long)self.myHatKind;
                     self.disabled = Plugin.ArchipelagoClient.AllClearedLocations.Contains(id) || !Plugin.ArchipelagoClient.AllLocations.Contains(id);
                 }
                 if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity && !self.disabled)

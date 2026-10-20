@@ -55,6 +55,7 @@ public static class Identifiers
         TimeTrialRemoteBabySteps = 10_17,
         TimeTrialRemoteGettingGud = 10_18,
         TimeTrialRemoteProTricks = 10_19,
+        HatWorldMembership = 10_99,
         MoriosWardrobe = 11_00,
         GelaToni = 11_01,
         PizzaKing = 11_02,
@@ -86,5 +87,6 @@ public static class Identifiers
         HubGoldenPropeller = 11_00013,
         UltraChadMembership = 6_10_00006,
         FlushedAwayMichele = 8_10_00008,
+        HatWorldMembership = 99_10_00000,
     }
 }

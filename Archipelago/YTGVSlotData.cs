@@ -25,7 +25,7 @@ namespace YellowTaxiAP.Archipelago
         /// Highest supported minor version in the highest supported major version.
         /// Should be up to date with latest APWorld whenever a new version is released.
         /// </summary>
-        public const int HighestSupportedMinorVersion = 7;
+        public const int HighestSupportedMinorVersion = 8;
         public bool FailedValidation { get; private set; }
         public long APWorldMajorVersion { get; set; }
         public long APWorldMinorVersion { get; set; }
@@ -1051,6 +1051,27 @@ namespace YellowTaxiAP.Archipelago
             {
                 GlitchedTaxiSkin = GlitchedTaxiSkinType.Vanilla;
                 Plugin.Log("No slot data for glitched_taxi_skin_color found");
+            }
+
+            if (slotData.ContainsKey("hat_world_membership"))
+            {
+                APHatManager.HatWorldMembership = !(bool)slotData["hat_world_membership"];
+            }
+            else
+            {
+                APHatManager.HatWorldMembership = true;
+                Plugin.Log("No slot data for hat_world_membership found");
+            }
+
+            if (slotData.ContainsKey("hat_prices"))
+            {
+                Plugin.Log("hat_prices is " + slotData["hat_prices"].GetType());
+                APHatManager.RandomizedHatPrices = JObject.FromObject((JObject)slotData["hat_prices"])
+                    .ToObject<Dictionary<long, int>>();
+            }
+            else
+            {
+                Plugin.Log("No slot data for hat_prices found");
             }
 
 

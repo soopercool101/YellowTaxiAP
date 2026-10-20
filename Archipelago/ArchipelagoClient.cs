@@ -636,6 +636,9 @@ public class ArchipelagoClient
                 APRatManager.ReceivedRatItem = true;
                 GameStateUpdater.RatStateNeedsUpdate = true;
                 break;
+            case Identifiers.ItemID.HatWorldMembership:
+                APHatManager.HatWorldMembership = true;
+                break;
             default:
                 // Bunnies are handled here
                 if (receivedItem.ItemId is >= 200 and < 300)
