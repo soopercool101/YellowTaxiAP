@@ -1914,18 +1914,31 @@ namespace YellowTaxiAP.Managers
                         QueuedItem = (long)Identifiers.NotableLocations.HubOrangeSwitch;
                         break;
                     case "DIALOGUE_MORIO_DREAM_MACHINE_INACTIVE":
-                        // TODO: If Morio's Mind is a level, dialogue should probably be tweaked here somewhat anyway
-                        if (!Plugin.SlotData.EarlyMoriosPassword)
-                            break;
+                        self.dialogues[1] = APAreaStateManager.MindPasswordReceived
+                            ? $"Looks like you already found the {SetTextColor("password", DialogueColors.OrangeYellow)} to this safety door!"
+                            : self.dialogues[1];
+                        if (APPortalManager.GetRandomizedLevelId(Data.LevelId.L12_MoriosMind) ==
+                            Data.LevelId.L11_HubDemo)
+                        {
+                            var dreamMachineDialogues = new List<string>
+                            {
+                                self.dialogues[0],
+                                self.dialogues[1],
+                            };
 
-                        Plugin.BepinLogger.LogWarning(self.dialogues[1]);
-                        self.dialogues =
-                        [
-                            self.dialogues[0],
-                            APAreaStateManager.MindPasswordReceived ? $"Looks like you already found the {SetTextColor("password", DialogueColors.OrangeYellow)} to this safety door!" : self.dialogues[1],
-                            $"On an unrelated note, this machine will give you {GetItemText((int) Identifiers.NotableLocations.HubMoriosPassword)}!",
-                            $"I hope it's worth it, because this is quite painful!",
-                        ];
+                            if (Plugin.SlotData.EarlyMoriosPassword)
+                                dreamMachineDialogues.AddRange([
+                                    $"On an unrelated note, this machine will give you {GetItemText((int) Identifiers.NotableLocations.HubMoriosPassword)}!",
+                                    "I hope it's worth it, because this is quite painful!",
+                                ]);
+
+                            self.dialogues = dreamMachineDialogues.ToArray();
+                        }
+                        else if (Plugin.SlotData.EarlyMoriosPassword)
+                        {
+                            self.dialogues[self.dialogues.Length - 1] =
+                                $"Also, this machine will give you {GetItemText((int)Identifiers.NotableLocations.HubMoriosPassword)}!";
+                        }
 
                         break;
                     case "DIALOGUE_MORIO_DREAM_MACHINE_ACTIVE_AFTER_PASSWORD":
