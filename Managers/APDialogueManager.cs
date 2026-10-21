@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Models;
+using I2.Loc;
 using Steamworks;
 using UnityEngine;
 using YellowTaxiAP.Archipelago;
@@ -1044,16 +1045,16 @@ namespace YellowTaxiAP.Managers
             ]),
             new(Strings.I2_LocalizationReformatted("NAME_MACKANZIE"), "SoundTextFemaleDefault", [
                 [Strings.I2_LocalizationReformatted("DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK_1"), "Have you joined the Pizza King's cause? All Pizza Men are required to help increase pizza production!"],
-                [Strings.I2_LocalizationReformatted("DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK_1"), "Did you know that prior to the Pizza King's rule, the level was just called \"Time\"?"],
+                [Strings.I2_LocalizationReformatted("DIALOGUE_PIZZA_TIME_MACKENZIE_MANIFEST_JUST_TALK_1"), $"Did you know that prior to the Pizza King's rule, the level was just called {SetTextColor("\"Time\"", DialogueColors.OrangeYellow)}?"],
             ]),
             new(Strings.I2_LocalizationReformatted("NAME_PIZZA_KING"), "SoundDialoguePizzaKingVoice", [
-                [$"Hello noble knight! Are you keeping your eye out for more {SetTextColor("pizza slices", DialogueColors.OrangeYellow)} <sprite name=\"Pizza\">?", "I believe they're all together but things are so mixed up these days!"],
+                [$"Hello noble knight! Are you keeping your eye out for more {SetTextColor("pizza slices", DialogueColors.OrangeYellow)} <sprite name=\"Pizza\">?", Plugin.SlotData.Pizzasanity ? $"Feels like they could be {SetTextColor("anywhere", DialogueColors.OrangeYellow)}!" : "I believe they're all together but things are so mixed up these days!"],
                 ["Hello powerful knight! When you're through with your quest, perhaps a profession in pizza delivery would suit you?"],
             ]),
             new(Strings.I2_LocalizationReformatted("NAME_HAT_SELLER"), "SoundDialogueCappellaioVoice", [
                 [Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled ? "Hats not being checks this run doesn't mean you shouldn't still buy them!" : $"You should buy my wares, what if I have {GetRandomWare()}?"],
                 Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity ? ["I still don't know where these question marks came from!", "Who cares, they fetch a nice price!!!"] : [$"You should enable {SetTextColor("Shopsanity", DialogueColors.OrangeYellow)} next run!", "I need you to buy more!!!"],
-                ["My shop's been in such high demand these days!", "I might start charging a membership fee!!!"]
+                ["My shop's been in such high demand these days!", Plugin.SlotData.HatWorldHasMembership ? $"I've had to institute a membership, {(APHatManager.HatWorldMembership ? "which you should use to buy more!" : "which keeps out the riff-raff like you!")}" : "I might start charging a membership fee!!!"]
             ]),
             new("DISCLAIMER_CASUAL_REFERENCES"),
             new(Strings.I2_LocalizationReformatted("NAME_ALIEN_MOSK"), "<MOSK>", [
@@ -1185,7 +1186,7 @@ namespace YellowTaxiAP.Managers
                     hintIntro,
                     "What? You haven't learned any?",
                     $"Keep looking, though it's possible you may need to ask someone {SetTextColor("off world", DialogueColors.OrangeYellow)}!",
-                    $"I've been told that you can {SetTextColor("!hint", DialogueColors.OrangeYellow)} {SetTextColor("Move", DialogueColors.GreenYellow)}, but I don't know what that means!",
+                    $"I've been told that you can {SetTextColor("!hint", DialogueColors.OrangeYellow)} {SetTextColor($"Move{(Plugin.SlotData.ShuffleFlipOWill == YTGVSlotData.MoveRandoType.PerLevel ? $" ({(GameplayMaster.instance.levelId == Data.LevelId.Hub ? "Hub" : LocalizationManager.GetTermTranslation(Data.levelDataList[(int) GameplayMaster.instance.levelId].levelName, overrideLanguage:"English"))})" : string.Empty)}", DialogueColors.GreenYellow)}, but I don't know what that means!",
                 ]);
             }
 
