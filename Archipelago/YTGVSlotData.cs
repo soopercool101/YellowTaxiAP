@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using YellowTaxiAP.Helpers;
 using YellowTaxiAP.Managers;
 
 namespace YellowTaxiAP.Archipelago
@@ -216,6 +217,36 @@ namespace YellowTaxiAP.Archipelago
         public GlitchedTaxiSkinType GlitchedTaxiSkin { get; private set; }
 
         public Color GlitchedTaxiCustomColor;
+
+        public enum GearSkinType : long
+        {
+            Vanilla = 0,
+            Inverse = 1,
+            Solid = 2,
+            Ghost = 3,
+        }
+        public GearSkinType GearSkin { get; private set; }
+
+        public enum SolidGearColorType
+        {
+            Vanilla,
+            Green,
+            Blue,
+            Custom,
+        }
+        public SolidGearColorType SolidGearColor { get; private set; }
+
+        public Color SolidGearCustomColor;
+
+        public enum GhostGearColorType
+        {
+            Green,
+            Gold,
+            Custom,
+        }
+        public GhostGearColorType GhostGearColor { get; private set; }
+
+        public Color GhostGearCustomColor;
 
         public YTGVSlotData()
         {
@@ -1036,10 +1067,10 @@ namespace YellowTaxiAP.Archipelago
                     case "vanilla_orange":
                         GlitchedTaxiSkin = GlitchedTaxiSkinType.Vanilla;
                         break;
-                    case "time_trial_green":
+                    case "time_attack_green":
                         GlitchedTaxiSkin = GlitchedTaxiSkinType.GhostGreen;
                         break;
-                    case "time_trial_gold":
+                    case "time_attack_gold":
                         GlitchedTaxiSkin = GlitchedTaxiSkinType.GhostGold;
                         break;
                     default:
@@ -1053,6 +1084,66 @@ namespace YellowTaxiAP.Archipelago
             {
                 GlitchedTaxiSkin = GlitchedTaxiSkinType.Vanilla;
                 Plugin.Log("No slot data for glitched_taxi_skin_color found");
+            }
+
+            if (slotData.ContainsKey("gear_type"))
+            {
+                GearSkin = (GearSkinType)(long)slotData["gear_type"];
+            }
+            else
+            {
+                Plugin.Log("No slot data for gear_type found");
+            }
+
+            if (slotData.ContainsKey("standard_gear_color"))
+            {
+                switch (slotData["standard_gear_color"].ToString())
+                {
+                    case "default":
+                        SolidGearColor = SolidGearColorType.Vanilla;
+                        break;
+                    case "vanilla_green":
+                        SolidGearColor = SolidGearColorType.Green;
+                        break;
+                    case "vanilla_colorblind_blue":
+                        SolidGearColor = SolidGearColorType.Blue;
+                        break;
+                    default:
+                        SolidGearColor = SolidGearColorType.Custom;
+                        ColorUtility.TryParseHtmlString(slotData["standard_gear_color"].ToString(),
+                            out SolidGearCustomColor);
+                        AssetLoadinator.ColorGearMaterial.color = SolidGearCustomColor;
+                        break;
+                }
+            }
+            else
+            {
+                SolidGearColor = SolidGearColorType.Vanilla;
+                Plugin.Log("No slot data for standard_gear_color found");
+            }
+
+            if (slotData.ContainsKey("time_attack_gear_color"))
+            {
+                switch (slotData["time_attack_gear_color"].ToString())
+                {
+                    case "vanilla_green":
+                        GhostGearColor = GhostGearColorType.Green;
+                        break;
+                    case "gold":
+                        GhostGearColor = GhostGearColorType.Gold;
+                        break;
+                    default:
+                        GhostGearColor = GhostGearColorType.Custom;
+                        ColorUtility.TryParseHtmlString(slotData["time_attack_gear_color"].ToString(),
+                            out GhostGearCustomColor);
+                        AssetLoadinator.ColorGearTimeTrialMaterial.color = GhostGearCustomColor;
+                        break;
+                }
+            }
+            else
+            {
+                GhostGearColor = GhostGearColorType.Green;
+                Plugin.Log("No slot data for time_attack_gear_color found");
             }
 
             if (slotData.ContainsKey("hat_world_membership"))

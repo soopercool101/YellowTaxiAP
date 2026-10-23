@@ -20,6 +20,9 @@ namespace YellowTaxiAP.Helpers
 
         public static Dictionary<string, GameObject> SpecialBackgrounds { get; private set; } = new();
         public static GameObject Gear { get; private set; }
+        public static Material ColorGearMaterial { get; set; }
+        public static Material ColorGearTimeTrialMaterial { get; set; }
+        public static Material DebugGearMaterial { get; set; }
         public static GameObject NoEntrySign { get; private set; }
 
         public static int level = 3;
@@ -126,10 +129,12 @@ namespace YellowTaxiAP.Helpers
                     gear.SetActive(false);
                     gear.transform.SetParent(null);
                     Object.DontDestroyOnLoad(gear);
-                    gear.GetComponent<BonusScript>().gearArrayIndex = 99;
+                    var gearComponent = gear.GetComponent<BonusScript>();
+                    gearComponent.gearArrayIndex = 99;
                     gear.transform.position = Vector3.zero;
                     gear.gameObject.name = "ModdedGear";
                     Gear = gear;
+                    ColorGearMaterial = new Material(gearComponent.gearUsedMaterial);
                     Plugin.Log($"Loaded {Gear.name} as Gear");
                     // Also get the ghost taxi materials
                     foreach (var asset in assetMasters["Specific Asset Master"].prefabs)
@@ -138,9 +143,14 @@ namespace YellowTaxiAP.Helpers
                         {
                             case "Player's Ghost":
                                 TaxiSkins.TaxiLocalGhost = GetGhostMaterial(asset);
+                                ColorGearTimeTrialMaterial = new Material(TaxiSkins.TaxiLocalGhost);
                                 break;
                             case "Player's Ghost Downloaded":
                                 TaxiSkins.TaxiDownloadedGhost = GetGhostMaterial(asset);
+                                DebugGearMaterial = new Material(TaxiSkins.TaxiDownloadedGhost);
+                                ColorUtility.TryParseHtmlString("#FF00DC", out var color);
+                                DebugGearMaterial.color = color;
+                                DebugGearMaterial.SetFloat("_VertexGlitchMagnitude", 0.005f);
                                 break;
                         }
                     }

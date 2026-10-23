@@ -23,8 +23,11 @@ namespace YellowTaxiAP.Managers
             On.BonusScript.CoinPickedUpGet += BonusScript_CoinPickedUpGet;
             On.BonusScript.BunnyAlreadyPickedUpRefresh += BonusScript_BunnyAlreadyPickedUpRefresh;
             On.BonusScript.GearAlreadyPickedUpRefresh += BonusScript_GearAlreadyPickedUpRefresh;
+            On.BonusScript.GearDaltonicTextureRefresh += BonusScript_GearDaltonicTextureRefresh;
             On.BonusScript.Awake += BonusScript_Awake;
             On.BonusScript.GoldenItemsResetPickupState += BonusScript_GoldenItemsResetPickupState;
+
+            On.BenzinaioScript.DaltonicTextureRefresh += BenzinaioScript_DaltonicTextureRefresh;
 
             //On.BonusScript.CoinPickedUpSet += BonusScript_CoinPickedUpSet;
             //On.BonusScript.OnDestroy += BonusScript_OnDestroy;
@@ -45,6 +48,73 @@ namespace YellowTaxiAP.Managers
             On.BonusScriptChild_PizzaGreen.Update += BonusScriptChild_PizzaGreen_Update;
         }
 
+        private void BenzinaioScript_DaltonicTextureRefresh(On.BenzinaioScript.orig_DaltonicTextureRefresh orig, BenzinaioScript self)
+        {
+            if (self.gearHasPickedUpMaterial)
+                return;
+            SetGearColor(self.ingranaggioMeshRend, self.gearBaseMaterial, self.gearDaltonicMaterial);
+        }
+
+        private void BonusScript_GearDaltonicTextureRefresh(On.BonusScript.orig_GearDaltonicTextureRefresh orig, BonusScript self)
+        {
+            if (self.gearHasPickedupUpTexture)
+                return;
+            SetGearColor(self.myMeshRend, self.gearBaseMaterial, self.gearDaltonicMaterial, self.rotateMe.GetChild(1).GetComponent<Light>());
+        }
+
+        private void SetGearColor(MeshRenderer myMeshRend, Material gearBaseMaterial, Material gearDaltonicMaterial, Light lightSource = null)
+        {
+            var gearSkin = Plugin.SlotData.GearSkin;
+            if (gearSkin == YTGVSlotData.GearSkinType.Vanilla)
+            {
+                gearSkin = GameplayMaster.instance.timeAttackLevel
+                    ? YTGVSlotData.GearSkinType.Ghost
+                    : YTGVSlotData.GearSkinType.Solid;
+            }
+            else if (gearSkin == YTGVSlotData.GearSkinType.Inverse)
+            {
+                gearSkin = !GameplayMaster.instance.timeAttackLevel
+                    ? YTGVSlotData.GearSkinType.Ghost
+                    : YTGVSlotData.GearSkinType.Solid;
+            }
+
+            if (gearSkin == YTGVSlotData.GearSkinType.Solid)
+            {
+                switch (Plugin.SlotData.SolidGearColor)
+                {
+                    case YTGVSlotData.SolidGearColorType.Vanilla:
+                        myMeshRend.sharedMaterial = Settings.colorblindModeEnabled ? gearDaltonicMaterial : gearBaseMaterial;
+                        break;
+                    case YTGVSlotData.SolidGearColorType.Green:
+                        myMeshRend.sharedMaterial = gearBaseMaterial;
+                        break;
+                    case YTGVSlotData.SolidGearColorType.Blue:
+                        myMeshRend.sharedMaterial = gearDaltonicMaterial;
+                        break;
+                    case YTGVSlotData.SolidGearColorType.Custom:
+                        myMeshRend.sharedMaterial = AssetLoadinator.ColorGearMaterial;
+                        lightSource?.GetComponent<Light>().color = myMeshRend.material.color;
+                        break;
+                }
+            }
+            else
+            {
+                switch (Plugin.SlotData.GhostGearColor)
+                {
+                    case YTGVSlotData.GhostGearColorType.Green:
+                        myMeshRend.sharedMaterial = TaxiSkins.TaxiLocalGhost;
+                        break;
+                    case YTGVSlotData.GhostGearColorType.Gold:
+                        myMeshRend.sharedMaterial = TaxiSkins.TaxiDownloadedGhost;
+                        lightSource?.color = myMeshRend.material.color;
+                        break;
+                    case YTGVSlotData.GhostGearColorType.Custom:
+                        myMeshRend.sharedMaterial = AssetLoadinator.ColorGearTimeTrialMaterial;
+                        lightSource?.color = myMeshRend.material.color;
+                        break;
+                }
+            }
+        }
 
         private void BonusScriptChild_PizzaGreen_Awake(On.BonusScriptChild_PizzaGreen.orig_Awake orig, BonusScriptChild_PizzaGreen self)
         {
@@ -95,7 +165,9 @@ namespace YellowTaxiAP.Managers
             if (Plugin.IsInDebugScene)
             {
                 self.gearHasPickedupUpTexture = false;
-                self.GetComponentInChildren<MeshRenderer>(true).sharedMaterial = self.gearDaltonicMaterial;
+                self.GetComponentInChildren<MeshRenderer>(true).sharedMaterial = AssetLoadinator.DebugGearMaterial;
+                self.gearOutlineTr.gameObject.SetActive(false);
+                self.rotateMe.GetChild(1).GetComponent<Light>().color = self.myMeshRend.material.color;
                 return;
             }
 #if DEBUG
@@ -393,7 +465,8 @@ namespace YellowTaxiAP.Managers
                             animComponent.newLevelSplashSound = "SoundNewLevelUnlockSplash";
                             animComponent.initialGearCameraZoomOnPortal = false;
                             animComponent.itWasANeverTakenGear = true;
-                            animComponent.gearMesh.sharedMaterial = pickup.gearDaltonicMaterial;
+                            animComponent.gearMesh.sharedMaterial = pickup.myMeshRend.sharedMaterial;
+                            animComponent.gearMesh.GetComponent<Outline>().enabled = false;
                             pickup.KillMe();
                             break;
                         case BonusScript.Identity.gear when id.HasValue:
@@ -436,17 +509,10 @@ namespace YellowTaxiAP.Managers
                                 GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear",
                                     freezePlayer: false);
                             }
-                            else if (GameplayMaster.instance.timeAttackLevel)
-                            {
-                                GenericPickupAnimationScript.SpawnNew("PickupVisualizer_GearTimeAttack",
-                                    freezePlayer: false);
-                                Plugin.ArchipelagoClient.SendLocation(id.Value);
-                                HudMasterScript.instance.gearShowCollectAnimation = true;
-                            }
-                            else if (Plugin.SlotData.QuickPickups || Plugin.CheatsEnabled)
+                            else if (Plugin.SlotData.QuickPickups || GameplayMaster.instance.timeAttackLevel || Plugin.CheatsEnabled)
                             {
                                 var gear = GenericPickupAnimationScript.SpawnNew("PickupVisualizer_AlreadyTakenGear", freezePlayer: false);
-                                gear.GetComponentInChildren<MeshRenderer>().material = pickup.gearBaseMaterial;
+                                gear.GetComponentInChildren<MeshRenderer>().material = pickup.myMeshRend.sharedMaterial;
                                 Plugin.ArchipelagoClient.SendLocation(id.Value);
                                 HudMasterScript.instance.gearShowCollectAnimation = true;
                                 HudMasterScript.instance.UpdateGearsText();
@@ -484,6 +550,7 @@ namespace YellowTaxiAP.Managers
                                 component.newLevelSplashSound = "SoundNewLevelUnlockSplash";
                                 component.initialGearCameraZoomOnPortal = false;
                                 component.itWasANeverTakenGear = true;
+                                component.gearMesh.sharedMaterial = pickup.myMeshRend.sharedMaterial;
                                 HudMasterScript.instance.gearShowCollectAnimation = true;
                             }
 
