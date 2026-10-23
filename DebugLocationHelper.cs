@@ -9066,7 +9066,7 @@ namespace YellowTaxiAP
                     new RegionConnection(GrannysIslandTowardsSewerIsland1, "B1 | GP+J1+OS | X1+GP | X2+J1"),
                     new RegionConnection(GrannysIslandTowardsSewerIsland2, "B1 & X2/OS/GP/J1 | X1+GP+OS"),
                     new RegionConnection(GrannysIslandCloroPhilIsland, "GP | B2 | X1 & B1/J2"),
-                    new RegionConnection(GrannysIslandHighPillarByLab, "X1/GP/J1 & B1 | NSAR+X1+GP & X2/J1 | X1+GP+J2 | X3+J1"),
+                    new RegionConnection(GrannysIslandHighPillarByLab, "X2/GP/J1 & B1 | NSAR+X1+GP & X2/J1 | X1+GP+J2 | X3+J1"),
                     new RegionConnection(GrannysIslandCrashAgainIsland, "X1+B2+GP | X2+B2 & X3/J1 | X2+GP & X3/B1 | X3+J1"),
                     new RegionConnection(GrannysIslandCrashAgainRoof, "X2+GP & X3/B2 | GP+OS & X2/B1"),
                     new RegionConnection("Granny's Island - Law Firm Roof Entrance", HubLawFirm, ConnectionType.Subwarp),
