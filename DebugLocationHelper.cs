@@ -10489,7 +10489,7 @@ namespace YellowTaxiAP
                     new RegionConnection("Flushed Away - Pipe in Front of Checkpoint", FlushedAwayStartingArea, ConnectionType.Subwarp),
                     new RegionConnection(FlushedAwayCentralDrainArchway),
                     new RegionConnection(FlushedAwayCentralDrainWaterfallAccessible, "X1"),
-                    new RegionConnection(FlushedAwayGearPillar, "J1/B1"),
+                    new RegionConnection(FlushedAwayGearPillar, "X2/J1/B1"),
                     new RegionConnection("Flushed Away - Pipe Under Sewage Ramps", FlushedAwayAboveCentralDrain, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Pit After Skeletrone Dance Party", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
                     new RegionConnection("Flushed Away - Tunnel After Gear Pillar", FlushedAwayCentralDrainArchway, ConnectionType.Subwarp),
