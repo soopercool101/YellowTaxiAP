@@ -66,10 +66,12 @@ namespace YellowTaxiAP.Behaviours
                     break;
                 case "slow":
                 case "slow time":
+                case "speed down":
                     newTrap = new SlowTimeTrap();
                     break;
                 case "fast":
                 case "fast time":
+                case "speed up":
                     newTrap = new FastTimeTrap();
                     break;
                 case "pixelate":
@@ -78,17 +80,22 @@ namespace YellowTaxiAP.Behaviours
                 case "144p":
                     newTrap = new PixelateTrap();
                     break;
+                case "git gud":
+                case "taunt":
+                    newTrap = new GitGudTrap();
+                    break;
                 case "well done":
                 case "psychotic":
                     newTrap = new PsychoticTrap();
                     break;
                 case "bonus skybox":
                 case "weather sunny":
+                case "animal bonus":
                     newTrap = new BonusSkyboxTrap();
                     break;
-                case "bonus room":
-                case "animal bonus":
-                    newTrap = new BonusRoomTrap();
+                case "cloudy skybox":
+                case "weather cloudy":
+                    newTrap = new CloudySkyboxTrap();
                     break;
                 case "furry convention":
                 case "rat infestation":
@@ -130,6 +137,7 @@ namespace YellowTaxiAP.Behaviours
                 case "banana":
                     newTrap = new BananaTrap();
                     break;
+                case "flood":
                 case "underwater":
                     newTrap = new UnderwaterTrap();
                     break;
@@ -161,6 +169,7 @@ namespace YellowTaxiAP.Behaviours
                 case "phone":
                 case "exposition":
                 case "e. gadd ramblings":
+                case "yap":
                     newTrap = new PhoneTrap();
                     break;
                 case "tutorial":
@@ -685,6 +694,16 @@ namespace YellowTaxiAP.Behaviours
         }
     }
 
+    public class GitGudTrap : Trap
+    {
+        public override string Name => "Git Gud Trap";
+
+        public override void TrapActivate()
+        {
+            GiudgementScript.Spawn(GiudgementScript.Kind.gitGud);
+        }
+    }
+
     public class PsychoticTrap : Trap
     {
         public override string Name => "Psychotic Trap";
@@ -695,25 +714,32 @@ namespace YellowTaxiAP.Behaviours
         }
     }
 
-    public class BonusSkyboxTrap : Trap
+    public abstract class SkyboxTrap : Trap
     {
-        public override string Name => "Bonus Skybox Trap";
+        public override string Name => "Skybox Trap";
+
+        public abstract string Skybox { get; }
 
         public override void TrapActivate()
         {
-            BackgroundMaster.Change("Background Bonus Level");
+            APMusicAndSkyManager.SuppressBGRando = true;
+            BackgroundMaster.Change(Skybox);
+            APMusicAndSkyManager.SuppressBGRando = false;
         }
     }
 
-    public class BonusRoomTrap : Trap
+    public class BonusSkyboxTrap : SkyboxTrap
     {
-        public override string Name => "Bonus Room Trap";
+        public override string Name => "Bonus Skybox Trap";
 
-        public override void TrapActivate()
-        {
-            BackgroundMaster.Change("Background Bonus Level");
-            GameplayMaster.instance.levelSoundtrack = "SoundtrackBonusLevel";
-        }
+        public override string Skybox => "Background Bonus Level";
+    }
+
+    public class CloudySkyboxTrap : SkyboxTrap
+    {
+        public override string Name => "Cloudy Skybox Trap";
+
+        public override string Skybox => "Background Dark Sky Tosla Offices";
     }
 
     public class RatInfestationTrap : Trap
