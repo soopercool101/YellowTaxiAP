@@ -1936,6 +1936,10 @@ namespace YellowTaxiAP.Managers
                         }
                         else if (Plugin.SlotData.EarlyMoriosPassword)
                         {
+                            if (APAreaStateManager.MindPasswordReceived)
+                            {
+                                self.dialogues[2] = "But you can still enter my mind using this machine!";
+                            }
                             self.dialogues[self.dialogues.Length - 1] =
                                 $"Also, this machine will give you {GetItemText((int)Identifiers.NotableLocations.HubMoriosPassword)}!";
                         }
