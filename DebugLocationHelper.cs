@@ -8064,12 +8064,12 @@ namespace YellowTaxiAP
         public static Dictionary<string, string> GettingGudInTheAir = new()
         {
             { "18_01_00001", "Getting Gud! - Gear - In the Air" },
-            { "<SPECIAL>", "Getting Gud! - Complete Time Trial" }
+            { "<SPECIAL>", "Getting Gud! - Complete Time Attack" }
         };
 
         public static Dictionary<string, string> GettingGudSpecialRules = new()
         {
-            { "Getting Gud! - Complete Time Trial", "J1/Spike" }
+            { "Getting Gud! - Complete Time Attack", "J1/Spike" }
         };
 
         #endregion
@@ -8103,13 +8103,13 @@ namespace YellowTaxiAP
         {
             { "19_01_00006", "Pro Tricks! - Gear - #8 On Ramp Pillar" },
             { "19_01_00004", "Pro Tricks! - Gear - #9 Cliff Above Start" },
-            { "<SPECIAL>", "Pro Tricks! - Complete Time Trial" }
+            { "<SPECIAL>", "Pro Tricks! - Complete Time Attack" }
         };
 
         public static Dictionary<string, string> ProTricksSpecialRules = new()
         {
             { "Pro Tricks! - Gear - #2 Above Ramps", "B1/J2 | X2+J1" },
-            { "Pro Tricks! - Complete Time Trial", $"B1 | X3+J1" },
+            { "Pro Tricks! - Complete Time Attack", $"B1 | X3+J1" },
         };
 
         #endregion
