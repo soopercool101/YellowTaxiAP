@@ -159,6 +159,7 @@ namespace YellowTaxiAP.Managers
             if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled || self.versioneArmadio)
             {
                 orig(self);
+                self.priceText.text = self.versioneArmadio || self.forceHidePriceText ? "" : !HatWorldMembership ? "<sprite name=\"Locked\"><color=#00000000>.</color>" : self.price <= 0 ? "FREE" : self.price + "<sprite name=\"Coin\">";
                 return;
             }
             if (self.disabled)
