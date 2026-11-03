@@ -11262,7 +11262,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection("Costipation - Mosk's Rocket Portal", RocketFlushedArea, ConnectionType.Subwarp),
                     new RegionConnection(CostipationRoadwayGearArea, "B1 | X1+J1"),
-                    new RegionConnection(CostipationIslandGearArea, "B2 | X2+B1 | X3+J1"),
+                    new RegionConnection(CostipationIslandGearArea, "B2 | X1+B1 | X3+J1"),
                     new RegionConnection(CostipationHatArea, "B1 | X3+J1"),
                 ]
             },
