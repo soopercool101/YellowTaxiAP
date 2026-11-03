@@ -143,8 +143,6 @@ namespace YellowTaxiAP.Archipelago
 
         public bool EasyAlienMosk { get; private set; }
 
-        public bool HatWorldHasMembership { get; private set; }
-
         public enum MoriosMindLaserBehavior : long
         {
             Enabled = 0,
@@ -1148,12 +1146,11 @@ namespace YellowTaxiAP.Archipelago
 
             if (slotData.ContainsKey("hat_world_membership"))
             {
-                HatWorldHasMembership = (bool)slotData["hat_world_membership"];
-                APHatManager.HatWorldMembership = !HatWorldHasMembership;
+                APHatManager.HatWorldNeedsMembership = (bool)slotData["hat_world_membership"];
             }
             else
             {
-                APHatManager.HatWorldMembership = true;
+                APHatManager.HatWorldNeedsMembership = false;
                 Plugin.Log("No slot data for hat_world_membership found");
             }
 

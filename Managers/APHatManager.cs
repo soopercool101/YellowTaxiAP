@@ -16,7 +16,9 @@ namespace YellowTaxiAP.Managers
     public class APHatManager
     {
         public static bool ReceivedNoHatItem { get; set; }
-        public static bool HatWorldMembership { get; set; }
+        public static bool HatWorldNeedsMembership { get; set; }
+        public static bool HatWorldMembershipItem { get; set; }
+        public static bool CanPurchaseHats => !HatWorldNeedsMembership || HatWorldMembershipItem;
         public static Dictionary<long, int> RandomizedHatPrices { get; set; } = new Dictionary<long, int>();
 
         public APHatManager()
@@ -159,7 +161,7 @@ namespace YellowTaxiAP.Managers
             if (Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled || self.versioneArmadio)
             {
                 orig(self);
-                self.priceText.text = self.versioneArmadio || self.forceHidePriceText ? "" : !HatWorldMembership ? "<sprite name=\"Locked\"><color=#00000000>.</color>" : self.price <= 0 ? "FREE" : self.price + "<sprite name=\"Coin\">";
+                self.priceText.text = self.versioneArmadio || self.forceHidePriceText ? "" : !CanPurchaseHats ? "<sprite name=\"Locked\"><color=#00000000>.</color>" : self.price <= 0 ? "FREE" : self.price + "<sprite name=\"Coin\">";
                 return;
             }
             if (self.disabled)
@@ -171,7 +173,7 @@ namespace YellowTaxiAP.Managers
             
             if (!self.rendererHolder.gameObject.activeSelf)
                 self.rendererHolder.gameObject.SetActive(true);
-            self.priceText.text = self.versioneArmadio || self.forceHidePriceText ? "" : !HatWorldMembership ? "<sprite name=\"Locked\"><color=#00000000>.</color>" : self.price <= 0 ? "FREE" : self.price + "<sprite name=\"Coin\">";
+            self.priceText.text = self.versioneArmadio || self.forceHidePriceText ? "" : !CanPurchaseHats ? "<sprite name=\"Locked\"><color=#00000000>.</color>" : self.price <= 0 ? "FREE" : self.price + "<sprite name=\"Coin\">";
             self.priceText.transform.SetXAngle(CameraGame.instance.transform.GetXAngle());
             self.priceText.transform.SetYAngle(CameraGame.instance.transform.GetYAngle());
             self.priceText.enabled = HatBuyScript.currentBuyingHat != self;
@@ -200,7 +202,7 @@ namespace YellowTaxiAP.Managers
 
         private void HatBuyScript_OnTriggerEnter(On.HatBuyScript.orig_OnTriggerEnter orig, HatBuyScript self, Collider other)
         {
-            if (!self.versioneArmadio && !HatWorldMembership)
+            if (!self.versioneArmadio && !CanPurchaseHats)
             {
                 if (self.rotationSpd > 1.0)
                     return;

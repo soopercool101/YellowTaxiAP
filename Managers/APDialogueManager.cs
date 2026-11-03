@@ -1054,7 +1054,7 @@ namespace YellowTaxiAP.Managers
             new(Strings.I2_LocalizationReformatted("NAME_HAT_SELLER"), "SoundDialogueCappellaioVoice", [
                 [Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Disabled ? "Hats not being checks this run doesn't mean you shouldn't still buy them!" : $"You should buy my wares, what if I have {GetRandomWare()}?"],
                 Plugin.SlotData.Hatsanity == YTGVSlotData.HatsanityType.Shopsanity ? ["I still don't know where these question marks came from!", "Who cares, they fetch a nice price!!!"] : [$"You should enable {SetTextColor("Shopsanity", DialogueColors.OrangeYellow)} next run!", "I need you to buy more!!!"],
-                ["My shop's been in such high demand these days!", Plugin.SlotData.HatWorldHasMembership ? $"I've had to institute a membership, {(APHatManager.HatWorldMembership ? "which you should use to buy more!" : "which keeps out the riff-raff like you!")}" : "I might start charging a membership fee!!!"]
+                ["My shop's been in such high demand these days!", Plugin.SlotData.HatWorldHasMembership ? $"I've had to institute a membership, {(APHatManager.CanPurchaseHats ? "which you should use to buy more!" : "which keeps out the riff-raff like you!")}" : "I might start charging a membership fee!!!"]
             ]),
             new("DISCLAIMER_CASUAL_REFERENCES"),
             new(Strings.I2_LocalizationReformatted("NAME_ALIEN_MOSK"), "<MOSK>", [
@@ -2119,7 +2119,7 @@ namespace YellowTaxiAP.Managers
                         if (!Plugin.ArchipelagoClient.LocationUncleared((long)Identifiers.NotableLocations.HatWorldMembership))
                             break;
 
-                        UseDiscountedHatPrice = APHatManager.HatWorldMembership;
+                        UseDiscountedHatPrice = APHatManager.CanPurchaseHats;
                         self.dialogues = UseDiscountedHatPrice
                             ? [$"Welcome valued {SetTextColor("member", DialogueColors.OrangeYellow)}!", $"Would you like to purchase a {SetTextColor("special item", DialogueColors.OrangeYellow)}? Only {SetTextColor($"{HatMembershipPrice}", DialogueColors.Yellow)}<sprite name=\"Coin\">!"]
                             : [$"I can't sell you anything without a {SetTextColor("membership", DialogueColors.OrangeYellow)}!", $"I suppose if you insist, I can sell you this {SetTextColor("mystery item", DialogueColors.OrangeYellow)} for {SetTextColor($"{HatMembershipPrice}", DialogueColors.Yellow)}<sprite name=\"Coin\">."];

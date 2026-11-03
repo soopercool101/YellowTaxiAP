@@ -637,7 +637,7 @@ public class ArchipelagoClient
                 GameStateUpdater.RatStateNeedsUpdate = true;
                 break;
             case Identifiers.ItemID.HatWorldMembership:
-                APHatManager.HatWorldMembership = true;
+                APHatManager.HatWorldMembershipItem = true;
                 break;
             default:
                 // Bunnies are handled here
