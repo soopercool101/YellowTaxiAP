@@ -9301,7 +9301,7 @@ namespace YellowTaxiAP
                     new RegionConnection(MoriosLabSecondFloorShortcutPipe, "X1"),
                     new RegionConnection(MoriosLabFifthFloorCrashTestArea, "X3+OS+FGU"),
                     new RegionConnection(MoriosLabMiddleFloorsGoldenPropeller, "FGU+B1+Spike"),
-                    new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+MorioHat+B1 | HS+MorioHat+B1 & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
+                    new RegionConnection(MoriosLabMoriosRoomInsideJump, $"MorioHat+B1"),
                     new RegionConnection(MoriosLabMoriosRoomOutside, "X2"),
                     new RegionConnection(MoriosLabGroundFloorOrangeBlocks, "X2"),
                     new RegionConnection(MoriosLabGroundFloorArcadeGearAlcove, "X2"),
@@ -9467,7 +9467,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(MoriosLabMoriosRoomOutside)),
                 [
                     new RegionConnection(MoriosLabGroundFloorSecondWrench),
-                    new RegionConnection(MoriosLabMoriosRoomInside, $"NHS+MorioHat | HS+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
+                    new RegionConnection(MoriosLabMoriosRoomInside, $"MorioHat"),
                 ]
             },
             {
@@ -9609,7 +9609,7 @@ namespace YellowTaxiAP
                 [
                     new RegionConnection(MoriosLabPathToMoriosRoom, "FGU"),
                     new RegionConnection(MoriosLabMoriosRoomOutside, "FGU"),
-                    new RegionConnection(MoriosLabMoriosRoomInsideJump, $"NHS+FGU+MorioHat | HS+FGU+MorioHat & {{{GetDescription(nameof(MoriosWardrobe))}}}"),
+                    new RegionConnection(MoriosLabMoriosRoomInsideJump, $"FGU+MorioHat"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesLower, "FGU/Spike"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesMiddle, "FGU"),
                     new RegionConnection(MoriosLabThirdFloorWrenchesUpper, "Spike"),
@@ -10304,7 +10304,7 @@ namespace YellowTaxiAP
                 GetDescription(nameof(ToslaOfficesFifthFloorStartingArea)),
                 [
                     new RegionConnection("Tosla Offices (Fifth Floor) - Down Elevator", ToslaOfficesFourthFloorAfterGoldenSpring, ConnectionType.Subwarp),
-                    new RegionConnection("Tosla Offices (Fifth Floor) - Employees Only Door", ToslaOfficesEmployeesOnlyStartingArea, ConnectionType.Subwarp, "EmployeeHat"),
+                    new RegionConnection("Tosla Offices (Fifth Floor) - Employees Only Door", ToslaOfficesEmployeesOnlyStartingArea, ConnectionType.Subwarp, "EmployeeHat | X1+OOB+B1+J1 & X2/B2"),
                     new RegionConnection(ToslaOfficesFifthFloorGoldenSpringArea, "X3/GST/PMJ"),
                     new RegionConnection(ToslaOfficesFifthFloorExitArea, "SpikeT | X2+PMB | X1+PMJ"),
                 ]
